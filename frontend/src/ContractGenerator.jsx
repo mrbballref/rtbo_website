@@ -21,7 +21,7 @@ const categories = [
   'High School', 'Middle School', 'College / University', 'Junior College', 'NAIA Event', 'NCAA Event',
   'Community Center', 'Boys & Girls Club', 'Recreation League', 'Event Center', 'Showcase Tournament',
   'Travel Basketball Tournament', 'AAU / Grassroots Event', 'Nike Event', 'Adidas Event', 'Under Armour Event',
-  'New Balance Event', 'Reebok Event', 'Private Sporting Event', 'League Contract', 'Camp / Clinic',
+  'New Balance Event', 'Reebok Event', 'Private Sporting Event', 'League Contract', 'School / Clinic',
   'One-Day Event', 'Multi-Day Event', 'Other Sporting Event'
 ];
 
@@ -53,7 +53,7 @@ const templates = [
   ['tournament', 'Tournament Contract', 'Showcase Tournament', 'Tournament Company', 'Tournament', 'Tournament-Specific Rules', 'Mixed Levels', 'Single-site or multi-site tournament assigning agreement.'],
   ['brand-showcase', 'Brand / Showcase Contract', 'AAU / Grassroots Event', 'Shoe Company / Brand Event', 'Brand-Sponsored Event', 'Tournament-Specific Rules', 'Elite Showcase', 'Brand, media, livestream, and elite showcase event agreement.'],
   ['league-season', 'League / Season Contract', 'League Contract', 'Athletic Conference', 'League Play', 'NFHS Rules', 'Mixed Levels', 'Recurring league, conference, or season-long assigning agreement.'],
-  ['camp-clinic', 'Camp / Clinic Contract', 'Camp / Clinic', 'Private Organization', 'Camp', 'Modified Rules', 'Youth / Grassroots', 'Camp, clinic, and instructional event agreement.']
+  ['camp-clinic', 'School / Clinic Contract', 'School / Clinic', 'Private Organization', 'Camp', 'Modified Rules', 'Youth / Grassroots', 'School, clinic, and instructional event agreement.']
 ].map(([id, title, category, organizationType, eventType, ruleSet, levelOfPlay, description]) => ({
   id, title, category, organizationType, eventType, ruleSet, levelOfPlay, description
 }));
