@@ -36,10 +36,34 @@ function formatKb(bytes) {
 const sourceHtml = readText('index.html');
 const distHtml = readText('dist/index.html');
 const styles = readText('src/styles.css');
+const sourceCssFiles = walkFiles(path.join(frontendRoot, 'src')).filter(filePath => filePath.endsWith('.css'));
 
 requiredBreakpoints.forEach(width => {
   const pattern = new RegExp(`@media\\s*[^{}]*\\(\\s*max-width\\s*:\\s*${width}px\\s*\\)`, 'i');
   assertCheck(pattern.test(styles), `Missing mandatory responsive breakpoint: ${width}px`);
+});
+
+const themeLockRules = [
+  ['fixed #333 text with !important', /(?:^|[;\s])(?:color|-webkit-text-fill-color)\s*:\s*#333\s*!important/i],
+  ['fixed white background with !important', /(?:^|[;\s])background(?:-color)?\s*:\s*#fff\s*!important/i]
+];
+
+sourceCssFiles.forEach(filePath => {
+  const css = fs.readFileSync(filePath, 'utf8');
+  const relativeName = path.relative(frontendRoot, filePath);
+  for (const block of css.matchAll(/([^{}]+)\{([^{}]+)\}/g)) {
+    const selector = block[1].trim();
+    const body = block[2];
+    if (!/\.rtbo-|body\.rtbo-/.test(selector)) continue;
+    if (/data-theme|option|@page|rtbo-printing|print-zone|autofill/i.test(selector)) continue;
+
+    themeLockRules.forEach(([label, pattern]) => {
+      if (pattern.test(body)) {
+        const line = css.slice(0, block.index).split(/\r?\n/).length;
+        failures.push(`${relativeName}:${line} locks RTBO UI away from the light/dark toggler (${label}). Use theme variables or scoped data-theme rules.`);
+      }
+    });
+  }
 });
 
 assertCheck(
@@ -108,6 +132,7 @@ assertCheck(
 
 console.log('RTBO mandatory audit');
 console.log(`Responsive breakpoints checked: ${requiredBreakpoints.map(width => `${width}px`).join(', ')}`);
+console.log(`Theme toggler compliance checked: ${sourceCssFiles.length} source CSS files`);
 console.log(`Built assets checked: ${assetFiles.length} files, ${formatKb(totalAssetBytes)} total`);
 console.log(`JS/CSS bundle budget checked: ${formatKb(bundleAssetBytes)} / ${formatKb(bundleBudget)}`);
 
@@ -122,4 +147,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log('Mandatory responsive, SEO, and optimization audit passed.');
+console.log('Mandatory responsive, theme, SEO, and optimization audit passed.');
