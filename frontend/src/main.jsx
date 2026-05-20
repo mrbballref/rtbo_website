@@ -5,6 +5,7 @@ import './styles.css';
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
 const RTBO_AUTH_KEY = 'rtbo_admin_auth';
 const RTBO_DASHBOARD_OPEN_KEY = 'rtbo-dashboard-open';
+const RTBO_THEME_KEY = 'rtbo-theme';
 const optimizedImages = {
   'about_trng_1.png': 'about_trng_1.jpg',
   'allyn_richardson_trainer_card.png': 'allyn_richardson_trainer_card.jpg',
@@ -986,13 +987,24 @@ async function apiGet(endpoint) {
 }
 
 function ThemeToggle({ className = '' }) {
-  const [theme, setTheme] = useState(() => localStorage.getItem('rtbo-theme') || 'dark');
+  const [theme, setTheme] = useState(getRtboTheme);
+
+  useEffect(() => {
+    const syncTheme = () => setTheme(getRtboTheme());
+    const observer = new MutationObserver(syncTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    window.addEventListener('rtbo-theme-change', syncTheme);
+    window.addEventListener('storage', syncTheme);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('rtbo-theme-change', syncTheme);
+      window.removeEventListener('storage', syncTheme);
+    };
+  }, []);
 
   function changeTheme() {
     const next = theme === 'dark' ? 'light' : 'dark';
-    localStorage.setItem('rtbo-theme', next);
-    document.documentElement.dataset.theme = next;
-    setTheme(next);
+    setTheme(setRtboTheme(next));
   }
 
   return (
@@ -1005,6 +1017,21 @@ function ThemeToggle({ className = '' }) {
       </span>
     </button>
   );
+}
+
+function getRtboTheme() {
+  const storedTheme = localStorage.getItem(RTBO_THEME_KEY);
+  if (storedTheme === 'dark' || storedTheme === 'light') return storedTheme;
+  const documentTheme = document.documentElement.dataset.theme;
+  return documentTheme === 'light' ? 'light' : 'dark';
+}
+
+function setRtboTheme(nextTheme) {
+  const theme = nextTheme === 'light' ? 'light' : 'dark';
+  localStorage.setItem(RTBO_THEME_KEY, theme);
+  document.documentElement.dataset.theme = theme;
+  window.dispatchEvent(new CustomEvent('rtbo-theme-change', { detail: { theme } }));
+  return theme;
 }
 
 function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onOpenRegister }) {
@@ -9002,8 +9029,7 @@ function RTBOMailClient({
   const [selectedMailId, setSelectedMailId] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [mailStatus, setMailStatus] = useState('');
-  const mailThemeStorageKey = `rtbomail_theme_${user.id || user.email || 'default'}`;
-  const [mailTheme, setMailTheme] = useState(() => localStorage.getItem(mailThemeStorageKey) || localStorage.getItem('rtbo-theme') || document.documentElement.dataset.theme || 'light');
+  const [mailTheme, setMailTheme] = useState(getRtboTheme);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [draft, setDraft] = useState(() => createRtbomailDraft(user));
   const [localDrafts, setLocalDrafts] = useState(() => rtbomailReadStoredArray(rtbomailScopedStorageKey(user, 'drafts')));
@@ -9205,8 +9231,18 @@ function RTBOMailClient({
   }, [distributionLists, user]);
 
   useEffect(() => {
-    localStorage.setItem(mailThemeStorageKey, mailTheme);
-  }, [mailTheme, mailThemeStorageKey]);
+    const syncMailTheme = () => setMailTheme(getRtboTheme());
+    const observer = new MutationObserver(syncMailTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    window.addEventListener('rtbo-theme-change', syncMailTheme);
+    window.addEventListener('storage', syncMailTheme);
+    syncMailTheme();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('rtbo-theme-change', syncMailTheme);
+      window.removeEventListener('storage', syncMailTheme);
+    };
+  }, []);
 
   useEffect(() => {
     localStorage.setItem(rtbomailCalendarStorageKey(user), JSON.stringify(calendarItems));
@@ -9251,15 +9287,6 @@ function RTBOMailClient({
   function updateDraft(event) {
     const { name, value, type, checked } = event.target;
     setDraft(current => ({ ...current, [name]: type === 'checkbox' ? checked : value }));
-  }
-
-  function applyMailTheme(nextTheme) {
-    const theme = nextTheme === 'dark' ? 'dark' : 'light';
-    localStorage.setItem('rtbo-theme', theme);
-    localStorage.setItem(mailThemeStorageKey, theme);
-    document.documentElement.dataset.theme = theme;
-    setMailTheme(theme);
-    setMailStatus(`RTBOMAIL ${theme} theme applied.`);
   }
 
   function updateCalendarForm(event) {
@@ -9585,10 +9612,6 @@ function RTBOMailClient({
     setMailStatus('Message moved to Trash.');
   }
 
-  function toggleMailTheme() {
-    applyMailTheme(mailTheme === 'dark' ? 'light' : 'dark');
-  }
-
   function toggleMessageCollection(message, ids, setter, activeLabel, inactiveLabel) {
     if (!message) {
       setMailStatus('Select a message first.');
@@ -9675,11 +9698,6 @@ function RTBOMailClient({
           <button type="button" onClick={() => toggleMessageCollection(selectedMail, pinnedIds, setPinnedIds, 'Message pinned.', 'Message unpinned.')} disabled={!selectedMail}>Pin</button>
           <button type="button" onClick={() => toggleMessageCollection(selectedMail, snoozedIds, setSnoozedIds, 'Message snoozed.', 'Message removed from snoozed.')} disabled={!selectedMail}>Snooze</button>
           <button type="button" onClick={() => toggleMessageCollection(selectedMail, junkIds, setJunkIds, 'Message marked as junk.', 'Message restored from junk.')} disabled={!selectedMail}>Junk</button>
-        </div>
-        <div className="rtbo-mail-theme-toggle" aria-label="RTBOMAIL theme">
-          <span>Theme</span>
-          <button type="button" className={mailTheme === 'dark' ? 'active' : ''} aria-pressed={mailTheme === 'dark'} onClick={() => applyMailTheme('dark')}>Dark</button>
-          <button type="button" className={mailTheme === 'light' ? 'active' : ''} aria-pressed={mailTheme === 'light'} onClick={() => applyMailTheme('light')}>Light</button>
         </div>
         <label className="rtbo-mail-global-search">
           <span>Search</span>

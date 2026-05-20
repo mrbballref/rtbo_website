@@ -3349,7 +3349,7 @@ button.hero-scroll-link {
 
 .rtbo-mail-command-ribbon {
   display: grid;
-  grid-template-columns: auto auto auto minmax(220px, auto) auto minmax(200px, 1fr);
+  grid-template-columns: auto auto auto minmax(220px, auto) minmax(200px, 1fr);
   gap: 10px;
   align-items: center;
   border-bottom: 1px solid #d2d0ce;
@@ -3429,40 +3429,6 @@ button.hero-scroll-link {
   color: #8a8886;
   cursor: not-allowed;
   opacity: .68;
-}
-
-.rtbo-mail-theme-toggle {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  border-right: 1px solid #d2d0ce;
-  padding-right: 10px;
-}
-
-.rtbo-mail-theme-toggle span {
-  color: #605e5c;
-  font-size: .68rem;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.rtbo-mail-theme-toggle button {
-  min-height: 28px;
-  border: 1px solid #d2d0ce;
-  border-radius: 3px;
-  padding: 5px 8px;
-  color: #323130;
-  background: #fff;
-  cursor: pointer;
-  font-size: .72rem;
-  font-weight: 900;
-}
-
-.rtbo-mail-theme-toggle button.active,
-.rtbo-mail-theme-toggle button:hover {
-  color: #050505;
-  border-color: #b94b06;
-  background: #fff3e6;
 }
 
 .rtbo-mail-global-search {
@@ -4015,14 +3981,12 @@ button.hero-scroll-link {
 }
 
 .rtbo-mail-page.rtbo-mail-dark .rtbo-mail-ribbon-group,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-top-menu,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-theme-toggle {
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-top-menu {
   border-color: #3a332d;
 }
 
 .rtbo-mail-page.rtbo-mail-dark .rtbo-mail-ribbon-group button,
 .rtbo-mail-page.rtbo-mail-dark .rtbo-mail-top-menu button,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-theme-toggle button,
 .rtbo-mail-page.rtbo-mail-dark .rtbo-mail-mode-row button,
 .rtbo-mail-page.rtbo-mail-dark .rtbo-mail-editor-toolbar button,
 .rtbo-mail-page.rtbo-mail-dark .rtbo-mail-mark-read,
@@ -4037,8 +4001,6 @@ button.hero-scroll-link {
 .rtbo-mail-page.rtbo-mail-dark .rtbo-mail-ribbon-group button:focus-visible,
 .rtbo-mail-page.rtbo-mail-dark .rtbo-mail-top-menu button.active,
 .rtbo-mail-page.rtbo-mail-dark .rtbo-mail-top-menu button:hover,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-theme-toggle button.active,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-theme-toggle button:hover,
 .rtbo-mail-page.rtbo-mail-dark .rtbo-mail-mode-row button.active,
 .rtbo-mail-page.rtbo-mail-dark .rtbo-mail-folders button.active,
 .rtbo-mail-page.rtbo-mail-dark .rtbo-mail-list article.selected,
@@ -4056,7 +4018,6 @@ button.hero-scroll-link {
 }
 
 .rtbo-mail-page.rtbo-mail-dark .rtbo-mail-global-search,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-theme-toggle span,
 .rtbo-mail-page.rtbo-mail-dark .rtbo-mail-stats span,
 .rtbo-mail-page.rtbo-mail-dark .rtbo-mail-list span,
 .rtbo-mail-page.rtbo-mail-dark .rtbo-mail-list small,
@@ -4202,13 +4163,6 @@ button.hero-scroll-link {
   }
 
   .rtbo-mail-top-menu {
-    border-right: 0;
-    border-bottom: 1px solid #edebe9;
-    padding-right: 0;
-    padding-bottom: 8px;
-  }
-
-  .rtbo-mail-theme-toggle {
     border-right: 0;
     border-bottom: 1px solid #edebe9;
     padding-right: 0;
