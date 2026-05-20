@@ -1,0 +1,487 @@
+.rtbo-academy-page {
+  align-content: start;
+}
+
+.rtbo-academy-topbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid rgba(245, 130, 32, .24);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, .18);
+}
+
+.rtbo-academy-topbar button,
+.rtbo-academy-day-tabs button,
+.rtbo-academy-week-list button {
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 8px;
+  color: #f8fafc;
+  background: rgba(255, 255, 255, .05);
+  cursor: pointer;
+  font-size: .78rem;
+  font-weight: 900;
+}
+
+.rtbo-academy-topbar button {
+  min-height: 34px;
+  padding: 7px 10px;
+}
+
+.rtbo-academy-topbar button.active,
+.rtbo-academy-topbar button:hover,
+.rtbo-academy-topbar button:focus-visible,
+.rtbo-academy-day-tabs button.active,
+.rtbo-academy-day-tabs button:hover,
+.rtbo-academy-week-list button.active,
+.rtbo-academy-week-list button:hover {
+  color: #050505;
+  border-color: var(--orange);
+  background: var(--orange);
+  outline: none;
+}
+
+.rtbo-academy-dashboard,
+.rtbo-academy-panel,
+.rtbo-academy-reader,
+.rtbo-academy-course-panel,
+.rtbo-academy-content-card,
+.rtbo-academy-notes-card {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.rtbo-academy-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr);
+  gap: 16px;
+  align-items: stretch;
+  border: 1px solid rgba(245, 130, 32, .24);
+  border-radius: 8px;
+  padding: 18px;
+  background: linear-gradient(135deg, rgba(245, 130, 32, .18), rgba(255, 255, 255, .035)), rgba(12, 12, 12, .64);
+}
+
+.rtbo-academy-hero h3,
+.rtbo-academy-section-head h3,
+.rtbo-academy-reader-head h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.28rem;
+  line-height: 1.2;
+}
+
+.rtbo-academy-hero p,
+.rtbo-academy-section-head p,
+.rtbo-academy-reader-head p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: .86rem;
+  line-height: 1.45;
+}
+
+.rtbo-academy-hero article,
+.rtbo-academy-metric,
+.rtbo-academy-track-card,
+.rtbo-academy-task-card,
+.rtbo-academy-result-card,
+.rtbo-academy-timeline article {
+  min-width: 0;
+  border: 1px solid rgba(245, 130, 32, .22);
+  border-radius: 8px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .018)), rgba(12, 12, 12, .62);
+}
+
+.rtbo-academy-hero article {
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  padding: 16px;
+}
+
+.rtbo-academy-hero article span,
+.rtbo-academy-metric span,
+.rtbo-academy-track-card span,
+.rtbo-academy-task-card span {
+  color: var(--orange);
+  font-size: .72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.rtbo-academy-hero article strong,
+.rtbo-academy-metric strong {
+  color: var(--orange);
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.rtbo-academy-hero article small,
+.rtbo-academy-track-card small,
+.rtbo-academy-track-card b,
+.rtbo-academy-timeline small {
+  color: var(--muted);
+  font-size: .8rem;
+  line-height: 1.35;
+}
+
+.rtbo-academy-progress {
+  overflow: hidden;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .11);
+}
+
+.rtbo-academy-progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--orange);
+}
+
+.rtbo-academy-metrics,
+.rtbo-academy-track-grid,
+.rtbo-academy-card-grid,
+.rtbo-academy-video-grid,
+.rtbo-academy-timeline {
+  display: grid;
+  gap: 12px;
+}
+
+.rtbo-academy-metrics {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.rtbo-academy-metric {
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+}
+
+.rtbo-academy-track-grid,
+.rtbo-academy-card-grid,
+.rtbo-academy-video-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.rtbo-academy-panel,
+.rtbo-academy-course-panel,
+.rtbo-academy-reader,
+.rtbo-academy-content-card,
+.rtbo-academy-notes-card {
+  border: 1px solid rgba(245, 130, 32, .22);
+  border-radius: 8px;
+  padding: 14px;
+  background: rgba(12, 12, 12, .62);
+}
+
+.rtbo-academy-section-head {
+  display: grid;
+  gap: 3px;
+}
+
+.rtbo-academy-track-card,
+.rtbo-academy-result-card {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.rtbo-academy-track-card:hover,
+.rtbo-academy-track-card:focus-visible,
+.rtbo-academy-result-card:hover,
+.rtbo-academy-result-card:focus-visible {
+  border-color: rgba(245, 130, 32, .72);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.rtbo-academy-track-card strong,
+.rtbo-academy-task-card strong,
+.rtbo-academy-result-card strong,
+.rtbo-academy-timeline strong {
+  color: #fff;
+  font-size: .95rem;
+  line-height: 1.25;
+}
+
+.rtbo-academy-course-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.rtbo-academy-course-panel {
+  align-content: start;
+}
+
+.rtbo-academy-course-panel label,
+.rtbo-academy-search,
+.rtbo-academy-video-list label {
+  display: grid;
+  gap: 7px;
+  color: #f8fafc;
+  font-size: .78rem;
+  font-weight: 900;
+}
+
+.rtbo-academy-course-panel select,
+.rtbo-academy-search input,
+.rtbo-academy-video-list input,
+.rtbo-academy-notes-card textarea {
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 8px;
+  padding: 9px 10px;
+  color: #fff;
+  background: rgba(0, 0, 0, .42);
+  font: inherit;
+}
+
+.rtbo-academy-week-list {
+  display: grid;
+  gap: 7px;
+  max-height: 620px;
+  overflow: auto;
+}
+
+.rtbo-academy-week-list button {
+  display: grid;
+  gap: 3px;
+  padding: 9px;
+  text-align: left;
+}
+
+.rtbo-academy-week-list small {
+  color: inherit;
+  font-size: .7rem;
+  opacity: .8;
+}
+
+.rtbo-academy-reader-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.rtbo-academy-day-tabs {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.rtbo-academy-day-tabs button {
+  flex: 0 0 auto;
+  min-height: 34px;
+  padding: 7px 10px;
+}
+
+.rtbo-academy-content-card {
+  background: #fff;
+  color: #050505;
+}
+
+.rtbo-academy-content-card h4,
+.rtbo-academy-notes-card h4 {
+  margin: 0;
+  color: var(--orange);
+  font-size: 1rem;
+}
+
+.rtbo-academy-markdown {
+  display: grid;
+  gap: 10px;
+  max-height: 640px;
+  overflow: auto;
+  padding-right: 6px;
+}
+
+.rtbo-academy-markdown :is(h2, h3, h4, h5, h6) {
+  margin: 4px 0;
+  color: #050505;
+  font-size: .98rem;
+}
+
+.rtbo-academy-markdown p,
+.rtbo-academy-markdown li {
+  margin: 0;
+  color: #111;
+  font-size: .85rem;
+  line-height: 1.55;
+}
+
+.rtbo-academy-md-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.rtbo-academy-notes-card textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.rtbo-academy-result-list,
+.rtbo-academy-video-list {
+  display: grid;
+  gap: 10px;
+}
+
+.rtbo-academy-result-card span,
+.rtbo-academy-result-card small,
+.rtbo-academy-task-card p,
+.rtbo-academy-timeline p {
+  color: var(--muted);
+  font-size: .82rem;
+  line-height: 1.4;
+}
+
+.rtbo-academy-task-card {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+}
+
+.rtbo-academy-rubric {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.rtbo-academy-rubric span {
+  border: 1px solid rgba(245, 130, 32, .28);
+  border-radius: 999px;
+  padding: 5px 8px;
+  color: #fed7aa;
+  background: rgba(245, 130, 32, .1);
+  font-size: .66rem;
+}
+
+.rtbo-academy-video-list span {
+  color: #f8fafc;
+  font-size: .82rem;
+  line-height: 1.3;
+}
+
+.rtbo-academy-timeline article {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+}
+
+:root[data-theme="light"] .rtbo-academy-topbar,
+:root[data-theme="light"] .rtbo-academy-panel,
+:root[data-theme="light"] .rtbo-academy-course-panel,
+:root[data-theme="light"] .rtbo-academy-reader,
+:root[data-theme="light"] .rtbo-academy-notes-card,
+:root[data-theme="light"] .rtbo-academy-metric,
+:root[data-theme="light"] .rtbo-academy-track-card,
+:root[data-theme="light"] .rtbo-academy-task-card,
+:root[data-theme="light"] .rtbo-academy-result-card,
+:root[data-theme="light"] .rtbo-academy-timeline article {
+  background: #fff;
+  border-color: rgba(245, 130, 32, .3);
+}
+
+:root[data-theme="light"] .rtbo-academy-hero {
+  background: #fff;
+}
+
+:root[data-theme="light"] .rtbo-academy-hero h3,
+:root[data-theme="light"] .rtbo-academy-section-head h3,
+:root[data-theme="light"] .rtbo-academy-reader-head h3,
+:root[data-theme="light"] .rtbo-academy-track-card strong,
+:root[data-theme="light"] .rtbo-academy-task-card strong,
+:root[data-theme="light"] .rtbo-academy-result-card strong,
+:root[data-theme="light"] .rtbo-academy-timeline strong,
+:root[data-theme="light"] .rtbo-academy-course-panel label,
+:root[data-theme="light"] .rtbo-academy-search,
+:root[data-theme="light"] .rtbo-academy-video-list label {
+  color: #111827;
+}
+
+:root[data-theme="light"] .rtbo-academy-course-panel select,
+:root[data-theme="light"] .rtbo-academy-search input,
+:root[data-theme="light"] .rtbo-academy-video-list input,
+:root[data-theme="light"] .rtbo-academy-notes-card textarea,
+:root[data-theme="light"] .rtbo-academy-topbar button,
+:root[data-theme="light"] .rtbo-academy-day-tabs button,
+:root[data-theme="light"] .rtbo-academy-week-list button {
+  color: #111827;
+  background: #fff;
+  border-color: #d1d5db;
+}
+
+@media (max-width: 1536px) {
+  .rtbo-academy-course-layout {
+    grid-template-columns: 260px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 1280px) {
+  .rtbo-academy-track-grid,
+  .rtbo-academy-card-grid,
+  .rtbo-academy-video-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .rtbo-academy-hero,
+  .rtbo-academy-course-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .rtbo-academy-week-list {
+    max-height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .rtbo-academy-metrics,
+  .rtbo-academy-track-grid,
+  .rtbo-academy-card-grid,
+  .rtbo-academy-video-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rtbo-academy-reader-head {
+    display: grid;
+  }
+}
+
+@media (max-width: 648px) {
+  .rtbo-academy-panel,
+  .rtbo-academy-course-panel,
+  .rtbo-academy-reader,
+  .rtbo-academy-content-card,
+  .rtbo-academy-notes-card {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 550px) {
+  .rtbo-academy-topbar button,
+  .rtbo-academy-day-tabs button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .rtbo-academy-hero {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 368px) {
+  .rtbo-academy-markdown p,
+  .rtbo-academy-markdown li {
+    font-size: .8rem;
+  }
+}

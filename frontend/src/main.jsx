@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import './styles.css';
 
 const RTBOBasketballAssigningContractGenerator = React.lazy(() => import('./ContractGenerator.jsx'));
+const RTBOAcademy = React.lazy(() => import('./RTBOAcademy.jsx'));
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
 const RTBO_AUTH_KEY = 'rtbo_admin_auth';
 const RTBO_DASHBOARD_OPEN_KEY = 'rtbo-dashboard-open';
@@ -5316,6 +5317,7 @@ const scheduleSetupSections = [
 ];
 
 const educationSubSections = [
+  { id: 'rtboAcademy', label: 'RTBO Academy', title: 'RTBO Academy' },
   { id: 'tests', label: 'Test Center', title: 'Test Center' }
 ];
 
@@ -13846,6 +13848,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
           const sectionActive = activeSection === id
             || (id === 'rtbomail' && activeSection === 'messages')
             || (id === 'payments' && activePaymentSubSections.some(item => item.id === activeSection))
+            || (id === 'education' && visibleEducationSubSections.some(item => item.id === activeSection))
             || (id === 'reports' && (activeFormsSubSections.some(item => item.id === activeSection) || completedFormsSectionIds.includes(activeSection)));
           return (
           <Fragment key={id}>
@@ -14081,6 +14084,12 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
           <PaymentSystem user={user} onStatus={setStatus} />
         )}
 
+        {activeSection === 'rtboAcademy' && (
+          <React.Suspense fallback={null}>
+            <RTBOAcademy user={user} onStatus={setStatus} />
+          </React.Suspense>
+        )}
+
         {canUseAdminDashboard && activeSection === 'reports' && (
           <FormsWorkspaceHome
             completedForms={completedForms}
@@ -14134,7 +14143,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         )}
 
         {canUseAdminDashboard && activeSection === 'profile' && profileBlock}
-        {!canUseAdminDashboard && profileBlock}
+        {!canUseAdminDashboard && activeSection !== 'rtboAcademy' && profileBlock}
 
         {activeSection === 'tests' && (
           <section className="rtbo-dashboard-card rtbo-test-center-page">
