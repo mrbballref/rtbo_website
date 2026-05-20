@@ -6,7 +6,8 @@ const STORAGE_KEYS = {
   completed: 'rtbo_academy_completed_days',
   notes: 'rtbo_academy_student_notes',
   bookmarks: 'rtbo_academy_bookmarks',
-  videos: 'rtbo_academy_video_plan'
+  videos: 'rtbo_academy_video_plan',
+  tests: 'rtbo_academy_passed_tests'
 };
 
 function slug(value = '') {
@@ -180,7 +181,10 @@ function splitCourse(markdown = '') {
   }
 
   const parsedTracks = tracks.filter(track => track.weeks.length || track.raw.length);
-  return parsedTracks.some(track => track.id === 'nfhs') ? parsedTracks : [buildNfhsTrack(), ...parsedTracks];
+  const overviewTracks = parsedTracks.filter(track => track.id === 'overview');
+  const courseTracks = parsedTracks.filter(track => track.id !== 'overview');
+  const orderedCourseTracks = courseTracks.some(track => track.id === 'nfhs') ? courseTracks : [buildNfhsTrack(), ...courseTracks];
+  return [...overviewTracks, ...orderedCourseTracks];
 }
 
 function useLocalJson(key, initialValue) {
@@ -307,6 +311,7 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
   const [notes, setNotes] = useLocalJson(STORAGE_KEYS.notes, {});
   const [bookmarks, setBookmarks] = useLocalJson(STORAGE_KEYS.bookmarks, {});
   const [videoPlans, setVideoPlans] = useLocalJson(STORAGE_KEYS.videos, {});
+  const [passedTests, setPassedTests] = useLocalJson(STORAGE_KEYS.tests, {});
 
   useEffect(() => {
     document.title = 'RTBO Academy | Education Workspace';
@@ -360,11 +365,57 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
   const dayText = selectedDay ? [
     ...selectedDay.content,
     ...selectedDay.sections.flatMap(section => [`#### ${section.title}`, ...section.content])
-  ].join('\n') : 'Select a day to begin.';
+  ].join('\n') : plainText(selectedTrack?.raw || []) || 'Select a day to begin.';
+
+  function dayTestPassed(dayId) {
+    return Boolean(passedTests[dayId]);
+  }
+
+  function academyDayGate(track, dayId) {
+    if (!track?.weeks?.length || !dayId) return { open: true, previousDay: null };
+    const days = track.weeks.flatMap(week => week.days);
+    const index = days.findIndex(day => day.id === dayId);
+    if (index <= 0) return { open: true, previousDay: null };
+    const previousDay = days[index - 1];
+    return { open: dayTestPassed(previousDay.id), previousDay };
+  }
+
+  function openAcademyDay(track, weekIndex, dayIndex) {
+    const targetWeek = track?.weeks?.[weekIndex];
+    const targetDay = targetWeek?.days?.[dayIndex];
+    const gate = academyDayGate(track, targetDay?.id);
+    if (!gate.open) {
+      onStatus(`Pass the test for ${gate.previousDay.title} before moving to the next module or section.`);
+      return;
+    }
+    setSelectedWeekIndex(weekIndex);
+    setSelectedDayIndex(dayIndex);
+  }
+
+  function openAcademyWeek(track, weekIndex) {
+    const targetWeek = track?.weeks?.[weekIndex];
+    const firstDay = targetWeek?.days?.[0];
+    const gate = academyDayGate(track, firstDay?.id);
+    if (!gate.open) {
+      onStatus(`Pass the test for ${gate.previousDay.title} before moving to the next module.`);
+      return;
+    }
+    setSelectedWeekIndex(weekIndex);
+    setSelectedDayIndex(0);
+  }
 
   function markDay(dayId, value) {
+    if (value && !dayTestPassed(dayId)) {
+      onStatus('Take and pass this Academy test before marking the module complete.');
+      return;
+    }
     setCompleted(current => ({ ...current, [dayId]: value }));
     onStatus(value ? 'Academy day marked complete.' : 'Academy day marked incomplete.');
+  }
+
+  function passDayTest(dayId) {
+    setPassedTests(current => ({ ...current, [dayId]: true }));
+    onStatus('Academy test passed. The next module or section is unlocked.');
   }
 
   function toggleBookmark(dayId) {
@@ -376,6 +427,11 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
   }
 
   function openResult(row) {
+    const gate = academyDayGate(row.track, row.day.id);
+    if (!gate.open) {
+      onStatus(`Pass the test for ${gate.previousDay.title} before opening this module or section.`);
+      return;
+    }
     setSelectedTrackId(row.track.id);
     setSelectedWeekIndex(row.track.weeks.findIndex(week => week.id === row.week.id));
     setSelectedDayIndex(row.week.days.findIndex(day => day.id === row.day.id));
@@ -468,6 +524,7 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
               {tracks.map(track => {
                 const days = track.weeks.flatMap(week => week.days);
                 const done = days.filter(day => completed[day.id]).length;
+                const passed = days.filter(day => passedTests[day.id]).length;
                 const pct = days.length ? Math.round((done / days.length) * 100) : 0;
                 return (
                   <button className="rtbo-academy-track-card" type="button" key={track.id} onClick={() => { setSelectedTrackId(track.id); setSelectedWeekIndex(0); setSelectedDayIndex(0); setActiveView('course'); }}>
@@ -475,7 +532,7 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
                     <strong>{track.title}</strong>
                     <small>{track.path || 'College-style officiating pathway'}</small>
                     <div className="rtbo-academy-progress"><span style={{ width: `${pct}%` }} /></div>
-                    <b>{done} / {days.length} days complete</b>
+                    <b>{done} / {days.length} days complete / {passed} tests passed</b>
                   </button>
                 );
               })}
@@ -493,12 +550,15 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
               </select>
             </label>
             <div className="rtbo-academy-week-list">
-              {selectedTrack.weeks.map((week, index) => (
-                <button className={index === selectedWeekIndex ? 'active' : ''} type="button" key={week.id} onClick={() => { setSelectedWeekIndex(index); setSelectedDayIndex(0); }}>
-                  <span>Week {week.week}</span>
-                  <small>{week.title}</small>
-                </button>
-              ))}
+              {selectedTrack.weeks.map((week, index) => {
+                const gate = academyDayGate(selectedTrack, week.days[0]?.id);
+                return (
+                  <button className={`${index === selectedWeekIndex ? 'active' : ''} ${gate.open ? '' : 'is-locked'}`.trim()} type="button" key={week.id} disabled={!gate.open} onClick={() => openAcademyWeek(selectedTrack, index)}>
+                    <span>Week {week.week}</span>
+                    <small>{gate.open ? week.title : `Locked until ${gate.previousDay?.title || 'previous test'} is passed`}</small>
+                  </button>
+                );
+              })}
             </div>
           </aside>
 
@@ -511,6 +571,9 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
               </div>
               {selectedDay && (
                 <div className="rtbo-form-toolbar">
+                  <button className="btn secondary dark-btn" type="button" onClick={() => passDayTest(selectedDay.id)}>
+                    {dayTestPassed(selectedDay.id) ? 'Test Passed' : 'Take Test'}
+                  </button>
                   <button className="btn secondary dark-btn" type="button" onClick={() => markDay(selectedDay.id, !completed[selectedDay.id])}>
                     {completed[selectedDay.id] ? 'Completed' : 'Mark Complete'}
                   </button>
@@ -522,26 +585,42 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
             </div>
 
             <div className="rtbo-academy-day-tabs">
-              {selectedWeek?.days.map((day, index) => (
-                <button className={index === selectedDayIndex ? 'active' : ''} type="button" key={day.id} onClick={() => setSelectedDayIndex(index)}>
-                  Day {day.day}: {day.title}
-                </button>
-              ))}
+              {selectedWeek?.days.map((day, index) => {
+                const gate = academyDayGate(selectedTrack, day.id);
+                return (
+                  <button className={`${index === selectedDayIndex ? 'active' : ''} ${gate.open ? '' : 'is-locked'}`.trim()} type="button" key={day.id} disabled={!gate.open} title={gate.open ? day.title : `Pass ${gate.previousDay?.title || 'the previous test'} first`} onClick={() => openAcademyDay(selectedTrack, selectedWeekIndex, index)}>
+                    Day {day.day}: {gate.open ? day.title : 'Locked'}
+                  </button>
+                );
+              })}
             </div>
 
             <article className="rtbo-academy-content-card">
-              <h4>{selectedDay ? `Day ${selectedDay.day} - ${selectedDay.title}` : 'Select a Day'}</h4>
+              <h4>{selectedDay ? `Day ${selectedDay.day} - ${selectedDay.title}` : selectedTrack.title}</h4>
               <div className="rtbo-academy-markdown"><MarkdownBlock text={dayText} /></div>
             </article>
 
-            <section className="rtbo-academy-notes-card">
-              <h4>Student Notes, Evidence, and Mentor Feedback</h4>
-              <textarea
-                value={notes[selectedDay?.id] || ''}
-                onChange={(event) => setNotes(current => ({ ...current, [selectedDay.id]: event.target.value }))}
-                placeholder="Record film notes, mechanics corrections, professor feedback, mentor notes, role-play performance, and completion evidence."
-              />
-            </section>
+            {selectedDay && (
+              <>
+                <section className="rtbo-academy-test-rule-card">
+                  <div>
+                    <h4>Required Module Test</h4>
+                    <p>Rule: this test must be taken and passed before the next module or section unlocks.</p>
+                  </div>
+                  <button className="btn secondary dark-btn" type="button" onClick={() => passDayTest(selectedDay.id)}>
+                    {dayTestPassed(selectedDay.id) ? 'Passed' : 'Take and Pass Test'}
+                  </button>
+                </section>
+                <section className="rtbo-academy-notes-card">
+                  <h4>Student Notes, Evidence, and Mentor Feedback</h4>
+                  <textarea
+                    value={notes[selectedDay.id] || ''}
+                    onChange={(event) => setNotes(current => ({ ...current, [selectedDay.id]: event.target.value }))}
+                    placeholder="Record film notes, mechanics corrections, professor feedback, mentor notes, role-play performance, and completion evidence."
+                  />
+                </section>
+              </>
+            )}
           </section>
         </div>
       )}
@@ -621,13 +700,13 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
           <div className="rtbo-academy-timeline">
             {tracks.map(track => {
               const days = track.weeks.flatMap(week => week.days);
-              const pct = days.length ? Math.round((days.filter(day => completed[day.id]).length / days.length) * 100) : 0;
+              const pct = days.length ? Math.round((days.filter(day => completed[day.id] && passedTests[day.id]).length / days.length) * 100) : 0;
               return (
                 <article key={track.id}>
                   <strong>{track.title}</strong>
                   <p>{track.path}</p>
                   <div className="rtbo-academy-progress"><span style={{ width: `${pct}%` }} /></div>
-                  <small>{pct}% complete / advancement board unlocks at 100%</small>
+                  <small>{pct}% complete with passed tests / advancement board unlocks at 100%</small>
                 </article>
               );
             })}

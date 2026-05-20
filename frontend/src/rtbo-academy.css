@@ -19,6 +19,11 @@
   text-shadow: none !important;
 }
 
+.rtbo-academy-page button:disabled {
+  cursor: not-allowed;
+  opacity: .68;
+}
+
 .rtbo-academy-topbar {
   display: flex;
   flex-wrap: wrap;
@@ -64,6 +69,7 @@
 .rtbo-academy-reader,
 .rtbo-academy-course-panel,
 .rtbo-academy-content-card,
+.rtbo-academy-test-rule-card,
 .rtbo-academy-notes-card {
   display: grid;
   gap: 14px;
@@ -188,6 +194,7 @@
 .rtbo-academy-course-panel,
 .rtbo-academy-reader,
 .rtbo-academy-content-card,
+.rtbo-academy-test-rule-card,
 .rtbo-academy-notes-card {
   border: 1px solid rgba(245, 130, 32, .22);
   border-radius: 8px;
@@ -262,6 +269,13 @@
   font: inherit;
 }
 
+.rtbo-academy-course-panel select,
+.rtbo-academy-course-panel select option {
+  color: #333 !important;
+  -webkit-text-fill-color: #333 !important;
+  background: #fff !important;
+}
+
 .rtbo-academy-week-list {
   display: grid;
   gap: 7px;
@@ -308,10 +322,22 @@
 }
 
 .rtbo-academy-content-card h4,
+.rtbo-academy-test-rule-card h4,
 .rtbo-academy-notes-card h4 {
   margin: 0;
   color: var(--orange);
   font-size: 1rem;
+}
+
+.rtbo-academy-test-rule-card {
+  grid-template-columns: minmax(0, 1fr) max-content;
+  align-items: center;
+}
+
+.rtbo-academy-test-rule-card p {
+  margin: 4px 0 0;
+  font-size: .82rem;
+  line-height: 1.4;
 }
 
 .rtbo-academy-markdown {
@@ -472,6 +498,10 @@
 
   .rtbo-academy-reader-head {
     display: grid;
+  }
+
+  .rtbo-academy-test-rule-card {
+    grid-template-columns: 1fr;
   }
 }
 
