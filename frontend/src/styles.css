@@ -7149,20 +7149,20 @@ button.hero-scroll-link {
   display: grid;
   gap: 24px;
   justify-items: end;
-  text-align: right;
+  text-align: left;
 }
 
 .rtbo-invoice-detail-block dl {
   display: grid;
   gap: 3px;
   margin: 0;
-  width: min(100%, 270px);
+  width: min(100%, 316px);
 }
 
 .rtbo-invoice-detail-block dl div {
   display: grid;
-  grid-template-columns: 1fr minmax(92px, auto);
-  gap: 18px;
+  grid-template-columns: 124px minmax(0, 1fr);
+  gap: 16px;
   align-items: baseline;
   border: 0;
   padding: 0;
@@ -7178,15 +7178,30 @@ button.hero-scroll-link {
 
 .rtbo-invoice-detail-block dt {
   font-weight: 1000;
+  text-align: right;
 }
 
 .rtbo-invoice-detail-block dd {
   font-weight: 800;
-  text-align: right;
+  text-align: left;
+  overflow-wrap: anywhere;
 }
 
 .rtbo-invoice-mail-to {
-  width: min(100%, 330px);
+  display: grid;
+  grid-template-columns: 124px minmax(0, 1fr);
+  gap: 16px;
+  width: min(100%, 316px);
+}
+
+.rtbo-invoice-mail-to h4 {
+  margin: 0;
+  text-align: right;
+}
+
+.rtbo-invoice-mail-to div,
+.rtbo-invoice-mail-to p {
+  text-align: left;
 }
 
 .rtbo-invoice-table-wrap {
@@ -9300,10 +9315,24 @@ button.hero-scroll-link {
     max-width: none;
   }
 
-  .rtbo-invoice-preview dl div,
   .rtbo-invoice-list article > div:first-child {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .rtbo-invoice-detail-block {
+    justify-items: start;
+  }
+
+  .rtbo-invoice-detail-block dl,
+  .rtbo-invoice-mail-to {
+    width: min(100%, 316px);
+  }
+
+  .rtbo-invoice-detail-block dl div,
+  .rtbo-invoice-mail-to {
+    grid-template-columns: minmax(96px, 124px) minmax(0, 1fr);
+    gap: 12px;
   }
 
   .rtbo-invoice-preview dd {
@@ -12989,16 +13018,21 @@ button.hero-scroll-link {
 
 .rtbo-invoice-preview-column.is-print-preview .rtbo-invoice-detail-block {
   justify-items: end;
-  text-align: right;
+  text-align: left;
 }
 
 .rtbo-invoice-preview-column.is-print-preview .rtbo-invoice-detail-block dl div {
-  grid-template-columns: 1fr minmax(92px, auto);
-  gap: 18px;
+  grid-template-columns: 124px minmax(0, 1fr);
+  gap: 16px;
 }
 
 .rtbo-invoice-preview-column.is-print-preview .rtbo-invoice-detail-block dd {
-  text-align: right;
+  text-align: left;
+}
+
+.rtbo-invoice-preview-column.is-print-preview .rtbo-invoice-mail-to {
+  grid-template-columns: 124px minmax(0, 1fr);
+  gap: 16px;
 }
 
 .rtbo-invoice-preview-column.is-print-preview .rtbo-invoice-total-box {
@@ -13074,16 +13108,21 @@ button.hero-scroll-link {
 
   body.rtbo-printing-invoice .rtbo-invoice-detail-block {
     justify-items: end !important;
-    text-align: right !important;
+    text-align: left !important;
   }
 
   body.rtbo-printing-invoice .rtbo-invoice-detail-block dl div {
-    grid-template-columns: 1fr minmax(.92in, auto) !important;
-    gap: .18in !important;
+    grid-template-columns: 1.18in minmax(0, 1fr) !important;
+    gap: .16in !important;
   }
 
   body.rtbo-printing-invoice .rtbo-invoice-detail-block dd {
-    text-align: right !important;
+    text-align: left !important;
+  }
+
+  body.rtbo-printing-invoice .rtbo-invoice-mail-to {
+    grid-template-columns: 1.18in minmax(0, 1fr) !important;
+    gap: .16in !important;
   }
 
   body.rtbo-printing-invoice .rtbo-invoice-party-block h4,

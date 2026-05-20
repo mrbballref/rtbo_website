@@ -4104,7 +4104,9 @@ function InvoicePreview({ invoice, onCreditCardPayment = () => {}, creditCardLoa
             </dl>
             <div className="rtbo-invoice-mail-to">
               <h4>Mail To:</h4>
-              {rtboInvoiceMailToLines.map((line, index) => <p key={`mail-${index}`}>{line}</p>)}
+              <div>
+                {rtboInvoiceMailToLines.map((line, index) => <p key={`mail-${index}`}>{line}</p>)}
+              </div>
             </div>
           </section>
         </div>
@@ -5774,13 +5776,15 @@ function invoiceStandaloneDocument(invoice = {}) {
     .parties { display: grid; gap: .18in; }
     h2 { margin: 0 0 4px; color: #000; font-size: 12px; font-weight: 900; text-decoration: underline; }
     p { margin: 0; color: #000; font-size: 12px; line-height: 1.25; }
-    .details { display: grid; gap: .24in; justify-items: end; text-align: right; }
-    dl { display: grid; gap: 3px; width: min(100%, 2.7in); margin: 0; }
-    dl div { display: grid; grid-template-columns: 1fr minmax(.92in, auto); gap: .18in; align-items: baseline; }
+    .details { display: grid; gap: .24in; justify-items: end; text-align: left; }
+    dl { display: grid; gap: 3px; width: 2.95in; margin: 0; }
+    dl div { display: grid; grid-template-columns: 1.18in minmax(0, 1fr); gap: .16in; align-items: baseline; }
     dt, dd { margin: 0; color: #000; font-size: 12px; line-height: 1.25; }
-    dt { font-weight: 900; }
-    dd { font-weight: 700; text-align: right; }
-    .mail-to { width: min(100%, 3.3in); }
+    dt { font-weight: 900; text-align: right; }
+    dd { font-weight: 700; text-align: left; }
+    .mail-to { display: grid; grid-template-columns: 1.18in minmax(0, 1fr); gap: .16in; width: 2.95in; }
+    .mail-to h2 { margin: 0; text-align: right; }
+    .mail-to div { text-align: left; }
     table { width: 100%; margin-top: .36in; border-collapse: collapse; }
     th, td { border: 0; padding: 8px 6px; color: #000; font-size: 12px; text-align: left; vertical-align: top; }
     th { border-right: 1px solid rgba(255, 255, 255, .25); color: #000; background: #f58220; font-weight: 900; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
@@ -5802,7 +5806,7 @@ function invoiceStandaloneDocument(invoice = {}) {
     footer { display: flex; justify-content: space-between; align-items: end; gap: .2in; padding: 0 .44in .08in; }
     footer div { display: grid; gap: 2px; }
     footer span, footer strong { color: #000; font-size: 11px; font-weight: 900; line-height: 1.2; }
-    @media screen and (max-width: 620px) { .invoice { width: 100%; min-height: 0; } header, main, footer { padding-left: 20px; padding-right: 20px; } .meta { grid-template-columns: 1fr; } .details { justify-items: start; text-align: left; } dl div { grid-template-columns: 1fr; gap: 2px; } dd { text-align: left; } }
+    @media screen and (max-width: 620px) { .invoice { width: 100%; min-height: 0; } header, main, footer { padding-left: 20px; padding-right: 20px; } .meta { grid-template-columns: 1fr; } .details { justify-items: start; text-align: left; } dl, .mail-to { width: min(100%, 2.95in); } dl div, .mail-to { grid-template-columns: 1.05in minmax(0, 1fr); gap: .12in; } dd { text-align: left; } }
     @media print { body { background: #fff; } .invoice { width: 7.86in; min-height: 10.36in; page-break-inside: avoid; break-inside: avoid; } }
   </style>
 </head>
@@ -5831,7 +5835,9 @@ function invoiceStandaloneDocument(invoice = {}) {
           </dl>
           <div class="mail-to">
             <h2>Mail To:</h2>
-            ${htmlLines(rtboInvoiceMailToLines)}
+            <div>
+              ${htmlLines(rtboInvoiceMailToLines)}
+            </div>
           </div>
         </section>
       </section>

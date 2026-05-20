@@ -640,14 +640,14 @@ function build_invoice_pdf(array $invoice): string
     $page[] = pdf_text('Bill To:', 48, $y, 11, 'F2', '0 0 0');
     $y -= 14;
     foreach (array_slice($billLines, 0, 6) as $line) {
-        $page[] = pdf_text(rtbo_invoice_pdf_clip($line, 42), 48, $y, 9, 'F1', '0 0 0');
+        $page[] = pdf_text(rtbo_invoice_pdf_clip($line, 58), 48, $y, 9, 'F1', '0 0 0');
         $y -= 11;
     }
     $y -= 8;
     $page[] = pdf_text('Ship To:', 48, $y, 11, 'F2', '0 0 0');
     $y -= 14;
     foreach (array_slice($shipLines, 0, 4) as $line) {
-        $page[] = pdf_text(rtbo_invoice_pdf_clip($line, 42), 48, $y, 9, 'F1', '0 0 0');
+        $page[] = pdf_text(rtbo_invoice_pdf_clip($line, 58), 48, $y, 9, 'F1', '0 0 0');
         $y -= 11;
     }
 
@@ -660,12 +660,14 @@ function build_invoice_pdf(array $invoice): string
         ['Game Level:', $gameLevel],
     ];
     $y = 642;
+    $detailLabelRight = 420;
+    $detailValueLeft = 438;
     foreach ($detailRows as [$label, $value]) {
         if (trim((string) $value) === '') {
             continue;
         }
-        $page[] = rtbo_invoice_pdf_right_text($label, 420, $y, 11, 'F2', '0 0 0');
-        $page[] = rtbo_invoice_pdf_right_text(rtbo_invoice_pdf_clip($value, 20), 552, $y, 11, $label === 'Invoice #:' ? 'F2' : 'F1', '0 0 0');
+        $page[] = rtbo_invoice_pdf_right_text($label, $detailLabelRight, $y, 11, 'F2', '0 0 0');
+        $page[] = pdf_text(rtbo_invoice_pdf_clip($value, 24), $detailValueLeft, $y, 11, $label === 'Invoice #:' ? 'F2' : 'F1', '0 0 0');
         $y -= 15;
     }
 
@@ -676,10 +678,10 @@ function build_invoice_pdf(array $invoice): string
         'Little Rock, AR 72223',
     ];
     $y = 542;
-    $page[] = pdf_text('Mail To:', 392, $y, 11, 'F2', '0 0 0');
+    $page[] = rtbo_invoice_pdf_right_text('Mail To:', $detailLabelRight, $y, 11, 'F2', '0 0 0');
     $y -= 15;
     foreach ($mailLines as $line) {
-        $page[] = rtbo_invoice_pdf_right_text($line, 552, $y, 11, 'F1', '0 0 0');
+        $page[] = pdf_text(rtbo_invoice_pdf_clip($line, 42), $detailValueLeft, $y, 11, 'F1', '0 0 0');
         $y -= 13;
     }
 
