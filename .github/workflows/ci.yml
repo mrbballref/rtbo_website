@@ -1,0 +1,42 @@
+name: RTBO Production Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  production-checks:
+    name: Build, lint, and audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Lint PHP files
+        run: |
+          find api -name '*.php' -print0 | xargs -0 -n1 php -l
+          find . -maxdepth 1 -name '*.php' -print0 | xargs -0 -r -n1 php -l
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        run: npm ci --prefix frontend
+
+      - name: Build frontend
+        run: npm --prefix frontend run build
+
+      - name: Run mandatory responsive, SEO, and optimization audit
+        run: npm --prefix frontend run audit
