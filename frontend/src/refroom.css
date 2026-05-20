@@ -27,6 +27,10 @@
   --refroom-button: #fff;
 }
 
+:root[data-theme="light"] .rtbo-refroom-page button {
+  border: 1px solid var(--orange) !important;
+}
+
 .rtbo-refroom-page :is(h3, h4, strong, label, th) {
   color: var(--refroom-heading);
 }
@@ -69,8 +73,15 @@
   gap: 10px;
 }
 
+.rtbo-refroom-menu-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  gap: 10px;
+  align-items: stretch;
+}
+
 .rtbo-refroom-tabs {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(9, minmax(0, 1fr));
   border: 1px solid var(--refroom-border);
   border-radius: 8px;
   padding: 10px;
@@ -78,10 +89,18 @@
 }
 
 .rtbo-refroom-tabs button,
+.rtbo-refroom-menu-actions button,
 .rtbo-refroom-choice-grid button,
 .rtbo-refroom-control-grid button,
 .rtbo-refroom-card-actions button,
-.rtbo-refroom-table button {
+.rtbo-refroom-table button,
+.rtbo-refroom-panel > button,
+.rtbo-refroom-source-button,
+.rtbo-refroom-production-card button,
+.rtbo-refroom-popover-wrap > button,
+.rtbo-refroom-emoji-popover button,
+.rtbo-refroom-survey-options button,
+.rtbo-refroom-breakout-card button {
   min-height: 36px;
   border: 1px solid rgba(255, 255, 255, .16);
   border-radius: 8px;
@@ -94,11 +113,36 @@
   text-align: center;
 }
 
+.rtbo-refroom-menu-actions {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  border: 1px solid var(--refroom-border);
+  border-radius: 8px;
+  padding: 10px;
+  background: var(--refroom-panel-flat);
+}
+
+.rtbo-refroom-menu-actions button {
+  min-width: 92px;
+  min-height: 34px;
+  padding: 7px 10px;
+}
+
+.rtbo-refroom-menu-actions .danger {
+  color: #fff;
+  border-color: rgba(220, 38, 38, .72);
+  background: linear-gradient(145deg, rgba(239, 68, 68, .92), rgba(127, 29, 29, .92));
+}
+
 .rtbo-refroom-tabs button.active,
 .rtbo-refroom-tabs button:hover,
+.rtbo-refroom-menu-actions button:hover,
 .rtbo-refroom-choice-grid button.active,
 .rtbo-refroom-choice-grid button:hover,
-.rtbo-refroom-control-grid button:hover {
+.rtbo-refroom-control-grid button:hover,
+.rtbo-refroom-production-card button:hover,
+.rtbo-refroom-popover-wrap > button:hover {
   color: #111827;
   border-color: var(--orange);
   background: var(--orange);
@@ -110,6 +154,7 @@
 
 .rtbo-refroom-stat-card,
 .rtbo-refroom-panel,
+.rtbo-refroom-invite-panel,
 .rtbo-refroom-stage-card,
 .rtbo-refroom-room-card {
   min-width: 0;
@@ -150,7 +195,8 @@
 }
 
 .rtbo-refroom-stage-card,
-.rtbo-refroom-panel {
+.rtbo-refroom-panel,
+.rtbo-refroom-invite-panel {
   display: grid;
   gap: 14px;
   padding: 14px;
@@ -175,6 +221,16 @@
   margin: 4px 0 0;
   font-size: .84rem;
   line-height: 1.4;
+}
+
+.rtbo-refroom-section-head > span {
+  border: 1px solid var(--refroom-border);
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: var(--orange);
+  font-size: .72rem;
+  font-weight: 1000;
+  text-transform: uppercase;
 }
 
 .rtbo-refroom-live-flags {
@@ -210,8 +266,13 @@
   border: 1px solid var(--refroom-border-strong);
   border-radius: 8px;
   background:
+    linear-gradient(rgba(0, 0, 0, .36), rgba(0, 0, 0, .58)),
+    var(--refroom-stage-bg),
     radial-gradient(circle at 50% 30%, rgba(245, 130, 32, .24), transparent 34%),
     linear-gradient(145deg, rgba(0, 0, 0, .92), rgba(10, 10, 10, .72));
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain, contain, auto, auto;
 }
 
 .rtbo-refroom-viewport video {
@@ -223,9 +284,45 @@
   background: #050505;
 }
 
+.rtbo-refroom-viewport.has-blurred-background::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: var(--refroom-stage-bg);
+  background-position: center;
+  background-size: cover;
+  filter: blur(18px);
+  transform: scale(1.08);
+  opacity: .68;
+}
+
+.rtbo-refroom-viewport.has-clean-background-edges::before {
+  transform: scale(1.02);
+}
+
+.rtbo-refroom-viewport:fullscreen {
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  border-radius: 0;
+}
+
+.rtbo-refroom-viewport:fullscreen video {
+  height: 100vh;
+  min-height: 100vh;
+}
+
+.rtbo-refroom-viewport video.uses-background-blur {
+  position: relative;
+  z-index: 1;
+  object-fit: contain;
+}
+
 .rtbo-refroom-video-placeholder {
   position: absolute;
   inset: 0;
+  z-index: 1;
   display: grid;
   place-items: center;
   align-content: center;
@@ -234,16 +331,22 @@
   text-align: center;
 }
 
+.rtbo-refroom-video-placeholder img {
+  width: clamp(86px, 16vw, 154px);
+  max-height: clamp(86px, 18vw, 164px);
+  object-fit: contain;
+}
+
 .rtbo-refroom-video-placeholder span {
   display: grid;
   place-items: center;
-  width: 104px;
-  height: 104px;
+  width: 64px;
+  height: 64px;
   border: 2px solid var(--orange);
   border-radius: 50%;
   color: #111827;
   background: var(--orange);
-  font-size: 2.2rem;
+  font-size: 1.3rem;
   font-weight: 1000;
 }
 
@@ -320,8 +423,39 @@
   font-weight: 1000;
 }
 
+.rtbo-refroom-fullscreen-button {
+  position: absolute;
+  z-index: 3;
+  right: 12px;
+  bottom: 12px;
+  min-height: 34px;
+  border: 1px solid var(--orange);
+  border-radius: 8px;
+  padding: 7px 10px;
+  color: #111827;
+  background: var(--orange);
+  cursor: pointer;
+  font-size: .72rem;
+  font-weight: 1000;
+}
+
 .rtbo-refroom-control-grid {
   grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.rtbo-refroom-volume-control {
+  display: grid;
+  grid-template-columns: auto minmax(120px, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid var(--refroom-border);
+  border-radius: 8px;
+  padding: 10px;
+  background: var(--refroom-panel-flat);
+}
+
+.rtbo-refroom-volume-control input {
+  accent-color: var(--orange);
 }
 
 .rtbo-refroom-side-stack {
@@ -395,6 +529,54 @@
 .rtbo-refroom-form-grid textarea {
   min-height: 92px;
   resize: vertical;
+}
+
+.rtbo-refroom-invite-panel {
+  background: var(--refroom-panel-flat);
+}
+
+.rtbo-refroom-member-search {
+  display: grid;
+  gap: 7px;
+  font-size: .76rem;
+  font-weight: 900;
+}
+
+.rtbo-refroom-member-picker {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  max-height: 310px;
+  overflow: auto;
+}
+
+.rtbo-refroom-member-option {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  border: 1px solid var(--refroom-border);
+  border-radius: 8px;
+  padding: 10px;
+  background: var(--refroom-panel);
+  font-size: .78rem;
+  font-weight: 900;
+}
+
+.rtbo-refroom-member-option input {
+  width: 18px !important;
+  min-height: 18px !important;
+  margin-top: 2px;
+  accent-color: var(--orange);
+}
+
+.rtbo-refroom-member-option small {
+  display: block;
+  margin-top: 3px;
+  overflow-wrap: anywhere;
+  font-size: .7rem;
+  font-weight: 700;
+  opacity: .82;
 }
 
 .rtbo-refroom-form-actions,
@@ -472,7 +654,178 @@
 
 .rtbo-refroom-chat-form {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) max-content;
+  grid-template-columns: minmax(0, 1fr) max-content max-content;
+  align-items: center;
+}
+
+.rtbo-refroom-popover-wrap {
+  position: relative;
+}
+
+.rtbo-refroom-emoji-popover {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 8px);
+  left: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 40px);
+  gap: 6px;
+  border: 1px solid var(--refroom-border-strong);
+  border-radius: 8px;
+  padding: 8px;
+  background: var(--refroom-panel-flat);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .28);
+}
+
+.rtbo-refroom-emoji-popover.align-right {
+  right: 0;
+  left: auto;
+}
+
+.rtbo-refroom-emoji-popover button {
+  min-height: 36px;
+  padding: 4px;
+  font-size: 1rem;
+}
+
+.rtbo-refroom-source-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rtbo-refroom-source-counts span,
+.rtbo-refroom-location-pill {
+  border: 1px solid var(--refroom-border);
+  border-radius: 999px;
+  padding: 6px 9px;
+  background: var(--refroom-panel-flat);
+  font-size: .72rem;
+  font-weight: 900;
+}
+
+.rtbo-refroom-breakout-grid,
+.rtbo-refroom-survey-grid,
+.rtbo-refroom-production-grid,
+.rtbo-refroom-camera-grid,
+.rtbo-refroom-audio-list,
+.rtbo-refroom-background-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.rtbo-refroom-breakout-grid,
+.rtbo-refroom-survey-grid,
+.rtbo-refroom-production-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.rtbo-refroom-breakout-card,
+.rtbo-refroom-survey-card,
+.rtbo-refroom-production-card,
+.rtbo-refroom-camera-tile,
+.rtbo-refroom-audio-row {
+  min-width: 0;
+  border: 1px solid var(--refroom-border);
+  border-radius: 8px;
+  background: var(--refroom-panel-flat);
+}
+
+.rtbo-refroom-breakout-card,
+.rtbo-refroom-survey-card,
+.rtbo-refroom-production-card {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+}
+
+.rtbo-refroom-production-card.wide {
+  grid-column: 1 / -1;
+}
+
+.rtbo-refroom-production-card label {
+  display: grid;
+  gap: 7px;
+  font-size: .76rem;
+  font-weight: 900;
+}
+
+.rtbo-refroom-production-card :is(input, select) {
+  min-height: 40px;
+  border: 1px solid var(--refroom-border);
+  border-radius: 8px;
+  padding: 9px 10px;
+}
+
+.rtbo-refroom-camera-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.rtbo-refroom-camera-tile {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+}
+
+.rtbo-refroom-camera-tile video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #050505;
+}
+
+.rtbo-refroom-audio-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content max-content;
+  gap: 8px;
+  align-items: center;
+  padding: 10px;
+}
+
+.rtbo-refroom-background-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.rtbo-refroom-background-grid button {
+  display: grid;
+  gap: 7px;
+  padding: 8px;
+}
+
+.rtbo-refroom-background-grid button.active {
+  border-color: var(--orange);
+  box-shadow: inset 0 0 0 1px var(--orange);
+}
+
+.rtbo-refroom-background-grid img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.rtbo-refroom-survey-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rtbo-refroom-window-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: clamp(10px, 2vw, 24px);
+  background: rgba(0, 0, 0, .62);
+}
+
+.rtbo-refroom-production-window {
+  width: min(1220px, 100%);
+  max-height: min(92vh, 940px);
+  overflow: auto;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, .38);
 }
 
 .rtbo-refroom-toggle-grid {
@@ -513,10 +866,17 @@
 
 @media (max-width: 1024px) {
   .rtbo-refroom-tabs,
+  .rtbo-refroom-menu-row,
   .rtbo-refroom-stat-grid,
   .rtbo-refroom-form-grid,
   .rtbo-refroom-toggle-grid,
-  .rtbo-refroom-side-stack {
+  .rtbo-refroom-member-picker,
+  .rtbo-refroom-side-stack,
+  .rtbo-refroom-breakout-grid,
+  .rtbo-refroom-survey-grid,
+  .rtbo-refroom-production-grid,
+  .rtbo-refroom-camera-grid,
+  .rtbo-refroom-background-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -528,12 +888,19 @@
 
 @media (max-width: 768px) {
   .rtbo-refroom-tabs,
+  .rtbo-refroom-menu-row,
   .rtbo-refroom-stat-grid,
   .rtbo-refroom-side-stack,
   .rtbo-refroom-control-grid,
   .rtbo-refroom-choice-grid,
   .rtbo-refroom-form-grid,
-  .rtbo-refroom-toggle-grid {
+  .rtbo-refroom-member-picker,
+  .rtbo-refroom-toggle-grid,
+  .rtbo-refroom-breakout-grid,
+  .rtbo-refroom-survey-grid,
+  .rtbo-refroom-production-grid,
+  .rtbo-refroom-camera-grid,
+  .rtbo-refroom-background-grid {
     grid-template-columns: 1fr;
   }
 
@@ -546,6 +913,7 @@
 @media (max-width: 648px) {
   .rtbo-refroom-stage-card,
   .rtbo-refroom-panel,
+  .rtbo-refroom-invite-panel,
   .rtbo-refroom-stat-card,
   .rtbo-refroom-room-card {
     padding: 12px;
@@ -561,7 +929,9 @@
   .rtbo-refroom-page .rtbo-form-toolbar,
   .rtbo-refroom-form-actions,
   .rtbo-refroom-card-actions,
-  .rtbo-refroom-chat-form {
+  .rtbo-refroom-chat-form,
+  .rtbo-refroom-menu-actions,
+  .rtbo-refroom-audio-row {
     display: grid;
     grid-template-columns: 1fr;
   }

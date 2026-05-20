@@ -111,6 +111,7 @@ button.hero-scroll-link {
   }
 
   .rtbo-settings-tree,
+  .quick-actions-row,
   .rtbo-settings-workspace-grid,
   .rtbo-settings-readiness-grid {
     gap: 12px;
@@ -156,6 +157,7 @@ button.hero-scroll-link {
   }
 
   .rtbo-settings-tree,
+  .quick-actions-row,
   .rtbo-settings-workspace-grid,
   .rtbo-settings-readiness-summary,
   .rtbo-settings-readiness-grid,
@@ -2540,13 +2542,36 @@ button.hero-scroll-link {
   display: grid;
   gap: 10px;
   align-content: start;
+  grid-column: 1 / -1;
 }
 
-.quick-actions .btn {
+.quick-actions-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  align-items: stretch;
+}
+
+.quick-actions-row .btn {
   width: 100%;
   min-height: 38px;
   padding-inline: 12px;
   font-size: .78rem;
+}
+
+.rtbo-dashboard-grid > .rtbo-dashboard-card:not(.quick-actions):not(.rtbo-overview-widget) {
+  min-height: 112px;
+  padding: 16px 18px;
+}
+
+.rtbo-dashboard-grid > .rtbo-dashboard-card:not(.quick-actions):not(.rtbo-overview-widget) strong {
+  font-size: clamp(1.45rem, 2vw, 2.05rem);
+}
+
+.rtbo-dashboard-grid > .rtbo-dashboard-card:not(.quick-actions):not(.rtbo-overview-widget) p {
+  margin-top: 6px;
+  font-size: .9rem;
+  line-height: 1.25;
 }
 
 .rtbo-overview-widgets {
@@ -9560,8 +9585,12 @@ button.hero-scroll-link {
   --rtbo-light-action-bg: #111827;
   --rtbo-light-action-bg-hover: #020617;
   --rtbo-light-action-text: #f8fafc;
-  --rtbo-light-action-border: rgba(15, 23, 42, .88);
+  --rtbo-light-action-border: #f97316;
   --rtbo-light-action-shadow: 0 12px 28px rgba(15, 23, 42, .18);
+}
+
+:root[data-theme="light"] button {
+  border: 1px solid #f97316 !important;
 }
 
 :root[data-theme="light"] :is(.rtbo-public, .rtbo-dashboard-shell, .rtbo-account-modal, .site-footer, .auth-body, .app-shell) :is(
@@ -12422,6 +12451,33 @@ button.hero-scroll-link {
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: 12px;
   align-content: start;
+}
+
+.rtbo-dashboard-grid:has(> .quick-actions) {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: 100%;
+}
+
+.rtbo-overview-geo-summary {
+  width: 100%;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.rtbo-overview-geo-summary article {
+  min-width: 0;
+}
+
+@media (max-width: 1024px) {
+  .rtbo-dashboard-grid:has(> .quick-actions) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .rtbo-dashboard-grid:has(> .quick-actions),
+  .rtbo-overview-geo-summary {
+    grid-template-columns: 1fr;
+  }
 }
 
 .rtbo-dashboard-main :is(

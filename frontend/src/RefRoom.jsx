@@ -1,9 +1,20 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import './refroom.css';
 
-const REFROOM_PANELS = ['Studio', 'Meetings', 'Participants', 'Chat', 'Recordings', 'Settings'];
+const REFROOM_PANELS = ['Studio', 'Meetings', 'Breakouts', 'Surveys', 'Participants', 'Chat', 'Production', 'Recordings', 'Settings'];
 const REFROOM_LAYOUTS = ['Speaker View', 'Gallery View', 'Film Study', 'Screen Share', 'Broadcast Desk'];
 const REACTIONS = ['Applause', 'Agree', 'Question', 'Slow Down', 'Rule Check'];
+const EMOJI_REACTIONS = ['👍', '👏', '✅', '❓', '🔥', '🎥', '🏀', '🙌', '💬', '⭐'];
+const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
+const PARTICIPANT_ROLES = ['attendee', 'presenter', 'co_host', 'host'];
+const SURVEY_TYPES = ['Single Choice', 'Multiple Choice', 'Short Answer', 'Rating'];
+const LOGO_SRC = '/assets/images/logo.png';
+const VIRTUAL_BACKGROUNDS = [
+  { id: 'rtbo-logo', label: 'RTBO Logo', value: LOGO_SRC },
+  { id: 'court', label: 'Court', value: '/assets/images/three-person-crew.jpg' },
+  { id: 'training', label: 'Training', value: '/assets/images/rtbo_web_banner.jpg' },
+  { id: 'studio', label: 'Studio', value: '/assets/images/3d_rtbo_livestream_player.png' }
+];
 
 const DEFAULT_SETTINGS = {
   roomTitle: 'RefRoom',
@@ -14,6 +25,8 @@ const DEFAULT_SETTINGS = {
   chat: true,
   participantsPanel: true,
   autoRecord: false,
+  saveAllRecordings: true,
+  saveMeetingChats: true,
   allowScreenShare: true,
   selectedLayout: 'Speaker View',
   recordingQuality: '1080p',
@@ -25,7 +38,52 @@ const EMPTY_ROOM_FORM = {
   date: '',
   time: '',
   purpose: '',
-  passcode: ''
+  passcode: '',
+  invited_member_ids: [],
+  sendInvitations: false
+};
+
+const EMPTY_SURVEY_FORM = {
+  title: '',
+  question: '',
+  type: 'Single Choice',
+  options: 'Yes\nNo',
+  anonymous: true
+};
+
+const DEFAULT_PRODUCTION = {
+  lowerThird: true,
+  brandOverlay: true,
+  greenRoom: true,
+  virtualCamera: true,
+  virtualMicrophone: true,
+  replayQueue: true,
+  autoFraming: false,
+  noiseSuppression: true,
+  backgroundBlur: false,
+  backgroundMode: 'rtbo-logo',
+  backgroundImage: LOGO_SRC,
+  customBackground: '',
+  cleanBackgroundEdges: true,
+  sceneTransition: 'Live Motion',
+  destination: '',
+  overlayText: 'RTBO RefRoom',
+  scene: 'Main Program',
+  streamProfile: 'RTBO Production',
+  monitorMode: 'Program + Preview',
+  cameraEffects: true,
+  greenScreen: true,
+  interviewMode: true,
+  commentsOverlay: true,
+  multistreaming: true,
+  isolatedRecording: true,
+  soundEffects: true,
+  videoPlayback: true,
+  countdownTimer: true,
+  streamDeckControls: true,
+  profiles: true,
+  ndiOutput: false,
+  screenInterviewShare: true
 };
 
 function scopedKey(user = {}, scope = 'state') {
@@ -58,6 +116,29 @@ function createMeetingCode() {
   return `REF-${Math.random().toString(36).slice(2, 5).toUpperCase()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
 }
 
+async function refroomApiGet(endpoint) {
+  const response = await fetch(`${API_URL}${endpoint}`, { credentials: 'include' });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || data.success === false) {
+    throw new Error(data.message || 'Request failed.');
+  }
+  return data;
+}
+
+async function refroomApiPost(endpoint, payload) {
+  const response = await fetch(`${API_URL}${endpoint}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    credentials: 'include'
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || data.success === false) {
+    throw new Error(data.message || 'Request failed.');
+  }
+  return data;
+}
+
 function userInitials(user = {}) {
   const name = String(user.name || user.email || user.role || 'User').trim();
   return name.split(/\s+/).map(part => part[0]).join('').slice(0, 2).toUpperCase() || 'RR';
@@ -65,6 +146,10 @@ function userInitials(user = {}) {
 
 function displayName(user = {}) {
   return user.name || user.email || 'Current User';
+}
+
+function memberLabel(member = {}) {
+  return [member.name || member.email || 'Member', String(member.role_label || member.role || '').replace(/_/g, ' ')].filter(Boolean).join(' / ');
 }
 
 function formatClock(seconds = 0) {
@@ -95,12 +180,103 @@ function supportedMimeType() {
   ].find(type => MediaRecorder.isTypeSupported(type)) || '';
 }
 
-export default function RefRoom({ user = {}, onStatus = () => {} }) {
+function safeFilename(value = 'refroom') {
+  return String(value || 'refroom')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 80) || 'refroom';
+}
+
+function downloadBlob(blob, filename) {
+  if (!blob || blob.size <= 0) return false;
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  return true;
+}
+
+function downloadTextFile(filename, text) {
+  return downloadBlob(new Blob([text], { type: 'text/plain;charset=utf-8' }), filename);
+}
+
+function downloadJsonFile(filename, value) {
+  return downloadBlob(new Blob([JSON.stringify(value, null, 2)], { type: 'application/json;charset=utf-8' }), filename);
+}
+
+function participantIdForMember(member = {}) {
+  return `member-${member.id}`;
+}
+
+function participantLocationLabel(value = 'main', rooms = []) {
+  if (value === 'main') return 'Main Room';
+  if (value === 'waiting') return 'Main Waiting Room';
+  if (value.startsWith('room:')) {
+    const id = value.slice(5);
+    return rooms.find(room => String(room.id) === String(id))?.name || 'Breakout Room';
+  }
+  if (value.startsWith('waiting:')) {
+    const id = value.slice(8);
+    const name = rooms.find(room => String(room.id) === String(id))?.name || 'Breakout Room';
+    return `${name} Waiting Room`;
+  }
+  return 'Main Room';
+}
+
+function formatChatExport(messages = [], title = 'RefRoom Chat') {
+  if (messages.length === 0) {
+    return `${title}\nNo messages were saved for this meeting.\n`;
+  }
+  return [
+    title,
+    `Saved: ${new Date().toLocaleString()}`,
+    '',
+    ...messages.map(message => [
+      `[${formatDateTime(message.at)}] ${message.user || 'Participant'}`,
+      message.meetingTitle ? `Meeting: ${message.meetingTitle}${message.meetingCode ? ` (${message.meetingCode})` : ''}` : '',
+      message.message || message.emoji || ''
+    ].filter(Boolean).join('\n'))
+  ].join('\n\n');
+}
+
+function CameraFeedTile({ feed, onRemove, onMakePrimary }) {
+  const feedRef = useRef(null);
+
+  useEffect(() => {
+    if (feedRef.current) {
+      feedRef.current.srcObject = feed.stream || null;
+    }
+  }, [feed.stream]);
+
+  return (
+    <article className="rtbo-refroom-camera-tile">
+      <video ref={feedRef} autoPlay playsInline muted />
+      <div>
+        <strong>{feed.label}</strong>
+        <small>{feed.deviceId ? 'Camera source' : 'Browser camera'}</small>
+      </div>
+      <div className="rtbo-refroom-card-actions">
+        <button type="button" onClick={() => onMakePrimary(feed)}>Make Primary</button>
+        <button className="danger" type="button" onClick={() => onRemove(feed.id)}>Remove</button>
+      </div>
+    </article>
+  );
+}
+
+export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeetings = false }) {
   const videoRef = useRef(null);
   const viewportRef = useRef(null);
   const recorderRef = useRef(null);
   const localStreamRef = useRef(null);
   const screenStreamRef = useRef(null);
+  const cameraFeedsRef = useRef([]);
+  const audioFeedsRef = useRef([]);
+  const recordingAudioContextRef = useRef(null);
   const recordingChunksRef = useRef([]);
   const recordingStartedAtRef = useRef(null);
 
@@ -117,13 +293,39 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
   const [chatOpen, setChatOpen] = useState(true);
   const [handRaised, setHandRaised] = useState(false);
   const [reaction, setReaction] = useState('');
+  const [reactionPickerOpen, setReactionPickerOpen] = useState(false);
+  const [chatEmojiPickerOpen, setChatEmojiPickerOpen] = useState(false);
   const [elapsed, setElapsed] = useState(0);
+  const [volume, setVolume] = useState(() => Number(safeReadJson(scopedKey(user, 'volume'), 80)) || 80);
+  const [fullscreenActive, setFullscreenActive] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
   const [deviceError, setDeviceError] = useState('');
   const [devices, setDevices] = useState({ audioInputs: [], videoInputs: [] });
   const [selectedAudioDevice, setSelectedAudioDevice] = useState('');
   const [selectedVideoDevice, setSelectedVideoDevice] = useState('');
+  const [selectedExtraCameraDevice, setSelectedExtraCameraDevice] = useState('');
+  const [selectedExtraAudioDevice, setSelectedExtraAudioDevice] = useState('');
+  const [cameraFeeds, setCameraFeeds] = useState([]);
+  const [cameraSources, setCameraSources] = useState(() => safeReadJson(scopedKey(user, 'cameraSources'), []));
+  const [audioFeeds, setAudioFeeds] = useState([]);
+  const [audioSources, setAudioSources] = useState(() => safeReadJson(scopedKey(user, 'audioSources'), []));
   const [captionDraft, setCaptionDraft] = useState('');
+  const [members, setMembers] = useState([]);
+  const [memberSearch, setMemberSearch] = useState('');
+  const [loadingMeetings, setLoadingMeetings] = useState(false);
+  const [savingMeeting, setSavingMeeting] = useState(false);
+  const [invitationSendingId, setInvitationSendingId] = useState('');
+  const [activeMeetingId, setActiveMeetingId] = useState('');
+  const [breakoutRooms, setBreakoutRooms] = useState(() => safeReadJson(scopedKey(user, 'breakoutRooms'), []));
+  const [breakoutName, setBreakoutName] = useState('');
+  const [participantLocations, setParticipantLocations] = useState(() => safeReadJson(scopedKey(user, 'participantLocations'), {}));
+  const [participantRoles, setParticipantRoles] = useState(() => safeReadJson(scopedKey(user, 'participantRoles'), {}));
+  const [surveyForm, setSurveyForm] = useState(EMPTY_SURVEY_FORM);
+  const [surveys, setSurveys] = useState(() => safeReadJson(scopedKey(user, 'surveys'), []));
+  const [production, setProduction] = useState(() => ({
+    ...DEFAULT_PRODUCTION,
+    ...safeReadJson(scopedKey(user, 'production'), {})
+  }));
   const [settings, setSettings] = useState(() => ({
     ...DEFAULT_SETTINGS,
     meetingCode: createMeetingCode(),
@@ -138,14 +340,75 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
   const [transcript, setTranscript] = useState(() => safeReadJson(scopedKey(user, 'transcript'), []));
 
   const programStream = screenSharing && screenStream ? screenStream : localStream;
+  const activeMeeting = useMemo(() => rooms.find(room => String(room.id) === String(activeMeetingId)) || null, [activeMeetingId, rooms]);
   const currentParticipant = useMemo(() => ({
-    id: user.email || user.id || 'current-user',
+    id: 'current-user',
     name: displayName(user),
     role: user.role || 'member',
     status: roomActive ? (recording ? 'Recording' : 'In Room') : 'Not Connected',
     mic: micEnabled,
-    camera: cameraEnabled
+    camera: cameraEnabled,
+    email: user.email || '',
+    isCurrentUser: true
   }), [cameraEnabled, micEnabled, recording, roomActive, user]);
+  const filteredMembers = useMemo(() => {
+    const query = memberSearch.trim().toLowerCase();
+    if (!query) return members;
+    return members.filter(member => [member.name, member.email, member.role_label, member.role].some(value => String(value || '').toLowerCase().includes(query)));
+  }, [memberSearch, members]);
+  const selectedInviteMembers = useMemo(() => {
+    const selectedIds = new Set((roomForm.invited_member_ids || []).map(id => String(id)));
+    return members.filter(member => selectedIds.has(String(member.id)));
+  }, [members, roomForm.invited_member_ids]);
+  const activeMeetingInviteMembers = useMemo(() => {
+    const ids = activeMeeting?.invited_member_ids || roomForm.invited_member_ids || [];
+    const selectedIds = new Set(ids.map(id => String(id)));
+    return members.filter(member => selectedIds.has(String(member.id)));
+  }, [activeMeeting, members, roomForm.invited_member_ids]);
+  const refroomParticipants = useMemo(() => [
+    currentParticipant,
+    ...activeMeetingInviteMembers.map(member => ({
+      id: participantIdForMember(member),
+      memberId: member.id,
+      name: member.name || member.email || 'Member',
+      email: member.email,
+      role: participantRoles[participantIdForMember(member)] || 'attendee',
+      status: participantLocations[participantIdForMember(member)] ? participantLocationLabel(participantLocations[participantIdForMember(member)], breakoutRooms) : 'Invited',
+      mic: false,
+      camera: false,
+      isCurrentUser: false
+    }))
+  ], [activeMeetingInviteMembers, breakoutRooms, currentParticipant, participantLocations, participantRoles]);
+  const breakoutLocationOptions = useMemo(() => [
+    ['main', 'Main Room'],
+    ['waiting', 'Main Waiting Room'],
+    ...breakoutRooms.flatMap(room => [
+      [`room:${room.id}`, room.name],
+      [`waiting:${room.id}`, `${room.name} Waiting Room`]
+    ])
+  ], [breakoutRooms]);
+  const currentMeetingMessages = useMemo(() => {
+    const meetingId = String(activeMeeting?.id || activeMeetingId || '');
+    const meetingCode = String(activeMeeting?.meetingCode || settings.meetingCode || '');
+    return messages.filter(message => (
+      (meetingId && String(message.meetingId || '') === meetingId)
+      || (meetingCode && String(message.meetingCode || '') === meetingCode)
+    ));
+  }, [activeMeeting, activeMeetingId, messages, settings.meetingCode]);
+  const stageBackgroundUrl = production.customBackground || production.backgroundImage || LOGO_SRC;
+  const stageStyle = {
+    '--refroom-stage-bg': `url("${stageBackgroundUrl}")`
+  };
+  const stageClassName = [
+    'rtbo-refroom-viewport',
+    production.backgroundBlur ? 'has-blurred-background' : '',
+    production.cleanBackgroundEdges ? 'has-clean-background-edges' : ''
+  ].filter(Boolean).join(' ');
+
+  useEffect(() => {
+    if (!canManageMeetings) return;
+    loadMeetingWorkspace();
+  }, [canManageMeetings]);
 
   useEffect(() => {
     safeWriteJson(scopedKey(user, 'settings'), settings);
@@ -168,6 +431,41 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
   }, [transcript, user]);
 
   useEffect(() => {
+    safeWriteJson(scopedKey(user, 'volume'), volume);
+    if (videoRef.current) {
+      videoRef.current.volume = Math.max(0, Math.min(1, Number(volume) / 100));
+    }
+  }, [volume, programStream, user]);
+
+  useEffect(() => {
+    safeWriteJson(scopedKey(user, 'breakoutRooms'), breakoutRooms);
+  }, [breakoutRooms, user]);
+
+  useEffect(() => {
+    safeWriteJson(scopedKey(user, 'participantLocations'), participantLocations);
+  }, [participantLocations, user]);
+
+  useEffect(() => {
+    safeWriteJson(scopedKey(user, 'participantRoles'), participantRoles);
+  }, [participantRoles, user]);
+
+  useEffect(() => {
+    safeWriteJson(scopedKey(user, 'surveys'), surveys);
+  }, [surveys, user]);
+
+  useEffect(() => {
+    safeWriteJson(scopedKey(user, 'production'), production);
+  }, [production, user]);
+
+  useEffect(() => {
+    safeWriteJson(scopedKey(user, 'cameraSources'), cameraSources);
+  }, [cameraSources, user]);
+
+  useEffect(() => {
+    safeWriteJson(scopedKey(user, 'audioSources'), audioSources);
+  }, [audioSources, user]);
+
+  useEffect(() => {
     if (videoRef.current) {
       videoRef.current.srcObject = programStream || null;
     }
@@ -182,6 +480,20 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
   }, [screenStream]);
 
   useEffect(() => {
+    cameraFeedsRef.current = cameraFeeds;
+  }, [cameraFeeds]);
+
+  useEffect(() => {
+    audioFeedsRef.current = audioFeeds;
+  }, [audioFeeds]);
+
+  useEffect(() => {
+    const updateFullscreenState = () => setFullscreenActive(document.fullscreenElement === viewportRef.current);
+    document.addEventListener('fullscreenchange', updateFullscreenState);
+    return () => document.removeEventListener('fullscreenchange', updateFullscreenState);
+  }, []);
+
+  useEffect(() => {
     if (!roomActive) return undefined;
     const timer = window.setInterval(() => setElapsed(current => current + 1), 1000);
     return () => window.clearInterval(timer);
@@ -192,12 +504,29 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
     return () => {
       stopStream(localStreamRef.current);
       stopStream(screenStreamRef.current);
+      cameraFeedsRef.current.forEach(feed => stopStream(feed.stream));
+      audioFeedsRef.current.forEach(feed => stopStream(feed.stream));
+      recordingAudioContextRef.current?.close?.();
     };
   }, []);
 
   function updateStatus(message) {
     setStatusMessage(message);
     onStatus(message);
+  }
+
+  async function loadMeetingWorkspace() {
+    setLoadingMeetings(true);
+    try {
+      const data = await refroomApiGet('/refroom.php');
+      setRooms(Array.isArray(data.meetings) ? data.meetings : []);
+      setMembers(Array.isArray(data.members) ? data.members : []);
+      updateStatus('RefRoom meetings and member invite list loaded.');
+    } catch (error) {
+      updateStatus(error.message || 'RefRoom meeting data could not be loaded.');
+    } finally {
+      setLoadingMeetings(false);
+    }
   }
 
   async function refreshDevices() {
@@ -215,6 +544,149 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
 
   function stopStream(stream) {
     stream?.getTracks?.().forEach(track => track.stop());
+  }
+
+  function deviceLabel(deviceId, collection, fallback) {
+    return collection.find(device => device.deviceId === deviceId)?.label || fallback;
+  }
+
+  function buildRecordingStream(stream) {
+    const sourceStream = stream || programStream || localStream;
+    if (!sourceStream) return null;
+    recordingAudioContextRef.current?.close?.();
+    recordingAudioContextRef.current = null;
+
+    const mixedStream = new MediaStream();
+    sourceStream.getVideoTracks().forEach(track => mixedStream.addTrack(track));
+
+    const audioTracks = [
+      ...sourceStream.getAudioTracks(),
+      ...audioFeedsRef.current.flatMap(feed => feed.stream?.getAudioTracks?.() || [])
+    ].filter((track, index, list) => track?.readyState === 'live' && track.enabled && list.indexOf(track) === index);
+
+    if (audioTracks.length === 0) return mixedStream;
+
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext || audioTracks.length === 1) {
+      audioTracks.forEach(track => mixedStream.addTrack(track));
+      return mixedStream;
+    }
+
+    try {
+      const audioContext = new AudioContext();
+      const destination = audioContext.createMediaStreamDestination();
+      audioTracks.forEach(track => {
+        const source = audioContext.createMediaStreamSource(new MediaStream([track]));
+        source.connect(destination);
+      });
+      destination.stream.getAudioTracks().forEach(track => mixedStream.addTrack(track));
+      recordingAudioContextRef.current = audioContext;
+    } catch {
+      audioTracks.forEach(track => mixedStream.addTrack(track));
+    }
+    return mixedStream;
+  }
+
+  async function addCameraFeed() {
+    if (!navigator.mediaDevices?.getUserMedia) {
+      updateStatus('This browser does not support additional camera sources.');
+      return;
+    }
+    const deviceId = selectedExtraCameraDevice || selectedVideoDevice || '';
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: deviceId ? { deviceId: { exact: deviceId } } : true,
+        audio: false
+      });
+      const feed = {
+        id: createId('camera'),
+        deviceId,
+        label: deviceLabel(deviceId, devices.videoInputs, `Camera ${cameraFeeds.length + 1}`),
+        stream,
+        addedAt: new Date().toISOString()
+      };
+      setCameraFeeds(current => [...current, feed]);
+      setCameraSources(current => [...current, { id: feed.id, deviceId: feed.deviceId, label: feed.label, addedAt: feed.addedAt }]);
+      setSelectedExtraCameraDevice('');
+      updateStatus(`${feed.label} added as a RefRoom camera source.`);
+    } catch (error) {
+      updateStatus(error?.message || 'The selected camera could not be added.');
+    }
+  }
+
+  function removeCameraFeed(feedId) {
+    setCameraFeeds(current => {
+      const target = current.find(feed => String(feed.id) === String(feedId));
+      stopStream(target?.stream);
+      return current.filter(feed => String(feed.id) !== String(feedId));
+    });
+    setCameraSources(current => current.filter(feed => String(feed.id) !== String(feedId)));
+    updateStatus('Camera source removed.');
+  }
+
+  function makeCameraPrimary(feed) {
+    if (!feed?.stream) return;
+    const oldVideoTracks = localStream?.getVideoTracks?.() || [];
+    const feedVideoTracks = feed.stream.getVideoTracks();
+    const audioTracks = localStream?.getAudioTracks?.() || [];
+    const nextStream = new MediaStream([...feedVideoTracks, ...audioTracks]);
+    oldVideoTracks.forEach(track => {
+      if (!feedVideoTracks.includes(track)) track.stop();
+    });
+    setLocalStream(nextStream);
+    setRoomActive(true);
+    setCameraEnabled(true);
+    updateStatus(`${feed.label} is now the main program camera.`);
+  }
+
+  async function addAudioFeed() {
+    if (!navigator.mediaDevices?.getUserMedia) {
+      updateStatus('This browser does not support additional microphone sources.');
+      return;
+    }
+    const deviceId = selectedExtraAudioDevice || selectedAudioDevice || '';
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: deviceId ? { deviceId: { exact: deviceId } } : true,
+        video: false
+      });
+      const feed = {
+        id: createId('microphone'),
+        deviceId,
+        label: deviceLabel(deviceId, devices.audioInputs, `Microphone ${audioFeeds.length + 1}`),
+        stream,
+        muted: false,
+        addedAt: new Date().toISOString()
+      };
+      setAudioFeeds(current => [...current, feed]);
+      setAudioSources(current => [...current, { id: feed.id, deviceId: feed.deviceId, label: feed.label, addedAt: feed.addedAt }]);
+      setSelectedExtraAudioDevice('');
+      updateStatus(`${feed.label} added as a RefRoom microphone source.`);
+    } catch (error) {
+      updateStatus(error?.message || 'The selected microphone could not be added.');
+    }
+  }
+
+  function toggleAudioFeed(feedId) {
+    setAudioFeeds(current => current.map(feed => {
+      if (String(feed.id) !== String(feedId)) return feed;
+      const nextMuted = !feed.muted;
+      feed.stream?.getAudioTracks?.().forEach(track => {
+        track.enabled = !nextMuted;
+      });
+      updateStatus(`${feed.label} ${nextMuted ? 'muted' : 'unmuted'}.`);
+      return { ...feed, muted: nextMuted };
+    }));
+  }
+
+  function removeAudioFeed(feedId) {
+    setAudioFeeds(current => {
+      const target = current.find(feed => String(feed.id) === String(feedId));
+      stopStream(target?.stream);
+      return current.filter(feed => String(feed.id) !== String(feedId));
+    });
+    setAudioSources(current => current.filter(feed => String(feed.id) !== String(feedId)));
+    updateStatus('Microphone source removed.');
   }
 
   async function startRoom() {
@@ -257,8 +729,12 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
     if (recording) recorderRef.current?.stop();
     stopStream(localStream);
     stopStream(screenStream);
+    cameraFeeds.forEach(feed => stopStream(feed.stream));
+    audioFeeds.forEach(feed => stopStream(feed.stream));
     setLocalStream(null);
     setScreenStream(null);
+    setCameraFeeds([]);
+    setAudioFeeds([]);
     setRoomActive(false);
     setScreenSharing(false);
     setHandRaised(false);
@@ -329,7 +805,8 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
   }
 
   async function startRecording(streamOverride) {
-    const stream = streamOverride || programStream || await startRoom();
+    const baseStream = streamOverride || programStream || await startRoom();
+    const stream = buildRecordingStream(baseStream);
     if (!stream || !window.MediaRecorder) {
       updateStatus('Recording is not supported by this browser.');
       return;
@@ -356,27 +833,29 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
   function saveRecordingBlob(mimeType) {
     const blob = new Blob(recordingChunksRef.current, { type: mimeType });
     const startedAt = recordingStartedAtRef.current || new Date();
-    const filename = `refroom-${startedAt.toISOString().replace(/[:.]/g, '-')}.webm`;
-    if (blob.size > 0) {
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filename;
-      link.click();
-      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
-    }
+    const meetingSlug = safeFilename(activeMeeting?.title || settings.roomTitle || 'refroom');
+    const filename = `${meetingSlug}-${startedAt.toISOString().replace(/[:.]/g, '-')}.webm`;
+    const downloaded = settings.saveAllRecordings !== false && downloadBlob(blob, filename);
     setRecordings(current => [
       {
         id: createId('recording'),
         filename,
+        meetingId: activeMeeting?.id || activeMeetingId || '',
+        meetingCode: activeMeeting?.meetingCode || settings.meetingCode,
+        meetingTitle: activeMeeting?.title || settings.roomTitle,
         createdAt: startedAt.toISOString(),
         duration: elapsed,
-        size: blob.size
+        size: blob.size,
+        savedToComputer: downloaded,
+        cameraSources: cameraFeedsRef.current.map(feed => feed.label),
+        audioSources: audioFeedsRef.current.map(feed => feed.label)
       },
       ...current
     ]);
+    recordingAudioContextRef.current?.close?.();
+    recordingAudioContextRef.current = null;
     setRecording(false);
-    updateStatus('Recording stopped and the WebM file was downloaded.');
+    updateStatus(downloaded ? 'Recording stopped and was saved to this computer.' : 'Recording stopped. Browser download permission is required to save the file.');
   }
 
   async function togglePictureInPicture() {
@@ -405,12 +884,71 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
     try {
       if (document.fullscreenElement) {
         await document.exitFullscreen();
+        setFullscreenActive(false);
       } else {
         await viewport.requestFullscreen();
+        setFullscreenActive(true);
       }
     } catch (error) {
       updateStatus(error?.message || 'Fullscreen mode could not be opened.');
     }
+  }
+
+  function addEmojiToMessage(emoji) {
+    setMessageDraft(current => `${current}${current ? ' ' : ''}${emoji}`);
+    setReaction(emoji);
+    setChatEmojiPickerOpen(false);
+  }
+
+  function sendEmojiReaction(emoji) {
+    setReaction(emoji);
+    setReactionPickerOpen(false);
+    setMessages(current => [
+      ...current,
+      {
+        id: createId('message'),
+        user: displayName(user),
+        message: emoji,
+        emoji,
+        meetingId: activeMeeting?.id || activeMeetingId || '',
+        meetingCode: activeMeeting?.meetingCode || settings.meetingCode,
+        meetingTitle: activeMeeting?.title || settings.roomTitle,
+        at: new Date().toISOString()
+      }
+    ]);
+  }
+
+  function updateProduction(name, value) {
+    setProduction(current => ({ ...current, [name]: value }));
+  }
+
+  function selectVirtualBackground(background) {
+    setProduction(current => ({
+      ...current,
+      backgroundMode: background.id,
+      backgroundImage: background.value,
+      customBackground: background.id === 'custom' ? current.customBackground : ''
+    }));
+  }
+
+  function uploadCustomBackground(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      updateStatus('Select an image file for the RefRoom background.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setProduction(current => ({
+        ...current,
+        backgroundMode: 'custom',
+        backgroundImage: '',
+        customBackground: String(reader.result || '')
+      }));
+      updateStatus('Custom RefRoom background applied.');
+    };
+    reader.readAsDataURL(file);
   }
 
   async function copyInvite() {
@@ -438,10 +976,39 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
         id: createId('message'),
         user: displayName(user),
         message: messageDraft.trim(),
+        meetingId: activeMeeting?.id || activeMeetingId || '',
+        meetingCode: activeMeeting?.meetingCode || settings.meetingCode,
+        meetingTitle: activeMeeting?.title || settings.roomTitle,
         at: new Date().toISOString()
       }
     ]);
     setMessageDraft('');
+  }
+
+  function saveCurrentChatToComputer() {
+    const exportMessages = currentMeetingMessages.length > 0 ? currentMeetingMessages : messages;
+    const title = `${activeMeeting?.title || settings.roomTitle || 'RefRoom'} Chat`;
+    const filename = `${safeFilename(title)}-${new Date().toISOString().slice(0, 10)}.txt`;
+    downloadTextFile(filename, formatChatExport(exportMessages, title));
+    updateStatus('Current meeting chat was saved to this computer.');
+  }
+
+  function saveAllChatsToComputer() {
+    const filename = `refroom-all-meeting-chats-${new Date().toISOString().slice(0, 10)}.txt`;
+    downloadTextFile(filename, formatChatExport(messages, 'All RefRoom Meeting Chats'));
+    updateStatus('All saved RefRoom meeting chats were downloaded to this computer.');
+  }
+
+  function saveAllChatsJson() {
+    const filename = `refroom-all-meeting-chats-${new Date().toISOString().slice(0, 10)}.json`;
+    downloadJsonFile(filename, messages);
+    updateStatus('All saved RefRoom meeting chats were exported as JSON.');
+  }
+
+  function saveRecordingLogToComputer() {
+    const filename = `refroom-recording-log-${new Date().toISOString().slice(0, 10)}.json`;
+    downloadJsonFile(filename, recordings);
+    updateStatus('RefRoom recording log was saved to this computer.');
   }
 
   function saveCaption(event) {
@@ -459,10 +1026,14 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
     setCaptionDraft('');
   }
 
-  function saveRoom(event) {
+  async function saveRoom(event) {
     event.preventDefault();
     if (!roomForm.title.trim() || !roomForm.date || !roomForm.time) {
       updateStatus('Complete the room title, date, and time before saving the RefRoom meeting.');
+      return;
+    }
+    if (roomForm.sendInvitations && (roomForm.invited_member_ids || []).length === 0) {
+      updateStatus('Select one or more members before sending RefRoom invitations.');
       return;
     }
     const startsAt = `${roomForm.date}T${roomForm.time}`;
@@ -472,17 +1043,53 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
       purpose: roomForm.purpose.trim(),
       passcode: roomForm.passcode.trim(),
       startsAt,
+      date: roomForm.date,
+      time: roomForm.time,
       meetingCode: editingRoomId
         ? rooms.find(room => room.id === editingRoomId)?.meetingCode || createMeetingCode()
-        : createMeetingCode()
+        : createMeetingCode(),
+      invited_member_ids: roomForm.invited_member_ids || [],
+      invited_emails: selectedInviteMembers.map(member => member.email).filter(Boolean)
     };
-    setRooms(current => editingRoomId
-      ? current.map(room => (room.id === editingRoomId ? nextRoom : room))
-      : [nextRoom, ...current]
-    );
-    setEditingRoomId('');
-    setRoomForm(EMPTY_ROOM_FORM);
-    updateStatus(editingRoomId ? 'RefRoom meeting updated.' : 'RefRoom meeting scheduled.');
+
+    setSavingMeeting(true);
+    try {
+      if (canManageMeetings) {
+        const payload = {
+          action: editingRoomId ? 'update' : 'create',
+          id: editingRoomId,
+          meeting: nextRoom
+        };
+        const data = await refroomApiPost('/refroom.php', payload);
+        const savedMeeting = data.meeting || nextRoom;
+        setRooms(Array.isArray(data.meetings) ? data.meetings : currentRoomsWith(savedMeeting));
+        setEditingRoomId('');
+        setRoomForm(EMPTY_ROOM_FORM);
+        updateStatus(data.message || (editingRoomId ? 'RefRoom meeting updated.' : 'RefRoom meeting scheduled.'));
+        if (roomForm.sendInvitations) {
+          await sendRoomInvitations(savedMeeting);
+        }
+      } else {
+        setRooms(current => editingRoomId
+          ? current.map(room => (String(room.id) === String(editingRoomId) ? nextRoom : room))
+          : [nextRoom, ...current]
+        );
+        setEditingRoomId('');
+        setRoomForm(EMPTY_ROOM_FORM);
+        updateStatus(editingRoomId ? 'RefRoom meeting updated.' : 'RefRoom meeting scheduled.');
+      }
+    } catch (error) {
+      updateStatus(error.message || 'RefRoom meeting could not be saved.');
+    } finally {
+      setSavingMeeting(false);
+    }
+  }
+
+  function currentRoomsWith(savedMeeting) {
+    const exists = rooms.some(room => String(room.id) === String(savedMeeting.id));
+    return exists
+      ? rooms.map(room => (String(room.id) === String(savedMeeting.id) ? savedMeeting : room))
+      : [savedMeeting, ...rooms];
   }
 
   function editRoom(room) {
@@ -490,21 +1097,98 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
     setEditingRoomId(room.id);
     setRoomForm({
       title: room.title || '',
-      date,
-      time,
+      date: room.date || date,
+      time: room.time || time,
       purpose: room.purpose || '',
-      passcode: room.passcode || ''
+      passcode: room.passcode || '',
+      invited_member_ids: Array.isArray(room.invited_member_ids) ? room.invited_member_ids : [],
+      sendInvitations: false
     });
     setActivePanel('Meetings');
   }
 
-  function deleteRoom(roomId) {
-    setRooms(current => current.filter(room => room.id !== roomId));
-    if (editingRoomId === roomId) {
+  async function deleteRoom(roomId) {
+    if (canManageMeetings) {
+      try {
+        const data = await refroomApiPost('/refroom.php', { action: 'delete', id: roomId });
+        setRooms(Array.isArray(data.meetings) ? data.meetings : rooms.filter(room => String(room.id) !== String(roomId)));
+        if (String(editingRoomId) === String(roomId)) {
+          setEditingRoomId('');
+          setRoomForm(EMPTY_ROOM_FORM);
+        }
+        updateStatus(data.message || 'RefRoom meeting deleted.');
+      } catch (error) {
+        updateStatus(error.message || 'RefRoom meeting could not be deleted.');
+      }
+      return;
+    }
+    setRooms(current => current.filter(room => String(room.id) !== String(roomId)));
+    if (String(editingRoomId) === String(roomId)) {
       setEditingRoomId('');
       setRoomForm(EMPTY_ROOM_FORM);
     }
     updateStatus('RefRoom meeting deleted.');
+  }
+
+  async function sendRoomInvitations(room) {
+    if (!canManageMeetings) {
+      updateStatus('Only admins can send RefRoom invitations to members.');
+      return;
+    }
+    if (!room?.id) {
+      updateStatus('Save the meeting before sending RefRoom invitations.');
+      return;
+    }
+    if (!Array.isArray(room.invited_member_ids) || room.invited_member_ids.length === 0) {
+      updateStatus('Select one or more members before sending RefRoom invitations.');
+      return;
+    }
+
+    setInvitationSendingId(String(room.id));
+    try {
+      const data = await refroomApiPost('/refroom.php', { action: 'send_invites', id: room.id });
+      setRooms(Array.isArray(data.meetings) ? data.meetings : currentRoomsWith(data.meeting || room));
+      updateStatus(data.message || 'RefRoom invitations sent.');
+    } catch (error) {
+      await loadMeetingWorkspace();
+      updateStatus(error.message || 'RefRoom invitations could not be sent.');
+    } finally {
+      setInvitationSendingId('');
+    }
+  }
+
+  function toggleInviteMember(memberId) {
+    setRoomForm(current => {
+      const selected = new Set((current.invited_member_ids || []).map(id => String(id)));
+      const key = String(memberId);
+      if (selected.has(key)) selected.delete(key);
+      else selected.add(key);
+      return { ...current, invited_member_ids: [...selected] };
+    });
+  }
+
+  function seedParticipantState(room) {
+    const invitedIds = (room?.invited_member_ids || []).map(id => String(id));
+    setParticipantRoles(current => {
+      const next = { ...current, 'current-user': 'host' };
+      members.forEach(member => {
+        if (invitedIds.includes(String(member.id))) {
+          const id = participantIdForMember(member);
+          if (!next[id]) next[id] = 'attendee';
+        }
+      });
+      return next;
+    });
+    setParticipantLocations(current => {
+      const next = { ...current, 'current-user': 'main' };
+      members.forEach(member => {
+        if (invitedIds.includes(String(member.id))) {
+          const id = participantIdForMember(member);
+          if (!next[id]) next[id] = settings.waitingRoom ? 'waiting' : 'main';
+        }
+      });
+      return next;
+    });
   }
 
   async function startScheduledRoom(room) {
@@ -514,6 +1198,8 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
       passcode: room.passcode,
       meetingCode: room.meetingCode
     }));
+    setActiveMeetingId(String(room.id));
+    seedParticipantState(room);
     setActivePanel('Studio');
     await startRoom();
   }
@@ -522,8 +1208,131 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
     setSettings(current => ({ ...current, [name]: value }));
   }
 
+  function createBreakoutRoom(event) {
+    event.preventDefault();
+    const name = breakoutName.trim();
+    if (!name) {
+      updateStatus('Enter a breakout room name before creating it.');
+      return;
+    }
+    setBreakoutRooms(current => [
+      ...current,
+      { id: createId('breakout'), name, createdAt: new Date().toISOString(), meetingId: activeMeeting?.id || activeMeetingId || '' }
+    ]);
+    setBreakoutName('');
+    updateStatus(`${name} breakout room created.`);
+  }
+
+  function deleteBreakoutRoom(roomId) {
+    setBreakoutRooms(current => current.filter(room => String(room.id) !== String(roomId)));
+    setParticipantLocations(current => {
+      const next = { ...current };
+      Object.keys(next).forEach(id => {
+        if (String(next[id]) === `room:${roomId}` || String(next[id]) === `waiting:${roomId}`) next[id] = 'main';
+      });
+      return next;
+    });
+    updateStatus('Breakout room removed and participants were returned to the main room.');
+  }
+
+  function moveParticipant(participantId, location) {
+    setParticipantLocations(current => ({ ...current, [participantId]: location }));
+  }
+
+  function setParticipantRole(participantId, role) {
+    setParticipantRoles(current => ({ ...current, [participantId]: role }));
+  }
+
+  function moveAllWaitingToMain() {
+    setParticipantLocations(current => {
+      const next = { ...current };
+      Object.keys(next).forEach(id => {
+        if (String(next[id]).startsWith('waiting')) next[id] = 'main';
+      });
+      return next;
+    });
+    updateStatus('Waiting-room participants moved into meeting rooms.');
+  }
+
+  function distributeToBreakouts() {
+    if (breakoutRooms.length === 0) {
+      updateStatus('Create at least one breakout room before distributing participants.');
+      return;
+    }
+    const movable = refroomParticipants.filter(participant => !participant.isCurrentUser);
+    setParticipantLocations(current => {
+      const next = { ...current };
+      movable.forEach((participant, index) => {
+        const room = breakoutRooms[index % breakoutRooms.length];
+        next[participant.id] = `room:${room.id}`;
+      });
+      return next;
+    });
+    updateStatus('Invited participants were distributed across breakout rooms.');
+  }
+
+  function saveSurvey(event) {
+    event.preventDefault();
+    if (!surveyForm.title.trim() || !surveyForm.question.trim()) {
+      updateStatus('Complete the survey title and question before saving.');
+      return;
+    }
+    const options = surveyForm.type === 'Short Answer'
+      ? []
+      : surveyForm.options.split('\n').map(option => option.trim()).filter(Boolean);
+    if (surveyForm.type !== 'Short Answer' && options.length === 0) {
+      updateStatus('Add at least one survey option.');
+      return;
+    }
+    setSurveys(current => [
+      {
+        id: createId('survey'),
+        meetingId: activeMeeting?.id || activeMeetingId || '',
+        meetingCode: activeMeeting?.meetingCode || settings.meetingCode,
+        title: surveyForm.title.trim(),
+        question: surveyForm.question.trim(),
+        type: surveyForm.type,
+        options,
+        anonymous: Boolean(surveyForm.anonymous),
+        status: 'draft',
+        responses: {},
+        createdAt: new Date().toISOString()
+      },
+      ...current
+    ]);
+    setSurveyForm(EMPTY_SURVEY_FORM);
+    updateStatus('Survey saved.');
+  }
+
+  function updateSurveyStatus(surveyId, status) {
+    setSurveys(current => current.map(survey => String(survey.id) === String(surveyId) ? { ...survey, status } : survey));
+  }
+
+  function deleteSurvey(surveyId) {
+    setSurveys(current => current.filter(survey => String(survey.id) !== String(surveyId)));
+    updateStatus('Survey deleted.');
+  }
+
+  function submitSurveyResponse(survey, answer) {
+    setSurveys(current => current.map(item => {
+      if (String(item.id) !== String(survey.id)) return item;
+      return {
+        ...item,
+        responses: {
+          ...(item.responses || {}),
+          [currentParticipant.id]: {
+            answer,
+            at: new Date().toISOString(),
+            name: survey.anonymous ? '' : currentParticipant.name
+          }
+        }
+      };
+    }));
+    updateStatus('Survey response saved.');
+  }
+
   const stats = [
-    ['Participants', roomActive ? 1 : 0, roomActive ? 'Current browser participant connected' : 'No one is connected'],
+    ['Participants', refroomParticipants.length, roomActive ? 'Current browser participant connected' : 'Selected invitees for the form'],
     ['Scheduled', rooms.length, 'Saved RefRoom meetings'],
     ['Recordings', recordings.length, 'Local browser recordings saved'],
     ['Room Time', formatClock(elapsed), roomActive ? 'Room is active' : 'Room is idle']
@@ -537,29 +1346,31 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
           <h3>RefRoom</h3>
           <p>Run virtual meetings, officiating film rooms, training sessions, recordings, chat, screen share, and meeting controls from one workspace.</p>
         </div>
-        <div className="rtbo-form-toolbar">
-          <button className="btn secondary dark-btn" type="button" onClick={copyInvite}>Copy Invite</button>
-          <button className={roomActive ? 'btn danger' : 'btn'} type="button" onClick={roomActive ? endRoom : startRoom}>
-            {roomActive ? 'End Room' : 'Start Room'}
-          </button>
-        </div>
       </div>
 
       {statusMessage && <p className="rtbo-dashboard-status">{statusMessage}</p>}
       {deviceError && <p className="form-message error">{deviceError}</p>}
 
-      <nav className="rtbo-refroom-tabs" aria-label="RefRoom workspace">
-        {REFROOM_PANELS.map(panel => (
-          <button
-            className={activePanel === panel ? 'active' : ''}
-            key={panel}
-            type="button"
-            onClick={() => setActivePanel(panel)}
-          >
-            {panel}
+      <div className="rtbo-refroom-menu-row">
+        <nav className="rtbo-refroom-tabs" aria-label="RefRoom workspace">
+          {REFROOM_PANELS.map(panel => (
+            <button
+              className={activePanel === panel ? 'active' : ''}
+              key={panel}
+              type="button"
+              onClick={() => setActivePanel(panel)}
+            >
+              {panel}
+            </button>
+          ))}
+        </nav>
+        <div className="rtbo-refroom-menu-actions">
+          <button type="button" onClick={copyInvite}>Copy Invite</button>
+          <button className={roomActive ? 'danger' : ''} type="button" onClick={roomActive ? endRoom : startRoom}>
+            {roomActive ? 'End Room' : 'Start Room'}
           </button>
-        ))}
-      </nav>
+        </div>
+      </div>
 
       <div className="rtbo-refroom-stat-grid" aria-label="RefRoom status">
         {stats.map(([label, value, detail]) => (
@@ -586,11 +1397,12 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
               </div>
             </div>
 
-            <div className="rtbo-refroom-viewport" ref={viewportRef}>
+            <div className={stageClassName} ref={viewportRef} style={stageStyle}>
               {programStream ? (
-                <video ref={videoRef} autoPlay playsInline muted />
+                <video ref={videoRef} autoPlay playsInline muted className={production.backgroundBlur ? 'uses-background-blur' : ''} />
               ) : (
                 <div className="rtbo-refroom-video-placeholder">
+                  <img src={LOGO_SRC} alt="Raising The Bar Officiating logo" />
                   <span>{userInitials(user)}</span>
                   <strong>{displayName(user)}</strong>
                   <small>Start the room to enable the camera, microphone, and meeting viewport.</small>
@@ -607,6 +1419,9 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
                 </div>
               )}
               {reaction && <div className="rtbo-refroom-reaction">{reaction}</div>}
+              <button className="rtbo-refroom-fullscreen-button" type="button" onClick={toggleFullscreen}>
+                {fullscreenActive ? 'Exit Full Screen' : 'Full Screen'}
+              </button>
             </div>
 
             <div className="rtbo-refroom-control-grid" aria-label="Meeting controls">
@@ -619,10 +1434,14 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
               <button type="button" aria-pressed={participantsOpen} onClick={() => setParticipantsOpen(current => !current)}>Participants</button>
               <button type="button" aria-pressed={handRaised} onClick={() => setHandRaised(current => !current)}>{handRaised ? 'Lower Hand' : 'Raise Hand'}</button>
               <button type="button" onClick={togglePictureInPicture}>PiP</button>
-              <button type="button" onClick={toggleFullscreen}>Fullscreen</button>
+              <button type="button" onClick={toggleFullscreen}>{fullscreenActive ? 'Exit Full' : 'Full Screen'}</button>
               <button type="button" onClick={copyInvite}>Invite</button>
               <button className="danger" type="button" onClick={endRoom}>End</button>
             </div>
+            <label className="rtbo-refroom-volume-control">Volume
+              <input type="range" min="0" max="100" value={volume} onChange={event => setVolume(Number(event.target.value))} />
+              <span>{volume}%</span>
+            </label>
           </section>
 
           <aside className="rtbo-refroom-side-stack">
@@ -663,6 +1482,25 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
                   <button key={item} type="button" onClick={() => setReaction(current => current === item ? '' : item)}>{item}</button>
                 ))}
               </div>
+              <div className="rtbo-refroom-popover-wrap">
+                <button type="button" onClick={() => setReactionPickerOpen(current => !current)}>Choose Emoji</button>
+                {reactionPickerOpen && (
+                  <div className="rtbo-refroom-emoji-popover" role="menu" aria-label="Emoji reactions">
+                    {EMOJI_REACTIONS.map(item => (
+                      <button key={item} type="button" onClick={() => sendEmojiReaction(item)}>{item}</button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </section>
+
+            <section className="rtbo-refroom-panel">
+              <h4>Sources</h4>
+              <div className="rtbo-refroom-source-counts">
+                <span>{cameraFeeds.length + (localStream ? 1 : 0)} cameras</span>
+                <span>{audioFeeds.length + (localStream?.getAudioTracks?.().length ? 1 : 0)} microphones</span>
+              </div>
+              <button className="rtbo-refroom-source-button" type="button" onClick={() => setActivePanel('Production')}>Open Production Studio</button>
             </section>
           </aside>
         </div>
@@ -673,9 +1511,12 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
           <div className="rtbo-refroom-section-head">
             <div>
               <h4>Schedule RefRoom</h4>
-              <p>Create meeting rooms and start them from the same dashboard window.</p>
+              <p>Create meeting rooms, select invited members, and send invitations after the meeting has been created.</p>
             </div>
-            {editingRoomId && <button className="btn secondary dark-btn" type="button" onClick={() => { setEditingRoomId(''); setRoomForm(EMPTY_ROOM_FORM); }}>Cancel Edit</button>}
+            <div className="rtbo-refroom-form-actions">
+              {canManageMeetings && <button className="btn secondary dark-btn" type="button" onClick={loadMeetingWorkspace} disabled={loadingMeetings}>{loadingMeetings ? 'Loading...' : 'Refresh Meetings'}</button>}
+              {editingRoomId && <button className="btn secondary dark-btn" type="button" onClick={() => { setEditingRoomId(''); setRoomForm(EMPTY_ROOM_FORM); }}>Cancel Edit</button>}
+            </div>
           </div>
           <form className="rtbo-refroom-form-grid" onSubmit={saveRoom}>
             <label>Room Title<input value={roomForm.title} onChange={event => setRoomForm(current => ({ ...current, title: event.target.value }))} /></label>
@@ -683,9 +1524,40 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
             <label>Time<input type="time" value={roomForm.time} onChange={event => setRoomForm(current => ({ ...current, time: event.target.value }))} /></label>
             <label>Passcode<input value={roomForm.passcode} onChange={event => setRoomForm(current => ({ ...current, passcode: event.target.value }))} /></label>
             <label className="wide">Purpose<textarea value={roomForm.purpose} onChange={event => setRoomForm(current => ({ ...current, purpose: event.target.value }))} /></label>
+            {canManageMeetings && (
+              <section className="rtbo-refroom-invite-panel wide" aria-label="Meeting invitation recipients">
+                <div className="rtbo-refroom-section-head">
+                  <div>
+                    <h4>Member Invitations</h4>
+                    <p>Select members from the member database. Invitations are sent by email and released as in-app notifications after the meeting is saved.</p>
+                  </div>
+                  <span>{selectedInviteMembers.length} selected</span>
+                </div>
+                <label className="rtbo-refroom-member-search">Search Members
+                  <input value={memberSearch} onChange={event => setMemberSearch(event.target.value)} placeholder="Search by name, email, or role" />
+                </label>
+                <div className="rtbo-refroom-member-picker">
+                  {loadingMeetings && <p className="rtbo-empty-state">Loading members...</p>}
+                  {!loadingMeetings && filteredMembers.length === 0 && <p className="rtbo-empty-state">No members with email addresses are available for this search.</p>}
+                  {filteredMembers.map(member => {
+                    const checked = (roomForm.invited_member_ids || []).map(id => String(id)).includes(String(member.id));
+                    return (
+                      <label className="rtbo-refroom-member-option" key={member.id}>
+                        <input type="checkbox" checked={checked} onChange={() => toggleInviteMember(member.id)} />
+                        <span>{memberLabel(member)}<small>{member.email}</small></span>
+                      </label>
+                    );
+                  })}
+                </div>
+                <label className="rtbo-refroom-toggle">
+                  <span>Send invitations immediately after saving this meeting</span>
+                  <input type="checkbox" checked={Boolean(roomForm.sendInvitations)} onChange={event => setRoomForm(current => ({ ...current, sendInvitations: event.target.checked }))} />
+                </label>
+              </section>
+            )}
             <div className="rtbo-refroom-form-actions">
-              <button className="btn" type="submit">{editingRoomId ? 'Save Changes' : 'Save Meeting'}</button>
-              <button className="btn secondary dark-btn" type="button" onClick={() => setRoomForm(EMPTY_ROOM_FORM)}>Reset</button>
+              <button className="btn" type="submit" disabled={savingMeeting}>{savingMeeting ? 'Saving...' : editingRoomId ? 'Save Changes' : 'Create Meeting'}</button>
+              <button className="btn secondary dark-btn" type="button" onClick={() => setRoomForm(EMPTY_ROOM_FORM)} disabled={savingMeeting}>Reset</button>
             </div>
           </form>
 
@@ -696,9 +1568,15 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
                 <span>{formatDateTime(room.startsAt)}</span>
                 <strong>{room.title}</strong>
                 {room.purpose && <p>{room.purpose}</p>}
-                <small>Code: {room.meetingCode}{room.passcode ? ' / Passcode set' : ''}</small>
+                <small>
+                  Code: {room.meetingCode}{room.passcode ? ' / Passcode set' : ''}
+                  {Array.isArray(room.invited_member_ids) && room.invited_member_ids.length > 0 ? ` / ${room.invited_member_ids.length} invitee${room.invited_member_ids.length === 1 ? '' : 's'}` : ''}
+                  {room.invite_status ? ` / Invite status: ${String(room.invite_status).replace(/_/g, ' ')}` : ''}
+                </small>
+                {room.invite_sent_at && <small>Invites sent {formatDateTime(room.invite_sent_at)} to {room.invite_recipient_count || room.invited_member_ids?.length || 0} recipient(s).</small>}
                 <div className="rtbo-refroom-card-actions">
                   <button type="button" onClick={() => startScheduledRoom(room)}>Start</button>
+                  {canManageMeetings && <button type="button" onClick={() => sendRoomInvitations(room)} disabled={String(invitationSendingId) === String(room.id) || !Array.isArray(room.invited_member_ids) || room.invited_member_ids.length === 0}>{String(invitationSendingId) === String(room.id) ? 'Sending...' : 'Send Invitations'}</button>}
                   <button type="button" onClick={() => editRoom(room)}>Edit</button>
                   <button className="danger" type="button" onClick={() => deleteRoom(room.id)}>Delete</button>
                 </div>
@@ -710,39 +1588,170 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
 
       {activePanel === 'Participants' && (
         <section className="rtbo-refroom-panel">
-          <h4>Participant Control Center</h4>
+          <div className="rtbo-refroom-section-head">
+            <div>
+              <h4>Participant Control Center</h4>
+              <p>Manage hosts, co-hosts, waiting rooms, and breakout movement for the active RefRoom meeting.</p>
+            </div>
+            <button className="btn secondary dark-btn" type="button" onClick={moveAllWaitingToMain}>Admit Waiting Rooms</button>
+          </div>
           <div className="rtbo-refroom-table-wrap">
             <table className="rtbo-refroom-table">
-              <thead><tr><th>Name</th><th>Role</th><th>Status</th><th>Microphone</th><th>Camera</th><th>Actions</th></tr></thead>
+              <thead><tr><th>Name</th><th>Role</th><th>Location</th><th>Microphone</th><th>Camera</th><th>Actions</th></tr></thead>
               <tbody>
-                <tr>
-                  <td>{currentParticipant.name}</td>
-                  <td>{String(currentParticipant.role).replace(/_/g, ' ')}</td>
-                  <td>{currentParticipant.status}</td>
-                  <td>{currentParticipant.mic ? 'On' : 'Muted'}</td>
-                  <td>{currentParticipant.camera ? 'On' : 'Off'}</td>
-                  <td><button type="button" onClick={toggleMic}>{currentParticipant.mic ? 'Mute' : 'Unmute'}</button></td>
-                </tr>
+                {refroomParticipants.map(participant => (
+                  <tr key={participant.id}>
+                    <td>{participant.name}<small>{participant.email}</small></td>
+                    <td>
+                      <select value={participantRoles[participant.id] || (participant.isCurrentUser ? 'host' : participant.role || 'attendee')} onChange={event => setParticipantRole(participant.id, event.target.value)}>
+                        {PARTICIPANT_ROLES.map(role => <option key={role} value={role}>{role.replace(/_/g, ' ')}</option>)}
+                      </select>
+                    </td>
+                    <td>
+                      <select value={participantLocations[participant.id] || (participant.isCurrentUser ? 'main' : 'waiting')} onChange={event => moveParticipant(participant.id, event.target.value)}>
+                        {breakoutLocationOptions.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+                      </select>
+                    </td>
+                    <td>{participant.mic ? 'On' : 'Muted'}</td>
+                    <td>{participant.camera ? 'On' : 'Off'}</td>
+                    <td>
+                      {participant.isCurrentUser ? (
+                        <>
+                          <button type="button" onClick={toggleMic}>{participant.mic ? 'Mute' : 'Unmute'}</button>
+                          <button type="button" onClick={toggleCamera}>{participant.camera ? 'Camera Off' : 'Camera On'}</button>
+                        </>
+                      ) : (
+                        <button type="button" onClick={() => moveParticipant(participant.id, 'main')}>Move Main</button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         </section>
       )}
 
+      {activePanel === 'Breakouts' && (
+        <section className="rtbo-refroom-panel">
+          <div className="rtbo-refroom-section-head">
+            <div>
+              <h4>Breakout Sessions</h4>
+              <p>Create waiting rooms and breakout rooms, then move participants between sessions.</p>
+            </div>
+            <button className="btn secondary dark-btn" type="button" onClick={distributeToBreakouts}>Distribute Participants</button>
+          </div>
+          <form className="rtbo-refroom-chat-form" onSubmit={createBreakoutRoom}>
+            <input value={breakoutName} onChange={event => setBreakoutName(event.target.value)} placeholder="Breakout room name" />
+            <button className="btn" type="submit">Create Room</button>
+          </form>
+          <div className="rtbo-refroom-breakout-grid">
+            {breakoutRooms.length === 0 && <p className="rtbo-empty-state">No breakout rooms have been created yet.</p>}
+            {breakoutRooms.map(room => {
+              const inRoom = refroomParticipants.filter(participant => participantLocations[participant.id] === `room:${room.id}`);
+              const waiting = refroomParticipants.filter(participant => participantLocations[participant.id] === `waiting:${room.id}`);
+              return (
+                <article className="rtbo-refroom-breakout-card" key={room.id}>
+                  <div className="rtbo-refroom-section-head">
+                    <div>
+                      <h4>{room.name}</h4>
+                      <p>{inRoom.length} in room / {waiting.length} waiting</p>
+                    </div>
+                    <button className="danger" type="button" onClick={() => deleteBreakoutRoom(room.id)}>Remove</button>
+                  </div>
+                  <strong>In Room</strong>
+                  {inRoom.length === 0 && <small>No participants assigned.</small>}
+                  {inRoom.map(participant => <span className="rtbo-refroom-location-pill" key={participant.id}>{participant.name}</span>)}
+                  <strong>Waiting Room</strong>
+                  {waiting.length === 0 && <small>No participants waiting.</small>}
+                  {waiting.map(participant => <span className="rtbo-refroom-location-pill" key={participant.id}>{participant.name}</span>)}
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {activePanel === 'Surveys' && (
+        <section className="rtbo-refroom-panel">
+          <div className="rtbo-refroom-section-head">
+            <div>
+              <h4>Meeting Surveys</h4>
+              <p>Create live survey questions, publish them, and collect responses inside RefRoom.</p>
+            </div>
+          </div>
+          <form className="rtbo-refroom-form-grid" onSubmit={saveSurvey}>
+            <label>Survey Title<input value={surveyForm.title} onChange={event => setSurveyForm(current => ({ ...current, title: event.target.value }))} /></label>
+            <label>Type<select value={surveyForm.type} onChange={event => setSurveyForm(current => ({ ...current, type: event.target.value }))}>{SURVEY_TYPES.map(type => <option key={type}>{type}</option>)}</select></label>
+            <label className="wide">Question<textarea value={surveyForm.question} onChange={event => setSurveyForm(current => ({ ...current, question: event.target.value }))} /></label>
+            {surveyForm.type !== 'Short Answer' && <label className="wide">Options<textarea value={surveyForm.options} onChange={event => setSurveyForm(current => ({ ...current, options: event.target.value }))} /></label>}
+            <label className="rtbo-refroom-toggle"><span>Anonymous Responses</span><input type="checkbox" checked={Boolean(surveyForm.anonymous)} onChange={event => setSurveyForm(current => ({ ...current, anonymous: event.target.checked }))} /></label>
+            <div className="rtbo-refroom-form-actions"><button className="btn" type="submit">Save Survey</button></div>
+          </form>
+          <div className="rtbo-refroom-survey-grid">
+            {surveys.length === 0 && <p className="rtbo-empty-state">No RefRoom surveys have been created yet.</p>}
+            {surveys.map(survey => (
+              <article className="rtbo-refroom-survey-card" key={survey.id}>
+                <span>{survey.status}</span>
+                <strong>{survey.title}</strong>
+                <p>{survey.question}</p>
+                <small>{Object.keys(survey.responses || {}).length} response(s)</small>
+                {survey.status === 'published' && survey.type !== 'Short Answer' && (
+                  <div className="rtbo-refroom-survey-options">
+                    {survey.options.map(option => <button type="button" key={option} onClick={() => submitSurveyResponse(survey, option)}>{option}</button>)}
+                  </div>
+                )}
+                {survey.status === 'published' && survey.type === 'Short Answer' && (
+                  <form className="rtbo-refroom-chat-form" onSubmit={event => { event.preventDefault(); submitSurveyResponse(survey, event.currentTarget.elements.answer.value); event.currentTarget.reset(); }}>
+                    <input name="answer" placeholder="Response" />
+                    <button type="submit">Submit</button>
+                  </form>
+                )}
+                <div className="rtbo-refroom-card-actions">
+                  <button type="button" onClick={() => updateSurveyStatus(survey.id, 'published')}>Publish</button>
+                  <button type="button" onClick={() => updateSurveyStatus(survey.id, 'closed')}>Close</button>
+                  <button className="danger" type="button" onClick={() => deleteSurvey(survey.id)}>Delete</button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
       {activePanel === 'Chat' && (
         <section className="rtbo-refroom-panel">
-          <h4>Meeting Chat</h4>
+          <div className="rtbo-refroom-section-head">
+            <div>
+              <h4>Meeting Chat</h4>
+              <p>Chats are kept by meeting and can be saved to the computer at any time.</p>
+            </div>
+            <div className="rtbo-refroom-form-actions">
+              <button className="btn secondary dark-btn" type="button" onClick={saveCurrentChatToComputer}>Save Current Chat</button>
+              <button className="btn secondary dark-btn" type="button" onClick={saveAllChatsToComputer}>Save All Chats</button>
+              <button className="btn secondary dark-btn" type="button" onClick={saveAllChatsJson}>Export JSON</button>
+            </div>
+          </div>
           <div className="rtbo-refroom-chat-log">
             {messages.length === 0 && <p className="rtbo-empty-state">No chat messages yet.</p>}
             {messages.map(message => (
               <article key={message.id}>
-                <span>{message.user} / {formatDateTime(message.at)}</span>
+                <span>{message.user} / {formatDateTime(message.at)}{message.meetingTitle ? ` / ${message.meetingTitle}` : ''}</span>
                 <p>{message.message}</p>
               </article>
             ))}
           </div>
           <form className="rtbo-refroom-chat-form" onSubmit={sendMessage}>
             <input value={messageDraft} onChange={event => setMessageDraft(event.target.value)} placeholder="Type a RefRoom message..." />
+            <div className="rtbo-refroom-popover-wrap">
+              <button type="button" onClick={() => setChatEmojiPickerOpen(current => !current)}>Emoji</button>
+              {chatEmojiPickerOpen && (
+                <div className="rtbo-refroom-emoji-popover align-right" role="menu" aria-label="Message emojis">
+                  {EMOJI_REACTIONS.map(item => (
+                    <button key={item} type="button" onClick={() => addEmojiToMessage(item)}>{item}</button>
+                  ))}
+                </div>
+              )}
+            </div>
             <button className="btn" type="submit">Send</button>
           </form>
         </section>
@@ -750,7 +1759,13 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
 
       {activePanel === 'Recordings' && (
         <section className="rtbo-refroom-panel">
-          <h4>Recordings & Transcript</h4>
+          <div className="rtbo-refroom-section-head">
+            <div>
+              <h4>Recordings & Transcript</h4>
+              <p>All recordings are saved to the computer when recording stops. Meeting chats can be exported from the Chat panel.</p>
+            </div>
+            <button className="btn secondary dark-btn" type="button" onClick={saveRecordingLogToComputer}>Save Recording Log</button>
+          </div>
           <form className="rtbo-refroom-chat-form" onSubmit={saveCaption}>
             <input value={captionDraft} onChange={event => setCaptionDraft(event.target.value)} placeholder="Add caption or transcript note..." />
             <button className="btn" type="submit">Add Note</button>
@@ -766,11 +1781,130 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
               <article className="rtbo-refroom-room-card" key={item.id}>
                 <span>{formatDateTime(item.createdAt)}</span>
                 <strong>{item.filename}</strong>
-                <small>{formatClock(item.duration)} / {(item.size / 1024 / 1024).toFixed(2)} MB</small>
+                <small>{formatClock(item.duration)} / {(item.size / 1024 / 1024).toFixed(2)} MB / {item.savedToComputer ? 'Saved to computer' : 'Needs browser download permission'}</small>
+                {item.meetingTitle && <small>{item.meetingTitle} / {item.meetingCode}</small>}
+                {Array.isArray(item.cameraSources) && item.cameraSources.length > 0 && <small>Cameras: {item.cameraSources.join(', ')}</small>}
+                {Array.isArray(item.audioSources) && item.audioSources.length > 0 && <small>Microphones: {item.audioSources.join(', ')}</small>}
               </article>
             ))}
           </div>
         </section>
+      )}
+
+      {activePanel === 'Production' && (
+        <div className="rtbo-refroom-window-backdrop" role="presentation">
+        <section className="rtbo-refroom-panel rtbo-refroom-production-window" role="dialog" aria-modal="false" aria-label="Production Studio">
+          <div className="rtbo-refroom-section-head">
+            <div>
+              <h4>Production Studio</h4>
+              <p>Build a full RefRoom production setup with scenes, overlays, multi-source cameras, microphones, virtual backgrounds, and broadcast controls.</p>
+            </div>
+            <div className="rtbo-refroom-form-actions">
+              <button className="btn secondary dark-btn" type="button" onClick={() => setActivePanel('Studio')}>Open Stage</button>
+              <button className="btn secondary dark-btn" type="button" onClick={() => setActivePanel('Studio')}>Close Window</button>
+            </div>
+          </div>
+
+          <div className="rtbo-refroom-production-grid">
+            <article className="rtbo-refroom-production-card">
+              <h4>Camera Sources</h4>
+              <label>Camera
+                <select value={selectedExtraCameraDevice} onChange={event => setSelectedExtraCameraDevice(event.target.value)}>
+                  <option value="">Default camera</option>
+                  {devices.videoInputs.map((device, index) => <option key={device.deviceId || index} value={device.deviceId}>{device.label || `Camera ${index + 1}`}</option>)}
+                </select>
+              </label>
+              <button type="button" onClick={addCameraFeed}>Add Camera</button>
+              <div className="rtbo-refroom-camera-grid">
+                {cameraFeeds.length === 0 && <small>No extra cameras added.</small>}
+                {cameraFeeds.map(feed => <CameraFeedTile key={feed.id} feed={feed} onRemove={removeCameraFeed} onMakePrimary={makeCameraPrimary} />)}
+              </div>
+            </article>
+
+            <article className="rtbo-refroom-production-card">
+              <h4>Microphone Sources</h4>
+              <label>Microphone
+                <select value={selectedExtraAudioDevice} onChange={event => setSelectedExtraAudioDevice(event.target.value)}>
+                  <option value="">Default microphone</option>
+                  {devices.audioInputs.map((device, index) => <option key={device.deviceId || index} value={device.deviceId}>{device.label || `Microphone ${index + 1}`}</option>)}
+                </select>
+              </label>
+              <button type="button" onClick={addAudioFeed}>Add Microphone</button>
+              <div className="rtbo-refroom-audio-list">
+                {audioFeeds.length === 0 && <small>No extra microphones added.</small>}
+                {audioFeeds.map(feed => (
+                  <article className="rtbo-refroom-audio-row" key={feed.id}>
+                    <span>{feed.label}</span>
+                    <button type="button" onClick={() => toggleAudioFeed(feed.id)}>{feed.muted ? 'Unmute' : 'Mute'}</button>
+                    <button className="danger" type="button" onClick={() => removeAudioFeed(feed.id)}>Remove</button>
+                  </article>
+                ))}
+              </div>
+            </article>
+
+            <article className="rtbo-refroom-production-card wide">
+              <h4>Virtual Backgrounds</h4>
+              <div className="rtbo-refroom-background-grid">
+                {VIRTUAL_BACKGROUNDS.map(background => (
+                  <button
+                    className={production.backgroundMode === background.id ? 'active' : ''}
+                    key={background.id}
+                    type="button"
+                    onClick={() => selectVirtualBackground(background)}
+                  >
+                    <img src={background.value} alt="" />
+                    <span>{background.label}</span>
+                  </button>
+                ))}
+              </div>
+              <label>Choose Image<input type="file" accept="image/*" onChange={uploadCustomBackground} /></label>
+              <div className="rtbo-refroom-toggle-grid">
+                <label className="rtbo-refroom-toggle"><span>Blur Background</span><input type="checkbox" checked={Boolean(production.backgroundBlur)} onChange={event => updateProduction('backgroundBlur', event.target.checked)} /></label>
+                <label className="rtbo-refroom-toggle"><span>No Blurred Edges</span><input type="checkbox" checked={Boolean(production.cleanBackgroundEdges)} onChange={event => updateProduction('cleanBackgroundEdges', event.target.checked)} /></label>
+                <label className="rtbo-refroom-toggle"><span>Green Screen</span><input type="checkbox" checked={Boolean(production.greenScreen)} onChange={event => updateProduction('greenScreen', event.target.checked)} /></label>
+                <label className="rtbo-refroom-toggle"><span>Camera Effects</span><input type="checkbox" checked={Boolean(production.cameraEffects)} onChange={event => updateProduction('cameraEffects', event.target.checked)} /></label>
+              </div>
+            </article>
+
+            <article className="rtbo-refroom-production-card wide">
+              <h4>Broadcast Controls</h4>
+              <div className="rtbo-refroom-form-grid">
+                <label>Scene<input value={production.scene} onChange={event => updateProduction('scene', event.target.value)} /></label>
+                <label>Stream Profile<input value={production.streamProfile} onChange={event => updateProduction('streamProfile', event.target.value)} /></label>
+                <label>Monitor Mode<select value={production.monitorMode} onChange={event => updateProduction('monitorMode', event.target.value)}><option>Program + Preview</option><option>Program Only</option><option>Preview Only</option><option>Multiview</option></select></label>
+                <label>Transition<select value={production.sceneTransition} onChange={event => updateProduction('sceneTransition', event.target.value)}><option>Cut</option><option>Fade</option><option>Live Motion</option><option>Slide</option></select></label>
+                <label className="wide">Lower Third / Overlay Text<input value={production.overlayText} onChange={event => updateProduction('overlayText', event.target.value)} /></label>
+                <label className="wide">Streaming Destination<input value={production.destination} onChange={event => updateProduction('destination', event.target.value)} placeholder="RTBO, YouTube, Facebook, private stream URL" /></label>
+              </div>
+              <div className="rtbo-refroom-toggle-grid">
+                {[
+                  ['lowerThird', 'Lower Thirds'],
+                  ['brandOverlay', 'Brand Overlay'],
+                  ['commentsOverlay', 'Comments Overlay'],
+                  ['multistreaming', 'Multistreaming'],
+                  ['interviewMode', 'Interview Mode'],
+                  ['virtualCamera', 'Virtual Camera'],
+                  ['virtualMicrophone', 'Virtual Microphone'],
+                  ['isolatedRecording', 'Isolated Recording'],
+                  ['soundEffects', 'Sound Effects'],
+                  ['videoPlayback', 'Video Playback'],
+                  ['countdownTimer', 'Countdown Timer'],
+                  ['streamDeckControls', 'Stream Deck Controls'],
+                  ['profiles', 'Profiles'],
+                  ['autoFraming', 'Auto Framing'],
+                  ['noiseSuppression', 'Noise Suppression'],
+                  ['screenInterviewShare', 'Screen Interview Share']
+                ].map(([key, label]) => (
+                  <label className="rtbo-refroom-toggle" key={key}>
+                    <span>{label}</span>
+                    <input type="checkbox" checked={Boolean(production[key])} onChange={event => updateProduction(key, event.target.checked)} />
+                  </label>
+                ))}
+              </div>
+            </article>
+          </div>
+        </section>
+        </div>
       )}
 
       {activePanel === 'Settings' && (
@@ -792,11 +1926,13 @@ export default function RefRoom({ user = {}, onStatus = () => {} }) {
                 ['chat', 'Chat'],
                 ['participantsPanel', 'Participants Panel'],
                 ['autoRecord', 'Auto Record'],
+                ['saveAllRecordings', 'Always Save Recordings'],
+                ['saveMeetingChats', 'Save Meeting Chats'],
                 ['allowScreenShare', 'Screen Share']
               ].map(([key, label]) => (
                 <label className="rtbo-refroom-toggle" key={key}>
                   <span>{label}</span>
-                  <input type="checkbox" checked={Boolean(settings[key])} onChange={event => updateSetting(key, event.target.checked)} />
+                  <input type="checkbox" checked={Boolean(settings[key])} disabled={key === 'saveAllRecordings' || key === 'saveMeetingChats'} onChange={event => updateSetting(key, event.target.checked)} />
                 </label>
               ))}
             </div>

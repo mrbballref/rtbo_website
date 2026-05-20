@@ -80,6 +80,8 @@ const raceOptions = [
   ['prefer_not_to_say', 'Prefer not to say']
 ];
 
+const officialClassificationOptions = 'High School|NJCAA|NAIA|NCAA DIII|NCAA DII|NCAA DI|Pro-Am'.split('|');
+
 const stateOptions = [
   ['', 'Select state'],
   ['AL', 'Alabama'],
@@ -6501,6 +6503,7 @@ function AddMemberForm({ role = 'official', title = 'Add Official', onStatus, me
     email: '',
     phone: '',
     member_title: memberTitle,
+    official_classification: '',
     sex: '',
     race: '',
     address_line1: '',
@@ -6580,6 +6583,16 @@ function AddMemberForm({ role = 'official', title = 'Add Official', onStatus, me
           <label>Phone<input type="tel" name="phone" value={form.phone} onChange={updateMemberForm} inputMode="tel" autoComplete="tel" maxLength="14" placeholder="(xxx) xxx-xxxx" /></label>
           <PasswordField label="Temporary Password" name="password" value={form.password} onChange={updateMemberForm} autoComplete="new-password" required />
         </div>
+        {role === 'official' && (
+          <div className="grid one">
+            <label>Official Classification
+              <select name="official_classification" value={form.official_classification} onChange={updateMemberForm} required>
+                <option value="">Select official classification</option>
+                {officialClassificationOptions.map(option => <option key={option} value={option}>{option}</option>)}
+              </select>
+            </label>
+          </div>
+        )}
         {role === 'coach' && (
           <div className="grid one">
             <label>Coach Assignment
@@ -10330,7 +10343,7 @@ function MemberDirectory({ onStatus }) {
         .filter(Boolean);
     }
     const value = member.role === 'official'
-      ? classificationMap[member.id]
+      ? (classificationMap[member.id] || member.official_classification)
       : member.organization;
     return String(value || '')
       .split(',')
@@ -10356,6 +10369,7 @@ function MemberDirectory({ onStatus }) {
       city: member.city || '',
       state: member.state || '',
       zip: member.zip || '',
+      official_classification: member.official_classification || '',
       official_rank: member.official_rank ?? '',
       status: member.status === 'active' ? 'active' : 'inactive',
       password: ''
@@ -13101,7 +13115,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
 
   const refRoomPage = (
     <React.Suspense fallback={<section className="rtbo-dashboard-card rtbo-focused-page-card"><p className="rtbo-empty-state">Loading RefRoom...</p></section>}>
-      <RefRoom user={user} onStatus={setStatus} />
+      <RefRoom user={user} onStatus={setStatus} canManageMeetings={canUseAdminDashboard} />
     </React.Suspense>
   );
 
@@ -13967,10 +13981,12 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
             ].map(([title, value, detail]) => <article className="rtbo-dashboard-card" key={title}><span>{title}</span><strong>{value}</strong><p>{detail}</p></article>)}
             <article className="rtbo-dashboard-card quick-actions">
               <h3>Quick Actions</h3>
-              <button className="btn" type="button" onClick={() => openMembersSection()}>Open Members</button>
-              <button className="btn" type="button" onClick={() => openScheduleSetupSection('createGameAssignment')}>Create Game</button>
-              <button className="btn" type="button" onClick={() => openScheduleSetupSection('liveMap')}>Open Live Map</button>
-              <button className="btn" type="button" onClick={() => exportCsv('rtbo-overview-report', [['Section', 'Count'], ['Registrations', records.registrations.length], ['Payments', records.payments.length]])}>Generate Report</button>
+              <div className="quick-actions-row">
+                <button className="btn" type="button" onClick={() => openMembersSection()}>Open Members</button>
+                <button className="btn" type="button" onClick={() => openScheduleSetupSection('createGameAssignment')}>Create Game</button>
+                <button className="btn" type="button" onClick={() => openScheduleSetupSection('liveMap')}>Open Live Map</button>
+                <button className="btn" type="button" onClick={() => exportCsv('rtbo-overview-report', [['Section', 'Count'], ['Registrations', records.registrations.length], ['Payments', records.payments.length]])}>Generate Report</button>
+              </div>
             </article>
             <div className="rtbo-overview-widgets">
               <OverviewGeoWidget geo={overviewData.geo} onOpenLiveMap={() => openScheduleSetupSection('liveMap')} />

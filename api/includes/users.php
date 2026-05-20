@@ -24,6 +24,7 @@ function ensure_users_table(): void
             conferences TEXT,
             experience TEXT,
             official_rank INT NULL,
+            official_classification VARCHAR(80) NULL,
             password_hash VARCHAR(255) NOT NULL,
             profile_photo VARCHAR(255),
             status VARCHAR(50) NOT NULL DEFAULT 'active',
@@ -45,6 +46,7 @@ function ensure_users_table(): void
         'conferences' => "ALTER TABLE users ADD COLUMN conferences TEXT NULL AFTER zip",
         'experience' => "ALTER TABLE users ADD COLUMN experience TEXT NULL AFTER conferences",
         'official_rank' => "ALTER TABLE users ADD COLUMN official_rank INT NULL AFTER experience",
+        'official_classification' => "ALTER TABLE users ADD COLUMN official_classification VARCHAR(80) NULL AFTER official_rank",
     ] as $column => $sql) {
         $stmt = db()->prepare(
             "SELECT COUNT(*)
@@ -89,6 +91,7 @@ function public_auth_user(array $user): array
         'zip' => (string) ($user['zip'] ?? ''),
         'conferences' => (string) ($user['conferences'] ?? ''),
         'experience' => (string) ($user['experience'] ?? ''),
+        'official_classification' => (string) ($user['official_classification'] ?? ''),
         'photo' => $photo,
         'status' => (string) ($user['status'] ?? 'active'),
     ];

@@ -58,6 +58,19 @@ function admin_member_coach_assignments(): array
     ];
 }
 
+function admin_member_official_classifications(): array
+{
+    return [
+        'High School',
+        'NJCAA',
+        'NAIA',
+        'NCAA DIII',
+        'NCAA DII',
+        'NCAA DI',
+        'Pro-Am',
+    ];
+}
+
 function admin_member_storage_path(): string
 {
     return STORAGE_DIR . '/admin-members.json';
@@ -107,6 +120,7 @@ function admin_member_normalize(array $member): array
         'zip' => (string) ($member['zip'] ?? ''),
         'conferences' => (string) ($member['conferences'] ?? ''),
         'experience' => (string) ($member['experience'] ?? ''),
+        'official_classification' => trim((string) ($member['official_classification'] ?? $member['officialClassification'] ?? '')),
         'official_rank' => isset($member['official_rank']) && $member['official_rank'] !== '' ? max(1, min(100, (int) $member['official_rank'])) : null,
         'photo' => $photo,
         'status' => (string) ($member['status'] ?? 'active'),
@@ -194,6 +208,16 @@ function admin_member_require_valid(array $member, bool $creating): array
     if ($normalized['role'] !== 'coach') {
         $normalized['member_title'] = '';
     }
+    if ($normalized['role'] === 'official') {
+        if ($normalized['official_classification'] === '') {
+            throw new RuntimeException('Official classification is required.');
+        }
+        if (!in_array($normalized['official_classification'], admin_member_official_classifications(), true)) {
+            throw new RuntimeException('Please select a valid official classification.');
+        }
+    } else {
+        $normalized['official_classification'] = '';
+    }
     if ($normalized['role'] !== 'official' || $normalized['status'] !== 'active') {
         $normalized['official_rank'] = null;
     }
@@ -242,8 +266,8 @@ function admin_member_create(array $member): array
     }
 
     $stmt = db()->prepare(
-        "INSERT INTO users(role, member_title, first_name, last_name, email, phone, sex, race, organization, school_id, address_line1, address_line2, city, state, zip, conferences, experience, official_rank, password_hash, status)
-         VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO users(role, member_title, first_name, last_name, email, phone, sex, race, organization, school_id, address_line1, address_line2, city, state, zip, conferences, experience, official_rank, official_classification, password_hash, status)
+         VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
     );
     $stmt->execute([
         $normalized['role'],
@@ -264,6 +288,7 @@ function admin_member_create(array $member): array
         $normalized['conferences'],
         $normalized['experience'],
         $normalized['official_rank'],
+        $normalized['official_classification'],
         password_hash($password, PASSWORD_DEFAULT),
         $normalized['status'],
     ]);
@@ -328,6 +353,7 @@ function admin_member_update(int $id, array $member): array
         $normalized['conferences'],
         $normalized['experience'],
         $normalized['official_rank'],
+        $normalized['official_classification'],
         $normalized['status'],
     ];
     $passwordSql = '';
@@ -339,7 +365,7 @@ function admin_member_update(int $id, array $member): array
 
     $stmt = db()->prepare(
         "UPDATE users
-         SET role = ?, member_title = ?, first_name = ?, last_name = ?, email = ?, phone = ?, sex = ?, race = ?, organization = ?, school_id = ?, address_line1 = ?, address_line2 = ?, city = ?, state = ?, zip = ?, conferences = ?, experience = ?, official_rank = ?, status = ?{$passwordSql}
+         SET role = ?, member_title = ?, first_name = ?, last_name = ?, email = ?, phone = ?, sex = ?, race = ?, organization = ?, school_id = ?, address_line1 = ?, address_line2 = ?, city = ?, state = ?, zip = ?, conferences = ?, experience = ?, official_rank = ?, official_classification = ?, status = ?{$passwordSql}
          WHERE id = ?"
     );
     $stmt->execute($params);
