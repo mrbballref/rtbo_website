@@ -8728,7 +8728,7 @@ function NotificationCenter({
       )}
 
       <div className="rtbo-notification-list">
-        {notifications.length === 0 && <p className="rtbo-empty-state">No notifications are available yet.</p>}
+        {notifications.length === 0 && <p className="rtbo-empty-state">No active notifications are available. Read notifications are archived automatically.</p>}
         {notifications.map(notification => (
           <div className={`rtbo-notification-item${notification.is_read ? '' : ' unread'}`} key={notification.id}>
             <div>
@@ -13065,11 +13065,13 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   const rtbomailMessages = notifications.filter(isMessageNotification);
   const rtbomailUnreadCount = rtbomailMessages.filter(notification => !notification.is_read).length;
   const standardNotifications = notifications.filter(notification => !isMessageNotification(notification));
-  const standardUnreadNotificationCount = standardNotifications.filter(notification => !notification.is_read).length;
+  const activeNotifications = notifications.filter(notification => !notification.is_read);
+  const activeStandardNotifications = standardNotifications.filter(notification => !notification.is_read);
+  const standardUnreadNotificationCount = activeStandardNotifications.length;
 
   const officialNotificationsPage = (
       <NotificationCenter
-        notifications={standardNotifications}
+        notifications={activeStandardNotifications}
         unreadCount={standardUnreadNotificationCount}
         onMarkRead={markNotificationRead}
         onMarkAllRead={markStandardNotificationsRead}
@@ -13973,7 +13975,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
               <OverviewGeoWidget geo={overviewData.geo} onOpenLiveMap={() => openScheduleSetupSection('liveMap')} />
               <OverviewAlertsWidget overview={overviewData} />
               <NotificationCenter
-                notifications={notifications}
+                notifications={activeNotifications}
                 unreadCount={notificationUnreadCount}
                 onMarkRead={markNotificationRead}
                 onMarkAllRead={markAllNotificationsRead}
@@ -14005,7 +14007,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
 
         {canUseAdminDashboard && activeSection === 'notifications' && (
           <NotificationCenter
-            notifications={standardNotifications}
+            notifications={activeStandardNotifications}
             unreadCount={standardUnreadNotificationCount}
             onMarkRead={markNotificationRead}
             onMarkAllRead={markStandardNotificationsRead}

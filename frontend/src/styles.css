@@ -2744,13 +2744,13 @@ button.hero-scroll-link {
 .rtbo-notification-badge {
   display: inline-grid;
   place-items: center;
-  min-height: 34px;
+  min-height: 30px;
   border: 1px solid rgba(245, 130, 32, .46);
   border-radius: 999px;
-  padding: 7px 12px;
+  padding: 6px 10px;
   color: #fed7aa !important;
   background: rgba(245, 130, 32, .12);
-  font-size: .76rem;
+  font-size: .68rem;
   font-weight: 1000;
   text-transform: uppercase;
 }
@@ -2776,17 +2776,17 @@ button.hero-scroll-link {
 
 .rtbo-notification-list {
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
 
 .rtbo-notification-item {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
   border: 1px solid rgba(255, 255, 255, .11);
-  border-radius: 14px;
-  padding: 12px;
+  border-radius: 10px;
+  padding: 10px;
   background:
     linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.018)),
     rgba(0, 0, 0, .12);
@@ -2800,30 +2800,30 @@ button.hero-scroll-link {
 }
 
 .rtbo-notification-item strong {
-  margin: 0 0 5px;
+  margin: 0 0 4px;
   color: #fff;
-  font-size: .9rem;
+  font-size: .78rem;
   line-height: 1.25;
   text-transform: uppercase;
 }
 
 .rtbo-notification-item p {
-  margin: 0 0 6px;
+  margin: 0 0 5px;
   color: var(--text);
-  font-size: .86rem;
-  line-height: 1.45;
+  font-size: .76rem;
+  line-height: 1.4;
 }
 
 .rtbo-notification-item small {
   color: var(--muted);
-  font-size: .74rem;
+  font-size: .66rem;
   font-weight: 800;
 }
 
 .rtbo-notification-item .btn {
-  min-height: 34px;
-  padding: 8px 12px;
-  font-size: .72rem;
+  min-height: 30px;
+  padding: 6px 10px;
+  font-size: .66rem;
   white-space: nowrap;
 }
 
