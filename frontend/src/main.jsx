@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
 
+const RTBOBasketballAssigningContractGenerator = React.lazy(() => import('./ContractGenerator.jsx'));
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
 const RTBO_AUTH_KEY = 'rtbo_admin_auth';
 const RTBO_DASHBOARD_OPEN_KEY = 'rtbo-dashboard-open';
@@ -5319,7 +5320,8 @@ const educationSubSections = [
 ];
 
 const formsSubSections = [
-  { id: 'evaluationForm', label: 'Evaluation Form', title: 'Evaluation Form', source: 'forms' }
+  { id: 'evaluationForm', label: 'Evaluation Form', title: 'Evaluation Form', source: 'forms' },
+  { id: 'contractGenerator', label: 'Contract Generator', title: 'Contract Generator', source: 'forms' }
 ];
 
 const officialFormsSubSections = [
@@ -14175,6 +14177,12 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         )}
 
         {activeSection === 'evaluationForm' && <AdvancedOfficialsEvaluationForm user={user} />}
+
+        {canUseAdminDashboard && activeSection === 'contractGenerator' && (
+          <React.Suspense fallback={<section className="rtbo-dashboard-card rtbo-focused-page-card"><p className="rtbo-empty-state">Loading contract generator...</p></section>}>
+            <RTBOBasketballAssigningContractGenerator user={user} onStatus={setStatus} />
+          </React.Suspense>
+        )}
 
         {canUseAdminDashboard && activeSection === 'postgame' && officialPostgamePage}
 
