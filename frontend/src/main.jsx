@@ -4,6 +4,8 @@ import './styles.css';
 
 const RTBOBasketballAssigningContractGenerator = React.lazy(() => import('./ContractGenerator.jsx'));
 const RTBOAcademy = React.lazy(() => import('./RTBOAcademy.jsx'));
+const EducationLanding = React.lazy(() => import('./EducationLanding.jsx'));
+const TestCenterPage = React.lazy(() => import('./TestCenterPage.jsx'));
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
 const RTBO_AUTH_KEY = 'rtbo_admin_auth';
 const RTBO_DASHBOARD_OPEN_KEY = 'rtbo-dashboard-open';
@@ -12869,7 +12871,6 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
       return true;
     });
   }, [observerFormHistory, officialProfileData.observerForms]);
-  const officialFilmClips = officialProfileData.filmClips || [];
   const officialEvaluations = officialProfileData.evaluations || [];
   const officialSchoolRanking = officialProfileData.schoolRanking || null;
   const unavailableDates = officialAvailability.filter(item => String(item.status || '').toLowerCase().includes('unavailable'));
@@ -13654,27 +13655,13 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   );
 
   const officialEducationPage = (
-          <article className="rtbo-dashboard-card rtbo-official-widget-page rtbo-work-education rtbo-focused-page-card">
-            <div className="rtbo-dashboard-card-head">
-              <div>
-                <p className="eyebrow">Education</p>
-                <h3>Film, Clips & Training</h3>
-                <p>Access assigned game film, review clips, and education resources.</p>
-              </div>
-            </div>
-            {officialFilmClips.length === 0 && <p className="rtbo-empty-state">No game film or review clips are available yet.</p>}
-            {officialFilmClips.length > 0 && (
-              <div className="rtbo-official-record-list">
-                {officialFilmClips.map(clip => (
-                  <article key={`clip-${clip.id || clip.created_at}`}>
-                    <div><strong>{clip.title || 'Game Film'}</strong><span>{formatGameDate(String(clip.created_at).slice(0, 10))}</span></div>
-                    <p>{clip.notes || 'No clip notes available.'}</p>
-                    {clip.file_url && <a href={clip.file_url} target="_blank" rel="noreferrer">Open Film</a>}
-                  </article>
-                ))}
-              </div>
-            )}
-          </article>
+    <React.Suspense fallback={null}>
+      <EducationLanding
+        canUseAdminDashboard={canUseAdminDashboard}
+        onOpenAcademy={() => openEducationSubSection('rtboAcademy')}
+        onOpenTests={() => openEducationSubSection('tests')}
+      />
+    </React.Suspense>
   );
 
   const officialPortalPages = {
@@ -14068,7 +14055,17 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
 
         {activeSection === 'organizations' && <OrganizationClassifications onStatus={setStatus} />}
 
-        {canUseAdminDashboard && ['registrations', 'contacts', 'newsletters', 'education'].includes(activeSection) && (
+        {canUseAdminDashboard && activeSection === 'education' && (
+          <React.Suspense fallback={null}>
+            <EducationLanding
+              canUseAdminDashboard={canUseAdminDashboard}
+              onOpenAcademy={() => openEducationSubSection('rtboAcademy')}
+              onOpenTests={() => openEducationSubSection('tests')}
+            />
+          </React.Suspense>
+        )}
+
+        {canUseAdminDashboard && ['registrations', 'contacts', 'newsletters'].includes(activeSection) && (
           <CrudPanel
             title={sectionLabels.get(activeSection)}
             description="Review server-loaded records and use local planning actions for launch testing."
@@ -14146,45 +14143,19 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         {!canUseAdminDashboard && activeSection !== 'rtboAcademy' && profileBlock}
 
         {activeSection === 'tests' && (
-          <section className="rtbo-dashboard-card rtbo-test-center-page">
-            <div className="rtbo-dashboard-card-head">
-              <div>
-                <p className="eyebrow">Dashboard QA</p>
-                <h3>RTBO Launch Test Center</h3>
-                <p>Run readiness checks before going live and jump directly into any dashboard area that needs attention.</p>
-              </div>
-              <div className="rtbo-form-toolbar">
-                <button className="btn" type="button" onClick={runDashboardTest}>Run Full Dashboard Test</button>
-                <button className="btn secondary dark-btn" type="button" onClick={runProfileTest}>Run Profile Test</button>
-                <button className="btn secondary dark-btn" type="button" onClick={() => exportCsv('rtbo-launch-readiness', [
-                  ['Check', 'Status', 'Detail'],
-                  ...dashboardReadinessChecks.map(check => [check.label, check.status, check.detail])
-                ])}>Export CSV</button>
-              </div>
-            </div>
-            <div className="rtbo-test-summary">
-              <article><span>Passed</span><strong>{dashboardReadinessSummary.passed}</strong><small>Live checks already in good shape.</small></article>
-              <article><span>Ready</span><strong>{dashboardReadinessSummary.ready}</strong><small>Available but waiting on more records.</small></article>
-              <article><span>Review</span><strong>{dashboardReadinessSummary.review}</strong><small>Needs admin attention before launch.</small></article>
-            </div>
-            <div className="rtbo-test-grid">
-              {(testResults.length ? testResults : dashboardReadinessChecks).map(result => (
-                <article className={`status-${String(result.status || 'ready').toLowerCase().replace(/\s+/g, '-')}`} key={result.label}>
-                  <div className="rtbo-test-card-head">
-                    <span>{result.group || 'Dashboard'}</span>
-                    <b>{result.status}</b>
-                  </div>
-                  <strong>{result.label}</strong>
-                  <span>{result.detail}</span>
-                  {result.actionSection && (
-                    <button className="btn secondary dark-btn" type="button" onClick={() => openReadinessTarget(result.actionSection)}>
-                      Open {result.actionLabel || sectionLabels.get(result.actionSection) || 'Section'}
-                    </button>
-                  )}
-                </article>
-              ))}
-            </div>
-          </section>
+          <React.Suspense fallback={null}>
+            <TestCenterPage
+              testResults={testResults}
+              dashboardReadinessChecks={dashboardReadinessChecks}
+              dashboardReadinessSummary={dashboardReadinessSummary}
+              runDashboardTest={runDashboardTest}
+              runProfileTest={runProfileTest}
+              exportCsv={exportCsv}
+              openReadinessTarget={openReadinessTarget}
+              sectionLabels={sectionLabels}
+              onOpenAcademy={() => openEducationSubSection('rtboAcademy')}
+            />
+          </React.Suspense>
         )}
 
         {activeSection === 'evaluationForm' && <AdvancedOfficialsEvaluationForm user={user} />}

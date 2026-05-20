@@ -17,6 +17,81 @@ function plainText(lines = []) {
   return lines.join('\n').replace(/^#+\s*/gm, '').trim();
 }
 
+const NFHS_WEEK_TOPICS = [
+  'Orientation and Professional Identity',
+  'NFHS Rules Architecture and Definitions',
+  'Pre-Game Duties and Crew Preparation',
+  'Primary Coverage and Court Positioning',
+  'Freedom of Movement and Contact Judgment',
+  'Fouls, Penalties, Signals, and Reporting',
+  'Game Administration, Timing, and Substitutions',
+  'Coach, Player, and Table Communication',
+  'Two-Person Mechanics Laboratory',
+  'Three-Person Mechanics Laboratory',
+  'Film Study and Live Practicum Evaluation',
+  'Postseason Readiness and Capstone Board'
+];
+
+const NFHS_DAILY_FLOW = [
+  ['Professor Lecture and Socratic Seminar', 'Study the rule foundation, officiating philosophy, and professional expectations for the weekly NFHS topic.'],
+  ['Rules, Case Plays, and Written Reasoning', 'Complete written case plays and defend the ruling, restart, penalty, signal, and crew responsibility.'],
+  ['Court Laboratory and Mechanics Performance', 'Demonstrate positioning, coverage, signals, rotation discipline, and table reporting on the floor.'],
+  ['Film Laboratory and Self-Scout Analysis', 'Review video clips, identify primary coverage, explain judgment, and write correction points.'],
+  ['Role-Play, Communication, and Oral Defense', 'Practice coach, player, partner, scorer, timer, and administrator communication under pressure.'],
+  ['Live Practicum, Scrimmage, or Livestream Observation', 'Apply the weekly topic in a live or simulated environment with evaluator notes.'],
+  ['Reflection, Remediation, Mentor Conference, and Advancement Record', 'Submit the weekly journal, mentor review, remediation plan, and advancement evidence.']
+];
+
+function buildNfhsTrack() {
+  return {
+    id: 'nfhs',
+    title: 'NFHS',
+    path: 'Certificate in High School Basketball Officiating - NFHS Track',
+    level: 'High School Foundation / NFHS Rules',
+    raw: [],
+    weeks: NFHS_WEEK_TOPICS.map((topic, topicIndex) => {
+      const week = topicIndex + 1;
+      return {
+        id: `nfhs-week-${week}`,
+        month: Math.ceil(week / 4),
+        week,
+        title: topic,
+        content: [
+          `NFHS Week ${week} builds high school basketball officiating skill through classroom teaching, written testing, mechanics performance, film review, role-play, live practicum, and mentor feedback.`,
+          `Students must connect ${topic} to safety, fairness, pace of play, game administration, professional communication, and assignment readiness.`
+        ],
+        days: NFHS_DAILY_FLOW.map(([title, description], dayIndex) => {
+          const day = dayIndex + 1;
+          return {
+            id: `nfhs-week-${week}-day-${day}`,
+            week,
+            day,
+            title,
+            content: [
+              description,
+              `The official must apply ${topic} using NFHS rule language, high school mechanics, correct signals, clear reporting, and calm game management.`
+            ],
+            sections: [
+              {
+                title: 'Student Performance Requirement',
+                content: [
+                  `Complete the assigned NFHS task for ${topic}, submit written evidence, and show improvement through a measurable score, rubric, film note, or mentor approval.`
+                ]
+              },
+              {
+                title: 'Assessment Standard',
+                content: [
+                  'Passing work must identify the correct rule or mechanic, explain the decision professionally, and describe the expected restart, penalty, report, or crew adjustment when applicable.'
+                ]
+              }
+            ]
+          };
+        })
+      };
+    })
+  };
+}
+
 function splitCourse(markdown = '') {
   const lines = markdown.split(/\r?\n/);
   const tracks = [];
@@ -104,7 +179,8 @@ function splitCourse(markdown = '') {
     addLine(line);
   }
 
-  return tracks.filter(track => track.weeks.length || track.raw.length);
+  const parsedTracks = tracks.filter(track => track.weeks.length || track.raw.length);
+  return parsedTracks.some(track => track.id === 'nfhs') ? parsedTracks : [buildNfhsTrack(), ...parsedTracks];
 }
 
 function useLocalJson(key, initialValue) {
