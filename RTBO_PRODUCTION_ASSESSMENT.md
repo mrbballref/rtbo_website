@@ -27,7 +27,7 @@ RTBO is ready for Hostinger deployment as the public website, registration syste
 - Updated payment configuration messaging so live setup correctly points to `api/.env`.
 - Added a repeatable RTBO package builder to avoid stale deployment files.
 - Regenerated the deployment zip from the current React production build and PHP API.
-- Excluded generated session files and smoke-test PDFs from the deployment package.
+- Excluded generated session files and runtime PDFs from the deployment package.
 - Added a full Hostinger, Stripe, and PayPal go-live guide with annotated screenshots.
 - Quarantined legacy RTBO deployable folders and old RTBO zip artifacts outside the active workspace.
 - Moved generated package staging into `.build-artifacts/` so the workspace root no longer contains a second deployable RTBO folder.

@@ -3210,7 +3210,7 @@ function AccountModal({ mode = 'login', resetToken = '', onClose, onLogin, onRes
           <form className="form rtbo-login-form" onSubmit={submitCreateAccount}>
             <div className="grid two"><label>First Name<input name="first_name" value={account.first_name} onChange={updateAccount} required /></label><label>Last Name<input name="last_name" value={account.last_name} onChange={updateAccount} required /></label></div>
             <label>Email<input type="email" name="email" value={account.email} onChange={updateAccount} required /></label>
-            <label>Phone<input type="tel" name="phone" value={account.phone} onChange={updateAccount} inputMode="tel" autoComplete="tel" maxLength="14" placeholder="(501) 555-1775" /></label>
+            <label>Phone<input type="tel" name="phone" value={account.phone} onChange={updateAccount} inputMode="tel" autoComplete="tel" maxLength="14" placeholder="(xxx) xxx-xxxx" /></label>
             <PasswordField label="Password" name="password" value={account.password} onChange={updateAccount} minLength="10" autoComplete="new-password" required />
             {status && <p className="form-message">{status}</p>}
             <div className="button-row">
@@ -5278,17 +5278,17 @@ const settingsHighSchoolMemberSections = [
 ];
 
 const settingsHighSchoolTeamSections = [
-  { id: 'settingsHighSchoolAddTeamBoysVarsity', type: 'team', title: 'Add Team (Boys Varsity)', group: 'High School', teamNamePlaceholder: 'Example: Conway Boys Varsity' },
-  { id: 'settingsHighSchoolAddTeamGirlsVarsity', type: 'team', title: 'Add Team (Girls Varsity)', group: 'High School', teamNamePlaceholder: 'Example: Conway Girls Varsity' },
-  { id: 'settingsHighSchoolAddTeamJvBoys', type: 'team', title: 'Add Team (JV Boys)', group: 'High School', teamNamePlaceholder: 'Example: Conway JV Boys' },
-  { id: 'settingsHighSchoolAddTeamJvGirls', type: 'team', title: 'Add Team (JV Girls)', group: 'High School', teamNamePlaceholder: 'Example: Conway JV Girls' },
-  { id: 'settingsHighSchoolAddTeamJrHighBoys', type: 'team', title: 'Add Team (Jr. High Boys)', group: 'High School', teamNamePlaceholder: 'Example: Conway Jr. High Boys' },
-  { id: 'settingsHighSchoolAddTeamJrHighGirls', type: 'team', title: 'Add Team (Jr. High Girls)', group: 'High School', teamNamePlaceholder: 'Example: Conway Jr. High Girls' }
+  { id: 'settingsHighSchoolAddTeamBoysVarsity', type: 'team', title: 'Add Team (Boys Varsity)', group: 'High School', teamNamePlaceholder: 'Team name' },
+  { id: 'settingsHighSchoolAddTeamGirlsVarsity', type: 'team', title: 'Add Team (Girls Varsity)', group: 'High School', teamNamePlaceholder: 'Team name' },
+  { id: 'settingsHighSchoolAddTeamJvBoys', type: 'team', title: 'Add Team (JV Boys)', group: 'High School', teamNamePlaceholder: 'Team name' },
+  { id: 'settingsHighSchoolAddTeamJvGirls', type: 'team', title: 'Add Team (JV Girls)', group: 'High School', teamNamePlaceholder: 'Team name' },
+  { id: 'settingsHighSchoolAddTeamJrHighBoys', type: 'team', title: 'Add Team (Jr. High Boys)', group: 'High School', teamNamePlaceholder: 'Team name' },
+  { id: 'settingsHighSchoolAddTeamJrHighGirls', type: 'team', title: 'Add Team (Jr. High Girls)', group: 'High School', teamNamePlaceholder: 'Team name' }
 ];
 
 const settingsSchoolFormSections = [
   { id: 'settingsAddSchool', type: 'school', title: 'Add School', group: 'School Form' },
-  { id: 'settingsAddTeam', type: 'team', title: 'Add Team', group: 'School Form', teamNamePlaceholder: 'Example: Conway Varsity Boys' }
+  { id: 'settingsAddTeam', type: 'team', title: 'Add Team', group: 'School Form', teamNamePlaceholder: 'Team name' }
 ];
 
 const settingsEventCenterSections = [
@@ -6576,7 +6576,7 @@ function AddMemberForm({ role = 'official', title = 'Add Official', onStatus, me
           <label>Email<input type="email" name="email" value={form.email} onChange={updateMemberForm} required /></label>
         </div>
         <div className="grid two">
-          <label>Phone<input type="tel" name="phone" value={form.phone} onChange={updateMemberForm} inputMode="tel" autoComplete="tel" maxLength="14" placeholder="(501) 555-1775" /></label>
+          <label>Phone<input type="tel" name="phone" value={form.phone} onChange={updateMemberForm} inputMode="tel" autoComplete="tel" maxLength="14" placeholder="(xxx) xxx-xxxx" /></label>
           <PasswordField label="Temporary Password" name="password" value={form.password} onChange={updateMemberForm} autoComplete="new-password" required />
         </div>
         {role === 'coach' && (
@@ -6709,7 +6709,7 @@ function AddVenueForm({ onStatus, recordType = 'school', title = 'Add School', w
         <div className="grid three">
           <label>Zip<input name="zip" value={form.zip} onChange={updateVenueForm} /></label>
           <label>Number of Courts<input type="number" name="courts" min="1" value={form.courts} onChange={updateVenueForm} /></label>
-          <label>Athletic / Venue Website URL<input type="url" name="athletic_website_url" value={form.athletic_website_url} onChange={updateVenueForm} placeholder="https://schoolathletics.com" /></label>
+          <label>Athletic / Venue Website URL<input type="url" name="athletic_website_url" value={form.athletic_website_url} onChange={updateVenueForm} placeholder="https://..." /></label>
         </div>
         <div className="grid two">
           <label>Logo URL<input type="url" name="logo_url" value={form.logo_url} onChange={updateVenueForm} placeholder="Leave blank to scrape from website" /></label>
@@ -6724,7 +6724,7 @@ function AddVenueForm({ onStatus, recordType = 'school', title = 'Add School', w
   );
 }
 
-function AddTeamForm({ onStatus, title = 'Add Team', teamNamePlaceholder = 'Example: Conway Varsity Boys', workflowGroup = 'Settings' }) {
+function AddTeamForm({ onStatus, title = 'Add Team', teamNamePlaceholder = 'Team name', workflowGroup = 'Settings' }) {
   const emptyTeam = {
     record_type: 'team',
     school_id: '',
@@ -6822,10 +6822,10 @@ function AddTeamForm({ onStatus, title = 'Add Team', teamNamePlaceholder = 'Exam
         <div className="grid three">
           <label>Head Coach Name<input name="head_coach_name" value={form.head_coach_name} onChange={updateTeamForm} /></label>
           <label>Head Coach Email<input type="email" name="head_coach_email" value={form.head_coach_email} onChange={updateTeamForm} /></label>
-          <label>Head Coach Phone<input type="tel" name="head_coach_phone" value={form.head_coach_phone} onChange={updateTeamForm} inputMode="tel" autoComplete="tel" maxLength="14" placeholder="(501) 555-1775" /></label>
+          <label>Head Coach Phone<input type="tel" name="head_coach_phone" value={form.head_coach_phone} onChange={updateTeamForm} inputMode="tel" autoComplete="tel" maxLength="14" placeholder="(xxx) xxx-xxxx" /></label>
         </div>
         <div className="grid two">
-          <label>Athletic Website URL<input type="url" name="athletic_website_url" value={form.athletic_website_url} onChange={updateTeamForm} placeholder="https://schoolathletics.com/team" /></label>
+          <label>Athletic Website URL<input type="url" name="athletic_website_url" value={form.athletic_website_url} onChange={updateTeamForm} placeholder="https://..." /></label>
           <label>Team Logo URL<input type="url" name="logo_url" value={form.logo_url} onChange={updateTeamForm} placeholder="Leave blank to scrape from athletic website" /></label>
         </div>
         <div className="rtbo-member-actions">
@@ -6973,7 +6973,7 @@ function SchedulesOverview({ onStatus, onOpenSection, onOpenMembers }) {
             <div className="grid three">
               <label>Head Coach Name<input name="head_coach_name" value={editForm.head_coach_name || ''} onChange={updateEditScheduleRecord} /></label>
               <label>Head Coach Email<input type="email" name="head_coach_email" value={editForm.head_coach_email || ''} onChange={updateEditScheduleRecord} /></label>
-              <label>Head Coach Phone<input type="tel" name="head_coach_phone" value={editForm.head_coach_phone || ''} onChange={updateEditScheduleRecord} inputMode="tel" autoComplete="tel" maxLength="14" placeholder="(501) 555-1775" /></label>
+              <label>Head Coach Phone<input type="tel" name="head_coach_phone" value={editForm.head_coach_phone || ''} onChange={updateEditScheduleRecord} inputMode="tel" autoComplete="tel" maxLength="14" placeholder="(xxx) xxx-xxxx" /></label>
             </div>
             <div className="grid two">
               <label>Athletic Website URL<input type="url" name="athletic_website_url" value={editForm.athletic_website_url || ''} onChange={updateEditScheduleRecord} /></label>
@@ -7873,7 +7873,7 @@ function GameAssignmentForm({ mode = 'create', onStatus }) {
             </div>
           </div>
           <div className="grid one">
-            <label>Fee Per Official<input type="number" min="0" step="0.01" name="fee_per_official" value={form.fee_per_official} onChange={updateGameForm} placeholder="Example: 75.00" /></label>
+            <label>Fee Per Official<input type="number" min="0" step="0.01" name="fee_per_official" value={form.fee_per_official} onChange={updateGameForm} placeholder="Fee amount" /></label>
           </div>
           {selectedVenue && (
             <div className="rtbo-game-venue-preview">
@@ -8103,7 +8103,7 @@ function AssignmentResponsePanel({ game, reason = '', saving = false, onReasonCh
         <textarea
           value={reason}
           onChange={(event) => onReasonChange?.(event.target.value)}
-          placeholder="Example: Work conflict, family commitment, already assigned another game."
+          placeholder="Reason for declining the assignment."
         />
       </label>
     </div>
@@ -8209,7 +8209,7 @@ function MemberProfilePage({ member, classifications = [], profileData = null, p
             <label>State<StateSelect value={member.state || ''} disabled /></label>
             <label>Zip<input value={member.zip || ''} readOnly /></label>
           </div>
-          <label>High School / College Conferences Worked<textarea value={member.conferences || ''} readOnly placeholder="Example: AAA, Great American Conference, Sooner Athletic Conference" /></label>
+          <label>High School / College Conferences Worked<textarea value={member.conferences || ''} readOnly placeholder="Conferences will appear here." /></label>
           <label>Level of Experience / Notes<textarea value={member.experience || ''} readOnly placeholder={`${memberRoleLabel}${isOfficial && active && member.official_rank ? ` / Rank #${member.official_rank}` : ''}`} /></label>
           {member.role === 'coach' && <label>Coach Assignment<input value={memberTitleLabel} readOnly placeholder="Coach assignment not entered" /></label>}
           <label>Competition Classification<textarea value={classifications.join(', ')} readOnly placeholder="Competition classifications will appear here." /></label>
@@ -8719,7 +8719,7 @@ function NotificationCenter({
                 <option value="admins">Admins</option>
               </select>
             </label>
-            <label>Message Title<input name="title" value={releaseMessage.title} onChange={onReleaseMessageChange} placeholder="Example: Schedule update released" /></label>
+            <label>Message Title<input name="title" value={releaseMessage.title} onChange={onReleaseMessageChange} placeholder="Message title" /></label>
             <div className="rtbo-notification-release-action">
               <button className="btn" type="submit">Release Message</button>
             </div>
@@ -10620,7 +10620,7 @@ function MemberDirectory({ onStatus }) {
                 <label>Email<input type="email" name="email" value={editForm.email || ''} onChange={updateEditMember} required /></label>
               </div>
               <div className="grid three">
-                <label>Phone<input type="tel" name="phone" value={editForm.phone || ''} onChange={updateEditMember} inputMode="tel" autoComplete="tel" maxLength="14" placeholder="(501) 555-1775" /></label>
+                <label>Phone<input type="tel" name="phone" value={editForm.phone || ''} onChange={updateEditMember} inputMode="tel" autoComplete="tel" maxLength="14" placeholder="(xxx) xxx-xxxx" /></label>
                 <label>Sex<select name="sex" value={editForm.sex || ''} onChange={updateEditMember}>{sexOptions.map(([value, label]) => <option key={value || 'empty'} value={value}>{label}</option>)}</select></label>
                 <label>Race<select name="race" value={editForm.race || ''} onChange={updateEditMember}>{raceOptions.map(([value, label]) => <option key={value || 'empty'} value={value}>{label}</option>)}</select></label>
               </div>
@@ -10668,7 +10668,7 @@ function MemberDirectory({ onStatus }) {
                   <div className="grid three">
                     <label>Head Coach Name<input name="head_coach_name" value={scheduleEditForm.head_coach_name || ''} onChange={updateScheduleEditRecord} /></label>
                     <label>Head Coach Email<input type="email" name="head_coach_email" value={scheduleEditForm.head_coach_email || ''} onChange={updateScheduleEditRecord} /></label>
-                    <label>Head Coach Phone<input type="tel" name="head_coach_phone" value={scheduleEditForm.head_coach_phone || ''} onChange={updateScheduleEditRecord} inputMode="tel" autoComplete="tel" maxLength="14" placeholder="(501) 555-1775" /></label>
+                    <label>Head Coach Phone<input type="tel" name="head_coach_phone" value={scheduleEditForm.head_coach_phone || ''} onChange={updateScheduleEditRecord} inputMode="tel" autoComplete="tel" maxLength="14" placeholder="(xxx) xxx-xxxx" /></label>
                   </div>
                   <div className="grid two">
                     <label>Athletic Website URL<input type="url" name="athletic_website_url" value={scheduleEditForm.athletic_website_url || ''} onChange={updateScheduleEditRecord} /></label>
@@ -11167,7 +11167,6 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   const [assignmentResponseState, setAssignmentResponseState] = useState({});
   const [assignmentDeclineReasons, setAssignmentDeclineReasons] = useState({});
   const [passwordStatus, setPasswordStatus] = useState('');
-  const [testResults, setTestResults] = useState([]);
   const [records, setRecords] = useState({
     registrations: [],
     contacts: [],
@@ -12239,15 +12238,15 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   }
 
   function runProfileTest() {
-    const stamp = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-    setProfile(current => ({
-      ...current,
-      phone: formatPhoneNumber('5015551775'),
-      address: current.address || 'Little Rock, AR',
-      conferences: current.conferences || 'High School, NJCAA, NAIA, NCAA, Pro-Am',
-      experience: `Profile update test passed at ${stamp}.`
-    }));
-    setStatus('Profile page test passed. Contact, address, conferences, and experience changed safely.');
+    const missing = [
+      ['email', profile.email],
+      ['phone', profile.phone],
+      ['address', profile.addressLine1 || profile.address],
+      ['city', profile.city]
+    ].filter(([, value]) => !String(value || '').trim()).map(([label]) => label);
+    setStatus(missing.length
+      ? `Profile readiness check needs ${missing.join(', ')}.`
+      : 'Profile readiness check passed with live profile details.');
   }
 
   function updateAssignmentDeclineReason(game, value) {
@@ -12685,23 +12684,27 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   const dashboardReadinessChecks = useMemo(() => {
     const counts = overviewData.counts || emptyOverviewData.counts;
     const hasProfileContact = Boolean(profile.email && (profile.phone || profile.addressLine1 || profile.city));
-    const scheduleDetail = `${counts.scheduled_events || 0} scheduled event${Number(counts.scheduled_events || 0) === 1 ? '' : 's'}, ${counts.todays_games || 0} game${Number(counts.todays_games || 0) === 1 ? '' : 's'} today.`;
     const formsToolsVisible = !hiddenFormsItems.includes('evaluationForm');
+    const hasRegistrationRecords = records.registrations.length > 0;
+    const hasFormRecords = records.reports.length > 0;
+    const hasScheduledEvents = Number(counts.scheduled_events || 0) > 0;
+    const hasUnacceptedAssignments = Number(counts.unaccepted_assignments || 0) > 0;
+    const hasTrackedOfficials = Number(counts.tracked_officials || 0) > 0;
 
     return [
       {
         group: 'Access',
         label: 'Admin Session',
         status: canUseAdminDashboard ? 'Passed' : 'Review',
-        detail: canUseAdminDashboard ? `${user.name || user.email} can open the admin command center.` : 'This account is using the official portal, not the admin dashboard.',
+        detail: canUseAdminDashboard ? 'Current account can open the admin command center.' : 'This account is using the official portal, not the admin dashboard.',
         actionSection: 'profile',
         actionLabel: 'Profile'
       },
       {
         group: 'Records',
         label: 'Registration Pipeline',
-        status: records.registrations.length > 0 ? 'Passed' : 'Ready',
-        detail: `${records.registrations.length} school application${records.registrations.length === 1 ? '' : 's'} loaded for review.`,
+        status: hasRegistrationRecords ? 'Passed' : 'Ready',
+        detail: hasRegistrationRecords ? 'Live registration records are loaded for review.' : 'No live registration records are loaded in this session.',
         actionSection: 'registrations',
         actionLabel: 'Registrations'
       },
@@ -12709,31 +12712,31 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         group: 'Members',
         label: 'Member Management',
         status: settingsMemberWorkflowSections.length > 0 ? 'Passed' : 'Review',
-        detail: `${settingsMemberWorkflowSections.length} member creation workflow${settingsMemberWorkflowSections.length === 1 ? '' : 's'} available from Settings. Members stays directory-only.`,
+        detail: 'Member creation tools are managed from Settings. Members stays directory-only.',
         actionSection: 'settings',
         actionLabel: 'Settings'
       },
       {
         group: 'Schedules',
         label: 'Schedule Coverage',
-        status: Number(counts.scheduled_events || 0) > 0 ? 'Passed' : 'Ready',
-        detail: scheduleDetail,
+        status: hasScheduledEvents ? 'Passed' : 'Ready',
+        detail: hasScheduledEvents ? 'Live schedule records are available from the master schedule.' : 'No live schedule records are loaded in this session.',
         actionSection: 'masterSchedule',
         actionLabel: 'Master Schedule'
       },
       {
         group: 'Schedules',
         label: 'Crew Responses',
-        status: Number(counts.unaccepted_assignments || 0) > 0 ? 'Review' : 'Passed',
-        detail: `${counts.unaccepted_assignments || 0} published assignment${Number(counts.unaccepted_assignments || 0) === 1 ? '' : 's'} still waiting on official response.`,
+        status: hasUnacceptedAssignments ? 'Review' : 'Passed',
+        detail: hasUnacceptedAssignments ? 'Live assignments are waiting on official response.' : 'No live assignment response issues are loaded in this session.',
         actionSection: 'masterSchedule',
         actionLabel: 'Assignments'
       },
       {
         group: 'Live Ops',
         label: 'Location Tracking',
-        status: Number(counts.tracked_officials || 0) > 0 ? 'Passed' : 'Ready',
-        detail: `${counts.tracked_officials || 0} official${Number(counts.tracked_officials || 0) === 1 ? '' : 's'} currently sharing live location.`,
+        status: hasTrackedOfficials ? 'Passed' : 'Ready',
+        detail: hasTrackedOfficials ? 'Live location sharing is active for one or more officials.' : 'No live location-sharing records are loaded in this session.',
         actionSection: 'liveMap',
         actionLabel: 'Live Map'
       },
@@ -12741,7 +12744,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         group: 'Messaging',
         label: 'Notifications',
         status: notificationUnreadCount > 0 ? 'Review' : 'Passed',
-        detail: `${notificationUnreadCount} unread dashboard notification${notificationUnreadCount === 1 ? '' : 's'} waiting.`,
+        detail: notificationUnreadCount > 0 ? 'Unread dashboard notifications need review.' : 'No unread dashboard notifications are waiting.',
         actionSection: 'overview',
         actionLabel: 'Notifications'
       },
@@ -12764,8 +12767,8 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
       {
         group: 'Forms',
         label: 'Forms Workspace',
-        status: records.reports.length > 0 ? 'Passed' : 'Ready',
-        detail: `${records.reports.length} form planning record${records.reports.length === 1 ? '' : 's'} saved.`,
+        status: hasFormRecords ? 'Passed' : 'Ready',
+        detail: hasFormRecords ? 'Live form records are available for review.' : 'No live form records are loaded in this session.',
         actionSection: 'reports',
         actionLabel: 'Forms'
       }
@@ -12835,19 +12838,15 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   }
 
   function runDashboardTest() {
-    const stamp = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-    const results = dashboardReadinessChecks.map(check => ({
-      ...check,
-      detail: `${check.detail} Checked at ${stamp}.`
-    }));
-    setTestResults(results);
-    setActiveSection('tests');
-    setEducationMenuOpen(true);
+    setActiveSection('settings');
+    setEducationMenuOpen(false);
     setMembersMenuOpen(false);
     setSchedulesMenuOpen(false);
     setOrganizationsMenuOpen(false);
-    setSettingsMenuOpen(false);
-    setStatus(`Full RTBO dashboard test completed: ${dashboardReadinessSummary.review} item${dashboardReadinessSummary.review === 1 ? '' : 's'} need review.`);
+    setFormsMenuOpen(false);
+    setPaymentsMenuOpen(false);
+    setSettingsMenuOpen(true);
+    setStatus(`Full RTBO dashboard test completed. ${dashboardReadinessSummary.review} item${dashboardReadinessSummary.review === 1 ? '' : 's'} need review in Settings.`);
   }
 
   const profileFullAddress = [
@@ -12948,11 +12947,11 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   const profileForm = (
     <form className="form rtbo-profile-form" onSubmit={saveProfile}>
       <div className="grid two"><label>First Name<input name="firstName" value={profile.firstName} onChange={updateProfile} /></label><label>Last Name<input name="lastName" value={profile.lastName} onChange={updateProfile} /></label></div>
-      <div className="grid two"><label>Email<input type="email" name="email" value={profile.email} onChange={updateProfile} /></label><label>Phone<input type="tel" name="phone" value={profile.phone} onChange={updateProfile} inputMode="tel" autoComplete="tel" maxLength="14" placeholder="(501) 555-1775" /></label></div>
+      <div className="grid two"><label>Email<input type="email" name="email" value={profile.email} onChange={updateProfile} /></label><label>Phone<input type="tel" name="phone" value={profile.phone} onChange={updateProfile} inputMode="tel" autoComplete="tel" maxLength="14" placeholder="(xxx) xxx-xxxx" /></label></div>
       <div className="grid two"><label>Sex<select name="sex" value={profile.sex} onChange={updateProfile}>{sexOptions.map(([value, label]) => <option key={value || 'empty'} value={value}>{label}</option>)}</select></label><label>Race<select name="race" value={profile.race} onChange={updateProfile}>{raceOptions.map(([value, label]) => <option key={value || 'empty'} value={value}>{label}</option>)}</select></label></div>
       <div className="grid two"><label>Address 1<input name="addressLine1" value={profile.addressLine1} onChange={updateProfile} /></label><label>Address 2<input name="addressLine2" value={profile.addressLine2} onChange={updateProfile} /></label></div>
       <div className="grid three"><label>City<input name="city" value={profile.city} onChange={updateProfile} /></label><label>State<StateSelect value={profile.state} onChange={updateProfile} /></label><label>Zip<input name="zip" value={profile.zip} onChange={updateProfile} /></label></div>
-      <label>High School / College Conferences Worked<textarea name="conferences" value={profile.conferences} onChange={updateProfile} placeholder="Example: AAA, Great American Conference, Sooner Athletic Conference" /></label>
+      <label>High School / College Conferences Worked<textarea name="conferences" value={profile.conferences} onChange={updateProfile} placeholder="Enter conferences worked" /></label>
       <label>Level of Experience / Notes<textarea name="experience" value={profile.experience} onChange={updateProfile} placeholder="High School, NJCAA, NAIA, NCAA DIII, NCAA DII, NCAA DI, Pro-Am" /></label>
       <label>Profile Picture<input type="file" name="photo" accept="image/jpeg,image/png,image/webp" onChange={updateProfile} /></label>
       <div className="button-row"><button className="btn" type="submit">Save Profile</button><button className="btn secondary dark-btn" type="button" onClick={runProfileTest}>Run Profile Test</button></div>
@@ -13257,7 +13256,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
                 name="notes"
                 value={availabilityForm.notes}
                 onChange={updateAvailabilityForm}
-                placeholder={availabilityForm.mode === 'comment' ? 'Example: I may be available, but please call before assigning this date.' : 'Optional notes for the assignor'}
+                placeholder={availabilityForm.mode === 'comment' ? 'Availability comment' : 'Optional notes for the assignor'}
                 rows="4"
                 required={availabilityForm.mode === 'comment'}
               />
@@ -14145,14 +14144,6 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         {activeSection === 'tests' && (
           <React.Suspense fallback={null}>
             <TestCenterPage
-              testResults={testResults}
-              dashboardReadinessChecks={dashboardReadinessChecks}
-              dashboardReadinessSummary={dashboardReadinessSummary}
-              runDashboardTest={runDashboardTest}
-              runProfileTest={runProfileTest}
-              exportCsv={exportCsv}
-              openReadinessTarget={openReadinessTarget}
-              sectionLabels={sectionLabels}
               onOpenAcademy={() => openEducationSubSection('rtboAcademy')}
             />
           </React.Suspense>
@@ -14252,6 +14243,45 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
                 </details>
               </div>
             </div>
+
+            <section className="rtbo-settings-readiness-panel" aria-label="Dashboard readiness checks">
+              <div className="rtbo-dashboard-card-head">
+                <div>
+                  <p className="eyebrow">Launch Readiness</p>
+                  <h3>Dashboard Readiness Checks</h3>
+                  <p>Review the same dashboard checks from Settings and open the exact area that needs attention.</p>
+                </div>
+                <div className="rtbo-form-toolbar">
+                  <button className="btn secondary dark-btn" type="button" onClick={runDashboardTest}>Run Dashboard Test</button>
+                  <button className="btn secondary dark-btn" type="button" onClick={() => exportCsv('rtbo-launch-readiness', [
+                    ['Check', 'Status', 'Detail'],
+                    ...dashboardReadinessChecks.map(check => [check.label, check.status, check.detail])
+                  ])}>Export CSV</button>
+                </div>
+              </div>
+              <div className="rtbo-settings-readiness-summary">
+                <article><span>Passed</span><strong>{dashboardReadinessSummary.passed}</strong></article>
+                <article><span>Ready</span><strong>{dashboardReadinessSummary.ready}</strong></article>
+                <article><span>Review</span><strong>{dashboardReadinessSummary.review}</strong></article>
+              </div>
+              <div className="rtbo-settings-readiness-grid">
+                {dashboardReadinessChecks.map(result => (
+                  <article className={`rtbo-settings-readiness-card status-${String(result.status || 'ready').toLowerCase().replace(/\s+/g, '-')}`} key={result.label}>
+                    <div className="rtbo-settings-readiness-card-head">
+                      <span>{result.group || 'Dashboard'}</span>
+                      <b>{result.status}</b>
+                    </div>
+                    <strong>{result.label}</strong>
+                    <small>{result.detail}</small>
+                    {result.actionSection && (
+                      <button className="btn secondary dark-btn" type="button" onClick={() => openReadinessTarget(result.actionSection)}>
+                        Open {result.actionLabel || sectionLabels.get(result.actionSection) || 'Section'}
+                      </button>
+                    )}
+                  </article>
+                ))}
+              </div>
+            </section>
           </section>
         )}
 

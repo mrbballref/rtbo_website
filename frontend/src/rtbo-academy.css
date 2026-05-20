@@ -1,5 +1,22 @@
 .rtbo-academy-page {
   align-content: start;
+  color: #333;
+}
+
+.rtbo-academy-page :is(h1, h2, h3, h4, h5, h6, p, span, strong, b, small, li, label, button, input, select, textarea, a) {
+  color: #333 !important;
+  -webkit-text-fill-color: #333 !important;
+}
+
+:root[data-theme="light"] .rtbo-dashboard-shell .rtbo-academy-page :is(h1, h2, h3, h4, h5, h6, p, span, strong, b, small, li, label, button, input, select, textarea, a),
+.rtbo-dashboard-shell .rtbo-academy-page :is(h1, h2, h3, h4, h5, h6, p, span, strong, b, small, li, label, button, input, select, textarea, a) {
+  color: #333 !important;
+  -webkit-text-fill-color: #333 !important;
+}
+
+.rtbo-academy-page :is(.btn, .dark-btn, button) {
+  background: #fff !important;
+  text-shadow: none !important;
 }
 
 .rtbo-academy-topbar {

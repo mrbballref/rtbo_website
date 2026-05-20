@@ -111,7 +111,8 @@ button.hero-scroll-link {
   }
 
   .rtbo-settings-tree,
-  .rtbo-settings-workspace-grid {
+  .rtbo-settings-workspace-grid,
+  .rtbo-settings-readiness-grid {
     gap: 12px;
   }
 
@@ -140,7 +141,8 @@ button.hero-scroll-link {
   .rtbo-completed-form-widget-grid,
   .rtbo-completed-form-details,
   .rtbo-payment-workspace-grid,
-  .rtbo-payment-record-grid {
+  .rtbo-payment-record-grid,
+  .rtbo-settings-readiness-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -155,6 +157,8 @@ button.hero-scroll-link {
 
   .rtbo-settings-tree,
   .rtbo-settings-workspace-grid,
+  .rtbo-settings-readiness-summary,
+  .rtbo-settings-readiness-grid,
   .rtbo-completed-form-widget-grid,
   .rtbo-completed-form-details,
   .rtbo-payment-workspace-grid,
@@ -4706,6 +4710,114 @@ button.hero-scroll-link {
 .rtbo-settings-dropdown-grid {
   grid-template-columns: 1fr;
   padding: 0 12px 14px;
+}
+
+.rtbo-settings-readiness-panel {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.rtbo-settings-readiness-summary,
+.rtbo-settings-readiness-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.rtbo-settings-readiness-summary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.rtbo-settings-readiness-summary article,
+.rtbo-settings-readiness-card {
+  min-width: 0;
+  border: 1px solid rgba(245, 130, 32, .22);
+  border-radius: 14px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.018)),
+    rgba(12, 12, 12, .64);
+}
+
+.rtbo-settings-readiness-summary article {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 48px;
+  padding: 10px 14px;
+}
+
+.rtbo-settings-readiness-summary span,
+.rtbo-settings-readiness-card-head span {
+  color: var(--orange);
+  font-size: .66rem;
+  font-weight: 1000;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.rtbo-settings-readiness-summary strong {
+  color: #fff;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.rtbo-settings-readiness-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.rtbo-settings-readiness-card {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 12px;
+}
+
+.rtbo-settings-readiness-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.rtbo-settings-readiness-card-head b {
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 999px;
+  padding: 4px 8px;
+  color: #fbbf24;
+  background: rgba(0, 0, 0, .24);
+  font-size: .62rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.rtbo-settings-readiness-card.status-passed .rtbo-settings-readiness-card-head b {
+  color: #bbf7d0;
+}
+
+.rtbo-settings-readiness-card.status-review .rtbo-settings-readiness-card-head b {
+  color: #fde68a;
+}
+
+.rtbo-settings-readiness-card strong {
+  color: #fff;
+  font-size: .86rem;
+  line-height: 1.18;
+}
+
+.rtbo-settings-readiness-card small {
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.rtbo-settings-readiness-card .btn {
+  width: 100%;
+  min-height: 34px;
+  margin-top: 2px;
+  padding: 7px 9px;
+  font-size: .68rem;
 }
 
 .rtbo-settings-nested {
