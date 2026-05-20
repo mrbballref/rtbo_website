@@ -4,6 +4,7 @@ import './styles.css';
 
 const RTBOBasketballAssigningContractGenerator = React.lazy(() => import('./ContractGenerator.jsx'));
 const RTBOAcademy = React.lazy(() => import('./RTBOAcademy.jsx'));
+const RefRoom = React.lazy(() => import('./RefRoom.jsx'));
 const EducationLanding = React.lazy(() => import('./EducationLanding.jsx'));
 const TestCenterPage = React.lazy(() => import('./TestCenterPage.jsx'));
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
@@ -11042,6 +11043,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     'members',
     'schedules',
     'rtbomail',
+    'refroom',
     'notifications',
     'payments',
     'education',
@@ -11066,6 +11068,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     'publishedGames',
     'liveLocation',
     'rtbomail',
+    'refroom',
     'notifications',
     'messages',
     'tbaList',
@@ -11469,6 +11472,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['members', 'Members'],
     ['schedules', 'Schedules'],
     ['rtbomail', 'Rtbomail'],
+    ['refroom', 'RefRoom'],
     ['notifications', 'Notifications'],
     ['payments', 'Payments'],
     ['education', 'Education'],
@@ -11481,6 +11485,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['publishedGames', 'Game Schedule'],
     ['liveLocation', 'Live Location'],
     ['rtbomail', 'Rtbomail'],
+    ['refroom', 'RefRoom'],
     ['notifications', 'Notifications'],
     ...(releasedTbaGamesAvailable ? [['tbaList', 'TBA List']] : []),
     ['availabilityCalendar', 'Availability Calendar'],
@@ -11488,7 +11493,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['evaluation', 'Evaluations'],
     ['education', 'Education']
   ];
-  const allowedDashboardSidebarIds = new Set(['overview', 'members', 'schedules', 'rtbomail', 'notifications', 'payments', 'education', 'profile', 'reports', 'organizations']);
+  const allowedDashboardSidebarIds = new Set(['overview', 'members', 'schedules', 'rtbomail', 'refroom', 'notifications', 'payments', 'education', 'profile', 'reports', 'organizations']);
   const visibleAdminSections = adminSections.filter(([id]) => allowedDashboardSidebarIds.has(id) && !hiddenSections.includes(id));
   const visibleAddMemberSections = addMemberSections.filter(item => !hiddenMemberItems.includes(item.id));
   const visibleScheduleSetupSections = scheduleSetupSections.filter(item => !hiddenScheduleItems.includes(item.id));
@@ -11508,7 +11513,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         ? uniqueFormSubSections([...visibleOfficialFormsSubSections, ...officialFormsSubSections])
         : [];
   const completedFormsSectionIds = completedFormsWidgets.map(widget => widget.section);
-  const primaryAdminOrder = ['overview', 'members', 'schedules', 'rtbomail', 'notifications', 'payments', 'education'];
+  const primaryAdminOrder = ['overview', 'members', 'schedules', 'rtbomail', 'refroom', 'notifications', 'payments', 'education'];
   const secondaryAdminOrder = ['reports', 'organizations'];
   const sections = canUseAdminDashboard
     ? [
@@ -11558,7 +11563,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         : []
   }));
   const dashboardControlColumns = [
-    ['overview', 'payments', 'education'],
+    ['overview', 'payments', 'education', 'refroom'],
     ['members', 'reports', 'rtbomail'],
     ['schedules', 'organizations', 'notifications']
   ].map(column => column.map(id => settingsMenuItems.find(item => item.id === id)).filter(Boolean));
@@ -13094,6 +13099,12 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
       />
   );
 
+  const refRoomPage = (
+    <React.Suspense fallback={<section className="rtbo-dashboard-card rtbo-focused-page-card"><p className="rtbo-empty-state">Loading RefRoom...</p></section>}>
+      <RefRoom user={user} onStatus={setStatus} />
+    </React.Suspense>
+  );
+
   const officialTbaListPage = (
         <article className="rtbo-dashboard-card rtbo-work-tba rtbo-focused-page-card">
           <div className="rtbo-dashboard-card-head">
@@ -13669,6 +13680,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     liveLocation: officialLiveLocationPage,
     notifications: officialNotificationsPage,
     rtbomail: officialRtbomailPage,
+    refroom: refRoomPage,
     messages: officialRtbomailPage,
     tbaList: officialTbaListPage,
     availability: officialAvailabilityPage,
@@ -13993,6 +14005,8 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
             canManageAdminUsers={isSuperAdminUser(user)}
           />
         )}
+
+        {canUseAdminDashboard && activeSection === 'refroom' && refRoomPage}
 
         {canUseAdminDashboard && activeSection === 'notifications' && (
           <NotificationCenter
