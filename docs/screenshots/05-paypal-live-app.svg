@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-label="Annotated PayPal live app screenshot">
+  <rect width="1280" height="760" fill="#f5f7fb"/>
+  <rect x="0" y="0" width="1280" height="74" fill="#003087"/>
+  <text x="36" y="47" font-family="Inter,Arial" font-size="26" font-weight="800" fill="#fff">PayPal Developer Dashboard</text>
+  <rect x="58" y="116" width="1164" height="560" rx="22" fill="#fff" stroke="#d7dce8"/>
+  <text x="100" y="166" font-family="Inter,Arial" font-size="26" font-weight="900" fill="#111827">Apps &amp; Credentials</text>
+  <rect x="100" y="208" width="170" height="46" rx="999" fill="#f3f4f6"/>
+  <text x="148" y="238" font-family="Inter,Arial" font-size="16" fill="#374151">Sandbox</text>
+  <rect x="286" y="208" width="150" height="46" rx="999" fill="#f58220"/>
+  <text x="344" y="238" font-family="Inter,Arial" font-size="16" font-weight="900" fill="#111">Live</text>
+  <rect x="100" y="302" width="1038" height="240" rx="18" fill="#0b0b0b"/>
+  <text x="138" y="352" font-family="Inter,Arial" font-size="20" font-weight="900" fill="#f58220">REST API App</text>
+  <text x="138" y="402" font-family="Menlo,Consolas,monospace" font-size="17" fill="#e5e7eb">Client ID: paste into PAYPAL_CLIENT_ID</text>
+  <text x="138" y="450" font-family="Menlo,Consolas,monospace" font-size="17" fill="#e5e7eb">Secret: paste into PAYPAL_CLIENT_SECRET</text>
+  <text x="138" y="498" font-family="Menlo,Consolas,monospace" font-size="17" fill="#fbbf24">PAYPAL_MODE=live</text>
+  <rect x="100" y="590" width="462" height="52" rx="999" fill="#003087"/>
+  <text x="136" y="624" font-family="Inter,Arial" font-size="16" font-weight="900" fill="#fff">Use api-m.paypal.com in live mode</text>
+</svg>

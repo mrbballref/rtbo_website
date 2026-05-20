@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 704" role="img" aria-labelledby="title desc">
+  <title id="title">RTBO male profile placeholder</title>
+  <desc id="desc">A transparent Raising The Bar Officiating shield placeholder with a male profile silhouette.</desc>
+  <defs>
+    <linearGradient id="chrome" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f7f7f7"/>
+      <stop offset=".18" stop-color="#595959"/>
+      <stop offset=".38" stop-color="#ffffff"/>
+      <stop offset=".55" stop-color="#111111"/>
+      <stop offset=".72" stop-color="#cfcfcf"/>
+      <stop offset="1" stop-color="#2b2b2b"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="0" x2="1">
+      <stop offset="0" stop-color="#f36c13"/>
+      <stop offset=".48" stop-color="#ffb32a"/>
+      <stop offset="1" stop-color="#d94d05"/>
+    </linearGradient>
+    <linearGradient id="body" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#72777d"/>
+      <stop offset="1" stop-color="#3f454a"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#000000" flood-opacity=".5"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#softShadow)">
+    <path d="M66 42 L256 14 L446 42 L421 407 Q397 547 256 665 Q115 547 91 407 Z" fill="none" stroke="url(#chrome)" stroke-width="18" stroke-linejoin="round"/>
+    <path d="M86 61 L256 38 L426 61 L404 397 Q382 521 256 630 Q130 521 108 397 Z" fill="none" stroke="#090909" stroke-width="20" stroke-linejoin="round"/>
+    <path d="M96 72 L256 50 L416 72 L395 392 Q374 507 256 610 Q138 507 117 392 Z" fill="none" stroke="url(#orange)" stroke-width="5" stroke-linejoin="round"/>
+  </g>
+
+  <g opacity=".98">
+    <path d="M148 374 C169 324 205 310 256 310 C307 310 343 324 364 374 L396 500 L116 500 Z" fill="url(#body)" stroke="#20252a" stroke-width="4"/>
+    <path d="M190 246 C190 199 216 168 256 168 C296 168 322 199 322 246 C322 291 294 334 256 334 C218 334 190 291 190 246 Z" fill="url(#body)" stroke="#20252a" stroke-width="4"/>
+    <path d="M189 206 C203 168 228 151 256 151 C293 151 319 174 326 213 C312 196 299 191 284 185 C249 173 219 182 189 206 Z" fill="#353a3f" stroke="#1f2327" stroke-width="3"/>
+    <path d="M186 248 C176 247 169 254 169 268 C169 284 178 292 189 288 Z" fill="#4a5056" stroke="#20252a" stroke-width="3"/>
+    <path d="M326 248 C336 247 343 254 343 268 C343 284 334 292 323 288 Z" fill="#4a5056" stroke="#20252a" stroke-width="3"/>
+    <path d="M220 374 C230 405 246 423 256 423 C266 423 282 405 292 374" fill="none" stroke="#2c3136" stroke-width="8" stroke-linecap="round"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <path d="M49 471 Q256 430 463 471 L437 565 Q256 532 75 565 Z" fill="#080808" stroke="url(#chrome)" stroke-width="9" stroke-linejoin="round"/>
+    <path d="M67 486 Q256 454 445 486 L431 533 Q256 506 81 533 Z" fill="#141414" stroke="url(#orange)" stroke-width="3"/>
+    <text x="256" y="519" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-size="38" fill="#f4f4f4" stroke="#111" stroke-width="2" letter-spacing="1">RAISING THE BAR</text>
+    <text x="256" y="553" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-size="23" fill="#f4f4f4" letter-spacing="5">OFFICIATING</text>
+    <text x="256" y="601" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-size="26" fill="#ff9a1f" letter-spacing="8">***</text>
+  </g>
+</svg>

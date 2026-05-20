@@ -1,0 +1,19 @@
+{
+  "name": "rtbo-react-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "audit": "node scripts/mandatory-audit.mjs",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "6.0.1",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "vite": "8.0.11"
+  },
+  "devDependencies": {}
+}

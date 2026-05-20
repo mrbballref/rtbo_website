@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-label="RTBO final live test checklist screenshot">
+  <rect width="1280" height="760" fill="#0b0b0b"/>
+  <rect x="48" y="44" width="1184" height="672" rx="28" fill="#111" stroke="#f58220" stroke-opacity=".55"/>
+  <text x="88" y="108" font-family="Inter,Arial" font-size="32" font-weight="900" fill="#f58220">RTBO Final Live Test Checklist</text>
+  <g font-family="Inter,Arial" font-size="19" fill="#f3f4f6">
+    <text x="108" y="168">✓ Home page loads on desktop, tablet, and mobile</text>
+    <text x="108" y="216">✓ Navigation, theme switcher, modals, and forms work</text>
+    <text x="108" y="264">✓ Contact and newsletter records save to database</text>
+    <text x="108" y="312">✓ Registration requires profile photo and waiver agreement</text>
+    <text x="108" y="360">✓ Registration PDF includes photo, logo, fields, and signatures</text>
+    <text x="108" y="408">✓ Applicant, Super Admin, and secondary admin receive emails</text>
+    <text x="108" y="456">✓ Stripe checkout returns to payment-success.php</text>
+    <text x="108" y="504">✓ PayPal order capture returns to payment-success.php</text>
+    <text x="108" y="552">✓ Dashboard requires Super Admin login</text>
+    <text x="108" y="600">✓ Profile update, profile photo, password change, and logout work</text>
+  </g>
+  <rect x="814" y="590" width="330" height="58" rx="999" fill="#f58220"/>
+  <text x="862" y="627" font-family="Inter,Arial" font-size="18" font-weight="900" fill="#111">Ready to advertise</text>
+</svg>

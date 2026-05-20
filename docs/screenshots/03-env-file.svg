@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-label="Annotated api env file screenshot">
+  <rect width="1280" height="760" fill="#111"/>
+  <rect x="44" y="44" width="1192" height="672" rx="24" fill="#0b0b0b" stroke="#f58220" stroke-opacity=".55"/>
+  <text x="84" y="100" font-family="Inter,Arial" font-size="28" font-weight="900" fill="#f58220">public_html/api/.env</text>
+  <text x="84" y="150" font-family="Inter,Arial" font-size="18" fill="#d1d5db">Keep this file private. Never put these secrets in JavaScript or public assets.</text>
+  <rect x="84" y="190" width="1112" height="458" rx="16" fill="#161616" stroke="#3a3a3a"/>
+  <text x="116" y="236" font-family="Menlo,Consolas,monospace" font-size="18" fill="#e5e7eb">RTBO_BASE_URL=https://rtbofficiating.com</text>
+  <text x="116" y="276" font-family="Menlo,Consolas,monospace" font-size="18" fill="#e5e7eb">DB_HOST=your_hostinger_database_host</text>
+  <text x="116" y="316" font-family="Menlo,Consolas,monospace" font-size="18" fill="#e5e7eb">DB_NAME=your_hostinger_database_name</text>
+  <text x="116" y="356" font-family="Menlo,Consolas,monospace" font-size="18" fill="#e5e7eb">DB_USER=your_hostinger_database_user</text>
+  <text x="116" y="396" font-family="Menlo,Consolas,monospace" font-size="18" fill="#e5e7eb">DB_PASS=your_hostinger_database_password</text>
+  <text x="116" y="456" font-family="Menlo,Consolas,monospace" font-size="18" fill="#fbbf24">STRIPE_SECRET_KEY=sk_live_...</text>
+  <text x="116" y="496" font-family="Menlo,Consolas,monospace" font-size="18" fill="#fbbf24">PAYPAL_CLIENT_ID=...</text>
+  <text x="116" y="536" font-family="Menlo,Consolas,monospace" font-size="18" fill="#fbbf24">PAYPAL_CLIENT_SECRET=...</text>
+  <text x="116" y="576" font-family="Menlo,Consolas,monospace" font-size="18" fill="#fbbf24">PAYPAL_MODE=live</text>
+  <rect x="780" y="80" width="370" height="70" rx="999" fill="#f58220"/>
+  <text x="826" y="124" font-family="Inter,Arial" font-size="18" font-weight="900" fill="#111">Server-only configuration</text>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-label="Annotated Hostinger File Manager screenshot">
+  <rect width="1280" height="760" fill="#f5f6fb"/>
+  <rect x="0" y="0" width="1280" height="74" fill="#111827"/>
+  <text x="36" y="47" font-family="Inter,Arial" font-size="26" font-weight="800" fill="#fff">Hostinger hPanel</text>
+  <rect x="32" y="112" width="230" height="590" rx="18" fill="#fff" stroke="#d7dce8"/>
+  <text x="58" y="158" font-family="Inter,Arial" font-size="18" font-weight="800" fill="#111827">Websites</text>
+  <text x="58" y="202" font-family="Inter,Arial" font-size="16" fill="#374151">Dashboard</text>
+  <text x="58" y="242" font-family="Inter,Arial" font-size="16" fill="#374151">File Manager</text>
+  <rect x="46" y="218" width="190" height="42" rx="12" fill="#f58220" opacity=".18"/>
+  <rect x="296" y="112" width="930" height="590" rx="18" fill="#fff" stroke="#d7dce8"/>
+  <text x="330" y="158" font-family="Inter,Arial" font-size="24" font-weight="900" fill="#111827">File Manager: public_html</text>
+  <rect x="330" y="190" width="850" height="54" rx="14" fill="#f9fafb" stroke="#d7dce8"/>
+  <text x="354" y="224" font-family="Inter,Arial" font-size="16" fill="#374151">/domains/rtbofficiating.com/public_html</text>
+  <rect x="330" y="278" width="850" height="340" rx="18" fill="#0b0b0b"/>
+  <text x="362" y="326" font-family="Inter,Arial" font-size="18" font-weight="900" fill="#f58220">Upload RTBO_LIVE_READY_PACKAGE_CLEAN.zip</text>
+  <text x="362" y="368" font-family="Inter,Arial" font-size="16" fill="#e5e7eb">Extract the zip, then move the extracted public_html contents here.</text>
+  <rect x="362" y="410" width="330" height="54" rx="12" fill="#161616" stroke="#f58220"/>
+  <text x="386" y="444" font-family="Inter,Arial" font-size="15" fill="#fff">index.html</text>
+  <rect x="716" y="410" width="330" height="54" rx="12" fill="#161616" stroke="#f58220"/>
+  <text x="740" y="444" font-family="Inter,Arial" font-size="15" fill="#fff">api/</text>
+  <rect x="362" y="484" width="330" height="54" rx="12" fill="#161616" stroke="#f58220"/>
+  <text x="386" y="518" font-family="Inter,Arial" font-size="15" fill="#fff">assets/</text>
+  <rect x="716" y="484" width="330" height="54" rx="12" fill="#161616" stroke="#f58220"/>
+  <text x="740" y="518" font-family="Inter,Arial" font-size="15" fill="#fff">.htaccess</text>
+  <path d="M236 238 C274 240 288 240 326 220" stroke="#f58220" stroke-width="5" fill="none"/>
+  <circle cx="236" cy="238" r="8" fill="#f58220"/>
+  <text x="330" y="664" font-family="Inter,Arial" font-size="18" font-weight="800" fill="#111827">Launch check:</text>
+  <text x="470" y="664" font-family="Inter,Arial" font-size="18" fill="#374151">these folders must be directly inside public_html, not nested one level down.</text>
+</svg>
