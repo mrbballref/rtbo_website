@@ -39,6 +39,7 @@ const RTBONewsletterCenter = React.lazy(() => import('./RTBONewsletterCenter.jsx
 const ContractSigningPage = React.lazy(() => import('./ContractSigningPage.jsx'));
 const RTBOMailClient = React.lazy(() => import('./RTBOMailClient.jsx'));
 const TaxCenter = React.lazy(() => import('./TaxCenter.jsx'));
+const ShopStore = React.lazy(() => import('./ShopStore.jsx'));
 const StateSelect = React.lazy(() => import('./StateSelect.jsx'));
 const CountrySelect = React.lazy(() => import('./CountrySelect.jsx'));
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
@@ -2304,14 +2305,9 @@ function Reviews() {
 
 function Shop() {
   return (
-    <section className="rtbo-section shop-preview">
-      <div className="rtbo-section-head">
-        <p className="eyebrow">RTBO Shop</p>
-        <h2>Premium officiating gear</h2>
-        <p>The shop page is ready for product buildout.</p>
-      </div>
-      <img className="shop-template-image" src={image('rtbo-product-page-template.png')} alt="RTBO product page template" />
-    </section>
+    <React.Suspense fallback={<section className="rtbo-section"><p>Loading RTBO shop...</p></section>}>
+      <ShopStore />
+    </React.Suspense>
   );
 }
 
@@ -2399,7 +2395,7 @@ function RegistrationForm({ user }) {
       <div className="rtbo-registration-shell-nav" aria-label="Registration page navigation">
         <div className="rtbo-registration-mini-brand">
           <img src={image('logo.png')} alt="Raising The Bar Officiating logo" />
-          <strong>GOT U NEX REF</strong>
+          <strong>Raising The Bar Officiating Training Schools</strong>
         </div>
         <nav>
           {['Home', 'Officials', 'Training Schools', 'Games', 'Resources', 'Company'].map(item => <span className={item === 'Training Schools' ? 'active' : ''} key={item}>{item}</span>)}
@@ -12991,7 +12987,7 @@ function App() {
     if (active === 'services') return <><PageHero page="services" eyebrow="Services" title="Complete Officiating Solutions">Event assigning, development, mentorship, evaluations, and leadership standards for the game.</PageHero><Services /></>;
     if (active === 'trainers') return <><PageHero page="trainers" eyebrow="Trainers" title="Professional Development Team">Meet the trainers helping officials sharpen mechanics, judgment, communication, and leadership.</PageHero><Trainers /></>;
     if (active === 'guests') return <><PageHero page="guests" eyebrow="Special Guests & Coordinators" title="RTBO Leadership Network">Guest instructors and coordinators supporting the RTBO school experience.</PageHero><Guests /></>;
-    if (active === 'shop') return <><PageHero page="shop" eyebrow="RTBO Shop" title="Premium Officiating Gear">A branded product-page preview for RTBO apparel, whistles, drinkware, and accessories.</PageHero><Shop /></>;
+    if (active === 'shop') return <><PageHero page="shop" eyebrow="RTBO Shop" title="Premium Officiating Gear">A full RTBO store for apparel, whistles, drinkware, bags, training access, memberships, and official-ready equipment.</PageHero><Shop /></>;
     if (active === 'reviews') return <><PageHero page="reviews" eyebrow="Real Results" title="Testimonials">Officials and coaches sharing the impact of RTBO training, development, and leadership.</PageHero><Reviews /></>;
     if (active === 'register') return authUser ? <RegistrationForm user={authUser} /> : <RegistrationGate onCreateAccount={openRegister} onSignIn={openRegisterSignIn} />;
     if (active === 'contract-sign') {
