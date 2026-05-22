@@ -1,0 +1,1396 @@
+.rtbo-mail-page {
+  display: grid;
+  gap: 14px;
+  color: #f7f3ef;
+  font-size: .86rem;
+}
+
+.rtbo-mail-page h3 {
+  font-size: clamp(1.15rem, 1.6vw, 1.45rem);
+}
+
+.rtbo-mail-head-actions,
+.rtbo-mail-mode-row,
+.rtbo-mail-editor-toolbar,
+.rtbo-mail-schedule-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.rtbo-mail-stats {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.rtbo-mail-stats article,
+.rtbo-mail-admin-panel,
+.rtbo-mail-distribution-panel,
+.rtbo-mail-preview,
+.rtbo-mail-open-message {
+  border: 1px solid rgba(245, 130, 32, .22);
+  border-radius: 14px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .018)),
+    rgba(12, 12, 12, .68);
+}
+
+.rtbo-mail-stats article {
+  display: grid;
+  gap: 4px;
+  min-height: 78px;
+  padding: 12px;
+}
+
+.rtbo-mail-stats span,
+.rtbo-mail-preview > span,
+.rtbo-mail-open-head span {
+  color: var(--muted);
+  font-size: .68rem;
+  font-weight: 1000;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.rtbo-mail-stats strong {
+  color: #fff;
+  font-size: clamp(1rem, 1.5vw, 1.35rem);
+  line-height: 1.05;
+}
+
+.rtbo-mail-admin-panel {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+
+.rtbo-mail-admin-panel h4,
+.rtbo-mail-distribution-panel h4,
+.rtbo-mail-preview h4,
+.rtbo-mail-open-message h4 {
+  margin: 0;
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.rtbo-mail-admin-panel p,
+.rtbo-mail-distribution-panel p,
+.rtbo-mail-preview p,
+.rtbo-mail-open-message p {
+  margin: 4px 0 0;
+  color: var(--text);
+  font-size: .84rem;
+  line-height: 1.45;
+}
+
+.rtbo-mail-distribution-panel {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+
+.rtbo-mail-distribution-import {
+  display: grid;
+  grid-template-columns: minmax(220px, .8fr) minmax(190px, auto);
+  gap: 10px;
+  align-items: end;
+}
+
+.rtbo-mail-file-import {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 38px;
+  border: 1px solid rgba(245, 130, 32, .34);
+  border-radius: 10px;
+  padding: 9px 12px;
+  color: #050505;
+  background: linear-gradient(135deg, #f8fafc, #f58220 52%, #f97316);
+  font-size: .78rem;
+  font-weight: 1000;
+  text-align: center;
+  cursor: pointer;
+}
+
+.rtbo-mail-file-import input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.rtbo-mail-distribution-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 10px;
+}
+
+.rtbo-mail-distribution-list article {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, .18);
+}
+
+.rtbo-mail-distribution-list strong,
+.rtbo-mail-distribution-list span,
+.rtbo-mail-distribution-list small {
+  display: block;
+  font-size: .76rem;
+  line-height: 1.35;
+}
+
+.rtbo-mail-distribution-list strong {
+  color: #fff;
+}
+
+.rtbo-mail-distribution-list span,
+.rtbo-mail-distribution-list small {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.rtbo-mail-admin-form {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.rtbo-mail-admin-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 8px;
+}
+
+.rtbo-mail-admin-list article {
+  display: grid;
+  gap: 3px;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, .18);
+}
+
+.rtbo-mail-admin-list strong,
+.rtbo-mail-admin-list span,
+.rtbo-mail-admin-list small {
+  font-size: .76rem;
+}
+
+.rtbo-mail-shell {
+  display: grid;
+  grid-template-columns: minmax(150px, 190px) minmax(0, 1fr);
+  gap: 12px;
+  min-height: 0;
+}
+
+.rtbo-mail-folders {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+}
+
+.rtbo-mail-folders button,
+.rtbo-mail-mode-row button,
+.rtbo-mail-editor-toolbar button,
+.rtbo-mail-list article,
+.rtbo-mail-mark-read {
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 10px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .018)),
+    rgba(12, 12, 12, .72);
+}
+
+.rtbo-mail-folders button {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 38px;
+  padding: 9px 11px;
+  color: #f7f3ef;
+  cursor: pointer;
+  font-size: .78rem;
+  font-weight: 900;
+}
+
+.rtbo-mail-folders button.active,
+.rtbo-mail-mode-row button.active,
+.rtbo-mail-list article.selected {
+  border-color: rgba(245, 130, 32, .72);
+  background:
+    linear-gradient(145deg, rgba(245, 130, 32, .2), rgba(255, 255, 255, .03)),
+    rgba(20, 20, 20, .92);
+}
+
+.rtbo-mail-compose,
+.rtbo-mail-reader {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.rtbo-mail-compose-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(280px, .88fr);
+  gap: 12px;
+}
+
+.rtbo-mail-form {
+  display: grid;
+  gap: 9px;
+}
+
+.rtbo-mail-form-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.rtbo-mail-page :is(input, select, textarea) {
+  width: 100%;
+  min-height: 38px;
+  border: 1px solid rgba(245, 130, 32, .26);
+  border-radius: 10px;
+  padding: 9px 12px;
+  color: #fff;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .018)),
+    #0a0a0a;
+  font-size: .82rem;
+  font-weight: 800;
+}
+
+.rtbo-mail-page textarea {
+  min-height: 190px;
+  resize: vertical;
+  line-height: 1.48;
+}
+
+.rtbo-mail-mode-row button,
+.rtbo-mail-editor-toolbar button,
+.rtbo-mail-mark-read {
+  min-height: 32px;
+  padding: 7px 10px;
+  color: #fff;
+  cursor: pointer;
+  font-size: .72rem;
+  font-weight: 900;
+}
+
+.rtbo-mail-attachment-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rtbo-mail-attachment-list span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 100%;
+  border: 1px solid rgba(245, 130, 32, .28);
+  border-radius: 9px;
+  padding: 7px 9px;
+  color: #fff;
+  background: rgba(0, 0, 0, .22);
+  font-size: .72rem;
+  font-weight: 900;
+}
+
+.rtbo-mail-attachment-list small {
+  color: var(--muted);
+  font-size: .66rem;
+}
+
+.rtbo-mail-attachment-list button {
+  min-height: 26px;
+  border: 1px solid rgba(245, 130, 32, .3);
+  border-radius: 7px;
+  padding: 4px 7px;
+  color: #fff;
+  background: rgba(245, 130, 32, .14);
+  cursor: pointer;
+  font-size: .66rem;
+  font-weight: 900;
+}
+
+.rtbo-mail-options {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.rtbo-mail-options label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 10px;
+  padding: 8px 10px;
+  background: rgba(0, 0, 0, .18);
+  color: #fff;
+  font-size: .72rem;
+  font-weight: 900;
+}
+
+.rtbo-mail-options input {
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  min-height: 16px;
+  accent-color: var(--orange);
+}
+
+.rtbo-mail-schedule-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.rtbo-mail-preview {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 16px;
+  background: #fff;
+  color: #1f1f1f;
+}
+
+.rtbo-mail-preview :is(h4, p, dt, dd, strong) {
+  color: #1f1f1f;
+}
+
+.rtbo-mail-preview dl {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+}
+
+.rtbo-mail-preview dl div {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 8px;
+  font-size: .76rem;
+}
+
+.rtbo-mail-preview dt {
+  font-weight: 1000;
+}
+
+.rtbo-mail-preview dd {
+  margin: 0;
+}
+
+.rtbo-mail-signature {
+  display: grid;
+  gap: 3px;
+  border-top: 3px solid var(--orange);
+  padding-top: 10px;
+  font-size: .78rem;
+}
+
+.rtbo-mail-reader-grid {
+  display: grid;
+  grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+  gap: 12px;
+  min-height: 440px;
+}
+
+.rtbo-mail-search {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.rtbo-mail-list {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-width: 0;
+}
+
+.rtbo-mail-list article {
+  display: grid;
+  gap: 7px;
+  padding: 10px;
+}
+
+.rtbo-mail-list article.unread {
+  border-color: rgba(245, 130, 32, .56);
+  background:
+    linear-gradient(145deg, rgba(245, 130, 32, .16), rgba(255, 255, 255, .02)),
+    rgba(0, 0, 0, .2);
+}
+
+.rtbo-mail-list article > button:first-child {
+  display: grid;
+  gap: 4px;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.rtbo-mail-list strong {
+  color: #fff;
+  font-size: .82rem;
+  line-height: 1.2;
+}
+
+.rtbo-mail-list span,
+.rtbo-mail-list small {
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.rtbo-mail-mark-read {
+  justify-self: start;
+  cursor: pointer;
+}
+
+.rtbo-mail-open-message {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  min-width: 0;
+  padding: 16px;
+}
+
+.rtbo-mail-open-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.rtbo-mail-open-head p,
+.rtbo-mail-open-head small {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: .76rem;
+  font-weight: 800;
+}
+
+.rtbo-mail-open-body {
+  white-space: pre-wrap;
+  color: var(--text);
+  font-size: .88rem !important;
+  line-height: 1.55;
+}
+
+.rtbo-mail-page {
+  gap: 0;
+  overflow: hidden;
+  border-color: rgba(245, 130, 32, .34);
+  border-radius: 8px;
+  padding: 0 !important;
+  color: #1f1f1f;
+  background: #f3f2f1;
+}
+
+.rtbo-mail-page > .rtbo-dashboard-card-head {
+  align-items: center;
+  border-bottom: 1px solid #d2d0ce;
+  padding: 12px 16px;
+  color: #1f1f1f;
+  background: #fff;
+}
+
+.rtbo-mail-page > .rtbo-dashboard-card-head h3,
+.rtbo-mail-page > .rtbo-dashboard-card-head p {
+  color: #1f1f1f;
+}
+
+.rtbo-mail-page > .rtbo-dashboard-card-head .eyebrow {
+  color: #f58220;
+}
+
+.rtbo-mail-command-ribbon {
+  display: grid;
+  grid-template-columns: auto auto auto minmax(220px, auto) minmax(200px, 1fr);
+  gap: 10px;
+  align-items: center;
+  border-bottom: 1px solid #d2d0ce;
+  padding: 8px 12px;
+  background: #f8fafc;
+}
+
+.rtbo-mail-ribbon-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  border-right: 1px solid #d2d0ce;
+  padding-right: 10px;
+}
+
+.rtbo-mail-ribbon-group:last-of-type {
+  border-right: 0;
+}
+
+.rtbo-mail-ribbon-group button,
+.rtbo-mail-top-menu button,
+.rtbo-mail-global-search input {
+  min-height: 30px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  color: #1f1f1f;
+  background: transparent;
+  font-size: .76rem;
+  font-weight: 800;
+}
+
+.rtbo-mail-ribbon-group button {
+  padding: 6px 9px;
+  cursor: pointer;
+}
+
+.rtbo-mail-top-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  border-right: 1px solid #d2d0ce;
+  padding-right: 10px;
+}
+
+.rtbo-mail-top-menu button {
+  padding: 6px 9px;
+  cursor: pointer;
+}
+
+.rtbo-mail-top-menu button.active,
+.rtbo-mail-top-menu button:hover {
+  border-color: #f97316;
+  background: #e5e7eb;
+}
+
+.rtbo-mail-new-message-command {
+  min-width: 92px;
+  min-height: 28px !important;
+  padding: 5px 8px !important;
+  font-size: .72rem !important;
+}
+
+.rtbo-mail-ribbon-group.primary button:first-child {
+  color: #050505;
+  background: #f58220;
+  border-color: #f97316;
+}
+
+.rtbo-mail-ribbon-group button:hover:not(:disabled),
+.rtbo-mail-ribbon-group button:focus-visible {
+  border-color: #f97316;
+  background: #e5e7eb;
+}
+
+.rtbo-mail-ribbon-group button:disabled {
+  color: #8a8886;
+  cursor: not-allowed;
+  opacity: .68;
+}
+
+.rtbo-mail-global-search {
+  display: grid;
+  grid-template-columns: auto minmax(160px, 1fr);
+  gap: 8px;
+  align-items: center;
+  margin: 0;
+  color: #605e5c;
+  font-size: .72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.rtbo-mail-global-search input {
+  border-color: #c8c6c4;
+  background: #fff;
+  padding: 6px 10px;
+}
+
+.rtbo-mail-stats {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0;
+  border-bottom: 1px solid #d2d0ce;
+  background: #fff;
+}
+
+.rtbo-mail-stats article {
+  min-height: 52px;
+  border: 0;
+  border-right: 1px solid #edebe9;
+  border-radius: 0;
+  padding: 8px 12px;
+  background: #fff;
+}
+
+.rtbo-mail-stats article:last-child {
+  border-right: 0;
+}
+
+.rtbo-mail-stats span,
+.rtbo-mail-preview > span,
+.rtbo-mail-open-head span {
+  color: #605e5c;
+}
+
+.rtbo-mail-stats strong {
+  color: #1f1f1f;
+  font-size: 1rem;
+}
+
+.rtbo-mail-distribution-panel,
+.rtbo-mail-admin-panel {
+  margin: 12px;
+  border-color: #d2d0ce;
+  border-radius: 6px;
+  color: #1f1f1f;
+  background: #fff;
+}
+
+.rtbo-mail-distribution-panel h4,
+.rtbo-mail-admin-panel h4,
+.rtbo-mail-distribution-panel p,
+.rtbo-mail-admin-panel p {
+  color: #1f1f1f;
+}
+
+.rtbo-mail-shell {
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 0;
+  min-height: 640px;
+  background: #fff;
+}
+
+.rtbo-mail-folders {
+  gap: 1px;
+  border-right: 1px solid #d2d0ce;
+  padding: 10px 8px;
+  background: #f8fafc;
+}
+
+.rtbo-mail-folders button {
+  min-height: 34px;
+  border: 0;
+  border-left: 3px solid transparent;
+  border-radius: 3px;
+  padding: 7px 9px;
+  color: #323130;
+  background: transparent;
+  font-size: .78rem;
+}
+
+.rtbo-mail-folders button.active {
+  border-color: #f58220;
+  background: #e5e7eb;
+}
+
+.rtbo-mail-reader {
+  gap: 0;
+  background: #fff;
+}
+
+.rtbo-mail-reader-grid {
+  grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
+  gap: 0;
+  min-height: 640px;
+}
+
+.rtbo-mail-search {
+  display: flex;
+  justify-content: flex-end;
+  border-bottom: 1px solid #edebe9;
+  padding: 8px 12px;
+  background: #fff;
+}
+
+.rtbo-mail-list {
+  gap: 0;
+  border-right: 1px solid #d2d0ce;
+  background: #fff;
+}
+
+.rtbo-mail-list article {
+  border: 0;
+  border-bottom: 1px solid #edebe9;
+  border-radius: 0;
+  padding: 12px;
+  color: #323130;
+  background: #fff;
+}
+
+.rtbo-mail-list article.unread {
+  border-color: #edebe9;
+  background: #f8fafc;
+}
+
+.rtbo-mail-list article.selected {
+  border-color: #edebe9;
+  background: #e5e7eb;
+  box-shadow: inset 3px 0 0 #f58220;
+}
+
+.rtbo-mail-list strong {
+  color: #1f1f1f;
+}
+
+.rtbo-mail-list span,
+.rtbo-mail-list small,
+.rtbo-mail-open-head p,
+.rtbo-mail-open-head small {
+  color: #605e5c;
+}
+
+.rtbo-mail-open-message {
+  border: 0;
+  border-radius: 0;
+  padding: 20px 24px;
+  color: #1f1f1f;
+  background: #fff;
+}
+
+.rtbo-mail-open-message h4,
+.rtbo-mail-open-message p,
+.rtbo-mail-open-body {
+  color: #1f1f1f !important;
+}
+
+.rtbo-mail-compose {
+  gap: 0;
+  padding: 12px;
+  background: #fff;
+}
+
+.rtbo-mail-mode-row {
+  border-bottom: 1px solid #edebe9;
+  padding-bottom: 8px;
+}
+
+.rtbo-mail-mode-row button,
+.rtbo-mail-editor-toolbar button,
+.rtbo-mail-mark-read {
+  border-radius: 3px;
+  color: #323130;
+  background: #fff;
+  border-color: #d2d0ce;
+}
+
+.rtbo-mail-mode-row button.active {
+  color: #050505;
+  background: #e5e7eb;
+  border-color: #f58220;
+}
+
+.rtbo-mail-attachment-list span {
+  border-color: #d2d0ce;
+  color: #323130;
+  background: #ffffff;
+}
+
+.rtbo-mail-attachment-list small {
+  color: #605e5c;
+}
+
+.rtbo-mail-attachment-list button {
+  border-color: #d2d0ce;
+  color: #323130;
+  background: #fff;
+}
+
+.rtbo-mail-compose-grid {
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+  padding-top: 12px;
+}
+
+.rtbo-mail-page :is(input, select, textarea) {
+  border-color: #c8c6c4;
+  border-radius: 3px;
+  color: #1f1f1f;
+  background: #fff;
+}
+
+.rtbo-mail-file-import input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  min-height: 1px;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.rtbo-mail-options input[type="checkbox"] {
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  min-height: 16px;
+  padding: 0;
+  border-radius: 2px;
+  accent-color: var(--orange);
+}
+
+.rtbo-mail-options label,
+.rtbo-mail-line-total {
+  border-radius: 3px;
+  color: #323130;
+  background: #f8fafc;
+  border-color: #d2d0ce;
+}
+
+.rtbo-mail-preview {
+  border-color: #d2d0ce;
+  border-radius: 6px;
+  color: #1f1f1f;
+  background: #fff;
+  box-shadow: inset 0 3px 0 #f58220;
+}
+
+.rtbo-mail-preview :is(h4, p, dt, dd, strong) {
+  color: #1f1f1f;
+}
+
+.rtbo-mail-distribution-list article,
+.rtbo-mail-admin-list article {
+  border-color: #d2d0ce;
+  border-radius: 4px;
+  color: #1f1f1f;
+  background: #f8fafc;
+}
+
+.rtbo-mail-distribution-list strong,
+.rtbo-mail-distribution-list span,
+.rtbo-mail-distribution-list small,
+.rtbo-mail-admin-list strong,
+.rtbo-mail-admin-list span,
+.rtbo-mail-admin-list small {
+  color: #323130;
+}
+
+.rtbo-mail-workspace-panel {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  min-height: 640px;
+  padding: 16px;
+  color: #1f1f1f;
+  background: #fff;
+}
+
+.rtbo-mail-calendar-panel,
+.rtbo-mail-device-panel {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  min-height: 640px;
+  padding: 16px;
+  color: #1f1f1f;
+  background: #fff;
+}
+
+.rtbo-mail-calendar-form {
+  display: grid;
+  grid-template-columns: minmax(150px, .7fr) minmax(180px, 1fr) minmax(150px, .8fr) minmax(130px, .7fr) minmax(220px, 1.4fr) auto;
+  gap: 10px;
+  align-items: end;
+  border: 1px solid #edebe9;
+  border-radius: 6px;
+  padding: 12px;
+  background: #f8fafc;
+}
+
+.rtbo-mail-calendar-form label {
+  display: grid;
+  gap: 5px;
+  color: #605e5c;
+  font-size: .72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.rtbo-mail-calendar-form button,
+.rtbo-mail-calendar-list article button,
+.rtbo-mail-device-panel button {
+  min-height: 34px;
+  border: 1px solid #f97316;
+  border-radius: 3px;
+  padding: 7px 10px;
+  color: #050505;
+  background: #f58220;
+  cursor: pointer;
+  font-size: .76rem;
+  font-weight: 900;
+}
+
+.rtbo-mail-calendar-grid,
+.rtbo-mail-device-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.rtbo-mail-calendar-list,
+.rtbo-mail-device-grid section,
+.rtbo-mail-device-steps article {
+  border: 1px solid #edebe9;
+  border-radius: 6px;
+  padding: 12px;
+  background: #f8fafc;
+}
+
+.rtbo-mail-calendar-list h5,
+.rtbo-mail-device-grid h5 {
+  margin: 0 0 10px;
+  color: #1f1f1f;
+  font-size: .9rem;
+}
+
+.rtbo-mail-calendar-list article {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+  border-top: 1px solid #edebe9;
+  padding: 10px 0;
+}
+
+.rtbo-mail-calendar-list article:first-of-type {
+  border-top: 0;
+}
+
+.rtbo-mail-calendar-list strong,
+.rtbo-mail-calendar-list span,
+.rtbo-mail-calendar-list p {
+  display: block;
+  margin: 0;
+  color: #323130;
+  font-size: .8rem;
+  line-height: 1.4;
+}
+
+.rtbo-mail-calendar-list strong {
+  color: #1f1f1f;
+  font-size: .86rem;
+}
+
+.rtbo-mail-device-grid dl {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.rtbo-mail-device-grid dl div {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 8px;
+}
+
+.rtbo-mail-device-grid dt,
+.rtbo-mail-device-grid dd {
+  margin: 0;
+  color: #323130;
+  font-size: .8rem;
+  line-height: 1.35;
+}
+
+.rtbo-mail-device-grid dt {
+  color: #605e5c;
+  font-weight: 900;
+}
+
+.rtbo-mail-device-steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.rtbo-mail-device-steps strong,
+.rtbo-mail-device-steps p {
+  display: block;
+  margin: 0;
+  color: #323130;
+  font-size: .82rem;
+  line-height: 1.45;
+}
+
+.rtbo-mail-device-steps strong {
+  color: #1f1f1f;
+  margin-bottom: 6px;
+}
+
+.rtbo-mail-workspace-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  border-bottom: 1px solid #edebe9;
+  padding-bottom: 12px;
+}
+
+.rtbo-mail-workspace-head span {
+  display: block;
+  color: #605e5c;
+  font-size: .72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.rtbo-mail-workspace-head h4 {
+  margin: 2px 0 0;
+  color: #1f1f1f;
+  font-size: 1.05rem;
+}
+
+.rtbo-mail-workspace-actions,
+.rtbo-mail-feature-grid article {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rtbo-mail-workspace-actions {
+  justify-content: flex-end;
+}
+
+.rtbo-mail-workspace-actions button,
+.rtbo-mail-feature-grid button {
+  min-height: 34px;
+  border: 1px solid #d2d0ce;
+  border-radius: 3px;
+  padding: 7px 10px;
+  color: #323130;
+  background: #f8fafc;
+  cursor: pointer;
+  font-size: .76rem;
+  font-weight: 900;
+}
+
+.rtbo-mail-workspace-actions button:hover,
+.rtbo-mail-feature-grid button:hover {
+  border-color: #f97316;
+  background: #e5e7eb;
+}
+
+.rtbo-mail-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.rtbo-mail-feature-grid article {
+  align-content: start;
+  border: 1px solid #edebe9;
+  border-radius: 6px;
+  padding: 12px;
+  background: #f8fafc;
+}
+
+.rtbo-mail-feature-grid button {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex: 1 1 180px;
+  background: #fff;
+}
+
+.rtbo-mail-feature-grid b {
+  color: #f97316;
+  font-size: .68rem;
+  text-transform: uppercase;
+}
+
+.rtbo-mail-settings-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  border: 1px solid #edebe9;
+  border-radius: 6px;
+  padding: 12px;
+  background: #f8fafc;
+}
+
+.rtbo-mail-settings-strip label {
+  display: grid;
+  gap: 5px;
+  color: #605e5c;
+  font-size: .72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.rtbo-mail-page.rtbo-mail-dark {
+  border-color: rgba(245, 130, 32, .44);
+  color: #f4f4f4;
+  background: #080808;
+}
+
+.rtbo-mail-page.rtbo-mail-dark > .rtbo-dashboard-card-head {
+  border-bottom-color: #2a2a2a;
+  background: #0b0b0b;
+}
+
+.rtbo-mail-page.rtbo-mail-dark > .rtbo-dashboard-card-head h3,
+.rtbo-mail-page.rtbo-mail-dark > .rtbo-dashboard-card-head p {
+  color: #f4f4f4;
+}
+
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-command-ribbon,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-folders {
+  border-color: #2a2a2a;
+  background: #111;
+}
+
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-ribbon-group,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-top-menu {
+  border-color: #2a2a2a;
+}
+
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-ribbon-group button,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-top-menu button,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-mode-row button,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-editor-toolbar button,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-mark-read,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-workspace-actions button,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-feature-grid button {
+  color: #f4f4f4;
+  background: #161616;
+  border-color: #333;
+}
+
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-ribbon-group button:hover:not(:disabled),
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-ribbon-group button:focus-visible,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-top-menu button.active,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-top-menu button:hover,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-mode-row button.active,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-folders button.active,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-list article.selected,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-workspace-actions button:hover,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-feature-grid button:hover {
+  color: #fff;
+  background: #1f1f1f;
+  border-color: #f58220;
+}
+
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-ribbon-group.primary button:first-child {
+  color: #050505 !important;
+  background: #f58220 !important;
+  border-color: #f97316 !important;
+}
+
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-global-search,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-stats span,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-list span,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-list small,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-open-head p,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-open-head small,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-workspace-head span,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-settings-strip label {
+  color: #d4d4d4;
+}
+
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-stats,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-stats article,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-shell,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-reader,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-reader-grid,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-list,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-search,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-open-message,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-compose,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-workspace-panel,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-calendar-panel,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-device-panel {
+  border-color: #2a2a2a;
+  color: #f4f4f4;
+  background: #0b0b0b;
+}
+
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-stats article,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-search,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-mode-row,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-list article {
+  border-color: #2b2b2b;
+}
+
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-list article,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-preview,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-distribution-panel,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-admin-panel,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-distribution-list article,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-admin-list article,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-feature-grid article,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-settings-strip,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-options label,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-calendar-form,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-calendar-list,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-device-grid section,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-device-steps article {
+  border-color: #2a2a2a;
+  color: #f4f4f4;
+  background: #111;
+}
+
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-list article.unread {
+  background: #171717;
+}
+
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-page :is(input, select, textarea),
+.rtbo-mail-page.rtbo-mail-dark :is(input, select, textarea),
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-global-search input {
+  color: #f4f4f4;
+  background: #090909;
+  border-color: #333;
+}
+
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-stats strong,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-list strong,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-open-message h4,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-open-message p,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-open-body,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-preview :is(h4, p, dt, dd, strong),
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-distribution-panel h4,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-admin-panel h4,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-distribution-panel p,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-admin-panel p,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-distribution-list strong,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-distribution-list span,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-distribution-list small,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-admin-list strong,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-admin-list span,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-admin-list small,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-workspace-head h4,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-calendar-list h5,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-calendar-list strong,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-calendar-list span,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-calendar-list p,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-device-grid h5,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-device-grid dt,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-device-grid dd,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-device-steps strong,
+.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-device-steps p {
+  color: #f4f4f4 !important;
+}
+
+@media (max-width: 1024px) {
+  .rtbo-mail-command-ribbon {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .rtbo-mail-compose-grid,
+  .rtbo-mail-reader-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rtbo-mail-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .rtbo-mail-settings-strip,
+  .rtbo-mail-feature-grid,
+  .rtbo-mail-calendar-grid,
+  .rtbo-mail-device-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .rtbo-mail-calendar-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .rtbo-mail-shell,
+  .rtbo-mail-admin-form,
+  .rtbo-mail-form-grid,
+  .rtbo-mail-options,
+  .rtbo-mail-stats,
+  .rtbo-mail-command-ribbon,
+  .rtbo-mail-settings-strip,
+  .rtbo-mail-feature-grid,
+  .rtbo-mail-calendar-form,
+  .rtbo-mail-calendar-grid,
+  .rtbo-mail-device-grid,
+  .rtbo-mail-device-steps,
+  .rtbo-mail-distribution-import,
+  .rtbo-mail-distribution-list article {
+    grid-template-columns: 1fr;
+  }
+
+  .rtbo-mail-ribbon-group {
+    border-right: 0;
+    border-bottom: 1px solid #edebe9;
+    padding-right: 0;
+    padding-bottom: 8px;
+  }
+
+  .rtbo-mail-top-menu {
+    border-right: 0;
+    border-bottom: 1px solid #edebe9;
+    padding-right: 0;
+    padding-bottom: 8px;
+  }
+
+  .rtbo-mail-ribbon-group:last-of-type {
+    border-bottom: 0;
+  }
+
+  .rtbo-mail-folders {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .rtbo-mail-open-head {
+    flex-direction: column;
+  }
+
+  .rtbo-mail-workspace-head {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 550px) {
+  .rtbo-mail-page {
+    font-size: .82rem;
+  }
+
+  .rtbo-mail-folders,
+  .rtbo-mail-search,
+  .rtbo-mail-schedule-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .rtbo-mail-head-actions,
+  .rtbo-mail-mode-row,
+  .rtbo-mail-editor-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .rtbo-mail-head-actions .btn,
+  .rtbo-mail-mode-row button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 368px) {
+  .rtbo-mail-page :is(input, select, textarea),
+  .rtbo-mail-list strong,
+  .rtbo-mail-open-body {
+    font-size: .78rem !important;
+  }
+
+  .rtbo-mail-preview dl div {
+    grid-template-columns: 1fr;
+  }
+}

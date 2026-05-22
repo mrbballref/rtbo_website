@@ -291,6 +291,61 @@ CREATE TABLE IF NOT EXISTS newsletters (
   sent_at DATETIME NULL
 );
 
+CREATE TABLE IF NOT EXISTS newsletter_sources (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(190) NOT NULL,
+  url TEXT NOT NULL,
+  source_type VARCHAR(80) NOT NULL DEFAULT 'sports_news',
+  method VARCHAR(40) NOT NULL DEFAULT 'rss',
+  status VARCHAR(30) NOT NULL DEFAULT 'active',
+  compliance_status VARCHAR(80) NOT NULL DEFAULT 'Pending Review',
+  last_scan_at DATETIME NULL,
+  last_error TEXT NULL,
+  created_by INT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX newsletter_sources_status_idx (status),
+  INDEX newsletter_sources_method_idx (method)
+);
+
+CREATE TABLE IF NOT EXISTS newsletter_articles (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  source_id INT NULL,
+  source_name VARCHAR(190) NOT NULL,
+  source_url TEXT NULL,
+  source_link TEXT NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  summary TEXT NULL,
+  category VARCHAR(120) NOT NULL DEFAULT 'Officiating News',
+  status VARCHAR(30) NOT NULL DEFAULT 'review',
+  quality_score INT NOT NULL DEFAULT 0,
+  published_at DATETIME NULL,
+  collected_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  approved_at DATETIME NULL,
+  UNIQUE KEY newsletter_article_link_unique (source_link(190)),
+  INDEX newsletter_articles_status_idx (status),
+  INDEX newsletter_articles_collected_idx (collected_at)
+);
+
+CREATE TABLE IF NOT EXISTS newsletter_issues (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(190) NOT NULL,
+  subtitle VARCHAR(255) NULL,
+  issue_date DATE NOT NULL,
+  status VARCHAR(30) NOT NULL DEFAULT 'draft',
+  cover_headline VARCHAR(255) NULL,
+  intro_text TEXT NULL,
+  sections_json MEDIUMTEXT NULL,
+  created_by INT NULL,
+  sent_count INT NOT NULL DEFAULT 0,
+  failed_count INT NOT NULL DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  sent_at DATETIME NULL,
+  INDEX newsletter_issues_date_idx (issue_date),
+  INDEX newsletter_issues_status_idx (status)
+);
+
 CREATE TABLE IF NOT EXISTS contact_messages (
   id INT AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(100) NOT NULL,

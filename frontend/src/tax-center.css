@@ -1,0 +1,409 @@
+.rtbo-tax-center-page {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  color: var(--text, #f8f8f8);
+}
+
+.rtbo-tax-center-page .rtbo-dashboard-card-head {
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.rtbo-tax-center-page .rtbo-dashboard-card-head.compact {
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.rtbo-tax-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(440px, 1.05fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.rtbo-tax-form,
+.rtbo-tax-preview-column {
+  min-width: 0;
+}
+
+.rtbo-tax-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rtbo-tax-panel {
+  border: 1px solid rgba(255, 114, 22, 0.45);
+  border-radius: 8px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 114, 22, 0.04));
+  padding: 16px;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.18);
+}
+
+[data-theme='light'] .rtbo-tax-panel,
+body.light-theme .rtbo-tax-panel {
+  background: #ffffff;
+  color: #333333;
+  box-shadow: 0 12px 24px rgba(15, 18, 24, 0.08);
+}
+
+.rtbo-tax-panel h4 {
+  margin: 2px 0 12px;
+  color: inherit;
+  font-size: 1rem;
+}
+
+.rtbo-tax-form label {
+  color: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.rtbo-tax-form input,
+.rtbo-tax-form select,
+.rtbo-tax-form textarea {
+  width: 100%;
+  min-height: 38px;
+  margin-top: 6px;
+  border: 1px solid rgba(255, 114, 22, 0.38);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.32);
+  color: #ffffff;
+  padding: 9px 10px;
+  font: inherit;
+}
+
+[data-theme='light'] .rtbo-tax-form input,
+[data-theme='light'] .rtbo-tax-form select,
+[data-theme='light'] .rtbo-tax-form textarea,
+body.light-theme .rtbo-tax-form input,
+body.light-theme .rtbo-tax-form select,
+body.light-theme .rtbo-tax-form textarea {
+  background: #ffffff;
+  color: #333333;
+  border-color: rgba(255, 114, 22, 0.7);
+}
+
+.rtbo-tax-form input[aria-invalid='true'],
+.rtbo-tax-form select[aria-invalid='true'] {
+  border-color: #e3362d;
+  box-shadow: 0 0 0 2px rgba(227, 54, 45, 0.16);
+}
+
+.rtbo-tax-field-error {
+  display: block;
+  margin-top: 5px;
+  color: #ff4d43;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.rtbo-tax-check-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+}
+
+.rtbo-tax-check-row input {
+  width: 18px;
+  min-height: 18px;
+  margin: 0;
+  accent-color: #ff7216;
+}
+
+.rtbo-tax-check-row span {
+  line-height: 1.35;
+}
+
+.rtbo-tax-preview-column {
+  position: sticky;
+  top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rtbo-tax-preview-banner {
+  border: 1px solid rgba(255, 114, 22, 0.5);
+  border-radius: 8px;
+  background: rgba(255, 114, 22, 0.12);
+  padding: 10px 12px;
+  color: inherit;
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.rtbo-tax-preview-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 114, 22, 0.42);
+  border-radius: 8px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.rtbo-tax-preview-actions span {
+  flex: 1 1 160px;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.rtbo-w9-preview-shell {
+  width: min(100%, 816px);
+  max-height: min(78vh, 960px);
+  margin: 0 auto;
+  overflow: auto;
+  background: #5f6368;
+  border: 1px solid rgba(255, 114, 22, 0.55);
+  border-radius: 8px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.36);
+  padding: 14px;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.rtbo-w9-exact-page {
+  position: relative;
+  width: 945px;
+  height: 1224px;
+  margin: 0 auto;
+  background: #ffffff;
+  color: #000000;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.34);
+  transform-origin: top center;
+}
+
+.rtbo-w9-exact-page img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  pointer-events: none;
+}
+
+.rtbo-w9-fill,
+.rtbo-w9-mark {
+  position: absolute;
+  z-index: 2;
+  color: #000000;
+  -webkit-text-fill-color: #000000;
+  opacity: 1;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.12;
+  white-space: pre-line;
+}
+
+.rtbo-w9-fill {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rtbo-w9-mark {
+  display: none;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+}
+
+.rtbo-w9-mark.checked {
+  display: block;
+}
+
+.rtbo-w9-fill.line-name { left: 111px; top: 184px; width: 575px; height: 24px; font-size: 15px; }
+.rtbo-w9-fill.line-business { left: 111px; top: 218px; width: 575px; height: 24px; }
+.rtbo-w9-mark.class-individual { left: 112px; top: 281px; }
+.rtbo-w9-mark.class-c-corp { left: 282px; top: 281px; }
+.rtbo-w9-mark.class-s-corp { left: 392px; top: 281px; }
+.rtbo-w9-mark.class-partnership { left: 501px; top: 281px; }
+.rtbo-w9-mark.class-trust { left: 602px; top: 281px; }
+.rtbo-w9-mark.class-llc { left: 112px; top: 310px; }
+.rtbo-w9-mark.class-other { left: 112px; top: 359px; }
+.rtbo-w9-fill.line-llc { left: 448px; top: 311px; width: 84px; height: 22px; text-align: center; }
+.rtbo-w9-fill.line-other { left: 250px; top: 359px; width: 438px; height: 24px; }
+.rtbo-w9-mark.line-3b { left: 681px; top: 408px; }
+.rtbo-w9-fill.line-exempt-payee { left: 838px; top: 310px; width: 96px; height: 26px; }
+.rtbo-w9-fill.line-fatca { left: 773px; top: 360px; width: 154px; height: 26px; }
+.rtbo-w9-fill.line-address { left: 111px; top: 452px; width: 475px; height: 22px; font-size: 15px; }
+.rtbo-w9-fill.line-city { left: 111px; top: 486px; width: 475px; height: 22px; font-size: 15px; }
+.rtbo-w9-fill.line-requester { left: 610px; top: 438px; width: 278px; height: 74px; font-size: 13px; font-weight: 600; }
+.rtbo-w9-fill.line-accounts { left: 111px; top: 514px; width: 575px; height: 24px; }
+.rtbo-w9-fill.line-signature { left: 202px; top: 902px; width: 340px; height: 28px; font-size: 18px; font-family: cursive, Arial, Helvetica, sans-serif; }
+.rtbo-w9-fill.line-signature-date { left: 607px; top: 904px; width: 138px; height: 24px; }
+
+.rtbo-w9-fill.tin-ssn,
+.rtbo-w9-fill.tin-ein {
+  width: 24px;
+  height: 24px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.rtbo-w9-fill.tin-ssn { top: 588px; }
+.rtbo-w9-fill.tin-ein { top: 657px; }
+.rtbo-w9-fill.tin-0 { left: 648px; }
+.rtbo-w9-fill.tin-1 { left: 672px; }
+.rtbo-w9-fill.tin-2 { left: 697px; }
+.rtbo-w9-fill.tin-3 { left: 735px; }
+.rtbo-w9-fill.tin-4 { left: 760px; }
+.rtbo-w9-fill.tin-5 { left: 802px; }
+.rtbo-w9-fill.tin-6 { left: 826px; }
+.rtbo-w9-fill.tin-7 { left: 850px; }
+.rtbo-w9-fill.tin-8 { left: 875px; }
+.rtbo-w9-fill.tin-ein.tin-0 { left: 648px; }
+.rtbo-w9-fill.tin-ein.tin-1 { left: 672px; }
+.rtbo-w9-fill.tin-ein.tin-2 { left: 710px; }
+.rtbo-w9-fill.tin-ein.tin-3 { left: 735px; }
+.rtbo-w9-fill.tin-ein.tin-4 { left: 759px; }
+.rtbo-w9-fill.tin-ein.tin-5 { left: 783px; }
+.rtbo-w9-fill.tin-ein.tin-6 { left: 808px; }
+.rtbo-w9-fill.tin-ein.tin-7 { left: 833px; }
+.rtbo-w9-fill.tin-ein.tin-8 { left: 858px; }
+
+@media (max-width: 1536px) {
+  .rtbo-tax-workspace { grid-template-columns: minmax(0, 0.92fr) minmax(420px, 1.08fr); }
+}
+
+@media (max-width: 1280px) {
+  .rtbo-tax-workspace { grid-template-columns: 1fr; }
+  .rtbo-tax-preview-column { position: static; }
+  .rtbo-w9-preview-shell { max-width: 790px; }
+}
+
+@media (max-width: 1024px) {
+  .rtbo-tax-record-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rtbo-w9-exact-page { transform: scale(0.82); margin-bottom: -220px; }
+}
+
+@media (max-width: 768px) {
+  .rtbo-tax-center-page .rtbo-dashboard-card-head,
+  .rtbo-tax-center-page .rtbo-form-toolbar { align-items: stretch; }
+  .rtbo-tax-center-page .rtbo-form-toolbar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  .rtbo-tax-center-page .grid.two { grid-template-columns: 1fr; }
+  .rtbo-w9-preview-shell { max-height: 72vh; padding: 8px; }
+  .rtbo-w9-exact-page { transform: scale(0.66); margin-bottom: -416px; }
+  .rtbo-tax-record-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 648px) {
+  .rtbo-tax-panel { padding: 13px; }
+  .rtbo-tax-center-page .rtbo-form-toolbar { grid-template-columns: 1fr; }
+  .rtbo-w9-exact-page { transform: scale(0.54); margin-bottom: -563px; }
+}
+
+@media (max-width: 550px) {
+  .rtbo-w9-exact-page { transform: scale(0.45); margin-bottom: -673px; }
+}
+
+@media (max-width: 480px) {
+  .rtbo-tax-preview-actions { align-items: stretch; }
+  .rtbo-tax-preview-actions .btn { width: 100%; }
+  .rtbo-tax-panel h4 { font-size: 0.92rem; }
+  .rtbo-w9-exact-page { transform: scale(0.38); margin-bottom: -759px; }
+}
+
+@media (max-width: 368px) {
+  .rtbo-tax-center-page { gap: 12px; }
+  .rtbo-w9-exact-page { transform: scale(0.32); margin-bottom: -833px; }
+}
+
+@media print {
+  body.rtbo-printing-tax * {
+    visibility: hidden !important;
+  }
+
+  body.rtbo-printing-tax .rtbo-tax-print-zone,
+  body.rtbo-printing-tax .rtbo-tax-print-zone * {
+    visibility: visible !important;
+  }
+
+  body.rtbo-printing-tax .rtbo-tax-print-zone {
+    position: fixed !important;
+    inset: 0 auto auto 0 !important;
+    width: 100% !important;
+    max-height: none !important;
+    margin: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+    transform: none !important;
+  }
+
+  body.rtbo-printing-tax .rtbo-w9-exact-page {
+    transform: none !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+}
+
+.rtbo-tax-library {
+  margin-top: 2px;
+}
+
+.rtbo-tax-record-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.rtbo-tax-record-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid rgba(255, 114, 22, 0.42);
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.16);
+}
+
+[data-theme='light'] .rtbo-tax-record-card,
+body.light-theme .rtbo-tax-record-card {
+  background: #f8fafc;
+  color: #333333;
+}
+
+.rtbo-tax-record-card > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: start;
+}
+
+.rtbo-tax-record-card strong {
+  color: inherit;
+  font-size: 0.92rem;
+}
+
+.rtbo-tax-record-card span {
+  border: 1px solid rgba(255, 114, 22, 0.55);
+  border-radius: 999px;
+  padding: 3px 8px;
+  color: #ff7216;
+  font-size: 0.68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.rtbo-tax-record-card p,
+.rtbo-tax-record-card small {
+  margin: 0;
+  color: inherit;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.rtbo-tax-record-card .button-row {
+  margin-top: auto;
+  gap: 7px;
+}

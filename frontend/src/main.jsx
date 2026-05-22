@@ -1,5 +1,33 @@
 import React, { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import { classificationConferenceOptions } from './classification-conferences.js';
+import {
+  livestreamChannels,
+  livestreamDestinations,
+  livestreamInitialChat,
+  livestreamOverlays,
+  livestreamProducerComments,
+  livestreamRunOfShow,
+  livestreamScenes,
+  livestreamSchedule,
+  livestreamStudioSources
+} from './livestream-data.js';
+import {
+  aboutCards,
+  aboutDifferenceCards,
+  guests,
+  navItems,
+  paidEventCard,
+  platformCards,
+  platformFlow,
+  pricingFeatures,
+  pricingPlans,
+  schoolCardSessions,
+  seoMeta,
+  sessions,
+  testimonials,
+  trainers
+} from './site-data.js';
 import './styles.css';
 
 const RTBOBasketballAssigningContractGenerator = React.lazy(() => import('./ContractGenerator.jsx'));
@@ -7,10 +35,25 @@ const RTBOAcademy = React.lazy(() => import('./RTBOAcademy.jsx'));
 const RefRoom = React.lazy(() => import('./RefRoom.jsx'));
 const EducationLanding = React.lazy(() => import('./EducationLanding.jsx'));
 const TestCenterPage = React.lazy(() => import('./TestCenterPage.jsx'));
+const RTBONewsletterCenter = React.lazy(() => import('./RTBONewsletterCenter.jsx'));
+const ContractSigningPage = React.lazy(() => import('./ContractSigningPage.jsx'));
+const RTBOMailClient = React.lazy(() => import('./RTBOMailClient.jsx'));
+const TaxCenter = React.lazy(() => import('./TaxCenter.jsx'));
+const StateSelect = React.lazy(() => import('./StateSelect.jsx'));
+const CountrySelect = React.lazy(() => import('./CountrySelect.jsx'));
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
 const RTBO_AUTH_KEY = 'rtbo_admin_auth';
 const RTBO_DASHBOARD_OPEN_KEY = 'rtbo-dashboard-open';
 const RTBO_THEME_KEY = 'rtbo-theme';
+
+function safeLocalStorageGet(key) {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
 const optimizedImages = {
   'about_trng_1.png': 'about_trng_1.jpg',
   'allyn_richardson_trainer_card.png': 'allyn_richardson_trainer_card.jpg',
@@ -81,287 +124,6 @@ const raceOptions = [
 ];
 
 const officialClassificationOptions = 'High School|NJCAA|NAIA|NCAA DIII|NCAA DII|NCAA DI|Pro-Am'.split('|');
-
-const stateOptions = [
-  ['', 'Select state'],
-  ['AL', 'Alabama'],
-  ['AK', 'Alaska'],
-  ['AZ', 'Arizona'],
-  ['AR', 'Arkansas'],
-  ['CA', 'California'],
-  ['CO', 'Colorado'],
-  ['CT', 'Connecticut'],
-  ['DE', 'Delaware'],
-  ['FL', 'Florida'],
-  ['GA', 'Georgia'],
-  ['HI', 'Hawaii'],
-  ['ID', 'Idaho'],
-  ['IL', 'Illinois'],
-  ['IN', 'Indiana'],
-  ['IA', 'Iowa'],
-  ['KS', 'Kansas'],
-  ['KY', 'Kentucky'],
-  ['LA', 'Louisiana'],
-  ['ME', 'Maine'],
-  ['MD', 'Maryland'],
-  ['MA', 'Massachusetts'],
-  ['MI', 'Michigan'],
-  ['MN', 'Minnesota'],
-  ['MS', 'Mississippi'],
-  ['MO', 'Missouri'],
-  ['MT', 'Montana'],
-  ['NE', 'Nebraska'],
-  ['NV', 'Nevada'],
-  ['NH', 'New Hampshire'],
-  ['NJ', 'New Jersey'],
-  ['NM', 'New Mexico'],
-  ['NY', 'New York'],
-  ['NC', 'North Carolina'],
-  ['ND', 'North Dakota'],
-  ['OH', 'Ohio'],
-  ['OK', 'Oklahoma'],
-  ['OR', 'Oregon'],
-  ['PA', 'Pennsylvania'],
-  ['RI', 'Rhode Island'],
-  ['SC', 'South Carolina'],
-  ['SD', 'South Dakota'],
-  ['TN', 'Tennessee'],
-  ['TX', 'Texas'],
-  ['UT', 'Utah'],
-  ['VT', 'Vermont'],
-  ['VA', 'Virginia'],
-  ['WA', 'Washington'],
-  ['WV', 'West Virginia'],
-  ['WI', 'Wisconsin'],
-  ['WY', 'Wyoming']
-];
-
-const countryOptions = [
-  'United States',
-  'Afghanistan',
-  'Albania',
-  'Algeria',
-  'Andorra',
-  'Angola',
-  'Antigua and Barbuda',
-  'Argentina',
-  'Armenia',
-  'Australia',
-  'Austria',
-  'Azerbaijan',
-  'Bahamas',
-  'Bahrain',
-  'Bangladesh',
-  'Barbados',
-  'Belarus',
-  'Belgium',
-  'Belize',
-  'Benin',
-  'Bhutan',
-  'Bolivia',
-  'Bosnia and Herzegovina',
-  'Botswana',
-  'Brazil',
-  'Brunei',
-  'Bulgaria',
-  'Burkina Faso',
-  'Burundi',
-  'Cabo Verde',
-  'Cambodia',
-  'Cameroon',
-  'Canada',
-  'Central African Republic',
-  'Chad',
-  'Chile',
-  'China',
-  'Colombia',
-  'Comoros',
-  'Costa Rica',
-  'Croatia',
-  'Cuba',
-  'Cyprus',
-  'Czechia',
-  'Democratic Republic of the Congo',
-  'Denmark',
-  'Djibouti',
-  'Dominica',
-  'Dominican Republic',
-  'Ecuador',
-  'Egypt',
-  'El Salvador',
-  'Equatorial Guinea',
-  'Eritrea',
-  'Estonia',
-  'Eswatini',
-  'Ethiopia',
-  'Fiji',
-  'Finland',
-  'France',
-  'Gabon',
-  'Gambia',
-  'Georgia',
-  'Germany',
-  'Ghana',
-  'Greece',
-  'Grenada',
-  'Guatemala',
-  'Guinea',
-  'Guinea-Bissau',
-  'Guyana',
-  'Haiti',
-  'Honduras',
-  'Hungary',
-  'Iceland',
-  'India',
-  'Indonesia',
-  'Iran',
-  'Iraq',
-  'Ireland',
-  'Israel',
-  'Italy',
-  'Jamaica',
-  'Japan',
-  'Jordan',
-  'Kazakhstan',
-  'Kenya',
-  'Kiribati',
-  'Kuwait',
-  'Kyrgyzstan',
-  'Laos',
-  'Latvia',
-  'Lebanon',
-  'Lesotho',
-  'Liberia',
-  'Libya',
-  'Liechtenstein',
-  'Lithuania',
-  'Luxembourg',
-  'Madagascar',
-  'Malawi',
-  'Malaysia',
-  'Maldives',
-  'Mali',
-  'Malta',
-  'Marshall Islands',
-  'Mauritania',
-  'Mauritius',
-  'Mexico',
-  'Micronesia',
-  'Moldova',
-  'Monaco',
-  'Mongolia',
-  'Montenegro',
-  'Morocco',
-  'Mozambique',
-  'Myanmar',
-  'Namibia',
-  'Nauru',
-  'Nepal',
-  'Netherlands',
-  'New Zealand',
-  'Nicaragua',
-  'Niger',
-  'Nigeria',
-  'North Korea',
-  'North Macedonia',
-  'Norway',
-  'Oman',
-  'Pakistan',
-  'Palau',
-  'Panama',
-  'Papua New Guinea',
-  'Paraguay',
-  'Peru',
-  'Philippines',
-  'Poland',
-  'Portugal',
-  'Qatar',
-  'Republic of the Congo',
-  'Romania',
-  'Russia',
-  'Rwanda',
-  'Saint Kitts and Nevis',
-  'Saint Lucia',
-  'Saint Vincent and the Grenadines',
-  'Samoa',
-  'San Marino',
-  'Sao Tome and Principe',
-  'Saudi Arabia',
-  'Senegal',
-  'Serbia',
-  'Seychelles',
-  'Sierra Leone',
-  'Singapore',
-  'Slovakia',
-  'Slovenia',
-  'Solomon Islands',
-  'Somalia',
-  'South Africa',
-  'South Korea',
-  'South Sudan',
-  'Spain',
-  'Sri Lanka',
-  'Sudan',
-  'Suriname',
-  'Sweden',
-  'Switzerland',
-  'Syria',
-  'Taiwan',
-  'Tajikistan',
-  'Tanzania',
-  'Thailand',
-  'Timor-Leste',
-  'Togo',
-  'Tonga',
-  'Trinidad and Tobago',
-  'Tunisia',
-  'Turkey',
-  'Turkmenistan',
-  'Tuvalu',
-  'Uganda',
-  'Ukraine',
-  'United Arab Emirates',
-  'United Kingdom',
-  'Uruguay',
-  'Uzbekistan',
-  'Vanuatu',
-  'Vatican City',
-  'Venezuela',
-  'Vietnam',
-  'Yemen',
-  'Zambia',
-  'Zimbabwe'
-];
-
-function StateSelect({ name = 'state', value, defaultValue, onChange, required = false, disabled = false }) {
-  const normalizeStateValue = (source = '') => {
-    const current = String(source || '').trim();
-    if (!current) return '';
-    const match = stateOptions.find(([optionValue, label]) => (
-      optionValue.toLowerCase() === current.toLowerCase()
-      || label.toLowerCase() === current.toLowerCase()
-    ));
-    return match?.[0] || '';
-  };
-  const valueProps = value === undefined
-    ? { defaultValue: normalizeStateValue(defaultValue) }
-    : { value: normalizeStateValue(value) };
-  return (
-    <select name={name} onChange={onChange || (() => {})} required={required} disabled={disabled} {...valueProps}>
-      {stateOptions.map(([optionValue, label]) => <option key={optionValue || 'empty'} value={optionValue}>{label}</option>)}
-    </select>
-  );
-}
-
-function CountrySelect({ name = 'country', value, defaultValue, onChange, required = false, disabled = false }) {
-  const valueProps = value === undefined ? { defaultValue: defaultValue || 'United States' } : { value: value || 'United States' };
-  return (
-    <select name={name} onChange={onChange} required={required} disabled={disabled} {...valueProps}>
-      <option value="">Select country</option>
-      {countryOptions.map(country => <option key={country} value={country}>{country}</option>)}
-    </select>
-  );
-}
 
 function profilePlaceholder(sex = '') {
   const value = String(sex || '').toLowerCase();
@@ -437,353 +199,7 @@ function imageSafe(name) {
   return `/assets/images/${file}${version ? `?v=${version}` : ''}`;
 }
 
-const navItems = [
-  ['home', 'Home'],
-  ['about', 'About'],
-  ['events', 'Schools & Events'],
-  ['livestream', 'Live Stream'],
-  ['services', 'Services'],
-  ['trainers', 'Trainers'],
-  ['guests', 'Guests'],
-  ['reviews', 'Reviews'],
-  ['shop', 'Shop']
-];
-const validPages = new Set([...navItems.map(([id]) => id), 'register', 'contact']);
-
-const sessions = [
-  ['uapb_team_camp_card.png', 'uapb_icon.png', 'Session 1', 'University of Arkansas at Pine Bluff', 'June 9-10, 2026 • Pine Bluff, AR', '$225.00'],
-  ['uca_team_camp_card.png', 'uca_icon.png', 'Session 2', 'University of Central Arkansas', 'June 19, 2026 • Conway, AR', '$125.00'],
-  ['ualr_team_camp_card.png', 'ualr_icon.png', 'Session 3', 'University of Arkansas at Little Rock', 'July 22-23, 2026 • Little Rock, AR', '$225.00']
-];
-
-const schoolCardSessions = [
-  ['uapb_team_camp_card.png', 'uapb_icon.png', 'University of Arkansas at Pine Bluff', 'H.O. Clemmons Arena', 'June 9-10, 2026 • 1542 L.A. Prexy Davis Dr., Pine Bluff, AR 71601'],
-  ['uca_team_camp_card.png', 'uca_icon.png', 'University of Central Arkansas', 'June 19, 2026', 'Bruce St. Conway, AR'],
-  ['ualr_team_camp_card.png', 'ualr_icon.png', 'University of Arkansas at Little Rock', 'Jack Stephens Event Center', 'July 22-23, 2026 • 2801 S. University Ave. Little Rock, AR 72204']
-];
-
-const paidEventCard = {
-  image: 'big_miller_event_team_card.png',
-  title: 'Big Miller Event Team Camp',
-  date: 'June 8-9, 2026',
-  address: '1500 Christy Lane. Alexander, AR 72002',
-  venue: 'Summer Wood Sports Complex',
-  city: 'Alexander, AR',
-  courts: 'Three courts',
-  crews: '3-man crews',
-  gameFee: '$30.00 per game per referee'
-};
-
-const pricingPlans = [
-  {
-    icon: 'uapb_icon.png',
-    title: 'UAPB Session',
-    school: 'University of Arkansas at Pine Bluff',
-    date: 'June 9-10, 2026',
-    location: 'Pine Bluff, AR',
-    venue: 'H.O. Clemmons Arena',
-    price: '$225.00',
-    badge: 'Session 1'
-  },
-  {
-    icon: 'uca_icon.png',
-    title: 'UCA Session',
-    school: 'University of Central Arkansas',
-    date: 'June 19, 2026',
-    location: 'Conway, AR',
-    venue: 'Farris Center',
-    price: '$125.00',
-    badge: 'Session 2'
-  },
-  {
-    icon: 'ualr_icon.png',
-    title: 'UALR Session',
-    school: 'University of Arkansas at Little Rock',
-    date: 'July 22-23, 2026',
-    location: 'Little Rock, AR',
-    venue: 'Jack Stephens Center',
-    price: '$225.00',
-    badge: 'Session 3'
-  }
-];
-
-const pricingFeatures = [
-  'Basic rules and terminology',
-  'Rules Mastery',
-  'Mechanics & Positioning',
-  'Game Management',
-  'Communication',
-  'Film Breakdown'
-];
-
-const seoMeta = {
-  home: [
-    'Raising The Bar Officiating | Basketball Referee Training, Camps & Assigning',
-    'Raising The Bar Officiating provides Arkansas basketball referee training schools, team camp officiating, event assigning, mentorship, evaluations, and Got U Nex Ref technology.'
-  ],
-  about: [
-    'About RTBO | Basketball Officiating Leadership & Development',
-    'Learn about Raising The Bar Officiating, Montrel Simmons, official development, leadership standards, and the mission to serve basketball officiating.'
-  ],
-  events: [
-    'Basketball Officiating Schools & Events | RTBO 2026 Registration',
-    'Register for 2026 Raising The Bar Officiating school sessions at UAPB, University of Central Arkansas, and University of Arkansas at Little Rock.'
-  ],
-  livestream: [
-    'RTBO Livestream | Basketball Officiating Training Broadcasts',
-    'Watch Raising The Bar Officiating training school livestreams, promotional broadcasts, film breakdowns, and social coverage across the website, YouTube, Facebook, TikTok, and Instagram.'
-  ],
-  services: [
-    'Basketball Referee Assigning & Official Development Services | RTBO',
-    'RTBO provides event assigning, official development, evaluation, technology-driven tools, and leadership standards for basketball officials and organizations.'
-  ],
-  trainers: [
-    'RTBO Trainers | Basketball Officiating Development Team',
-    'Meet the Raising The Bar Officiating training team supporting basketball officials through mentorship, evaluation, and professional development.'
-  ],
-  guests: [
-    'RTBO Guests & Coordinators | Basketball Officiating Network',
-    'View RTBO special guests, coordinators, and officiating leaders supporting training schools and official development.'
-  ],
-  shop: [
-    'RTBO Shop | Premium Basketball Officiating Gear',
-    'Preview Raising The Bar Officiating branded gear, apparel, whistles, drinkware, and accessories for basketball officials.'
-  ],
-  reviews: [
-    'RTBO Reviews | Basketball Officials, Coaches & Training Results',
-    'Read results and testimonials from officials and coaches connected with Raising The Bar Officiating training and development.'
-  ],
-  register: [
-    'Register for RTBO Basketball Officiating School | 2026 Application',
-    'Complete the RTBO 2026 basketball officiating school application, upload a professional profile photo, and choose your school sessions.'
-  ],
-  contact: [
-    'Contact Raising The Bar Officiating | Basketball Referee Training',
-    'Contact RTBO for basketball officiating schools, team camp opportunities, event assigning, training, mentorship, and Got U Nex Ref platform questions.'
-  ]
-};
-
-const aboutCards = [
-  ['about_trng_icon.png', 'Our Commitment to Training Excellence', 'At Raising The Bar Officiating, training is not an event. It is a continuous process built through repetition, accountability, and real-game scenarios.'],
-  ['about_mdn_tech_icon.png', 'Technology-Driven Development', 'RTBO integrates modern technology to enhance training and performance evaluation through a professional, data-informed approach.'],
-  ['reliable_partnership_icon.png', 'Mentorship That Builds Leaders', 'Growth accelerates when knowledge is shared. Mentorship is a cornerstone of our organization and our culture.'],
-  ['tech-driven_icon.png', 'Online Learning & Training Modules', 'Officials receive access to rules updates, training videos, instructional content, quizzes, and assessments after attending school.'],
-  ['committed_serving_icon.png', 'Serving The Game Beyond The Court', 'RTBO strengthens relationships between officials, players, coaches, and fans through outreach, education, and engagement.'],
-  ['proven_results_icon.png', 'Committed To Serving The Game', 'Officials leave with practical development, stronger habits, and a path toward higher-level opportunities.']
-];
-
-const aboutDifferenceCards = [
-  ['reliable_partnership_icon.png', 'Reliable Partnership', 'We are not just a group of officials. We are a brotherhood and sisterhood, and we believe this partnership helps everyone grow as an official and reach their officiating goals.'],
-  ['accountability_icon.png', 'Accountability', 'Accountability is part of our core values. We believe in holding each other accountable for the actions tied to our goals because accountability helps us reach the level we aspire to.'],
-  ['committed_serving_icon.png', 'Committed To Serving The Game', 'We believe in being committed to serving the game by staying committed to the craft we love. We continue working to become better officials, earn better games, and build a better future.'],
-  ['proven_results_icon.png', 'Committed To Serving The Game', 'Our training has proven results. Multiple attendees are now officiating at a higher level after attending our training school, with many working from higher-level high school games to NCAA Division I.']
-];
-
-const platformCards = [
-  ['accountability_icon.png', 'Assigning Command Center', 'Create games, build crews, monitor assignment status, and protect every schedule with availability, conflicts, and role-based permissions.'],
-  ['tech-driven_icon.png', 'Mobile Game-Day Tools', 'Officials can view games, respond to assignments, check in, receive alerts, message crews, and submit reports from the mobile app.'],
-  ['proven_results_icon.png', 'Evaluation & Development', 'Track performance, ratings, feedback, reports, film, training modules, quizzes, certifications, and promotion readiness.'],
-  ['reliable_partnership_icon.png', 'Payments & Invoicing', 'Manage school invoices, assigning fees, payment batches, official ledger records, export reports, and Stripe/ACH workflows.']
-];
-
-const platformFlow = [
-  'Game created',
-  'Best crew selected',
-  'Notification sent',
-  'Official responds',
-  'Game-day check-in',
-  'Reports and evaluations'
-];
-
-const trainers = [
-  ['stacy_chambers_trainer_card.png', 'Stacey Chambers'],
-  ['stacy_moultrie_trainer_card.png', 'Stacy Moultrie'],
-  ['melissa_mitchell_trainer_card.png', 'Melissa Mitchell'],
-  ['denise_tyus_trainer_card.png', 'Denise Tyus'],
-  ['carey_smith_trainer_card.png', 'Carey Smith'],
-  ['herb_burl_trainer_card.png', 'Herb Burl']
-];
-
-const guests = [
-  ['greg_small_trainer_card.png', 'Greg Small', 'NCAA Regional Advisor, Great American Conference Coordinator of Officials, Mid-America Intercollegiate Athletic Association Coordinator of Officials.', 'Veteran basketball officiating leader supporting RTBO school instruction, development, and game preparation.'],
-  ['mary_day_trainer_card.png', 'Mary Day', 'College Conferences of the South Coordinator of Officials, Southern Athletic Association Coordinator of Officials.', 'Experienced officiating voice helping officials understand professionalism, preparation, and court presence.'],
-  ['allyn_richardson_trainer_card.png', 'Allyn Richardson', 'Oklahoma Collegiate Athletic Conference Coordinator of Officials, Sooner Athletic Conference Coordinator of Officials.', 'Development-focused officiating contributor bringing mentorship and leadership to the RTBO training environment.']
-];
-
-const testimonials = [
-  ['steve_wiedower_test_coach.png', 'Steve Wiedower', "UALR Women's Basketball Head Coach", 'RTBO brings structure, accountability, and a serious development approach to basketball officiating.'],
-  ['jada_perry_test_card.png', 'Jada Perry', 'RTBO Official', 'RTBO helped me understand the game with more confidence, better mechanics, and a stronger professional mindset.'],
-  ['latanya_martin_test_card.png', 'Latanya Martin', 'RTBO Official', 'The training environment pushed officials to improve while still giving practical instruction that could be used immediately.'],
-  ['rieley_hooten_test_card.png', 'Rieley Hooten', 'RTBO Official', 'The school gave me direct feedback, real reps, and the kind of preparation that helps officials grow.']
-];
-
-const memberStories = [
-  ['steve_wiedower_test_coach.png', 'Steve Wiedower', "UALR Women's Basketball Head Coach", 'Professional, reliable, and consistent every time. We trust Raising The Bar Officiating for our events because they deliver quality officials who understand the game and manage it well.'],
-  ['latanya_martin_test_card.png', 'Latanya Martin', 'NCAA Division I Official', "I've advanced my career because of this organization. The mentorship and exposure I've received have opened doors for higher-level opportunities. Raising The Bar truly lives up to its name."],
-  ['rieley_hooten_test_card.png', 'Rieley Hooten', 'NCAA Division I Official', 'Raising the Bar Officiating Inc., not only give me the guidance I needed to help me get to the next level, but they are always willing to provide advice and continue to provide mentorship whenever I need it.'],
-  ['jada_perry_test_card.png', 'Rieley Hooten', 'NJCAA Official', 'They are the best! At first, I kept procrastinating on becoming a referee, and then took a chance and tried it. After my first year, I attended the training school and now I am a college official. They really give you the knowledge and the tools to help you get to the level you aspire to be at.']
-];
-
-const livestreamChannels = [
-  {
-    id: 'website',
-    label: 'Website',
-    mark: 'WEB',
-    status: 'Primary',
-    title: 'RTBO Website Broadcast',
-    description: 'The main home for school coverage, film breakdowns, court mechanics, guest instruction, and promotional moments.',
-    icon: '3d_rtbo_livestream_icon.png',
-    streamUrl: '',
-    embedUrl: '',
-    embedHtml: '',
-    watchUrl: '#livestream',
-    aspect: 'wide'
-  },
-  {
-    id: 'youtube',
-    label: 'YouTube',
-    mark: 'YT',
-    status: 'Simulcast',
-    title: 'YouTube Live',
-    description: 'Public livestream and replay destination for training sessions, school highlights, and shareable long-form video.',
-    icon: '3d_youtube_livestream_icon.png',
-    streamUrl: '',
-    embedUrl: '',
-    embedHtml: '',
-    watchUrl: 'https://www.youtube.com',
-    aspect: 'wide'
-  },
-  {
-    id: 'facebook',
-    label: 'Facebook',
-    mark: 'FB',
-    status: 'Community',
-    title: 'Facebook Live',
-    description: 'Community-facing coverage for parents, partner schools, organizations, coaches, and basketball supporters.',
-    icon: '3d_facebook_livestream_icon.png',
-    streamUrl: '',
-    embedUrl: '',
-    embedHtml: '',
-    watchUrl: 'https://www.facebook.com',
-    aspect: 'wide'
-  },
-  {
-    id: 'tiktok',
-    label: 'TikTok',
-    mark: 'TT',
-    status: 'Vertical',
-    title: 'TikTok Live',
-    description: 'Vertical live moments, short training clips, behind-the-scenes school energy, and promotional recaps.',
-    icon: '3d_tiktok_livestream_icon.png',
-    streamUrl: '',
-    embedUrl: '',
-    embedHtml: '',
-    watchUrl: 'https://www.tiktok.com',
-    aspect: 'vertical'
-  },
-  {
-    id: 'instagram',
-    label: 'Instagram',
-    mark: 'IG',
-    status: 'Social',
-    title: 'Instagram Live',
-    description: 'Promotional live coverage, reels-ready highlights, official interviews, and event-day audience engagement.',
-    icon: '3d_instagram_livestream_icon.png',
-    streamUrl: '',
-    embedUrl: '',
-    embedHtml: '',
-    watchUrl: 'https://www.instagram.com',
-    aspect: 'vertical'
-  }
-];
-
-const livestreamSchedule = [
-  ['June 9-10, 2026', 'UAPB - H.O. Clemmons Arena', 'Training school coverage, mechanics, rules instruction, and film review.'],
-  ['June 19, 2026', 'UCA - Farris Center', 'Live court instruction, mentorship, and promotional school moments.'],
-  ['July 22-23, 2026', 'UALR - Jack Stephens Center', 'Evaluation clips, film breakdowns, interviews, and training recaps.']
-];
-
-const livestreamRunOfShow = [
-  'Pre-school welcome, daily schedule, and sponsor or partner recognition.',
-  'Live court mechanics, rules instruction, guest teaching blocks, and film breakdowns.',
-  'Official interviews, evaluation clips, promotional recaps, and replay-ready highlights.'
-];
-
-const livestreamInitialChat = [];
-
-const livestreamScenes = [
-  {
-    id: 'opening',
-    name: 'Opening Slate',
-    cue: 'Pre-Show',
-    layout: 'Slate',
-    sources: ['Logo', 'Countdown', 'Music'],
-    note: 'Branded holding screen before the training school starts.'
-  },
-  {
-    id: 'court',
-    name: 'Court Cam',
-    cue: 'Program',
-    layout: 'Wide',
-    sources: ['Court Camera', 'Mic A', 'Score Strip'],
-    note: 'Main live court coverage for drills, mechanics, and teaching blocks.'
-  },
-  {
-    id: 'breakdown',
-    name: 'Film Breakdown',
-    cue: 'Teach',
-    layout: 'Picture-in-picture',
-    sources: ['Replay', 'Clinician Cam', 'Telestration'],
-    note: 'Replay analysis with clinician commentary and on-screen points.'
-  },
-  {
-    id: 'interview',
-    name: 'Guest Interview',
-    cue: 'Guest',
-    layout: 'Split',
-    sources: ['Host', 'Guest', 'Lower Third'],
-    note: 'Two-up interview setup for clinicians, guests, and officials.'
-  },
-  {
-    id: 'promo',
-    name: 'Promo Close',
-    cue: 'Close',
-    layout: 'Vertical clips',
-    sources: ['Highlights', 'CTA', 'Logo'],
-    note: 'Short-form promotional moments for social platforms.'
-  }
-];
-
-const livestreamOverlays = [
-  ['logo', 'RTBO Logo Bug'],
-  ['scorebug', 'Training Score Strip'],
-  ['lowerThird', 'Lower Third'],
-  ['comment', 'Viewer Comment'],
-  ['countdown', 'Countdown Timer']
-];
-
-const livestreamDestinations = [
-  ['website', 'Website', 'Ready'],
-  ['youtube', 'YouTube', 'Ready'],
-  ['facebook', 'Facebook', 'Ready'],
-  ['tiktok', 'TikTok', 'Vertical'],
-  ['instagram', 'Instagram', 'Vertical']
-];
-
-const livestreamStudioSources = [
-  ['cameraA', 'Court Camera', 'Camera', 84],
-  ['cameraB', 'Clinician Camera', 'Camera', 76],
-  ['screen', 'Screen Share', 'Source', 68],
-  ['guest', 'Remote Guest', 'Guest', 72],
-  ['mic', 'Floor Audio', 'Audio', 81]
-];
-
-const livestreamProducerComments = [
-  ['Coach Williams', 'Great angle on the block-charge teaching point.'],
-  ['Official Davis', 'Can you show that rotation again from the weak side?'],
-  ['Parent View', 'The live training coverage looks outstanding.'],
-  ['RTBO Staff', 'Reminder: interviews start after the next teaching block.']
-];
+const validPages = new Set([...navItems.map(([id]) => id), 'register', 'contact', 'contract-sign']);
 
 function image(name) {
   return imageSafe(name);
@@ -801,6 +217,7 @@ function readStoredDashboardOpen() {
   const storedUser = readStoredAuthUser();
   if (!storedUser) return false;
   const hash = typeof window !== 'undefined' ? window.location.hash : '';
+  if (hash.startsWith('#contract-sign')) return false;
   return hash.startsWith('#dashboard') || localStorage.getItem(RTBO_DASHBOARD_OPEN_KEY) === 'true' || isSuperAdminUser(storedUser);
 }
 
@@ -862,6 +279,8 @@ function updatePageSeo(active) {
     const node = document.querySelector(selector);
     if (node) node.setAttribute('content', value);
   }
+  const robotsNode = document.querySelector('meta[name="robots"]');
+  if (robotsNode) robotsNode.setAttribute('content', active === 'contract-sign' ? 'noindex, nofollow' : 'index, follow');
 }
 
 function formatPhoneNumber(value = '') {
@@ -997,6 +416,7 @@ function ThemeToggle({ className = '' }) {
   const [theme, setTheme] = useState(getRtboTheme);
 
   useEffect(() => {
+    setTheme(applyRtboTheme(getRtboTheme()));
     const syncTheme = () => setTheme(getRtboTheme());
     const observer = new MutationObserver(syncTheme);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
@@ -1015,7 +435,7 @@ function ThemeToggle({ className = '' }) {
   }
 
   return (
-    <button className={`theme-toggle ${className}`.trim()} type="button" role="switch" aria-checked={theme === 'light'} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`} onClick={changeTheme}>
+    <button className={`theme-toggle ${className}`.trim()} type="button" role="switch" aria-checked={theme === 'light'} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`} data-theme-state={theme} onClick={changeTheme}>
       <span className="theme-toggle-track" aria-hidden="true">
         <span className="theme-toggle-thumb"></span>
         <span className="theme-toggle-icon theme-toggle-icon-day">☀</span>
@@ -1027,18 +447,40 @@ function ThemeToggle({ className = '' }) {
 }
 
 function getRtboTheme() {
-  const storedTheme = localStorage.getItem(RTBO_THEME_KEY);
+  const storedTheme = safeLocalStorageGet(RTBO_THEME_KEY);
   if (storedTheme === 'dark' || storedTheme === 'light') return storedTheme;
   const documentTheme = document.documentElement.dataset.theme;
   return documentTheme === 'light' ? 'light' : 'dark';
 }
 
-function setRtboTheme(nextTheme) {
+function applyRtboTheme(nextTheme) {
   const theme = nextTheme === 'light' ? 'light' : 'dark';
-  localStorage.setItem(RTBO_THEME_KEY, theme);
-  document.documentElement.dataset.theme = theme;
+  const root = document.documentElement;
+  root.classList.remove('light', 'dark');
+  root.classList.add(theme);
+  root.dataset.theme = theme;
+  root.dataset.themeMode = theme;
+  root.style.colorScheme = theme;
+  document.body?.setAttribute('data-theme', theme);
+  document.body?.classList.toggle('rtbo-theme-dark', theme === 'dark');
+  document.body?.classList.toggle('rtbo-theme-light', theme === 'light');
+  document.body?.style.setProperty('color-scheme', theme);
   window.dispatchEvent(new CustomEvent('rtbo-theme-change', { detail: { theme } }));
   return theme;
+}
+
+function setRtboTheme(nextTheme) {
+  const theme = nextTheme === 'light' ? 'light' : 'dark';
+  try {
+    localStorage.setItem(RTBO_THEME_KEY, theme);
+  } catch {
+    // Theme switching must continue even when storage is blocked.
+  }
+  return applyRtboTheme(theme);
+}
+
+function SidebarIcon({ id }) {
+  return <span className="rtbo-sidebar-icon" data-sidebar-icon={id} aria-hidden="true"></span>;
 }
 
 function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onOpenRegister }) {
@@ -1430,8 +872,11 @@ function SchoolSessionCards({ onOpenRegister }) {
         {schoolCardSessions.map(([img, icon, label, title, date]) => {
           const [eventDate, location = ''] = date.split('•').map((item) => item.trim());
           return (
-            <article className="school-session-card" key={label}>
-              <img src={image(img)} alt={`${title} RTBO team camp card`} />
+            <article className={`school-session-card${label.includes('Little Rock') ? ' ualr-session-card' : ''}`} key={label}>
+              <div className="school-session-image-wrap">
+                <img src={image(img)} alt={`${title} RTBO team camp card`} />
+                {label.includes('Little Rock') && <span className="school-session-image-date">July 21-22, 2026</span>}
+              </div>
               <div className="school-session-content">
                 <div className="school-session-title-row">
                   <img className="inline-icon" src={image(icon)} alt="" />
@@ -2092,10 +1537,10 @@ function LivestreamControls({
 
 function LivestreamFollowLinks() {
   const links = [
-    ['YouTube', 'https://www.youtube.com', '3d_youtube_livestream_icon.png'],
-    ['Facebook', 'https://www.facebook.com', '3d_facebook_livestream_icon.png'],
+    ['YouTube', 'https://www.youtube.com', '3d_youtube_livestream_icon.jpg'],
+    ['Facebook', 'https://www.facebook.com', '3d_facebook_livestream_icon.jpg'],
     ['X', 'https://www.twitter.com', ''],
-    ['Instagram', 'https://www.instagram.com', '3d_instagram_livestream_icon.png']
+    ['Instagram', 'https://www.instagram.com', '3d_instagram_livestream_icon.jpg']
   ];
 
   return (
@@ -2714,7 +2159,7 @@ function Livestream() {
             aria-controls="livestream-studio-panel"
             aria-expanded={studioPanelOpen}
           >
-            <img className="livestream-status-icon" src={image('3d_rtbo_livestream_icon.png')} alt="" />
+            <img className="livestream-status-icon" src={image('3d_rtbo_livestream_icon.jpg')} alt="" />
             <span className="livestream-studio-settings-label">Open Production Controls</span>
           </button>
           <span>Standby</span>
@@ -2903,10 +2348,43 @@ function RegistrationGate({ onCreateAccount, onSignIn }) {
 
 function RegistrationForm({ user }) {
   const [status, setStatus] = useState('');
+  const [selectedSessions, setSelectedSessions] = useState([]);
+  const [paymentProvider, setPaymentProvider] = useState('stripe');
   const firstName = user?.first_name || splitName(user?.name).firstName;
   const lastName = user?.last_name || splitName(user?.name).lastName;
+  const sessionChoices = sessions.map(([cardImage, icon, label, title, date, price]) => {
+    const numericPrice = Number(String(price).replace(/[^0-9.]/g, '')) || 0;
+    return {
+      cardImage,
+      icon,
+      label,
+      title,
+      date,
+      price,
+      numericPrice,
+      value: `${label}: ${title} - ${date}`
+    };
+  });
+  const selectedSessionDetails = sessionChoices.filter(session => selectedSessions.includes(session.value));
+  const selectedTotal = selectedSessionDetails.reduce((sum, session) => sum + session.numericPrice, 0);
+  const registrationProcessingFee = selectedSessionDetails.length ? 9.5 : 0;
+  const registrationGrandTotal = selectedTotal + registrationProcessingFee;
+  const featuredSession = selectedSessionDetails[0] || sessionChoices[0];
+
+  function toggleSession(value) {
+    setSelectedSessions(current => (
+      current.includes(value)
+        ? current.filter(item => item !== value)
+        : [...current, value]
+    ));
+  }
+
   async function submit(event) {
     event.preventDefault();
+    if (!selectedSessions.length) {
+      setStatus('Please select at least one school session.');
+      return;
+    }
     setStatus('Submitting application...');
     try {
       const data = await apiPost('/registration-submit.php', new FormData(event.currentTarget));
@@ -2917,32 +2395,147 @@ function RegistrationForm({ user }) {
     }
   }
   return (
-    <section className="rtbo-section">
-      <div className="rtbo-section-head"><p className="eyebrow">Application Form</p><h2>Register for RTBO school</h2></div>
-      <form className="form" onSubmit={submit}>
-        <div className="grid two"><label>First Name<input name="first_name" defaultValue={firstName} required /></label><label>Last Name<input name="last_name" defaultValue={lastName} required /></label></div>
-        <div className="grid two"><label>Email<input type="email" name="email" defaultValue={user?.email || ''} required /></label><label>Phone<input type="tel" name="phone" defaultValue={formatPhoneNumber(user?.phone || '')} onInput={formatPhoneFieldInput} inputMode="tel" autoComplete="tel" maxLength="14" required /></label></div>
-        <div className="grid two"><label>Address 1<input name="address_1" defaultValue={user?.address_line1 || ''} required /></label><label>Address 2<input name="address_2" defaultValue={user?.address_line2 || ''} /></label></div>
-        <div className="grid three"><label>City<input name="city" defaultValue={user?.city || ''} required /></label><label>State<StateSelect defaultValue={user?.state || ''} required /></label><label>Zip<input name="zip" defaultValue={user?.zip || ''} required /></label></div>
-        <div className="grid three">
-          <label>Years of Experience<input name="experience" defaultValue={user?.experience || ''} required /></label>
-          <label>Sex<select name="sex" defaultValue={user?.sex || ''} required>{sexOptions.map(([value, label]) => <option key={value || 'empty'} value={value}>{label}</option>)}</select></label>
-          <label>Race<select name="race" defaultValue={user?.race || ''}>{raceOptions.map(([value, label]) => <option key={value || 'empty'} value={value}>{label}</option>)}</select></label>
+    <section className="rtbo-registration-page">
+      <div className="rtbo-registration-shell-nav" aria-label="Registration page navigation">
+        <div className="rtbo-registration-mini-brand">
+          <img src={image('logo.png')} alt="Raising The Bar Officiating logo" />
+          <strong>GOT U NEX REF</strong>
         </div>
-        <fieldset><legend>Level of Experience</legend>
-          {['High School', 'NJCAA (JUCO)', 'NAIA (Women)', 'NAIA (Men)', 'NCAA DIII (Women)', 'NCAA DIII (Men)', 'NCAA DII (Women)', 'NCAA DII (Men)', 'NCAA DI (Women)', 'NCAA DI (Men)', 'Pro-Am (Women)', 'Pro-Am (Men)'].map((level) => <label key={level}><input type="checkbox" name="levels[]" value={level} /> {level}</label>)}
-        </fieldset>
-        <label>Conferences<textarea name="current_conferences" required /></label>
-        <div className="grid two"><label>Recommended by anyone?<select name="referred"><option value="No">No</option><option value="Yes">Yes</option></select></label><label>Referral Name<input name="referral_name" /></label></div>
-        <label>Goals<textarea name="goals" required /></label>
-        <label>Professional Profile Picture<input type="file" name="profile_photo" accept="image/jpeg,image/png,image/webp" required /></label>
-        <fieldset><legend>Select School Session(s)</legend>{sessions.map(([, , label, title, date, price]) => <label key={label}><input type="checkbox" name="sessions[]" value={`${label}: ${title} - ${date}`} /> {label}: {title} - {price}</label>)}</fieldset>
-        <RegistrationOneTimePaymentField />
-        <fieldset><legend>Payment Method</legend><label><input type="radio" name="payment_provider" value="stripe" required /> Credit or Debit Card</label><label><input type="radio" name="payment_provider" value="paypal" required /> PayPal</label></fieldset>
-        <fieldset><legend>Waiver Agreement</legend><label><input type="radio" name="waiver_agreement" value="Agree" required /> I agree with all waiver items.</label></fieldset>
-        <div className="grid two"><label>Official Printed Name<input name="printed_signature" required /></label><label>Actual Signature<input name="signature" required /></label></div>
-        <button className="btn registration-payment-button" type="submit">Continue to Payment</button>
-        {status && <p className="form-message">{status}</p>}
+        <nav>
+          {['Home', 'Officials', 'Training Schools', 'Games', 'Resources', 'Company'].map(item => <span className={item === 'Training Schools' ? 'active' : ''} key={item}>{item}</span>)}
+        </nav>
+        <div className="rtbo-registration-nav-actions"><button type="button">Login</button><button type="button">Sign Up</button></div>
+      </div>
+      <div className="rtbo-registration-hero">
+        <div>
+          <p className="eyebrow">Register For</p>
+          <h1>Elite Officiating Training Schools</h1>
+          <p>Train with top clinicians, improve mechanics, enhance game management, and elevate your officiating career.</p>
+          <div className="rtbo-registration-hero-points">
+            <span>Elite clinicians</span>
+            <span>Advance your career</span>
+            <span>Network and grow</span>
+          </div>
+        </div>
+        <img className="rtbo-registration-hero-logo" src={image('logo.png')} alt="Raising The Bar Officiating logo" />
+        <aside className="rtbo-registration-spotlight">
+          <img src={image(featuredSession.cardImage)} alt="" />
+          <strong>{featuredSession.title}</strong>
+          <small>{featuredSession.date}</small>
+          <b>{featuredSession.price}</b>
+          <span>{selectedSessionDetails.length ? 'Selected School' : 'Choose Your School'}</span>
+        </aside>
+      </div>
+      <form className="form rtbo-registration-form" onSubmit={submit}>
+        <div className="rtbo-registration-steps" aria-label="Registration progress">
+          {['Registration Info', 'Documents', 'Payment', 'Review & Confirm'].map((step, index) => (
+            <span className={index === 0 ? 'active' : ''} key={step}><b>{index + 1}</b>{step}</span>
+          ))}
+        </div>
+        <div className="rtbo-registration-layout">
+          <div className="rtbo-registration-main">
+            <section className="rtbo-registration-card">
+              <h3>Personal Information</h3>
+              <div className="grid three"><label>First Name<input name="first_name" defaultValue={firstName} required /></label><label>Last Name<input name="last_name" defaultValue={lastName} required /></label><label>Email Address<input type="email" name="email" defaultValue={user?.email || ''} required /></label></div>
+              <div className="grid three"><label>Phone Number<input type="tel" name="phone" defaultValue={formatPhoneNumber(user?.phone || '')} onInput={formatPhoneFieldInput} inputMode="tel" autoComplete="tel" maxLength="14" required /></label><label>Address<input name="address_1" defaultValue={user?.address_line1 || ''} required /></label><label>Address Line 2<input name="address_2" defaultValue={user?.address_line2 || ''} /></label></div>
+              <div className="grid four"><label>City<input name="city" defaultValue={user?.city || ''} required /></label><label>State<StateSelect defaultValue={user?.state || ''} required /></label><label>Zip Code<input name="zip" defaultValue={user?.zip || ''} required /></label><label>Date of Birth<input type="date" name="date_of_birth" /></label></div>
+              <div className="grid two"><label>Sex<select name="sex" defaultValue={user?.sex || ''} required>{sexOptions.map(([value, label]) => <option key={value || 'empty'} value={value}>{label}</option>)}</select></label><label>Race<select name="race" defaultValue={user?.race || ''}>{raceOptions.map(([value, label]) => <option key={value || 'empty'} value={value}>{label}</option>)}</select></label></div>
+            </section>
+            <section className="rtbo-registration-card">
+              <h3>Officiating Information</h3>
+              <div className="grid three">
+                <label>Years of Experience<select name="experience" defaultValue={user?.experience || ''} required><option value="">Select years</option><option>0-2 years</option><option>3-5 years</option><option>6-10 years</option><option>11+ years</option></select></label>
+                <label>Current Certifications<select name="current_certifications" defaultValue=""><option value="">Select certifications</option><option>NFHS</option><option>NJCAA</option><option>NAIA</option><option>NCAA</option><option>Pro-Am</option></select></label>
+                <label>Conferences Worked<select name="conference_select" defaultValue=""><option value="">Select conferences</option><option>High School</option><option>NJCAA</option><option>NAIA</option><option>NCAA DIII</option><option>NCAA DII</option><option>NCAA DI</option></select></label>
+              </div>
+              <div className="grid three">
+                <label>Preferred Positions<select name="preferred_positions" defaultValue=""><option value="">Select positions</option><option>Referee</option><option>Umpire 1</option><option>Umpire 2</option><option>Any crew position</option></select></label>
+                <label>Highest Level Worked<select name="highest_level_worked" defaultValue=""><option value="">Select level</option><option>High School</option><option>NJCAA</option><option>NAIA</option><option>NCAA DIII</option><option>NCAA DII</option><option>NCAA DI</option><option>Pro-Am</option></select></label>
+                <label>Training School Goals<select name="training_school_goals" defaultValue=""><option value="">Select goals</option><option>Improve mechanics</option><option>Advance levels</option><option>Game management</option><option>Network with coordinators</option></select></label>
+              </div>
+              <fieldset className="rtbo-registration-levels"><legend>Level of Experience</legend>
+                {['High School', 'NJCAA (JUCO)', 'NAIA (Women)', 'NAIA (Men)', 'NCAA DIII (Women)', 'NCAA DIII (Men)', 'NCAA DII (Women)', 'NCAA DII (Men)', 'NCAA DI (Women)', 'NCAA DI (Men)', 'Pro-Am (Women)', 'Pro-Am (Men)'].map((level) => <label key={level}><input type="checkbox" name="levels[]" value={level} /> {level}</label>)}
+              </fieldset>
+              <label>Conferences<textarea name="current_conferences" required /></label>
+              <div className="grid two"><label>Recommended by anyone?<select name="referred"><option value="No">No</option><option value="Yes">Yes</option></select></label><label>Referral Name<input name="referral_name" /></label></div>
+              <label>Goals<textarea name="goals" required /></label>
+            </section>
+            <section className="rtbo-registration-card">
+              <h3>School Selection</h3>
+              <div className="rtbo-registration-session-list">
+                {sessionChoices.map(session => (
+                  <label className={selectedSessions.includes(session.value) ? 'selected' : ''} key={session.value}>
+                    <input type="checkbox" name="sessions[]" value={session.value} checked={selectedSessions.includes(session.value)} onChange={() => toggleSession(session.value)} />
+                    <img src={image(session.icon)} alt="" />
+                    <span><strong>{session.title}</strong><small>{session.date}</small></span>
+                    <b>{session.price}</b>
+                  </label>
+                ))}
+              </div>
+            </section>
+            <section className="rtbo-registration-card">
+              <h3>Travel & Lodging Optional</h3>
+              <div className="grid three"><label>Traveling From<input name="travel_from" placeholder="Enter city or airport" /></label><label>Arrival Date<input type="date" name="arrival_date" /></label><label>Departure Date<input type="date" name="departure_date" /></label></div>
+              <div className="grid three"><label>Hotel Needed?<select name="hotel_needed" defaultValue=""><option value="">Select option</option><option>No</option><option>Yes</option></select></label><label>Roommate Request<input name="roommate_request" placeholder="Enter name or email" /></label><label>Special Requests<textarea name="special_requests" placeholder="Any special accommodations?" /></label></div>
+            </section>
+            <section className="rtbo-registration-card">
+              <h3>Documents & Agreements</h3>
+              <label>Professional Profile Picture<input type="file" name="profile_photo" accept="image/jpeg,image/png,image/webp" required /></label>
+              <RegistrationOneTimePaymentField />
+              <fieldset className="rtbo-registration-waiver"><legend>Waiver Agreement</legend><label><input type="radio" name="waiver_agreement" value="Agree" required /> I agree with all waiver items.</label><a href="#top">View Document</a></fieldset>
+              <div className="grid two"><label>Official Printed Name<input name="printed_signature" required /></label><label>Actual Signature<input name="signature" required /></label></div>
+            </section>
+          </div>
+          <aside className="rtbo-registration-summary">
+            <h3>Registration Summary</h3>
+            <div className="rtbo-registration-summary-school">
+              <img src={image(featuredSession.cardImage)} alt="" />
+              <span><strong>{featuredSession.title}</strong><small>{featuredSession.date}</small></span>
+            </div>
+            <dl>
+              <div><dt>Registration Fee</dt><dd>${selectedTotal.toFixed(2)}</dd></div>
+              <div><dt>Processing Fee</dt><dd>${registrationProcessingFee.toFixed(2)}</dd></div>
+              <div className="total"><dt>Total</dt><dd>${registrationGrandTotal.toFixed(2)}</dd></div>
+            </dl>
+            <div className="rtbo-registration-secure-card">
+              <span aria-hidden="true"></span>
+              <div><strong>Secure Checkout</strong><small>Your payment information is encrypted and secure.</small></div>
+            </div>
+            <fieldset className="rtbo-registration-payment"><legend>Payment Methods</legend><small>We accept all major credit cards</small><label><input type="radio" name="payment_provider" value="stripe" checked={paymentProvider === 'stripe'} onChange={() => setPaymentProvider('stripe')} required /> Credit or Debit Card</label><label><input type="radio" name="payment_provider" value="paypal" checked={paymentProvider === 'paypal'} onChange={() => setPaymentProvider('paypal')} required /> PayPal</label></fieldset>
+            <div className="rtbo-registration-payment-badges" aria-label="Supported checkout methods">
+              <span>VISA</span>
+              <span>MC</span>
+              <span>AMEX</span>
+              <span>DISCOVER</span>
+            </div>
+            <div className="rtbo-registration-wallets" aria-label="Express checkout options">
+              <button type="button">Apple Pay</button>
+              <button type="button">G Pay</button>
+            </div>
+            <div className="rtbo-registration-card-divider"><span>Or pay with card</span></div>
+            <div className="rtbo-registration-card-fields">
+              <label>Card Number<input type="text" inputMode="numeric" autoComplete="cc-number" placeholder="1234 1234 1234 1234" /></label>
+              <div className="grid two"><label>Expiration Date<input type="text" inputMode="numeric" autoComplete="cc-exp" placeholder="MM / YY" /></label><label>CVC<input type="text" inputMode="numeric" autoComplete="cc-csc" placeholder="CVC" /></label></div>
+              <label>Name on Card<input type="text" autoComplete="cc-name" placeholder="Enter name on card" /></label>
+              <label>Country<select defaultValue="United States"><option>United States</option><option>Canada</option><option>Mexico</option></select></label>
+              <label>Zip Code<input type="text" inputMode="numeric" autoComplete="postal-code" placeholder="12345" /></label>
+              <div className="rtbo-registration-promo-row"><label>Promo Code<input type="text" placeholder="Enter promo code" /></label><button type="button">Apply</button></div>
+            </div>
+            <button className="btn registration-payment-button" type="submit">Continue to Payment</button>
+            <p className="rtbo-registration-payment-note">You will be redirected to our secure payment processor.</p>
+            {status && <p className="form-message">{status}</p>}
+          </aside>
+        </div>
+        <div className="rtbo-registration-trust-row">
+          {[
+            ['Trusted by Thousands', 'Join 25,000+ officials nationwide.'],
+            ['Top Level Training', 'NBA, NCAA, NFHS, and professional clinicians.'],
+            ['Advance Your Career', 'Better training. Better opportunities.'],
+            ['Secure & Reliable', 'Your data and payments are 100% secure.']
+          ].map(([title, copy]) => (
+            <article key={title}><span aria-hidden="true">+</span><strong>{title}</strong><small>{copy}</small></article>
+          ))}
+        </div>
       </form>
     </section>
   );
@@ -3047,7 +2640,11 @@ function PasswordVisibilityIcon({ visible }) {
   );
 }
 
-function PasswordField({ label, className = '', ...inputProps }) {
+function FieldError({ message }) {
+  return message ? <small className="field-error" role="alert">{message}</small> : null;
+}
+
+function PasswordField({ label, className = '', error = '', ...inputProps }) {
   const [visible, setVisible] = useState(false);
   const fieldLabel = typeof label === 'string' ? label : 'password';
 
@@ -3066,21 +2663,112 @@ function PasswordField({ label, className = '', ...inputProps }) {
           <PasswordVisibilityIcon visible={visible} />
         </button>
       </span>
+      <FieldError message={error} />
     </label>
+  );
+}
+
+const authAccountTypeOptions = [
+  ['official', 'Official', 'Referees, umpires, and officials'],
+  ['school_admin', 'School / League', 'Request officials and manage games'],
+  ['vendor', 'Vendor', 'Provide services to schools and officials'],
+  ['evaluator', 'Evaluator', 'Evaluate and develop game officials']
+];
+
+const authProviderOptions = [
+  ['google', 'Google', 'G'],
+  ['microsoft', 'Microsoft', 'M'],
+  ['apple', 'Apple', 'A']
+];
+
+const authFeatureList = [
+  ['Secure Platform', 'Protected account access for assignments, training, payments, and records.'],
+  ['Real-Time Access', 'View schedule updates, messages, forms, and dashboard tools.'],
+  ['Built For Officials', 'Everything needed to manage your officiating career in one place.']
+];
+
+const authRecoveryFeatureList = [
+  ['Secure & Private', 'Your account recovery information stays encrypted and protected.'],
+  ['Quick & Easy', 'Reset your password in a few clear steps.'],
+  ['Need Help?', 'Support is available if your reset link does not arrive.']
+];
+
+function validateEmailAddress(value = '') {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || '').trim());
+}
+
+function validateAuthPassword(value = '') {
+  const password = String(value || '');
+  return password.length >= 10 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /\d/.test(password) && /[^A-Za-z0-9]/.test(password);
+}
+
+function base64UrlToArrayBuffer(value = '') {
+  const normalized = String(value || '').replace(/-/g, '+').replace(/_/g, '/');
+  const padded = `${normalized}${'='.repeat((4 - (normalized.length % 4)) % 4)}`;
+  const binary = window.atob(padded);
+  const bytes = new Uint8Array(binary.length);
+  for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
+  return bytes.buffer;
+}
+
+function AuthShowcase({ activeMode }) {
+  const isSignup = activeMode === 'signup';
+  const isRecovery = activeMode === 'forgot' || activeMode === 'reset';
+  const featureItems = isRecovery ? authRecoveryFeatureList : authFeatureList;
+  const eyebrow = isSignup ? 'Create Your Access' : isRecovery ? 'Password Recovery' : 'Welcome Back';
+  const heading = isSignup
+    ? 'Join the RTBO officiating platform.'
+    : isRecovery
+      ? "We've got you. Let's get you back in."
+      : 'Ready to elevate?';
+  const copy = isSignup
+    ? 'Create your account to access RTBO tools, training, messages, assignments, and services.'
+    : isRecovery
+      ? "No worries. Enter your email and we'll send you a secure link to reset your password."
+      : 'Sign in to continue your officiating journey with the RTBO command center.';
+
+  return (
+    <aside className="rtbo-auth-showcase" aria-label="Raising The Bar Officiating account access">
+      <div className="rtbo-auth-brand-lockup">
+        <img src={image('logo.png')} alt="Raising The Bar Officiating logo" />
+        <strong>We Will Serve, and Will Be Of Service To The Game.</strong>
+      </div>
+      <div className="rtbo-auth-copy">
+        <p className="eyebrow">{eyebrow}</p>
+        <h3>{heading}</h3>
+        <p>{copy}</p>
+      </div>
+      <div className="rtbo-auth-feature-list">
+        {featureItems.map(([title, copy]) => (
+          <article key={title}>
+            <span aria-hidden="true">{title.slice(0, 1)}</span>
+            <div>
+              <strong>{title}</strong>
+              <p>{copy}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+      <p className="rtbo-auth-support">Need help? <a href="mailto:admin@rtbofficiating.com">Contact Support</a></p>
+    </aside>
   );
 }
 
 function AccountModal({ mode = 'login', resetToken = '', onClose, onLogin, onResetTokenHandled = () => {} }) {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
-  const [account, setAccount] = useState({ first_name: '', last_name: '', email: '', phone: '', password: '' });
+  const [account, setAccount] = useState({ role: 'official', first_name: '', last_name: '', email: '', phone: '', password: '', confirm_password: '' });
   const [forgotPassword, setForgotPassword] = useState({ email: '' });
   const [resetPassword, setResetPassword] = useState({ new_password: '', confirm_password: '' });
   const [activeMode, setActiveMode] = useState(mode);
   const [status, setStatus] = useState('');
+  const [formErrors, setFormErrors] = useState({});
+  const [rememberMe, setRememberMe] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     setActiveMode(mode);
     setStatus('');
+    setFormErrors({});
   }, [mode]);
 
   function switchMode(nextMode) {
@@ -3092,78 +2780,223 @@ function AccountModal({ mode = 'login', resetToken = '', onClose, onLogin, onRes
     }
     setActiveMode(nextMode);
     setStatus('');
+    setFormErrors({});
   }
 
   function update(event) {
     const { name, value } = event.target;
     setCredentials(current => ({ ...current, [name]: value }));
+    if (formErrors[name]) setFormErrors(current => ({ ...current, [name]: '' }));
   }
 
   function updateAccount(event) {
     const { name, value } = event.target;
     setAccount(current => ({ ...current, [name]: formatFormFieldValue(name, value) }));
+    if (formErrors[name]) setFormErrors(current => ({ ...current, [name]: '' }));
   }
 
   function updateForgotPassword(event) {
     const { name, value } = event.target;
     setForgotPassword(current => ({ ...current, [name]: value }));
+    if (formErrors[name]) setFormErrors(current => ({ ...current, [name]: '' }));
   }
 
   function updateResetPassword(event) {
     const { name, value } = event.target;
     setResetPassword(current => ({ ...current, [name]: value }));
+    if (formErrors[name]) setFormErrors(current => ({ ...current, [name]: '' }));
+  }
+
+  function chooseAccountRole(role) {
+    setAccount(current => ({ ...current, role }));
+    if (formErrors.role) setFormErrors(current => ({ ...current, role: '' }));
+  }
+
+  function validateLoginForm() {
+    const errors = {};
+    if (!validateEmailAddress(credentials.email)) errors.email = 'Enter a valid email address.';
+    if (!credentials.password) errors.password = 'Enter your password.';
+    return errors;
+  }
+
+  function validateSignupForm() {
+    const errors = {};
+    if (!account.role) errors.role = 'Select an account type.';
+    if (!account.first_name.trim()) errors.first_name = 'Enter your first name.';
+    if (!account.last_name.trim()) errors.last_name = 'Enter your last name.';
+    if (!validateEmailAddress(account.email)) errors.email = 'Enter a valid email address.';
+    if (!/^\(\d{3}\) \d{3}-\d{4}$/.test(account.phone)) errors.phone = 'Enter a phone number as (xxx) xxx-xxxx.';
+    if (!validateAuthPassword(account.password)) errors.password = 'Use at least 10 characters with uppercase, lowercase, number, and special character.';
+    if (account.confirm_password !== account.password) errors.confirm_password = 'Passwords must match.';
+    return errors;
+  }
+
+  function validateForgotForm() {
+    return validateEmailAddress(forgotPassword.email) ? {} : { email: 'Enter a valid email address.' };
+  }
+
+  function validateResetForm() {
+    const errors = {};
+    if (!validateAuthPassword(resetPassword.new_password)) errors.new_password = 'Use at least 10 characters with uppercase, lowercase, number, and special character.';
+    if (resetPassword.confirm_password !== resetPassword.new_password) errors.confirm_password = 'Passwords must match.';
+    return errors;
+  }
+
+  function applyValidation(errors) {
+    setFormErrors(errors);
+    if (Object.keys(errors).length) {
+      setStatus('Please correct the highlighted fields.');
+      return false;
+    }
+    setStatus('');
+    return true;
   }
 
   async function submit(event) {
     event.preventDefault();
+    if (!applyValidation(validateLoginForm())) return;
     const normalizedEmail = credentials.email.trim().toLowerCase();
 
     setStatus('Signing in...');
+    setSubmitting(true);
     try {
       const data = await apiPostJson('/auth-login.php', {
         email: normalizedEmail,
-        password: credentials.password
+        password: credentials.password,
+        remember: rememberMe
       });
       onLogin(data.user);
     } catch (error) {
       setStatus(error.message);
+    } finally {
+      setSubmitting(false);
     }
   }
 
   async function submitCreateAccount(event) {
     event.preventDefault();
+    if (!applyValidation(validateSignupForm())) return;
     setStatus('Creating account...');
+    setSubmitting(true);
     try {
       const data = await apiPostJson('/auth-register.php', {
-        ...account,
+        role: account.role,
+        first_name: account.first_name.trim(),
+        last_name: account.last_name.trim(),
+        phone: account.phone,
+        password: account.password,
         email: account.email.trim().toLowerCase()
       });
       onLogin(data.user);
     } catch (error) {
       setStatus(error.message);
+    } finally {
+      setSubmitting(false);
     }
   }
 
-  async function submitForgotPassword(event) {
-    event.preventDefault();
-    setStatus('Sending reset instructions...');
+  async function sendPasswordResetEmail(statusMessage = 'Sending reset instructions...') {
+    if (!applyValidation(validateForgotForm())) return false;
+    setStatus(statusMessage);
+    setSubmitting(true);
     try {
       const data = await apiPostJson('/password-reset-request.php', {
         email: forgotPassword.email.trim().toLowerCase()
       });
       setStatus(data.message || 'If an account exists for that email, password reset instructions have been sent.');
+      return true;
     } catch (error) {
       setStatus(error.message);
+      return false;
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function submitForgotPassword(event) {
+    event.preventDefault();
+    await sendPasswordResetEmail();
+  }
+
+  async function resendResetEmail() {
+    await sendPasswordResetEmail('Resending reset instructions...');
+  }
+
+  async function resetViaPhone() {
+    if (!applyValidation(validateForgotForm())) return;
+    setStatus('Sending phone reset instructions...');
+    setSubmitting(true);
+    try {
+      const data = await apiPostJson('/password-reset-phone.php', {
+        email: forgotPassword.email.trim().toLowerCase()
+      });
+      setStatus(data.message || 'If the account has a phone number, reset instructions have been sent by text.');
+    } catch (error) {
+      setStatus(error.message);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function startProviderSignIn(provider) {
+    const option = authProviderOptions.find(([value]) => value === provider);
+    const providerLabel = option?.[1] || 'Provider';
+    setStatus(`Opening ${providerLabel} sign in...`);
+    setSubmitting(true);
+    try {
+      const data = await apiGet(`/auth-oauth-start.php?provider=${encodeURIComponent(provider)}`);
+      if (data.authorization_url) {
+        window.location.assign(data.authorization_url);
+        return;
+      }
+      setStatus(data.message || `${providerLabel} sign in is not available right now.`);
+    } catch (error) {
+      setStatus(error.message);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function startPasskeySignIn() {
+    if (!window.PublicKeyCredential || !navigator.credentials) {
+      setStatus('Passkey sign-in is not supported by this browser.');
+      return;
+    }
+    setStatus('Checking passkey availability...');
+    setSubmitting(true);
+    try {
+      const data = await apiGet('/auth-passkey-options.php');
+      const options = data.options || {};
+      const allowCredentials = Array.isArray(options.allowCredentials)
+        ? options.allowCredentials.map(item => ({
+          ...item,
+          id: base64UrlToArrayBuffer(item.id)
+        }))
+        : [];
+      await navigator.credentials.get({
+        publicKey: {
+          ...options,
+          challenge: base64UrlToArrayBuffer(options.challenge),
+          allowCredentials
+        }
+      });
+      setStatus('Passkey challenge completed. Server verification must be enabled before account access is granted.');
+    } catch (error) {
+      setStatus(error.message || 'Passkey sign-in was canceled.');
+    } finally {
+      setSubmitting(false);
     }
   }
 
   async function submitResetPassword(event) {
     event.preventDefault();
+    if (!applyValidation(validateResetForm())) return;
     if (!resetToken) {
       setStatus('This password reset link is missing its secure token.');
       return;
     }
     setStatus('Resetting password...');
+    setSubmitting(true);
     try {
       const data = await apiPostJson('/password-reset-complete.php', {
         token: resetToken,
@@ -3176,6 +3009,8 @@ function AccountModal({ mode = 'login', resetToken = '', onClose, onLogin, onRes
       setStatus(data.message || 'Your password has been reset. You can sign in with your new password.');
     } catch (error) {
       setStatus(error.message);
+    } finally {
+      setSubmitting(false);
     }
   }
 
@@ -3194,66 +3029,144 @@ function AccountModal({ mode = 'login', resetToken = '', onClose, onLogin, onRes
         ? 'Enter a new password for your RTBO account. Password reset links expire after 60 minutes.'
         : 'Sign in to continue to your dashboard or complete your RTBO school registration.';
   const showAccountTabs = ['signup', 'login'].includes(activeMode);
+  const isSignup = activeMode === 'signup';
+  const isRecovery = activeMode === 'forgot' || activeMode === 'reset';
+  const stepLabels = isSignup
+    ? ['Create Account', 'Verify Email', 'Profile Setup', 'Complete']
+    : ['Request Reset', 'Verify Email', 'Reset Password', 'Complete'];
+  const activeStepIndex = isRecovery && activeMode === 'reset' ? 2 : 0;
+  const modalViewClass = isSignup ? 'signup-view' : isRecovery ? 'forgot-view' : 'signin-view';
+  const passwordHelp = (
+    <div className="rtbo-auth-password-rules" aria-label="Password requirements">
+      <span className={account.password.length >= 10 ? 'met' : ''}>At least 10 characters</span>
+      <span className={/[A-Z]/.test(account.password) ? 'met' : ''}>One uppercase letter</span>
+      <span className={/\d/.test(account.password) ? 'met' : ''}>One number</span>
+      <span className={/[^A-Za-z0-9]/.test(account.password) ? 'met' : ''}>One special character</span>
+    </div>
+  );
 
   return (
-    <div className="rtbo-modal-scrim" onMouseDown={onClose}>
-      <section className="rtbo-account-modal" role="dialog" aria-modal="true" aria-labelledby="rtbo-login-title" onMouseDown={(event) => event.stopPropagation()}>
+    <div className="rtbo-modal-scrim rtbo-auth-modal-scrim" onMouseDown={onClose}>
+      <section className={`rtbo-account-modal ${modalViewClass}`} role="dialog" aria-modal="true" aria-labelledby="rtbo-login-title" onMouseDown={(event) => event.stopPropagation()}>
         <button className="rtbo-modal-close" type="button" aria-label="Close account modal" onClick={onClose}>x</button>
-        <img src={image('logo.png')} alt="Raising The Bar Officiating logo" />
-        <p className="eyebrow">Account Access</p>
-        <h2 id="rtbo-login-title">{modalTitle}</h2>
-        <p>{modalCopy}</p>
-        {showAccountTabs && (
-          <div className="account-mode-tabs" role="tablist" aria-label="Account access options">
-            <button className={activeMode === 'signup' ? 'active' : ''} type="button" onClick={() => switchMode('signup')}>Create Account</button>
-            <button className={activeMode === 'login' ? 'active' : ''} type="button" onClick={() => switchMode('login')}>Sign In</button>
+        <AuthShowcase activeMode={activeMode} />
+        <div className="rtbo-auth-form-panel">
+          {(isSignup || isRecovery) && (
+            <div className="rtbo-auth-steps" aria-label={isSignup ? 'Create account progress' : 'Password reset progress'}>
+              {stepLabels.map((step, index) => (
+                <span className={index === activeStepIndex ? 'active' : ''} key={step}><b>{index + 1}</b>{step}</span>
+              ))}
+            </div>
+          )}
+          <div className="rtbo-auth-heading">
+            <p className="eyebrow">Account Access</p>
+            <h2 id="rtbo-login-title">{modalTitle}</h2>
+            <p>{modalCopy}</p>
           </div>
-        )}
-        {activeMode === 'signup' ? (
-          <form className="form rtbo-login-form" onSubmit={submitCreateAccount}>
-            <div className="grid two"><label>First Name<input name="first_name" value={account.first_name} onChange={updateAccount} required /></label><label>Last Name<input name="last_name" value={account.last_name} onChange={updateAccount} required /></label></div>
-            <label>Email<input type="email" name="email" value={account.email} onChange={updateAccount} required /></label>
-            <label>Phone<input type="tel" name="phone" value={account.phone} onChange={updateAccount} inputMode="tel" autoComplete="tel" maxLength="14" placeholder="(xxx) xxx-xxxx" /></label>
-            <PasswordField label="Password" name="password" value={account.password} onChange={updateAccount} minLength="10" autoComplete="new-password" required />
-            {status && <p className="form-message">{status}</p>}
-            <div className="button-row">
-              <button className="btn" type="submit">Create Account</button>
-              <button className="btn secondary dark-btn" type="button" onClick={() => switchMode('login')}>Already have an account?</button>
+          {showAccountTabs && (
+            <div className="account-mode-tabs" role="tablist" aria-label="Account access options">
+              <button className={activeMode === 'signup' ? 'active' : ''} type="button" onClick={() => switchMode('signup')}>Create Account</button>
+              <button className={activeMode === 'login' ? 'active' : ''} type="button" onClick={() => switchMode('login')}>Sign In</button>
             </div>
-          </form>
-        ) : activeMode === 'forgot' ? (
-          <form className="form rtbo-login-form" onSubmit={submitForgotPassword}>
-            <p className="password-reset-note">Use the email connected to your RTBO account. If it matches an active account, we will send a secure reset link.</p>
-            <label>Email<input type="email" name="email" value={forgotPassword.email} onChange={updateForgotPassword} required /></label>
-            {status && <p className="form-message">{status}</p>}
-            <div className="button-row">
-              <button className="btn" type="submit">Send Reset Link</button>
-              <button className="btn secondary dark-btn" type="button" onClick={() => switchMode('login')}>Back to Sign In</button>
-            </div>
-          </form>
-        ) : activeMode === 'reset' ? (
-          <form className="form rtbo-login-form" onSubmit={submitResetPassword}>
-            <PasswordField label="New Password" name="new_password" value={resetPassword.new_password} onChange={updateResetPassword} minLength="12" autoComplete="new-password" required />
-            <PasswordField label="Confirm New Password" name="confirm_password" value={resetPassword.confirm_password} onChange={updateResetPassword} minLength="12" autoComplete="new-password" required />
-            {status && <p className="form-message">{status}</p>}
-            <div className="button-row">
-              <button className="btn" type="submit">Reset Password</button>
-              <button className="btn secondary dark-btn" type="button" onClick={() => switchMode('login')}>Back to Sign In</button>
-            </div>
-          </form>
-        ) : (
-          <form className="form rtbo-login-form" onSubmit={submit}>
-            <label>Email<input type="email" name="email" value={credentials.email} onChange={update} required /></label>
-            <PasswordField label="Password" name="password" value={credentials.password} onChange={update} autoComplete="current-password" required />
-            <div className="account-helper-actions">
-              <button className="account-link-button" type="button" onClick={() => switchMode('forgot')}>Forgot password?</button>
-            </div>
-            {status && <p className="form-message">{status}</p>}
-            <div className="button-row">
-              <button className="btn" type="submit">Sign In</button>
-            </div>
-          </form>
-        )}
+          )}
+          {activeMode === 'signup' ? (
+            <form className="form rtbo-login-form rtbo-signup-form" onSubmit={submitCreateAccount} noValidate>
+              <div className="rtbo-auth-role-wrap">
+                <span>I am a:</span>
+                <div className="rtbo-auth-role-grid" role="radiogroup" aria-label="Account type">
+                  {authAccountTypeOptions.map(([value, title, copy]) => (
+                    <button className={account.role === value ? 'active' : ''} type="button" role="radio" aria-checked={account.role === value} key={value} onClick={() => chooseAccountRole(value)}>
+                      <strong>{title}</strong>
+                      <small>{copy}</small>
+                    </button>
+                  ))}
+                </div>
+                <FieldError message={formErrors.role} />
+              </div>
+              <div className="grid two">
+                <label>First Name<input name="first_name" value={account.first_name} onChange={updateAccount} autoComplete="given-name" aria-invalid={Boolean(formErrors.first_name)} required /><FieldError message={formErrors.first_name} /></label>
+                <label>Last Name<input name="last_name" value={account.last_name} onChange={updateAccount} autoComplete="family-name" aria-invalid={Boolean(formErrors.last_name)} required /><FieldError message={formErrors.last_name} /></label>
+              </div>
+              <div className="grid two">
+                <label>Email Address<input type="email" name="email" value={account.email} onChange={updateAccount} autoComplete="email" placeholder="you@example.com" aria-invalid={Boolean(formErrors.email)} required /><FieldError message={formErrors.email} /></label>
+                <label>Phone Number<input type="tel" name="phone" value={account.phone} onChange={updateAccount} inputMode="tel" autoComplete="tel" maxLength="14" placeholder="(555) 123-4567" aria-invalid={Boolean(formErrors.phone)} required /><FieldError message={formErrors.phone} /></label>
+              </div>
+              <div className="grid two">
+                <PasswordField label="Password" name="password" value={account.password} onChange={updateAccount} minLength="10" autoComplete="new-password" aria-invalid={Boolean(formErrors.password)} error={formErrors.password} required />
+                <PasswordField label="Confirm Password" name="confirm_password" value={account.confirm_password} onChange={updateAccount} minLength="10" autoComplete="new-password" aria-invalid={Boolean(formErrors.confirm_password)} error={formErrors.confirm_password} required />
+              </div>
+              {passwordHelp}
+              {status && <p className="form-message" role="status">{status}</p>}
+              <div className="button-row">
+                <button className="btn" type="submit" disabled={submitting}>{submitting ? 'Creating Account...' : 'Create Account'}</button>
+              </div>
+              <p className="rtbo-auth-switch-copy">Already have an account? <button className="account-link-button" type="button" onClick={() => switchMode('login')}>Sign In</button></p>
+            </form>
+          ) : activeMode === 'forgot' ? (
+            <form className="form rtbo-login-form" onSubmit={submitForgotPassword} noValidate>
+              <p className="password-reset-note">Enter the email address associated with your account and we'll send you a link to reset your password.</p>
+              <label>Email Address<input type="email" name="email" value={forgotPassword.email} onChange={updateForgotPassword} autoComplete="email" placeholder="Enter your email address" aria-invalid={Boolean(formErrors.email)} required /><FieldError message={formErrors.email} /></label>
+              {status && <p className="form-message" role="status">{status}</p>}
+              <div className="button-row">
+                <button className="btn rtbo-auth-primary-btn" type="submit" disabled={submitting}>{submitting ? 'Sending...' : 'Send Reset Link'}</button>
+                <button className="btn secondary dark-btn" type="button" onClick={() => switchMode('login')}>Back to Sign In</button>
+              </div>
+              <div className="rtbo-auth-separator compact"><span>OR</span></div>
+              <button className="rtbo-auth-phone-reset" type="button" onClick={resetViaPhone} disabled={submitting}>Reset via Phone Number</button>
+              <div className="rtbo-auth-resend-card">
+                <span aria-hidden="true">L</span>
+                <div>
+                  <strong>Didn't receive the email?</strong>
+                  <small>Check your spam folder or try again.</small>
+                </div>
+                <button type="button" onClick={resendResetEmail} disabled={submitting}>Resend Email</button>
+              </div>
+            </form>
+          ) : activeMode === 'reset' ? (
+            <form className="form rtbo-login-form" onSubmit={submitResetPassword} noValidate>
+              <PasswordField label="New Password" name="new_password" value={resetPassword.new_password} onChange={updateResetPassword} minLength="10" autoComplete="new-password" aria-invalid={Boolean(formErrors.new_password)} error={formErrors.new_password} required />
+              <PasswordField label="Confirm New Password" name="confirm_password" value={resetPassword.confirm_password} onChange={updateResetPassword} minLength="10" autoComplete="new-password" aria-invalid={Boolean(formErrors.confirm_password)} error={formErrors.confirm_password} required />
+              {status && <p className="form-message" role="status">{status}</p>}
+              <div className="button-row">
+                <button className="btn" type="submit" disabled={submitting}>{submitting ? 'Resetting...' : 'Reset Password'}</button>
+                <button className="btn secondary dark-btn" type="button" onClick={() => switchMode('login')}>Back to Sign In</button>
+              </div>
+            </form>
+          ) : (
+            <form className="form rtbo-login-form" onSubmit={submit} noValidate>
+              <label>Email Address<input type="email" name="email" value={credentials.email} onChange={update} autoComplete="email" placeholder="you@example.com" aria-invalid={Boolean(formErrors.email)} required /><FieldError message={formErrors.email} /></label>
+              <PasswordField label="Password" name="password" value={credentials.password} onChange={update} autoComplete="current-password" aria-invalid={Boolean(formErrors.password)} error={formErrors.password} required />
+              <div className="account-helper-actions">
+                <label className="rtbo-auth-remember"><input type="checkbox" checked={rememberMe} onChange={(event) => setRememberMe(event.target.checked)} />Remember Me</label>
+                <button className="account-link-button" type="button" onClick={() => switchMode('forgot')}>Forgot Password?</button>
+              </div>
+              {status && <p className="form-message" role="status">{status}</p>}
+              <div className="button-row">
+                <button className="btn rtbo-auth-primary-btn" type="submit" disabled={submitting}>{submitting ? 'Signing In...' : 'Sign In'}</button>
+              </div>
+              <div className="rtbo-auth-separator"><span>OR CONTINUE WITH</span></div>
+              <div className="rtbo-auth-provider-grid" aria-label="Continue with another sign-in provider">
+                {authProviderOptions.map(([provider, label, icon]) => (
+                  <button type="button" key={provider} onClick={() => startProviderSignIn(provider)} disabled={submitting}>
+                    <span className={`rtbo-auth-provider-icon ${provider}`} aria-hidden="true">{icon}</span>
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <button className="rtbo-passkey-card" type="button" onClick={startPasskeySignIn} disabled={submitting}>
+                <span className="rtbo-passkey-icon" aria-hidden="true">P</span>
+                <span>
+                  <strong>Sign in with Passkey</strong>
+                  <small>Use your device passkey for a faster and more secure sign in.</small>
+                </span>
+                <b aria-hidden="true">&gt;</b>
+              </button>
+              <p className="rtbo-auth-recaptcha">
+                This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noreferrer">Terms of Service</a> apply.
+              </p>
+            </form>
+          )}
+        </div>
       </section>
     </div>
   );
@@ -6301,194 +6214,6 @@ const organizationSections = [
   { id: 'competitionClassification', target: 'organizations', label: 'Competition Classification', title: 'Competition Classification' }
 ];
 
-const ncaaDivisionIConferences = [
-  'America East Conference',
-  'American Conference',
-  'Atlantic 10 Conference',
-  'Atlantic Coast Conference (ACC)',
-  'ASUN Conference',
-  'Big 12 Conference',
-  'Big East Conference',
-  'Big Sky Conference',
-  'Big South Conference',
-  'Big Ten Conference',
-  'Big West Conference',
-  'Coastal Athletic Association (CAA)',
-  'Conference USA (C-USA)',
-  'Horizon League',
-  'Ivy League',
-  'Metro Atlantic Athletic Conference (MAAC)',
-  'Mid-American Conference (MAC)',
-  'Mid-Eastern Athletic Conference (MEAC)',
-  'Missouri Valley Conference (MVC)',
-  'Mountain West Conference',
-  'Northeast Conference (NEC)',
-  'Ohio Valley Conference (OVC)',
-  'Patriot League',
-  'Southeastern Conference (SEC)',
-  'Southern Conference (SoCon)',
-  'Southland Conference',
-  'Southwestern Athletic Conference (SWAC)',
-  'Summit League',
-  'Sun Belt Conference',
-  'West Coast Conference (WCC)',
-  'Western Athletic Conference (WAC)'
-];
-
-const ncaaDivisionIiConferences = [
-  'California Collegiate Athletic Association - CCAA',
-  'Central Atlantic Collegiate Conference - CACC',
-  'Central Intercollegiate Athletic Association - CIAA',
-  'Conference Carolinas - CC / Carolinas',
-  'East Coast Conference - ECC',
-  'Great American Conference - GAC',
-  'Great Lakes Intercollegiate Athletic Conference - GLIAC',
-  'Great Lakes Valley Conference - GLVC',
-  'Great Midwest Athletic Conference - G-MAC',
-  'Great Northwest Athletic Conference - GNAC',
-  'Gulf South Conference - GSC',
-  'Lone Star Conference - LSC',
-  'Mid-America Intercollegiate Athletics Association - MIAA',
-  'Mountain East Conference - MEC',
-  'Northeast-10 Conference - NE-10',
-  'Northern Sun Intercollegiate Conference - NSIC',
-  'Pacific West Conference - PacWest / PWC',
-  'Peach Belt Conference - PBC',
-  'Pennsylvania State Athletic Conference - PSAC',
-  'Rocky Mountain Athletic Conference - RMAC',
-  'South Atlantic Conference - SAC',
-  'Southern Intercollegiate Athletic Conference - SIAC',
-  'Sunshine State Conference - SSC'
-];
-
-const ncaaDivisionIiiWomenConferences = [
-  'Allegheny Mountain Collegiate Conference',
-  'American Rivers Conference',
-  'American Southwest Conference',
-  'Atlantic East Conference',
-  'Centennial Conference',
-  'City University of New York Athletic Conference',
-  'Coast-to-Coast Athletic Conference',
-  'College Conference of Illinois and Wisconsin',
-  'Collegiate Conference of the South',
-  'Conference of New England',
-  'Empire 8',
-  'Great Northeast Athletic Conference',
-  'Heartland Collegiate Athletic Conference',
-  'Landmark Conference',
-  'Liberty League',
-  'Little East Conference',
-  'Massachusetts State Collegiate Athletic Conference',
-  'Michigan Intercollegiate Athletic Association',
-  'Middle Atlantic Conference Commonwealth',
-  'Middle Atlantic Conference Freedom',
-  'Midwest Conference',
-  'Minnesota Intercollegiate Athletic Conference',
-  'New England Small College Athletic Conference',
-  'New England Women’s and Men’s Athletic Conference',
-  'New Jersey Athletic Conference',
-  'North Atlantic Conference',
-  'North Coast Athletic Conference',
-  'Northern Athletics Collegiate Conference',
-  'Northwest Conference',
-  'Ohio Athletic Conference',
-  'Old Dominion Athletic Conference',
-  'Presidents’ Athletic Conference',
-  'Skyline Conference',
-  'Southern Athletic Association',
-  'Southern California Intercollegiate Athletic Conference',
-  'Southern Collegiate Athletic Conference',
-  'St. Louis Intercollegiate Athletic Conference',
-  'State University of New York Athletic Conference',
-  'United East Conference',
-  'University Athletic Association',
-  'Upper Midwest Athletic Conference',
-  'USA South Athletic Conference',
-  'Wisconsin Intercollegiate Athletic Conference'
-];
-
-const naiaConferences = [
-  'American Midwest Conference',
-  'Appalachian Athletic Conference',
-  'California Pacific Conference',
-  'Cascade Collegiate Conference',
-  'Chicagoland Collegiate Athletic Conference',
-  'Continental Athletic Conference',
-  'Crossroads League',
-  'Frontier Conference',
-  'Great Plains Athletic Conference',
-  'Great Southwest Athletic Conference',
-  'HBCU Athletic Conference',
-  'Heart of America Athletic Conference',
-  'Kansas Collegiate Athletic Conference',
-  'Mid-South Conference',
-  'Red River Athletic Conference',
-  'River States Conference',
-  'Sooner Athletic Conference',
-  'Southern States Athletic Conference',
-  'The Sun Conference',
-  'Wolverine-Hoosier Athletic Conference'
-];
-
-const njcaaConferences = [
-  'Arizona Community College Athletic Conference - Region 1',
-  'Bi-State Conference - Region 2',
-  'Mid-State Athletic Conference - Region 3',
-  'Mountain Valley Athletic Conference - Region 3',
-  'Western New York Athletic Conference - Region 3',
-  'Arrowhead Conference - Region 4',
-  'Illinois Skyway Collegiate Conference - Region 4',
-  'City Colleges of Chicago Athletic Conference - Region 4',
-  'Region 4 Basketball Standings Group - Region 4',
-  'North Texas Junior College Athletic Conference - Region 5',
-  'Western Junior College Athletic Conference - Region 5',
-  'Dallas Athletic Conference - Region 5',
-  'Kansas Jayhawk Community College Conference - Region 6',
-  'Tennessee Community College Athletic Association - Region 7',
-  'FCSAA Citrus Conference - Region 8',
-  'FCSAA Sun-Lakes Conference - Region 8',
-  'Region 9 Division I North - Region 9',
-  'Region 9 Division I South - Region 9',
-  'Region 9 Division II - Region 9',
-  'Region 10 / Carolinas Junior College Conference - Region 10',
-  'Iowa Community College Athletic Conference - Region 11',
-  'Ohio Community College Athletic Conference - Region 12',
-  'Michigan Community College Athletic Association — Eastern - Region 12',
-  'Michigan Community College Athletic Association — Northern - Region 12',
-  'Michigan Community College Athletic Association — Western - Region 12',
-  'Minnesota College Athletic Conference - Region 13',
-  'Mon-Dak Conference - Region 13',
-  'Southwest Junior College Conference / Region XIV - Region 14',
-  'City University of New York Athletic Conference — NJCAA Side - Region 15',
-  'Mid-Hudson Conference - Region 15',
-  'Show-Me Conference / Region XVI - Region 16',
-  'Georgia Collegiate Athletic Association - Region 17',
-  'Scenic West Athletic Conference - Region 18',
-  'Garden State Athletic Conference - Region 19',
-  'Eastern Pennsylvania Athletic Conference - Region 19',
-  'Maryland Junior College Athletic Conference - Region 20',
-  'Western Pennsylvania Collegiate Conference - Region 20',
-  'Massachusetts Community College Athletic Association - Region 21',
-  'Alabama Community College Conference - Region 22',
-  'Louisiana Community Colleges Athletic Conference - Region 23',
-  'Mississippi Association of Community Colleges Conference - Region 23',
-  'Mid-West Athletic Conference - Region 24',
-  'Great Rivers Athletic Conference - Region 24'
-];
-
-const classificationConferenceOptions = {
-  'NCAA DI Men': ncaaDivisionIConferences,
-  'NCAA DI Women': ncaaDivisionIConferences,
-  'NCAA DII Men': ncaaDivisionIiConferences,
-  'NCAA DII Women': ncaaDivisionIiConferences,
-  'NCAA DIII Men': ncaaDivisionIiiWomenConferences,
-  'NCAA DIII Women': ncaaDivisionIiiWomenConferences,
-  'NAIA Men': naiaConferences,
-  'NAIA Women': naiaConferences,
-  'NJCAA Men': njcaaConferences,
-  'NJCAA Women': njcaaConferences
-};
-
 function conferenceOptionsForClassification(record = {}) {
   const name = String(record.name || '').trim().toLowerCase();
   return Object.entries(classificationConferenceOptions)
@@ -8768,1358 +8493,6 @@ function NotificationCenter({
   );
 }
 
-const rtbomailEmailPattern = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi;
-
-function rtbomailStorageKey(user = {}) {
-  return `rtbomail-distribution-lists:${String(user.email || user.id || user.role || 'guest').toLowerCase()}`;
-}
-
-function rtbomailCalendarStorageKey(user = {}) {
-  return `rtbomail-calendar:${String(user.email || user.id || user.role || 'guest').toLowerCase()}`;
-}
-
-function rtbomailScopedStorageKey(user = {}, scope = 'state') {
-  return `rtbomail-${scope}:${String(user.email || user.id || user.role || 'guest').toLowerCase()}`;
-}
-
-function rtbomailReadStoredArray(key) {
-  try {
-    const parsed = JSON.parse(localStorage.getItem(key) || '[]');
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
-
-function rtbomailXmlEscape(value = '') {
-  return String(value || '')
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&apos;');
-}
-
-function rtbomailUuid() {
-  return window.crypto?.randomUUID?.() || `rtbo-${Date.now()}-${Math.random().toString(16).slice(2)}`;
-}
-
-function rtbomailDownloadTextFile(filename, text, type = 'text/plain') {
-  const blob = new Blob([text], { type });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  window.setTimeout(() => URL.revokeObjectURL(url), 500);
-}
-
-function rtbomailNormalizeEmail(value = '') {
-  const email = String(value || '').trim().replace(/^mailto:/i, '').replace(/[<>,;]+$/g, '').toLowerCase();
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : '';
-}
-
-function rtbomailRecipientName(row = [], email = '') {
-  const emailIndex = row.findIndex(cell => String(cell || '').toLowerCase().includes(email));
-  return row
-    .filter((cell, index) => index !== emailIndex)
-    .map(cell => String(cell || '').trim())
-    .find(cell => cell && !/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(cell)) || '';
-}
-
-function rtbomailRecipientsFromRows(rows = []) {
-  const recipients = new Map();
-  rows.forEach(row => {
-    const cells = Array.isArray(row) ? row : [row];
-    const rowText = cells.join(' ');
-    const matches = rowText.match(rtbomailEmailPattern) || [];
-    matches.forEach(match => {
-      const email = rtbomailNormalizeEmail(match);
-      if (email && !recipients.has(email)) {
-        recipients.set(email, { email, name: rtbomailRecipientName(cells, email) });
-      }
-    });
-  });
-  return [...recipients.values()];
-}
-
-function rtbomailRecipientsFromText(value = '') {
-  return rtbomailRecipientsFromRows(String(value || '').split(/\r?\n/).map(line => line.split(/[,;\t]/)));
-}
-
-function rtbomailParseCsv(text = '', delimiter = ',') {
-  const rows = [];
-  let row = [];
-  let cell = '';
-  let quoted = false;
-  for (let index = 0; index < text.length; index += 1) {
-    const character = text[index];
-    const next = text[index + 1];
-    if (character === '"' && quoted && next === '"') {
-      cell += '"';
-      index += 1;
-    } else if (character === '"') {
-      quoted = !quoted;
-    } else if (character === delimiter && !quoted) {
-      row.push(cell);
-      cell = '';
-    } else if ((character === '\n' || character === '\r') && !quoted) {
-      if (character === '\r' && next === '\n') index += 1;
-      row.push(cell);
-      rows.push(row);
-      row = [];
-      cell = '';
-    } else {
-      cell += character;
-    }
-  }
-  row.push(cell);
-  rows.push(row);
-  return rows.filter(items => items.some(item => String(item || '').trim()));
-}
-
-function rtbomailXmlText(value = '') {
-  const parser = new DOMParser();
-  return parser.parseFromString(value, 'application/xml');
-}
-
-async function rtbomailInflateZipEntry(bytes, method) {
-  if (method === 0) return bytes;
-  if (method !== 8 || typeof DecompressionStream === 'undefined') {
-    throw new Error('This browser cannot read compressed Excel worksheets. Save the worksheet as CSV and import it again.');
-  }
-  const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
-  return new Uint8Array(await new Response(stream).arrayBuffer());
-}
-
-async function rtbomailReadZipEntries(file) {
-  const buffer = await file.arrayBuffer();
-  const bytes = new Uint8Array(buffer);
-  const view = new DataView(buffer);
-  let eocd = -1;
-  for (let offset = bytes.length - 22; offset >= 0; offset -= 1) {
-    if (view.getUint32(offset, true) === 0x06054b50) {
-      eocd = offset;
-      break;
-    }
-  }
-  if (eocd < 0) throw new Error('Excel workbook could not be read.');
-
-  const entryCount = view.getUint16(eocd + 10, true);
-  let centralOffset = view.getUint32(eocd + 16, true);
-  const decoder = new TextDecoder();
-  const entries = {};
-
-  for (let index = 0; index < entryCount; index += 1) {
-    if (view.getUint32(centralOffset, true) !== 0x02014b50) break;
-    const method = view.getUint16(centralOffset + 10, true);
-    const compressedSize = view.getUint32(centralOffset + 20, true);
-    const nameLength = view.getUint16(centralOffset + 28, true);
-    const extraLength = view.getUint16(centralOffset + 30, true);
-    const commentLength = view.getUint16(centralOffset + 32, true);
-    const localOffset = view.getUint32(centralOffset + 42, true);
-    const name = decoder.decode(bytes.slice(centralOffset + 46, centralOffset + 46 + nameLength));
-    const localNameLength = view.getUint16(localOffset + 26, true);
-    const localExtraLength = view.getUint16(localOffset + 28, true);
-    const dataStart = localOffset + 30 + localNameLength + localExtraLength;
-    const compressed = bytes.slice(dataStart, dataStart + compressedSize);
-    entries[name] = decoder.decode(await rtbomailInflateZipEntry(compressed, method));
-    centralOffset += 46 + nameLength + extraLength + commentLength;
-  }
-
-  return entries;
-}
-
-async function rtbomailParseXlsxRecipients(file) {
-  const entries = await rtbomailReadZipEntries(file);
-  const sharedXml = entries['xl/sharedStrings.xml'];
-  const sharedStrings = sharedXml
-    ? [...rtbomailXmlText(sharedXml).querySelectorAll('si')].map(item => [...item.querySelectorAll('t')].map(text => text.textContent || '').join(''))
-    : [];
-  const sheetNames = Object.keys(entries).filter(name => /^xl\/worksheets\/sheet\d+\.xml$/.test(name));
-  const rows = [];
-
-  sheetNames.forEach(name => {
-    const xml = rtbomailXmlText(entries[name]);
-    xml.querySelectorAll('sheetData row').forEach(rowNode => {
-      const row = [];
-      rowNode.querySelectorAll('c').forEach(cell => {
-        const type = cell.getAttribute('t') || '';
-        let value = '';
-        if (type === 's') {
-          value = sharedStrings[Number(cell.querySelector('v')?.textContent || 0)] || '';
-        } else if (type === 'inlineStr') {
-          value = [...cell.querySelectorAll('t')].map(node => node.textContent || '').join('');
-        } else {
-          value = cell.querySelector('v')?.textContent || '';
-        }
-        row.push(value);
-      });
-      rows.push(row);
-    });
-  });
-
-  return rtbomailRecipientsFromRows(rows);
-}
-
-async function rtbomailImportRecipientsFromFile(file) {
-  const extension = String(file.name || '').split('.').pop()?.toLowerCase();
-  if (extension === 'xlsx' || extension === 'xlsm' || extension === 'xls') {
-    return rtbomailParseXlsxRecipients(file);
-  }
-  const text = await file.text();
-  const delimiter = extension === 'tsv' ? '\t' : ',';
-  return rtbomailRecipientsFromRows(rtbomailParseCsv(text, delimiter));
-}
-
-function rtbomailAttachmentSize(bytes = 0) {
-  const size = Number(bytes || 0);
-  if (size >= 1048576) return `${(size / 1048576).toFixed(1)} MB`;
-  if (size >= 1024) return `${(size / 1024).toFixed(1)} KB`;
-  return `${size} B`;
-}
-
-function rtbomailFileToAttachment(file) {
-  const maxBytes = 15 * 1024 * 1024;
-  if (file.size > maxBytes) {
-    throw new Error(`${file.name} is larger than the 15 MB RTBOMAIL attachment limit.`);
-  }
-
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const result = String(reader.result || '');
-      resolve({
-        id: `attachment-${Date.now()}-${Math.random().toString(16).slice(2)}`,
-        name: file.name,
-        type: file.type || 'application/octet-stream',
-        size: file.size,
-        content: result.includes(',') ? result.split(',').pop() : result
-      });
-    };
-    reader.onerror = () => reject(new Error(`${file.name} could not be attached.`));
-    reader.readAsDataURL(file);
-  });
-}
-
-function createRtbomailDraft(user = {}) {
-  return {
-    mode: 'New Email',
-    from: user.email || '',
-    to: '',
-    cc: '',
-    bcc: '',
-    subject: '',
-    priority: 'Normal',
-    sensitivity: 'Normal',
-    category: 'General Announcement',
-    audience: ['super_admin', 'admin'].includes(user.role) ? 'officials' : 'admins',
-    distributionListId: '',
-    sendMethod: 'Bulk Queue Delivery',
-    scheduledDate: '',
-    scheduledTime: '',
-    body: '',
-    includeOfficials: false,
-    includeNewsletter: false,
-    includeSchools: false,
-    includeObservers: false,
-    duplicateProtection: true,
-    unsubscribeFooter: true,
-    readReceipt: false,
-    deliveryReceipt: false,
-    followUpFlag: false,
-    focusedInbox: true,
-    encryptMessage: false,
-    attachments: []
-  };
-}
-
-function RTBOMailClient({
-  user = {},
-  messages = [],
-  unreadCount = 0,
-  onMarkRead = () => {},
-  onMarkAllRead = () => {},
-  onSendMessage = async () => {},
-  canManageAdminUsers = false
-}) {
-  const [activeFolder, setActiveFolder] = useState('Inbox');
-  const [selectedMailId, setSelectedMailId] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [mailStatus, setMailStatus] = useState('');
-  const [mailTheme, setMailTheme] = useState(getRtboTheme);
-  const [showAdminPanel, setShowAdminPanel] = useState(false);
-  const [draft, setDraft] = useState(() => createRtbomailDraft(user));
-  const [localDrafts, setLocalDrafts] = useState(() => rtbomailReadStoredArray(rtbomailScopedStorageKey(user, 'drafts')));
-  const [localSent, setLocalSent] = useState(() => rtbomailReadStoredArray(rtbomailScopedStorageKey(user, 'sent')));
-  const [archivedIds, setArchivedIds] = useState(() => rtbomailReadStoredArray(rtbomailScopedStorageKey(user, 'archived')));
-  const [trashIds, setTrashIds] = useState(() => rtbomailReadStoredArray(rtbomailScopedStorageKey(user, 'trash')));
-  const [flaggedIds, setFlaggedIds] = useState(() => rtbomailReadStoredArray(rtbomailScopedStorageKey(user, 'flagged')));
-  const [pinnedIds, setPinnedIds] = useState(() => rtbomailReadStoredArray(rtbomailScopedStorageKey(user, 'pinned')));
-  const [junkIds, setJunkIds] = useState(() => rtbomailReadStoredArray(rtbomailScopedStorageKey(user, 'junk')));
-  const [snoozedIds, setSnoozedIds] = useState(() => rtbomailReadStoredArray(rtbomailScopedStorageKey(user, 'snoozed')));
-  const [distributionLists, setDistributionLists] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem(rtbomailStorageKey(user)) || '[]');
-    } catch {
-      return [];
-    }
-  });
-  const [calendarItems, setCalendarItems] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem(rtbomailCalendarStorageKey(user)) || '[]');
-    } catch {
-      return [];
-    }
-  });
-  const [calendarForm, setCalendarForm] = useState({
-    type: 'appointment',
-    title: '',
-    date: '',
-    time: '',
-    notes: ''
-  });
-  const [distributionListName, setDistributionListName] = useState('');
-  const [importingDistributionList, setImportingDistributionList] = useState(false);
-  const mailBodyRef = useRef(null);
-  const mailAttachmentInputRef = useRef(null);
-  const [adminUsers, setAdminUsers] = useState(() => rtbomailReadStoredArray(rtbomailScopedStorageKey(user, 'admin-users')));
-  const [newAdmin, setNewAdmin] = useState({
-    name: '',
-    email: '',
-    role: 'Admin',
-    permissions: 'Create, Send, Receive',
-    status: 'Active'
-  });
-
-  const selectedDistributionList = distributionLists.find(list => list.id === draft.distributionListId) || null;
-  const selectedDistributionRecipients = selectedDistributionList?.recipients || [];
-  const directRecipients = useMemo(() => rtbomailRecipientsFromText([draft.to, draft.cc, draft.bcc].filter(Boolean).join('\n')), [draft.to, draft.cc, draft.bcc]);
-  const directRecipientEmails = directRecipients.map(recipient => recipient.email);
-  const distributionRecipientEmails = selectedDistributionRecipients.map(recipient => recipient.email);
-  const resolvedRecipientEmails = [...new Set([...directRecipientEmails, ...distributionRecipientEmails])];
-  const selectedRecipients = canManageAdminUsers ? resolvedRecipientEmails.length : 0;
-  const normalizedUserEmail = rtbomailNormalizeEmail(user.email || '');
-  const rtbomailAccountEmail = normalizedUserEmail.endsWith('@rtboofficiating.com') ? normalizedUserEmail : 'admin@rtboofficiating.com';
-  const rtbomailAccountDomain = (rtbomailAccountEmail.split('@')[1] || 'rtboofficiating.com').toLowerCase();
-  const rtbomailDeviceSettings = {
-    accountName: 'RTBOMAIL',
-    displayName: user.name || 'Raising The Bar Officiating Inc.',
-    email: rtbomailAccountEmail,
-    username: rtbomailAccountEmail,
-    incomingType: 'IMAP',
-    incomingServer: `mail.${rtbomailAccountDomain}`,
-    incomingPort: '993',
-    incomingSecurity: 'SSL/TLS',
-    outgoingServer: `mail.${rtbomailAccountDomain}`,
-    outgoingPort: '587',
-    outgoingSecurity: 'STARTTLS',
-    outgoingAuth: 'Required'
-  };
-  const signatureText = `\n\n${[
-    '--',
-    'Raising The Bar Officiating Inc.',
-    user.name || '',
-    user.email ? `Email: ${user.email}` : 'Email: admin@rtbofficiating.com',
-    'Phone#: (501) 240-4961',
-    'Web: https://rtboofficiating.com'
-  ].filter(Boolean).join('\n')}`;
-
-  const inboxMessages = useMemo(() => messages.map(notification => ({
-    id: `server-${notification.id}`,
-    notificationId: notification.id,
-    folder: 'Inbox',
-    unread: !notification.is_read,
-    from: notification.actor_name || notification.metadata?.released_by || 'RTBO Mail',
-    to: user.email || 'Current user',
-    subject: notification.title || 'RTBO Message',
-    body: notification.body || 'No message details provided.',
-    priority: notification.metadata?.priority || 'Normal',
-    category: notification.type ? formatLabel(notification.type) : 'Message',
-    createdAt: notification.created_at,
-    source: 'server'
-  })).filter(message => !archivedIds.includes(message.id) && !trashIds.includes(message.id)), [messages, archivedIds, trashIds, user.email]);
-
-  const archivedMessages = messages
-    .filter(notification => archivedIds.includes(`server-${notification.id}`))
-    .map(notification => ({
-      id: `server-${notification.id}`,
-      notificationId: notification.id,
-      folder: 'Archived',
-      unread: !notification.is_read,
-      from: notification.actor_name || notification.metadata?.released_by || 'RTBO Mail',
-      to: user.email || 'Current user',
-      subject: notification.title || 'RTBO Message',
-      body: notification.body || 'No message details provided.',
-      priority: notification.metadata?.priority || 'Normal',
-      category: notification.type ? formatLabel(notification.type) : 'Message',
-      createdAt: notification.created_at,
-      source: 'server'
-    }));
-  const trashMessages = messages
-    .filter(notification => trashIds.includes(`server-${notification.id}`))
-    .map(notification => ({
-      id: `server-${notification.id}`,
-      notificationId: notification.id,
-      folder: 'Trash',
-      unread: !notification.is_read,
-      from: notification.actor_name || notification.metadata?.released_by || 'RTBO Mail',
-      to: user.email || 'Current user',
-      subject: notification.title || 'RTBO Message',
-      body: notification.body || 'No message details provided.',
-      priority: notification.metadata?.priority || 'Normal',
-      category: notification.type ? formatLabel(notification.type) : 'Message',
-      createdAt: notification.created_at,
-      source: 'server'
-    }));
-  const templateMessages = [];
-  const distributionListMessages = distributionLists.map(list => ({
-    id: list.id,
-    folder: 'Distribution Lists',
-    unread: false,
-    from: 'RTBOMAIL Distribution Lists',
-    to: `${Number(list.recipients?.length || 0).toLocaleString()} recipients`,
-    subject: list.name,
-    body: (list.recipients || []).slice(0, 40).map(recipient => `${recipient.name ? `${recipient.name} ` : ''}<${recipient.email}>`).join('\n') || 'No recipients imported yet.',
-    priority: 'Normal',
-    category: 'Distribution List',
-    createdAt: list.createdAt,
-    source: 'distribution-list',
-    recipientCount: Number(list.recipients?.length || 0)
-  }));
-  const allMailMessages = [...inboxMessages, ...localSent, ...localDrafts, ...archivedMessages, ...trashMessages, ...distributionListMessages];
-  const focusedMessages = inboxMessages.filter(message => message.unread || ['High', 'Urgent'].includes(message.priority));
-  const otherMessages = inboxMessages.filter(message => !focusedMessages.some(focused => focused.id === message.id));
-  const sortedCalendarItems = [...calendarItems].sort((a, b) => `${a.date || ''} ${a.time || ''}`.localeCompare(`${b.date || ''} ${b.time || ''}`));
-  const calendarBuckets = {
-    appointment: sortedCalendarItems.filter(item => item.type === 'appointment'),
-    reminder: sortedCalendarItems.filter(item => item.type === 'reminder'),
-    task: sortedCalendarItems.filter(item => item.type === 'task')
-  };
-  const folderMessages = {
-    Inbox: inboxMessages,
-    'Focused Inbox': focusedMessages,
-    Other: otherMessages,
-    Sent: localSent,
-    Drafts: localDrafts,
-    Scheduled: localDrafts.filter(item => item.sendMethod === 'Schedule Delivery'),
-    Outbox: localDrafts.filter(item => item.sendMethod === 'Send Immediately'),
-    Templates: templateMessages,
-    'Distribution Lists': distributionListMessages,
-    Archived: archivedMessages,
-    Flagged: allMailMessages.filter(message => flaggedIds.includes(message.id) || message.followUpFlag),
-    Pinned: allMailMessages.filter(message => pinnedIds.includes(message.id)),
-    Snoozed: allMailMessages.filter(message => snoozedIds.includes(message.id)),
-    'Junk Email': allMailMessages.filter(message => junkIds.includes(message.id)),
-    'Deleted Items': trashMessages
-  };
-  const folders = [
-    ['Inbox', unreadCount],
-    ['Focused Inbox', folderMessages['Focused Inbox'].length],
-    ['Other', folderMessages.Other.length],
-    ['Sent', localSent.length],
-    ['Drafts', localDrafts.length],
-    ['Scheduled', folderMessages.Scheduled.length],
-    ['Outbox', folderMessages.Outbox.length],
-    ['Templates', templateMessages.length],
-    ['Distribution Lists', distributionLists.length],
-    ['Flagged', folderMessages.Flagged.length],
-    ['Pinned', folderMessages.Pinned.length],
-    ['Snoozed', folderMessages.Snoozed.length],
-    ['Archived', archivedMessages.length],
-    ['Junk Email', folderMessages['Junk Email'].length],
-    ['Deleted Items', trashMessages.length]
-  ];
-  const topMenuItems = ['Mail', 'Calendar', 'Device Setup'];
-  const visibleMessages = (folderMessages[activeFolder] || []).filter(message => {
-    const search = searchTerm.trim().toLowerCase();
-    if (!search) return true;
-    return [message.from, message.to, message.subject, message.body, message.category].some(value => String(value || '').toLowerCase().includes(search));
-  });
-  const selectedMail = visibleMessages.find(message => message.id === selectedMailId) || visibleMessages[0] || null;
-
-  useEffect(() => {
-    if (activeFolder !== 'Compose' && selectedMail && selectedMail.id !== selectedMailId) {
-      setSelectedMailId(selectedMail.id);
-    }
-  }, [activeFolder, selectedMail, selectedMailId]);
-
-  useEffect(() => {
-    localStorage.setItem(rtbomailStorageKey(user), JSON.stringify(distributionLists));
-  }, [distributionLists, user]);
-
-  useEffect(() => {
-    const syncMailTheme = () => setMailTheme(getRtboTheme());
-    const observer = new MutationObserver(syncMailTheme);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-    window.addEventListener('rtbo-theme-change', syncMailTheme);
-    window.addEventListener('storage', syncMailTheme);
-    syncMailTheme();
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('rtbo-theme-change', syncMailTheme);
-      window.removeEventListener('storage', syncMailTheme);
-    };
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem(rtbomailCalendarStorageKey(user), JSON.stringify(calendarItems));
-  }, [calendarItems, user]);
-
-  useEffect(() => {
-    localStorage.setItem(rtbomailScopedStorageKey(user, 'drafts'), JSON.stringify(localDrafts));
-  }, [localDrafts, user]);
-
-  useEffect(() => {
-    localStorage.setItem(rtbomailScopedStorageKey(user, 'sent'), JSON.stringify(localSent));
-  }, [localSent, user]);
-
-  useEffect(() => {
-    localStorage.setItem(rtbomailScopedStorageKey(user, 'archived'), JSON.stringify(archivedIds));
-  }, [archivedIds, user]);
-
-  useEffect(() => {
-    localStorage.setItem(rtbomailScopedStorageKey(user, 'trash'), JSON.stringify(trashIds));
-  }, [trashIds, user]);
-
-  useEffect(() => {
-    localStorage.setItem(rtbomailScopedStorageKey(user, 'flagged'), JSON.stringify(flaggedIds));
-  }, [flaggedIds, user]);
-
-  useEffect(() => {
-    localStorage.setItem(rtbomailScopedStorageKey(user, 'pinned'), JSON.stringify(pinnedIds));
-  }, [pinnedIds, user]);
-
-  useEffect(() => {
-    localStorage.setItem(rtbomailScopedStorageKey(user, 'junk'), JSON.stringify(junkIds));
-  }, [junkIds, user]);
-
-  useEffect(() => {
-    localStorage.setItem(rtbomailScopedStorageKey(user, 'snoozed'), JSON.stringify(snoozedIds));
-  }, [snoozedIds, user]);
-
-  useEffect(() => {
-    localStorage.setItem(rtbomailScopedStorageKey(user, 'admin-users'), JSON.stringify(adminUsers));
-  }, [adminUsers, user]);
-
-  function updateDraft(event) {
-    const { name, value, type, checked } = event.target;
-    setDraft(current => ({ ...current, [name]: type === 'checkbox' ? checked : value }));
-  }
-
-  function updateCalendarForm(event) {
-    const { name, value } = event.target;
-    setCalendarForm(current => ({ ...current, [name]: value }));
-  }
-
-  function saveCalendarItem(event) {
-    event.preventDefault();
-    if (!calendarForm.title.trim() || !calendarForm.date) {
-      setMailStatus('Calendar title and date are required.');
-      return;
-    }
-    const item = {
-      id: `calendar-${Date.now()}`,
-      ...calendarForm,
-      title: calendarForm.title.trim(),
-      notes: calendarForm.notes.trim(),
-      createdAt: new Date().toISOString()
-    };
-    setCalendarItems(current => [item, ...current]);
-    setCalendarForm({ type: calendarForm.type, title: '', date: '', time: '', notes: '' });
-    setMailStatus(`${formatLabel(item.type)} saved to the RTBOMAIL calendar.`);
-  }
-
-  function removeCalendarItem(id) {
-    setCalendarItems(current => current.filter(item => item.id !== id));
-    setMailStatus('Calendar item removed.');
-  }
-
-  function formatDeviceSettings() {
-    return [
-      `${rtbomailDeviceSettings.accountName} smart device setup`,
-      `Name: ${rtbomailDeviceSettings.displayName}`,
-      `Email: ${rtbomailDeviceSettings.email}`,
-      `Username: ${rtbomailDeviceSettings.username}`,
-      `Incoming mail: ${rtbomailDeviceSettings.incomingType}`,
-      `Incoming server: ${rtbomailDeviceSettings.incomingServer}`,
-      `Incoming port/security: ${rtbomailDeviceSettings.incomingPort} ${rtbomailDeviceSettings.incomingSecurity}`,
-      `Outgoing server: ${rtbomailDeviceSettings.outgoingServer}`,
-      `Outgoing port/security: ${rtbomailDeviceSettings.outgoingPort} ${rtbomailDeviceSettings.outgoingSecurity}`,
-      `Outgoing authentication: ${rtbomailDeviceSettings.outgoingAuth}`
-    ].join('\n');
-  }
-
-  async function copyDeviceSettings() {
-    const text = formatDeviceSettings();
-    try {
-      await navigator.clipboard.writeText(text);
-      setMailStatus('Smart-device RTBOMAIL settings copied.');
-    } catch {
-      setMailStatus(text);
-    }
-  }
-
-  function downloadAppleMailProfile() {
-    const profileId = `com.rtbofficiating.rtbomail.${rtbomailDeviceSettings.username.replace(/[^a-z0-9.-]+/gi, '-').toLowerCase()}`;
-    const profile = `<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "https://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>PayloadContent</key>
-  <array>
-    <dict>
-      <key>EmailAccountDescription</key>
-      <string>${rtbomailXmlEscape(rtbomailDeviceSettings.accountName)}</string>
-      <key>EmailAccountName</key>
-      <string>${rtbomailXmlEscape(rtbomailDeviceSettings.displayName)}</string>
-      <key>EmailAccountType</key>
-      <string>EmailTypeIMAP</string>
-      <key>EmailAddress</key>
-      <string>${rtbomailXmlEscape(rtbomailDeviceSettings.email)}</string>
-      <key>IncomingMailServerAuthentication</key>
-      <string>EmailAuthPassword</string>
-      <key>IncomingMailServerHostName</key>
-      <string>${rtbomailXmlEscape(rtbomailDeviceSettings.incomingServer)}</string>
-      <key>IncomingMailServerPortNumber</key>
-      <integer>${rtbomailXmlEscape(rtbomailDeviceSettings.incomingPort)}</integer>
-      <key>IncomingMailServerUseSSL</key>
-      <true/>
-      <key>IncomingMailServerUsername</key>
-      <string>${rtbomailXmlEscape(rtbomailDeviceSettings.username)}</string>
-      <key>OutgoingMailServerAuthentication</key>
-      <string>EmailAuthPassword</string>
-      <key>OutgoingMailServerHostName</key>
-      <string>${rtbomailXmlEscape(rtbomailDeviceSettings.outgoingServer)}</string>
-      <key>OutgoingMailServerPortNumber</key>
-      <integer>${rtbomailXmlEscape(rtbomailDeviceSettings.outgoingPort)}</integer>
-      <key>OutgoingMailServerUseSSL</key>
-      <true/>
-      <key>OutgoingMailServerUsername</key>
-      <string>${rtbomailXmlEscape(rtbomailDeviceSettings.username)}</string>
-      <key>PayloadDescription</key>
-      <string>RTBOMAIL smart-device mail account. Enter the mailbox password on the device.</string>
-      <key>PayloadDisplayName</key>
-      <string>RTBOMAIL</string>
-      <key>PayloadIdentifier</key>
-      <string>${rtbomailXmlEscape(profileId)}.mail</string>
-      <key>PayloadType</key>
-      <string>com.apple.mail.managed</string>
-      <key>PayloadUUID</key>
-      <string>${rtbomailUuid()}</string>
-      <key>PayloadVersion</key>
-      <integer>1</integer>
-    </dict>
-  </array>
-  <key>PayloadDescription</key>
-  <string>RTBOMAIL smart-device setup profile.</string>
-  <key>PayloadDisplayName</key>
-  <string>RTBOMAIL Mail Account</string>
-  <key>PayloadIdentifier</key>
-  <string>${rtbomailXmlEscape(profileId)}</string>
-  <key>PayloadOrganization</key>
-  <string>Raising The Bar Officiating Inc.</string>
-  <key>PayloadRemovalDisallowed</key>
-  <false/>
-  <key>PayloadType</key>
-  <string>Configuration</string>
-  <key>PayloadUUID</key>
-  <string>${rtbomailUuid()}</string>
-  <key>PayloadVersion</key>
-  <integer>1</integer>
-</dict>
-</plist>`;
-    rtbomailDownloadTextFile('rtbomail.mobileconfig', profile, 'application/x-apple-aspen-config');
-    setMailStatus('Apple Mail setup profile downloaded. Install it on the smart device and enter the mailbox password.');
-  }
-
-  function resetDraft() {
-    setDraft(createRtbomailDraft(user));
-    setMailStatus('New RTBO Mail message started.');
-  }
-
-  function insertIntoDraftBody(prefix = '', suffix = '') {
-    const textarea = mailBodyRef.current;
-    setDraft(current => {
-      const start = textarea?.selectionStart ?? current.body.length;
-      const end = textarea?.selectionEnd ?? current.body.length;
-      const selected = current.body.slice(start, end);
-      const nextBody = `${current.body.slice(0, start)}${prefix}${selected || 'text'}${suffix}${current.body.slice(end)}`;
-      window.requestAnimationFrame(() => {
-        textarea?.focus();
-        const cursor = start + prefix.length + (selected || 'text').length;
-        textarea?.setSelectionRange(cursor, cursor);
-      });
-      return { ...current, body: nextBody };
-    });
-  }
-
-  async function attachMailFiles(event) {
-    const files = Array.from(event.target.files || []);
-    if (!files.length) return;
-
-    setMailStatus(`Attaching ${files.length.toLocaleString()} file${files.length === 1 ? '' : 's'}...`);
-    try {
-      const attachments = await Promise.all(files.map(rtbomailFileToAttachment));
-      setDraft(current => ({
-        ...current,
-        attachments: [...(current.attachments || []), ...attachments]
-      }));
-      setMailStatus(`${attachments.length.toLocaleString()} file${attachments.length === 1 ? '' : 's'} attached. They will be sent with distribution email delivery.`);
-    } catch (error) {
-      setMailStatus(error.message || 'One or more files could not be attached.');
-    } finally {
-      event.target.value = '';
-    }
-  }
-
-  function removeDraftAttachment(id) {
-    setDraft(current => ({
-      ...current,
-      attachments: (current.attachments || []).filter(attachment => attachment.id !== id)
-    }));
-    setMailStatus('Attachment removed.');
-  }
-
-  function runMailTool(tool) {
-    if (tool === 'Bold') insertIntoDraftBody('**', '**');
-    if (tool === 'Italic') insertIntoDraftBody('_', '_');
-    if (tool === 'Underline') insertIntoDraftBody('<u>', '</u>');
-    if (tool === 'Link') insertIntoDraftBody('[', '](https://)');
-    if (tool === 'Template') {
-      const template = templateMessages[0];
-      if (!template) {
-        setMailStatus('No RTBOMAIL templates have been saved yet.');
-        return;
-      }
-      setDraft(current => ({ ...current, subject: current.subject || template.subject, body: current.body || template.body, category: template.category }));
-      setMailStatus('Template loaded into the draft.');
-    }
-    if (tool === 'Signature') {
-      setDraft(current => ({ ...current, body: current.body.includes(signatureText.trim()) ? current.body : `${current.body}${signatureText}` }));
-      setMailStatus('RTBO signature added.');
-    }
-    if (tool === 'Attach File') {
-      mailAttachmentInputRef.current?.click();
-    }
-  }
-
-  async function importDistributionList(event) {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    setImportingDistributionList(true);
-    setMailStatus(`Importing ${file.name}...`);
-    try {
-      const recipients = await rtbomailImportRecipientsFromFile(file);
-      if (!recipients.length) {
-        setMailStatus('No valid email addresses were found in the worksheet.');
-        return;
-      }
-      const list = {
-        id: `list-${Date.now()}`,
-        name: distributionListName.trim() || file.name.replace(/\.[^.]+$/, ''),
-        sourceFile: file.name,
-        recipients,
-        createdAt: new Date().toISOString()
-      };
-      setDistributionLists(current => [list, ...current]);
-      setDistributionListName('');
-      setDraft(current => ({ ...current, distributionListId: list.id }));
-      setActiveFolder('Compose');
-      setMailStatus(`${list.name} imported with ${recipients.length.toLocaleString()} unique recipient${recipients.length === 1 ? '' : 's'}.`);
-    } catch (error) {
-      setMailStatus(error.message || 'Distribution list could not be imported.');
-    } finally {
-      setImportingDistributionList(false);
-      event.target.value = '';
-    }
-  }
-
-  function deleteDistributionList(id) {
-    const list = distributionLists.find(item => item.id === id);
-    if (!list || !window.confirm(`Delete distribution list "${list.name}"?`)) return;
-    setDistributionLists(current => current.filter(item => item.id !== id));
-    setDraft(current => current.distributionListId === id ? { ...current, distributionListId: '' } : current);
-    setMailStatus('Distribution list deleted.');
-  }
-
-  function saveDraft() {
-    const saved = {
-      ...draft,
-      id: `draft-${Date.now()}`,
-      folder: draft.sendMethod === 'Schedule Delivery' ? 'Scheduled' : 'Drafts',
-      unread: false,
-      createdAt: new Date().toISOString(),
-      source: 'draft'
-    };
-    setLocalDrafts(current => [saved, ...current]);
-    setActiveFolder(saved.folder);
-    setSelectedMailId(saved.id);
-    setMailStatus(saved.folder === 'Scheduled' ? 'Scheduled message saved.' : 'Draft saved.');
-  }
-
-  async function sendDraft() {
-    if (!draft.subject.trim() || !draft.body.trim()) {
-      setMailStatus('Subject and message body are required before sending.');
-      return;
-    }
-    if ((draft.attachments || []).length > 0 && !(canManageAdminUsers && resolvedRecipientEmails.length > 0)) {
-      setMailStatus('Attachments require direct recipients or a distribution list so RTBOMAIL can send a real email.');
-      return;
-    }
-    setMailStatus('Sending RTBO Mail message...');
-    try {
-      const delivery = await onSendMessage({
-        ...draft,
-        body: draft.unsubscribeFooter ? `${draft.body}${signatureText}` : draft.body,
-        selectedRecipients,
-        recipientEmails: canManageAdminUsers ? resolvedRecipientEmails : [],
-        attachments: canManageAdminUsers ? (draft.attachments || []) : [],
-        distributionListName: canManageAdminUsers ? (selectedDistributionList?.name || '') : '',
-        distributionRecipientCount: canManageAdminUsers ? selectedDistributionRecipients.length : 0
-      });
-      const sent = {
-        ...draft,
-        id: `sent-${Date.now()}`,
-        folder: 'Sent',
-        unread: false,
-        createdAt: new Date().toISOString(),
-        source: 'sent'
-      };
-      setLocalSent(current => [sent, ...current]);
-      setActiveFolder('Sent');
-      setSelectedMailId(sent.id);
-      setDraft(createRtbomailDraft(user));
-      setMailStatus(delivery?.message || 'Message sent.');
-    } catch (error) {
-      setMailStatus(error.message || 'RTBO Mail could not send this message.');
-    }
-  }
-
-  function prepareReply(message, mode = 'Reply') {
-    if (!message) return;
-    setDraft(current => ({
-      ...current,
-      mode,
-      to: message.from,
-      subject: `${mode === 'Forward' ? 'Fwd' : 'Re'}: ${message.subject || ''}`.trim(),
-      body: `\n\nOn ${formatNotificationTimestamp(message.createdAt)}, ${message.from} wrote:\n${message.body}`
-    }));
-    setActiveFolder('Compose');
-  }
-
-  function archiveMessage(message) {
-    if (!message) {
-      setMailStatus('Select a message first.');
-      return;
-    }
-    if (message.source === 'server') setArchivedIds(current => [...new Set([...current, message.id])]);
-    setMailStatus('Message archived.');
-  }
-
-  function deleteMessage(message) {
-    if (!message) {
-      setMailStatus('Select a message first.');
-      return;
-    }
-    if (message.source === 'distribution-list') {
-      deleteDistributionList(message.id);
-      return;
-    }
-    if (message.source === 'server') setTrashIds(current => [...new Set([...current, message.id])]);
-    setMailStatus('Message moved to Trash.');
-  }
-
-  function toggleMessageCollection(message, ids, setter, activeLabel, inactiveLabel) {
-    if (!message) {
-      setMailStatus('Select a message first.');
-      return;
-    }
-    const exists = ids.includes(message.id);
-    setter(current => exists ? current.filter(id => id !== message.id) : [...new Set([...current, message.id])]);
-    setMailStatus(exists ? inactiveLabel : activeLabel);
-  }
-
-  function addAdminUser() {
-    if (!newAdmin.name.trim() || !newAdmin.email.trim()) {
-      setMailStatus('Enter the admin name and email address.');
-      return;
-    }
-    setAdminUsers(current => [{ ...newAdmin }, ...current]);
-    setNewAdmin({ name: '', email: '', role: 'Admin', permissions: 'Create, Send, Receive', status: 'Active' });
-    setMailStatus('RTBO Mail admin user saved.');
-  }
-
-  function loadTemplate(message) {
-    setDraft(current => ({
-      ...current,
-      mode: 'New Email',
-      category: message.category,
-      subject: message.subject,
-      body: message.body
-    }));
-    setActiveFolder('Compose');
-  }
-
-  function newMail() {
-    setDraft(createRtbomailDraft(user));
-    setActiveFolder('Compose');
-    setMailStatus('New RTBOMAIL message started.');
-  }
-
-  return (
-    <section className={`rtbo-dashboard-card rtbo-focused-page-card rtbo-mail-page rtbo-mail-${mailTheme}`}>
-      <div className="rtbo-dashboard-card-head">
-        <div>
-          <p className="eyebrow">Standalone Email Client</p>
-          <h3>Rtbomail</h3>
-          <p>Mail, calendar items, smart-device setup, distribution lists, attachments, unread counts, and server-backed RTBO delivery in one workspace.</p>
-        </div>
-        <div className="rtbo-mail-head-actions">
-          <span className="rtbo-notification-badge">{unreadCount} unread</span>
-          <button className="btn secondary dark-btn" type="button" onClick={onMarkAllRead} disabled={!unreadCount}>Mark All as Read</button>
-          {canManageAdminUsers && (
-            <button className="btn secondary dark-btn" type="button" onClick={() => setShowAdminPanel(current => !current)}>Admin Users</button>
-          )}
-        </div>
-      </div>
-
-      <div className="rtbo-mail-command-ribbon" aria-label="RTBOMAIL command ribbon">
-        <div className="rtbo-mail-ribbon-group primary">
-          <button className="rtbo-mail-new-message-command" type="button" onClick={newMail}>New Message</button>
-          <button type="button" onClick={saveDraft} disabled={activeFolder !== 'Compose'}>Save Draft</button>
-          <button type="button" onClick={sendDraft} disabled={activeFolder !== 'Compose'}>Send</button>
-        </div>
-        <nav className="rtbo-mail-top-menu" aria-label="RTBOMAIL top menu">
-          {topMenuItems.map(item => {
-            const target = item === 'Mail' ? 'Inbox' : item;
-            const isActive = item === 'Mail'
-              ? !['Calendar', 'Device Setup', 'Compose'].includes(activeFolder)
-              : activeFolder === item;
-            return (
-              <button className={isActive ? 'active' : ''} type="button" key={item} onClick={() => setActiveFolder(target)}>
-                {item}
-              </button>
-            );
-          })}
-        </nav>
-        <div className="rtbo-mail-ribbon-group">
-          <button type="button" onClick={() => prepareReply(selectedMail, 'Reply')} disabled={!selectedMail || selectedMail.source === 'distribution-list'}>Reply</button>
-          <button type="button" onClick={() => prepareReply(selectedMail, 'Reply All')} disabled={!selectedMail || selectedMail.source === 'distribution-list'}>Reply All</button>
-          <button type="button" onClick={() => prepareReply(selectedMail, 'Forward')} disabled={!selectedMail || selectedMail.source === 'distribution-list'}>Forward</button>
-        </div>
-        <div className="rtbo-mail-ribbon-group">
-          <button type="button" onClick={() => archiveMessage(selectedMail)} disabled={!selectedMail}>Archive</button>
-          <button type="button" onClick={() => deleteMessage(selectedMail)} disabled={!selectedMail}>Delete</button>
-          <button type="button" onClick={() => selectedMail?.notificationId && onMarkRead(selectedMail.notificationId)} disabled={!selectedMail?.unread || !selectedMail?.notificationId}>Mark Read</button>
-          <button type="button" onClick={() => toggleMessageCollection(selectedMail, flaggedIds, setFlaggedIds, 'Message flagged.', 'Message flag removed.')} disabled={!selectedMail}>Flag</button>
-          <button type="button" onClick={() => toggleMessageCollection(selectedMail, pinnedIds, setPinnedIds, 'Message pinned.', 'Message unpinned.')} disabled={!selectedMail}>Pin</button>
-          <button type="button" onClick={() => toggleMessageCollection(selectedMail, snoozedIds, setSnoozedIds, 'Message snoozed.', 'Message removed from snoozed.')} disabled={!selectedMail}>Snooze</button>
-          <button type="button" onClick={() => toggleMessageCollection(selectedMail, junkIds, setJunkIds, 'Message marked as junk.', 'Message restored from junk.')} disabled={!selectedMail}>Junk</button>
-        </div>
-        <label className="rtbo-mail-global-search">
-          <span>Search</span>
-          <input value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)} placeholder="Search mail" />
-        </label>
-      </div>
-
-      <div className="rtbo-mail-stats" aria-label="RTBO Mail delivery summary">
-        <article><span>Inbox</span><strong>{inboxMessages.length.toLocaleString()}</strong></article>
-        <article><span>Unread</span><strong>{unreadCount.toLocaleString()}</strong></article>
-        <article><span>Lists</span><strong>{distributionLists.length.toLocaleString()}</strong></article>
-        <article><span>Imported</span><strong>{distributionLists.reduce((sum, list) => sum + Number(list.recipients?.length || 0), 0).toLocaleString()}</strong></article>
-        <article><span>Direct</span><strong>{directRecipientEmails.length.toLocaleString()}</strong></article>
-        <article><span>Selected</span><strong>{selectedRecipients.toLocaleString()}</strong></article>
-      </div>
-
-      {canManageAdminUsers && (
-      <section className="rtbo-mail-distribution-panel">
-        <div>
-          <h4>Distribution Lists</h4>
-          <p>Import Excel, CSV, or TSV worksheets with email addresses. RTBOMAIL removes duplicates and sends imported lists through server-side batches without an application recipient cap.</p>
-        </div>
-        <div className="rtbo-mail-distribution-import">
-          <input value={distributionListName} onChange={(event) => setDistributionListName(event.target.value)} placeholder="Distribution list name" />
-          <label className="rtbo-mail-file-import">
-            <span>{importingDistributionList ? 'Importing...' : 'Import Excel / CSV'}</span>
-            <input type="file" accept=".xlsx,.xls,.xlsm,.csv,.tsv" onChange={importDistributionList} disabled={importingDistributionList} />
-          </label>
-        </div>
-        {distributionLists.length > 0 && (
-          <div className="rtbo-mail-distribution-list">
-            {distributionLists.slice(0, 6).map(list => (
-              <article key={list.id}>
-                <div>
-                  <strong>{list.name}</strong>
-                  <span>{Number(list.recipients?.length || 0).toLocaleString()} recipients</span>
-                  <small>{list.sourceFile || 'Manual list'} / {formatNotificationTimestamp(list.createdAt)}</small>
-                </div>
-                <div className="button-row">
-                  <button className="btn secondary dark-btn" type="button" onClick={() => { setDraft(current => ({ ...current, distributionListId: list.id })); setActiveFolder('Compose'); }}>Use</button>
-                  <button className="btn secondary dark-btn danger-action" type="button" onClick={() => deleteDistributionList(list.id)}>Delete</button>
-                </div>
-              </article>
-            ))}
-          </div>
-        )}
-      </section>
-      )}
-
-      {showAdminPanel && (
-        <section className="rtbo-mail-admin-panel">
-          <div>
-            <h4>Admin User Account Management</h4>
-            <p>Super Admin can prepare RTBO Mail users for create, send, receive, reply, archive, and read-only workflows.</p>
-          </div>
-          <div className="rtbo-mail-admin-form">
-            <input name="name" value={newAdmin.name} onChange={(event) => setNewAdmin(current => ({ ...current, name: event.target.value }))} placeholder="Admin name" />
-            <input name="email" value={newAdmin.email} onChange={(event) => setNewAdmin(current => ({ ...current, email: event.target.value }))} placeholder="Admin email" />
-            <select name="role" value={newAdmin.role} onChange={(event) => setNewAdmin(current => ({ ...current, role: event.target.value }))}>
-              <option>Super Admin</option>
-              <option>Admin</option>
-              <option>Campaign Manager</option>
-              <option>Inbox Manager</option>
-              <option>Read Only</option>
-            </select>
-            <select name="permissions" value={newAdmin.permissions} onChange={(event) => setNewAdmin(current => ({ ...current, permissions: event.target.value }))}>
-              <option>Full Access</option>
-              <option>Create, Send, Receive</option>
-              <option>Create & Draft Only</option>
-              <option>Receive & Reply Only</option>
-              <option>View Only</option>
-            </select>
-            <button className="btn" type="button" onClick={addAdminUser}>Create User</button>
-          </div>
-          <div className="rtbo-mail-admin-list">
-            {adminUsers.length === 0 && <p className="rtbo-empty-state">No RTBOMAIL admin users have been added yet.</p>}
-            {adminUsers.map(admin => (
-              <article key={admin.email}>
-                <strong>{admin.name}</strong>
-                <span>{admin.email}</span>
-                <small>{admin.role} / {admin.permissions} / {admin.status}</small>
-              </article>
-            ))}
-          </div>
-        </section>
-      )}
-
-      <div className="rtbo-mail-shell">
-        <aside className="rtbo-mail-folders" aria-label="RTBO Mail folders">
-          {folders.map(([folder, count]) => (
-            <button className={activeFolder === folder ? 'active' : ''} type="button" key={folder} onClick={() => setActiveFolder(folder)}>
-              <span>{folder}</span>
-              {count !== null && <b>{Number(count || 0) > 99 ? '99+' : count}</b>}
-            </button>
-          ))}
-        </aside>
-
-        {activeFolder === 'Compose' ? (
-          <div className="rtbo-mail-compose">
-            <div className="rtbo-mail-mode-row">
-              {['New Email', 'Reply', 'Reply All', 'Forward'].map(mode => (
-                <button className={draft.mode === mode ? 'active' : ''} type="button" key={mode} onClick={() => setDraft(current => ({ ...current, mode }))}>{mode}</button>
-              ))}
-            </div>
-            <div className="rtbo-mail-compose-grid">
-              <form className="rtbo-mail-form" onSubmit={(event) => { event.preventDefault(); sendDraft(); }}>
-                <input name="from" value={draft.from} onChange={updateDraft} placeholder="From" />
-                <input name="to" value={draft.to} onChange={updateDraft} placeholder="To" />
-                <input name="cc" value={draft.cc} onChange={updateDraft} placeholder="CC" />
-                <input name="bcc" value={draft.bcc} onChange={updateDraft} placeholder="BCC" />
-                <input name="subject" value={draft.subject} onChange={updateDraft} placeholder="Subject" />
-                <div className="rtbo-mail-form-grid">
-                  <select name="distributionListId" value={draft.distributionListId} onChange={updateDraft}>
-                    <option value="">No distribution list</option>
-                    {distributionLists.map(list => <option key={list.id} value={list.id}>{list.name} ({Number(list.recipients?.length || 0).toLocaleString()})</option>)}
-                  </select>
-                  <select name="priority" value={draft.priority} onChange={updateDraft}>
-                    <option>Low</option>
-                    <option>Normal</option>
-                    <option>High</option>
-                    <option>Urgent</option>
-                  </select>
-                  <select name="sensitivity" value={draft.sensitivity} onChange={updateDraft}>
-                    <option>Normal</option>
-                    <option>Personal</option>
-                    <option>Private</option>
-                    <option>Confidential</option>
-                  </select>
-                  <select name="category" value={draft.category} onChange={updateDraft}>
-                    <option>General Announcement</option>
-                    <option>Training School</option>
-                    <option>Assignment Update</option>
-                    <option>Newsletter</option>
-                    <option>Invoice Notice</option>
-                    <option>Rules Update</option>
-                    <option>Emergency Notice</option>
-                  </select>
-                  <select name="audience" value={draft.audience} onChange={updateDraft}>
-                    {canManageAdminUsers ? (
-                      <>
-                        <option value="officials">Officials</option>
-                        <option value="admins">Admins</option>
-                        <option value="coaches">Coaches</option>
-                        <option value="school_admins">School Admins</option>
-                        <option value="everyone">Everyone</option>
-                      </>
-                    ) : (
-                      <option value="admins">Admins</option>
-                    )}
-                  </select>
-                  <select name="sendMethod" value={draft.sendMethod} onChange={updateDraft}>
-                    <option>Bulk Queue Delivery</option>
-                    <option>Send Immediately</option>
-                    <option>Schedule Delivery</option>
-                    <option>Save as Draft</option>
-                  </select>
-                </div>
-                <div className="rtbo-mail-editor-toolbar" aria-label="Message tools">
-                  {['Bold', 'Italic', 'Underline', 'Link', 'Attach File', 'Template', 'Signature'].map(tool => (
-                    <button type="button" key={tool} onClick={() => runMailTool(tool)}>{tool}</button>
-                  ))}
-                </div>
-                <input
-                  ref={mailAttachmentInputRef}
-                  type="file"
-                  multiple
-                  hidden
-                  onChange={attachMailFiles}
-                  aria-hidden="true"
-                  tabIndex="-1"
-                />
-                {(draft.attachments || []).length > 0 && (
-                  <div className="rtbo-mail-attachment-list" aria-label="Attached files">
-                    {(draft.attachments || []).map(attachment => (
-                      <span key={attachment.id || attachment.name}>
-                        {attachment.name} <small>{rtbomailAttachmentSize(attachment.size)}</small>
-                        <button type="button" onClick={() => removeDraftAttachment(attachment.id)}>Remove</button>
-                      </span>
-                    ))}
-                  </div>
-                )}
-                <textarea ref={mailBodyRef} name="body" value={draft.body} onChange={updateDraft} placeholder="Write your email here." />
-                <div className="rtbo-mail-options">
-                  {[
-                    ['duplicateProtection', 'Duplicate Protection'],
-                    ['unsubscribeFooter', 'RTBO Signature'],
-                    ['readReceipt', 'Read Receipt'],
-                    ['deliveryReceipt', 'Delivery Receipt'],
-                    ['followUpFlag', 'Follow Up'],
-                    ['focusedInbox', 'Focused Inbox'],
-                    ['encryptMessage', 'Encrypt']
-                  ].map(([name, label]) => (
-                    <label key={name}>
-                      <span>{label}</span>
-                      <input type="checkbox" name={name} checked={Boolean(draft[name])} onChange={updateDraft} />
-                    </label>
-                  ))}
-                </div>
-                <div className="rtbo-mail-schedule-row">
-                  <input type="date" name="scheduledDate" value={draft.scheduledDate} onChange={updateDraft} />
-                  <input type="time" name="scheduledTime" value={draft.scheduledTime} onChange={updateDraft} />
-                </div>
-                <div className="rtbo-form-toolbar">
-                  <button className="btn" type="submit">Send</button>
-                  <button className="btn secondary dark-btn" type="button" onClick={saveDraft}>Save Draft</button>
-                  <button className="btn secondary dark-btn" type="button" onClick={resetDraft}>Create New</button>
-                </div>
-              </form>
-              <article className="rtbo-mail-preview">
-                <span>Live Preview</span>
-                <h4>{draft.subject || 'Email Subject Preview'}</h4>
-                <dl>
-                  <div><dt>From</dt><dd>{draft.from}</dd></div>
-                  <div><dt>To</dt><dd>{draft.to || selectedDistributionList?.name || `Audience: ${formatLabel(draft.audience)}`}</dd></div>
-                  <div><dt>Priority</dt><dd>{draft.priority}</dd></div>
-                  <div><dt>Security</dt><dd>{draft.sensitivity}{draft.encryptMessage ? ' / Encrypted' : ''}</dd></div>
-                  <div><dt>Recipients</dt><dd>{resolvedRecipientEmails.length ? `${resolvedRecipientEmails.length.toLocaleString()} imported/direct` : 'Audience delivery'}</dd></div>
-                  <div><dt>Attachments</dt><dd>{(draft.attachments || []).length ? `${draft.attachments.length.toLocaleString()} file${draft.attachments.length === 1 ? '' : 's'}` : 'None'}</dd></div>
-                </dl>
-                <p>{draft.body || 'Your message preview will appear here.'}</p>
-                {draft.unsubscribeFooter && (
-                  <div className="rtbo-mail-signature">
-                    <strong>{user.name || 'Raising The Bar Officiating Inc.'}</strong>
-                    {user.role && <span>{formatLabel(user.role)}</span>}
-                    <small>{[user.email || 'admin@rtboofficiating.com', '(501) 240-4961', 'https://rtbofficiating.com'].filter(Boolean).join(' / ')}</small>
-                  </div>
-                )}
-              </article>
-            </div>
-          </div>
-        ) : activeFolder === 'Calendar' ? (
-          <div className="rtbo-mail-calendar-panel">
-            <header className="rtbo-mail-workspace-head">
-              <div>
-                <span>Calendar</span>
-                <h4>Appointments, Reminders, and Tasks</h4>
-              </div>
-              <div className="rtbo-mail-workspace-actions">
-                <button type="button" onClick={() => setCalendarForm(current => ({ ...current, type: 'appointment' }))}>Appointment</button>
-                <button type="button" onClick={() => setCalendarForm(current => ({ ...current, type: 'reminder' }))}>Reminder</button>
-                <button type="button" onClick={() => setCalendarForm(current => ({ ...current, type: 'task' }))}>Task</button>
-              </div>
-            </header>
-            <form className="rtbo-mail-calendar-form" onSubmit={saveCalendarItem}>
-              <label>
-                <span>Type</span>
-                <select name="type" value={calendarForm.type} onChange={updateCalendarForm}>
-                  <option value="appointment">Appointment</option>
-                  <option value="reminder">Reminder</option>
-                  <option value="task">Task</option>
-                </select>
-              </label>
-              <label>
-                <span>Title</span>
-                <input name="title" value={calendarForm.title} onChange={updateCalendarForm} placeholder="Add title" />
-              </label>
-              <label>
-                <span>Date</span>
-                <input type="date" name="date" value={calendarForm.date} onChange={updateCalendarForm} />
-              </label>
-              <label>
-                <span>Time</span>
-                <input type="time" name="time" value={calendarForm.time} onChange={updateCalendarForm} />
-              </label>
-              <label className="rtbo-mail-calendar-notes">
-                <span>Notes</span>
-                <input name="notes" value={calendarForm.notes} onChange={updateCalendarForm} placeholder="Location, assignment, reminder, or task notes" />
-              </label>
-              <button type="submit">Save Calendar Item</button>
-            </form>
-            <div className="rtbo-mail-calendar-grid">
-              {[
-                ['appointment', 'Appointments'],
-                ['reminder', 'Reminders'],
-                ['task', 'Tasks']
-              ].map(([type, title]) => (
-                <section className="rtbo-mail-calendar-list" key={type}>
-                  <h5>{title}</h5>
-                  {calendarBuckets[type].length === 0 && <p className="rtbo-empty-state">No {title.toLowerCase()} saved yet.</p>}
-                  {calendarBuckets[type].map(item => (
-                    <article key={item.id}>
-                      <div>
-                        <strong>{item.title}</strong>
-                        <span>{[item.date, item.time].filter(Boolean).join(' at ') || 'Date pending'}</span>
-                        {item.notes && <p>{item.notes}</p>}
-                      </div>
-                      <button type="button" onClick={() => removeCalendarItem(item.id)}>Remove</button>
-                    </article>
-                  ))}
-                </section>
-              ))}
-            </div>
-          </div>
-        ) : activeFolder === 'Device Setup' ? (
-          <div className="rtbo-mail-device-panel">
-            <header className="rtbo-mail-workspace-head">
-              <div>
-                <span>Smart Device Setup</span>
-                <h4>Add RTBOMAIL to Phone and Tablet Mail Apps</h4>
-              </div>
-              <div className="rtbo-mail-workspace-actions">
-                <button type="button" onClick={copyDeviceSettings}>Copy Settings</button>
-                <button type="button" onClick={downloadAppleMailProfile}>Download Apple Profile</button>
-              </div>
-            </header>
-            <div className="rtbo-mail-device-grid">
-              <section>
-                <h5>Account</h5>
-                <dl>
-                  <div><dt>Name</dt><dd>{rtbomailDeviceSettings.displayName}</dd></div>
-                  <div><dt>Email</dt><dd>{rtbomailDeviceSettings.email}</dd></div>
-                  <div><dt>Username</dt><dd>{rtbomailDeviceSettings.username}</dd></div>
-                </dl>
-              </section>
-              <section>
-                <h5>Incoming Mail</h5>
-                <dl>
-                  <div><dt>Type</dt><dd>{rtbomailDeviceSettings.incomingType}</dd></div>
-                  <div><dt>Server</dt><dd>{rtbomailDeviceSettings.incomingServer}</dd></div>
-                  <div><dt>Port</dt><dd>{rtbomailDeviceSettings.incomingPort}</dd></div>
-                  <div><dt>Security</dt><dd>{rtbomailDeviceSettings.incomingSecurity}</dd></div>
-                </dl>
-              </section>
-              <section>
-                <h5>Outgoing Mail</h5>
-                <dl>
-                  <div><dt>Server</dt><dd>{rtbomailDeviceSettings.outgoingServer}</dd></div>
-                  <div><dt>Port</dt><dd>{rtbomailDeviceSettings.outgoingPort}</dd></div>
-                  <div><dt>Security</dt><dd>{rtbomailDeviceSettings.outgoingSecurity}</dd></div>
-                  <div><dt>Authentication</dt><dd>{rtbomailDeviceSettings.outgoingAuth}</dd></div>
-                </dl>
-              </section>
-            </div>
-            <div className="rtbo-mail-device-steps">
-              <article>
-                <strong>iPhone or iPad</strong>
-                <p>Open Mail account settings, choose Other, add a Mail Account, then use the account, incoming, and outgoing values shown here. The downloaded profile can prefill the same values and will still require the mailbox password.</p>
-              </article>
-              <article>
-                <strong>Android</strong>
-                <p>Open the phone mail app, choose Add Account, select Other or IMAP, and enter these RTBOMAIL settings. Use the RTBOMAIL mailbox password when the device asks for authentication.</p>
-              </article>
-            </div>
-          </div>
-        ) : (
-          <div className="rtbo-mail-reader">
-            <div className="rtbo-mail-reader-grid">
-              <div className="rtbo-mail-list">
-                {visibleMessages.length === 0 && <p className="rtbo-empty-state">No mail in this folder.</p>}
-                {visibleMessages.map(message => (
-                  <article className={`${message.unread ? 'unread' : ''}${selectedMail?.id === message.id ? ' selected' : ''}`} key={message.id}>
-                    <button type="button" onClick={() => setSelectedMailId(message.id)}>
-                      <strong>{message.subject || 'No subject'}</strong>
-                      <span>{message.from}</span>
-                      <small>{formatNotificationTimestamp(message.createdAt)} / {message.category}</small>
-                    </button>
-                    {message.unread && message.notificationId && (
-                      <button className="rtbo-mail-mark-read" type="button" onClick={() => onMarkRead(message.notificationId)}>Mark as Read</button>
-                    )}
-                    {message.source === 'template' && (
-                      <button className="rtbo-mail-mark-read" type="button" onClick={() => loadTemplate(message)}>Use Template</button>
-                    )}
-                  </article>
-                ))}
-              </div>
-              <article className="rtbo-mail-open-message">
-                {selectedMail ? (
-                  <>
-                    <div className="rtbo-mail-open-head">
-                      <div>
-                        <span>{selectedMail.priority} / {selectedMail.category}</span>
-                        <h4>{selectedMail.subject}</h4>
-                        <p>{selectedMail.from} to {selectedMail.to}</p>
-                        <small>{formatNotificationTimestamp(selectedMail.createdAt)}</small>
-                      </div>
-                      <div className="rtbo-form-toolbar">
-                        {selectedMail.unread && selectedMail.notificationId && (
-                          <button className="btn secondary dark-btn" type="button" onClick={() => onMarkRead(selectedMail.notificationId)}>Mark as Read</button>
-                        )}
-                        <button className="btn secondary dark-btn" type="button" onClick={() => prepareReply(selectedMail, 'Reply')}>Reply</button>
-                        <button className="btn secondary dark-btn" type="button" onClick={() => prepareReply(selectedMail, 'Forward')}>Forward</button>
-                        {selectedMail.source === 'distribution-list' && (
-                          <button className="btn secondary dark-btn" type="button" onClick={() => { setDraft(current => ({ ...current, distributionListId: selectedMail.id })); setActiveFolder('Compose'); }}>Use List</button>
-                        )}
-                        <button className="btn secondary dark-btn" type="button" onClick={() => archiveMessage(selectedMail)}>Archive</button>
-                        <button className="btn secondary dark-btn" type="button" onClick={() => deleteMessage(selectedMail)}>Delete</button>
-                      </div>
-                    </div>
-                    <p className="rtbo-mail-open-body">{selectedMail.body}</p>
-                  </>
-                ) : (
-                  <p className="rtbo-empty-state">Select a message to read it.</p>
-                )}
-              </article>
-            </div>
-          </div>
-        )}
-      </div>
-      {mailStatus && <p className="form-message">{mailStatus}</p>}
-    </section>
-  );
-}
 
 function OverviewGeoWidget({ geo = emptyOverviewData.geo, onOpenLiveMap }) {
   const [mapMode, setMapMode] = useState('3d');
@@ -11050,6 +9423,16 @@ function OrganizationClassifications({ onStatus }) {
 
 function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   const canUseAdminDashboard = ['super_admin', 'admin'].includes(user.role);
+  const canUseTaxCenter = canUseAdminDashboard || [
+    'school_admin',
+    'athletic_director',
+    'assistant_athletic_director',
+    'sports_information_director',
+    'conference_commissioner',
+    'game_day_admin',
+    'coach',
+    'assistant_coach'
+  ].includes(user.role);
   const geoWatchIdRef = useRef(null);
   const profilePhotoPreviewUrlRef = useRef('');
   const adminStoredSectionIds = [
@@ -11057,9 +9440,11 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     'members',
     'schedules',
     'rtbomail',
+    'newsletterCenter',
     'refroom',
     'notifications',
     'payments',
+    'taxCenter',
     'education',
     'profile',
     'reports',
@@ -11088,6 +9473,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     'tbaList',
     'availabilityCalendar',
     'evaluation',
+    ...(canUseTaxCenter ? ['taxCenter'] : []),
     'education',
     ...(user.role === 'official' ? ['reports', 'postgame'] : []),
     ...(user.role === 'observer' ? ['reports', 'observerForm'] : [])
@@ -11187,7 +9573,6 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   const [records, setRecords] = useState({
     registrations: [],
     contacts: [],
-    newsletters: [],
     payments: [],
     education: [],
     reports: []
@@ -11346,24 +9731,6 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
                 field4: contact.message || ''
               }))
             : [],
-            newsletters: ((data.newsletters || []).length || (data.subscribers || []).length)
-            ? [
-                ...(data.newsletters || []).map(newsletter => ({
-                  field0: newsletter.subject || '',
-                  field1: `${newsletter.sent_count || 0} sent / ${newsletter.failed_count || 0} failed`,
-                  field2: newsletter.sent_at ? 'Sent' : 'Draft',
-                  field3: newsletter.sent_at || newsletter.created_at || '',
-                  field4: newsletter.preheader || ''
-                })),
-                ...(data.subscribers || []).map(subscriber => ({
-                  field0: `${subscriber.first_name || ''} ${subscriber.last_name || ''}`.trim() || subscriber.email,
-                  field1: subscriber.email || '',
-                  field2: 'Subscriber',
-                  field3: subscriber.subscribed_at || '',
-                  field4: 'Active'
-                }))
-              ]
-            : current.newsletters,
             payments: (data.registrations || []).length
             ? data.registrations.map(registration => ({
                 id: registration.id,
@@ -11486,9 +9853,11 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['members', 'Members'],
     ['schedules', 'Schedules'],
     ['rtbomail', 'Rtbomail'],
+    ['newsletterCenter', 'Newsletter'],
     ['refroom', 'RefRoom'],
     ['notifications', 'Notifications'],
     ['payments', 'Payments'],
+    ['taxCenter', 'Tax Center'],
     ['education', 'Education'],
     ['reports', 'Forms'],
     ['organizations', 'Organizations']
@@ -11501,13 +9870,14 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['rtbomail', 'Rtbomail'],
     ['refroom', 'RefRoom'],
     ['notifications', 'Notifications'],
+    ...(canUseTaxCenter ? [['taxCenter', 'Tax Center']] : []),
     ...(releasedTbaGamesAvailable ? [['tbaList', 'TBA List']] : []),
     ['availabilityCalendar', 'Availability Calendar'],
     ...(user.role === 'official' ? [['reports', 'Forms']] : []),
     ['evaluation', 'Evaluations'],
     ['education', 'Education']
   ];
-  const allowedDashboardSidebarIds = new Set(['overview', 'members', 'schedules', 'rtbomail', 'refroom', 'notifications', 'payments', 'education', 'profile', 'reports', 'organizations']);
+  const allowedDashboardSidebarIds = new Set(['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'notifications', 'payments', 'taxCenter', 'education', 'profile', 'reports', 'organizations']);
   const visibleAdminSections = adminSections.filter(([id]) => allowedDashboardSidebarIds.has(id) && !hiddenSections.includes(id));
   const visibleAddMemberSections = addMemberSections.filter(item => !hiddenMemberItems.includes(item.id));
   const visibleScheduleSetupSections = scheduleSetupSections.filter(item => !hiddenScheduleItems.includes(item.id));
@@ -11527,7 +9897,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         ? uniqueFormSubSections([...visibleOfficialFormsSubSections, ...officialFormsSubSections])
         : [];
   const completedFormsSectionIds = completedFormsWidgets.map(widget => widget.section);
-  const primaryAdminOrder = ['overview', 'members', 'schedules', 'rtbomail', 'refroom', 'notifications', 'payments', 'education'];
+  const primaryAdminOrder = ['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'notifications', 'payments', 'taxCenter', 'education'];
   const secondaryAdminOrder = ['reports', 'organizations'];
   const sections = canUseAdminDashboard
     ? [
@@ -11544,7 +9914,6 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['dashboardControls', 'Dashboard Controls'],
     ['registrations', 'Registrations'],
     ['contacts', 'Contacts'],
-    ['newsletters', 'Newsletters'],
     ['payments', 'Payments'],
     ['completedOfficialForms', 'Completed Official Game Reports'],
     ['completedEvaluatorForms', 'Completed Evaluator Evaluations'],
@@ -11577,21 +9946,20 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         : []
   }));
   const dashboardControlColumns = [
-    ['overview', 'payments', 'education', 'refroom'],
-    ['members', 'reports', 'rtbomail'],
-    ['schedules', 'organizations', 'notifications']
+    ['overview', 'payments', 'taxCenter', 'education'],
+    ['members', 'reports', 'rtbomail', 'newsletterCenter'],
+    ['schedules', 'organizations', 'notifications', 'refroom']
   ].map(column => column.map(id => settingsMenuItems.find(item => item.id === id)).filter(Boolean));
   const settingsWorkflowById = new Map(settingsWorkflowSections.map(item => [item.id, item]));
 
   const configs = {
     registrations: ['Applicant', 'Session(s)', 'Payment Status', 'PDF Status', 'Profile Status'],
     contacts: ['Name', 'Email', 'Subject', 'Status', 'Notes'],
-    newsletters: ['Subject', 'Audience', 'Status', 'Send Date', 'Notes'],
     payments: ['Item', 'Amount', 'Provider', 'Status', 'Notes'],
     education: ['Module', 'Level', 'Type', 'Status', 'Audience'],
     reports: ['Form', 'Count', 'Format', 'Date Range', 'Status']
   };
-  const persistentCrudSections = new Set(['newsletters', 'payments', 'education', 'reports']);
+  const persistentCrudSections = new Set(['payments', 'education', 'reports']);
 
   function normalizeDashboardRecord(record = {}) {
     return {
@@ -12857,7 +11225,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   }
 
   function runDashboardTest() {
-    setActiveSection('settings');
+    setActiveSection('dashboardControls');
     setEducationMenuOpen(false);
     setMembersMenuOpen(false);
     setSchedulesMenuOpen(false);
@@ -12865,7 +11233,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     setFormsMenuOpen(false);
     setPaymentsMenuOpen(false);
     setSettingsMenuOpen(true);
-    setStatus(`Full RTBO dashboard test completed. ${dashboardReadinessSummary.review} item${dashboardReadinessSummary.review === 1 ? '' : 's'} need review in Settings.`);
+    setStatus(`Full RTBO dashboard test completed. ${dashboardReadinessSummary.review} item${dashboardReadinessSummary.review === 1 ? '' : 's'} need review in Dashboard Controls.`);
   }
 
   const profileFullAddress = [
@@ -13864,7 +12232,8 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
             || (id === 'reports' && (activeFormsSubSections.some(item => item.id === activeSection) || completedFormsSectionIds.includes(activeSection)));
           return (
           <Fragment key={id}>
-            <button className={sectionActive ? 'active' : ''} type="button" onClick={() => id === 'members' ? openMembersSection() : id === 'schedules' ? openSchedulesSection() : id === 'organizations' ? openOrganizationsSection() : id === 'education' ? openEducationSection() : id === 'reports' ? openFormsSection() : id === 'payments' ? openPaymentsSection() : showSection(id)}>
+            <button className={sectionActive ? 'active' : ''} type="button" data-sidebar-id={id} onClick={() => id === 'members' ? openMembersSection() : id === 'schedules' ? openSchedulesSection() : id === 'organizations' ? openOrganizationsSection() : id === 'education' ? openEducationSection() : id === 'reports' ? openFormsSection() : id === 'payments' ? openPaymentsSection() : showSection(id)}>
+              <SidebarIcon id={id} />
               <span className="rtbo-sidebar-button-label">{label}</span>
               {sidebarBadgeCount > 0 && <span className="rtbo-sidebar-count" aria-label={`${sidebarBadgeCount} unread ${id === 'notifications' ? 'notifications' : 'messages'}`}>{sidebarBadgeCount > 99 ? '99+' : sidebarBadgeCount}</span>}
             </button>
@@ -13943,7 +12312,10 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         })}
         {canUseAdminDashboard && (
           <Fragment>
-            <button className={activeSection === 'settings' || activeSection === 'dashboardControls' || settingsWorkflowById.has(activeSection) ? 'active' : ''} type="button" onClick={openSettingsSection}>Settings</button>
+            <button className={activeSection === 'settings' || activeSection === 'dashboardControls' || settingsWorkflowById.has(activeSection) ? 'active' : ''} type="button" data-sidebar-id="settings" onClick={openSettingsSection}>
+              <SidebarIcon id="settings" />
+              <span className="rtbo-sidebar-button-label">Settings</span>
+            </button>
             {settingsMenuOpen && (
               <div className="rtbo-sidebar-submenu open" aria-label="Settings submenu">
                 <button
@@ -13957,6 +12329,27 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
             )}
           </Fragment>
         )}
+        <div className="rtbo-sidebar-help-card">
+          <span className="rtbo-sidebar-help-icon" aria-hidden="true">?</span>
+          <div>
+            <strong>Need Help?</strong>
+            <p>Visit our Help Center for step-by-step guides.</p>
+          </div>
+          <button
+            className="rtbo-sidebar-help-action"
+            type="button"
+            onClick={() => {
+              if (canUseAdminDashboard) {
+                openSettingsSection();
+              } else {
+                showSection('profile');
+              }
+              setStatus('Help Center guidance opened.');
+            }}
+          >
+            View Help Center
+          </button>
+        </div>
         <button className="btn secondary dark-btn" type="button" onClick={onLogout}>Logout</button>
       </aside>
       <section className="rtbo-dashboard-main">
@@ -14020,6 +12413,12 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
             onSendMessage={sendRtbomailMessage}
             canManageAdminUsers={isSuperAdminUser(user)}
           />
+        )}
+
+        {canUseAdminDashboard && activeSection === 'newsletterCenter' && (
+          <React.Suspense fallback={<section className="rtbo-dashboard-card rtbo-focused-page-card"><p className="rtbo-empty-state">Loading Newsletter Center...</p></section>}>
+            <RTBONewsletterCenter onStatus={setStatus} />
+          </React.Suspense>
         )}
 
         {canUseAdminDashboard && activeSection === 'refroom' && refRoomPage}
@@ -14094,7 +12493,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
           </React.Suspense>
         )}
 
-        {canUseAdminDashboard && ['registrations', 'contacts', 'newsletters'].includes(activeSection) && (
+        {canUseAdminDashboard && ['registrations', 'contacts'].includes(activeSection) && (
           <CrudPanel
             title={sectionLabels.get(activeSection)}
             description="Review server-loaded records and use local planning actions for launch testing."
@@ -14108,6 +12507,12 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
 
         {canUseAdminDashboard && activeSection === 'payments' && (
           <PaymentSystem user={user} onStatus={setStatus} />
+        )}
+
+        {canUseTaxCenter && activeSection === 'taxCenter' && (
+          <React.Suspense fallback={<section className="rtbo-dashboard-card rtbo-focused-page-card"><p className="rtbo-empty-state">Loading Tax Center...</p></section>}>
+            <TaxCenter user={user} canManageTaxForms={canUseAdminDashboard} onStatus={setStatus} />
+          </React.Suspense>
         )}
 
         {activeSection === 'rtboAcademy' && (
@@ -14169,7 +12574,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         )}
 
         {canUseAdminDashboard && activeSection === 'profile' && profileBlock}
-        {!canUseAdminDashboard && activeSection !== 'rtboAcademy' && profileBlock}
+        {!canUseAdminDashboard && activeSection !== 'rtboAcademy' && activeSection !== 'taxCenter' && profileBlock}
 
         {activeSection === 'tests' && (
           <React.Suspense fallback={null}>
@@ -14274,12 +12679,27 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
               </div>
             </div>
 
+          </section>
+        )}
+
+        {activeSection === 'dashboardControls' && (
+          <section className="rtbo-dashboard-card rtbo-settings-page rtbo-dashboard-controls-page">
+            <div className="rtbo-dashboard-card-head">
+              <div>
+                <p className="eyebrow">Settings Submenu</p>
+                <h3>Dashboard Controls</h3>
+                <p>Remove or restore sidebar categories and the submenu items that belong under each category without deleting the data behind them.</p>
+              </div>
+              <div className="rtbo-form-toolbar">
+                <button className="btn secondary dark-btn" type="button" onClick={restoreDashboardSections}>Restore All</button>
+              </div>
+            </div>
             <section className="rtbo-settings-readiness-panel" aria-label="Dashboard readiness checks">
               <div className="rtbo-dashboard-card-head">
                 <div>
                   <p className="eyebrow">Launch Readiness</p>
                   <h3>Dashboard Readiness Checks</h3>
-                  <p>Review the same dashboard checks from Settings and open the exact area that needs attention.</p>
+                  <p>Review dashboard checks from Dashboard Controls and open the exact area that needs attention.</p>
                 </div>
                 <div className="rtbo-form-toolbar">
                   <button className="btn secondary dark-btn" type="button" onClick={runDashboardTest}>Run Dashboard Test</button>
@@ -14312,21 +12732,6 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
                 ))}
               </div>
             </section>
-          </section>
-        )}
-
-        {activeSection === 'dashboardControls' && (
-          <section className="rtbo-dashboard-card rtbo-settings-page rtbo-dashboard-controls-page">
-            <div className="rtbo-dashboard-card-head">
-              <div>
-                <p className="eyebrow">Settings Submenu</p>
-                <h3>Dashboard Controls</h3>
-                <p>Remove or restore sidebar categories and the submenu items that belong under each category without deleting the data behind them.</p>
-              </div>
-              <div className="rtbo-form-toolbar">
-                <button className="btn secondary dark-btn" type="button" onClick={restoreDashboardSections}>Restore All</button>
-              </div>
-            </div>
             <div className="rtbo-settings-workspace-grid rtbo-dashboard-controls-grid" aria-label="Dashboard menu settings">
               {dashboardControlColumns.map((column, index) => (
                 <div className="rtbo-settings-workspace-column" key={`dashboard-controls-column-${index}`}>
@@ -14343,7 +12748,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
 }
 
 function Footer({ setActive }) {
-  return <footer className="site-footer rtbo-footer original-footer"><div className="footer-inner"><div className="footer-container grid"><div className="footer-brand"><img className="footer-logo" src={image('logo.png')} alt="RTBO logo" /><p className="footer-desc">We Will Serve, And Will Be Of Service To The Game!</p></div><div><p className="footer-title">Navigation</p><ul className="footer-links grid">{navItems.map(([id, label]) => <li key={id}><button className="footer-link" type="button" onClick={() => setActive(id)}>{label}</button></li>)}</ul></div><div><p className="footer-title">School & Events</p><ul className="footer-timings grid"><li className="footer-timing"><span>UAPB :</span> June 9-10, 2026</li><li className="footer-ruler"></li><li className="footer-timing"><span>UCA :</span> June 19, 2026</li><li className="footer-ruler"></li><li className="footer-timing"><span>UALR :</span> July 22-23, 2026</li></ul></div></div><div className="footer-bottom"><p className="footer-copy">&copy; 2026 <span>Raising The Bar Officiating Inc.</span> All rights reserved.</p><a href="#top" className="scroll-up"><span className="scroll-up-icon">↑</span> Back To Top</a></div></div></footer>;
+  return <footer className="site-footer rtbo-footer original-footer"><div className="footer-inner"><div className="footer-container grid"><div className="footer-brand"><img className="footer-logo" src={image('logo.png')} alt="RTBO logo" /><p className="footer-desc">We Will Serve, And Will Be Of Service To The Game!</p></div><div><p className="footer-title">Navigation</p><ul className="footer-links grid">{navItems.map(([id, label]) => <li key={id}><button className="footer-link" type="button" onClick={() => setActive(id)}>{label}</button></li>)}</ul></div><div><p className="footer-title">School & Events</p><ul className="footer-timings grid"><li className="footer-timing"><span>UAPB :</span> June 9-10, 2026</li><li className="footer-ruler"></li><li className="footer-timing"><span>UCA :</span> June 19, 2026</li><li className="footer-ruler"></li><li className="footer-timing"><span>UALR :</span> July 21-22, 2026</li></ul></div></div><div className="footer-bottom"><p className="footer-copy">&copy; 2026 <span>Raising The Bar Officiating Inc.</span> All rights reserved.</p><a href="#top" className="scroll-up"><span className="scroll-up-icon">↑</span> Back To Top</a></div></div></footer>;
 }
 
 function StandaloneLivestreamStudio() {
@@ -14452,7 +12857,7 @@ function App() {
   }
 
   const readRoute = () => {
-    const route = window.location.hash.replace(/^#\/?/, '');
+    const route = window.location.hash.replace(/^#\/?/, '').split('?')[0];
     return validPages.has(route) ? route : 'home';
   };
   const [active, setActive] = useState(readRoute);
@@ -14588,22 +12993,35 @@ function App() {
     if (active === 'guests') return <><PageHero page="guests" eyebrow="Special Guests & Coordinators" title="RTBO Leadership Network">Guest instructors and coordinators supporting the RTBO school experience.</PageHero><Guests /></>;
     if (active === 'shop') return <><PageHero page="shop" eyebrow="RTBO Shop" title="Premium Officiating Gear">A branded product-page preview for RTBO apparel, whistles, drinkware, and accessories.</PageHero><Shop /></>;
     if (active === 'reviews') return <><PageHero page="reviews" eyebrow="Real Results" title="Testimonials">Officials and coaches sharing the impact of RTBO training, development, and leadership.</PageHero><Reviews /></>;
-    if (active === 'register') return <><PageHero page="register" eyebrow="Application Form" title="RTBO Registration">Create an account, complete your application, upload your profile picture, generate your PDF, and continue to payment.</PageHero>{authUser ? <RegistrationForm user={authUser} /> : <RegistrationGate onCreateAccount={openRegister} onSignIn={openRegisterSignIn} />}</>;
+    if (active === 'register') return authUser ? <RegistrationForm user={authUser} /> : <RegistrationGate onCreateAccount={openRegister} onSignIn={openRegisterSignIn} />;
+    if (active === 'contract-sign') {
+      return (
+        <React.Suspense fallback={null}>
+          <ContractSigningPage />
+        </React.Suspense>
+      );
+    }
     if (active === 'contact') return <><PageHero page="contact" eyebrow="Let's Talk" title="Contact RTBO">Reach out about schools, events, training, assigning, and Got U Nex Ref platform questions.</PageHero><Contact /></>;
     return <Home setActive={goTo} />;
   }, [active, authUser]);
 
   if (dashboardOpen && authUser) {
-    return <AdminDashboard user={authUser} onLogout={logout} onHome={() => goTo('home')} />;
+    return (
+      <React.Suspense fallback={null}>
+        <AdminDashboard user={authUser} onLogout={logout} onHome={() => goTo('home')} />
+      </React.Suspense>
+    );
   }
 
+  const fullScreenRegistration = active === 'register' && authUser;
+
   return (
-    <>
-      <Header active={active} setActive={goTo} authUser={authUser} onOpenLogin={openLogin} onOpenDashboard={() => setDashboardOpen(true)} onOpenRegister={openRegister} />
-      <main className="rtbo-public">{content}</main>
-      <Footer setActive={goTo} />
+    <React.Suspense fallback={null}>
+      {!fullScreenRegistration && <Header active={active} setActive={goTo} authUser={authUser} onOpenLogin={openLogin} onOpenDashboard={() => setDashboardOpen(true)} onOpenRegister={openRegister} />}
+      <main className={`rtbo-public ${fullScreenRegistration ? 'rtbo-registration-public' : ''}`.trim()}>{content}</main>
+      {!fullScreenRegistration && <Footer setActive={goTo} />}
       {accountModal && <AccountModal mode={accountModal} resetToken={passwordResetToken} onClose={closeAccountModal} onLogin={login} onResetTokenHandled={clearPasswordResetToken} />}
-    </>
+    </React.Suspense>
   );
 }
 

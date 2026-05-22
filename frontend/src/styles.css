@@ -1,5 +1,82 @@
 @import url('/assets/css/app.css');
 
+html,
+body,
+#root,
+.app-shell,
+.home-page,
+.main,
+main,
+.rtbo-public,
+.rtbo-section,
+.rtbo-band,
+.page-hero,
+.rtbo-offer,
+.site-footer,
+.rtbo-footer,
+.rtbo-dashboard-shell,
+.rtbo-dashboard-main,
+.rtbo-dashboard-sidebar,
+.sidebar {
+  background-color: #f6f7fb !important;
+  background-image: none !important;
+  background-attachment: scroll !important;
+}
+
+:root[data-theme="dark"],
+:root[data-theme="dark"] body,
+:root[data-theme="dark"] #root,
+:root[data-theme="dark"] .app-shell,
+:root[data-theme="dark"] .home-page,
+:root[data-theme="dark"] .main,
+:root[data-theme="dark"] main,
+:root[data-theme="dark"] .rtbo-public,
+:root[data-theme="dark"] .rtbo-section,
+:root[data-theme="dark"] .rtbo-band,
+:root[data-theme="dark"] .page-hero,
+:root[data-theme="dark"] .rtbo-offer,
+:root[data-theme="dark"] .site-footer,
+:root[data-theme="dark"] .rtbo-footer,
+:root[data-theme="dark"] .rtbo-dashboard-shell,
+:root[data-theme="dark"] .rtbo-dashboard-main,
+:root[data-theme="dark"] .rtbo-dashboard-sidebar,
+:root[data-theme="dark"] .sidebar {
+  background-color: var(--rtbo-carbon-bg) !important;
+  background-image: var(--rtbo-carbon-fiber) !important;
+  background-size: var(--rtbo-carbon-fiber-size) !important;
+  background-attachment: fixed !important;
+}
+
+:root[data-theme="dark"] .rtbo-dashboard-shell :is(.rtbo-dashboard-topbar, .rtbo-dashboard-card, .rtbo-dashboard-status, .panel, .rtbo-mail-page, .quick-actions, .rtbo-overview-alert-group, .rtbo-overview-alert-item, .rtbo-overview-geo-summary article, .form-message, .rtbo-dashboard-control-summary, .rtbo-tba-summary) {
+  color: #f8fafc !important;
+  background-color: var(--rtbo-carbon-bg) !important;
+  background-image: var(--rtbo-carbon-fiber) !important;
+  background-size: var(--rtbo-carbon-fiber-size) !important;
+}
+
+:root[data-theme="light"],
+:root[data-theme="light"] body,
+:root[data-theme="light"] #root,
+:root[data-theme="light"] .app-shell,
+:root[data-theme="light"] .home-page,
+:root[data-theme="light"] .main,
+:root[data-theme="light"] main,
+:root[data-theme="light"] .rtbo-public,
+:root[data-theme="light"] .rtbo-section,
+:root[data-theme="light"] .rtbo-band,
+:root[data-theme="light"] .page-hero,
+:root[data-theme="light"] .rtbo-offer,
+:root[data-theme="light"] .site-footer,
+:root[data-theme="light"] .rtbo-footer,
+:root[data-theme="light"] .rtbo-dashboard-shell,
+:root[data-theme="light"] .rtbo-dashboard-main,
+:root[data-theme="light"] .rtbo-dashboard-sidebar,
+:root[data-theme="light"] .sidebar {
+  background-color: #f6f7fb !important;
+  background-image: none !important;
+  background-attachment: scroll !important;
+}
+
 .brand-mark,
 .site-nav button,
 .footer-link {
@@ -1582,6 +1659,7 @@ button.hero-scroll-link {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
+  padding-top: clamp(14px, 1.5vw, 20px);
 }
 
 .school-session-title-row {
@@ -1649,7 +1727,7 @@ button.hero-scroll-link {
   border: 1px solid rgba(255, 255, 255, .46);
   color: #fff;
   background:
-    linear-gradient(135deg, #ff7a1a, #f97316 48%, #c2410c),
+    linear-gradient(135deg, #ff7a1a, #f97316 48%, #ea580c),
     var(--orange);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.55),
@@ -1664,7 +1742,7 @@ button.hero-scroll-link {
 .school-card-btn:hover {
   border-color: rgba(255,255,255,.72);
   background:
-    linear-gradient(135deg, #fb923c, #ea580c 52%, #9a3412),
+    linear-gradient(135deg, #fb923c, #ea580c 52%, #f58220),
     var(--orange-dark);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.7),
@@ -2061,6 +2139,12 @@ button.hero-scroll-link {
 }
 
 .btn {
+  min-height: 36px;
+  padding: 0 14px;
+  align-items: center;
+  align-self: center;
+  line-height: 1.15;
+  font-size: .8rem;
   transition: background .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease, transform .2s ease;
 }
 
@@ -2145,70 +2229,741 @@ button.hero-scroll-link {
   color: #f8fafc;
 }
 
+.rtbo-registration-page {
+  width: min(1500px, calc(100% - 24px));
+  margin: 0 auto clamp(28px, 4vw, 56px);
+  border: 1px solid rgba(255,255,255,.16);
+  padding: 0;
+  color: #f8fafc;
+  background: #050505;
+  box-shadow: 0 28px 90px rgba(0,0,0,.44);
+}
+
+.rtbo-registration-shell-nav {
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  min-height: 78px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  padding: 14px 22px;
+  background: #050505;
+}
+
+.rtbo-registration-mini-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.rtbo-registration-mini-brand img {
+  width: 58px;
+}
+
+.rtbo-registration-mini-brand strong {
+  color: #f8fafc;
+  font-size: clamp(.85rem, 1.2vw, 1.1rem);
+  letter-spacing: .08em;
+}
+
+.rtbo-registration-shell-nav nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 30px);
+  min-width: 0;
+}
+
+.rtbo-registration-shell-nav nav span {
+  position: relative;
+  color: #e5e7eb;
+  font-size: .78rem;
+  font-weight: 900;
+}
+
+.rtbo-registration-shell-nav nav span.active {
+  color: #fff;
+}
+
+.rtbo-registration-shell-nav nav span.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -14px;
+  height: 2px;
+  background: #f97316;
+}
+
+.rtbo-registration-nav-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.rtbo-registration-nav-actions button {
+  min-height: 38px;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 6px;
+  padding: 8px 18px;
+  color: #f8fafc;
+  background: rgba(255,255,255,.035);
+  font-size: .78rem;
+  font-weight: 900;
+}
+
+.rtbo-registration-nav-actions button:last-child {
+  border-color: #f97316;
+  background: #f97316;
+}
+
+.rtbo-registration-hero,
+.rtbo-registration-form {
+  border: 0;
+  border-radius: 0;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.9), rgba(0,0,0,.48)),
+    url("/assets/images/banner_2.jpg") center / cover no-repeat;
+  box-shadow: none;
+}
+
+.rtbo-registration-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, .45fr) minmax(260px, 360px);
+  gap: clamp(18px, 2.5vw, 36px);
+  align-items: center;
+  min-height: clamp(300px, 31vw, 420px);
+  padding: clamp(28px, 4vw, 52px);
+  overflow: hidden;
+}
+
+.rtbo-registration-hero h1 {
+  max-width: 720px;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(2.2rem, 4.35vw, 4.6rem);
+  line-height: .88;
+  text-transform: uppercase;
+}
+
+.rtbo-registration-hero p:not(.eyebrow) {
+  max-width: 640px;
+  color: #e5e7eb;
+  font-size: clamp(.95rem, 1.2vw, 1.1rem);
+  line-height: 1.5;
+}
+
+.rtbo-registration-hero-points {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, max-content));
+  gap: 14px 34px;
+  margin-top: 28px;
+}
+
+.rtbo-registration-hero-points span {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  min-width: 120px;
+  color: #f8fafc;
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.rtbo-registration-hero-points span::before {
+  content: "";
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(249,115,22,.65);
+  border-radius: 7px;
+  background: rgba(249,115,22,.12);
+}
+
+.rtbo-registration-hero-logo {
+  position: relative;
+  z-index: 1;
+  width: min(260px, 100%);
+  justify-self: center;
+  opacity: .94;
+  filter: drop-shadow(0 22px 36px rgba(0,0,0,.7));
+}
+
+.rtbo-registration-spotlight {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 10px;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 12px;
+  padding: 18px;
+  background: rgba(6,12,18,.86);
+  box-shadow: 0 18px 50px rgba(0,0,0,.42);
+}
+
+.rtbo-registration-spotlight img {
+  width: 100%;
+  height: 118px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.rtbo-registration-spotlight strong,
+.rtbo-registration-spotlight b {
+  color: #fff;
+}
+
+.rtbo-registration-spotlight small {
+  color: #cbd5e1;
+}
+
+.rtbo-registration-spotlight span {
+  display: grid;
+  place-items: center;
+  min-height: 42px;
+  border-radius: 8px;
+  color: #fff;
+  background: #f97316;
+  font-size: .78rem;
+  font-weight: 1000;
+}
+
+.rtbo-registration-form {
+  margin-top: 0;
+  border-top: 1px solid rgba(255,255,255,.1);
+  padding: 18px 22px 22px;
+  background:
+    linear-gradient(180deg, rgba(5,5,5,.96), rgba(5,5,5,.92)),
+    var(--rtbo-carbon-fiber);
+}
+
+.rtbo-registration-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 14px 14px 0 0;
+  padding: 18px 22px;
+  background: rgba(3,7,12,.76);
+}
+
+.rtbo-registration-steps span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #cbd5e1;
+  font-size: .78rem;
+  font-weight: 900;
+}
+
+.rtbo-registration-steps b {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 50%;
+  color: #fff;
+}
+
+.rtbo-registration-steps .active b {
+  border-color: #f97316;
+  background: #f97316;
+}
+
+.rtbo-registration-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
+  gap: 14px;
+  align-items: start;
+}
+
+.rtbo-registration-main {
+  display: grid;
+  gap: 14px;
+}
+
+.rtbo-registration-card,
+.rtbo-registration-summary,
+.rtbo-registration-trust-row {
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 9px;
+  background: linear-gradient(145deg, rgba(8,14,18,.88), rgba(2,5,7,.92));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+.rtbo-registration-card,
+.rtbo-registration-summary {
+  padding: 18px;
+}
+
+.rtbo-registration-card h3,
+.rtbo-registration-summary h3 {
+  margin: 0 0 14px;
+  color: #f97316;
+  font-size: .82rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.rtbo-registration-form label,
+.rtbo-registration-form legend {
+  color: #f8fafc;
+  font-size: .78rem;
+  font-weight: 900;
+}
+
+.rtbo-registration-form input,
+.rtbo-registration-form select,
+.rtbo-registration-form textarea {
+  min-height: 40px;
+  border-radius: 6px;
+  color: #f8fafc;
+  border-color: rgba(255,255,255,.12);
+  background: linear-gradient(180deg, rgba(20,29,34,.9), rgba(11,17,21,.92));
+  font-size: .82rem;
+}
+
+.rtbo-registration-form textarea {
+  min-height: 88px;
+}
+
+.rtbo-registration-levels,
+.rtbo-registration-waiver,
+.rtbo-registration-payment {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.rtbo-registration-levels {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.rtbo-registration-levels legend,
+.rtbo-registration-waiver legend,
+.rtbo-registration-payment legend {
+  grid-column: 1 / -1;
+  margin-bottom: 4px;
+}
+
+.rtbo-registration-levels label,
+.rtbo-registration-waiver label,
+.rtbo-registration-payment label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: rgba(255,255,255,.035);
+}
+
+.rtbo-registration-form input[type="checkbox"],
+.rtbo-registration-form input[type="radio"] {
+  width: 16px;
+  min-height: 16px;
+  height: 16px;
+  accent-color: #f97316;
+}
+
+.rtbo-registration-session-list {
+  display: grid;
+  gap: 10px;
+}
+
+.rtbo-registration-session-list label {
+  display: grid;
+  grid-template-columns: 18px 54px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  min-height: 74px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 10px;
+  padding: 10px;
+  background: linear-gradient(145deg, rgba(9,17,22,.96), rgba(4,8,11,.98));
+}
+
+.rtbo-registration-session-list label.selected {
+  border-color: rgba(249,115,22,.72);
+  background: rgba(249,115,22,.12);
+}
+
+.rtbo-registration-session-list img,
+.rtbo-registration-summary-school img {
+  width: 54px;
+  height: 54px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.rtbo-registration-session-list strong,
+.rtbo-registration-summary-school strong {
+  display: block;
+  color: #fff;
+}
+
+.rtbo-registration-session-list small,
+.rtbo-registration-summary-school small,
+.rtbo-registration-secure-card small,
+.rtbo-registration-trust-row small {
+  display: block;
+  color: #cbd5e1;
+  line-height: 1.35;
+}
+
+.rtbo-registration-session-list b,
+.rtbo-registration-summary dd,
+.rtbo-registration-summary .total dd {
+  color: #f97316;
+}
+
+.rtbo-registration-summary {
+  position: sticky;
+  top: 18px;
+  display: grid;
+  gap: 12px;
+  padding: 20px;
+}
+
+.rtbo-registration-summary-school {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+
+.rtbo-registration-summary dl {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,.12);
+}
+
+.rtbo-registration-summary dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.rtbo-registration-summary dt,
+.rtbo-registration-summary dd {
+  margin: 0;
+  color: #e5e7eb;
+  font-size: .86rem;
+  font-weight: 900;
+}
+
+.rtbo-registration-summary .total {
+  border-top: 1px solid rgba(255,255,255,.12);
+  padding-top: 10px;
+}
+
+.rtbo-registration-secure-card {
+  border: 1px solid rgba(249,115,22,.62);
+  border-radius: 10px;
+  padding: 12px;
+  background: rgba(249,115,22,.08);
+}
+
+.rtbo-registration-secure-card strong {
+  display: block;
+  color: #f97316;
+}
+
+.rtbo-registration-summary .registration-payment-button {
+  width: 100%;
+}
+
+.rtbo-registration-payment-badges {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.rtbo-registration-payment-badges span {
+  display: grid;
+  place-items: center;
+  min-height: 28px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 5px;
+  color: #f8fafc;
+  background: rgba(255,255,255,.04);
+  font-size: .68rem;
+  font-weight: 1000;
+}
+
+.rtbo-registration-payment-note {
+  margin: 0;
+  color: #cbd5e1;
+  font-size: .72rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.rtbo-registration-trust-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 16px;
+  overflow: hidden;
+}
+
+.rtbo-registration-trust-row article {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  padding: 16px;
+  border-right: 1px solid rgba(255,255,255,.12);
+}
+
+.rtbo-registration-trust-row article:last-child {
+  border-right: 0;
+}
+
+.rtbo-registration-trust-row span {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(249,115,22,.72);
+  border-radius: 50%;
+  color: #f97316;
+}
+
+.rtbo-registration-trust-row strong {
+  color: #fff;
+}
+
+:root[data-theme="light"] .rtbo-registration-form,
+:root[data-theme="light"] .rtbo-registration-card,
+:root[data-theme="light"] .rtbo-registration-summary,
+:root[data-theme="light"] .rtbo-registration-trust-row {
+  color: #111827;
+  background: rgba(255,255,255,.9);
+}
+
+:root[data-theme="light"] .rtbo-registration-form :is(label, legend, strong),
+:root[data-theme="light"] .rtbo-registration-session-list strong,
+:root[data-theme="light"] .rtbo-registration-summary-school strong,
+:root[data-theme="light"] .rtbo-registration-trust-row strong {
+  color: #111827;
+}
+
+:root[data-theme="light"] .rtbo-registration-form :is(input, select, textarea) {
+  color: #111827;
+  background: #fff;
+  border-color: rgba(15,23,42,.18);
+}
+
+:root[data-theme="light"] .rtbo-registration-form :is(small, dt, dd),
+:root[data-theme="light"] .rtbo-registration-session-list small,
+:root[data-theme="light"] .rtbo-registration-summary-school small,
+:root[data-theme="light"] .rtbo-registration-trust-row small {
+  color: #475569;
+}
+
 .rtbo-modal-scrim {
   position: fixed;
   inset: 0;
   z-index: 1000;
   display: grid;
   place-items: center;
-  padding: 24px;
+  padding: clamp(12px, 2vw, 24px);
   background: rgba(0, 0, 0, .72);
   backdrop-filter: blur(12px);
 }
 
+.rtbo-auth-modal-scrim {
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.2), rgba(0,0,0,.2)),
+    url("/assets/images/banner_2.jpg") center / cover no-repeat;
+}
+
 .rtbo-account-modal {
   position: relative;
-  width: min(560px, 100%);
-  max-height: min(92vh, 820px);
-  overflow-y: auto;
-  border: 1px solid rgba(249, 115, 22, .32);
-  border-radius: 18px;
-  padding: clamp(22px, 4vw, 34px);
-  text-align: center;
+  display: grid;
+  grid-template-columns: minmax(280px, .9fr) minmax(380px, 1.35fr);
+  gap: clamp(18px, 2.4vw, 34px);
+  width: min(1380px, 100%);
+  max-height: min(94vh, 920px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 22px;
+  padding: clamp(18px, 2.4vw, 30px);
+  color: #f8fafc;
   background:
-    radial-gradient(circle at top, rgba(249, 115, 22, .22), transparent 34%),
-    linear-gradient(145deg, rgba(255,255,255,.1), rgba(255,255,255,.04)),
-    #070707;
-  box-shadow: 0 32px 90px rgba(0, 0, 0, .58), 0 0 38px rgba(249, 115, 22, .14);
+    linear-gradient(90deg, rgba(0,0,0,.2), rgba(0,0,0,.2)),
+    url("/assets/images/banner_2.jpg") center / cover no-repeat;
+  box-shadow: 0 32px 90px rgba(0,0,0,.68), inset 0 0 0 1px rgba(255,255,255,.05);
 }
 
-.rtbo-account-modal > img {
-  display: block;
-  width: min(150px, 48vw);
-  margin: 0 auto 12px;
-  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, .4));
+.rtbo-account-modal.signin-view,
+.rtbo-account-modal.forgot-view {
+  grid-template-columns: minmax(280px, .9fr) minmax(360px, .95fr);
 }
 
-.rtbo-account-modal h2 {
-  margin: 0;
+.rtbo-auth-showcase,
+.rtbo-auth-form-panel {
+  position: relative;
+  min-width: 0;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 18px;
+  background: rgba(3,7,12,.74);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+.rtbo-auth-showcase {
+  display: grid;
+  align-content: space-between;
+  gap: clamp(20px, 3vw, 42px);
+  min-height: 620px;
+  padding: clamp(22px, 3.2vw, 44px);
+  overflow: hidden;
+}
+
+.rtbo-auth-showcase::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.2), rgba(0,0,0,.2)),
+    url("/assets/images/banner_2.jpg") center / cover no-repeat;
+  opacity: 1;
+}
+
+.rtbo-auth-showcase > * {
+  position: relative;
+  z-index: 1;
+}
+
+.rtbo-auth-brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.rtbo-auth-brand-lockup img {
+  width: clamp(72px, 8vw, 118px);
+  filter: drop-shadow(0 12px 22px rgba(0,0,0,.55));
+}
+
+.rtbo-auth-brand-lockup strong {
+  max-width: 420px;
+  color: #f8fafc;
+  font-size: clamp(1rem, 1.55vw, 1.55rem);
+  line-height: 1.08;
   text-transform: uppercase;
 }
 
-.rtbo-account-modal > p:not(.eyebrow) {
-  color: var(--muted);
-  line-height: 1.55;
+.rtbo-auth-copy h3 {
+  max-width: 520px;
+  margin: 0 0 14px;
+  color: #f8fafc;
+  font-size: clamp(2.1rem, 4.2vw, 5.2rem);
+  line-height: .92;
+  text-transform: uppercase;
+}
+
+.rtbo-account-modal.signup-view .rtbo-auth-copy h3 {
+  font-size: clamp(1.45rem, 2.35vw, 2.7rem);
+}
+
+.rtbo-account-modal.signup-view .rtbo-auth-heading h2 {
+  font-size: clamp(1.35rem, 1.7vw, 1.9rem);
+}
+
+.rtbo-account-modal.forgot-view .rtbo-auth-copy h3 {
+  font-size: clamp(2rem, 3.2vw, 4.35rem);
+}
+
+.rtbo-auth-copy p:not(.eyebrow),
+.rtbo-auth-feature-list p,
+.rtbo-auth-heading p {
+  color: #d1d5db;
+  line-height: 1.45;
+}
+
+.rtbo-auth-feature-list {
+  display: grid;
+  gap: 14px;
+  width: min(440px, 100%);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 14px;
+  padding: 18px;
+  background: rgba(0,0,0,.38);
+}
+
+.rtbo-auth-feature-list article {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.rtbo-auth-feature-list span {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(249,115,22,.72);
+  border-radius: 12px;
+  color: #f97316;
+  font-weight: 1000;
+}
+
+.rtbo-auth-feature-list strong,
+.rtbo-auth-support a {
+  color: #fff;
+}
+
+.rtbo-auth-feature-list p,
+.rtbo-auth-support {
+  margin: 4px 0 0;
+  font-size: .9rem;
+}
+
+.rtbo-auth-form-panel {
+  display: grid;
+  align-content: center;
+  gap: 18px;
+  padding: clamp(22px, 3.2vw, 46px);
+}
+
+.rtbo-auth-heading h2 {
+  margin: 0 0 8px;
+  color: #f8fafc;
+  font-size: clamp(2rem, 3vw, 3.1rem);
+  line-height: 1;
 }
 
 .rtbo-modal-close {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 18px;
+  right: 18px;
+  z-index: 5;
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   padding: 0;
   border: 1px solid rgba(255, 255, 255, .18);
   border-radius: 50%;
   color: #fff;
-  background: rgba(255,255,255,.08);
-  font-size: 1.45rem;
+  background: rgba(0,0,0,.42);
+  font-size: 1.1rem;
   line-height: 1;
   cursor: pointer;
 }
 
 .rtbo-login-form {
-  margin-top: 18px;
+  margin-top: 0;
   text-align: left;
 }
 
@@ -2216,11 +2971,11 @@ button.hero-scroll-link {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  margin-top: 18px;
+  margin: 0;
   padding: 5px;
   border: 1px solid rgba(255,255,255,.14);
   border-radius: 999px;
-  background: rgba(0,0,0,.26);
+  background: rgba(0,0,0,.34);
 }
 
 .account-mode-tabs button {
@@ -2235,13 +2990,15 @@ button.hero-scroll-link {
 
 .account-mode-tabs button.active {
   color: #111;
-  background: linear-gradient(135deg, #f97316, #fbbf24);
+  background: #f97316;
   box-shadow: 0 10px 26px rgba(249, 115, 22, .24);
 }
 
 .account-helper-actions {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
   margin-top: -2px;
 }
 
@@ -2266,6 +3023,312 @@ button.hero-scroll-link {
   text-align: left;
 }
 
+.rtbo-auth-primary-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.rtbo-auth-separator {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 14px;
+  align-items: center;
+  color: #9ca3af;
+  font-size: .78rem;
+  font-weight: 1000;
+  letter-spacing: .02em;
+  text-align: center;
+}
+
+.rtbo-auth-separator::before,
+.rtbo-auth-separator::after {
+  content: "";
+  height: 1px;
+  background: rgba(255,255,255,.16);
+}
+
+.rtbo-auth-separator.compact {
+  margin-top: 2px;
+}
+
+.rtbo-auth-provider-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.rtbo-auth-provider-grid button,
+.rtbo-passkey-card,
+.rtbo-auth-phone-reset,
+.rtbo-auth-resend-card {
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 10px;
+  color: #f8fafc;
+  background: rgba(0,0,0,.28);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+.rtbo-auth-provider-grid button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 10px 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.rtbo-auth-provider-icon,
+.rtbo-passkey-icon,
+.rtbo-auth-resend-card > span {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(249,115,22,.72);
+  border-radius: 8px;
+  color: #f97316;
+  font-weight: 1000;
+}
+
+.rtbo-passkey-card {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  min-height: 82px;
+  padding: 14px 16px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.rtbo-passkey-card strong,
+.rtbo-auth-resend-card strong {
+  display: block;
+  color: #fff;
+  font-size: .98rem;
+}
+
+.rtbo-passkey-card small,
+.rtbo-auth-resend-card small,
+.rtbo-auth-recaptcha {
+  color: #cbd5e1;
+  line-height: 1.4;
+}
+
+.rtbo-passkey-card b {
+  color: #f97316;
+  font-size: 1.25rem;
+}
+
+.rtbo-auth-recaptcha {
+  margin: 0;
+  font-size: .78rem;
+  text-align: center;
+}
+
+.rtbo-auth-recaptcha a {
+  color: #f97316;
+  font-weight: 900;
+}
+
+.rtbo-auth-phone-reset {
+  justify-self: center;
+  min-height: 46px;
+  min-width: min(360px, 100%);
+  padding: 10px 16px;
+  font-weight: 1000;
+  cursor: pointer;
+}
+
+.rtbo-auth-resend-card {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+}
+
+.rtbo-auth-resend-card button {
+  min-height: 40px;
+  border: 1px solid rgba(249,115,22,.72);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: #f97316;
+  background: transparent;
+  font-weight: 1000;
+  cursor: pointer;
+}
+
+.rtbo-auth-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.rtbo-auth-steps span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #cbd5e1;
+  font-size: .78rem;
+  font-weight: 900;
+}
+
+.rtbo-auth-steps b {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255,255,255,.42);
+  border-radius: 999px;
+}
+
+.rtbo-auth-steps .active b {
+  border-color: #f97316;
+  color: #fff;
+  background: #f97316;
+}
+
+.rtbo-auth-role-wrap {
+  display: grid;
+  gap: 8px;
+}
+
+.rtbo-auth-role-wrap > span {
+  color: #e5e7eb;
+  font-weight: 900;
+}
+
+.rtbo-auth-role-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.rtbo-auth-role-grid button {
+  display: grid;
+  gap: 8px;
+  min-height: 128px;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 10px;
+  padding: 16px 12px;
+  color: #f8fafc;
+  background: rgba(0,0,0,.22);
+  cursor: pointer;
+}
+
+.rtbo-auth-role-grid button.active {
+  border-color: #f97316;
+  box-shadow: inset 0 0 0 1px rgba(249,115,22,.55);
+}
+
+.rtbo-auth-role-grid small,
+.rtbo-auth-switch-copy {
+  color: #cbd5e1;
+  line-height: 1.35;
+}
+
+.rtbo-auth-password-rules {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 14px;
+  color: #cbd5e1;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.rtbo-auth-password-rules span::before {
+  content: "+";
+  margin-right: 7px;
+  color: #64748b;
+}
+
+.rtbo-auth-password-rules .met::before {
+  color: #22c55e;
+}
+
+.field-error {
+  color: #f87171 !important;
+  font-size: .76rem;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.rtbo-login-form input[aria-invalid="true"] {
+  border-color: #f87171 !important;
+  box-shadow: 0 0 0 3px rgba(248,113,113,.16);
+}
+
+.rtbo-auth-remember {
+  display: inline-flex !important;
+  grid-template-columns: none !important;
+  align-items: center;
+  gap: 8px !important;
+  color: #e5e7eb !important;
+}
+
+.rtbo-auth-remember input {
+  width: 18px !important;
+  height: 18px !important;
+  min-height: 18px !important;
+  padding: 0 !important;
+  accent-color: #f97316;
+}
+
+.rtbo-auth-switch-copy {
+  margin: 4px 0 0;
+  text-align: center;
+}
+
+@media (max-width: 1024px) {
+  .rtbo-account-modal,
+  .rtbo-account-modal.signin-view,
+  .rtbo-account-modal.forgot-view {
+    grid-template-columns: 1fr;
+  }
+
+  .rtbo-auth-showcase {
+    min-height: 360px;
+  }
+
+  .rtbo-auth-role-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .rtbo-account-modal {
+    padding: 12px;
+  }
+
+  .rtbo-auth-showcase {
+    min-height: 280px;
+  }
+
+  .rtbo-auth-form-panel {
+    padding: 18px;
+  }
+
+  .rtbo-auth-role-grid,
+  .rtbo-auth-steps,
+  .rtbo-auth-provider-grid,
+  .rtbo-auth-password-rules {
+    grid-template-columns: 1fr;
+  }
+
+  .rtbo-auth-resend-card {
+    grid-template-columns: 1fr;
+  }
+
+  .account-helper-actions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
 .rtbo-register-gate {
   min-height: 58vh;
   display: grid;
@@ -2281,9 +3344,9 @@ button.hero-scroll-link {
   display: grid;
   grid-template-columns: 292px minmax(0, 1fr);
   color: #fff;
-  background:
-    radial-gradient(circle at 18% 0%, rgba(249, 115, 22, .18), transparent 34%),
-    linear-gradient(135deg, #050505, #151515 48%, #070707);
+  background-color: var(--rtbo-carbon-bg);
+  background-image: var(--rtbo-carbon-fiber);
+  background-size: var(--rtbo-carbon-fiber-size);
 }
 
 .rtbo-dashboard-sidebar {
@@ -2296,10 +3359,9 @@ button.hero-scroll-link {
   gap: 8px;
   border-right: 1px solid rgba(245, 130, 32, .32);
   padding: 22px 18px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, .075), rgba(255, 255, 255, .018)),
-    radial-gradient(circle at top, rgba(245, 130, 32, .18), transparent 34%),
-    #070707;
+  background-color: var(--rtbo-carbon-bg);
+  background-image: var(--rtbo-carbon-fiber);
+  background-size: var(--rtbo-carbon-fiber-size);
   box-shadow: 20px 0 60px rgba(0, 0, 0, .42), inset -1px 0 0 rgba(255, 255, 255, .045);
 }
 
@@ -2371,7 +3433,7 @@ button.hero-scroll-link {
   border: 1px solid rgba(255, 255, 255, .34);
   border-radius: 999px;
   color: #080808;
-  background: linear-gradient(135deg, #fff2d3, #f58220 52%, #b94b06);
+  background: linear-gradient(135deg, #f8fafc, #f58220 52%, #f97316);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45), 0 0 16px rgba(245, 130, 32, .26);
   font-size: .72rem;
   font-weight: 1000;
@@ -2414,7 +3476,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-dashboard-sidebar button.active::before {
-  background: linear-gradient(135deg, #ffd8a8, #f58220 52%, #b94b06);
+  background: linear-gradient(135deg, #f8fafc, #f58220 52%, #f97316);
   box-shadow: 0 0 18px rgba(245, 130, 32, .42);
 }
 
@@ -2459,9 +3521,9 @@ button.hero-scroll-link {
 .rtbo-dashboard-status {
   border: 1px solid rgba(255,255,255,.14);
   border-radius: 16px;
-  background:
-    linear-gradient(145deg, rgba(255,255,255,.09), rgba(255,255,255,.035)),
-    rgba(12, 12, 12, .82);
+  background-color: var(--rtbo-carbon-bg);
+  background-image: var(--rtbo-carbon-fiber);
+  background-size: var(--rtbo-carbon-fiber-size);
   box-shadow: 0 20px 50px rgba(0,0,0,.28);
 }
 
@@ -2494,15 +3556,7 @@ button.hero-scroll-link {
 
 .rtbo-dashboard-actions .theme-toggle {
   flex: 0 0 auto;
-  min-height: 44px;
-}
-
-.rtbo-dashboard-actions .theme-toggle-track {
-  border-color: rgba(245, 130, 32, .42);
-  box-shadow:
-    inset 0 2px 0 rgba(255, 255, 255, .16),
-    inset 0 -4px 10px rgba(0, 0, 0, .36),
-    0 10px 24px rgba(0, 0, 0, .26);
+  min-height: 52px;
 }
 
 .rtbo-dashboard-topbar span,
@@ -2518,7 +3572,9 @@ button.hero-scroll-link {
   padding: 12px 14px;
   color: #fff;
   border-color: rgba(249, 115, 22, .34);
-  background: rgba(249, 115, 22, .12);
+  background-color: var(--rtbo-carbon-bg);
+  background-image: var(--rtbo-carbon-fiber);
+  background-size: var(--rtbo-carbon-fiber-size);
   font-weight: 800;
 }
 
@@ -2717,7 +3773,9 @@ button.hero-scroll-link {
   border: 1px solid rgba(245, 130, 32, .24);
   border-radius: 14px;
   padding: 14px;
-  background: linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.02));
+  background-color: var(--rtbo-carbon-bg);
+  background-image: var(--rtbo-carbon-fiber);
+  background-size: var(--rtbo-carbon-fiber-size);
 }
 
 .rtbo-overview-alert-title {
@@ -2777,7 +3835,7 @@ button.hero-scroll-link {
   border: 1px solid rgba(245, 130, 32, .46);
   border-radius: 999px;
   padding: 6px 10px;
-  color: #fed7aa !important;
+  color: #f58220 !important;
   background: rgba(245, 130, 32, .12);
   font-size: .68rem;
   font-weight: 1000;
@@ -2856,1406 +3914,10 @@ button.hero-scroll-link {
   white-space: nowrap;
 }
 
-.rtbo-mail-page {
-  display: grid;
-  gap: 14px;
-  color: #f7f3ef;
-  font-size: .86rem;
-}
-
-.rtbo-mail-page h3 {
-  font-size: clamp(1.15rem, 1.6vw, 1.45rem);
-}
-
-.rtbo-mail-head-actions,
-.rtbo-mail-mode-row,
-.rtbo-mail-editor-toolbar,
-.rtbo-mail-schedule-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
-}
-
-.rtbo-mail-stats {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.rtbo-mail-stats article,
-.rtbo-mail-admin-panel,
-.rtbo-mail-distribution-panel,
-.rtbo-mail-preview,
-.rtbo-mail-open-message {
-  border: 1px solid rgba(245, 130, 32, .22);
-  border-radius: 14px;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .018)),
-    rgba(12, 12, 12, .68);
-}
-
-.rtbo-mail-stats article {
-  display: grid;
-  gap: 4px;
-  min-height: 78px;
-  padding: 12px;
-}
-
-.rtbo-mail-stats span,
-.rtbo-mail-preview > span,
-.rtbo-mail-open-head span {
-  color: var(--muted);
-  font-size: .68rem;
-  font-weight: 1000;
-  letter-spacing: 0;
-  text-transform: uppercase;
-}
-
-.rtbo-mail-stats strong {
-  color: #fff;
-  font-size: clamp(1rem, 1.5vw, 1.35rem);
-  line-height: 1.05;
-}
-
-.rtbo-mail-admin-panel {
-  display: grid;
-  gap: 12px;
-  padding: 14px;
-}
-
-.rtbo-mail-admin-panel h4,
-.rtbo-mail-distribution-panel h4,
-.rtbo-mail-preview h4,
-.rtbo-mail-open-message h4 {
-  margin: 0;
-  color: #fff;
-  font-size: 1rem;
-  line-height: 1.2;
-}
-
-.rtbo-mail-admin-panel p,
-.rtbo-mail-distribution-panel p,
-.rtbo-mail-preview p,
-.rtbo-mail-open-message p {
-  margin: 4px 0 0;
-  color: var(--text);
-  font-size: .84rem;
-  line-height: 1.45;
-}
-
-.rtbo-mail-distribution-panel {
-  display: grid;
-  gap: 12px;
-  padding: 14px;
-}
-
-.rtbo-mail-distribution-import {
-  display: grid;
-  grid-template-columns: minmax(220px, .8fr) minmax(190px, auto);
-  gap: 10px;
-  align-items: end;
-}
-
-.rtbo-mail-file-import {
-  position: relative;
-  display: grid;
-  place-items: center;
-  min-height: 38px;
-  border: 1px solid rgba(245, 130, 32, .34);
-  border-radius: 10px;
-  padding: 9px 12px;
-  color: #050505;
-  background: linear-gradient(135deg, #fff2d3, #f58220 52%, #b94b06);
-  font-size: .78rem;
-  font-weight: 1000;
-  text-align: center;
-  cursor: pointer;
-}
-
-.rtbo-mail-file-import input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.rtbo-mail-distribution-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 10px;
-}
-
-.rtbo-mail-distribution-list article {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 10px;
-  align-items: center;
-  border: 1px solid rgba(255, 255, 255, .1);
-  border-radius: 10px;
-  padding: 10px;
-  background: rgba(0, 0, 0, .18);
-}
-
-.rtbo-mail-distribution-list strong,
-.rtbo-mail-distribution-list span,
-.rtbo-mail-distribution-list small {
-  display: block;
-  font-size: .76rem;
-  line-height: 1.35;
-}
-
-.rtbo-mail-distribution-list strong {
-  color: #fff;
-}
-
-.rtbo-mail-distribution-list span,
-.rtbo-mail-distribution-list small {
-  color: var(--muted);
-  font-weight: 800;
-}
-
-.rtbo-mail-admin-form {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.rtbo-mail-admin-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: 8px;
-}
-
-.rtbo-mail-admin-list article {
-  display: grid;
-  gap: 3px;
-  border: 1px solid rgba(255, 255, 255, .1);
-  border-radius: 10px;
-  padding: 10px;
-  background: rgba(0, 0, 0, .18);
-}
-
-.rtbo-mail-admin-list strong,
-.rtbo-mail-admin-list span,
-.rtbo-mail-admin-list small {
-  font-size: .76rem;
-}
-
-.rtbo-mail-shell {
-  display: grid;
-  grid-template-columns: minmax(150px, 190px) minmax(0, 1fr);
-  gap: 12px;
-  min-height: 0;
-}
-
-.rtbo-mail-folders {
-  display: grid;
-  align-content: start;
-  gap: 7px;
-}
-
-.rtbo-mail-folders button,
-.rtbo-mail-mode-row button,
-.rtbo-mail-editor-toolbar button,
-.rtbo-mail-list article,
-.rtbo-mail-mark-read {
-  border: 1px solid rgba(255, 255, 255, .1);
-  border-radius: 10px;
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .018)),
-    rgba(12, 12, 12, .72);
-}
-
-.rtbo-mail-folders button {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  min-height: 38px;
-  padding: 9px 11px;
-  color: #f7f3ef;
-  cursor: pointer;
-  font-size: .78rem;
-  font-weight: 900;
-}
-
-.rtbo-mail-folders button.active,
-.rtbo-mail-mode-row button.active,
-.rtbo-mail-list article.selected {
-  border-color: rgba(245, 130, 32, .72);
-  background:
-    linear-gradient(145deg, rgba(245, 130, 32, .2), rgba(255, 255, 255, .03)),
-    rgba(20, 20, 20, .92);
-}
-
-.rtbo-mail-compose,
-.rtbo-mail-reader {
-  display: grid;
-  gap: 12px;
-  min-width: 0;
-}
-
-.rtbo-mail-compose-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.12fr) minmax(280px, .88fr);
-  gap: 12px;
-}
-
-.rtbo-mail-form {
-  display: grid;
-  gap: 9px;
-}
-
-.rtbo-mail-form-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.rtbo-mail-page :is(input, select, textarea) {
-  width: 100%;
-  min-height: 38px;
-  border: 1px solid rgba(245, 130, 32, .26);
-  border-radius: 10px;
-  padding: 9px 12px;
-  color: #fff;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .018)),
-    #0a0a0a;
-  font-size: .82rem;
-  font-weight: 800;
-}
-
-.rtbo-mail-page textarea {
-  min-height: 190px;
-  resize: vertical;
-  line-height: 1.48;
-}
-
-.rtbo-mail-mode-row button,
-.rtbo-mail-editor-toolbar button,
-.rtbo-mail-mark-read {
-  min-height: 32px;
-  padding: 7px 10px;
-  color: #fff;
-  cursor: pointer;
-  font-size: .72rem;
-  font-weight: 900;
-}
-
-.rtbo-mail-attachment-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.rtbo-mail-attachment-list span {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  max-width: 100%;
-  border: 1px solid rgba(245, 130, 32, .28);
-  border-radius: 9px;
-  padding: 7px 9px;
-  color: #fff;
-  background: rgba(0, 0, 0, .22);
-  font-size: .72rem;
-  font-weight: 900;
-}
-
-.rtbo-mail-attachment-list small {
-  color: var(--muted);
-  font-size: .66rem;
-}
-
-.rtbo-mail-attachment-list button {
-  min-height: 26px;
-  border: 1px solid rgba(245, 130, 32, .3);
-  border-radius: 7px;
-  padding: 4px 7px;
-  color: #fff;
-  background: rgba(245, 130, 32, .14);
-  cursor: pointer;
-  font-size: .66rem;
-  font-weight: 900;
-}
-
-.rtbo-mail-options {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.rtbo-mail-options label {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  border: 1px solid rgba(255, 255, 255, .1);
-  border-radius: 10px;
-  padding: 8px 10px;
-  background: rgba(0, 0, 0, .18);
-  color: #fff;
-  font-size: .72rem;
-  font-weight: 900;
-}
-
-.rtbo-mail-options input {
-  flex: 0 0 16px;
-  width: 16px;
-  height: 16px;
-  min-height: 16px;
-  accent-color: var(--orange);
-}
-
-.rtbo-mail-schedule-row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.rtbo-mail-preview {
-  display: grid;
-  align-content: start;
-  gap: 10px;
-  padding: 16px;
-  background: #fff;
-  color: #1f1f1f;
-}
-
-.rtbo-mail-preview :is(h4, p, dt, dd, strong) {
-  color: #1f1f1f;
-}
-
-.rtbo-mail-preview dl {
-  display: grid;
-  gap: 6px;
-  margin: 0;
-}
-
-.rtbo-mail-preview dl div {
-  display: grid;
-  grid-template-columns: 54px minmax(0, 1fr);
-  gap: 8px;
-  font-size: .76rem;
-}
-
-.rtbo-mail-preview dt {
-  font-weight: 1000;
-}
-
-.rtbo-mail-preview dd {
-  margin: 0;
-}
-
-.rtbo-mail-signature {
-  display: grid;
-  gap: 3px;
-  border-top: 3px solid var(--orange);
-  padding-top: 10px;
-  font-size: .78rem;
-}
-
-.rtbo-mail-reader-grid {
-  display: grid;
-  grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
-  gap: 12px;
-  min-height: 440px;
-}
-
-.rtbo-mail-search {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 8px;
-}
-
-.rtbo-mail-list {
-  display: grid;
-  align-content: start;
-  gap: 8px;
-  min-width: 0;
-}
-
-.rtbo-mail-list article {
-  display: grid;
-  gap: 7px;
-  padding: 10px;
-}
-
-.rtbo-mail-list article.unread {
-  border-color: rgba(245, 130, 32, .56);
-  background:
-    linear-gradient(145deg, rgba(245, 130, 32, .16), rgba(255, 255, 255, .02)),
-    rgba(0, 0, 0, .2);
-}
-
-.rtbo-mail-list article > button:first-child {
-  display: grid;
-  gap: 4px;
-  border: 0;
-  padding: 0;
-  color: inherit;
-  background: transparent;
-  text-align: left;
-  cursor: pointer;
-}
-
-.rtbo-mail-list strong {
-  color: #fff;
-  font-size: .82rem;
-  line-height: 1.2;
-}
-
-.rtbo-mail-list span,
-.rtbo-mail-list small {
-  color: var(--muted);
-  font-size: .72rem;
-  font-weight: 800;
-  line-height: 1.3;
-}
-
-.rtbo-mail-mark-read {
-  justify-self: start;
-  cursor: pointer;
-}
-
-.rtbo-mail-open-message {
-  display: grid;
-  align-content: start;
-  gap: 14px;
-  min-width: 0;
-  padding: 16px;
-}
-
-.rtbo-mail-open-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 14px;
-}
-
-.rtbo-mail-open-head p,
-.rtbo-mail-open-head small {
-  margin: 3px 0 0;
-  color: var(--muted);
-  font-size: .76rem;
-  font-weight: 800;
-}
-
-.rtbo-mail-open-body {
-  white-space: pre-wrap;
-  color: var(--text);
-  font-size: .88rem !important;
-  line-height: 1.55;
-}
-
-.rtbo-mail-page {
-  gap: 0;
-  overflow: hidden;
-  border-color: rgba(245, 130, 32, .34);
-  border-radius: 8px;
-  padding: 0 !important;
-  color: #1f1f1f;
-  background: #f3f2f1;
-}
-
-.rtbo-mail-page > .rtbo-dashboard-card-head {
-  align-items: center;
-  border-bottom: 1px solid #d2d0ce;
-  padding: 12px 16px;
-  color: #1f1f1f;
-  background: #fff;
-}
-
-.rtbo-mail-page > .rtbo-dashboard-card-head h3,
-.rtbo-mail-page > .rtbo-dashboard-card-head p {
-  color: #1f1f1f;
-}
-
-.rtbo-mail-page > .rtbo-dashboard-card-head .eyebrow {
-  color: #f58220;
-}
-
-.rtbo-mail-command-ribbon {
-  display: grid;
-  grid-template-columns: auto auto auto minmax(220px, auto) minmax(200px, 1fr);
-  gap: 10px;
-  align-items: center;
-  border-bottom: 1px solid #d2d0ce;
-  padding: 8px 12px;
-  background: #faf9f8;
-}
-
-.rtbo-mail-ribbon-group {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 4px;
-  border-right: 1px solid #d2d0ce;
-  padding-right: 10px;
-}
-
-.rtbo-mail-ribbon-group:last-of-type {
-  border-right: 0;
-}
-
-.rtbo-mail-ribbon-group button,
-.rtbo-mail-top-menu button,
-.rtbo-mail-global-search input {
-  min-height: 30px;
-  border: 1px solid transparent;
-  border-radius: 3px;
-  color: #1f1f1f;
-  background: transparent;
-  font-size: .76rem;
-  font-weight: 800;
-}
-
-.rtbo-mail-ribbon-group button {
-  padding: 6px 9px;
-  cursor: pointer;
-}
-
-.rtbo-mail-top-menu {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  border-right: 1px solid #d2d0ce;
-  padding-right: 10px;
-}
-
-.rtbo-mail-top-menu button {
-  padding: 6px 9px;
-  cursor: pointer;
-}
-
-.rtbo-mail-top-menu button.active,
-.rtbo-mail-top-menu button:hover {
-  border-color: #b94b06;
-  background: #fff3e6;
-}
-
-.rtbo-mail-new-message-command {
-  min-width: 92px;
-  min-height: 28px !important;
-  padding: 5px 8px !important;
-  font-size: .72rem !important;
-}
-
-.rtbo-mail-ribbon-group.primary button:first-child {
-  color: #050505;
-  background: #f58220;
-  border-color: #b94b06;
-}
-
-.rtbo-mail-ribbon-group button:hover:not(:disabled),
-.rtbo-mail-ribbon-group button:focus-visible {
-  border-color: #b94b06;
-  background: #fff3e6;
-}
-
-.rtbo-mail-ribbon-group button:disabled {
-  color: #8a8886;
-  cursor: not-allowed;
-  opacity: .68;
-}
-
-.rtbo-mail-global-search {
-  display: grid;
-  grid-template-columns: auto minmax(160px, 1fr);
-  gap: 8px;
-  align-items: center;
-  margin: 0;
-  color: #605e5c;
-  font-size: .72rem;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.rtbo-mail-global-search input {
-  border-color: #c8c6c4;
-  background: #fff;
-  padding: 6px 10px;
-}
-
-.rtbo-mail-stats {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 0;
-  border-bottom: 1px solid #d2d0ce;
-  background: #fff;
-}
-
-.rtbo-mail-stats article {
-  min-height: 52px;
-  border: 0;
-  border-right: 1px solid #edebe9;
-  border-radius: 0;
-  padding: 8px 12px;
-  background: #fff;
-}
-
-.rtbo-mail-stats article:last-child {
-  border-right: 0;
-}
-
-.rtbo-mail-stats span,
-.rtbo-mail-preview > span,
-.rtbo-mail-open-head span {
-  color: #605e5c;
-}
-
-.rtbo-mail-stats strong {
-  color: #1f1f1f;
-  font-size: 1rem;
-}
-
-.rtbo-mail-distribution-panel,
-.rtbo-mail-admin-panel {
-  margin: 12px;
-  border-color: #d2d0ce;
-  border-radius: 6px;
-  color: #1f1f1f;
-  background: #fff;
-}
-
-.rtbo-mail-distribution-panel h4,
-.rtbo-mail-admin-panel h4,
-.rtbo-mail-distribution-panel p,
-.rtbo-mail-admin-panel p {
-  color: #1f1f1f;
-}
-
-.rtbo-mail-shell {
-  grid-template-columns: 180px minmax(0, 1fr);
-  gap: 0;
-  min-height: 640px;
-  background: #fff;
-}
-
-.rtbo-mail-folders {
-  gap: 1px;
-  border-right: 1px solid #d2d0ce;
-  padding: 10px 8px;
-  background: #faf9f8;
-}
-
-.rtbo-mail-folders button {
-  min-height: 34px;
-  border: 0;
-  border-left: 3px solid transparent;
-  border-radius: 3px;
-  padding: 7px 9px;
-  color: #323130;
-  background: transparent;
-  font-size: .78rem;
-}
-
-.rtbo-mail-folders button.active {
-  border-color: #f58220;
-  background: #fff3e6;
-}
-
-.rtbo-mail-reader {
-  gap: 0;
-  background: #fff;
-}
-
-.rtbo-mail-reader-grid {
-  grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
-  gap: 0;
-  min-height: 640px;
-}
-
-.rtbo-mail-search {
-  display: flex;
-  justify-content: flex-end;
-  border-bottom: 1px solid #edebe9;
-  padding: 8px 12px;
-  background: #fff;
-}
-
-.rtbo-mail-list {
-  gap: 0;
-  border-right: 1px solid #d2d0ce;
-  background: #fff;
-}
-
-.rtbo-mail-list article {
-  border: 0;
-  border-bottom: 1px solid #edebe9;
-  border-radius: 0;
-  padding: 12px;
-  color: #323130;
-  background: #fff;
-}
-
-.rtbo-mail-list article.unread {
-  border-color: #edebe9;
-  background: #fffaf5;
-}
-
-.rtbo-mail-list article.selected {
-  border-color: #edebe9;
-  background: #fff3e6;
-  box-shadow: inset 3px 0 0 #f58220;
-}
-
-.rtbo-mail-list strong {
-  color: #1f1f1f;
-}
-
-.rtbo-mail-list span,
-.rtbo-mail-list small,
-.rtbo-mail-open-head p,
-.rtbo-mail-open-head small {
-  color: #605e5c;
-}
-
-.rtbo-mail-open-message {
-  border: 0;
-  border-radius: 0;
-  padding: 20px 24px;
-  color: #1f1f1f;
-  background: #fff;
-}
-
-.rtbo-mail-open-message h4,
-.rtbo-mail-open-message p,
-.rtbo-mail-open-body {
-  color: #1f1f1f !important;
-}
-
-.rtbo-mail-compose {
-  gap: 0;
-  padding: 12px;
-  background: #fff;
-}
-
-.rtbo-mail-mode-row {
-  border-bottom: 1px solid #edebe9;
-  padding-bottom: 8px;
-}
-
-.rtbo-mail-mode-row button,
-.rtbo-mail-editor-toolbar button,
-.rtbo-mail-mark-read {
-  border-radius: 3px;
-  color: #323130;
-  background: #fff;
-  border-color: #d2d0ce;
-}
-
-.rtbo-mail-mode-row button.active {
-  color: #050505;
-  background: #fff3e6;
-  border-color: #f58220;
-}
-
-.rtbo-mail-attachment-list span {
-  border-color: #d2d0ce;
-  color: #323130;
-  background: #fff7ed;
-}
-
-.rtbo-mail-attachment-list small {
-  color: #605e5c;
-}
-
-.rtbo-mail-attachment-list button {
-  border-color: #d2d0ce;
-  color: #323130;
-  background: #fff;
-}
-
-.rtbo-mail-compose-grid {
-  grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
-  padding-top: 12px;
-}
-
-.rtbo-mail-page :is(input, select, textarea) {
-  border-color: #c8c6c4;
-  border-radius: 3px;
-  color: #1f1f1f;
-  background: #fff;
-}
-
-.rtbo-mail-file-import input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  min-height: 1px;
-  padding: 0;
-  border: 0;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.rtbo-mail-options input[type="checkbox"] {
-  flex: 0 0 16px;
-  width: 16px;
-  height: 16px;
-  min-height: 16px;
-  padding: 0;
-  border-radius: 2px;
-  accent-color: var(--orange);
-}
-
-.rtbo-mail-options label,
-.rtbo-mail-line-total {
-  border-radius: 3px;
-  color: #323130;
-  background: #faf9f8;
-  border-color: #d2d0ce;
-}
-
-.rtbo-mail-preview {
-  border-color: #d2d0ce;
-  border-radius: 6px;
-  color: #1f1f1f;
-  background: #fff;
-  box-shadow: inset 0 3px 0 #f58220;
-}
-
-.rtbo-mail-preview :is(h4, p, dt, dd, strong) {
-  color: #1f1f1f;
-}
-
-.rtbo-mail-distribution-list article,
-.rtbo-mail-admin-list article {
-  border-color: #d2d0ce;
-  border-radius: 4px;
-  color: #1f1f1f;
-  background: #faf9f8;
-}
-
-.rtbo-mail-distribution-list strong,
-.rtbo-mail-distribution-list span,
-.rtbo-mail-distribution-list small,
-.rtbo-mail-admin-list strong,
-.rtbo-mail-admin-list span,
-.rtbo-mail-admin-list small {
-  color: #323130;
-}
-
-.rtbo-mail-workspace-panel {
-  display: grid;
-  align-content: start;
-  gap: 14px;
-  min-height: 640px;
-  padding: 16px;
-  color: #1f1f1f;
-  background: #fff;
-}
-
-.rtbo-mail-calendar-panel,
-.rtbo-mail-device-panel {
-  display: grid;
-  align-content: start;
-  gap: 14px;
-  min-height: 640px;
-  padding: 16px;
-  color: #1f1f1f;
-  background: #fff;
-}
-
-.rtbo-mail-calendar-form {
-  display: grid;
-  grid-template-columns: minmax(150px, .7fr) minmax(180px, 1fr) minmax(150px, .8fr) minmax(130px, .7fr) minmax(220px, 1.4fr) auto;
-  gap: 10px;
-  align-items: end;
-  border: 1px solid #edebe9;
-  border-radius: 6px;
-  padding: 12px;
-  background: #faf9f8;
-}
-
-.rtbo-mail-calendar-form label {
-  display: grid;
-  gap: 5px;
-  color: #605e5c;
-  font-size: .72rem;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.rtbo-mail-calendar-form button,
-.rtbo-mail-calendar-list article button,
-.rtbo-mail-device-panel button {
-  min-height: 34px;
-  border: 1px solid #b94b06;
-  border-radius: 3px;
-  padding: 7px 10px;
-  color: #050505;
-  background: #f58220;
-  cursor: pointer;
-  font-size: .76rem;
-  font-weight: 900;
-}
-
-.rtbo-mail-calendar-grid,
-.rtbo-mail-device-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.rtbo-mail-calendar-list,
-.rtbo-mail-device-grid section,
-.rtbo-mail-device-steps article {
-  border: 1px solid #edebe9;
-  border-radius: 6px;
-  padding: 12px;
-  background: #faf9f8;
-}
-
-.rtbo-mail-calendar-list h5,
-.rtbo-mail-device-grid h5 {
-  margin: 0 0 10px;
-  color: #1f1f1f;
-  font-size: .9rem;
-}
-
-.rtbo-mail-calendar-list article {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 10px;
-  align-items: start;
-  border-top: 1px solid #edebe9;
-  padding: 10px 0;
-}
-
-.rtbo-mail-calendar-list article:first-of-type {
-  border-top: 0;
-}
-
-.rtbo-mail-calendar-list strong,
-.rtbo-mail-calendar-list span,
-.rtbo-mail-calendar-list p {
-  display: block;
-  margin: 0;
-  color: #323130;
-  font-size: .8rem;
-  line-height: 1.4;
-}
-
-.rtbo-mail-calendar-list strong {
-  color: #1f1f1f;
-  font-size: .86rem;
-}
-
-.rtbo-mail-device-grid dl {
-  display: grid;
-  gap: 8px;
-  margin: 0;
-}
-
-.rtbo-mail-device-grid dl div {
-  display: grid;
-  grid-template-columns: 110px minmax(0, 1fr);
-  gap: 8px;
-}
-
-.rtbo-mail-device-grid dt,
-.rtbo-mail-device-grid dd {
-  margin: 0;
-  color: #323130;
-  font-size: .8rem;
-  line-height: 1.35;
-}
-
-.rtbo-mail-device-grid dt {
-  color: #605e5c;
-  font-weight: 900;
-}
-
-.rtbo-mail-device-steps {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.rtbo-mail-device-steps strong,
-.rtbo-mail-device-steps p {
-  display: block;
-  margin: 0;
-  color: #323130;
-  font-size: .82rem;
-  line-height: 1.45;
-}
-
-.rtbo-mail-device-steps strong {
-  color: #1f1f1f;
-  margin-bottom: 6px;
-}
-
-.rtbo-mail-workspace-head {
-  display: flex;
-  justify-content: space-between;
-  gap: 14px;
-  border-bottom: 1px solid #edebe9;
-  padding-bottom: 12px;
-}
-
-.rtbo-mail-workspace-head span {
-  display: block;
-  color: #605e5c;
-  font-size: .72rem;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.rtbo-mail-workspace-head h4 {
-  margin: 2px 0 0;
-  color: #1f1f1f;
-  font-size: 1.05rem;
-}
-
-.rtbo-mail-workspace-actions,
-.rtbo-mail-feature-grid article {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.rtbo-mail-workspace-actions {
-  justify-content: flex-end;
-}
-
-.rtbo-mail-workspace-actions button,
-.rtbo-mail-feature-grid button {
-  min-height: 34px;
-  border: 1px solid #d2d0ce;
-  border-radius: 3px;
-  padding: 7px 10px;
-  color: #323130;
-  background: #faf9f8;
-  cursor: pointer;
-  font-size: .76rem;
-  font-weight: 900;
-}
-
-.rtbo-mail-workspace-actions button:hover,
-.rtbo-mail-feature-grid button:hover {
-  border-color: #b94b06;
-  background: #fff3e6;
-}
-
-.rtbo-mail-feature-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.rtbo-mail-feature-grid article {
-  align-content: start;
-  border: 1px solid #edebe9;
-  border-radius: 6px;
-  padding: 12px;
-  background: #faf9f8;
-}
-
-.rtbo-mail-feature-grid button {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  flex: 1 1 180px;
-  background: #fff;
-}
-
-.rtbo-mail-feature-grid b {
-  color: #b94b06;
-  font-size: .68rem;
-  text-transform: uppercase;
-}
-
-.rtbo-mail-settings-strip {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
-  border: 1px solid #edebe9;
-  border-radius: 6px;
-  padding: 12px;
-  background: #faf9f8;
-}
-
-.rtbo-mail-settings-strip label {
-  display: grid;
-  gap: 5px;
-  color: #605e5c;
-  font-size: .72rem;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.rtbo-mail-page.rtbo-mail-dark {
-  border-color: rgba(245, 130, 32, .44);
-  color: #f4eee8;
-  background: #11100f;
-}
-
-.rtbo-mail-page.rtbo-mail-dark > .rtbo-dashboard-card-head {
-  border-bottom-color: #3a332d;
-  background: #151311;
-}
-
-.rtbo-mail-page.rtbo-mail-dark > .rtbo-dashboard-card-head h3,
-.rtbo-mail-page.rtbo-mail-dark > .rtbo-dashboard-card-head p {
-  color: #f4eee8;
-}
-
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-command-ribbon,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-folders {
-  border-color: #3a332d;
-  background: #1b1815;
-}
-
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-ribbon-group,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-top-menu {
-  border-color: #3a332d;
-}
-
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-ribbon-group button,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-top-menu button,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-mode-row button,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-editor-toolbar button,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-mark-read,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-workspace-actions button,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-feature-grid button {
-  color: #f4eee8;
-  background: #201d1a;
-  border-color: #4a4038;
-}
-
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-ribbon-group button:hover:not(:disabled),
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-ribbon-group button:focus-visible,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-top-menu button.active,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-top-menu button:hover,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-mode-row button.active,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-folders button.active,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-list article.selected,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-workspace-actions button:hover,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-feature-grid button:hover {
-  color: #fff7ef;
-  background: #3a281d;
-  border-color: #f58220;
-}
-
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-ribbon-group.primary button:first-child {
-  color: #050505 !important;
-  background: #f58220 !important;
-  border-color: #b94b06 !important;
-}
-
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-global-search,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-stats span,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-list span,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-list small,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-open-head p,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-open-head small,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-workspace-head span,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-settings-strip label {
-  color: #c9beb4;
-}
-
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-stats,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-stats article,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-shell,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-reader,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-reader-grid,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-list,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-search,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-open-message,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-compose,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-workspace-panel,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-calendar-panel,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-device-panel {
-  border-color: #3a332d;
-  color: #f4eee8;
-  background: #151311;
-}
-
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-stats article,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-search,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-mode-row,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-list article {
-  border-color: #302b27;
-}
-
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-list article,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-preview,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-distribution-panel,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-admin-panel,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-distribution-list article,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-admin-list article,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-feature-grid article,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-settings-strip,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-options label,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-calendar-form,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-calendar-list,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-device-grid section,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-device-steps article {
-  border-color: #3a332d;
-  color: #f4eee8;
-  background: #1b1815;
-}
-
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-list article.unread {
-  background: #241a13;
-}
-
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-page :is(input, select, textarea),
-.rtbo-mail-page.rtbo-mail-dark :is(input, select, textarea),
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-global-search input {
-  color: #f4eee8;
-  background: #100f0e;
-  border-color: #4a4038;
-}
-
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-stats strong,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-list strong,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-open-message h4,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-open-message p,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-open-body,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-preview :is(h4, p, dt, dd, strong),
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-distribution-panel h4,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-admin-panel h4,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-distribution-panel p,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-admin-panel p,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-distribution-list strong,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-distribution-list span,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-distribution-list small,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-admin-list strong,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-admin-list span,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-admin-list small,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-workspace-head h4,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-calendar-list h5,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-calendar-list strong,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-calendar-list span,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-calendar-list p,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-device-grid h5,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-device-grid dt,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-device-grid dd,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-device-steps strong,
-.rtbo-mail-page.rtbo-mail-dark .rtbo-mail-device-steps p {
-  color: #f4eee8 !important;
-}
-
-@media (max-width: 1024px) {
-  .rtbo-mail-command-ribbon {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .rtbo-mail-compose-grid,
-  .rtbo-mail-reader-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .rtbo-mail-stats {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .rtbo-mail-settings-strip,
-  .rtbo-mail-feature-grid,
-  .rtbo-mail-calendar-grid,
-  .rtbo-mail-device-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .rtbo-mail-calendar-form {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 768px) {
-  .rtbo-mail-shell,
-  .rtbo-mail-admin-form,
-  .rtbo-mail-form-grid,
-  .rtbo-mail-options,
-  .rtbo-mail-stats,
-  .rtbo-mail-command-ribbon,
-  .rtbo-mail-settings-strip,
-  .rtbo-mail-feature-grid,
-  .rtbo-mail-calendar-form,
-  .rtbo-mail-calendar-grid,
-  .rtbo-mail-device-grid,
-  .rtbo-mail-device-steps,
-  .rtbo-mail-distribution-import,
-  .rtbo-mail-distribution-list article {
-    grid-template-columns: 1fr;
-  }
-
-  .rtbo-mail-ribbon-group {
-    border-right: 0;
-    border-bottom: 1px solid #edebe9;
-    padding-right: 0;
-    padding-bottom: 8px;
-  }
-
-  .rtbo-mail-top-menu {
-    border-right: 0;
-    border-bottom: 1px solid #edebe9;
-    padding-right: 0;
-    padding-bottom: 8px;
-  }
-
-  .rtbo-mail-ribbon-group:last-of-type {
-    border-bottom: 0;
-  }
-
-  .rtbo-mail-folders {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .rtbo-mail-open-head {
-    flex-direction: column;
-  }
-
-  .rtbo-mail-workspace-head {
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 550px) {
-  .rtbo-mail-page {
-    font-size: .82rem;
-  }
-
-  .rtbo-mail-folders,
-  .rtbo-mail-search,
-  .rtbo-mail-schedule-row {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .rtbo-mail-head-actions,
-  .rtbo-mail-mode-row,
-  .rtbo-mail-editor-toolbar {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .rtbo-mail-head-actions .btn,
-  .rtbo-mail-mode-row button {
-    width: 100%;
-  }
-}
-
-@media (max-width: 368px) {
-  .rtbo-mail-page :is(input, select, textarea),
-  .rtbo-mail-list strong,
-  .rtbo-mail-open-body {
-    font-size: .78rem !important;
-  }
-
-  .rtbo-mail-preview dl div {
-    grid-template-columns: 1fr;
-  }
-}
-
 .rtbo-dashboard-card-head {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   gap: 16px;
   margin-bottom: 16px;
 }
@@ -4263,14 +3925,17 @@ button.hero-scroll-link {
 .rtbo-form-toolbar {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 10px;
   justify-content: flex-end;
 }
 
 .rtbo-form-toolbar .btn {
-  min-height: 38px;
-  padding: 8px 13px;
+  min-height: 34px;
+  height: 34px;
+  padding: 0 12px;
   white-space: nowrap;
+  line-height: 1;
 }
 
 .rtbo-form-toolbar .danger-action {
@@ -4516,7 +4181,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-members-row mark.inactive-status {
-  color: #fed7aa;
+  color: #f58220;
   border-color: rgba(245, 130, 32, .34);
   background: rgba(245, 130, 32, .12);
 }
@@ -5776,7 +5441,7 @@ button.hero-scroll-link {
 :root[data-theme="light"] .rtbo-members-row.head {
   color: #111827;
   border-color: rgba(249, 115, 22, .38);
-  background: #ffedd5;
+  background: #f8fafc;
 }
 
 :root[data-theme="light"] .rtbo-members-row > span {
@@ -5800,9 +5465,9 @@ button.hero-scroll-link {
 }
 
 :root[data-theme="light"] .rtbo-members-row mark.inactive-status {
-  color: #7c2d12;
-  border-color: rgba(154, 52, 18, .34);
-  background: #ffedd5;
+  color: #f58220;
+  border-color: rgba(15, 23, 42, .16);
+  background: #f8fafc;
 }
 
 :root[data-theme="light"] .rtbo-table-actions button {
@@ -6198,7 +5863,7 @@ button.hero-scroll-link {
   border: 1px solid rgba(245, 130, 32, .34);
   border-radius: 999px;
   padding: 7px 11px;
-  color: #fed7aa;
+  color: #f58220;
   background: rgba(245, 130, 32, .11);
   font-size: .76rem;
   font-weight: 1000;
@@ -6426,7 +6091,7 @@ button.hero-scroll-link {
 
 .rtbo-game-report-rule-buttons button.active {
   color: #111;
-  background: linear-gradient(135deg, #fed7aa, #f58220);
+  background: linear-gradient(135deg, #f58220, #f58220);
   border-color: rgba(255, 255, 255, .3);
 }
 
@@ -6517,7 +6182,7 @@ button.hero-scroll-link {
 .rtbo-observer-result-grid article.highlight {
   color: #111;
   border-color: rgba(255, 255, 255, .26);
-  background: linear-gradient(135deg, #fed7aa, #f58220);
+  background: linear-gradient(135deg, #f58220, #f58220);
 }
 
 .rtbo-observer-result-grid article.highlight span,
@@ -6787,7 +6452,7 @@ button.hero-scroll-link {
   border-radius: 14px;
   padding: 12px 14px;
   color: #111827;
-  background: linear-gradient(135deg, #fed7aa, #f58220);
+  background: linear-gradient(135deg, #f58220, #f58220);
   font-size: .82rem;
   font-weight: 1000;
   text-align: center;
@@ -6946,7 +6611,7 @@ button.hero-scroll-link {
 
 .rtbo-invoice-preview h4 {
   margin: 0 0 10px;
-  color: #c2410c;
+  color: #ea580c;
   font-size: 1rem;
   text-transform: uppercase;
 }
@@ -7074,7 +6739,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-invoice-total-box strong {
-  color: #c2410c;
+  color: #ea580c;
   font-size: 1.8rem;
 }
 
@@ -7085,24 +6750,24 @@ button.hero-scroll-link {
 .rtbo-invoice-payment-options {
   display: grid;
   gap: 10px;
-  border: 1px solid #fed7aa;
+  border: 1px solid #f58220;
   border-radius: 12px;
   padding: 16px;
-  background: #fff7ed;
+  background: #ffffff;
 }
 
 .rtbo-invoice-payment-options p {
   margin: 0;
-  color: #431407;
+  color: #050505;
   font-weight: 800;
 }
 
 .rtbo-invoice-credit-card-toggle {
   width: fit-content;
-  border: 1px solid #c2410c;
+  border: 1px solid #ea580c;
   border-radius: 999px;
   padding: 10px 14px;
-  color: #9a3412;
+  color: #f58220;
   background: #fff;
   font: inherit;
   font-size: .82rem;
@@ -7113,7 +6778,7 @@ button.hero-scroll-link {
 
 .rtbo-invoice-credit-card-toggle.active {
   color: #fff;
-  background: #c2410c;
+  background: #ea580c;
 }
 
 .rtbo-invoice-footer {
@@ -7137,7 +6802,10 @@ button.hero-scroll-link {
   width: min(100%, 816px);
   max-width: 816px;
   min-height: 1056px;
-  overflow: hidden;
+  max-height: min(82vh, 1056px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
   border-radius: 0;
   color: #000;
   background: #fff;
@@ -7628,7 +7296,7 @@ button.hero-scroll-link {
   border: 1px solid rgba(245, 130, 32, .32);
   border-radius: 999px;
   padding: 7px 11px;
-  color: #fed7aa;
+  color: #f58220;
   background: rgba(245, 130, 32, .1);
   font-size: .75rem;
   font-weight: 1000;
@@ -7855,7 +7523,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-crew-member small {
-  color: #fed7aa;
+  color: #f58220;
   font-size: .66rem;
   font-weight: 1000;
   letter-spacing: .04em;
@@ -7878,7 +7546,7 @@ button.hero-scroll-link {
   border: 1px solid rgba(245, 130, 32, .25);
   border-radius: 999px;
   padding: 2px 8px;
-  color: #fed7aa !important;
+  color: #f58220 !important;
   background: rgba(245, 130, 32, .08);
   font-weight: 1000;
   text-transform: uppercase;
@@ -7922,7 +7590,7 @@ button.hero-scroll-link {
 
 .rtbo-official-record-list a {
   width: fit-content;
-  color: #fed7aa;
+  color: #f58220;
   font-weight: 1000;
   text-transform: uppercase;
 }
@@ -8097,7 +7765,7 @@ button.hero-scroll-link {
   border: 1px solid rgba(245, 130, 32, .34);
   border-radius: 10px;
   padding: 0 13px;
-  color: #fed7aa;
+  color: #f58220;
   background: rgba(245, 130, 32, .1);
   font-size: .84rem;
   font-weight: 1000;
@@ -8168,7 +7836,7 @@ button.hero-scroll-link {
   border: 1px solid rgba(245, 130, 32, .35);
   border-radius: 999px;
   padding: 6px 10px;
-  color: #fed7aa;
+  color: #f58220;
   background: rgba(0, 0, 0, .2);
   font-size: .7rem;
   font-weight: 1000;
@@ -8309,7 +7977,7 @@ button.hero-scroll-link {
   justify-content: center;
   border: 1px dashed rgba(245, 130, 32, .45);
   border-radius: 999px;
-  color: #fed7aa;
+  color: #f58220;
   background: rgba(0, 0, 0, .35);
   font-size: .62rem;
   font-weight: 1000;
@@ -8330,7 +7998,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-game-crew-member span {
-  color: #fed7aa;
+  color: #f58220;
   font-size: .68rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -8355,7 +8023,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-publish-helper {
-  color: #fed7aa;
+  color: #f58220;
   font-size: .68rem;
   line-height: 1.35;
 }
@@ -8431,18 +8099,18 @@ button.hero-scroll-link {
 }
 
 .rtbo-crew-completion.warning {
-  color: #fed7aa;
+  color: #f58220;
   background: rgba(245, 130, 32, .12);
 }
 
 .rtbo-status-pill.tba {
   border-color: rgba(245, 130, 32, .45);
-  color: #fed7aa;
+  color: #f58220;
   background: rgba(245, 130, 32, .16);
 }
 
 .rtbo-tba-request-count {
-  color: #fed7aa !important;
+  color: #f58220 !important;
   font-weight: 900;
 }
 
@@ -8510,8 +8178,10 @@ button.hero-scroll-link {
 
 .form-message.warning {
   border-color: rgba(245, 130, 32, .35);
-  color: #fed7aa;
-  background: rgba(245, 130, 32, .11);
+  color: #f58220;
+  background-color: var(--rtbo-carbon-bg);
+  background-image: var(--rtbo-carbon-fiber);
+  background-size: var(--rtbo-carbon-fiber-size);
 }
 
 .rtbo-status-pill {
@@ -8520,7 +8190,7 @@ button.hero-scroll-link {
   border: 1px solid rgba(245, 130, 32, .36);
   border-radius: 999px;
   padding: 3px 8px;
-  color: #fed7aa;
+  color: #f58220;
   background: rgba(245, 130, 32, .08);
   font-size: .62rem;
   font-weight: 1000;
@@ -8713,7 +8383,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-map-target span {
-  color: #fed7aa;
+  color: #f58220;
   font-weight: 1000;
   text-transform: uppercase;
 }
@@ -8981,15 +8651,14 @@ button.hero-scroll-link {
   font-size: .72rem;
 }
 
-:root[data-theme="light"] .rtbo-account-modal,
 :root[data-theme="light"] .rtbo-dashboard-shell,
 :root[data-theme="light"] .rtbo-dashboard-card,
 :root[data-theme="light"] .rtbo-dashboard-topbar,
 :root[data-theme="light"] .rtbo-dashboard-sidebar {
   color: #111827;
   background:
-    linear-gradient(145deg, rgba(255,255,255,.92), rgba(255,247,237,.72)),
-    #fffaf5;
+    linear-gradient(145deg, rgba(255,255,255,.92), rgba(255, 255, 255, .86)),
+    #f8fafc;
 }
 
 :root[data-theme="light"] .rtbo-dashboard-card strong,
@@ -9040,7 +8709,7 @@ button.hero-scroll-link {
 :root[data-theme="light"] .rtbo-payment-record-panel,
 :root[data-theme="light"] .rtbo-payment-record-card {
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, .96), rgba(255, 247, 237, .76));
+    linear-gradient(145deg, rgba(255, 255, 255, .96), rgba(255, 255, 255, .86));
 }
 
 :root[data-theme="light"] .rtbo-school-ranking-widget h3,
@@ -9073,7 +8742,7 @@ button.hero-scroll-link {
 :root[data-theme="light"] .rtbo-payment-record-card span,
 :root[data-theme="light"] .rtbo-payment-record-card p,
 :root[data-theme="light"] .rtbo-payment-record-card small {
-  color: #9a3412;
+  color: #f58220;
 }
 
 :root[data-theme="light"] .rtbo-invoice-line-total {
@@ -9083,15 +8752,7 @@ button.hero-scroll-link {
 
 :root[data-theme="light"] .rtbo-test-summary small,
 :root[data-theme="light"] .rtbo-test-card-head span {
-  color: #9a3412;
-}
-
-:root[data-theme="light"] .rtbo-dashboard-actions .theme-toggle-track {
-  border-color: rgba(249, 115, 22, .38);
-  box-shadow:
-    inset 0 2px 0 rgba(255, 255, 255, .74),
-    inset 0 -4px 10px rgba(154, 52, 18, .16),
-    0 10px 24px rgba(154, 52, 18, .12);
+  color: #f58220;
 }
 
 :root[data-theme="light"] .rtbo-crud-form input,
@@ -9118,7 +8779,7 @@ button.hero-scroll-link {
 
 :root[data-theme="light"] .pricing-card {
   background:
-    linear-gradient(145deg, rgba(255,255,255,.94), rgba(255,247,237,.76)),
+    linear-gradient(145deg, rgba(255,255,255,.94), rgba(255, 255, 255, .86)),
     #fff;
   border-color: rgba(249, 115, 22, .28);
 }
@@ -9137,7 +8798,7 @@ button.hero-scroll-link {
 :root[data-theme="light"] .testimonial-grid article {
   color: #111827;
   background:
-    linear-gradient(145deg, rgba(255,255,255,.94), rgba(255,247,237,.76)),
+    linear-gradient(145deg, rgba(255,255,255,.94), rgba(255, 255, 255, .86)),
     #fff;
   border-color: rgba(249, 115, 22, .28);
 }
@@ -9147,7 +8808,7 @@ button.hero-scroll-link {
   color: #111827;
   background:
     radial-gradient(circle at top right, rgba(249, 115, 22, .12), transparent 34%),
-    linear-gradient(145deg, rgba(255,255,255,.94), rgba(255,247,237,.76)),
+    linear-gradient(145deg, rgba(255,255,255,.94), rgba(255, 255, 255, .86)),
     #fff;
   border-color: rgba(249, 115, 22, .3);
 }
@@ -9198,8 +8859,8 @@ button.hero-scroll-link {
   }
 
   :root[data-theme="light"] .nav-link-group button:not(.btn) {
-    background: #fff7ed;
-    border-color: #fed7aa;
+    background: #ffffff;
+    border-color: #f58220;
   }
 
   .rtbo-header.nav-open .nav-link-group button,
@@ -9593,11 +9254,10 @@ button.hero-scroll-link {
   border: 1px solid #f97316 !important;
 }
 
-:root[data-theme="light"] :is(.rtbo-public, .rtbo-dashboard-shell, .rtbo-account-modal, .site-footer, .auth-body, .app-shell) :is(
+:root[data-theme="light"] :is(.rtbo-public, .rtbo-dashboard-shell, .rtbo-account-modal, .site-footer, .app-shell) :is(
   .btn.secondary,
   .btn.secondary.dark-btn,
   .dark-btn,
-  .account-switch-btn,
   .nav-chrome-btn,
   .table-action:not(.danger),
   .rtbo-settings-expand.ghost,
@@ -9627,11 +9287,10 @@ button.hero-scroll-link {
   text-shadow: none !important;
 }
 
-:root[data-theme="light"] :is(.rtbo-public, .rtbo-dashboard-shell, .rtbo-account-modal, .site-footer, .auth-body, .app-shell) :is(
+:root[data-theme="light"] :is(.rtbo-public, .rtbo-dashboard-shell, .rtbo-account-modal, .site-footer, .app-shell) :is(
   .btn.secondary,
   .btn.secondary.dark-btn,
   .dark-btn,
-  .account-switch-btn,
   .nav-chrome-btn,
   .table-action:not(.danger),
   .rtbo-settings-expand.ghost,
@@ -9660,50 +9319,31 @@ button.hero-scroll-link {
 }
 
 :root[data-theme="light"] .theme-toggle {
-  color: var(--rtbo-light-action-text);
-  text-shadow: none;
-}
-
-:root[data-theme="light"] .theme-toggle-track {
-  color: var(--rtbo-light-action-text);
-  border-color: var(--rtbo-light-action-border);
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .02)),
-    linear-gradient(90deg, #020617, #111827 64%, #f97316);
-  box-shadow:
-    inset 0 2px 0 rgba(255, 255, 255, .14),
-    inset 0 -4px 10px rgba(0, 0, 0, .34),
-    var(--rtbo-light-action-shadow);
-}
-
-:root[data-theme="light"] .theme-toggle-text {
-  color: #fffdf7 !important;
-  -webkit-text-fill-color: #fffdf7 !important;
-  text-shadow: 0 1px 3px rgba(2, 6, 23, .92), 0 0 10px rgba(255, 255, 255, .24);
+  color: #f8fafc;
 }
 
 .rtbo-public .hero-carousel img {
   background:
-    linear-gradient(110deg, rgba(5, 6, 8, .9) 0%, rgba(5, 6, 8, .78) 47%, rgba(124, 45, 18, .58) 100%),
+    linear-gradient(110deg, rgba(5, 6, 8, .92) 0%, rgba(5, 6, 8, .8) 47%, rgba(8, 8, 8, .66) 100%),
     radial-gradient(circle at 78% 18%, rgba(249, 115, 22, .38), transparent 30%),
-    url("/assets/images/banner_1.png") center center / cover no-repeat,
+    url("/assets/images/banner_1.jpg") center center / cover no-repeat,
     #080a0f !important;
 }
 
 :root[data-theme="light"] .rtbo-public .hero-carousel img {
   background:
-    linear-gradient(110deg, rgba(5, 6, 8, .72) 0%, rgba(5, 6, 8, .58) 47%, rgba(124, 45, 18, .4) 100%),
+    linear-gradient(110deg, rgba(5, 6, 8, .74) 0%, rgba(5, 6, 8, .6) 47%, rgba(8, 8, 8, .46) 100%),
     radial-gradient(circle at 78% 18%, rgba(249, 115, 22, .34), transparent 30%),
-    url("/assets/images/banner_1.png") center center / cover no-repeat,
+    url("/assets/images/banner_1.jpg") center center / cover no-repeat,
     #080a0f !important;
 }
 
 :root[data-theme="light"] .rtbo-public .rtbo-hero {
   color: #f8fafc !important;
   background:
-    linear-gradient(110deg, rgba(5, 6, 8, .88) 0%, rgba(5, 6, 8, .68) 47%, rgba(124, 45, 18, .5) 100%),
+    linear-gradient(110deg, rgba(5, 6, 8, .9) 0%, rgba(5, 6, 8, .7) 47%, rgba(8, 8, 8, .58) 100%),
     radial-gradient(circle at 78% 18%, rgba(249, 115, 22, .32), transparent 30%),
-    url("/assets/images/banner_2.png") center bottom / contain no-repeat,
+    url("/assets/images/banner_2.jpg") center bottom / contain no-repeat,
     #080a0f !important;
 }
 
@@ -9718,8 +9358,8 @@ button.hero-scroll-link {
 :root[data-theme="light"] .rtbo-public .page-hero {
   color: #f8fafc !important;
   background:
-    linear-gradient(110deg, rgba(5, 6, 8, .88) 0%, rgba(5, 6, 8, .64) 50%, rgba(124, 45, 18, .46) 100%),
-    var(--page-banner, url("/assets/images/banner_2.png")) var(--page-banner-position, center center) / cover no-repeat,
+    linear-gradient(110deg, rgba(5, 6, 8, .9) 0%, rgba(5, 6, 8, .68) 50%, rgba(8, 8, 8, .54) 100%),
+    var(--page-banner, url("/assets/images/banner_2.jpg")) var(--page-banner-position, center center) / cover no-repeat,
     #080a0f !important;
 }
 
@@ -9809,7 +9449,7 @@ button.hero-scroll-link {
   border-color: rgba(249, 115, 22, .32);
   border-left-color: var(--orange);
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, .96), rgba(255, 247, 237, .76)),
+    linear-gradient(145deg, rgba(255, 255, 255, .96), rgba(255, 255, 255, .86)),
     #ffffff !important;
   box-shadow: 0 16px 34px rgba(15, 23, 42, .08);
 }
@@ -11788,7 +11428,7 @@ button.hero-scroll-link {
   border: 2px solid rgba(255, 122, 22, .72);
   border-radius: 18px;
   background:
-    radial-gradient(circle, rgba(255, 122, 22, .7), rgba(124, 45, 18, .82) 50%, rgba(7, 9, 12, .92) 52%),
+    radial-gradient(circle, rgba(255, 122, 22, .7), rgba(8, 8, 8, .86) 50%, rgba(7, 9, 12, .92) 52%),
     #111317;
   box-shadow:
     inset 0 0 0 4px rgba(0, 0, 0, .72),
@@ -13327,9 +12967,781 @@ button.hero-scroll-link {
     padding: 0;
   }
 
-  body.rtbo-printing-invoice .rtbo-invoice-footer span,
+body.rtbo-printing-invoice .rtbo-invoice-footer span,
   body.rtbo-printing-invoice .rtbo-invoice-footer strong {
     font-size: 11px;
     line-height: 1.2;
   }
+}
+
+/* Mandatory compact summary-card standard across the app. */
+:is(
+  .rtbo-payment-summary-grid,
+  .rtbo-settings-readiness-summary,
+  .rtbo-game-report-summary,
+  .rtbo-live-geo-summary,
+  .rtbo-test-summary,
+  .rtbo-mail-stats
+) article {
+  align-content: center !important;
+  min-height: 52px !important;
+  padding: 8px 12px !important;
+}
+
+:is(
+  .rtbo-payment-summary-grid,
+  .rtbo-settings-readiness-summary,
+  .rtbo-game-report-summary,
+  .rtbo-live-geo-summary,
+  .rtbo-test-summary,
+  .rtbo-mail-stats
+) :is(span, small) {
+  font-size: .66rem !important;
+  line-height: 1.2 !important;
+}
+
+:is(
+  .rtbo-payment-summary-grid,
+  .rtbo-settings-readiness-summary,
+  .rtbo-game-report-summary,
+  .rtbo-live-geo-summary,
+  .rtbo-test-summary,
+  .rtbo-mail-stats
+) strong {
+  margin-top: 2px !important;
+  font-size: clamp(.95rem, 1.15vw, 1.12rem) !important;
+  line-height: 1.05 !important;
+}
+
+:is(.rtbo-tba-summary, .rtbo-dashboard-control-summary) {
+  min-height: 42px !important;
+  padding: 8px 12px !important;
+}
+
+:is(.rtbo-tba-summary, .rtbo-dashboard-control-summary) strong {
+  font-size: clamp(.9rem, 1.1vw, 1.08rem) !important;
+  line-height: 1.05 !important;
+}
+
+/* Current public-site compact pass: home stats, Got U Nex Ref art, events, and feature cards. */
+.rtbo-public .rtbo-hero .rtbo-stats {
+  width: min(218px, calc(100% - 32px)) !important;
+  gap: 7px !important;
+  right: clamp(14px, 3.2vw, 42px) !important;
+  bottom: 22px !important;
+}
+
+.rtbo-public .rtbo-stats article {
+  min-height: 54px !important;
+  padding: 8px 10px !important;
+  border-radius: 8px !important;
+}
+
+.rtbo-public .rtbo-stats strong {
+  font-size: clamp(1.25rem, 2vw, 1.72rem) !important;
+  line-height: 1 !important;
+}
+
+.rtbo-public .rtbo-stats span {
+  margin-top: 2px !important;
+  font-size: .72rem !important;
+  line-height: 1.15 !important;
+}
+
+.home-results-section {
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, .72fr);
+}
+
+.home-results-section .results-top-cards {
+  align-self: center;
+  justify-self: end;
+  width: min(100%, 620px);
+}
+
+.home-results-section .results-top-cards img {
+  height: clamp(240px, 26vw, 430px);
+}
+
+.home-results-section .results-top-cards figcaption {
+  padding: 10px 12px 12px;
+}
+
+.home-results-section .results-top-cards h3 {
+  font-size: clamp(.9rem, 1vw, 1.05rem);
+}
+
+.home-results-section .results-top-cards p {
+  font-size: .68rem;
+}
+
+.platform-workflow-layout {
+  grid-template-columns: minmax(260px, .64fr) minmax(0, 1.36fr);
+}
+
+.platform-workflow-image {
+  align-self: center;
+  justify-self: center;
+  width: min(100%, 520px);
+}
+
+.platform-workflow-image img {
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  max-height: clamp(260px, 28vw, 410px);
+  object-fit: contain;
+  padding: clamp(10px, 1.6vw, 22px);
+}
+
+.services-top-image {
+  width: min(100%, 420px);
+  min-height: clamp(220px, 20vw, 310px);
+  margin-top: clamp(28px, 4vw, 62px);
+  padding: clamp(10px, 1.5vw, 18px);
+}
+
+.services-top-image img {
+  height: clamp(205px, 18vw, 285px);
+}
+
+.services-workflow-image img {
+  height: auto;
+  min-height: 0;
+  max-height: clamp(250px, 27vw, 410px);
+  object-fit: contain;
+}
+
+.paid-event-card {
+  width: min(1120px, 100%);
+  margin-inline: auto;
+  grid-template-columns: minmax(180px, 300px) minmax(0, 1fr);
+  gap: clamp(16px, 2.4vw, 28px);
+  padding: clamp(14px, 2vw, 22px);
+}
+
+.paid-event-image-wrap {
+  max-width: 300px;
+}
+
+.paid-event-copy h3 {
+  font-size: clamp(1.55rem, 2.35vw, 2.75rem);
+}
+
+.paid-event-copy p:not(.eyebrow) {
+  font-size: clamp(.9rem, 1vw, 1.05rem);
+}
+
+.paid-event-facts {
+  gap: 8px;
+  margin: clamp(12px, 1.6vw, 18px) 0;
+}
+
+.paid-event-facts span {
+  padding: 8px 10px;
+  font-size: .84rem;
+}
+
+.school-session-image-wrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #050608;
+}
+
+.school-session-image-wrap > img {
+  width: 100%;
+  height: clamp(360px, 42vw, 580px);
+  max-height: 580px;
+  aspect-ratio: 2 / 3;
+  object-fit: contain;
+  object-position: center top;
+  background: #050608;
+}
+
+.school-session-card.ualr-session-card .school-session-image-wrap::after {
+  content: "";
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  bottom: 0;
+  z-index: 1;
+  height: clamp(40px, 6vw, 74px);
+  border-radius: 10px 10px 0 0;
+  background: linear-gradient(180deg, rgba(5, 5, 5, .98), rgba(14, 14, 14, .98));
+  box-shadow: 0 -8px 22px rgba(0, 0, 0, .42);
+}
+
+.school-session-image-date {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(8px, 1.4vw, 18px);
+  z-index: 2;
+  width: min(62%, 270px);
+  transform: translateX(-50%);
+  color: #f8fafc;
+  font-size: clamp(.94rem, 1.6vw, 1.5rem);
+  font-weight: 1000;
+  letter-spacing: .045em;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, .88);
+}
+
+@media (max-width: 1024px) {
+  .platform-workflow-layout,
+  .paid-event-card {
+    grid-template-columns: 1fr;
+  }
+
+  .platform-workflow-image,
+  .services-top-image,
+  .paid-event-image-wrap {
+    justify-self: center;
+  }
+
+  .home-results-section .results-top-cards {
+    justify-self: stretch;
+    width: 100%;
+  }
+}
+
+@media (max-width: 620px) {
+  .rtbo-public .rtbo-hero .rtbo-stats {
+    position: static !important;
+    width: 100% !important;
+    margin-top: 18px !important;
+  }
+
+  .home-results-section .results-top-cards img {
+    height: clamp(260px, 74vw, 390px);
+  }
+}
+
+@media (max-width: 1024px) {
+  .rtbo-registration-shell-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .rtbo-registration-shell-nav nav,
+  .rtbo-registration-nav-actions {
+    flex-wrap: wrap;
+  }
+
+  .rtbo-registration-hero,
+  .rtbo-registration-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .rtbo-registration-summary {
+    position: static;
+  }
+
+  .rtbo-registration-trust-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 648px) {
+  .rtbo-registration-page {
+    width: min(100% - 10px, 100%);
+  }
+
+  .rtbo-registration-hero h1 {
+    font-size: clamp(2.1rem, 13vw, 3.5rem);
+  }
+
+  .rtbo-registration-hero-points,
+  .rtbo-registration-steps,
+  .rtbo-registration-levels,
+  .rtbo-registration-session-list label,
+  .rtbo-registration-trust-row {
+    grid-template-columns: 1fr;
+  }
+
+  .rtbo-registration-session-list label {
+    justify-items: start;
+  }
+}
+
+/* Original project switcher restored by request. */
+.theme-toggle {
+  display: inline-flex !important;
+  min-width: 0 !important;
+  min-height: 34px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 0 !important;
+  padding: 0 !important;
+  color: #fff !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font: inherit !important;
+  font-size: .78rem !important;
+  font-weight: 900 !important;
+  cursor: pointer !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, .55) !important;
+  overflow: visible !important;
+}
+
+.theme-toggle-track {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  width: 104px !important;
+  height: 34px !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  padding: 0 10px 0 38px !important;
+  border: 2px solid rgba(221, 226, 232, .88) !important;
+  border-radius: 999px !important;
+  color: #dbeafe !important;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.58), rgba(255,255,255,.08) 24%, rgba(0,0,0,.28) 78%, rgba(255,255,255,.2)),
+    linear-gradient(90deg, #050608, #1f2937 48%, #f97316) !important;
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,.52),
+    inset 0 -4px 10px rgba(0,0,0,.32),
+    0 5px 13px rgba(0,0,0,.22),
+    0 0 0 1px rgba(5,6,8,.42) !important;
+  overflow: hidden !important;
+  transition: background .24s ease, border-color .24s ease, color .24s ease !important;
+}
+
+.theme-toggle-track::before,
+.theme-toggle-track::after {
+  content: none !important;
+}
+
+.theme-toggle-thumb {
+  position: absolute !important;
+  top: 50% !important;
+  left: 4px !important;
+  z-index: 1 !important;
+  width: 24px !important;
+  height: 24px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background:
+    radial-gradient(circle at 30% 24%, #fff 0 14%, #f8fafc 15% 30%, transparent 31%),
+    linear-gradient(145deg, #fff, #b8c0ca 44%, #64748b) !important;
+  box-shadow:
+    inset 0 2px 1px rgba(255,255,255,.92),
+    inset 0 -3px 5px rgba(0,0,0,.22),
+    0 4px 9px rgba(0,0,0,.34) !important;
+  transform: translateY(-50%) !important;
+  transition: transform .24s ease, background .24s ease, box-shadow .24s ease !important;
+}
+
+.theme-toggle-icon {
+  position: absolute !important;
+  left: 4px !important;
+  z-index: 2 !important;
+  display: grid !important;
+  width: 24px !important;
+  height: 24px !important;
+  place-items: center !important;
+  color: #38bdf8 !important;
+  font-size: .92rem !important;
+  line-height: 1 !important;
+  transition: opacity .2s ease, transform .24s ease, color .24s ease !important;
+}
+
+.theme-toggle-icon-day {
+  opacity: 0 !important;
+}
+
+.theme-toggle-icon-night {
+  opacity: 1 !important;
+}
+
+.theme-toggle-text {
+  position: absolute !important;
+  right: 10px !important;
+  left: auto !important;
+  z-index: 2 !important;
+  min-width: 48px !important;
+  color: currentColor !important;
+  text-align: center !important;
+  letter-spacing: .04em !important;
+}
+
+:root[data-theme="light"] .theme-toggle,
+html.light .theme-toggle {
+  color: #111827 !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,.58) !important;
+}
+
+:root[data-theme="light"] .theme-toggle-track,
+html.light .theme-toggle-track {
+  padding: 0 38px 0 10px !important;
+  border-color: rgba(238,242,247,.96) !important;
+  color: #ea580c !important;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.7), rgba(255,255,255,.08) 24%, rgba(249, 115, 22,.18) 78%, rgba(255,255,255,.22)),
+    linear-gradient(90deg, #f8fafc, #cbd5e1 52%, #f97316) !important;
+}
+
+:root[data-theme="light"] .theme-toggle-thumb,
+html.light .theme-toggle-thumb {
+  background:
+    radial-gradient(circle at 30% 24%, #fff 0 14%, #f8fafc 15% 30%, transparent 31%),
+    linear-gradient(145deg, #fff, #d7dce4 42%, #b45309) !important;
+  box-shadow:
+    inset 0 2px 1px rgba(255,255,255,.92),
+    inset 0 -3px 5px rgba(249, 115, 22,.24),
+    0 4px 9px rgba(249, 115, 22,.26) !important;
+  transform: translate(68px, -50%) !important;
+}
+
+:root[data-theme="light"] .theme-toggle-icon,
+html.light .theme-toggle-icon {
+  color: #facc15 !important;
+  transform: translateX(68px) !important;
+}
+
+:root[data-theme="light"] .theme-toggle-icon-day,
+html.light .theme-toggle-icon-day {
+  opacity: 1 !important;
+}
+
+:root[data-theme="light"] .theme-toggle-icon-night,
+html.light .theme-toggle-icon-night {
+  opacity: 0 !important;
+}
+
+:root[data-theme="light"] .theme-toggle-text,
+html.light .theme-toggle-text {
+  left: 10px !important;
+  right: auto !important;
+}
+
+/* Dashboard sidebar: compact carbon-fiber navigation modeled from the provided reference. */
+:root[data-theme="dark"],
+html.dark,
+:root[data-theme="dark"] body,
+html.dark body,
+:root[data-theme="dark"] #root,
+html.dark #root,
+:root[data-theme="dark"] .app-shell,
+html.dark .app-shell,
+:root[data-theme="dark"] .home-page,
+html.dark .home-page,
+:root[data-theme="dark"] .main,
+html.dark .main,
+:root[data-theme="dark"] main,
+html.dark main,
+:root[data-theme="dark"] .rtbo-public,
+html.dark .rtbo-public,
+:root[data-theme="dark"] .rtbo-section,
+html.dark .rtbo-section,
+:root[data-theme="dark"] .rtbo-band,
+html.dark .rtbo-band,
+:root[data-theme="dark"] .page-hero,
+html.dark .page-hero,
+:root[data-theme="dark"] .rtbo-offer,
+html.dark .rtbo-offer,
+:root[data-theme="dark"] .site-footer,
+html.dark .site-footer,
+:root[data-theme="dark"] .rtbo-footer,
+html.dark .rtbo-footer,
+:root[data-theme="dark"] .rtbo-dashboard-shell,
+html.dark .rtbo-dashboard-shell,
+:root[data-theme="dark"] .rtbo-dashboard-main,
+html.dark .rtbo-dashboard-main,
+:root[data-theme="dark"] .rtbo-dashboard-sidebar,
+html.dark .rtbo-dashboard-sidebar {
+  background-color: var(--rtbo-carbon-bg) !important;
+  background-image: var(--rtbo-carbon-fiber) !important;
+  background-size: var(--rtbo-carbon-fiber-size) !important;
+  background-attachment: fixed !important;
+}
+
+:root[data-theme="light"] body,
+html.light body,
+:root[data-theme="light"] #root,
+html.light #root,
+:root[data-theme="light"] .app-shell,
+html.light .app-shell,
+:root[data-theme="light"] .rtbo-public,
+html.light .rtbo-public,
+:root[data-theme="light"] .rtbo-dashboard-shell,
+html.light .rtbo-dashboard-shell,
+:root[data-theme="light"] .rtbo-dashboard-main,
+html.light .rtbo-dashboard-main,
+:root[data-theme="light"] .rtbo-dashboard-sidebar,
+html.light .rtbo-dashboard-sidebar {
+  background-color: #f6f7fb !important;
+  background-image: none !important;
+  background-attachment: scroll !important;
+}
+
+.rtbo-dashboard-shell {
+  grid-template-columns: 248px minmax(0, 1fr) !important;
+}
+
+.rtbo-dashboard-sidebar {
+  gap: 4px !important;
+  width: 248px !important;
+  padding: 10px 10px 14px !important;
+  border-right: 1px solid rgba(255,255,255,.08) !important;
+  background-color: #020406 !important;
+  background-image: var(--rtbo-carbon-fiber) !important;
+  background-size: var(--rtbo-carbon-fiber-size) !important;
+  box-shadow:
+    inset -1px 0 0 rgba(249,115,22,.22),
+    18px 0 42px rgba(0,0,0,.48) !important;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(249,115,22,.62) rgba(255,255,255,.08);
+}
+
+.rtbo-dashboard-sidebar::before {
+  content: none !important;
+}
+
+.rtbo-dashboard-home-link {
+  justify-content: flex-start !important;
+  margin: 0 0 6px !important;
+  padding: 4px 8px !important;
+}
+
+.rtbo-dashboard-sidebar img {
+  width: min(152px, 72%) !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  margin: 0 !important;
+}
+
+.rtbo-dashboard-sidebar > .eyebrow {
+  margin: 2px 8px 8px !important;
+  color: rgba(255,255,255,.48) !important;
+  font-size: .63rem !important;
+  letter-spacing: .1em !important;
+}
+
+.rtbo-dashboard-sidebar button {
+  min-height: 44px !important;
+  gap: 12px !important;
+  border: 1px solid transparent !important;
+  border-radius: 7px !important;
+  padding: 9px 12px !important;
+  color: rgba(255,255,255,.78) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: .88rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0 !important;
+  transform: none !important;
+}
+
+.rtbo-dashboard-sidebar button::before {
+  content: none !important;
+}
+
+.rtbo-sidebar-icon {
+  display: inline-grid;
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  color: rgba(255,255,255,.72);
+}
+
+.rtbo-sidebar-icon::before {
+  content: "□";
+  display: grid;
+  width: 21px;
+  height: 21px;
+  place-items: center;
+  border: 1.7px solid currentColor;
+  border-radius: 5px;
+  color: currentColor;
+  font-size: .78rem;
+  font-weight: 1000;
+  line-height: 1;
+}
+
+.rtbo-sidebar-icon[data-sidebar-icon="overview"]::before { content: "⌂"; }
+.rtbo-sidebar-icon[data-sidebar-icon="members"]::before { content: "♙"; }
+.rtbo-sidebar-icon[data-sidebar-icon="schedules"]::before { content: "▣"; }
+.rtbo-sidebar-icon[data-sidebar-icon="rtbomail"]::before,
+.rtbo-sidebar-icon[data-sidebar-icon="messages"]::before { content: "✉"; }
+.rtbo-sidebar-icon[data-sidebar-icon="newsletterCenter"]::before,
+.rtbo-sidebar-icon[data-sidebar-icon="reports"]::before { content: "☷"; }
+.rtbo-sidebar-icon[data-sidebar-icon="refroom"]::before { content: "▻"; }
+.rtbo-sidebar-icon[data-sidebar-icon="notifications"]::before { content: "!"; }
+.rtbo-sidebar-icon[data-sidebar-icon="payments"]::before { content: "$"; }
+.rtbo-sidebar-icon[data-sidebar-icon="taxCenter"]::before { content: "W"; }
+.rtbo-sidebar-icon[data-sidebar-icon="education"]::before { content: "⌃"; }
+.rtbo-sidebar-icon[data-sidebar-icon="profile"]::before { content: "◎"; }
+.rtbo-sidebar-icon[data-sidebar-icon="organizations"]::before { content: "⌂"; }
+.rtbo-sidebar-icon[data-sidebar-icon="settings"]::before { content: "⚙"; }
+
+:root[data-theme="dark"] :is(.rtbo-dashboard-card, .rtbo-dashboard-topbar, .rtbo-dashboard-status, .rtbo-dashboard-sidebar, .rtbo-dashboard-main, .rtbo-dashboard-shell, .rtbo-public, .rtbo-section, .rtbo-band, .page-hero, .rtbo-offer, .site-footer, .rtbo-footer),
+html.dark :is(.rtbo-dashboard-card, .rtbo-dashboard-topbar, .rtbo-dashboard-status, .rtbo-dashboard-sidebar, .rtbo-dashboard-main, .rtbo-dashboard-shell, .rtbo-public, .rtbo-section, .rtbo-band, .page-hero, .rtbo-offer, .site-footer, .rtbo-footer) {
+  background-color: var(--rtbo-carbon-bg) !important;
+  background-image: var(--rtbo-carbon-fiber) !important;
+  background-size: var(--rtbo-carbon-fiber-size) !important;
+}
+
+.rtbo-sidebar-button-label {
+  color: currentColor !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+}
+
+.rtbo-dashboard-sidebar button:hover,
+.rtbo-dashboard-sidebar button:focus-visible {
+  color: #fff !important;
+  border-color: rgba(249,115,22,.32) !important;
+  background: rgba(249,115,22,.11) !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.04) !important;
+}
+
+.rtbo-dashboard-sidebar button.active {
+  color: #fff !important;
+  border-color: rgba(249,115,22,.72) !important;
+  background:
+    linear-gradient(90deg, #f97316 0%, #b84607 100%) !important;
+  box-shadow:
+    0 12px 24px rgba(249,115,22,.18),
+    inset 0 1px 0 rgba(255,255,255,.18) !important;
+}
+
+.rtbo-dashboard-sidebar button.active::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  right: -11px;
+  width: 3px;
+  height: calc(100% - 20px);
+  border-radius: 999px;
+  background: #f97316;
+  box-shadow: 0 0 14px rgba(249,115,22,.72);
+}
+
+.rtbo-dashboard-sidebar button.active .rtbo-sidebar-icon {
+  color: #111827;
+}
+
+.rtbo-sidebar-count {
+  min-width: 22px !important;
+  height: 20px !important;
+  color: #fff !important;
+  border-color: rgba(255,255,255,.28) !important;
+  background: #ea580c !important;
+}
+
+.rtbo-sidebar-submenu {
+  gap: 4px !important;
+  margin: 0 0 5px 36px !important;
+  padding-left: 10px !important;
+  border-left: 1px solid rgba(255,255,255,.1) !important;
+}
+
+.rtbo-sidebar-submenu button {
+  min-height: 34px !important;
+  padding: 7px 10px !important;
+  font-size: .76rem !important;
+  color: rgba(255,255,255,.7) !important;
+  border-radius: 6px !important;
+}
+
+.rtbo-sidebar-submenu button.active {
+  color: #fff !important;
+}
+
+.rtbo-sidebar-help-card {
+  order: 4;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 8px 10px;
+  align-items: center;
+  margin: auto 2px 0;
+  padding: 14px;
+  border: 1px solid rgba(255,255,255,.11);
+  border-radius: 8px;
+  background: rgba(0,0,0,.34);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.rtbo-sidebar-help-icon {
+  display: inline-grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 2px solid #f97316;
+  border-radius: 999px;
+  color: #f97316;
+  font-size: 1.2rem;
+  font-weight: 1000;
+}
+
+.rtbo-sidebar-help-card strong {
+  display: block;
+  color: #fff;
+  font-size: .86rem;
+  line-height: 1.1;
+}
+
+.rtbo-sidebar-help-card p {
+  margin: 3px 0 0;
+  color: rgba(255,255,255,.58);
+  font-size: .72rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.rtbo-dashboard-sidebar .rtbo-sidebar-help-action {
+  grid-column: 1 / -1;
+  justify-content: center !important;
+  min-height: 38px !important;
+  margin-top: 6px !important;
+  color: #fff !important;
+  border-color: rgba(249,115,22,.9) !important;
+  background: linear-gradient(180deg, #f97316, #ea580c) !important;
+  box-shadow: 0 10px 18px rgba(249,115,22,.18) !important;
+  text-align: center !important;
+}
+
+.rtbo-dashboard-sidebar .btn.secondary {
+  order: 5 !important;
+  min-height: 38px !important;
+  margin-top: 8px !important;
+}
+
+:root[data-theme="light"] .rtbo-dashboard-sidebar,
+html.light .rtbo-dashboard-sidebar {
+  color: #111827 !important;
+  border-right-color: rgba(17,24,39,.12) !important;
+  background: #fff !important;
+  box-shadow: 14px 0 34px rgba(15,23,42,.1) !important;
+}
+
+:root[data-theme="light"] .rtbo-dashboard-sidebar button,
+html.light .rtbo-dashboard-sidebar button {
+  color: #1f2937 !important;
+}
+
+:root[data-theme="light"] .rtbo-sidebar-icon,
+html.light .rtbo-sidebar-icon {
+  color: #475569;
+}
+
+:root[data-theme="light"] .rtbo-sidebar-help-card,
+html.light .rtbo-sidebar-help-card {
+  border-color: rgba(17,24,39,.1);
+  background: #f8fafc;
+}
+
+:root[data-theme="light"] .rtbo-sidebar-help-card strong,
+html.light .rtbo-sidebar-help-card strong {
+  color: #111827;
+}
+
+:root[data-theme="light"] .rtbo-sidebar-help-card p,
+html.light .rtbo-sidebar-help-card p {
+  color: #475569;
 }

@@ -9,6 +9,13 @@ export default defineConfig({
     rolldownOptions: {
       output: {
         manualChunks(id) {
+          if (
+            id.includes('/src/classification-conferences.js')
+            || id.includes('/src/livestream-data.js')
+            || id.includes('/src/site-data.js')
+          ) {
+            return 'static-data';
+          }
           if (id.includes('/node_modules/react/') || id.includes('/node_modules/react-dom/')) {
             return 'react-vendor';
           }

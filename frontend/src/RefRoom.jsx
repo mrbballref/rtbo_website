@@ -13,7 +13,7 @@ const VIRTUAL_BACKGROUNDS = [
   { id: 'rtbo-logo', label: 'RTBO Logo', value: LOGO_SRC },
   { id: 'court', label: 'Court', value: '/assets/images/three-person-crew.jpg' },
   { id: 'training', label: 'Training', value: '/assets/images/rtbo_web_banner.jpg' },
-  { id: 'studio', label: 'Studio', value: '/assets/images/3d_rtbo_livestream_player.png' }
+  { id: 'studio', label: 'Studio', value: '/assets/images/3d_rtbo_livestream_player.jpg' }
 ];
 
 const DEFAULT_SETTINGS = {

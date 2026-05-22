@@ -67,7 +67,36 @@
     }
   </script>
   <script>
-    document.documentElement.dataset.theme = localStorage.getItem('rtbo-theme') || 'dark';
+    (function () {
+      var theme = 'dark';
+      var mode = 'dark';
+      try {
+        var savedTheme = localStorage.getItem('rtbo-theme');
+        var savedThemeMode = localStorage.getItem('rtbo-theme-mode');
+        mode = savedThemeMode === 'light' || savedThemeMode === 'dark' || savedThemeMode === 'system'
+          ? savedThemeMode
+          : savedTheme === 'light' || savedTheme === 'dark'
+            ? savedTheme
+            : 'dark';
+        theme = mode === 'system'
+          ? window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+          : mode === 'light' ? 'light' : 'dark';
+      } catch (error) {
+        theme = 'dark';
+        mode = 'dark';
+      }
+      document.documentElement.classList.remove('light', 'dark');
+      document.documentElement.classList.add(theme);
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.dataset.themeMode = mode;
+      document.documentElement.style.colorScheme = theme;
+      document.addEventListener('DOMContentLoaded', function () {
+        document.body.dataset.theme = theme;
+        document.body.classList.toggle('rtbo-theme-dark', theme === 'dark');
+        document.body.classList.toggle('rtbo-theme-light', theme === 'light');
+        document.body.style.colorScheme = theme;
+      });
+    })();
   </script>
 </head>
 <body id="top">

@@ -11,7 +11,7 @@
   --academy-text: #e5e7eb;
   --academy-muted: #cbd5e1;
   --academy-progress-bg: rgba(255, 255, 255, .16);
-  --academy-chip-text: #fed7aa;
+  --academy-chip-text: #f58220;
   align-content: start;
   color: var(--academy-text);
 }
@@ -29,7 +29,7 @@
   --academy-text: #333;
   --academy-muted: #333;
   --academy-progress-bg: #e5e7eb;
-  --academy-chip-text: #7c2d12;
+  --academy-chip-text: #f58220;
   color: var(--academy-text);
 }
 

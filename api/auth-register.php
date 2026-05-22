@@ -26,6 +26,9 @@ $lastName = trim((string) ($input['last_name'] ?? $input['lastName'] ?? ''));
 $email = strtolower(trim((string) ($input['email'] ?? '')));
 $phone = rtbo_format_phone_number((string) ($input['phone'] ?? ''));
 $password = (string) ($input['password'] ?? '');
+$requestedRole = strtolower(trim((string) ($input['role'] ?? 'official')));
+$allowedRoles = ['official', 'school_admin', 'vendor', 'evaluator'];
+$role = in_array($requestedRole, $allowedRoles, true) ? $requestedRole : 'official';
 
 if ($firstName === '' || $lastName === '' || $email === '' || $password === '') {
     http_response_code(422);
@@ -58,9 +61,10 @@ try {
 
     $stmt = db()->prepare(
         "INSERT INTO users(role, first_name, last_name, email, phone, password_hash, status)
-         VALUES('official', ?, ?, ?, ?, ?, 'active')"
+         VALUES(?, ?, ?, ?, ?, ?, 'active')"
     );
     $stmt->execute([
+        $role,
         $firstName,
         $lastName,
         $email,

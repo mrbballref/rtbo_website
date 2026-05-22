@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 const RTBO_INVOICE_BLIND_COPY_EMAIL = 'mrbballref1775@yahoo.com';
+const RTBO_CONTRACT_BLIND_COPY_EMAIL = 'mrbballref1775@yahoo.com';
 
 function rtbo_safe_header_email(string $email): string
 {
@@ -619,6 +620,88 @@ function send_invoice_email(array $invoice, string $pdfPath, string $recipientEm
     $body .= "Please contact RTBO if any invoice details need to be corrected before payment.\n";
 
     return rtbo_mail_with_pdf([$recipient], $subject, $body, $pdfPath, RTBO_ADMIN_EMAIL, [RTBO_INVOICE_BLIND_COPY_EMAIL]);
+}
+
+function rtbo_contract_is_official_agreement(array $contract): bool
+{
+    return (string) ($contract['templateId'] ?? '') === 'official-independent-contractor'
+        || (string) ($contract['contractCategory'] ?? '') === 'Independent Contractor Agreement';
+}
+
+function rtbo_contract_counterparty_label(array $contract): string
+{
+    return rtbo_contract_is_official_agreement($contract) ? 'Contractor / Official' : 'Client / Organization';
+}
+
+function send_contract_email(array $contract, string $pdfPath, string $recipientEmail = '', string $signingUrl = ''): bool
+{
+    $recipient = rtbo_safe_header_email($recipientEmail !== '' ? $recipientEmail : (string) ($contract['contactEmail'] ?? ''));
+    if ($recipient === '') {
+        return false;
+    }
+
+    $agreementNumber = trim((string) ($contract['agreementNumber'] ?? 'RTBO Contract'));
+    $clientName = trim((string) ($contract['clientName'] ?? ''));
+    $eventName = trim((string) ($contract['eventName'] ?? ''));
+    $title = trim((string) ($contract['contractCategory'] ?? 'Basketball Officials Assigning Agreement'));
+    $subject = 'RTBO Contract for Review and Signature - ' . ($agreementNumber !== '' ? $agreementNumber : 'Agreement');
+
+    $body = "Attached is your contract from Raising The Bar Officiating Inc.\n\n";
+    $body .= 'Agreement Number: ' . ($agreementNumber !== '' ? $agreementNumber : 'Not provided') . "\n";
+    $body .= rtbo_contract_counterparty_label($contract) . ': ' . ($clientName !== '' ? $clientName : 'Not provided') . "\n";
+    $body .= (rtbo_contract_is_official_agreement($contract) ? 'Covered Services' : 'Event / Schedule') . ': ' . ($eventName !== '' ? $eventName : 'Not provided') . "\n";
+    $body .= 'Contract Type: ' . ($title !== '' ? $title : 'Basketball Officials Assigning Agreement') . "\n\n";
+    if ($signingUrl !== '') {
+        $body .= "To digitally sign this agreement, open this secure signing link:\n{$signingUrl}\n\n";
+    }
+    $body .= "After the contract is signed, a signed PDF copy will automatically be emailed back to the RTBO Super Admin.\n";
+    $body .= "Once both parties have signed the contract, you will receive a final fully signed PDF copy for your records.\n";
+    $body .= "Please contact RTBO if any contract details need to be corrected before signing.\n";
+
+    return rtbo_mail_with_pdf([$recipient], $subject, $body, $pdfPath, RTBO_ADMIN_EMAIL, [RTBO_CONTRACT_BLIND_COPY_EMAIL]);
+}
+
+function send_signed_contract_email(array $contract, string $pdfPath): bool
+{
+    $agreementNumber = trim((string) ($contract['agreementNumber'] ?? 'RTBO Contract'));
+    $clientName = trim((string) ($contract['clientName'] ?? ''));
+    $isOfficialAgreement = rtbo_contract_is_official_agreement($contract);
+    $signer = trim((string) ($contract['clientSigner'] ?? $contract['clientSignature'] ?? ($isOfficialAgreement ? 'Contractor / Official' : 'Client')));
+    $signedAt = trim((string) ($contract['clientSignedAt'] ?? date('c')));
+    $subject = 'Signed RTBO Contract Returned - ' . ($agreementNumber !== '' ? $agreementNumber : 'Agreement');
+
+    $body = ($isOfficialAgreement ? 'A contractor / official' : 'A client') . " has digitally signed an RTBO contract. The signed PDF is attached and is ready for Super Admin countersignature.\n\n";
+    $body .= 'Agreement Number: ' . ($agreementNumber !== '' ? $agreementNumber : 'Not provided') . "\n";
+    $body .= rtbo_contract_counterparty_label($contract) . ': ' . ($clientName !== '' ? $clientName : 'Not provided') . "\n";
+    $body .= 'Signed By: ' . ($signer !== '' ? $signer : 'Not provided') . "\n";
+    $body .= 'Signed At: ' . $signedAt . "\n\n";
+    $body .= 'Review the attached signed PDF, then countersign the contract from the Contract Generator. Once the Super Admin signature is applied, the final fully signed PDF will be emailed back to the ' . ($isOfficialAgreement ? 'contractor / official' : 'client') . " for their records.\n";
+
+    return rtbo_mail_with_pdf(rtbo_super_admin_recipients(), $subject, $body, $pdfPath, RTBO_ADMIN_EMAIL, [RTBO_CONTRACT_BLIND_COPY_EMAIL]);
+}
+
+function send_final_contract_email(array $contract, string $pdfPath, string $recipientEmail = ''): bool
+{
+    $recipient = rtbo_safe_header_email($recipientEmail !== '' ? $recipientEmail : (string) ($contract['contactEmail'] ?? ''));
+    if ($recipient === '') {
+        return false;
+    }
+
+    $agreementNumber = trim((string) ($contract['agreementNumber'] ?? 'RTBO Contract'));
+    $clientName = trim((string) ($contract['clientName'] ?? ''));
+    $eventName = trim((string) ($contract['eventName'] ?? ''));
+    $subject = 'Final Fully Signed RTBO Contract - ' . ($agreementNumber !== '' ? $agreementNumber : 'Agreement');
+
+    $body = "Attached is the final fully signed contract from Raising The Bar Officiating Inc.\n\n";
+    $body .= "Both parties have digitally signed this agreement, and this final PDF copy is being provided for your records.\n\n";
+    $body .= 'Agreement Number: ' . ($agreementNumber !== '' ? $agreementNumber : 'Not provided') . "\n";
+    $body .= rtbo_contract_counterparty_label($contract) . ': ' . ($clientName !== '' ? $clientName : 'Not provided') . "\n";
+    $body .= (rtbo_contract_is_official_agreement($contract) ? 'Covered Services' : 'Event / Schedule') . ': ' . ($eventName !== '' ? $eventName : 'Not provided') . "\n";
+    $body .= (rtbo_contract_is_official_agreement($contract) ? 'Contractor / Official Signed' : 'Client Signed') . ': ' . trim((string) ($contract['clientSignedAt'] ?? 'Not provided')) . "\n";
+    $body .= 'RTBO Signed: ' . trim((string) ($contract['rtboSignedAt'] ?? 'Not provided')) . "\n\n";
+    $body .= "Please keep this final signed PDF with your records.\n";
+
+    return rtbo_mail_with_pdf([$recipient], $subject, $body, $pdfPath, RTBO_ADMIN_EMAIL, [RTBO_CONTRACT_BLIND_COPY_EMAIL]);
 }
 
 function send_member_invitation_email(array $member, string $temporaryPassword = ''): bool

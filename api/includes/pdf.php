@@ -76,6 +76,24 @@ function pdf_jpeg_data(string $path): ?array
     ];
 }
 
+function pdf_png_data(string $path): ?array
+{
+    if (!is_file($path)) {
+        return null;
+    }
+
+    $info = getimagesize($path);
+    if ($info === false || ($info['mime'] ?? '') !== 'image/png') {
+        return null;
+    }
+
+    return [
+        'width' => (int) $info[0],
+        'height' => (int) $info[1],
+        'data' => (string) file_get_contents($path),
+    ];
+}
+
 function pdf_image_data_as_jpeg(string $path, array $background = [255, 255, 255]): ?array
 {
     if (!is_file($path)) {
@@ -792,6 +810,484 @@ function build_invoice_pdf(array $invoice): string
     $pdf .= "trailer\n<< /Size " . ($maxObject + 1) . " /Root 1 0 R >>\nstartxref\n{$xref}\n%%EOF";
 
     $path = PDF_DIR . '/' . rtbo_invoice_pdf_file_name($invoice);
+    file_put_contents($path, $pdf, LOCK_EX);
+
+    return $path;
+}
+
+function rtbo_contract_pdf_text(array $contract, string $key, string $fallback = ''): string
+{
+    return trim((string) ($contract[$key] ?? $fallback));
+}
+
+function rtbo_contract_pdf_file_name(array $contract): string
+{
+    $source = rtbo_contract_pdf_text($contract, 'agreementNumber') ?: rtbo_contract_pdf_text($contract, 'clientName') ?: 'RTBO-Contract';
+    $safe = preg_replace('/[^A-Za-z0-9._-]+/', '-', $source) ?: 'RTBO-Contract';
+    return trim($safe, '-') . '.pdf';
+}
+
+function rtbo_contract_pdf_money(mixed $value): string
+{
+    $amount = (float) preg_replace('/[^0-9.\-]/', '', (string) $value);
+    return '$' . number_format(max(0, $amount), 2);
+}
+
+function rtbo_contract_pdf_total(array $contract): float
+{
+    $fields = [
+        'assigningFee', 'perSchoolAssigningFee', 'perGameAssigningFee', 'middleSchoolFee',
+        'juniorVarsityFee', 'juniorHighFee', 'varsityFee', 'showcaseFee', 'collegeFee',
+        'tournamentFee', 'conferenceTournamentFee', 'specialEventFee', 'travelFee',
+        'mealPerDiem', 'lateScheduleFee', 'cancellationFee', 'replacementFee', 'adminFee',
+    ];
+    $total = 0.0;
+    foreach ($fields as $field) {
+        $total += (float) preg_replace('/[^0-9.\-]/', '', (string) ($contract[$field] ?? '0'));
+    }
+    return max(0, $total);
+}
+
+function rtbo_contract_pdf_is_official_agreement(array $contract): bool
+{
+    return (string) ($contract['templateId'] ?? '') === 'official-independent-contractor'
+        || (string) ($contract['contractCategory'] ?? '') === 'Independent Contractor Agreement';
+}
+
+function rtbo_contract_pdf_title(array $contract): string
+{
+    if (rtbo_contract_pdf_is_official_agreement($contract)) {
+        return 'Independent Contractor Officiating Agreement | Basketball';
+    }
+
+    return rtbo_contract_pdf_text($contract, 'contractCategory', 'Basketball') . ' Basketball Officials Assigning Agreement';
+}
+
+function rtbo_contract_pdf_counterparty_label(array $contract): string
+{
+    return rtbo_contract_pdf_is_official_agreement($contract) ? 'Contractor / Official' : 'Client / Organization';
+}
+
+function rtbo_contract_pdf_event_label(array $contract): string
+{
+    return rtbo_contract_pdf_is_official_agreement($contract) ? 'Covered Services' : 'Event / Schedule';
+}
+
+function rtbo_contract_pdf_official_sections(array $contract, float $total, string $contractorName, string $serviceName): array
+{
+    $rtboAddress = rtbo_contract_pdf_text($contract, 'rtboAddress', '815 Technology Dr., Box 241445, Little Rock, Arkansas 72223');
+    $contractorAddress = rtbo_contract_pdf_text($contract, 'billingAddress', 'To be completed');
+    $classification = rtbo_contract_pdf_text($contract, 'levelOfPlay', 'Applicable classification');
+    $governingState = rtbo_contract_pdf_text($contract, 'governingState', 'AR');
+    $paymentMadeBy = rtbo_contract_pdf_text($contract, 'paymentMadeBy', RTBO_COMPANY_NAME);
+    $paymentMadeTo = rtbo_contract_pdf_text($contract, 'paymentMadeTo', 'Contractor / Official');
+    $paymentProcessing = rtbo_contract_pdf_text($contract, 'paymentProcessingTime', 'By RTBO payment schedule');
+    $travelFee = rtbo_contract_pdf_money($contract['travelFee'] ?? 0);
+    $mealPerDiem = rtbo_contract_pdf_money($contract['mealPerDiem'] ?? 0);
+
+    return [
+        ['Introduction and Identification of Parties', "This Independent Contractor Officiating Agreement is entered into by and between " . RTBO_COMPANY_NAME . ", an Arkansas non-profit corporation with an address of {$rtboAddress}, and {$contractorName}, with a mailing address of {$contractorAddress}.\nRTBO engages Contractor as an independent contractor for basketball officiating services and related officiating work for accepted assignments. Contractor desires to perform those services on an independent contractor basis subject to this Agreement."],
+        ['Term', 'The term of this Agreement begins on ' . rtbo_contract_pdf_text($contract, 'effectiveDate', 'To be completed') . ' and ends on ' . rtbo_contract_pdf_text($contract, 'expirationDate', 'To be completed') . ', unless renewed, extended, suspended, or terminated under this Agreement. Unless RTBO states otherwise in writing, the Agreement applies to one basketball season.'],
+        ['Contractor Status', "Contractor is engaged as an independent contractor to perform basketball officiating and officiating-related work for {$serviceName}, including games, scrimmages, exhibitions, tournaments, schools, clinics, meetings, seminars, travel, and related activities sanctioned or approved by RTBO, {$classification}, or another approved governing body.\nContractor is not an employee, agent, partner, joint venturer, or legal representative of RTBO. Contractor is solely responsible for federal, state, and local taxes, Social Security taxes, unemployment insurance taxes, business license fees, and other obligations arising from the services. RTBO will not withhold federal or state taxes from compensation and may issue a Form 1099 when required by law."],
+        ['Game Assignments', "This Agreement does not obligate RTBO to make any assignment to Contractor and does not guarantee any minimum number, level, quality, location, or type of assignment. Contractor may accept or decline assignments when offered.\nRTBO may require Contractor to attend clinics, meetings, seminars, schools, trainings, qualifying tests, examinations, and, when applicable, a physical examination. All assignments remain subject to change, reassignment, removal, or cancellation in RTBO's sole discretion. Contractor may revoke acceptance no later than ninety-six (96) hours before the original posted game time, except for illness, family emergency, business emergency, or another reason accepted by RTBO."],
+        ['Assignment Criteria and Communication Platform', rtbo_contract_pdf_text($contract, 'assigningCriteria', 'Assignments may be offered based on availability, classification, location, training completion, test results, professional conduct, evaluation history, communication, game level, event needs, and RTBO discretion.') . "\n" . rtbo_contract_pdf_text($contract, 'technologyPlatform', 'RTBO may use its website, assigning platform, email, text messaging, phone communication, payment system, forms, reports, calendars, digital signature tools, or other approved technology.')],
+        ['Payment and Tax Responsibility', 'For each assignment fulfilled by Contractor, Contractor shall receive the applicable game fee, assignment fee, or approved compensation entered into this Agreement or otherwise communicated by RTBO. Estimated completed fee schedule total: ' . rtbo_contract_pdf_money($total) . ".\nPayment shall be made by {$paymentMadeBy} to {$paymentMadeTo} through the payment system and schedule established by RTBO. Current payment processing selection: {$paymentProcessing}.\nContractor is responsible for providing accurate payment information. Contractor may, at RTBO's or a host institution's discretion, receive additional compensation such as lodging, meals, mileage, travel reimbursement, per diem, or other approved benefits."],
+        ['Expenses, Equipment, Tools, and Materials', "Contractor is responsible for expenses incurred while performing services unless RTBO and Contractor mutually agree otherwise in writing. Contractor will furnish all vehicles, uniforms, whistles, equipment, tools, materials, and other items necessary to provide the services unless RTBO states otherwise in writing.\nTravel fee: {$travelFee}. Mileage rate: " . rtbo_contract_pdf_text($contract, 'mileageRate', 'To be completed if applicable') . ". Lodging policy: " . rtbo_contract_pdf_text($contract, 'hotelPolicy', 'To be completed if applicable') . ". Meal per diem: {$mealPerDiem}."],
+        ['Policies, Location Rules, and Conduct', "Contractor acknowledges access to RTBO personal conduct policies, anti-harassment policies, sportsmanship expectations, assignment procedures, and professional standards. Contractor shall perform all services consistently with RTBO policies, location rules, applicable law, approved mechanics, assignment instructions, and professional standards.\nRTBO may immediately suspend or terminate this Agreement or remove Contractor from assignments for policy violations, misconduct, safety concerns, dishonesty, unprofessional conduct, or conduct that prejudices RTBO, schools, institutions, participants, fans, coaches, officials, coordinators, supervisors, or observers."],
+        ['NCAA, Sport-Specific, and Wagering Rules', 'Contractor agrees to comply with applicable rules and regulations of the NCAA, NFHS, NJCAA, NAIA, professional, school, conference, tournament, RTBO, and sport-specific bodies applicable to the assignment. Contractor also agrees to conform to published basketball officiating mechanics unless modified by RTBO or the applicable assignment authority. Contractor shall not wager, gamble, or participate in any game of chance relating to the outcome of any athletic contest.'],
+        ['Termination', 'Either party may terminate this Agreement at any time and for any reason by giving at least forty-eight (48) hours written notice to the other party, subject to the assignment revocation rules in this Agreement. RTBO may suspend or terminate this Agreement immediately without prior notice for cause, including misconduct, policy violations, rule violations, safety concerns, dishonesty, wagering, failure to meet requirements, or conduct inconsistent with RTBO standards.'],
+        ['Indemnification', 'Contractor shall observe and comply with all applicable laws, ordinances, regulations, rules, certificates, licenses, permits, bonds, insurance requirements, and other obligations. To the fullest extent permitted by law, Contractor shall defend, indemnify, and hold harmless RTBO and its directors, officers, employees, members, affiliates, agents, representatives, successors, and assigns from claims, damages, liabilities, losses, and expenses arising from Contractor performance, acts, omissions, failure to comply with this Agreement, bodily injury, death, or property damage.'],
+        ['Insurance', 'Contractor shall purchase and maintain insurance sufficient to protect Contractor from claims for damages, personal injury, bodily injury, sickness, death, property damage, or other exposure related to Contractor services. Contractor represents that Contractor has and will maintain health insurance or other coverage sufficient for performance of services and any potential injury, sickness, or death connected to those services. Contractor shall provide proof of insurance upon request.'],
+        ['Assumption of Risk and Release', 'Contractor understands and assumes all risks related to performing services, including travel to and from assignments, services performed at any location or facility, meetings, seminars, schools, clinics, events incidental to services, and potential exposure to infectious disease or other known or unknown risks. To the fullest extent permitted by law, Contractor releases RTBO and its directors, officers, employees, members, affiliates, agents, representatives, successors, and assigns from claims arising out of personal or bodily injury, illness, death, property loss, property damage, economic loss, travel, assignment performance, or events incidental to services, except where prohibited by law.'],
+        ['Governing Law and Jurisdiction', "This Agreement, performance under this Agreement, and claims arising out of or relating to this Agreement are governed by the laws of {$governingState}, without regard to conflict-of-law principles. The parties agree to first attempt to resolve disputes by " . rtbo_contract_pdf_text($contract, 'disputeResolution', 'Good Faith Meeting') . ', unless urgent legal or equitable relief is required.'],
+        ['Severability, Entire Agreement, Counterparts, and Binding Effect', 'If any term or condition is invalid, illegal, or unenforceable, that determination does not affect any other term or condition. This Agreement constitutes the entire agreement between RTBO and Contractor with respect to the subject matter and supersedes all prior or contemporaneous understandings. This Agreement may only be amended by a writing signed by both parties. This Agreement may be executed in counterparts and by digital signature. It is binding on RTBO successors and assigns and Contractor successors, legal representatives, and heirs. Contractor may not assign this Agreement without RTBO written consent.'],
+        ['Closing Statement', rtbo_contract_pdf_text($contract, 'closingStatement', 'By signing this Agreement, RTBO and Contractor acknowledge that they have reviewed the Agreement, understand the independent contractor relationship, and agree to follow the professional standards required for RTBO basketball officiating services.')],
+    ];
+}
+
+function build_contract_pdf(array $contract): string
+{
+    ensure_dir(PDF_DIR);
+
+    $logoPath = dirname(__DIR__, 2) . '/frontend/public/assets/images/logo.png';
+    $logoImage = pdf_image_data_as_jpeg($logoPath);
+    $orange = '0.961 0.510 0.125';
+    $black = '0.02 0.02 0.02';
+    $isOfficialAgreement = rtbo_contract_pdf_is_official_agreement($contract);
+    $title = pdf_value(rtbo_contract_pdf_title($contract));
+    $agreementNumber = pdf_value(rtbo_contract_pdf_text($contract, 'agreementNumber', 'RTBO-CONTRACT'));
+    $clientName = pdf_value(rtbo_contract_pdf_text($contract, 'clientName', $isOfficialAgreement ? 'Contractor / Official' : 'Client / Organization'));
+    $eventName = pdf_value(rtbo_contract_pdf_text($contract, 'eventName', $isOfficialAgreement ? 'Basketball Officiating Services' : 'Covered Event / Schedule'));
+    $counterpartyLabel = rtbo_contract_pdf_counterparty_label($contract);
+    $eventLabel = rtbo_contract_pdf_event_label($contract);
+    $total = rtbo_contract_pdf_total($contract);
+    $signedAt = rtbo_contract_pdf_text($contract, 'clientSignedAt');
+
+    $sections = $isOfficialAgreement ? rtbo_contract_pdf_official_sections($contract, $total, $clientName, $eventName) : [
+        ['Executive Summary', rtbo_contract_pdf_text($contract, 'executiveSummary', 'Raising The Bar Officiating Inc. will provide professional basketball officials assigning services for the covered client, schedule, event, or organization.')],
+        ['Client and Event', "Client / Organization: {$clientName}\nPrimary Contact: " . rtbo_contract_pdf_text($contract, 'primaryContact', 'To be completed') . "\nEmail: " . rtbo_contract_pdf_text($contract, 'contactEmail', 'To be completed') . "\nPhone: " . rtbo_format_phone_number(rtbo_contract_pdf_text($contract, 'contactPhone')) . "\nEvent / Schedule: {$eventName}\nVenue: " . rtbo_contract_pdf_text($contract, 'venueAddress', 'To be completed')],
+        ['Officials and Rules', 'Officials System: ' . rtbo_contract_pdf_text($contract, 'officialsSystem', 'To be completed') . "\nRule Set: " . rtbo_contract_pdf_text($contract, 'ruleSet', 'To be completed') . "\nLevel of Play: " . rtbo_contract_pdf_text($contract, 'levelOfPlay', 'To be completed') . "\nAssignment Platform: " . rtbo_contract_pdf_text($contract, 'assignmentPlatform', 'RTBO Platform')],
+        ['Assigning Criteria', rtbo_contract_pdf_text($contract, 'assigningCriteria', 'Assignments may be based on availability, location, level of play, professional readiness, conflict avoidance, evaluation history, and event needs.')],
+        ['Technology and Communication', rtbo_contract_pdf_text($contract, 'technologyPlatform', 'RTBO may use digital assignment, communication, evaluation, reporting, and scheduling tools to support covered games and events.')],
+        ['Financial Schedule', 'Estimated completed fee schedule total: ' . rtbo_contract_pdf_money($total) . "\nPayment made by: " . rtbo_contract_pdf_text($contract, 'paymentMadeBy', 'Client') . "\nPayment made to: " . rtbo_contract_pdf_text($contract, 'paymentMadeTo', RTBO_COMPANY_NAME) . "\nPayment due date: " . rtbo_contract_pdf_text($contract, 'paymentDueDate', 'To be completed') . "\nPayment processing time: " . rtbo_contract_pdf_text($contract, 'paymentProcessingTime', 'By written agreement')],
+        ['Operations and Expectations', rtbo_contract_pdf_text($contract, 'assignorDuties', '') . "\n" . rtbo_contract_pdf_text($contract, 'officialExpectations', '') . "\n" . rtbo_contract_pdf_text($contract, 'administrationExpectations', '')],
+        ['Training and Review', rtbo_contract_pdf_text($contract, 'trainingEvaluationModel', '') . "\nComplaint / Film Review: " . rtbo_contract_pdf_text($contract, 'complaintFilmReviewProcess', '')],
+        ['Legal Terms', 'Confidentiality: ' . rtbo_contract_pdf_text($contract, 'confidentiality', 'Yes') . "\nNon-Discrimination: " . rtbo_contract_pdf_text($contract, 'nondiscrimination', 'Yes') . "\nDispute Resolution: " . rtbo_contract_pdf_text($contract, 'disputeResolution', 'Good Faith Meeting') . "\nGoverning State: " . rtbo_contract_pdf_text($contract, 'governingState', 'AR') . "\nTermination Notice: " . rtbo_contract_pdf_text($contract, 'terminationNotice', '30 Days') . "\n" . rtbo_contract_pdf_text($contract, 'closingStatement', '')],
+    ];
+    if (rtbo_contract_pdf_text($contract, 'specialTerms') !== '') {
+        $sections[] = ['Special Terms', rtbo_contract_pdf_text($contract, 'specialTerms')];
+    }
+
+    $pages = [];
+    $page = [];
+    $y = 0.0;
+    $pageNumber = 0;
+
+    $addHeader = static function () use (&$page, &$y, &$pageNumber, $logoImage, $title, $agreementNumber, $orange, $black): void {
+        $pageNumber++;
+        $page[] = pdf_rect(0, 0, 612, 792, '1 1 1');
+        $page[] = pdf_rect(0, 708, 612, 84, $black);
+        $page[] = pdf_rect(0, 704, 612, 4, $orange);
+        if ($logoImage !== null) {
+            $page[] = pdf_image_command('Logo', 46, 724, 48, 48);
+        }
+        $page[] = pdf_text(RTBO_COMPANY_NAME, 108, 756, 18, 'F2', '1 1 1');
+        $page[] = pdf_text($title, 108, 734, 12, 'F2', $orange);
+        $page[] = pdf_text($agreementNumber, 108, 718, 8, 'F1', '0.86 0.88 0.91');
+        $page[] = pdf_text('Page ' . $pageNumber, 542, 22, 8, 'F2', '0 0 0');
+        $y = 676;
+    };
+
+    $newPage = static function () use (&$pages, &$page, $addHeader): void {
+        if ($page !== []) {
+            $pages[] = implode("\n", $page);
+        }
+        $page = [];
+        $addHeader();
+    };
+
+    $ensureSpace = static function (float $height) use (&$y, $newPage): void {
+        if ($y - $height < 58) {
+            $newPage();
+        }
+    };
+
+    $section = static function (string $heading) use (&$page, &$y, $ensureSpace, $orange): void {
+        $ensureSpace(34);
+        $page[] = pdf_text(strtoupper($heading), 48, $y, 11, 'F2', $orange);
+        $page[] = pdf_line(48, $y - 8, 564, $y - 8, $orange, .7);
+        $y -= 24;
+    };
+
+    $paragraph = static function (string $text, int $wrap = 92) use (&$page, &$y, $ensureSpace): void {
+        foreach (preg_split('/\r?\n/', trim($text)) ?: [] as $block) {
+            $block = trim($block);
+            if ($block === '') {
+                $y -= 5;
+                continue;
+            }
+            foreach (pdf_wrap($block, $wrap) as $line) {
+                $ensureSpace(16);
+                $page[] = pdf_text(pdf_value($line), 60, $y, 9, 'F1', '0 0 0');
+                $y -= 12;
+            }
+            $y -= 4;
+        }
+    };
+
+    $addHeader();
+    $page[] = pdf_rect(48, 594, 516, 68, '1 0.969 0.922', $orange);
+    $page[] = pdf_text($counterpartyLabel, 66, 646, 8, 'F2', '0 0 0');
+    $page[] = pdf_text($clientName, 66, 628, 16, 'F2', '0 0 0');
+    $page[] = pdf_text($eventLabel . ': ' . $eventName, 66, 612, 10, 'F1', '0 0 0');
+    $page[] = pdf_text('Prepared by ' . pdf_value(rtbo_contract_pdf_text($contract, 'rtboRepresentative', 'Montrel Simmons')) . ' | ' . pdf_value(rtbo_format_phone_number(rtbo_contract_pdf_text($contract, 'rtboPhone', '(501) 240-4961'))), 66, 600, 9, 'F1', '0 0 0');
+    $y = 562;
+
+    $snapshot = [
+        ['Status', rtbo_contract_pdf_text($contract, 'contractStatus', 'Draft')],
+        ['Effective Date', rtbo_contract_pdf_text($contract, 'effectiveDate', 'To be completed')],
+        ['Expiration Date', rtbo_contract_pdf_text($contract, 'expirationDate', 'To be completed')],
+        ['Service Cycle', rtbo_contract_pdf_text($contract, 'serviceCycleLength', 'Seasonal Agreement')],
+        ['Estimated Fees', rtbo_contract_pdf_money($total)],
+        ['Digital Signature', $signedAt !== '' ? 'Signed ' . $signedAt : 'Pending ' . ($isOfficialAgreement ? 'contractor / official' : 'client') . ' signature'],
+    ];
+    $section('Agreement Snapshot');
+    foreach ($snapshot as [$label, $value]) {
+        $ensureSpace(18);
+        $page[] = pdf_text($label . ':', 60, $y, 9, 'F2', '0 0 0');
+        $page[] = pdf_text(pdf_value($value), 168, $y, 9, 'F1', '0 0 0');
+        $y -= 14;
+    }
+    $y -= 10;
+
+    foreach ($sections as [$heading, $text]) {
+        $section($heading);
+        $paragraph($text);
+    }
+
+    $section('Signature Page');
+    $paragraph('IN WITNESS WHEREOF, the ' . ($isOfficialAgreement ? 'Contractor / Official' : 'Client representative') . ' and the Coordinator of Officials have caused this agreement to be reviewed and executed on the date(s) indicated below.');
+    $ensureSpace(118);
+    $signatureName = rtbo_contract_pdf_text($contract, 'clientSignature') ?: rtbo_contract_pdf_text($contract, 'clientSigner', $isOfficialAgreement ? 'Contractor / Official' : 'Client Representative');
+    $page[] = pdf_rect(56, $y - 78, 236, 86, '0.98 0.98 0.98', '0.76 0.76 0.76');
+    $page[] = pdf_text($isOfficialAgreement ? 'Contractor / Official' : 'Client / Organization Representative', 68, $y - 10, 10, 'F2', '0 0 0');
+    $page[] = pdf_text(pdf_value($signatureName), 68, $y - 34, $signedAt !== '' ? 16 : 10, $signedAt !== '' ? 'F3' : 'F1', '0 0 0');
+    $page[] = pdf_line(68, $y - 44, 274, $y - 44, '0 0 0', .6);
+    $page[] = pdf_text('Signature', 68, $y - 57, 8, 'F1', '0 0 0');
+    $page[] = pdf_text('Date: ' . pdf_value($signedAt !== '' ? $signedAt : '________________'), 68, $y - 70, 8, 'F1', '0 0 0');
+    $rtboSignedAt = rtbo_contract_pdf_text($contract, 'rtboSignedAt');
+    $rtboSignatureName = rtbo_contract_pdf_text($contract, 'rtboSignature') ?: rtbo_contract_pdf_text($contract, 'rtboSigner', 'Montrel Simmons');
+    $page[] = pdf_rect(320, $y - 78, 236, 86, '0.98 0.98 0.98', '0.76 0.76 0.76');
+    $page[] = pdf_text('Coordinator of Officials', 332, $y - 10, 10, 'F2', '0 0 0');
+    $page[] = pdf_text(pdf_value($rtboSignatureName), 332, $y - 34, 16, 'F3', '0 0 0');
+    $page[] = pdf_line(332, $y - 44, 538, $y - 44, '0 0 0', .6);
+    $page[] = pdf_text('Signature', 332, $y - 57, 8, 'F1', '0 0 0');
+    $page[] = pdf_text('Date: ' . pdf_value($rtboSignedAt !== '' ? $rtboSignedAt : '________________'), 332, $y - 70, 8, 'F1', '0 0 0');
+    $pages[] = implode("\n", $page);
+
+    $objects = [
+        "1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj",
+        "3 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj",
+        "4 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>\nendobj",
+        "5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /ZapfChancery-MediumItalic >>\nendobj",
+    ];
+
+    $nextObject = 6;
+    $xObjects = [];
+    if ($logoImage !== null) {
+        $imageObject = $nextObject++;
+        $xObjects[] = "/Logo {$imageObject} 0 R";
+        $objects[] = "{$imageObject} 0 obj\n<< /Type /XObject /Subtype /Image /Width " . $logoImage['width'] . " /Height " . $logoImage['height'] . " /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length " . strlen($logoImage['data']) . " >>\nstream\n" . $logoImage['data'] . "\nendstream\nendobj";
+    }
+    $xObjectResources = $xObjects !== [] ? " /XObject << " . implode(' ', $xObjects) . " >>" : '';
+    $pageRefs = [];
+
+    foreach ($pages as $content) {
+        $pageObject = $nextObject++;
+        $contentObject = $nextObject++;
+        $pageRefs[] = "{$pageObject} 0 R";
+        $objects[] = "{$pageObject} 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >>{$xObjectResources} >> /Contents {$contentObject} 0 R >>\nendobj";
+        $objects[] = "{$contentObject} 0 obj\n<< /Length " . strlen($content) . " >>\nstream\n{$content}\nendstream\nendobj";
+    }
+
+    array_splice(
+        $objects,
+        1,
+        0,
+        "2 0 obj\n<< /Type /Pages /Kids [" . implode(' ', $pageRefs) . "] /Count " . count($pages) . " >>\nendobj"
+    );
+
+    usort($objects, static function (string $a, string $b): int {
+        preg_match('/^(\d+)/', $a, $left);
+        preg_match('/^(\d+)/', $b, $right);
+        return ((int) $left[1]) <=> ((int) $right[1]);
+    });
+
+    $pdf = "%PDF-1.4\n";
+    $offsets = [0];
+    foreach ($objects as $object) {
+        preg_match('/^(\d+)/', $object, $match);
+        $offsets[(int) $match[1]] = strlen($pdf);
+        $pdf .= $object . "\n";
+    }
+    $maxObject = max(array_keys($offsets));
+    $xref = strlen($pdf);
+    $pdf .= "xref\n0 " . ($maxObject + 1) . "\n0000000000 65535 f \n";
+    for ($i = 1; $i <= $maxObject; $i++) {
+        $pdf .= str_pad((string) ($offsets[$i] ?? 0), 10, '0', STR_PAD_LEFT) . " 00000 n \n";
+    }
+    $pdf .= "trailer\n<< /Size " . ($maxObject + 1) . " /Root 1 0 R >>\nstartxref\n{$xref}\n%%EOF";
+
+    $path = PDF_DIR . '/' . rtbo_contract_pdf_file_name($contract);
+    file_put_contents($path, $pdf, LOCK_EX);
+
+    return $path;
+}
+
+
+function rtbo_w9_pdf_text(array $form, string $key, string $fallback = ''): string
+{
+    return trim((string) ($form[$key] ?? ($fallback !== '' ? ($form[$fallback] ?? '') : '')));
+}
+
+function rtbo_w9_pdf_file_name(array $form): string
+{
+    $source = rtbo_w9_pdf_text($form, 'formNumber') ?: rtbo_w9_pdf_text($form, 'recordName') ?: 'RTBO-W9';
+    $safe = strtolower(preg_replace('/[^A-Za-z0-9]+/', '-', $source) ?: 'rtbo-w9');
+    return trim($safe, '-') . '.pdf';
+}
+
+function rtbo_w9_pdf_classification_label(array $form): string
+{
+    $classification = rtbo_w9_pdf_text($form, 'taxClassification');
+    if ($classification === 'llc') {
+        return 'Limited liability company - ' . (rtbo_w9_pdf_text($form, 'llcTaxClassification') ?: 'classification pending');
+    }
+    if ($classification === 'other') {
+        return rtbo_w9_pdf_text($form, 'otherClassification') ?: 'Other';
+    }
+
+    return match ($classification) {
+        'individual' => 'Individual/sole proprietor',
+        'c_corp' => 'C Corporation',
+        's_corp' => 'S Corporation',
+        'partnership' => 'Partnership',
+        'trust_estate' => 'Trust/estate',
+        default => 'Not selected',
+    };
+}
+
+function rtbo_w9_pdf_draw_box(array &$page, float $x, float $y, bool $checked, string $label): void
+{
+    $page[] = pdf_rect($x, $y, 10, 10, '1 1 1', '0 0 0');
+    if ($checked) {
+        $page[] = pdf_text('X', $x + 2.2, $y + 1.8, 8, 'F2', '0 0 0');
+    }
+    $page[] = pdf_text($label, $x + 15, $y + 2, 8, 'F1', '0 0 0');
+}
+
+function rtbo_w9_pdf_field(array &$page, string $line, string $label, string $value, float $x, float $y, float $width = 540, int $valueSize = 10): float
+{
+    $page[] = pdf_line($x, $y - 3, $x + $width, $y - 3, '0 0 0', 0.8);
+    $page[] = pdf_text($line, $x, $y + 12, 8, 'F2', '0 0 0');
+    $page[] = pdf_text($label, $x + 16, $y + 12, 7, 'F1', '0 0 0');
+    $lineY = $y;
+    foreach (array_slice(pdf_wrap($value !== '' ? $value : 'Not provided', 84), 0, 2) as $wrapped) {
+        $page[] = pdf_text($wrapped, $x + 16, $lineY, $valueSize, 'F2', '0 0 0');
+        $lineY -= 12;
+    }
+    return min($lineY, $y - 10);
+}
+
+function rtbo_w9_pdf_overlay_text(array &$page, string $text, float $x, float $y, int $size = 10, string $font = 'F2'): void
+{
+    $text = trim($text);
+    if ($text === '') {
+        return;
+    }
+    $lineY = $y;
+    foreach (array_slice(pdf_wrap($text, 54), 0, 3) as $line) {
+        $page[] = pdf_text($line, $x, $lineY, $size, $font, '0 0 0');
+        $lineY -= $size + 1;
+    }
+}
+
+function rtbo_w9_pdf_overlay_mark(array &$page, bool $checked, float $x, float $y): void
+{
+    if (!$checked) {
+        return;
+    }
+    $page[] = pdf_text('X', $x, $y, 11, 'F2', '0 0 0');
+}
+
+function rtbo_w9_pdf_overlay_tin(array &$page, string $tin, string $type): void
+{
+    $digits = substr(preg_replace('/\D+/', '', $tin) ?: '', 0, 9);
+    $positions = $type === 'ssn'
+        ? [[420, 405], [435, 405], [452, 405], [476, 405], [492, 405], [520, 405], [535, 405], [551, 405], [567, 405]]
+        : [[420, 360], [435, 360], [460, 360], [476, 360], [492, 360], [508, 360], [524, 360], [540, 360], [556, 360]];
+
+    foreach (str_split($digits) as $index => $digit) {
+        if (!isset($positions[$index])) {
+            break;
+        }
+        [$x, $y] = $positions[$index];
+        $page[] = pdf_text($digit, $x, $y, 12, 'F2', '0 0 0');
+    }
+}
+
+function build_w9_pdf(array $form): string
+{
+    ensure_dir(PDF_DIR);
+
+    $templatePath = dirname(__DIR__, 2) . '/frontend/public/assets/forms/fw9-2024-page-1.jpg';
+    $template = pdf_jpeg_data($templatePath);
+    $name = rtbo_w9_pdf_text($form, 'name');
+    $businessName = rtbo_w9_pdf_text($form, 'businessName');
+    $address = trim(rtbo_w9_pdf_text($form, 'addressLine1') . ' ' . rtbo_w9_pdf_text($form, 'addressLine2'));
+    $cityLine = trim(implode(', ', array_filter([
+        rtbo_w9_pdf_text($form, 'city'),
+        rtbo_w9_pdf_text($form, 'state'),
+        rtbo_w9_pdf_text($form, 'zip'),
+    ])));
+    $requester = trim(implode("\n", array_filter([
+        rtbo_w9_pdf_text($form, 'requesterName'),
+        rtbo_w9_pdf_text($form, 'requesterAddress'),
+    ])));
+    $classification = rtbo_w9_pdf_text($form, 'taxClassification');
+    $tin = rtbo_w9_pdf_text($form, 'tin') ?: rtbo_w9_pdf_text($form, 'tinMasked');
+    $tinType = rtbo_w9_pdf_text($form, 'tinType') === 'ssn' ? 'ssn' : 'ein';
+    $signatureName = rtbo_w9_pdf_text($form, 'signatureName');
+    $signatureDate = rtbo_w9_pdf_text($form, 'signatureDate');
+
+    $page = [];
+    $page[] = pdf_rect(0, 0, 612, 792, '1 1 1');
+    if ($template !== null) {
+        $page[] = pdf_image_command('W9Template', 0, 0, 612, 792);
+    }
+
+    rtbo_w9_pdf_overlay_text($page, $name, 72, 666, 10, 'F2');
+    rtbo_w9_pdf_overlay_text($page, $businessName, 72, 645, 10, 'F2');
+    rtbo_w9_pdf_overlay_mark($page, $classification === 'individual', 73, 603);
+    rtbo_w9_pdf_overlay_mark($page, $classification === 'c_corp', 183, 603);
+    rtbo_w9_pdf_overlay_mark($page, $classification === 's_corp', 254, 603);
+    rtbo_w9_pdf_overlay_mark($page, $classification === 'partnership', 325, 603);
+    rtbo_w9_pdf_overlay_mark($page, $classification === 'trust_estate', 390, 603);
+    rtbo_w9_pdf_overlay_mark($page, $classification === 'llc', 73, 584);
+    rtbo_w9_pdf_overlay_mark($page, $classification === 'other', 73, 553);
+    rtbo_w9_pdf_overlay_text($page, $classification === 'llc' ? rtbo_w9_pdf_text($form, 'llcTaxClassification') : '', 290, 584, 10, 'F2');
+    rtbo_w9_pdf_overlay_text($page, $classification === 'other' ? rtbo_w9_pdf_text($form, 'otherClassification') : '', 162, 553, 9, 'F2');
+    rtbo_w9_pdf_overlay_mark($page, !empty($form['foreignPartners']), 441, 521);
+    rtbo_w9_pdf_overlay_text($page, rtbo_w9_pdf_text($form, 'exemptPayeeCode'), 543, 584, 10, 'F2');
+    rtbo_w9_pdf_overlay_text($page, rtbo_w9_pdf_text($form, 'fatcaCode'), 501, 552, 10, 'F2');
+    rtbo_w9_pdf_overlay_text($page, trim($address . "\n" . $cityLine), 30, 503, 10, 'F2');
+    rtbo_w9_pdf_overlay_text($page, $requester, 395, 503, 8, 'F1');
+    rtbo_w9_pdf_overlay_text($page, rtbo_w9_pdf_text($form, 'accountNumbers'), 30, 455, 10, 'F2');
+    rtbo_w9_pdf_overlay_tin($page, $tin, $tinType);
+    rtbo_w9_pdf_overlay_text($page, $signatureName, 132, 201, 10, 'F2');
+    rtbo_w9_pdf_overlay_text($page, $signatureDate, 393, 201, 10, 'F2');
+
+    $content = implode("\n", $page);
+    $objects = [
+        "1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj",
+        "2 0 obj\n<< /Type /Pages /Kids [6 0 R] /Count 1 >>\nendobj",
+        "3 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj",
+        "4 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>\nendobj",
+        "5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /ZapfChancery-MediumItalic >>\nendobj",
+    ];
+
+    $xObjectResources = '';
+    if ($template !== null) {
+        $objects[] = "8 0 obj\n<< /Type /XObject /Subtype /Image /Width " . $template['width'] . " /Height " . $template['height'] . " /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length " . strlen($template['data']) . " >>\nstream\n" . $template['data'] . "\nendstream\nendobj";
+        $xObjectResources = ' /XObject << /W9Template 8 0 R >>';
+    }
+
+    $objects[] = "6 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >>{$xObjectResources} >> /Contents 7 0 R >>\nendobj";
+    $objects[] = "7 0 obj\n<< /Length " . strlen($content) . " >>\nstream\n{$content}\nendstream\nendobj";
+
+    usort($objects, static function (string $a, string $b): int {
+        preg_match('/^(\d+)/', $a, $left);
+        preg_match('/^(\d+)/', $b, $right);
+        return ((int) $left[1]) <=> ((int) $right[1]);
+    });
+
+    $pdf = "%PDF-1.4\n";
+    $offsets = [0];
+    foreach ($objects as $object) {
+        preg_match('/^(\d+)/', $object, $match);
+        $offsets[(int) $match[1]] = strlen($pdf);
+        $pdf .= $object . "\n";
+    }
+
+    $maxObject = max(array_keys($offsets));
+    $xref = strlen($pdf);
+    $pdf .= "xref\n0 " . ($maxObject + 1) . "\n0000000000 65535 f \n";
+    for ($i = 1; $i <= $maxObject; $i++) {
+        $pdf .= str_pad((string) ($offsets[$i] ?? 0), 10, '0', STR_PAD_LEFT) . " 00000 n \n";
+    }
+    $pdf .= "trailer\n<< /Size " . ($maxObject + 1) . " /Root 1 0 R >>\nstartxref\n{$xref}\n%%EOF";
+
+    $path = PDF_DIR . '/' . rtbo_w9_pdf_file_name($form);
     file_put_contents($path, $pdf, LOCK_EX);
 
     return $path;

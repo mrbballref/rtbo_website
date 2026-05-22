@@ -91,6 +91,7 @@ function rtbo_password_reset_find_account(string $email): ?array
             'id' => (int) ($member['id'] ?? 0),
             'email' => $email,
             'name' => $name !== '' ? $name : $email,
+            'phone' => (string) ($member['phone'] ?? ''),
         ];
     }
 
@@ -98,7 +99,7 @@ function rtbo_password_reset_find_account(string $email): ?array
         return null;
     }
 
-    $stmt = db()->prepare("SELECT id, first_name, last_name, email FROM users WHERE LOWER(email) = ? AND status <> 'deleted' LIMIT 1");
+    $stmt = db()->prepare("SELECT id, first_name, last_name, email, phone FROM users WHERE LOWER(email) = ? AND status <> 'deleted' LIMIT 1");
     $stmt->execute([$email]);
     $user = $stmt->fetch();
     if (!$user) {
@@ -111,6 +112,7 @@ function rtbo_password_reset_find_account(string $email): ?array
         'id' => (int) $user['id'],
         'email' => strtolower((string) $user['email']),
         'name' => $name !== '' ? $name : strtolower((string) $user['email']),
+        'phone' => (string) ($user['phone'] ?? ''),
     ];
 }
 
