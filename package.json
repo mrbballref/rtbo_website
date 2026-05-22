@@ -1,0 +1,15 @@
+{
+  "name": "rtbo-website-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Workspace scripts for the RTBO React + PHP website.",
+  "scripts": {
+    "audit:source": "node tools/audit-rtbo-source-integrity.mjs",
+    "audit:production": "node tools/run-rtbo-production-audits.mjs",
+    "frontend:build": "npm --prefix frontend run build",
+    "frontend:audit": "npm --prefix frontend run audit"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

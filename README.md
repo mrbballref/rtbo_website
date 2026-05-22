@@ -8,6 +8,8 @@ This package keeps the current RTBO visual design and moves it into a cleaner fu
 
 ## Local Development
 
+The cloned project should live in its own repo directory, for example `rtbo_website/`. From the repo root, use the workspace scripts for repeatable checks and the frontend scripts for day-to-day React work.
+
 1. Install frontend dependencies:
 
    ```bash
@@ -41,6 +43,26 @@ This package keeps the current RTBO visual design and moves it into a cleaner fu
    ```
 
    If `RTBO_LOCAL_ADMIN_PASSWORD` is blank, the PHP API will fall back to `VITE_RTBO_TEST_PASSWORD` from `frontend/.env.development` when running on `localhost` or `127.0.0.1`.
+
+## Project Verification
+
+Run the source integrity audit from the repo root:
+
+```bash
+npm run audit:source
+```
+
+Run the full local production gate from the repo root:
+
+```bash
+npm run audit:production
+```
+
+The production gate installs frontend dependencies when needed, builds the React app, runs the mandatory RTBO frontend audit, checks production npm dependencies, and runs PHP syntax lint when `php` is available on the machine. To require PHP lint in a PHP-enabled environment, run:
+
+```bash
+RTBO_REQUIRE_PHP_LINT=true npm run audit:production
+```
 
 ## Production Deployment
 
