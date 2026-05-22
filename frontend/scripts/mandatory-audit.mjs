@@ -37,6 +37,7 @@ const sourceHtml = readText('index.html');
 const distHtml = readText('dist/index.html');
 const styles = readText('src/styles.css');
 const publicAppCss = readText('public/assets/css/app.css');
+const mainSource = readText('src/main.jsx');
 const sourceCssFiles = walkFiles(path.join(frontendRoot, 'src')).filter(filePath => filePath.endsWith('.css'));
 const cssPaletteCorpus = [publicAppCss, styles, ...sourceCssFiles.map(filePath => fs.readFileSync(filePath, 'utf8'))].join('\n');
 const carbonFiberDeclaration = publicAppCss.match(/--rtbo-carbon-fiber\s*:[\s\S]*?--rtbo-carbon-fiber-size/)?.[0] ?? '';
@@ -62,13 +63,27 @@ assertCheck(
 );
 
 assertCheck(
-  /OR CONTINUE WITH/.test(readText('src/main.jsx'))
-    && /Sign in with Passkey/.test(readText('src/main.jsx'))
-    && /Reset via Phone Number/.test(readText('src/main.jsx'))
-    && /auth-oauth-start\.php/.test(readText('src/main.jsx'))
-    && /password-reset-phone\.php/.test(readText('src/main.jsx'))
+  /OR CONTINUE WITH/.test(mainSource)
+    && /Sign in with Passkey/.test(mainSource)
+    && /Reset via Phone Number/.test(mainSource)
+    && /auth-oauth-start\.php/.test(mainSource)
+    && /password-reset-phone\.php/.test(mainSource)
     && fs.existsSync(path.join(frontendRoot, '..', 'api', 'auth-oauth-callback.php')),
   'Auth modals must include provider sign-in, passkey sign-in, and full forgot-password recovery actions.'
+);
+
+assertCheck(
+  (() => {
+    const dashboardOpenBody = mainSource.match(/function\s+readStoredDashboardOpen\s*\(\)\s*\{([\s\S]*?)\n\}/)?.[1] || '';
+    return /function\s+routeFromHash\s*\(/.test(mainSource)
+      && /function\s+isDashboardRouteHash\s*\(/.test(mainSource)
+      && dashboardOpenBody.includes('return isDashboardRouteHash(hash);')
+      && !dashboardOpenBody.includes('RTBO_DASHBOARD_OPEN_KEY')
+      && !dashboardOpenBody.includes('isSuperAdminUser(storedUser)')
+      && /window\.location\.hash\s*=\s*`#dashboard/.test(mainSource)
+      && /#dashboard\/\$\{encodeURIComponent\(activeSection\)\}/.test(mainSource);
+  })(),
+  'Refresh preservation is mandatory: the current URL hash must be the source of truth, and stored dashboard state must not override the visible page on reload.'
 );
 
 assertCheck(

@@ -103,6 +103,22 @@ if (exists('frontend/index.html')) {
   });
 }
 
+if (exists('frontend/src/main.jsx')) {
+  const mainSource = read('frontend/src/main.jsx');
+  const dashboardOpenBody = mainSource.match(/function\s+readStoredDashboardOpen\s*\(\)\s*\{([\s\S]*?)\n\}/)?.[1] || '';
+  const refreshRouteRulesPresent = /function\s+routeFromHash\s*\(/.test(mainSource)
+    && /function\s+isDashboardRouteHash\s*\(/.test(mainSource)
+    && dashboardOpenBody.includes('return isDashboardRouteHash(hash);')
+    && !dashboardOpenBody.includes('RTBO_DASHBOARD_OPEN_KEY')
+    && !dashboardOpenBody.includes('isSuperAdminUser(storedUser)')
+    && /window\.location\.hash\s*=\s*`#dashboard/.test(mainSource)
+    && /#dashboard\/\$\{encodeURIComponent\(activeSection\)\}/.test(mainSource);
+
+  if (!refreshRouteRulesPresent) {
+    failures.push('Mandatory refresh route rule is missing: the app must preserve the current URL page on reload and must not let stored dashboard state override the visible route.');
+  }
+}
+
 if (!exists('frontend/public/robots.txt')) {
   warnings.push('frontend/public/robots.txt is missing.');
 }

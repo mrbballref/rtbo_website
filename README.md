@@ -64,6 +64,10 @@ The production gate installs frontend dependencies when needed, builds the React
 RTBO_REQUIRE_PHP_LINT=true npm run audit:production
 ```
 
+## Mandatory Refresh Routing Rule
+
+Every page and dashboard section must preserve its current URL route on browser refresh. Public pages use hash routes like `#events`; dashboard pages use `#dashboard/overview` and `#dashboard/<section>`. Stored login or dashboard state must never force a different page after refresh. This rule is enforced by both `npm run audit:source` and `npm --prefix frontend run audit`.
+
 ## Production Deployment
 
 1. Build the React site:

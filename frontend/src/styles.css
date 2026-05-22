@@ -2555,6 +2555,7 @@ button.hero-scroll-link {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
   min-height: 38px;
   border: 1px solid rgba(255,255,255,.1);
   border-radius: 8px;
@@ -2681,20 +2682,118 @@ button.hero-scroll-link {
 
 .rtbo-registration-payment-badges {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 6px;
 }
 
-.rtbo-registration-payment-badges span {
+.rtbo-payment-logo {
   display: grid;
   place-items: center;
+  overflow: hidden;
+}
+
+.rtbo-payment-logo svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.rtbo-registration-payment-badges .rtbo-payment-logo {
+  width: 100%;
+  min-width: 0;
+  height: 28px;
   min-height: 28px;
   border: 1px solid rgba(255,255,255,.12);
   border-radius: 5px;
-  color: #f8fafc;
   background: rgba(255,255,255,.04);
-  font-size: .68rem;
-  font-weight: 1000;
+}
+
+.rtbo-registration-payment-badges .rtbo-payment-logo svg {
+  min-height: 28px;
+}
+
+.rtbo-registration-payment-mini-logos {
+  display: inline-grid;
+  grid-template-columns: repeat(4, 30px);
+  gap: 4px;
+  margin-left: auto;
+}
+
+.rtbo-registration-payment-mini-logos .rtbo-payment-logo {
+  width: 30px;
+  height: 18px;
+  border-radius: 4px;
+}
+
+.rtbo-registration-payment .rtbo-payment-logo-paypal {
+  width: 96px;
+  height: 25px;
+}
+
+.rtbo-registration-wallets {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
+
+.rtbo-registration-wallets button {
+  display: grid;
+  place-items: center;
+  min-height: 32px;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 6px;
+  padding: 0;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.rtbo-registration-wallets .rtbo-payment-logo {
+  width: 100%;
+  height: 32px;
+}
+
+.rtbo-registration-wallets button:hover {
+  border-color: rgba(249,115,22,.55);
+  box-shadow: 0 0 0 2px rgba(249,115,22,.18);
+}
+
+.rtbo-registration-card-fields {
+  display: grid;
+  gap: 12px;
+}
+
+.rtbo-registration-card-fields label {
+  display: grid;
+  gap: 7px;
+  line-height: 1.25;
+}
+
+.rtbo-registration-card-fields .grid.two {
+  gap: 12px;
+}
+
+.rtbo-registration-promo-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: end;
+}
+
+.rtbo-registration-promo-row button {
+  min-height: 40px;
+  border: 1px solid rgba(249,115,22,.65);
+  border-radius: 6px;
+  padding: 0 12px;
+  color: #fff;
+  background: linear-gradient(180deg, #f97316, #ea580c);
+  font-size: .74rem;
+  font-weight: 900;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.rtbo-registration-promo-row button:hover {
+  filter: brightness(1.05);
 }
 
 .rtbo-registration-payment-note {
@@ -13283,6 +13382,10 @@ body.rtbo-printing-invoice .rtbo-invoice-footer span,
 
   .rtbo-registration-session-list label {
     justify-items: start;
+  }
+
+  .rtbo-registration-promo-row {
+    grid-template-columns: 1fr;
   }
 }
 

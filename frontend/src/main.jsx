@@ -206,6 +206,14 @@ function image(name) {
   return imageSafe(name);
 }
 
+function routeFromHash(hash = '') {
+  return String(hash || '').replace(/^#\/?/, '').split('?')[0];
+}
+
+function isDashboardRouteHash(hash = '') {
+  return routeFromHash(hash).startsWith('dashboard');
+}
+
 function readStoredAuthUser() {
   try {
     return JSON.parse(localStorage.getItem(RTBO_AUTH_KEY) || 'null');
@@ -219,7 +227,7 @@ function readStoredDashboardOpen() {
   if (!storedUser) return false;
   const hash = typeof window !== 'undefined' ? window.location.hash : '';
   if (hash.startsWith('#contract-sign')) return false;
-  return hash.startsWith('#dashboard') || localStorage.getItem(RTBO_DASHBOARD_OPEN_KEY) === 'true' || isSuperAdminUser(storedUser);
+  return isDashboardRouteHash(hash);
 }
 
 function dashboardSectionStorageKey(user) {
@@ -228,8 +236,10 @@ function dashboardSectionStorageKey(user) {
 
 function readDashboardHashSection() {
   if (typeof window === 'undefined') return '';
-  const match = window.location.hash.match(/^#dashboard\/?([^/?#]*)/);
-  return match ? decodeURIComponent(match[1] || '') : '';
+  const route = routeFromHash(window.location.hash);
+  if (!route.startsWith('dashboard')) return '';
+  const section = route.split('/')[1] || '';
+  return section ? decodeURIComponent(section) : '';
 }
 
 function readStoredDashboardSection(user, allowedSections, fallback) {
@@ -2326,6 +2336,92 @@ function RegistrationOneTimePaymentField() {
   );
 }
 
+function PaymentLogo({ brand, compact = false }) {
+  const logoClass = `rtbo-payment-logo rtbo-payment-logo-${brand}${compact ? ' compact' : ''}`;
+  if (brand === 'paypal') {
+    return (
+      <span className={logoClass} aria-label="PayPal">
+        <svg viewBox="0 0 132 34" role="img" aria-hidden="true" focusable="false">
+          <path fill="#003087" d="M11.4 4.3h13.1c4.4 0 7.2 2.3 6.6 6.8-.7 5.2-4.4 8.1-9.5 8.1h-4.1l-1.3 8.1H8.1L11.4 4.3Z" />
+          <path fill="#009cde" d="M18.4 11.8h5.1c1.9 0 3 .9 2.7 2.7-.3 2.2-1.9 3.3-4 3.3h-4.6l.8-6Z" />
+          <text x="39" y="23" fill="#fff" fontFamily="Arial, Helvetica, sans-serif" fontSize="18" fontWeight="800">PayPal</text>
+        </svg>
+      </span>
+    );
+  }
+  if (brand === 'visa') {
+    return (
+      <span className={logoClass} aria-label="Visa">
+        <svg viewBox="0 0 96 34" role="img" aria-hidden="true" focusable="false">
+          <rect width="96" height="34" rx="5" fill="#fff" />
+          <text x="48" y="23" textAnchor="middle" fill="#1a1f71" fontFamily="Arial Black, Arial, Helvetica, sans-serif" fontSize="18" fontStyle="italic" fontWeight="900">VISA</text>
+        </svg>
+      </span>
+    );
+  }
+  if (brand === 'mastercard') {
+    return (
+      <span className={logoClass} aria-label="Mastercard">
+        <svg viewBox="0 0 96 34" role="img" aria-hidden="true" focusable="false">
+          <rect width="96" height="34" rx="5" fill="#fff" />
+          <circle cx="39" cy="17" r="10" fill="#eb001b" />
+          <circle cx="51" cy="17" r="10" fill="#f79e1b" opacity=".92" />
+          <path fill="#ff5f00" d="M45 9.2a10 10 0 0 1 0 15.6 10 10 0 0 1 0-15.6Z" />
+          <text x="48" y="30" textAnchor="middle" fill="#111827" fontFamily="Arial, Helvetica, sans-serif" fontSize="6.5" fontWeight="700">mastercard</text>
+        </svg>
+      </span>
+    );
+  }
+  if (brand === 'amex') {
+    return (
+      <span className={logoClass} aria-label="American Express">
+        <svg viewBox="0 0 96 34" role="img" aria-hidden="true" focusable="false">
+          <rect width="96" height="34" rx="5" fill="#2e77bb" />
+          <text x="48" y="15" textAnchor="middle" fill="#fff" fontFamily="Arial Black, Arial, Helvetica, sans-serif" fontSize="9.8" fontWeight="900">AMERICAN</text>
+          <text x="48" y="26" textAnchor="middle" fill="#fff" fontFamily="Arial Black, Arial, Helvetica, sans-serif" fontSize="10.8" fontWeight="900">EXPRESS</text>
+        </svg>
+      </span>
+    );
+  }
+  if (brand === 'discover') {
+    return (
+      <span className={logoClass} aria-label="Discover">
+        <svg viewBox="0 0 108 34" role="img" aria-hidden="true" focusable="false">
+          <rect width="108" height="34" rx="5" fill="#fff" />
+          <circle cx="70" cy="17" r="12" fill="#f58220" opacity=".9" />
+          <text x="54" y="22" textAnchor="middle" fill="#111827" fontFamily="Arial Black, Arial, Helvetica, sans-serif" fontSize="15" fontWeight="900">DISCOVER</text>
+        </svg>
+      </span>
+    );
+  }
+  if (brand === 'apple-pay') {
+    return (
+      <span className={logoClass} aria-label="Apple Pay">
+        <svg viewBox="0 0 108 34" role="img" aria-hidden="true" focusable="false">
+          <rect width="108" height="34" rx="6" fill="#fff" />
+          <path fill="#111" d="M26.6 9.4c.8-1 1.3-2.2 1.2-3.4-1.2.1-2.6.8-3.4 1.7-.8.9-1.4 2.1-1.3 3.3 1.3.1 2.7-.6 3.5-1.6Zm4.6 14.4c-.6 1.3-.9 1.8-1.7 3-1.1 1.6-2.6 3.6-4.5 3.6-1.7 0-2.1-1.1-4.4-1.1s-2.8 1.1-4.4 1.1c-1.9 0-3.4-1.8-4.5-3.4-3.1-4.6-3.4-10-.8-12.9 1.3-1.5 3-2.3 4.8-2.3 1.9 0 3 .9 4.5.9 1.4 0 2.3-.9 4.4-.9 1.6 0 3.3.9 4.5 2.4-3.9 2.1-3.3 7.6 1.6 9.6Z" />
+          <text x="63" y="22.6" textAnchor="middle" fill="#111" fontFamily="Arial, Helvetica, sans-serif" fontSize="19" fontWeight="800">Pay</text>
+        </svg>
+      </span>
+    );
+  }
+  if (brand === 'google-pay') {
+    return (
+      <span className={logoClass} aria-label="Google Pay">
+        <svg viewBox="0 0 118 34" role="img" aria-hidden="true" focusable="false">
+          <rect width="118" height="34" rx="6" fill="#fff" />
+          <path fill="#4285f4" d="M26.5 17.4c0-.7-.1-1.3-.2-1.9H17v3.6h5.3c-.2 1.2-.9 2.2-1.9 2.9v2.4h3.1c1.8-1.7 3-4.1 3-7Z" />
+          <path fill="#34a853" d="M17 27c2.6 0 4.8-.9 6.4-2.4l-3.1-2.4c-.9.6-2 .9-3.3.9-2.5 0-4.6-1.7-5.4-3.9H8.4v2.5A9.7 9.7 0 0 0 17 27Z" />
+          <path fill="#fbbc04" d="M11.6 19.2a5.8 5.8 0 0 1 0-3.8v-2.5H8.4a9.8 9.8 0 0 0 0 8.8l3.2-2.5Z" />
+          <path fill="#ea4335" d="M17 11.5c1.4 0 2.7.5 3.7 1.5l2.8-2.8A9.4 9.4 0 0 0 17 7.5a9.7 9.7 0 0 0-8.6 5.4l3.2 2.5c.8-2.2 2.9-3.9 5.4-3.9Z" />
+          <text x="69" y="23" textAnchor="middle" fill="#202124" fontFamily="Arial, Helvetica, sans-serif" fontSize="18" fontWeight="700">Pay</text>
+        </svg>
+      </span>
+    );
+  }
+  return null;
+}
+
 function RegistrationGate({ onCreateAccount, onSignIn }) {
   return (
     <section className="rtbo-section rtbo-register-gate">
@@ -2497,16 +2593,16 @@ function RegistrationForm({ user }) {
               <span aria-hidden="true"></span>
               <div><strong>Secure Checkout</strong><small>Your payment information is encrypted and secure.</small></div>
             </div>
-            <fieldset className="rtbo-registration-payment"><legend>Payment Methods</legend><small>We accept all major credit cards</small><label><input type="radio" name="payment_provider" value="stripe" checked={paymentProvider === 'stripe'} onChange={() => setPaymentProvider('stripe')} required /> Credit or Debit Card</label><label><input type="radio" name="payment_provider" value="paypal" checked={paymentProvider === 'paypal'} onChange={() => setPaymentProvider('paypal')} required /> PayPal</label></fieldset>
+            <fieldset className="rtbo-registration-payment"><legend>Payment Methods</legend><small>We accept all major credit cards</small><label><input type="radio" name="payment_provider" value="stripe" checked={paymentProvider === 'stripe'} onChange={() => setPaymentProvider('stripe')} required /> <span>Credit or Debit Card</span><span className="rtbo-registration-payment-mini-logos" aria-label="Visa, Mastercard, American Express, and Discover"><PaymentLogo brand="visa" compact /><PaymentLogo brand="mastercard" compact /><PaymentLogo brand="amex" compact /><PaymentLogo brand="discover" compact /></span></label><label><input type="radio" name="payment_provider" value="paypal" checked={paymentProvider === 'paypal'} onChange={() => setPaymentProvider('paypal')} required /> <PaymentLogo brand="paypal" /></label></fieldset>
             <div className="rtbo-registration-payment-badges" aria-label="Supported checkout methods">
-              <span>VISA</span>
-              <span>MC</span>
-              <span>AMEX</span>
-              <span>DISCOVER</span>
+              <PaymentLogo brand="visa" />
+              <PaymentLogo brand="mastercard" />
+              <PaymentLogo brand="amex" />
+              <PaymentLogo brand="discover" />
             </div>
             <div className="rtbo-registration-wallets" aria-label="Express checkout options">
-              <button type="button">Apple Pay</button>
-              <button type="button">G Pay</button>
+              <button type="button" aria-label="Apple Pay"><PaymentLogo brand="apple-pay" /></button>
+              <button type="button" aria-label="Google Pay"><PaymentLogo brand="google-pay" /></button>
             </div>
             <div className="rtbo-registration-card-divider"><span>Or pay with card</span></div>
             <div className="rtbo-registration-card-fields">
@@ -2515,7 +2611,7 @@ function RegistrationForm({ user }) {
               <label>Name on Card<input type="text" autoComplete="cc-name" placeholder="Enter name on card" /></label>
               <label>Country<select defaultValue="United States"><option>United States</option><option>Canada</option><option>Mexico</option></select></label>
               <label>Zip Code<input type="text" inputMode="numeric" autoComplete="postal-code" placeholder="12345" /></label>
-              <div className="rtbo-registration-promo-row"><label>Promo Code<input type="text" placeholder="Enter promo code" /></label><button type="button">Apply</button></div>
+              <div className="rtbo-registration-promo-row"><label>Promo Code<input type="text" placeholder="Enter promo code" /></label><button type="button">Apply Code</button></div>
             </div>
             <button className="btn registration-payment-button" type="submit">Continue to Payment</button>
             <p className="rtbo-registration-payment-note">You will be redirected to our secure payment processor.</p>
@@ -12853,7 +12949,7 @@ function App() {
   }
 
   const readRoute = () => {
-    const route = window.location.hash.replace(/^#\/?/, '').split('?')[0];
+    const route = routeFromHash(window.location.hash);
     return validPages.has(route) ? route : 'home';
   };
   const [active, setActive] = useState(readRoute);
@@ -12911,6 +13007,21 @@ function App() {
     }
   }
 
+  function openDashboard() {
+    if (!authUser) {
+      openLogin();
+      return;
+    }
+
+    localStorage.setItem(RTBO_DASHBOARD_OPEN_KEY, 'true');
+    setDashboardOpen(true);
+    if (!isDashboardRouteHash(window.location.hash)) {
+      const savedSection = localStorage.getItem(dashboardSectionStorageKey(authUser)) || '';
+      const nextSection = savedSection ? `/${encodeURIComponent(savedSection)}` : '';
+      window.location.hash = `#dashboard${nextSection}`;
+    }
+  }
+
   function clearPasswordResetToken() {
     if (!passwordResetToken) return;
     const url = new URL(window.location.href);
@@ -12934,6 +13045,9 @@ function App() {
       setPostLoginTarget(null);
       localStorage.setItem(RTBO_DASHBOARD_OPEN_KEY, 'true');
       setDashboardOpen(true);
+      const savedSection = localStorage.getItem(dashboardSectionStorageKey(user)) || '';
+      const nextSection = savedSection ? `/${encodeURIComponent(savedSection)}` : '';
+      window.location.hash = `#dashboard${nextSection}`;
       return;
     }
     if (postLoginTarget === 'register') {
@@ -12942,6 +13056,9 @@ function App() {
     } else {
       localStorage.setItem(RTBO_DASHBOARD_OPEN_KEY, 'true');
       setDashboardOpen(true);
+      const savedSection = localStorage.getItem(dashboardSectionStorageKey(user)) || '';
+      const nextSection = savedSection ? `/${encodeURIComponent(savedSection)}` : '';
+      window.location.hash = `#dashboard${nextSection}`;
     }
     setPostLoginTarget(null);
   }
@@ -13013,7 +13130,7 @@ function App() {
 
   return (
     <React.Suspense fallback={null}>
-      {!fullScreenRegistration && <Header active={active} setActive={goTo} authUser={authUser} onOpenLogin={openLogin} onOpenDashboard={() => setDashboardOpen(true)} onOpenRegister={openRegister} />}
+      {!fullScreenRegistration && <Header active={active} setActive={goTo} authUser={authUser} onOpenLogin={openLogin} onOpenDashboard={openDashboard} onOpenRegister={openRegister} />}
       <main className={`rtbo-public ${fullScreenRegistration ? 'rtbo-registration-public' : ''}`.trim()}>{content}</main>
       {!fullScreenRegistration && <Footer setActive={goTo} />}
       {accountModal && <AccountModal mode={accountModal} resetToken={passwordResetToken} onClose={closeAccountModal} onLogin={login} onResetTokenHandled={clearPasswordResetToken} />}
