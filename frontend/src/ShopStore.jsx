@@ -544,6 +544,57 @@ function HideIcon() {
   );
 }
 
+function ShopPaymentLogo({ brand }) {
+  if (brand === 'stripe') {
+    return (
+      <span className="rtbo-shop-payment-logo is-stripe" aria-hidden="true">
+        <svg viewBox="0 0 180 48" focusable="false">
+          <rect width="180" height="48" rx="9" fill="#635bff" />
+          <text x="24" y="31" fill="#ffffff" fontFamily="Arial Black, Arial, Helvetica, sans-serif" fontSize="27" fontWeight="900" letterSpacing="-1">stripe</text>
+          <text x="112" y="31" fill="#ffffff" fontFamily="Arial, Helvetica, sans-serif" fontSize="12" fontWeight="800">checkout</text>
+        </svg>
+      </span>
+    );
+  }
+
+  if (brand === 'paypal') {
+    return (
+      <span className="rtbo-shop-payment-logo is-paypal" aria-hidden="true">
+        <svg viewBox="0 0 180 48" focusable="false">
+          <rect width="180" height="48" rx="9" fill="#ffffff" />
+          <path fill="#003087" d="M31.2 10.4h16.4c5.5 0 9 2.9 8.3 8.5-.9 6.5-5.5 10.1-11.9 10.1h-5.1l-1.7 10.1H27L31.2 10.4Z" />
+          <path fill="#009cde" d="M40 19.8h6.4c2.4 0 3.8 1.1 3.4 3.4-.4 2.8-2.4 4.1-5 4.1h-5.7l.9-7.5Z" />
+          <text x="66" y="31" fill="#003087" fontFamily="Arial Black, Arial, Helvetica, sans-serif" fontSize="24" fontWeight="900">Pay</text>
+          <text x="111" y="31" fill="#009cde" fontFamily="Arial Black, Arial, Helvetica, sans-serif" fontSize="24" fontWeight="900">Pal</text>
+        </svg>
+      </span>
+    );
+  }
+
+  if (brand === 'affirm') {
+    return (
+      <span className="rtbo-shop-payment-logo is-affirm" aria-hidden="true">
+        <svg viewBox="0 0 180 48" focusable="false">
+          <rect width="180" height="48" rx="9" fill="#ffffff" />
+          <text x="38" y="31" fill="#111827" fontFamily="Arial Black, Arial, Helvetica, sans-serif" fontSize="27" fontWeight="900" letterSpacing="-1">affirm</text>
+          <circle cx="139" cy="16" r="5" fill="#00a0df" />
+          <path fill="#00a0df" d="M128 33c2.3-7.1 8.1-11.2 15.5-11.2 4.8 0 8.1 1.9 9.5 5.3h-6.6c-.8-.8-1.9-1.2-3.4-1.2-4 0-7 2.4-8.6 7.1H128Z" />
+        </svg>
+      </span>
+    );
+  }
+
+  return (
+    <span className="rtbo-shop-payment-logo is-klarna" aria-hidden="true">
+      <svg viewBox="0 0 180 48" focusable="false">
+        <rect width="180" height="48" rx="9" fill="#ffb3c7" />
+        <text x="36" y="31" fill="#111827" fontFamily="Arial Black, Arial, Helvetica, sans-serif" fontSize="27" fontWeight="900" letterSpacing="-1">Klarna</text>
+        <circle cx="136" cy="30" r="3.2" fill="#111827" />
+      </svg>
+    </span>
+  );
+}
+
 function similarProducts(product) {
   const sameCategory = products.filter(entry => entry.category === product.category && entry.sku !== product.sku);
   const otherGear = products.filter(entry => entry.category !== product.category && entry.sku !== product.sku);
@@ -1997,10 +2048,18 @@ export default function ShopStore() {
           </form>
 
           <div className="rtbo-shop-payment-grid" aria-label="Payment methods">
-            <button className="btn" type="button" onClick={() => beginCheckout('stripe')}>Stripe Checkout</button>
-            <button className="btn" type="button" onClick={() => beginCheckout('paypal')}>PayPal</button>
-            <button className="btn" type="button" onClick={() => beginCheckout('affirm')}>Affirm</button>
-            <button className="btn" type="button" onClick={() => beginCheckout('klarna')}>Klarna</button>
+            <button className="btn rtbo-shop-payment-button is-stripe" type="button" onClick={() => beginCheckout('stripe')} aria-label="Stripe Checkout">
+              <ShopPaymentLogo brand="stripe" />
+            </button>
+            <button className="btn rtbo-shop-payment-button is-paypal" type="button" onClick={() => beginCheckout('paypal')} aria-label="PayPal">
+              <ShopPaymentLogo brand="paypal" />
+            </button>
+            <button className="btn rtbo-shop-payment-button is-affirm" type="button" onClick={() => beginCheckout('affirm')} aria-label="Affirm">
+              <ShopPaymentLogo brand="affirm" />
+            </button>
+            <button className="btn rtbo-shop-payment-button is-klarna" type="button" onClick={() => beginCheckout('klarna')} aria-label="Klarna">
+              <ShopPaymentLogo brand="klarna" />
+            </button>
           </div>
           <p className="rtbo-shop-payment-note">{paymentNotice}</p>
           {checkoutStatus.message ? <p className={`rtbo-shop-status is-${checkoutStatus.type}`}>{checkoutStatus.message}</p> : null}
