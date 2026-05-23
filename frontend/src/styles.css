@@ -3148,7 +3148,7 @@ button.hero-scroll-link {
 }
 
 :root[data-theme="light"] .rtbo-registration-waiver-required-copy {
-  background: #fff7ed;
+  background: #f8fafc;
   border-color: rgba(249,115,22,.3);
 }
 
