@@ -820,6 +820,7 @@ export default function ShopStore() {
   const initialRouteProduct = readShopRouteProduct();
   const initialProduct = initialRouteProduct || products[0];
   const [query, setQuery] = useState('');
+  const [searchDraft, setSearchDraft] = useState('');
   const [category, setCategory] = useState('all');
   const [sort, setSort] = useState('featured');
   const [cart, setCart] = useState(() => readStoredJson(CART_KEY, []));
@@ -928,6 +929,12 @@ export default function ShopStore() {
 
   function toggleWishlist(sku) {
     setWishlist(current => current.includes(sku) ? current.filter(item => item !== sku) : [...current, sku]);
+  }
+
+  function submitSearch(event) {
+    event.preventDefault();
+    setQuery(searchDraft.trim());
+    closeProductDetail();
   }
 
   const filteredProducts = useMemo(() => {
@@ -1045,18 +1052,19 @@ export default function ShopStore() {
           <h1 id="rtbo-shop-title">Premium Officiating Gear</h1>
           <h2>Officials. Train Hard. Get Rewarded.</h2>
           <p>Shop RTBO apparel, whistles, lanyards, bags, drinkware, training passes, and official-ready gear from one responsive checkout workspace.</p>
-          <label className="rtbo-shop-search">
-            <span>Search products</span>
-            <input
-              value={query}
-              onChange={event => {
-                setQuery(event.target.value);
-                closeProductDetail();
-              }}
-              type="search"
-              placeholder="Search products, training, and gear"
-            />
-          </label>
+          <form className="rtbo-shop-search" role="search" onSubmit={submitSearch}>
+            <label htmlFor="rtbo-shop-search-input">Search products</label>
+            <div className="rtbo-shop-search-controls">
+              <input
+                id="rtbo-shop-search-input"
+                value={searchDraft}
+                onChange={event => setSearchDraft(event.target.value)}
+                type="search"
+                placeholder="Search products, training, and gear"
+              />
+              <button className="btn rtbo-shop-search-button" type="submit">Search</button>
+            </div>
+          </form>
         </div>
         <div className="hero-carousel rtbo-shop-banner-slider" aria-label="RTBO shop product image slider">
           <div className="hero-carousel-track carousel-content">

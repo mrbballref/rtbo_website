@@ -73,7 +73,14 @@
   grid-template-columns: minmax(0, 1fr);
   gap: 12px;
   align-items: end;
-  max-width: 620px;
+  max-width: 700px;
+}
+
+.rtbo-shop-search-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: stretch;
 }
 
 .rtbo-shop-banner-slider {
@@ -136,7 +143,7 @@
   font-weight: 800;
 }
 
-.rtbo-shop-search span,
+.rtbo-shop-search label,
 .rtbo-shop-toolbar label span,
 .rtbo-shop-field span {
   font-size: 0.75rem;
@@ -171,6 +178,13 @@
 .rtbo-shop-store :is(input, select, textarea):focus {
   border-color: var(--rtbo-orange, #ff6a00);
   box-shadow: 0 0 0 3px rgba(255, 106, 0, 0.18);
+}
+
+.rtbo-shop-search-button {
+  min-height: 42px;
+  min-width: 98px;
+  border-radius: 8px;
+  padding: 0 18px;
 }
 
 .rtbo-shop-layout {
@@ -562,13 +576,19 @@
 
 .rtbo-shop-product-actions {
   align-items: stretch;
-  gap: 8px;
+  justify-content: flex-start;
+  gap: 14px;
   margin-top: 8px;
 }
 
 .rtbo-shop-product-actions .btn {
-  flex: 1 1 0;
+  flex: 0 0 auto;
+  width: 86px;
   min-width: 0;
+}
+
+.rtbo-shop-product-actions .btn:first-child {
+  width: 96px;
 }
 
 .rtbo-shop-product-actions strong,
@@ -588,9 +608,9 @@
 
 .rtbo-shop-product-actions .btn {
   min-height: 33px;
-  padding: 6px 9px;
+  padding: 5px 7px;
   border-radius: 7px;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   line-height: 1.05;
 }
 
@@ -1474,7 +1494,6 @@
 
 @media (max-width: 768px) {
   .rtbo-shop-toolbar,
-  .rtbo-shop-product-actions,
   .rtbo-shop-detail-footer,
   .rtbo-shop-checkout-head {
     align-items: stretch;
