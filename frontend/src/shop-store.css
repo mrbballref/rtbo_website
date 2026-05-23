@@ -1561,6 +1561,7 @@ button.rtbo-shop-list-option {
 .rtbo-shop-cart-page-head button,
 .rtbo-shop-cart-page-copy > button,
 .rtbo-shop-cart-page-actions button,
+.rtbo-shop-cart-page-side p button,
 .rtbo-shop-cart-page-side button:not(.btn),
 .rtbo-shop-secure-page button:not(.btn) {
   border: 0;
@@ -1568,6 +1569,15 @@ button.rtbo-shop-list-option {
   color: #005ea8;
   cursor: pointer;
   padding: 0;
+}
+
+.rtbo-shop-cart-page-status {
+  margin: 12px 0 0;
+  border-radius: 8px;
+  background: rgba(0, 113, 133, 0.12);
+  color: #007185;
+  padding: 10px 12px;
+  font-weight: 800;
 }
 
 .rtbo-shop-cart-page-row {
@@ -2531,6 +2541,137 @@ button.rtbo-shop-list-option {
 
 .rtbo-shop-clear {
   justify-content: center;
+}
+
+:root:not([data-theme="light"]) .rtbo-shop-list-chooser,
+:root:not([data-theme="light"]) .rtbo-shop-create-list-modal,
+:root:not([data-theme="light"]) .rtbo-shop-wishlist-page,
+:root:not([data-theme="light"]) .rtbo-shop-wishlist-page-nav,
+:root:not([data-theme="light"]) .rtbo-shop-wishlist-main,
+:root:not([data-theme="light"]) .rtbo-shop-wishlist-item,
+:root:not([data-theme="light"]) .rtbo-shop-wishlist-empty,
+:root:not([data-theme="light"]) .rtbo-shop-cart-alert,
+:root:not([data-theme="light"]) .rtbo-shop-cart-page-card,
+:root:not([data-theme="light"]) .rtbo-shop-cart-saved,
+:root:not([data-theme="light"]) .rtbo-shop-cart-page-side section,
+:root:not([data-theme="light"]) .rtbo-shop-secure-strip,
+:root:not([data-theme="light"]) .rtbo-shop-secure-delivery,
+:root:not([data-theme="light"]) .rtbo-shop-secure-placebar,
+:root:not([data-theme="light"]) .rtbo-shop-secure-legal,
+:root:not([data-theme="light"]) .rtbo-shop-secure-summary,
+:root:not([data-theme="light"]) .rtbo-shop-checkout-panel,
+:root:not([data-theme="light"]) .rtbo-shop-cart-line {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015)),
+    var(--rtbo-panel, var(--app-panel, #0b0d10));
+  border-color: rgba(255, 106, 0, 0.42);
+  color: var(--rtbo-text, var(--app-text, #f8fafc));
+}
+
+:root:not([data-theme="light"]) .rtbo-shop-secure-page,
+:root:not([data-theme="light"]) .rtbo-shop-cart-page {
+  background: var(--rtbo-bg, var(--app-bg, #050505));
+}
+
+:root:not([data-theme="light"]) .rtbo-shop-create-list-modal header,
+:root:not([data-theme="light"]) .rtbo-shop-wishlist-page-nav button.is-active,
+:root:not([data-theme="light"]) .rtbo-shop-cart-tabs .is-active,
+:root:not([data-theme="light"]) .rtbo-shop-cart-page-row,
+:root:not([data-theme="light"]) .rtbo-shop-cart-rec-list article > div > button:last-child,
+:root:not([data-theme="light"]) .rtbo-shop-secure-delivery article,
+:root:not([data-theme="light"]) .rtbo-shop-cart-image-card,
+:root:not([data-theme="light"]) .rtbo-shop-cart-similar-image,
+:root:not([data-theme="light"]) .rtbo-shop-totals {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(148, 163, 184, 0.28);
+}
+
+:root:not([data-theme="light"]) .rtbo-shop-list-option.is-selected,
+:root:not([data-theme="light"]) .rtbo-shop-list-option:is(:hover, :focus-visible) {
+  border-color: rgba(255, 106, 0, 0.58);
+  background: rgba(255, 106, 0, 0.16);
+}
+
+:root:not([data-theme="light"]) .rtbo-shop-list-thumb,
+:root:not([data-theme="light"]) .rtbo-shop-wishlist-item-image,
+:root:not([data-theme="light"]) .rtbo-shop-cart-page-image,
+:root:not([data-theme="light"]) .rtbo-shop-cart-saved-grid button,
+:root:not([data-theme="light"]) .rtbo-shop-cart-thumb,
+:root:not([data-theme="light"]) .rtbo-shop-cart-thumb img {
+  background: #050505;
+  border-color: rgba(148, 163, 184, 0.28);
+}
+
+:root:not([data-theme="light"]) .rtbo-shop-list-chooser :where(h3, strong, small, span),
+:root:not([data-theme="light"]) .rtbo-shop-create-list-modal :where(h3, strong, p, span),
+:root:not([data-theme="light"]) .rtbo-shop-wishlist-page :where(h3, h4, strong, small, span, p),
+:root:not([data-theme="light"]) .rtbo-shop-cart-page :where(h3, h4, strong, small, span, p, label),
+:root:not([data-theme="light"]) .rtbo-shop-secure-page :where(h3, h4, strong, small, span, p, label, dt, dd),
+:root:not([data-theme="light"]) .rtbo-shop-checkout :where(h3, h4, strong, small, span, p, label, dt, dd) {
+  color: var(--rtbo-text, var(--app-text, #f8fafc));
+}
+
+:root:not([data-theme="light"]) .rtbo-shop-cart-page-copy small,
+:root:not([data-theme="light"]) .rtbo-shop-stock {
+  color: #86efac;
+}
+
+:root:not([data-theme="light"]) .rtbo-shop-cart-page-status {
+  background: rgba(147, 197, 253, 0.12);
+  color: #93c5fd;
+}
+
+:root:not([data-theme="light"]) .rtbo-shop-create-list-body input,
+:root:not([data-theme="light"]) .rtbo-shop-wishlist-tools input,
+:root:not([data-theme="light"]) .rtbo-shop-wishlist-tools select,
+:root:not([data-theme="light"]) .rtbo-shop-secure-slots button,
+:root:not([data-theme="light"]) .rtbo-shop-checkout-panel :is(input, select, textarea) {
+  background: rgba(0, 0, 0, 0.42);
+  border-color: rgba(148, 163, 184, 0.4);
+  color: var(--rtbo-text, var(--app-text, #f8fafc));
+}
+
+:root:not([data-theme="light"]) .rtbo-shop-cart-page-side .btn,
+:root:not([data-theme="light"]) .rtbo-shop-secure-summary .btn,
+:root:not([data-theme="light"]) .rtbo-shop-secure-placebar .btn,
+:root:not([data-theme="light"]) .rtbo-shop-cart-rec-list article > div > button:last-child,
+:root:not([data-theme="light"]) .rtbo-shop-create-submit,
+:root:not([data-theme="light"]) .rtbo-shop-cart-add-more,
+:root:not([data-theme="light"]) .rtbo-shop-cart-similar-grid .btn {
+  background: #ffd814;
+  color: #111827;
+}
+
+:root:not([data-theme="light"]) .rtbo-shop-cart-buy-now {
+  background: #ffa41c;
+  color: #111827;
+}
+
+:root:not([data-theme="light"]) .rtbo-shop-create-cancel,
+:root:not([data-theme="light"]) .rtbo-shop-wishlist-actions button,
+:root:not([data-theme="light"]) .rtbo-shop-wishlist-item-actions button,
+:root:not([data-theme="light"]) .rtbo-shop-wishlist-invite button,
+:root:not([data-theme="light"]) .rtbo-shop-cart-icon-actions button,
+:root:not([data-theme="light"]) .rtbo-shop-cart-rail-head .btn {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(148, 163, 184, 0.32);
+  color: var(--rtbo-text, var(--app-text, #f8fafc));
+}
+
+:root:not([data-theme="light"]) .rtbo-shop-cart-rail-head {
+  border-color: rgba(148, 163, 184, 0.28);
+  color: var(--rtbo-text, var(--app-text, #f8fafc));
+}
+
+:root:not([data-theme="light"]) .rtbo-shop-cart-rail-head strong,
+:root:not([data-theme="light"]) .rtbo-shop-cart-page-head button,
+:root:not([data-theme="light"]) .rtbo-shop-cart-page-actions button,
+:root:not([data-theme="light"]) .rtbo-shop-cart-page-side button:not(.btn),
+:root:not([data-theme="light"]) .rtbo-shop-secure-page button:not(.btn),
+:root:not([data-theme="light"]) .rtbo-shop-create-list-modal a,
+:root:not([data-theme="light"]) .rtbo-shop-create-list-link strong,
+:root:not([data-theme="light"]) .rtbo-shop-wishlist-item-title {
+  color: #93c5fd;
 }
 
 @media (max-width: 1536px) {

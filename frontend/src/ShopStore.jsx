@@ -913,12 +913,23 @@ function CartPage({
   cartLines,
   totals,
   favoriteProducts,
+  selectedCartKeys,
+  allCartSelected,
+  cartStatus,
+  cartGiftOptions,
+  orderGift,
+  onToggleItemSelected,
+  onToggleAll,
+  onToggleGift,
   onDecrease,
   onIncrease,
   onRemove,
   onSaveForLater,
   onOpenProduct,
   onAddProduct,
+  onCompare,
+  onShare,
+  onSelectPlan,
   onProceed
 }) {
   const suggestions = products.filter(product => !cartLines.some(item => item.sku === product.sku)).slice(0, 5);
@@ -932,13 +943,19 @@ function CartPage({
             <header className="rtbo-shop-cart-page-head">
               <div>
                 <h3>Shopping Cart</h3>
-                <button type="button">Deselect all items</button>
+                <button type="button" onClick={onToggleAll}>{allCartSelected ? 'Deselect all items' : 'Select all items'}</button>
               </div>
               <span>Price</span>
             </header>
+            {cartStatus ? <p className="rtbo-shop-cart-page-status">{cartStatus}</p> : null}
             {cartLines.length ? cartLines.map(item => (
               <article className="rtbo-shop-cart-page-row" key={item.key}>
-                <input type="checkbox" defaultChecked aria-label={`Select ${item.product.name}`} />
+                <input
+                  type="checkbox"
+                  checked={selectedCartKeys.includes(item.key)}
+                  onChange={event => onToggleItemSelected(item.key, event.target.checked)}
+                  aria-label={`Select ${item.product.name}`}
+                />
                 <button className="rtbo-shop-cart-page-image" type="button" onClick={() => onOpenProduct(item.product)}>
                   <img src={item.product.image} alt={item.product.name} loading="lazy" decoding="async" />
                 </button>
@@ -946,7 +963,7 @@ function CartPage({
                   <button type="button" onClick={() => onOpenProduct(item.product)}>{item.product.name}</button>
                   <small>In Stock</small>
                   <p><strong>prime</strong> {productDelivery(item.product)}</p>
-                  <label><input type="checkbox" /> This is a gift <span>Learn more</span></label>
+                  <label><input type="checkbox" checked={Boolean(cartGiftOptions[item.key])} onChange={event => onToggleGift(item.key, event.target.checked)} /> This is a gift <span>Learn more</span></label>
                   {[item.color, item.size].filter(Boolean).length ? <p>{[item.color, item.size].filter(Boolean).join(' / ')}</p> : null}
                   <div className="rtbo-shop-cart-page-actions">
                     <div className="rtbo-shop-qty">
@@ -956,8 +973,8 @@ function CartPage({
                     </div>
                     <button type="button" onClick={() => onRemove(item.key)}>Delete</button>
                     <button type="button" onClick={() => onSaveForLater(item)}>Save for later</button>
-                    <button type="button">Compare with similar items</button>
-                    <button type="button">Share</button>
+                    <button type="button" onClick={() => onCompare(item.product)}>Compare with similar items</button>
+                    <button type="button" onClick={() => onShare(item.product)}>Share</button>
                   </div>
                 </div>
                 <strong className="rtbo-shop-cart-page-price">{money(item.product.price)}</strong>
@@ -985,9 +1002,9 @@ function CartPage({
             <div className="rtbo-shop-cart-free-bar"><span /></div>
             <p>You are getting FREE Same-Day delivery on eligible items!</p>
             <h4>Subtotal ({totals.count} {totals.count === 1 ? 'item' : 'items'}): <strong>{money(totals.subtotal)}</strong></h4>
-            <label><input type="checkbox" /> This order contains a gift</label>
+            <label><input type="checkbox" checked={orderGift} onChange={event => onToggleGift('order', event.target.checked)} /> This order contains a gift</label>
             <button className="btn" type="button" onClick={onProceed}>Proceed to checkout</button>
-            <p>Or <strong>{money(Math.round(totals.total / 24))}</strong> /mo (24 mo). <span>Select plan</span></p>
+            <p>Or <strong>{money(Math.round(totals.total / 24))}</strong> /mo (24 mo). <button type="button" onClick={onSelectPlan}>Select plan</button></p>
           </section>
 
           <section>
@@ -1272,6 +1289,9 @@ export default function ShopStore() {
   const [createListOpen, setCreateListOpen] = useState(false);
   const [listNameDraft, setListNameDraft] = useState(() => readStoredWishlistName() || 'Wish list');
   const [listNameError, setListNameError] = useState('');
+  const [selectedCartKeys, setSelectedCartKeys] = useState([]);
+  const [cartGiftOptions, setCartGiftOptions] = useState({});
+  const [cartStatus, setCartStatus] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(initialProduct);
   const [selectedOptions, setSelectedOptions] = useState({
     size: initialProduct.sizes[0] || '',
@@ -1460,10 +1480,12 @@ export default function ShopStore() {
     setCart(current => current
       .map(item => item.key === key ? { ...item, quantity: Math.max(0, item.quantity + delta) } : item)
       .filter(item => item.quantity > 0));
+    setCartStatus(delta > 0 ? 'Quantity increased.' : 'Quantity updated.');
   }
 
   function removeCartItem(key) {
     setCart(current => current.filter(item => item.key !== key));
+    setCartStatus('Item removed from your cart.');
   }
 
   function saveCartItemForLater(item) {
@@ -1474,6 +1496,53 @@ export default function ShopStore() {
       openCreateWishlist();
     }
     removeCartItem(item.key);
+    setCartStatus(`${item.product.name} was saved for later.`);
+  }
+
+  function toggleCartItemSelected(key, checked) {
+    setSelectedCartKeys(current => checked ? [...new Set([...current, key])] : current.filter(item => item !== key));
+    setCartStatus(checked ? 'Item selected for checkout.' : 'Item deselected from checkout.');
+  }
+
+  function toggleAllCartItems() {
+    const keys = cartLines.map(item => item.key);
+    const allSelected = keys.length > 0 && keys.every(key => selectedCartKeys.includes(key));
+    setSelectedCartKeys(allSelected ? [] : keys);
+    setCartStatus(allSelected ? 'All items deselected.' : 'All items selected.');
+  }
+
+  function toggleCartGift(key, checked) {
+    setCartGiftOptions(current => ({ ...current, [key]: checked }));
+    setCartStatus(checked ? 'Gift option selected.' : 'Gift option removed.');
+  }
+
+  function compareCartProduct(product) {
+    setCategory(product.category);
+    setQuery('');
+    setSearchDraft('');
+    setCartStatus(`Showing similar ${categoryLabel(product.category).toLowerCase()} in basket recommendations.`);
+  }
+
+  async function shareCartProduct(product) {
+    const shareUrl = `${window.location.origin}${window.location.pathname}${shopProductHash(product)}`;
+    try {
+      await navigator.clipboard?.writeText(shareUrl);
+      setCartStatus(`Share link copied for ${product.name}.`);
+    } catch {
+      setCartStatus(`Share link ready: ${shareUrl}`);
+    }
+  }
+
+  function selectPaymentPlan() {
+    setCartStatus('Payment plan selected for checkout review.');
+  }
+
+  function proceedFromCart() {
+    if (!selectedCartLines.length) {
+      setCartStatus('Select at least one item before proceeding to checkout.');
+      return;
+    }
+    openSecureCheckoutPage();
   }
 
   function addSkuToWishlist(sku = pendingWishlistSku, nextName = wishlistName) {
@@ -1568,6 +1637,23 @@ export default function ShopStore() {
     const tax = Math.round(subtotal * 0.085);
     return { subtotal, shipping, tax, total: subtotal + shipping + tax, count: cartLines.reduce((sum, item) => sum + item.quantity, 0) };
   }, [cartLines]);
+
+  useEffect(() => {
+    const keys = cartLines.map(item => item.key);
+    setSelectedCartKeys(current => {
+      const kept = current.filter(key => keys.includes(key));
+      const added = keys.filter(key => !current.includes(key));
+      return [...kept, ...added];
+    });
+  }, [cartLines]);
+
+  const selectedCartLines = useMemo(() => cartLines.filter(item => selectedCartKeys.includes(item.key)), [cartLines, selectedCartKeys]);
+  const selectedTotals = useMemo(() => {
+    const subtotal = selectedCartLines.reduce((sum, item) => sum + item.lineTotal, 0);
+    const shipping = subtotal === 0 || subtotal >= 10000 ? 0 : 895;
+    const tax = Math.round(subtotal * 0.085);
+    return { subtotal, shipping, tax, total: subtotal + shipping + tax, count: selectedCartLines.reduce((sum, item) => sum + item.quantity, 0) };
+  }, [selectedCartLines]);
 
   const favoriteProducts = useMemo(() => wishlist
     .map(sku => products.find(product => product.sku === sku))
@@ -1764,8 +1850,8 @@ export default function ShopStore() {
           <div className="rtbo-shop-content-grid">
             {secureCheckoutOpen ? (
               <SecureCheckoutPage
-                cartLines={cartLines}
-                totals={totals}
+                cartLines={selectedCartLines.length ? selectedCartLines : cartLines}
+                totals={selectedCartLines.length ? selectedTotals : totals}
                 checkout={checkout}
                 checkoutStatus={checkoutStatus}
                 onBackToCart={openCartPage}
@@ -1776,15 +1862,26 @@ export default function ShopStore() {
             ) : cartPageOpen ? (
               <CartPage
                 cartLines={cartLines}
-                totals={totals}
+                totals={selectedTotals}
                 favoriteProducts={favoriteProducts}
+                selectedCartKeys={selectedCartKeys}
+                allCartSelected={cartLines.length > 0 && cartLines.every(item => selectedCartKeys.includes(item.key))}
+                cartStatus={cartStatus}
+                cartGiftOptions={cartGiftOptions}
+                orderGift={Boolean(cartGiftOptions.order)}
+                onToggleItemSelected={toggleCartItemSelected}
+                onToggleAll={toggleAllCartItems}
+                onToggleGift={toggleCartGift}
                 onDecrease={key => updateQuantity(key, -1)}
                 onIncrease={key => updateQuantity(key, 1)}
                 onRemove={removeCartItem}
                 onSaveForLater={saveCartItemForLater}
                 onOpenProduct={openProduct}
                 onAddProduct={product => addToCart(product, { size: product.sizes[0] || '', color: product.colors[0] || '' })}
-                onProceed={openSecureCheckoutPage}
+                onCompare={compareCartProduct}
+                onShare={shareCartProduct}
+                onSelectPlan={selectPaymentPlan}
+                onProceed={proceedFromCart}
               />
             ) : wishlistOpen ? (
               <WishlistPage
