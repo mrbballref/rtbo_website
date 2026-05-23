@@ -210,6 +210,10 @@ function routeFromHash(hash = '') {
   return String(hash || '').replace(/^#\/?/, '').split('?')[0];
 }
 
+function pageFromRoute(route = '') {
+  return String(route || '').split('/')[0] || 'home';
+}
+
 function isDashboardRouteHash(hash = '') {
   return routeFromHash(hash).startsWith('dashboard');
 }
@@ -13106,7 +13110,8 @@ function App() {
 
   const readRoute = () => {
     const route = routeFromHash(window.location.hash);
-    return validPages.has(route) ? route : 'home';
+    const page = pageFromRoute(route);
+    return validPages.has(page) ? page : 'home';
   };
   const [active, setActive] = useState(readRoute);
   const [authUser, setAuthUser] = useState(readStoredAuthUser);
@@ -13260,7 +13265,7 @@ function App() {
     if (active === 'services') return <><PageHero page="services" eyebrow="Services" title="Complete Officiating Solutions">Event assigning, development, mentorship, evaluations, and leadership standards for the game.</PageHero><Services /></>;
     if (active === 'trainers') return <><PageHero page="trainers" eyebrow="Trainers" title="Professional Development Team">Meet the trainers helping officials sharpen mechanics, judgment, communication, and leadership.</PageHero><Trainers /></>;
     if (active === 'guests') return <><PageHero page="guests" eyebrow="Special Guests & Coordinators" title="RTBO Leadership Network">Guest instructors and coordinators supporting the RTBO school experience.</PageHero><Guests /></>;
-    if (active === 'shop') return <><PageHero page="shop" eyebrow="RTBO Shop" title="Premium Officiating Gear">A full RTBO store for apparel, whistles, drinkware, bags, training access, memberships, and official-ready equipment.</PageHero><Shop /></>;
+    if (active === 'shop') return <Shop />;
     if (active === 'reviews') return <><PageHero page="reviews" eyebrow="Real Results" title="Testimonials">Officials and coaches sharing the impact of RTBO training, development, and leadership.</PageHero><Reviews /></>;
     if (active === 'register') return authUser ? <RegistrationForm user={authUser} active={active} setActive={goTo} onOpenDashboard={openDashboard} onOpenLogin={openLogin} /> : <RegistrationGate onCreateAccount={openRegister} onSignIn={openRegisterSignIn} />;
     if (active === 'contract-sign') {

@@ -164,6 +164,15 @@
   border-color: rgba(245, 130, 32, .3);
 }
 
+@media (max-width: 1536px) {
+  .rtbo-education-hero,
+  .rtbo-education-widget-grid,
+  .rtbo-education-flow-grid,
+  .rtbo-academy-test-widget-grid {
+    gap: 12px;
+  }
+}
+
 @media (max-width: 1280px) {
   .rtbo-education-widget-grid,
   .rtbo-education-flow-grid,

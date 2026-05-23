@@ -128,6 +128,28 @@
   border-color: #e5e7eb;
 }
 
+@media (max-width: 1536px) {
+  .rtbo-contract-sign-page {
+    padding-inline: clamp(18px, 3vw, 36px);
+  }
+}
+
+@media (max-width: 1280px) {
+  .rtbo-contract-sign-workspace {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, .82fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .rtbo-contract-sign-page {
+    padding-block: 24px;
+  }
+
+  .rtbo-contract-sign-workspace {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 768px) {
   .rtbo-contract-sign-workspace,
   .rtbo-contract-sign-summary dl {
@@ -141,5 +163,48 @@
   .rtbo-contract-sign-brand img {
     width: 56px;
     height: 56px;
+  }
+}
+
+@media (max-width: 648px) {
+  .rtbo-contract-sign-page {
+    padding-inline: 14px;
+  }
+
+  .rtbo-contract-sign-summary,
+  .rtbo-contract-sign-form {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 550px) {
+  .rtbo-contract-sign-brand {
+    align-items: start;
+  }
+
+  .rtbo-contract-sign-form .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .rtbo-contract-sign-summary dl div {
+    min-width: 0;
+  }
+
+  .rtbo-contract-sign-brand h1,
+  .rtbo-contract-sign-summary h2 {
+    font-size: 1.18rem;
+  }
+}
+
+@media (max-width: 368px) {
+  .rtbo-contract-sign-page {
+    padding-inline: 10px;
+  }
+
+  .rtbo-contract-sign-form label,
+  .rtbo-contract-sign-note {
+    font-size: .76rem;
   }
 }

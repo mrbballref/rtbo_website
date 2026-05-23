@@ -1282,6 +1282,26 @@
   color: #f4f4f4 !important;
 }
 
+@media (max-width: 1536px) {
+  .rtbo-mail-page {
+    gap: 14px;
+  }
+
+  .rtbo-mail-reader-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, .76fr);
+  }
+}
+
+@media (max-width: 1280px) {
+  .rtbo-mail-command-ribbon {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .rtbo-mail-reader-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, .88fr);
+  }
+}
+
 @media (max-width: 1024px) {
   .rtbo-mail-command-ribbon {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1354,6 +1374,18 @@
 
   .rtbo-mail-workspace-head {
     flex-direction: column;
+  }
+}
+
+@media (max-width: 648px) {
+  .rtbo-mail-page {
+    padding: 12px;
+  }
+
+  .rtbo-mail-list article,
+  .rtbo-mail-open-message,
+  .rtbo-mail-preview {
+    padding: 12px;
   }
 }
 

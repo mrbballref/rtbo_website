@@ -35,9 +35,12 @@ function formatKb(bytes) {
 
 const sourceHtml = readText('index.html');
 const distHtml = readText('dist/index.html');
+const robotsText = readText('public/robots.txt');
+const sitemapText = readText('public/sitemap.xml');
 const styles = readText('src/styles.css');
 const publicAppCss = readText('public/assets/css/app.css');
 const mainSource = readText('src/main.jsx');
+const shopStoreSource = readText('src/ShopStore.jsx');
 const sourceCssFiles = walkFiles(path.join(frontendRoot, 'src')).filter(filePath => filePath.endsWith('.css'));
 const cssPaletteCorpus = [publicAppCss, styles, ...sourceCssFiles.map(filePath => fs.readFileSync(filePath, 'utf8'))].join('\n');
 const carbonFiberDeclaration = publicAppCss.match(/--rtbo-carbon-fiber\s*:[\s\S]*?--rtbo-carbon-fiber-size/)?.[0] ?? '';
@@ -45,6 +48,10 @@ const carbonFiberDeclaration = publicAppCss.match(/--rtbo-carbon-fiber\s*:[\s\S]
 const taxCenterSource = readText('src/TaxCenter.jsx');
 const taxCenterCss = readText('src/tax-center.css');
 const contractGeneratorCss = readText('src/contract-generator.css');
+
+function hasRequiredBreakpoint(css, width) {
+  return new RegExp(`@media\\s*[^{}]*\\(\\s*max-width\\s*:\\s*${width}px\\s*\\)`, 'i').test(css);
+}
 
 assertCheck(
   /--rtbo-carbon-bg\s*:\s*#050505/i.test(publicAppCss)
@@ -76,14 +83,20 @@ assertCheck(
   (() => {
     const dashboardOpenBody = mainSource.match(/function\s+readStoredDashboardOpen\s*\(\)\s*\{([\s\S]*?)\n\}/)?.[1] || '';
     return /function\s+routeFromHash\s*\(/.test(mainSource)
+      && /function\s+pageFromRoute\s*\(/.test(mainSource)
+      && /const\s+page\s*=\s*pageFromRoute\(route\);/.test(mainSource)
       && /function\s+isDashboardRouteHash\s*\(/.test(mainSource)
       && dashboardOpenBody.includes('return isDashboardRouteHash(hash);')
       && !dashboardOpenBody.includes('RTBO_DASHBOARD_OPEN_KEY')
       && !dashboardOpenBody.includes('isSuperAdminUser(storedUser)')
       && /window\.location\.hash\s*=\s*`#dashboard/.test(mainSource)
-      && /#dashboard\/\$\{encodeURIComponent\(activeSection\)\}/.test(mainSource);
+      && /#dashboard\/\$\{encodeURIComponent\(activeSection\)\}/.test(mainSource)
+      && /function\s+readShopRouteProduct\s*\(/.test(shopStoreSource)
+      && /function\s+shopProductHash\s*\(/.test(shopStoreSource)
+      && /#shop\/product\/\$\{encodeURIComponent\(product\.sku\)\}/.test(shopStoreSource)
+      && /useState\(Boolean\(initialRouteProduct\)\)/.test(shopStoreSource);
   })(),
-  'Refresh preservation is mandatory: the current URL hash must be the source of truth, and stored dashboard state must not override the visible page on reload.'
+  'Refresh preservation is mandatory: nested URL hashes such as dashboard sections and shop product pages must stay on the same page after reload.'
 );
 
 assertCheck(
@@ -125,9 +138,12 @@ assertCheck(
   'Invoice previews must scroll inside the preview window only.'
 );
 
-requiredBreakpoints.forEach(width => {
-  const pattern = new RegExp(`@media\\s*[^{}]*\\(\\s*max-width\\s*:\\s*${width}px\\s*\\)`, 'i');
-  assertCheck(pattern.test(styles), `Missing mandatory responsive breakpoint: ${width}px`);
+sourceCssFiles.forEach(filePath => {
+  const css = fs.readFileSync(filePath, 'utf8');
+  const relativeName = path.relative(frontendRoot, filePath);
+  requiredBreakpoints.forEach(width => {
+    assertCheck(hasRequiredBreakpoint(css, width), `${relativeName} is missing mandatory responsive breakpoint: ${width}px`);
+  });
 });
 
 const themeLockRules = [
@@ -162,13 +178,22 @@ assertCheck(
   ['meta description', /<meta\s+name=["']description["'][^>]+content=["'][^"']{50,}["']/i],
   ['robots directive', /<meta\s+name=["']robots["'][^>]+index,\s*follow/i],
   ['canonical URL', /<link[^>]+rel=["']canonical["'][^>]+href=["']https:\/\/rtbofficiating\.com\/["']/i],
+  ['Open Graph URL', /<meta\s+property=["']og:url["'][^>]+content=["']https:\/\/rtbofficiating\.com\/["']/i],
   ['Open Graph title', /<meta\s+property=["']og:title["'][^>]+content=/i],
   ['Open Graph description', /<meta\s+property=["']og:description["'][^>]+content=/i],
+  ['Open Graph image', /<meta\s+property=["']og:image["'][^>]+content=["']https:\/\/rtbofficiating\.com\/assets\//i],
   ['Twitter card', /<meta\s+name=["']twitter:card["'][^>]+summary_large_image/i],
+  ['Twitter title', /<meta\s+name=["']twitter:title["'][^>]+content=/i],
+  ['Twitter description', /<meta\s+name=["']twitter:description["'][^>]+content=/i],
+  ['Twitter image', /<meta\s+name=["']twitter:image["'][^>]+content=["']https:\/\/rtbofficiating\.com\/assets\//i],
   ['structured data', /<script\s+type=["']application\/ld\+json["']>/i]
 ].forEach(([label, pattern]) => {
+  assertCheck(pattern.test(sourceHtml), `Source HTML is missing required SEO metadata: ${label}`);
   assertCheck(pattern.test(distHtml), `Built HTML is missing required SEO metadata: ${label}`);
 });
+
+assertCheck(/User-agent:\s*\*/i.test(robotsText) && /Allow:\s*\//i.test(robotsText) && /Sitemap:\s*https:\/\/rtbofficiating\.com\/sitemap\.xml/i.test(robotsText), 'robots.txt must allow crawling and point to the production sitemap.');
+assertCheck(/<urlset[^>]+sitemaps\.org\/schemas\/sitemap\/0\.9/i.test(sitemapText) && /<loc>https:\/\/rtbofficiating\.com\/<\/loc>/i.test(sitemapText), 'sitemap.xml must use the sitemap protocol and include the production home URL.');
 
 const jsonLdMatches = [...distHtml.matchAll(/<script\s+type=["']application\/ld\+json["']>([\s\S]*?)<\/script>/gi)];
 assertCheck(jsonLdMatches.length > 0, 'Built HTML is missing JSON-LD structured data.');
