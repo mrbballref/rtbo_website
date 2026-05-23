@@ -2438,10 +2438,11 @@ function RegistrationGate({ onCreateAccount, onSignIn }) {
   );
 }
 
-function RegistrationForm({ user }) {
+function RegistrationForm({ user, active = 'register', setActive = () => {}, onOpenDashboard = () => {}, onOpenLogin = () => {} }) {
   const [status, setStatus] = useState('');
   const [selectedSessions, setSelectedSessions] = useState([]);
   const [paymentProvider, setPaymentProvider] = useState('stripe');
+  const [profilePhotoName, setProfilePhotoName] = useState('');
   const firstName = user?.first_name || splitName(user?.name).firstName;
   const lastName = user?.last_name || splitName(user?.name).lastName;
   const sessionChoices = sessions.map(([cardImage, icon, label, title, date, price]) => {
@@ -2462,6 +2463,10 @@ function RegistrationForm({ user }) {
   const registrationProcessingFee = selectedSessionDetails.length ? 9.5 : 0;
   const registrationGrandTotal = selectedTotal + registrationProcessingFee;
   const featuredSession = selectedSessionDetails[0] || sessionChoices[0];
+
+  function navigateFromRegistration(page) {
+    setActive(page);
+  }
 
   function toggleSession(value) {
     setSelectedSessions(current => (
@@ -2489,19 +2494,26 @@ function RegistrationForm({ user }) {
   return (
     <section className="rtbo-registration-page">
       <div className="rtbo-registration-shell-nav" aria-label="Registration page navigation">
-        <div className="rtbo-registration-mini-brand">
+        <button className="rtbo-registration-mini-brand" type="button" onClick={() => navigateFromRegistration('home')} aria-label="Raising The Bar Officiating home">
           <img src={image('logo.png')} alt="Raising The Bar Officiating logo" />
-          <strong>Raising The Bar Officiating Training Schools</strong>
-        </div>
+        </button>
         <nav>
-          {['Home', 'Officials', 'Training Schools', 'Games', 'Resources', 'Company'].map(item => <span className={item === 'Training Schools' ? 'active' : ''} key={item}>{item}</span>)}
+          {navItems.map(([id, label]) => (
+            <button className={(active === id || (active === 'register' && id === 'events')) ? 'active' : ''} key={id} type="button" onClick={() => navigateFromRegistration(id)}>
+              {label}
+            </button>
+          ))}
         </nav>
-        <div className="rtbo-registration-nav-actions"><button type="button">Login</button><button type="button">Sign Up</button></div>
+        <div className="rtbo-registration-nav-actions">
+          <ThemeToggle className="registration-theme-toggle" />
+          <button className="rtbo-registration-account-action" type="button" onClick={user ? onOpenDashboard : onOpenLogin}>{user ? 'Dashboard' : 'Login'}</button>
+        </div>
       </div>
       <div className="rtbo-registration-hero">
         <div>
           <p className="eyebrow">Register For</p>
-          <h1>Elite Officiating Training Schools</h1>
+          <h1>Raising The Bar Officiating Training Schools</h1>
+          <h2>Elite Officiating Training</h2>
           <p>Train with top clinicians, improve mechanics, enhance game management, and elevate your officiating career.</p>
           <div className="rtbo-registration-hero-points">
             <span>Elite clinicians</span>
@@ -2570,9 +2582,16 @@ function RegistrationForm({ user }) {
               <div className="grid three"><label>Traveling From<input name="travel_from" placeholder="Enter city or airport" /></label><label>Arrival Date<input type="date" name="arrival_date" /></label><label>Departure Date<input type="date" name="departure_date" /></label></div>
               <div className="grid three"><label>Hotel Needed?<select name="hotel_needed" defaultValue=""><option value="">Select option</option><option>No</option><option>Yes</option></select></label><label>Roommate Request<input name="roommate_request" placeholder="Enter name or email" /></label><label>Special Requests<textarea name="special_requests" placeholder="Any special accommodations?" /></label></div>
             </section>
-            <section className="rtbo-registration-card">
+            <section className="rtbo-registration-card rtbo-registration-documents-card">
               <h3>Documents & Agreements</h3>
-              <label>Professional Profile Picture<input type="file" name="profile_photo" accept="image/jpeg,image/png,image/webp" required /></label>
+              <label className="rtbo-registration-upload-field">
+                <span>Professional Profile Picture</span>
+                <span className="rtbo-registration-upload-control">
+                  <span className="rtbo-registration-upload-button">Upload Professional Profile Photo</span>
+                  <span className="rtbo-registration-upload-name">{profilePhotoName || 'No profile photo selected'}</span>
+                  <input className="rtbo-registration-file-input" type="file" name="profile_photo" accept="image/jpeg,image/png,image/webp" required onChange={(event) => setProfilePhotoName(event.currentTarget.files?.[0]?.name || '')} />
+                </span>
+              </label>
               <RegistrationOneTimePaymentField />
               <fieldset className="rtbo-registration-waiver"><legend>Waiver Agreement</legend><label><input type="radio" name="waiver_agreement" value="Agree" required /> I agree with all waiver items.</label><a href="#top">View Document</a></fieldset>
               <div className="grid two"><label>Official Printed Name<input name="printed_signature" required /></label><label>Actual Signature<input name="signature" required /></label></div>
@@ -13106,7 +13125,7 @@ function App() {
     if (active === 'guests') return <><PageHero page="guests" eyebrow="Special Guests & Coordinators" title="RTBO Leadership Network">Guest instructors and coordinators supporting the RTBO school experience.</PageHero><Guests /></>;
     if (active === 'shop') return <><PageHero page="shop" eyebrow="RTBO Shop" title="Premium Officiating Gear">A full RTBO store for apparel, whistles, drinkware, bags, training access, memberships, and official-ready equipment.</PageHero><Shop /></>;
     if (active === 'reviews') return <><PageHero page="reviews" eyebrow="Real Results" title="Testimonials">Officials and coaches sharing the impact of RTBO training, development, and leadership.</PageHero><Reviews /></>;
-    if (active === 'register') return authUser ? <RegistrationForm user={authUser} /> : <RegistrationGate onCreateAccount={openRegister} onSignIn={openRegisterSignIn} />;
+    if (active === 'register') return authUser ? <RegistrationForm user={authUser} active={active} setActive={goTo} onOpenDashboard={openDashboard} onOpenLogin={openLogin} /> : <RegistrationGate onCreateAccount={openRegister} onSignIn={openRegisterSignIn} />;
     if (active === 'contract-sign') {
       return (
         <React.Suspense fallback={null}>
