@@ -4,6 +4,7 @@ import './shop-store.css';
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
 const CART_KEY = 'rtbo-shop-cart';
 const WISHLIST_KEY = 'rtbo-shop-wishlist';
+const WISHLIST_NAME_KEY = 'rtbo-shop-wishlist-name';
 
 const productImage = name => `/assets/images/${name}`;
 const shopFeaturedImage = name => productImage(`shop/featured/${name}`);
@@ -354,6 +355,19 @@ function readStoredJson(key, fallback) {
   }
 }
 
+function readStoredWishlist() {
+  const stored = readStoredJson(WISHLIST_KEY, []);
+  if (Array.isArray(stored)) return stored;
+  if (Array.isArray(stored?.items)) return stored.items;
+  return [];
+}
+
+function readStoredWishlistName() {
+  const name = localStorage.getItem(WISHLIST_NAME_KEY);
+  if (name) return name;
+  return readStoredWishlist().length ? 'Wish list' : '';
+}
+
 function formatPhone(value) {
   const digits = String(value || '').replace(/\D+/g, '').slice(0, 10);
   if (digits.length < 4) return digits;
@@ -427,6 +441,18 @@ function isShopProductRoute() {
   return readShopRoute().startsWith('shop/product/');
 }
 
+function isShopWishlistRoute() {
+  return readShopRoute() === 'shop/wishlist';
+}
+
+function isShopCartRoute() {
+  return readShopRoute() === 'shop/cart';
+}
+
+function isShopCheckoutRoute() {
+  return readShopRoute() === 'shop/checkout';
+}
+
 function readShopRouteProduct() {
   const route = readShopRoute();
   const match = route.match(/^shop\/product\/([^/]+)$/);
@@ -442,6 +468,18 @@ function readShopRouteProduct() {
 
 function shopProductHash(product) {
   return `#shop/product/${encodeURIComponent(product.sku)}`;
+}
+
+function shopWishlistHash() {
+  return '#shop/wishlist';
+}
+
+function shopCartHash() {
+  return '#shop/cart';
+}
+
+function shopCheckoutHash() {
+  return '#shop/checkout';
 }
 
 function cartSizingForLines(lineCount) {
@@ -671,6 +709,405 @@ function CartProductCard({
   );
 }
 
+function WishlistChooserModal({
+  listName,
+  product,
+  isSaved,
+  onAddToList,
+  onCreateList,
+  onClose
+}) {
+  return (
+    <div
+      className="rtbo-shop-list-layer is-light"
+      onClick={event => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
+      <div className="rtbo-shop-list-chooser" role="dialog" aria-modal="true" aria-label="Add item to wish list">
+        <button className="rtbo-shop-list-close" type="button" onClick={onClose} aria-label="Close list chooser">×</button>
+        <div className="rtbo-shop-list-options">
+          {listName ? (
+            <button className="rtbo-shop-list-option is-selected" type="button" onClick={onAddToList}>
+              <span className="rtbo-shop-list-thumb"><img src={product.image} alt="" loading="lazy" decoding="async" /></span>
+              <span>
+                <strong>{listName}</strong>
+                <small>{isSaved ? 'Already added' : 'Private'}</small>
+              </span>
+            </button>
+          ) : (
+            <div className="rtbo-shop-list-option is-empty">
+              <span className="rtbo-shop-list-thumb" aria-hidden="true">□</span>
+              <span>
+                <strong>No list created</strong>
+                <small>Private</small>
+              </span>
+            </div>
+          )}
+        </div>
+        <button className="rtbo-shop-create-list-link" type="button" onClick={onCreateList}>
+          <span aria-hidden="true">+</span>
+          <strong>Create a list</strong>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function CreateWishlistModal({
+  listNameDraft,
+  listNameError,
+  onChange,
+  onCancel,
+  onSubmit
+}) {
+  return (
+    <div
+      className="rtbo-shop-list-layer is-dimmed"
+      onClick={event => {
+        if (event.target === event.currentTarget) onCancel();
+      }}
+    >
+      <form className="rtbo-shop-create-list-modal" role="dialog" aria-modal="true" aria-label="Create a new list or registry" onSubmit={onSubmit} noValidate>
+        <header>
+          <h3>Create a new list or registry</h3>
+          <button type="button" onClick={onCancel} aria-label="Close create list dialog">×</button>
+        </header>
+        <div className="rtbo-shop-create-list-body">
+          <label>
+            <span>List name (required)</span>
+            <input
+              value={listNameDraft}
+              onChange={event => onChange(event.target.value)}
+              required
+              aria-invalid={Boolean(listNameError)}
+              autoFocus
+            />
+          </label>
+          {listNameError ? <p className="rtbo-shop-list-error">{listNameError}</p> : null}
+          <p>Use lists to save items for later. All lists are private unless you share them with others.</p>
+        </div>
+        <footer>
+          <div>
+            <strong>Celebrating an occasion?</strong>
+            <a href="#shop/wishlist" onClick={event => event.preventDefault()}>Create a Registry or Gift List</a>
+          </div>
+          <div className="rtbo-shop-create-actions">
+            <button className="rtbo-shop-create-cancel" type="button" onClick={onCancel}>Cancel</button>
+            <button className="rtbo-shop-create-submit" type="submit">Create</button>
+          </div>
+        </footer>
+      </form>
+    </div>
+  );
+}
+
+function WishlistPage({
+  listName,
+  favoriteProducts,
+  wishlistSearch,
+  setWishlistSearch,
+  onOpenProduct,
+  onRemove,
+  onAddToCart
+}) {
+  const needle = wishlistSearch.trim().toLowerCase();
+  const visibleProducts = favoriteProducts.filter(product => !needle || [product.name, product.description, product.category, product.sku]
+    .join(' ')
+    .toLowerCase()
+    .includes(needle));
+
+  return (
+    <section className="rtbo-shop-wishlist-page" aria-label={`${listName || 'Wish list'} page`}>
+      <aside className="rtbo-shop-wishlist-page-nav" aria-label="Saved lists">
+        <button type="button">
+          <span>Shopping List</span>
+          <small>Default List</small>
+        </button>
+        <button type="button">
+          <span>Alexa List</span>
+          <small>Private</small>
+        </button>
+        <button className="is-active" type="button">
+          <span>{listName || 'Wish list'}</span>
+          <small>Private</small>
+        </button>
+      </aside>
+
+      <div className="rtbo-shop-wishlist-main">
+        <header className="rtbo-shop-wishlist-titlebar">
+          <div>
+            <h3>{listName || 'Wish list'} <span>Private</span></h3>
+            <div className="rtbo-shop-wishlist-invite">
+              <span aria-hidden="true">RT</span>
+              <button type="button">+ Invite</button>
+            </div>
+          </div>
+          <div className="rtbo-shop-wishlist-actions">
+            <button type="button">Add item</button>
+            <button type="button" aria-label="Share list">⇧</button>
+            <button type="button" aria-label="More wish list options">•••</button>
+          </div>
+        </header>
+
+        <div className="rtbo-shop-wishlist-tools">
+          <div className="rtbo-shop-wishlist-view-toggle" aria-hidden="true">
+            <span>▦</span>
+            <span className="is-active">☰</span>
+          </div>
+          <label>
+            <span>Search this list</span>
+            <input value={wishlistSearch} onChange={event => setWishlistSearch(event.target.value)} placeholder="Search this list" />
+          </label>
+          <select aria-label="Show wish list items" defaultValue="unpurchased">
+            <option value="unpurchased">Show: Unpurchased</option>
+            <option value="all">Show: All</option>
+          </select>
+          <select aria-label="Sort wish list items" defaultValue="recent">
+            <option value="recent">Sort by: Most recently added</option>
+            <option value="price-low">Sort by: Price low to high</option>
+            <option value="price-high">Sort by: Price high to low</option>
+          </select>
+        </div>
+
+        <div className="rtbo-shop-wishlist-items">
+          {visibleProducts.length ? visibleProducts.map(product => (
+            <article className="rtbo-shop-wishlist-item" key={product.sku}>
+              <button className="rtbo-shop-wishlist-item-image" type="button" onClick={() => onOpenProduct(product)}>
+                <img src={product.image} alt={product.name} loading="lazy" decoding="async" />
+              </button>
+              <div className="rtbo-shop-wishlist-item-copy">
+                <button className="rtbo-shop-wishlist-item-title" type="button" onClick={() => onOpenProduct(product)}>{product.name}</button>
+                <span>by Raising The Bar Officiating</span>
+                <RatingSummary product={product} />
+                <p>Item added May 23, 2026</p>
+                <div className="rtbo-shop-wishlist-item-actions">
+                  <button type="button" onClick={() => onOpenProduct(product)}>See all buying options</button>
+                  <button type="button">Add a note</button>
+                  <button type="button">Move⌄</button>
+                  <button type="button" aria-label={`Share ${product.name}`}>⇧</button>
+                  <button type="button" onClick={() => onRemove(product.sku)} aria-label={`Remove ${product.name} from wish list`}>
+                    <TrashIcon />
+                  </button>
+                </div>
+              </div>
+              <div className="rtbo-shop-wishlist-item-side">
+                <AmazonPrice product={product} />
+                <button className="btn" type="button" onClick={() => onAddToCart(product)}>Add to Cart</button>
+              </div>
+            </article>
+          )) : (
+            <div className="rtbo-shop-wishlist-empty">
+              <strong>End of list</strong>
+              <p>{favoriteProducts.length ? 'No saved items match that search.' : 'Create a list and add products from the shop.'}</p>
+            </div>
+          )}
+          <div className="rtbo-shop-wishlist-end"><span>End of list</span></div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CartPage({
+  cartLines,
+  totals,
+  favoriteProducts,
+  onDecrease,
+  onIncrease,
+  onRemove,
+  onSaveForLater,
+  onOpenProduct,
+  onAddProduct,
+  onProceed
+}) {
+  const suggestions = products.filter(product => !cartLines.some(item => item.sku === product.sku)).slice(0, 5);
+
+  return (
+    <section className="rtbo-shop-cart-page" aria-label="Shopping Cart">
+      <div className="rtbo-shop-cart-alert"><strong>i</strong><span>Add protection for eligible items.</span></div>
+      <div className="rtbo-shop-cart-page-grid">
+        <div className="rtbo-shop-cart-page-main">
+          <section className="rtbo-shop-cart-page-card">
+            <header className="rtbo-shop-cart-page-head">
+              <div>
+                <h3>Shopping Cart</h3>
+                <button type="button">Deselect all items</button>
+              </div>
+              <span>Price</span>
+            </header>
+            {cartLines.length ? cartLines.map(item => (
+              <article className="rtbo-shop-cart-page-row" key={item.key}>
+                <input type="checkbox" defaultChecked aria-label={`Select ${item.product.name}`} />
+                <button className="rtbo-shop-cart-page-image" type="button" onClick={() => onOpenProduct(item.product)}>
+                  <img src={item.product.image} alt={item.product.name} loading="lazy" decoding="async" />
+                </button>
+                <div className="rtbo-shop-cart-page-copy">
+                  <button type="button" onClick={() => onOpenProduct(item.product)}>{item.product.name}</button>
+                  <small>In Stock</small>
+                  <p><strong>prime</strong> {productDelivery(item.product)}</p>
+                  <label><input type="checkbox" /> This is a gift <span>Learn more</span></label>
+                  {[item.color, item.size].filter(Boolean).length ? <p>{[item.color, item.size].filter(Boolean).join(' / ')}</p> : null}
+                  <div className="rtbo-shop-cart-page-actions">
+                    <div className="rtbo-shop-qty">
+                      <button type="button" onClick={() => onDecrease(item.key)} aria-label={`Remove one ${item.product.name}`}><TrashIcon /></button>
+                      <span>{item.quantity}</span>
+                      <button type="button" onClick={() => onIncrease(item.key)} aria-label={`Add one ${item.product.name}`}>+</button>
+                    </div>
+                    <button type="button" onClick={() => onRemove(item.key)}>Delete</button>
+                    <button type="button" onClick={() => onSaveForLater(item)}>Save for later</button>
+                    <button type="button">Compare with similar items</button>
+                    <button type="button">Share</button>
+                  </div>
+                </div>
+                <strong className="rtbo-shop-cart-page-price">{money(item.product.price)}</strong>
+              </article>
+            )) : <p className="rtbo-shop-cart-page-empty">Your shopping cart is empty.</p>}
+            <footer>Subtotal ({totals.count} {totals.count === 1 ? 'item' : 'items'}): <strong>{money(totals.subtotal)}</strong></footer>
+          </section>
+
+          <section className="rtbo-shop-cart-saved" aria-label="Your saved items">
+            <h3>Your Items</h3>
+            <div className="rtbo-shop-cart-tabs"><button className="is-active" type="button">Saved for later ({favoriteProducts.length} item)</button><button type="button">Buy it again</button></div>
+            <div className="rtbo-shop-cart-saved-grid">
+              {favoriteProducts.slice(0, 3).map(product => (
+                <button key={product.sku} type="button" onClick={() => onOpenProduct(product)}>
+                  <img src={product.image} alt={product.name} loading="lazy" decoding="async" />
+                  <span>{product.name}</span>
+                </button>
+              ))}
+            </div>
+          </section>
+        </div>
+
+        <aside className="rtbo-shop-cart-page-side" aria-label="Cart summary">
+          <section>
+            <div className="rtbo-shop-cart-free-bar"><span /></div>
+            <p>You are getting FREE Same-Day delivery on eligible items!</p>
+            <h4>Subtotal ({totals.count} {totals.count === 1 ? 'item' : 'items'}): <strong>{money(totals.subtotal)}</strong></h4>
+            <label><input type="checkbox" /> This order contains a gift</label>
+            <button className="btn" type="button" onClick={onProceed}>Proceed to checkout</button>
+            <p>Or <strong>{money(Math.round(totals.total / 24))}</strong> /mo (24 mo). <span>Select plan</span></p>
+          </section>
+
+          <section>
+            <h4>Complete your basket with these items</h4>
+            <div className="rtbo-shop-cart-rec-list">
+              {suggestions.map(product => (
+                <article key={product.sku}>
+                  <img src={product.image} alt="" loading="lazy" decoding="async" />
+                  <div>
+                    <button type="button" onClick={() => onOpenProduct(product)}>{product.name}</button>
+                    <RatingSummary product={product} />
+                    <strong>{money(product.price)}</strong>
+                    <button type="button" onClick={() => onAddProduct(product)}>Add to cart</button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        </aside>
+      </div>
+    </section>
+  );
+}
+
+function SecureCheckoutPage({
+  cartLines,
+  totals,
+  checkout,
+  checkoutStatus,
+  onBackToCart,
+  onDecrease,
+  onIncrease,
+  onPlaceOrder
+}) {
+  const deliveryName = [checkout.firstName, checkout.lastName].filter(Boolean).join(' ') || 'Montrel Simmons';
+  const deliveryAddress = [checkout.address, checkout.city, checkout.state, checkout.zip].filter(Boolean).join(', ') || 'Add delivery address';
+
+  return (
+    <section className="rtbo-shop-secure-page" aria-label="Secure checkout">
+      <header><h3>Secure checkout <span>⌄</span></h3></header>
+      <div className="rtbo-shop-secure-grid">
+        <div className="rtbo-shop-secure-main">
+          <section className="rtbo-shop-secure-strip">
+            <div>
+              <h4>Delivering to {deliveryName}</h4>
+              <p>{deliveryAddress}</p>
+              <button type="button">Add delivery instructions</button>
+              <button type="button">FREE pickup available nearby⌄</button>
+            </div>
+            <button type="button">Change</button>
+          </section>
+
+          <section className="rtbo-shop-secure-strip">
+            <div>
+              <h4>Paying with Visa 7664</h4>
+              <p>{money(Math.max(0, 13033 - totals.total))} gift card balance</p>
+              <button type="button">Select a payment plan</button>
+              <button type="button">Use a gift card, voucher, or promo code</button>
+            </div>
+            <button type="button">Change</button>
+          </section>
+
+          {cartLines.map((item, index) => (
+            <section className="rtbo-shop-secure-delivery" key={item.key}>
+              <h4>{index === 0 ? 'Arriving Today 5 PM - 10 PM' : 'Arriving May 25, 2026'}</h4>
+              <div className="rtbo-shop-secure-delivery-grid">
+                <article>
+                  <img src={item.product.image} alt={item.product.name} loading="lazy" decoding="async" />
+                  <div>
+                    <strong>{item.product.name}</strong>
+                    <p>{productStock(item.product)} bought in past month</p>
+                    <AmazonPrice product={item.product} />
+                    <p><strong>prime</strong> Ships from RTBO Store</p>
+                  </div>
+                  <div className="rtbo-shop-qty">
+                    <button type="button" onClick={() => onDecrease(item.key)}><TrashIcon /></button>
+                    <span>{item.quantity}</span>
+                    <button type="button" onClick={() => onIncrease(item.key)}>+</button>
+                  </div>
+                  <button type="button">Add gift options</button>
+                </article>
+                <div className="rtbo-shop-secure-options">
+                  <label><input type="radio" name={`delivery-${item.key}`} defaultChecked /> <span>Fastest Today 5 PM - 10 PM</span><strong>FREE</strong></label>
+                  <div className="rtbo-shop-secure-slots"><button type="button">Today<br />5 PM - 10 PM</button><button type="button">Tomorrow<br />4 AM - 8 AM</button></div>
+                  <button type="button">See more delivery slots</button>
+                  <label><input type="radio" name={`delivery-${item.key}`} /> <span>Fewer trips Monday, May 25</span><strong>FREE</strong></label>
+                  <label><input type="radio" name={`delivery-${item.key}`} /> <span>Amazon Day Tuesday, May 26</span><strong>FREE</strong></label>
+                </div>
+              </div>
+            </section>
+          ))}
+
+          <section className="rtbo-shop-secure-placebar">
+            <button className="btn" type="button" onClick={onPlaceOrder}>Place your order</button>
+            <div><strong>Order total: {money(totals.total)}</strong><p>By placing your order, you agree to RTBO's privacy notice and conditions of use.</p></div>
+          </section>
+          {checkoutStatus.message ? <p className={`rtbo-shop-status is-${checkoutStatus.type}`}>{checkoutStatus.message}</p> : null}
+          <section className="rtbo-shop-secure-legal">
+            <p>Why has sales tax been applied? See tax and seller information.</p>
+            <p>Do you need help? Explore our Help pages or contact us.</p>
+            <button type="button" onClick={onBackToCart}>Back to cart</button>
+          </section>
+        </div>
+
+        <aside className="rtbo-shop-secure-summary">
+          <button className="btn" type="button" onClick={onPlaceOrder}>Place your order</button>
+          <p>By placing your order, you agree to RTBO's privacy notice and conditions of use.</p>
+          <dl>
+            <div><dt>Items ({totals.count})</dt><dd>{money(totals.subtotal)}</dd></div>
+            <div><dt>Shipping & handling</dt><dd>{money(totals.shipping)}</dd></div>
+            <div><dt>Free Shipping</dt><dd>-{money(totals.shipping)}</dd></div>
+            <div><dt>Estimated tax to be collected</dt><dd>{money(totals.tax)}</dd></div>
+            <div className="total"><dt>Order total:</dt><dd>{money(totals.total)}</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+  );
+}
+
 async function postCheckout(payload) {
   const response = await fetch(`${API_URL}/store-checkout.php`, {
     method: 'POST',
@@ -824,7 +1261,17 @@ export default function ShopStore() {
   const [category, setCategory] = useState('all');
   const [sort, setSort] = useState('featured');
   const [cart, setCart] = useState(() => readStoredJson(CART_KEY, []));
-  const [wishlist, setWishlist] = useState(() => readStoredJson(WISHLIST_KEY, []));
+  const [wishlist, setWishlist] = useState(() => readStoredWishlist());
+  const [wishlistName, setWishlistName] = useState(() => readStoredWishlistName());
+  const [wishlistOpen, setWishlistOpen] = useState(() => isShopWishlistRoute());
+  const [cartPageOpen, setCartPageOpen] = useState(() => isShopCartRoute());
+  const [secureCheckoutOpen, setSecureCheckoutOpen] = useState(() => isShopCheckoutRoute());
+  const [wishlistSearch, setWishlistSearch] = useState('');
+  const [pendingWishlistSku, setPendingWishlistSku] = useState('');
+  const [listChooserOpen, setListChooserOpen] = useState(false);
+  const [createListOpen, setCreateListOpen] = useState(false);
+  const [listNameDraft, setListNameDraft] = useState(() => readStoredWishlistName() || 'Wish list');
+  const [listNameError, setListNameError] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(initialProduct);
   const [selectedOptions, setSelectedOptions] = useState({
     size: initialProduct.sizes[0] || '',
@@ -847,16 +1294,57 @@ export default function ShopStore() {
   }, [wishlist]);
 
   useEffect(() => {
+    if (wishlistName) {
+      localStorage.setItem(WISHLIST_NAME_KEY, wishlistName);
+    } else {
+      localStorage.removeItem(WISHLIST_NAME_KEY);
+    }
+  }, [wishlistName]);
+
+  useEffect(() => {
     function syncProductRoute() {
       const product = readShopRouteProduct();
       if (product) {
         selectProduct(product);
         setDetailOpen(true);
+        setWishlistOpen(false);
+        setCartPageOpen(false);
+        setSecureCheckoutOpen(false);
+        return;
+      }
+
+      if (isShopWishlistRoute()) {
+        setDetailOpen(false);
+        setWishlistOpen(true);
+        setCartPageOpen(false);
+        setSecureCheckoutOpen(false);
+        setCheckoutOpen(false);
+        return;
+      }
+
+      if (isShopCartRoute()) {
+        setDetailOpen(false);
+        setWishlistOpen(false);
+        setCartPageOpen(true);
+        setSecureCheckoutOpen(false);
+        setCheckoutOpen(false);
+        return;
+      }
+
+      if (isShopCheckoutRoute()) {
+        setDetailOpen(false);
+        setWishlistOpen(false);
+        setCartPageOpen(false);
+        setSecureCheckoutOpen(true);
+        setCheckoutOpen(false);
         return;
       }
 
       if (readShopRoute() === 'shop') {
         setDetailOpen(false);
+        setWishlistOpen(false);
+        setCartPageOpen(false);
+        setSecureCheckoutOpen(false);
       }
     }
 
@@ -879,6 +1367,9 @@ export default function ShopStore() {
   }, [checkoutOpen]);
 
   function selectProduct(product) {
+    setWishlistOpen(false);
+    setCartPageOpen(false);
+    setSecureCheckoutOpen(false);
     setSelectedProduct(product);
     setSelectedOptions({
       size: product.sizes[0] || '',
@@ -899,8 +1390,52 @@ export default function ShopStore() {
 
   function closeProductDetail() {
     setDetailOpen(false);
-    if (isShopProductRoute()) {
+    setWishlistOpen(false);
+    setCartPageOpen(false);
+    setSecureCheckoutOpen(false);
+    if (isShopProductRoute() || isShopWishlistRoute() || isShopCartRoute() || isShopCheckoutRoute()) {
       window.location.hash = '#shop';
+    }
+  }
+
+  function openWishlistPage() {
+    setDetailOpen(false);
+    setWishlistOpen(true);
+    setCartPageOpen(false);
+    setSecureCheckoutOpen(false);
+    setCheckoutOpen(false);
+    const nextHash = shopWishlistHash();
+    if (window.location.hash !== nextHash) {
+      window.location.hash = nextHash;
+    }
+  }
+
+  function openCartPage() {
+    setDetailOpen(false);
+    setWishlistOpen(false);
+    setCartPageOpen(true);
+    setSecureCheckoutOpen(false);
+    setCheckoutOpen(false);
+    const nextHash = shopCartHash();
+    if (window.location.hash !== nextHash) {
+      window.location.hash = nextHash;
+    }
+  }
+
+  function openSecureCheckoutPage() {
+    if (!cartLines.length) {
+      setCheckoutStatus({ type: 'error', message: 'Add at least one item to the cart before checkout.' });
+      return;
+    }
+    setDetailOpen(false);
+    setWishlistOpen(false);
+    setCartPageOpen(false);
+    setSecureCheckoutOpen(true);
+    setCheckoutOpen(false);
+    setCheckoutStatus({ type: '', message: '' });
+    const nextHash = shopCheckoutHash();
+    if (window.location.hash !== nextHash) {
+      window.location.hash = nextHash;
     }
   }
 
@@ -927,8 +1462,74 @@ export default function ShopStore() {
       .filter(item => item.quantity > 0));
   }
 
-  function toggleWishlist(sku) {
-    setWishlist(current => current.includes(sku) ? current.filter(item => item !== sku) : [...current, sku]);
+  function removeCartItem(key) {
+    setCart(current => current.filter(item => item.key !== key));
+  }
+
+  function saveCartItemForLater(item) {
+    setPendingWishlistSku(item.sku);
+    if (wishlistName) {
+      addSkuToWishlist(item.sku, wishlistName);
+    } else {
+      openCreateWishlist();
+    }
+    removeCartItem(item.key);
+  }
+
+  function addSkuToWishlist(sku = pendingWishlistSku, nextName = wishlistName) {
+    if (!sku) return;
+    if (nextName) {
+      setWishlistName(nextName);
+    }
+    setWishlist(current => current.includes(sku) ? current : [...current, sku]);
+    setListChooserOpen(false);
+    setCreateListOpen(false);
+    setPendingWishlistSku('');
+    setListNameError('');
+  }
+
+  function requestWishlist(sku) {
+    setPendingWishlistSku(sku);
+    setListNameDraft(wishlistName || 'Wish list');
+    setListNameError('');
+    setCreateListOpen(false);
+    setListChooserOpen(true);
+  }
+
+  function openCreateWishlist() {
+    setListNameDraft(wishlistName || 'Wish list');
+    setListNameError('');
+    setListChooserOpen(false);
+    setCreateListOpen(true);
+  }
+
+  function submitWishlistName(event) {
+    event.preventDefault();
+    const nextName = listNameDraft.trim();
+    if (!nextName) {
+      setListNameError('List name is required.');
+      return;
+    }
+    addSkuToWishlist(pendingWishlistSku, nextName);
+  }
+
+  function closeWishlistModals() {
+    setListChooserOpen(false);
+    setCreateListOpen(false);
+    setPendingWishlistSku('');
+    setListNameError('');
+  }
+
+  function removeWishlistItem(sku) {
+    setWishlist(current => current.filter(item => item !== sku));
+  }
+
+  function handleWishlistToggle(sku) {
+    if (wishlist.includes(sku)) {
+      removeWishlistItem(sku);
+      return;
+    }
+    requestWishlist(sku);
   }
 
   function submitSearch(event) {
@@ -971,6 +1572,7 @@ export default function ShopStore() {
   const favoriteProducts = useMemo(() => wishlist
     .map(sku => products.find(product => product.sku === sku))
     .filter(Boolean), [wishlist]);
+  const pendingWishlistProduct = useMemo(() => products.find(product => product.sku === pendingWishlistSku) || selectedProduct, [pendingWishlistSku, selectedProduct]);
   const cartSizing = useMemo(() => cartSizingForLines(cartLines.length), [cartLines.length]);
 
   useEffect(() => {
@@ -1088,25 +1690,6 @@ export default function ShopStore() {
             <strong>Elite Official Gear</strong>
             <span>Secure checkout, RTBO training gear, and official essentials.</span>
           </div>
-          {favoriteProducts.length > 0 && (
-            <div className="rtbo-shop-favorites-card" aria-label="Favorite products">
-              <div className="rtbo-shop-favorites-head">
-                <strong>Favorites</strong>
-                <small>{favoriteProducts.length}</small>
-              </div>
-              <div className="rtbo-shop-favorites-list">
-                {favoriteProducts.map(product => (
-                  <button key={product.sku} type="button" onClick={() => openProduct(product)}>
-                    <img src={product.image} alt="" loading="lazy" decoding="async" />
-                    <span>
-                      <strong>{product.name}</strong>
-                      <small>{money(product.price)}</small>
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
           <div className="rtbo-shop-category-list">
             {categories.map(([id, label]) => (
               <button
@@ -1123,33 +1706,97 @@ export default function ShopStore() {
               </button>
             ))}
           </div>
+          {(wishlistName || favoriteProducts.length > 0) && (
+            <div className="rtbo-shop-favorites-card" aria-label="Wish list products">
+              <button
+                className={`rtbo-shop-favorites-open ${wishlistOpen ? 'is-active' : ''}`}
+                type="button"
+                onClick={openWishlistPage}
+              >
+                <span>
+                  <strong>{wishlistName || 'Wish list'}</strong>
+                  <small>Private</small>
+                </span>
+                <em>{favoriteProducts.length}</em>
+              </button>
+              {favoriteProducts.length > 0 && (
+                <div className="rtbo-shop-favorites-list">
+                  {favoriteProducts.slice(0, 3).map(product => (
+                    <button key={product.sku} type="button" onClick={() => openProduct(product)}>
+                      <img src={product.image} alt="" loading="lazy" decoding="async" />
+                      <span>
+                        <strong>{product.name}</strong>
+                        <small>{money(product.price)}</small>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </aside>
 
         <div className="rtbo-shop-main">
-          <div className="rtbo-shop-toolbar">
-            <div>
-              <p className="eyebrow">{categoryLabel(category)}</p>
-              <h3>{detailOpen ? selectedProduct.name : `${filteredProducts.length} products available`}</h3>
+          {!wishlistOpen && !cartPageOpen && !secureCheckoutOpen && (
+            <div className="rtbo-shop-toolbar">
+              <div>
+                <p className="eyebrow">{categoryLabel(category)}</p>
+                <h3>{detailOpen ? selectedProduct.name : `${filteredProducts.length} products available`}</h3>
+              </div>
+              <label>
+                <span>Sort</span>
+                <select
+                  value={sort}
+                  onChange={event => {
+                    setSort(event.target.value);
+                    closeProductDetail();
+                  }}
+                >
+                  <option value="featured">Featured</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                  <option value="name">Name</option>
+                </select>
+              </label>
             </div>
-            <label>
-              <span>Sort</span>
-              <select
-                value={sort}
-                onChange={event => {
-                  setSort(event.target.value);
-                  closeProductDetail();
-                }}
-              >
-                <option value="featured">Featured</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="name">Name</option>
-              </select>
-            </label>
-          </div>
+          )}
 
           <div className="rtbo-shop-content-grid">
-            {detailOpen ? (
+            {secureCheckoutOpen ? (
+              <SecureCheckoutPage
+                cartLines={cartLines}
+                totals={totals}
+                checkout={checkout}
+                checkoutStatus={checkoutStatus}
+                onBackToCart={openCartPage}
+                onDecrease={key => updateQuantity(key, -1)}
+                onIncrease={key => updateQuantity(key, 1)}
+                onPlaceOrder={() => beginCheckout('stripe')}
+              />
+            ) : cartPageOpen ? (
+              <CartPage
+                cartLines={cartLines}
+                totals={totals}
+                favoriteProducts={favoriteProducts}
+                onDecrease={key => updateQuantity(key, -1)}
+                onIncrease={key => updateQuantity(key, 1)}
+                onRemove={removeCartItem}
+                onSaveForLater={saveCartItemForLater}
+                onOpenProduct={openProduct}
+                onAddProduct={product => addToCart(product, { size: product.sizes[0] || '', color: product.colors[0] || '' })}
+                onProceed={openSecureCheckoutPage}
+              />
+            ) : wishlistOpen ? (
+              <WishlistPage
+                listName={wishlistName || 'Wish list'}
+                favoriteProducts={favoriteProducts}
+                wishlistSearch={wishlistSearch}
+                setWishlistSearch={setWishlistSearch}
+                onOpenProduct={openProduct}
+                onRemove={removeWishlistItem}
+                onAddToCart={product => addToCart(product, { size: product.sizes[0] || '', color: product.colors[0] || '' })}
+              />
+            ) : detailOpen ? (
               <ProductDetailPage
                 product={selectedProduct}
                 selectedOptions={selectedOptions}
@@ -1172,7 +1819,7 @@ export default function ShopStore() {
                     onOpen={() => openProduct(product)}
                     onAdd={() => addToCart(product, { size: product.sizes[0] || '', color: product.colors[0] || '' })}
                     onBuy={() => addToCart(product, { size: product.sizes[0] || '', color: product.colors[0] || '' })}
-                    onToggleWishlist={() => toggleWishlist(product.sku)}
+                    onToggleWishlist={() => handleWishlistToggle(product.sku)}
                   />
                 ))}
               </div>
@@ -1208,7 +1855,7 @@ export default function ShopStore() {
 	          <div className="rtbo-shop-cart-rail-head" aria-label="Cart subtotal">
 	            <span>Subtotal</span>
 	            <strong>{money(totals.subtotal)}</strong>
-	            <button className="btn" type="button" onClick={() => setCheckoutOpen(true)}>Go to Cart</button>
+	            <button className="btn" type="button" onClick={openCartPage}>Go to Cart</button>
 	          </div>
 
 	          {errors.cart ? <p className="rtbo-shop-error">{errors.cart}</p> : null}
@@ -1224,7 +1871,7 @@ export default function ShopStore() {
 	                onBuyNow={() => setCheckoutOpen(true)}
 	                onAddSimilar={product => addToCart(product, { size: product.sizes[0] || '', color: product.colors[0] || '' })}
 	                onOpenProduct={(product = item.product) => openProduct(product)}
-	                onToggleWishlist={() => toggleWishlist(item.sku)}
+	                onToggleWishlist={() => handleWishlistToggle(item.sku)}
 	              />
 	            )) : <p className="rtbo-shop-empty">Your cart is ready for official gear.</p>}
 	          </div>
@@ -1236,7 +1883,7 @@ export default function ShopStore() {
             <div className="total"><dt>Total</dt><dd>{money(totals.total)}</dd></div>
           </dl>
 
-	          <button className="btn rtbo-shop-proceed" type="button" onClick={() => setCheckoutOpen(true)}>Go to Cart</button>
+	          <button className="btn rtbo-shop-proceed" type="button" onClick={openSecureCheckoutPage}>Proceed to checkout</button>
 
           <form className="rtbo-shop-checkout-form" onSubmit={event => event.preventDefault()}>
             <label className="rtbo-shop-field"><span>First Name *</span><input value={checkout.firstName} onChange={event => updateCheckout('firstName', event.target.value)} required />{errors.firstName ? <small>{errors.firstName}</small> : null}</label>
@@ -1263,6 +1910,28 @@ export default function ShopStore() {
           <button className="rtbo-shop-clear" type="button" onClick={() => setCart([])}>Clear Cart</button>
         </div>
       </div>
+      {listChooserOpen && (
+        <WishlistChooserModal
+          listName={wishlistName}
+          product={pendingWishlistProduct}
+          isSaved={wishlist.includes(pendingWishlistProduct.sku)}
+          onAddToList={() => addSkuToWishlist(pendingWishlistProduct.sku)}
+          onCreateList={openCreateWishlist}
+          onClose={closeWishlistModals}
+        />
+      )}
+      {createListOpen && (
+        <CreateWishlistModal
+          listNameDraft={listNameDraft}
+          listNameError={listNameError}
+          onChange={value => {
+            setListNameDraft(value);
+            setListNameError('');
+          }}
+          onCancel={closeWishlistModals}
+          onSubmit={submitWishlistName}
+        />
+      )}
     </section>
   );
 }
