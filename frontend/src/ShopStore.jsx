@@ -1596,6 +1596,12 @@ export default function ShopStore() {
     openSecureCheckoutPage();
   }
 
+  function buyCartLineNow(key) {
+    setSelectedCartKeys(current => current.includes(key) ? current : [...current, key]);
+    setCartStatus('Continuing to secure checkout.');
+    openSecureCheckoutPage();
+  }
+
   function addSkuToWishlist(sku = pendingWishlistSku, nextName = wishlistName) {
     if (!sku) return;
     if (nextName) {
@@ -2016,7 +2022,7 @@ export default function ShopStore() {
 	                showCompare={index === 0}
 	                onDecrease={() => updateQuantity(item.key, -1)}
 	                onIncrease={() => updateQuantity(item.key, 1)}
-	                onBuyNow={() => setCheckoutOpen(true)}
+	                onBuyNow={() => buyCartLineNow(item.key)}
 	                onAddSimilar={product => addToCart(product, { size: product.sizes[0] || '', color: product.colors[0] || '' })}
 	                onOpenProduct={(product = item.product) => openProduct(product)}
 	                onToggleWishlist={() => handleWishlistToggle(item.sku)}
