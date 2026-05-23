@@ -2438,6 +2438,72 @@ function RegistrationGate({ onCreateAccount, onSignIn }) {
   );
 }
 
+function RegistrationWaiverModal({ participantName = '', onClose }) {
+  const waiverParticipantName = String(participantName || '').trim();
+
+  useEffect(() => {
+    function closeOnEscape(event) {
+      if (event.key === 'Escape') onClose();
+    }
+
+    document.addEventListener('keydown', closeOnEscape);
+    return () => document.removeEventListener('keydown', closeOnEscape);
+  }, [onClose]);
+
+  return (
+    <div className="rtbo-modal-scrim rtbo-registration-waiver-scrim" role="presentation" onMouseDown={onClose}>
+      <section className="rtbo-registration-waiver-modal" role="dialog" aria-modal="true" aria-labelledby="registration-waiver-title" onMouseDown={(event) => event.stopPropagation()}>
+        <button className="rtbo-modal-close" type="button" aria-label="Close waiver form" onClick={onClose}>×</button>
+        <div className="rtbo-registration-waiver-modal-head">
+          <p className="eyebrow">Required Form</p>
+          <h2 id="registration-waiver-title">Waiver & Indemnity</h2>
+          <p>Review this required waiver before selecting the agreement option on the registration form.</p>
+        </div>
+        <div className="rtbo-registration-waiver-document">
+          <section>
+            <p>I <span className={`rtbo-registration-waiver-name${waiverParticipantName ? ' is-filled' : ''}`}>{waiverParticipantName || '_____________________'}</span>, the undersigned individual agree to obtain at my own expense and for my own benefit, disability, medical, hospitalization, and liability insurance coverage covering myself in such amount as I shall determine but in any event which shall be sufficient to cover and protect me from any and all injuries, damages, claims and losses which I might incur or for which I may be responsible during or as a result of my participation at the Raising the Bar Officiating Inc. School or Event, University of Arkansas at Pine Bluff, Central Arkansas University and University of Arkansas at Little Rock Team Camps no later than one week prior to the start of the school or event.</p>
+            <p>I further hereby agree to hold harmless and indemnify Raising the Bar Officiating Inc., University of Arkansas at Pine Bluff, Central Arkansas University and University of Arkansas at Little Rock members, officers, employees, Conference Commissioners, Associate Conference Commissioners, Sports Information Directors, Athletic Directors, Assistant Athletic Directors, Head Coaches, Assistant Coaches, Athletic Trainers, The Arkansas Athletic Association, and the Arkansas Officials Association from any and all liability from any injuries, damages or loss sustained as a result of my action (or inactions) during or as a result of my participation at such school, camp, and in the performance of any officiating services, including without limitations, all claims for medical expenses which I may incur, or otherwise, due to my failure to obtain and/or maintain such appropriate insurance coverage.</p>
+          </section>
+        </div>
+        <div className="rtbo-registration-waiver-modal-actions">
+          <button className="btn" type="button" onClick={onClose}>Return to Registration</button>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function RegistrationWaiverRequiredModal({ onAccept, onClose }) {
+  useEffect(() => {
+    function closeOnEscape(event) {
+      if (event.key === 'Escape') onClose();
+    }
+
+    document.addEventListener('keydown', closeOnEscape);
+    return () => document.removeEventListener('keydown', closeOnEscape);
+  }, [onClose]);
+
+  return (
+    <div className="rtbo-modal-scrim rtbo-registration-waiver-scrim" role="presentation" onMouseDown={onClose}>
+      <section className="rtbo-registration-waiver-modal rtbo-registration-waiver-required-modal" role="dialog" aria-modal="true" aria-labelledby="registration-waiver-required-title" onMouseDown={(event) => event.stopPropagation()}>
+        <button className="rtbo-modal-close" type="button" aria-label="Close waiver notice" onClick={onClose}>×</button>
+        <div className="rtbo-registration-waiver-modal-head">
+          <p className="eyebrow">Waiver Required</p>
+          <h2 id="registration-waiver-required-title">Acceptance Cannot Be Granted</h2>
+          <p>Due to not accepting the terms and conditions of the waiver, your acceptance into the school cannot be granted.</p>
+        </div>
+        <div className="rtbo-registration-waiver-required-copy">
+          <p>In order to enroll in the school you have selected, you must accept the terms and conditions of the waiver.</p>
+        </div>
+        <div className="rtbo-registration-waiver-modal-actions">
+          <button className="btn secondary dark-btn" type="button" onClick={onClose}>Return to Form</button>
+          <button className="btn" type="button" onClick={onAccept}>Accept Waiver</button>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 function RegistrationForm({ user, active = 'register', setActive = () => {}, onOpenDashboard = () => {}, onOpenLogin = () => {} }) {
   const [status, setStatus] = useState('');
   const [selectedSessions, setSelectedSessions] = useState([]);
@@ -2445,6 +2511,12 @@ function RegistrationForm({ user, active = 'register', setActive = () => {}, onO
   const [profilePhotoName, setProfilePhotoName] = useState('');
   const firstName = user?.first_name || splitName(user?.name).firstName;
   const lastName = user?.last_name || splitName(user?.name).lastName;
+  const initialWaiverParticipantName = [firstName, lastName].filter(Boolean).join(' ');
+  const registrationFormRef = useRef(null);
+  const [waiverModalOpen, setWaiverModalOpen] = useState(false);
+  const [waiverRequiredModalOpen, setWaiverRequiredModalOpen] = useState(false);
+  const [waiverAgreement, setWaiverAgreement] = useState('');
+  const [waiverParticipantName, setWaiverParticipantName] = useState(initialWaiverParticipantName);
   const sessionChoices = sessions.map(([cardImage, icon, label, title, date, price]) => {
     const numericPrice = Number(String(price).replace(/[^0-9.]/g, '')) || 0;
     return {
@@ -2476,10 +2548,44 @@ function RegistrationForm({ user, active = 'register', setActive = () => {}, onO
     ));
   }
 
+  function readWaiverParticipantName() {
+    const form = registrationFormRef.current;
+    if (!form) return initialWaiverParticipantName;
+    const formData = new FormData(form);
+    const enteredName = [
+      formData.get('first_name'),
+      formData.get('last_name')
+    ].map(value => String(value || '').trim()).filter(Boolean).join(' ');
+    return enteredName || initialWaiverParticipantName;
+  }
+
+  function refreshWaiverParticipantName() {
+    setWaiverParticipantName(readWaiverParticipantName());
+  }
+
+  function openWaiverModal() {
+    setWaiverParticipantName(readWaiverParticipantName());
+    setWaiverModalOpen(true);
+  }
+
+  function acceptWaiverFromModal() {
+    setWaiverAgreement('agree');
+    setWaiverRequiredModalOpen(false);
+    setStatus('Waiver accepted. Continue completing your registration.');
+    requestAnimationFrame(() => {
+      document.querySelector('.rtbo-registration-waiver')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+
   async function submit(event) {
     event.preventDefault();
     if (!selectedSessions.length) {
       setStatus('Please select at least one school session.');
+      return;
+    }
+    if (waiverAgreement !== 'agree') {
+      setStatus('');
+      setWaiverRequiredModalOpen(true);
       return;
     }
     setStatus('Submitting application...');
@@ -2530,7 +2636,7 @@ function RegistrationForm({ user, active = 'register', setActive = () => {}, onO
           <span>{selectedSessionDetails.length ? 'Selected School' : 'Choose Your School'}</span>
         </aside>
       </div>
-      <form className="form rtbo-registration-form" onSubmit={submit}>
+      <form className="form rtbo-registration-form" ref={registrationFormRef} onSubmit={submit}>
         <div className="rtbo-registration-steps" aria-label="Registration progress">
           {['Registration Info', 'Documents', 'Payment', 'Review & Confirm'].map((step, index) => (
             <span className={index === 0 ? 'active' : ''} key={step}><b>{index + 1}</b>{step}</span>
@@ -2540,7 +2646,7 @@ function RegistrationForm({ user, active = 'register', setActive = () => {}, onO
           <div className="rtbo-registration-main">
             <section className="rtbo-registration-card">
               <h3>Personal Information</h3>
-              <div className="grid three"><label>First Name<input name="first_name" defaultValue={firstName} required /></label><label>Last Name<input name="last_name" defaultValue={lastName} required /></label><label>Email Address<input type="email" name="email" defaultValue={user?.email || ''} required /></label></div>
+              <div className="grid three"><label>First Name<input name="first_name" defaultValue={firstName} onInput={refreshWaiverParticipantName} required /></label><label>Last Name<input name="last_name" defaultValue={lastName} onInput={refreshWaiverParticipantName} required /></label><label>Email Address<input type="email" name="email" defaultValue={user?.email || ''} required /></label></div>
               <div className="grid three"><label>Phone Number<input type="tel" name="phone" defaultValue={formatPhoneNumber(user?.phone || '')} onInput={formatPhoneFieldInput} inputMode="tel" autoComplete="tel" maxLength="14" required /></label><label>Address<input name="address_1" defaultValue={user?.address_line1 || ''} required /></label><label>Address Line 2<input name="address_2" defaultValue={user?.address_line2 || ''} /></label></div>
               <div className="grid four"><label>City<input name="city" defaultValue={user?.city || ''} required /></label><label>State<StateSelect defaultValue={user?.state || ''} required /></label><label>Zip Code<input name="zip" defaultValue={user?.zip || ''} required /></label><label>Date of Birth<input type="date" name="date_of_birth" /></label></div>
               <div className="grid two"><label>Sex<select name="sex" defaultValue={user?.sex || ''} required>{sexOptions.map(([value, label]) => <option key={value || 'empty'} value={value}>{label}</option>)}</select></label><label>Race<select name="race" defaultValue={user?.race || ''}>{raceOptions.map(([value, label]) => <option key={value || 'empty'} value={value}>{label}</option>)}</select></label></div>
@@ -2593,7 +2699,31 @@ function RegistrationForm({ user, active = 'register', setActive = () => {}, onO
                 </span>
               </label>
               <RegistrationOneTimePaymentField />
-              <fieldset className="rtbo-registration-waiver"><legend>Waiver Agreement</legend><label><input type="radio" name="waiver_agreement" value="Agree" required /> I agree with all waiver items.</label><a href="#top">View Document</a></fieldset>
+              <fieldset className="rtbo-registration-waiver">
+                <legend>Waiver Agreement</legend>
+                <label className="rtbo-registration-waiver-option">
+                  <input type="checkbox" name="waiver_agreement" value="Agree" checked={waiverAgreement === 'agree'} onChange={(event) => setWaiverAgreement(event.currentTarget.checked ? 'agree' : '')} aria-required="true" />
+                  <span>I have read and DO agree with ALL the aforementioned items listed in the waiver.</span>
+                </label>
+                <label className="rtbo-registration-waiver-option">
+                  <input
+                    type="checkbox"
+                    name="waiver_disagreement"
+                    value="Disagree"
+                    checked={waiverAgreement === 'disagree'}
+                    onChange={(event) => {
+                      if (event.currentTarget.checked) {
+                        setWaiverAgreement('disagree');
+                        setWaiverRequiredModalOpen(true);
+                      } else {
+                        setWaiverAgreement('');
+                      }
+                    }}
+                  />
+                  <span>I have read and DO NOT agree with ALL the aforementioned items listed in the waiver.</span>
+                </label>
+                <button className="rtbo-registration-waiver-document-button" type="button" onClick={openWaiverModal}>View Required Waiver Form</button>
+              </fieldset>
               <div className="grid two"><label>Official Printed Name<input name="printed_signature" required /></label><label>Actual Signature<input name="signature" required /></label></div>
             </section>
           </div>
@@ -2647,6 +2777,13 @@ function RegistrationForm({ user, active = 'register', setActive = () => {}, onO
             <article key={title}><span aria-hidden="true">+</span><strong>{title}</strong><small>{copy}</small></article>
           ))}
         </div>
+        {waiverModalOpen && <RegistrationWaiverModal participantName={waiverParticipantName} onClose={() => setWaiverModalOpen(false)} />}
+        {waiverRequiredModalOpen && (
+          <RegistrationWaiverRequiredModal
+            onAccept={acceptWaiverFromModal}
+            onClose={() => setWaiverRequiredModalOpen(false)}
+          />
+        )}
       </form>
     </section>
   );

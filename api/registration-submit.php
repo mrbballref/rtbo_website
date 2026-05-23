@@ -67,6 +67,12 @@ if (!$sessions) {
     exit;
 }
 
+if ((string) ($_POST['waiver_disagreement'] ?? '') === 'Disagree') {
+    http_response_code(422);
+    echo json_encode(['success' => false, 'message' => 'Registration cannot be submitted unless you agree to the waiver.']);
+    exit;
+}
+
 if ((string) ($_POST['waiver_agreement'] ?? '') !== 'Agree') {
     http_response_code(422);
     echo json_encode(['success' => false, 'message' => 'You must agree to the waiver before submitting.']);
