@@ -1,15 +1,17 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import './shop-store.css';
 
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
 const CART_KEY = 'rtbo-shop-cart';
+export const SHOP_INVENTORY_KEY = 'rtbo-shop-inventory-products';
+export const SHOP_INVENTORY_UPDATED_EVENT = 'rtbo-shop-inventory-updated';
 const WISHLIST_KEY = 'rtbo-shop-wishlist';
 const WISHLIST_NAME_KEY = 'rtbo-shop-wishlist-name';
 
 const productImage = name => `/assets/images/${name}`;
 const shopFeaturedImage = name => productImage(`shop/featured/${name}`);
 
-const categories = [
+export const shopCategories = [
   ['all', 'All Gear'],
   ['apparel', 'Apparel'],
   ['equipment', 'Equipment'],
@@ -19,6 +21,7 @@ const categories = [
   ['training', 'Training'],
   ['memberships', 'Memberships']
 ];
+const categories = shopCategories;
 
 const states = [
   'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware',
@@ -67,7 +70,7 @@ const shopBannerImages = [
 
 const shopBannerSlides = [...shopBannerImages, ...shopBannerImages];
 
-const products = [
+export const shopDefaultProducts = [
   {
     sku: 'RTBO-JERSEY-PRO',
     name: 'RTBO Pro Referee Jersey',
@@ -329,6 +332,68 @@ const products = [
     colors: []
   }
 ];
+const products = shopDefaultProducts;
+
+function centsFromValue(value, fallback = 0) {
+  const numeric = Number(String(value ?? '').replace(/[^0-9.]/g, ''));
+  if (!Number.isFinite(numeric)) return fallback;
+  if ((typeof value === 'string' && value.includes('.')) || (!Number.isInteger(numeric) && numeric > 0 && numeric < 1000)) {
+    return Math.max(0, Math.round(numeric * 100) || fallback);
+  }
+  return Math.max(0, Math.round(numeric || fallback));
+}
+
+function listFromValue(value) {
+  if (Array.isArray(value)) {
+    return value.map(item => String(item || '').trim()).filter(Boolean);
+  }
+  return String(value || '')
+    .split(',')
+    .map(item => item.trim())
+    .filter(Boolean);
+}
+
+function skuFromValue(value, fallbackName = 'RTBO Product') {
+  const candidate = String(value || '').trim() || fallbackName;
+  return candidate
+    .toUpperCase()
+    .replace(/[^A-Z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 64) || `RTBO-${Date.now()}`;
+}
+
+export function normalizeShopInventoryProduct(product = {}, index = 0) {
+  const categoryIds = new Set(categories.map(([id]) => id));
+  const name = String(product.name || `RTBO Product ${index + 1}`).trim();
+  const sku = skuFromValue(product.sku, name);
+  const status = ['active', 'draft', 'hidden'].includes(product.status) ? product.status : 'active';
+  const stockValue = Number(product.stock);
+
+  return {
+    sku,
+    name,
+    category: categoryIds.has(product.category) && product.category !== 'all' ? product.category : 'apparel',
+    price: centsFromValue(product.price, 0),
+    image: String(product.image || shopFeaturedImage('shop-product-membership-card.jpg')).trim(),
+    description: String(product.description || 'RTBO shop product.').trim(),
+    sizes: listFromValue(product.sizes),
+    colors: listFromValue(product.colors),
+    stock: Number.isFinite(stockValue) ? Math.max(0, Math.round(stockValue)) : 8 + (index * 3) % 24,
+    status,
+    updatedAt: product.updatedAt || product.updated_at || ''
+  };
+}
+
+export function normalizeShopInventoryProducts(productList = []) {
+  const seen = new Set();
+  return (Array.isArray(productList) ? productList : [])
+    .map((product, index) => normalizeShopInventoryProduct(product, index))
+    .filter((product) => {
+      if (!product.sku || !product.name || seen.has(product.sku)) return false;
+      seen.add(product.sku);
+      return true;
+    });
+}
 
 const defaultCheckout = {
   firstName: '',
@@ -353,6 +418,45 @@ function readStoredJson(key, fallback) {
   } catch {
     return fallback;
   }
+}
+
+function readStoredShopInventorySnapshot() {
+  let raw = null;
+  try {
+    raw = localStorage.getItem(SHOP_INVENTORY_KEY);
+  } catch {
+    raw = null;
+  }
+
+  if (raw === null) {
+    return { managed: false, products: normalizeShopInventoryProducts(shopDefaultProducts) };
+  }
+
+  try {
+    const stored = normalizeShopInventoryProducts(JSON.parse(raw || '[]'));
+    return {
+      managed: true,
+      products: stored.filter(product => product.status === 'active')
+    };
+  } catch {
+    return { managed: false, products: normalizeShopInventoryProducts(shopDefaultProducts) };
+  }
+}
+
+function readStoredShopInventoryProducts() {
+  return readStoredShopInventorySnapshot().products;
+}
+
+async function fetchShopInventoryProducts() {
+  const response = await fetch(`${API_URL}/shop-inventory.php`, { credentials: 'include' });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || data.success === false) {
+    throw new Error(data.message || 'Shop inventory could not be loaded.');
+  }
+  return {
+    managed: Boolean(data.managed || data.updated_at),
+    products: normalizeShopInventoryProducts(data.products || []).filter(product => product.status === 'active')
+  };
 }
 
 function readStoredWishlist() {
@@ -383,8 +487,8 @@ function categoryLabel(categoryId) {
   return categories.find(([id]) => id === categoryId)?.[1] || 'Gear';
 }
 
-function productIndex(product) {
-  return Math.max(0, products.findIndex(entry => entry.sku === product.sku));
+function productIndex(product, productList = products) {
+  return Math.max(0, productList.findIndex(entry => entry.sku === product.sku));
 }
 
 function productRating(product) {
@@ -409,6 +513,7 @@ function productDelivery(product) {
 }
 
 function productStock(product) {
+  if (Number.isFinite(Number(product.stock))) return Math.max(0, Math.round(Number(product.stock)));
   return 8 + (productIndex(product) * 3) % 24;
 }
 
@@ -425,8 +530,8 @@ function productBullets(product) {
   ];
 }
 
-function productGallery(product) {
-  const relatedImages = products
+function productGallery(product, productList = products) {
+  const relatedImages = productList
     .filter(entry => entry.category === product.category)
     .map(entry => entry.image);
   return [...new Set([product.image, ...relatedImages])].slice(0, 5);
@@ -453,14 +558,14 @@ function isShopCheckoutRoute() {
   return readShopRoute() === 'shop/checkout';
 }
 
-function readShopRouteProduct() {
+function readShopRouteProduct(productList = products) {
   const route = readShopRoute();
   const match = route.match(/^shop\/product\/([^/]+)$/);
   if (!match) return null;
 
   try {
     const sku = decodeURIComponent(match[1]);
-    return products.find(product => product.sku === sku) || null;
+    return productList.find(product => product.sku === sku) || null;
   } catch {
     return null;
   }
@@ -595,9 +700,9 @@ function ShopPaymentLogo({ brand }) {
   );
 }
 
-function similarProducts(product) {
-  const sameCategory = products.filter(entry => entry.category === product.category && entry.sku !== product.sku);
-  const otherGear = products.filter(entry => entry.category !== product.category && entry.sku !== product.sku);
+function similarProducts(product, productList = products) {
+  const sameCategory = productList.filter(entry => entry.category === product.category && entry.sku !== product.sku);
+  const otherGear = productList.filter(entry => entry.category !== product.category && entry.sku !== product.sku);
   return [...sameCategory, ...otherGear].slice(0, 3);
 }
 
@@ -633,6 +738,7 @@ function ProductCard({ product, isSaved, onOpen, onAdd, onBuy, onToggleWishlist 
 
 function CartProductCard({
   item,
+  products: productList = products,
   isSaved,
   showCompare,
   onDecrease,
@@ -645,7 +751,7 @@ function CartProductCard({
   const product = item.product;
   const selectedVariant = [item.size, item.color].filter(Boolean).join(' / ') || 'Standard';
   const memberPrice = Math.round(product.price * 0.9);
-  const relatedProducts = similarProducts(product);
+  const relatedProducts = similarProducts(product, productList);
 
   return (
     <article className="rtbo-shop-cart-line">
@@ -962,6 +1068,7 @@ function WishlistPage({
 
 function CartPage({
   cartLines,
+  products: productList = products,
   totals,
   favoriteProducts,
   selectedCartKeys,
@@ -983,7 +1090,7 @@ function CartPage({
   onSelectPlan,
   onProceed
 }) {
-  const suggestions = products.filter(product => !cartLines.some(item => item.sku === product.sku)).slice(0, 5);
+  const suggestions = productList.filter(product => !cartLines.some(item => item.sku === product.sku)).slice(0, 5);
 
   return (
     <section className="rtbo-shop-cart-page" aria-label="Shopping Cart">
@@ -1231,6 +1338,7 @@ function ProductOptions({ product, selectedOptions, setSelectedOptions }) {
 
 function ProductDetailPage({
   product,
+  products: productList = products,
   selectedOptions,
   setSelectedOptions,
   quantity,
@@ -1241,7 +1349,7 @@ function ProductDetailPage({
   onAdd,
   onBuy
 }) {
-  const gallery = productGallery(product);
+  const gallery = productGallery(product, productList);
 
   return (
     <section className="rtbo-shop-product-page" aria-label={`${product.name} product details`}>
@@ -1322,8 +1430,11 @@ function ProductDetailPage({
 }
 
 export default function ShopStore() {
-  const initialRouteProduct = readShopRouteProduct();
-  const initialProduct = initialRouteProduct || products[0];
+  const initialProducts = readStoredShopInventoryProducts();
+  const initialRouteProduct = readShopRouteProduct(initialProducts);
+  const initialProduct = initialRouteProduct || initialProducts[0] || products[0];
+  const checkoutCloseTimerRef = useRef(null);
+  const [products, setProducts] = useState(initialProducts);
   const [query, setQuery] = useState('');
   const [searchDraft, setSearchDraft] = useState('');
   const [category, setCategory] = useState('all');
@@ -1352,9 +1463,68 @@ export default function ShopStore() {
   const [quantity, setQuantity] = useState(1);
   const [galleryImage, setGalleryImage] = useState(initialProduct.image);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [checkoutClosing, setCheckoutClosing] = useState(false);
   const [checkout, setCheckout] = useState(defaultCheckout);
   const [errors, setErrors] = useState({});
   const [checkoutStatus, setCheckoutStatus] = useState({ type: '', message: '' });
+
+  useEffect(() => {
+    let active = true;
+
+    async function refreshInventory(event) {
+      try {
+        const hasEventProducts = Array.isArray(event?.detail?.products);
+        const eventProducts = normalizeShopInventoryProducts(event?.detail?.products || []);
+        const inventory = hasEventProducts
+          ? { managed: true, products: eventProducts.filter(product => product.status === 'active') }
+          : await fetchShopInventoryProducts();
+        const nextProducts = inventory.products;
+        if (!active || (!inventory.managed && !nextProducts.length)) return;
+
+        setProducts(nextProducts);
+
+        if (!nextProducts.length) {
+          setDetailOpen(false);
+          return;
+        }
+
+        setSelectedProduct(current => {
+          const routeProduct = readShopRouteProduct(nextProducts);
+          const updated = routeProduct || nextProducts.find(product => product.sku === current?.sku) || nextProducts[0];
+          if (!updated) return current;
+          setSelectedOptions({
+            size: updated.sizes[0] || '',
+            color: updated.colors[0] || ''
+          });
+          setGalleryImage(updated.image);
+          if (routeProduct) {
+            setDetailOpen(true);
+          }
+          return updated;
+        });
+      } catch {
+        if (active) {
+          const stored = readStoredShopInventorySnapshot();
+          if (stored.products.length || stored.managed) setProducts(stored.products);
+        }
+      }
+    }
+
+    function syncStoredInventory(event) {
+      if (event.key !== SHOP_INVENTORY_KEY) return;
+      const stored = readStoredShopInventorySnapshot();
+      if (stored.products.length || stored.managed) setProducts(stored.products);
+    }
+
+    refreshInventory();
+    window.addEventListener(SHOP_INVENTORY_UPDATED_EVENT, refreshInventory);
+    window.addEventListener('storage', syncStoredInventory);
+    return () => {
+      active = false;
+      window.removeEventListener(SHOP_INVENTORY_UPDATED_EVENT, refreshInventory);
+      window.removeEventListener('storage', syncStoredInventory);
+    };
+  }, []);
 
   useEffect(() => {
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
@@ -1374,7 +1544,7 @@ export default function ShopStore() {
 
   useEffect(() => {
     function syncProductRoute() {
-      const product = readShopRouteProduct();
+      const product = readShopRouteProduct(products);
       if (product) {
         selectProduct(product);
         setDetailOpen(true);
@@ -1389,7 +1559,7 @@ export default function ShopStore() {
         setWishlistOpen(true);
         setCartPageOpen(false);
         setSecureCheckoutOpen(false);
-        setCheckoutOpen(false);
+        closeCheckoutSidebar({ immediate: true });
         return;
       }
 
@@ -1398,7 +1568,7 @@ export default function ShopStore() {
         setWishlistOpen(false);
         setCartPageOpen(true);
         setSecureCheckoutOpen(false);
-        setCheckoutOpen(false);
+        closeCheckoutSidebar({ immediate: true });
         return;
       }
 
@@ -1407,7 +1577,7 @@ export default function ShopStore() {
         setWishlistOpen(false);
         setCartPageOpen(false);
         setSecureCheckoutOpen(true);
-        setCheckoutOpen(false);
+        closeCheckoutSidebar({ immediate: true });
         return;
       }
 
@@ -1422,20 +1592,54 @@ export default function ShopStore() {
     window.addEventListener('hashchange', syncProductRoute);
     syncProductRoute();
     return () => window.removeEventListener('hashchange', syncProductRoute);
-  }, []);
+  }, [products]);
 
   useEffect(() => {
-    if (!checkoutOpen) return undefined;
+    if (!checkoutOpen || checkoutClosing) return undefined;
 
     function handleEscape(event) {
       if (event.key === 'Escape') {
-        setCheckoutOpen(false);
+        closeCheckoutSidebar();
       }
     }
 
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
-  }, [checkoutOpen]);
+  }, [checkoutClosing, checkoutOpen]);
+
+  useEffect(() => () => {
+    if (checkoutCloseTimerRef.current) {
+      window.clearTimeout(checkoutCloseTimerRef.current);
+    }
+  }, []);
+
+  function clearCheckoutCloseTimer() {
+    if (!checkoutCloseTimerRef.current) return;
+    window.clearTimeout(checkoutCloseTimerRef.current);
+    checkoutCloseTimerRef.current = null;
+  }
+
+  function openCheckoutSidebar() {
+    clearCheckoutCloseTimer();
+    setCheckoutClosing(false);
+    setCheckoutOpen(true);
+  }
+
+  function closeCheckoutSidebar({ immediate = false } = {}) {
+    clearCheckoutCloseTimer();
+    if (immediate) {
+      setCheckoutClosing(false);
+      setCheckoutOpen(false);
+      return;
+    }
+
+    setCheckoutClosing(true);
+    checkoutCloseTimerRef.current = window.setTimeout(() => {
+      setCheckoutOpen(false);
+      setCheckoutClosing(false);
+      checkoutCloseTimerRef.current = null;
+    }, 500);
+  }
 
   function selectProduct(product) {
     setWishlistOpen(false);
@@ -1474,7 +1678,7 @@ export default function ShopStore() {
     setWishlistOpen(true);
     setCartPageOpen(false);
     setSecureCheckoutOpen(false);
-    setCheckoutOpen(false);
+    closeCheckoutSidebar({ immediate: true });
     const nextHash = shopWishlistHash();
     if (window.location.hash !== nextHash) {
       window.location.hash = nextHash;
@@ -1486,7 +1690,7 @@ export default function ShopStore() {
     setWishlistOpen(false);
     setCartPageOpen(true);
     setSecureCheckoutOpen(false);
-    setCheckoutOpen(false);
+    closeCheckoutSidebar({ immediate: true });
     const nextHash = shopCartHash();
     if (window.location.hash !== nextHash) {
       window.location.hash = nextHash;
@@ -1502,7 +1706,7 @@ export default function ShopStore() {
     setWishlistOpen(false);
     setCartPageOpen(false);
     setSecureCheckoutOpen(true);
-    setCheckoutOpen(false);
+    closeCheckoutSidebar({ immediate: true });
     setCheckoutStatus({ type: '', message: '' });
     const nextHash = shopCheckoutHash();
     if (window.location.hash !== nextHash) {
@@ -1523,7 +1727,7 @@ export default function ShopStore() {
       }
       return [...current, { key, sku: product.sku, size, color, quantity: quantityToAdd }];
     });
-    setCheckoutOpen(true);
+    openCheckoutSidebar();
     setCheckoutStatus({ type: 'success', message: `${product.name} was added to your cart.` });
   }
 
@@ -1681,12 +1885,12 @@ export default function ShopStore() {
       if (sort === 'name') return a.name.localeCompare(b.name);
       return products.findIndex(product => product.sku === a.sku) - products.findIndex(product => product.sku === b.sku);
     });
-  }, [category, query, sort]);
+  }, [category, products, query, sort]);
 
   const cartLines = useMemo(() => cart.map(item => {
     const product = products.find(entry => entry.sku === item.sku);
     return product ? { ...item, product, lineTotal: product.price * item.quantity } : null;
-  }).filter(Boolean), [cart]);
+  }).filter(Boolean), [cart, products]);
 
   const totals = useMemo(() => {
     const subtotal = cartLines.reduce((sum, item) => sum + item.lineTotal, 0);
@@ -1714,8 +1918,8 @@ export default function ShopStore() {
 
   const favoriteProducts = useMemo(() => wishlist
     .map(sku => products.find(product => product.sku === sku))
-    .filter(Boolean), [wishlist]);
-  const pendingWishlistProduct = useMemo(() => products.find(product => product.sku === pendingWishlistSku) || selectedProduct, [pendingWishlistSku, selectedProduct]);
+    .filter(Boolean), [products, wishlist]);
+  const pendingWishlistProduct = useMemo(() => products.find(product => product.sku === pendingWishlistSku) || selectedProduct, [pendingWishlistSku, products, selectedProduct]);
   const cartSizing = useMemo(() => cartSizingForLines(cartLines.length), [cartLines.length]);
 
   useEffect(() => {
@@ -1919,6 +2123,7 @@ export default function ShopStore() {
             ) : cartPageOpen ? (
               <CartPage
                 cartLines={cartLines}
+                products={products}
                 totals={selectedTotals}
                 favoriteProducts={favoriteProducts}
                 selectedCartKeys={selectedCartKeys}
@@ -1953,6 +2158,7 @@ export default function ShopStore() {
             ) : detailOpen ? (
               <ProductDetailPage
                 product={selectedProduct}
+                products={products}
                 selectedOptions={selectedOptions}
                 setSelectedOptions={setSelectedOptions}
                 quantity={quantity}
@@ -1965,6 +2171,9 @@ export default function ShopStore() {
               />
             ) : (
               <div className="rtbo-shop-products">
+                {filteredProducts.length === 0 && (
+                  <p className="rtbo-shop-empty rtbo-shop-empty-products">No active products match this shop view. Add or activate products in the command center inventory manager.</p>
+                )}
                 {filteredProducts.map(product => (
                   <ProductCard
                     key={product.sku}
@@ -1983,12 +2192,12 @@ export default function ShopStore() {
       </div>
 
       <div
-        className={`rtbo-shop-checkout ${checkoutOpen ? 'is-open' : ''} ${cartLines.length ? 'has-items' : 'is-empty'}`}
+        className={`rtbo-shop-checkout ${checkoutOpen ? 'is-open' : ''} ${checkoutClosing ? 'is-closing' : ''} ${cartLines.length ? 'has-items' : 'is-empty'}`}
         data-cart-lines={cartLines.length}
         style={cartSizing}
         onMouseDown={event => {
           if (checkoutOpen && event.target === event.currentTarget) {
-            setCheckoutOpen(false);
+            closeCheckoutSidebar();
           }
         }}
       >
@@ -2003,7 +2212,7 @@ export default function ShopStore() {
 	              <p className="eyebrow">Secure Checkout</p>
 	              <h3>Your Cart</h3>
 	            </div>
-	            <button className="btn" type="button" onClick={() => setCheckoutOpen(false)}>Close</button>
+	            <button className="btn" type="button" onClick={() => closeCheckoutSidebar()}>Close</button>
 	          </div>
 
 	          <div className="rtbo-shop-cart-rail-head" aria-label="Cart subtotal">
@@ -2019,6 +2228,7 @@ export default function ShopStore() {
 	                key={item.key}
 	                item={item}
 	                isSaved={wishlist.includes(item.sku)}
+	                products={products}
 	                showCompare={index === 0}
 	                onDecrease={() => updateQuantity(item.key, -1)}
 	                onIncrease={() => updateQuantity(item.key, 1)}

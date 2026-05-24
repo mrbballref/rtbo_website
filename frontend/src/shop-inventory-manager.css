@@ -1,0 +1,279 @@
+.rtbo-shop-inventory-page {
+  display: grid;
+  gap: 18px;
+}
+
+.rtbo-inventory-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.rtbo-inventory-summary article,
+.rtbo-inventory-item {
+  border: 1px solid rgba(245, 130, 32, .24);
+  border-radius: 14px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.02)),
+    rgba(12, 12, 12, .72);
+}
+
+.rtbo-inventory-summary article {
+  display: grid;
+  gap: 5px;
+  padding: 15px;
+}
+
+.rtbo-inventory-summary span,
+.rtbo-inventory-item span,
+.rtbo-inventory-item small,
+.rtbo-inventory-form label span,
+.rtbo-inventory-toolbar label span {
+  color: var(--muted);
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.rtbo-inventory-summary strong {
+  color: #fff;
+  font-size: clamp(1.2rem, 2vw, 2.05rem);
+  line-height: 1;
+}
+
+.rtbo-inventory-form,
+.rtbo-inventory-toolbar {
+  display: grid;
+  gap: 12px;
+}
+
+.rtbo-inventory-form {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  align-items: end;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 16px;
+  padding: 16px;
+  background: rgba(0,0,0,.2);
+}
+
+.rtbo-inventory-toolbar {
+  grid-template-columns: minmax(260px, 1fr) minmax(190px, 260px);
+  align-items: end;
+}
+
+.rtbo-inventory-form label,
+.rtbo-inventory-toolbar label {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+
+.rtbo-inventory-form label.wide {
+  grid-column: span 3;
+}
+
+.rtbo-inventory-form label.full {
+  grid-column: 1 / -1;
+}
+
+.rtbo-inventory-form :is(input, select, textarea),
+.rtbo-inventory-toolbar :is(input, select) {
+  min-height: 42px;
+  width: 100%;
+  border: 1px solid rgba(245, 130, 32, .24);
+  border-radius: 10px;
+  padding: 9px 12px;
+  color: #fff;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .018)),
+    #0a0a0a;
+}
+
+.rtbo-inventory-form textarea {
+  min-height: 108px;
+  resize: vertical;
+}
+
+.rtbo-inventory-form input:disabled {
+  opacity: .78;
+  cursor: not-allowed;
+}
+
+.rtbo-inventory-form-actions {
+  display: flex;
+  grid-column: 1 / -1;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.rtbo-inventory-list {
+  display: grid;
+  gap: 12px;
+}
+
+.rtbo-inventory-item {
+  display: grid;
+  grid-template-columns: 118px minmax(0, 1fr) minmax(150px, .28fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 12px;
+}
+
+.rtbo-inventory-item.status-draft,
+.rtbo-inventory-item.status-hidden {
+  border-style: dashed;
+  opacity: .86;
+}
+
+.rtbo-inventory-item img {
+  width: 100%;
+  aspect-ratio: 1 / .82;
+  border-radius: 10px;
+  object-fit: cover;
+  background: #050505;
+}
+
+.rtbo-inventory-item strong {
+  display: block;
+  color: #fff;
+  font-size: .98rem;
+  line-height: 1.25;
+}
+
+.rtbo-inventory-item p {
+  display: -webkit-box;
+  margin: 6px 0;
+  overflow: hidden;
+  color: var(--text);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.rtbo-inventory-item-meta,
+.rtbo-inventory-item-actions {
+  display: grid;
+  gap: 8px;
+}
+
+.rtbo-inventory-item-actions {
+  grid-template-columns: repeat(3, minmax(0, auto));
+}
+
+.rtbo-inventory-item-actions .btn {
+  min-height: 34px;
+  height: 34px;
+  padding: 0 11px;
+  font-size: .66rem;
+}
+
+:root[data-theme="light"] .rtbo-inventory-summary article,
+:root[data-theme="light"] .rtbo-inventory-item {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .96), rgba(255, 255, 255, .86));
+}
+
+:root[data-theme="light"] .rtbo-inventory-summary strong,
+:root[data-theme="light"] .rtbo-inventory-item strong {
+  color: #111827;
+}
+
+:root[data-theme="light"] .rtbo-inventory-summary span,
+:root[data-theme="light"] .rtbo-inventory-item span,
+:root[data-theme="light"] .rtbo-inventory-item p,
+:root[data-theme="light"] .rtbo-inventory-item small,
+:root[data-theme="light"] .rtbo-inventory-form label span,
+:root[data-theme="light"] .rtbo-inventory-toolbar label span {
+  color: #f58220;
+}
+
+:root[data-theme="light"] .rtbo-inventory-form :is(input, select, textarea),
+:root[data-theme="light"] .rtbo-inventory-toolbar :is(input, select) {
+  color: #111827;
+  background: rgba(255,255,255,.75);
+  border-color: rgba(15,23,42,.16);
+}
+
+@media (max-width: 1536px) {
+  .rtbo-inventory-item {
+    grid-template-columns: 112px minmax(0, 1fr) minmax(140px, .28fr) auto;
+  }
+}
+
+@media (max-width: 1280px) {
+  .rtbo-inventory-form {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .rtbo-inventory-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .rtbo-inventory-item {
+    grid-template-columns: 104px minmax(0, 1fr);
+  }
+
+  .rtbo-inventory-item-meta,
+  .rtbo-inventory-item-actions {
+    grid-column: 2;
+  }
+}
+
+@media (max-width: 1024px) {
+  .rtbo-inventory-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .rtbo-inventory-form,
+  .rtbo-inventory-toolbar,
+  .rtbo-inventory-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .rtbo-inventory-form label.wide,
+  .rtbo-inventory-form label.full {
+    grid-column: auto;
+  }
+
+  .rtbo-inventory-item,
+  .rtbo-inventory-item-meta,
+  .rtbo-inventory-item-actions {
+    grid-template-columns: 1fr;
+    grid-column: auto;
+  }
+
+  .rtbo-inventory-item img {
+    max-height: 240px;
+  }
+}
+
+@media (max-width: 648px) {
+  .rtbo-inventory-form-actions,
+  .rtbo-inventory-item-actions {
+    grid-template-columns: 1fr;
+    justify-content: stretch;
+  }
+}
+
+@media (max-width: 550px) {
+  .rtbo-shop-inventory-page {
+    gap: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .rtbo-inventory-form,
+  .rtbo-inventory-summary article,
+  .rtbo-inventory-item {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 368px) {
+  .rtbo-inventory-item-actions .btn {
+    width: 100%;
+  }
+}

@@ -40,6 +40,7 @@ const ContractSigningPage = React.lazy(() => import('./ContractSigningPage.jsx')
 const RTBOMailClient = React.lazy(() => import('./RTBOMailClient.jsx'));
 const TaxCenter = React.lazy(() => import('./TaxCenter.jsx'));
 const ShopStore = React.lazy(() => import('./ShopStore.jsx'));
+const ShopInventoryManager = React.lazy(() => import('./ShopInventoryManager.jsx'));
 const StateSelect = React.lazy(() => import('./StateSelect.jsx'));
 const CountrySelect = React.lazy(() => import('./CountrySelect.jsx'));
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
@@ -9696,6 +9697,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     'refroom',
     'notifications',
     'payments',
+    'shopInventory',
     'taxCenter',
     'education',
     'profile',
@@ -10109,6 +10111,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['refroom', 'RefRoom'],
     ['notifications', 'Notifications'],
     ['payments', 'Payments'],
+    ['shopInventory', 'Inventory'],
     ['taxCenter', 'Tax Center'],
     ['education', 'Education'],
     ['reports', 'Forms'],
@@ -10129,7 +10132,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['evaluation', 'Evaluations'],
     ['education', 'Education']
   ];
-  const allowedDashboardSidebarIds = new Set(['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'notifications', 'payments', 'taxCenter', 'education', 'profile', 'reports', 'organizations']);
+  const allowedDashboardSidebarIds = new Set(['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'notifications', 'payments', 'shopInventory', 'taxCenter', 'education', 'profile', 'reports', 'organizations']);
   const visibleAdminSections = adminSections.filter(([id]) => allowedDashboardSidebarIds.has(id) && !hiddenSections.includes(id));
   const visibleAddMemberSections = addMemberSections.filter(item => !hiddenMemberItems.includes(item.id));
   const visibleScheduleSetupSections = scheduleSetupSections.filter(item => !hiddenScheduleItems.includes(item.id));
@@ -10149,7 +10152,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         ? uniqueFormSubSections([...visibleOfficialFormsSubSections, ...officialFormsSubSections])
         : [];
   const completedFormsSectionIds = completedFormsWidgets.map(widget => widget.section);
-  const primaryAdminOrder = ['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'notifications', 'payments', 'taxCenter', 'education'];
+  const primaryAdminOrder = ['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'notifications', 'payments', 'shopInventory', 'taxCenter', 'education'];
   const secondaryAdminOrder = ['reports', 'organizations'];
   const sections = canUseAdminDashboard
     ? [
@@ -10198,7 +10201,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         : []
   }));
   const dashboardControlColumns = [
-    ['overview', 'payments', 'taxCenter', 'education'],
+    ['overview', 'payments', 'shopInventory', 'taxCenter', 'education'],
     ['members', 'reports', 'rtbomail', 'newsletterCenter'],
     ['schedules', 'organizations', 'notifications', 'refroom']
   ].map(column => column.map(id => settingsMenuItems.find(item => item.id === id)).filter(Boolean));
@@ -12759,6 +12762,12 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
 
         {canUseAdminDashboard && activeSection === 'payments' && (
           <PaymentSystem user={user} onStatus={setStatus} />
+        )}
+
+        {canUseAdminDashboard && activeSection === 'shopInventory' && (
+          <React.Suspense fallback={<section className="rtbo-dashboard-card rtbo-focused-page-card"><p className="rtbo-empty-state">Loading shop inventory...</p></section>}>
+            <ShopInventoryManager onStatus={setStatus} />
+          </React.Suspense>
         )}
 
         {canUseTaxCenter && activeSection === 'taxCenter' && (

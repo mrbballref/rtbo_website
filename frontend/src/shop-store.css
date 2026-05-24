@@ -1,12 +1,13 @@
 .rtbo-shop-store {
   --rtbo-cart-preview-width: clamp(132px, 14vw, 170px);
+  --rtbo-cart-inline-offset: clamp(12px, calc((100vw - 1500px) / 2), 44px);
   display: grid;
   gap: 20px;
   color: var(--rtbo-text, var(--app-text, #f8fafc));
 }
 
 .rtbo-shop-store.has-compact-cart {
-  padding-right: calc(var(--rtbo-cart-preview-width) + 18px);
+  padding-right: 0;
 }
 
 .rtbo-shop-store :is(button, input, select, textarea) {
@@ -193,6 +194,10 @@
   gap: 18px;
   padding: clamp(14px, 2vw, 20px);
   border-radius: 18px;
+}
+
+.rtbo-shop-store.has-compact-cart .rtbo-shop-layout {
+  padding-right: calc(var(--rtbo-cart-preview-width) + var(--rtbo-cart-inline-offset) + 32px);
 }
 
 .rtbo-shop-sidebar {
@@ -700,7 +705,7 @@ button.rtbo-shop-list-option {
 
 .rtbo-shop-products {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 18px;
   width: 100%;
   min-width: 0;
@@ -809,6 +814,16 @@ button.rtbo-shop-list-option {
   color: var(--rtbo-muted, var(--app-muted, #cbd5e1));
   font-size: 0.92rem;
   line-height: 1.45;
+}
+
+.rtbo-shop-empty-products {
+  grid-column: 1 / -1;
+  padding: 22px;
+  border: 1px solid color-mix(in srgb, var(--rtbo-orange, #ff6a00) 42%, transparent);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--app-surface, #111827) 88%, transparent);
+  color: var(--rtbo-muted, var(--app-muted, #cbd5e1));
+  font-weight: 800;
 }
 
 .rtbo-shop-product-body small {
@@ -1941,26 +1956,37 @@ button.rtbo-shop-list-option {
   --rtbo-cart-line-padding: 12px;
   --rtbo-cart-line-gap: 12px;
   position: fixed;
-  inset: 0;
-  z-index: 100;
-  display: flex;
-  justify-content: end;
-  align-items: start;
+  top: 12px;
+  right: var(--rtbo-cart-inline-offset);
+  bottom: auto;
+  left: auto;
+  z-index: 40;
+  display: block;
+  width: var(--rtbo-cart-preview-width);
+  height: calc(100vh - 24px);
   background: rgba(0, 0, 0, 0);
-  padding: 18px;
+  padding: 0;
   pointer-events: none;
   transition: background-color 0.5s ease;
 }
 
 .rtbo-shop-checkout:not(.is-open) {
-  inset: 0 0 0 auto;
   width: var(--rtbo-cart-preview-width);
-  height: 100vh;
+  height: calc(100vh - 24px);
   padding: 0;
 }
 
 .rtbo-shop-checkout.is-open {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  display: flex;
+  justify-content: flex-end;
+  align-items: start;
   background: rgba(0, 0, 0, 0.68);
+  padding: 18px;
   pointer-events: auto;
 }
 
@@ -1970,8 +1996,8 @@ button.rtbo-shop-list-option {
 
 .rtbo-shop-checkout-panel {
   width: var(--rtbo-cart-preview-width);
-  height: 100vh;
-  max-height: 100vh;
+  height: calc(100vh - 24px);
+  max-height: calc(100vh - 24px);
   overflow: hidden;
   overscroll-behavior: contain;
   pointer-events: auto;
@@ -1997,10 +2023,41 @@ button.rtbo-shop-list-option {
   width: var(--rtbo-cart-expanded-width);
   height: calc(100vh - 36px);
   max-height: calc(100vh - 36px);
+  margin-left: auto;
+  margin-right: 0;
   overflow: auto;
   border-radius: 18px;
   padding: 18px;
   transform: translateX(0);
+  animation: rtbo-cart-slide-in-from-right 0.5s ease both;
+}
+
+.rtbo-shop-checkout.is-open.is-closing {
+  background: rgba(0, 0, 0, 0);
+}
+
+.rtbo-shop-checkout.is-open.is-closing .rtbo-shop-checkout-panel {
+  animation: rtbo-cart-slide-out-to-right 0.5s ease both;
+}
+
+@keyframes rtbo-cart-slide-in-from-right {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes rtbo-cart-slide-out-to-right {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
 }
 
 .rtbo-shop-checkout.is-open .rtbo-shop-checkout-head,
@@ -2762,6 +2819,19 @@ button.rtbo-shop-list-option {
 @media (max-width: 1024px) {
   .rtbo-shop-store.has-compact-cart {
     padding-right: 0;
+  }
+
+  .rtbo-shop-store.has-compact-cart .rtbo-shop-layout {
+    padding-right: clamp(14px, 2vw, 20px);
+  }
+
+  .rtbo-shop-checkout:not(.is-open) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: auto;
+    left: auto;
+    height: 100vh;
   }
 
   .rtbo-shop-banner,

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/includes/bootstrap.php';
 require_once __DIR__ . '/includes/payments.php';
+require_once __DIR__ . '/includes/shop-inventory.php';
 
 header('Content-Type: application/json');
 
@@ -16,6 +17,11 @@ require_same_origin_request();
 
 function rtbo_store_catalog(): array
 {
+    $inventoryCatalog = rtbo_shop_inventory_catalog();
+    if ($inventoryCatalog !== []) {
+        return $inventoryCatalog;
+    }
+
     return [
         'RTBO-JERSEY-PRO' => ['name' => 'RTBO Pro Referee Jersey', 'category' => 'apparel', 'amount_cents' => 3999],
         'RTBO-POLO-PERFORMANCE' => ['name' => 'RTBO Performance Polo', 'category' => 'apparel', 'amount_cents' => 4499],

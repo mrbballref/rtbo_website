@@ -14000,6 +14000,7 @@ html.light .rtbo-dashboard-sidebar {
 .rtbo-sidebar-icon[data-sidebar-icon="refroom"]::before { content: "▻"; }
 .rtbo-sidebar-icon[data-sidebar-icon="notifications"]::before { content: "!"; }
 .rtbo-sidebar-icon[data-sidebar-icon="payments"]::before { content: "$"; }
+.rtbo-sidebar-icon[data-sidebar-icon="shopInventory"]::before { content: "▤"; }
 .rtbo-sidebar-icon[data-sidebar-icon="taxCenter"]::before { content: "W"; }
 .rtbo-sidebar-icon[data-sidebar-icon="education"]::before { content: "⌃"; }
 .rtbo-sidebar-icon[data-sidebar-icon="profile"]::before { content: "◎"; }
