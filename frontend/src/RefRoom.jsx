@@ -2,6 +2,8 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import './refroom.css';
 
 const REFROOM_PANELS = ['Studio', 'Meetings', 'Breakouts', 'Surveys', 'Participants', 'Chat', 'Production', 'Recordings', 'Settings'];
+const PLAYER_PANELS = ['Studio'];
+const PRODUCTION_PANELS = ['Production'];
 const REFROOM_LAYOUTS = ['Speaker View', 'Gallery View', 'Film Study', 'Screen Share', 'Broadcast Desk'];
 const REACTIONS = ['Applause', 'Agree', 'Question', 'Slow Down', 'Rule Check'];
 const EMOJI_REACTIONS = ['👍', '👏', '✅', '❓', '🔥', '🎥', '🏀', '🙌', '💬', '⭐'];
@@ -9,6 +11,7 @@ const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
 const PARTICIPANT_ROLES = ['attendee', 'presenter', 'co_host', 'host'];
 const SURVEY_TYPES = ['Single Choice', 'Multiple Choice', 'Short Answer', 'Rating'];
 const LOGO_SRC = '/assets/images/logo.png';
+const PUBLIC_PLAYER_POSTER = '/assets/images/3d_rtbo_livestream_player.jpg';
 const VIRTUAL_BACKGROUNDS = [
   { id: 'rtbo-logo', label: 'RTBO Logo', value: LOGO_SRC },
   { id: 'court', label: 'Court', value: '/assets/images/three-person-crew.jpg' },
@@ -89,6 +92,16 @@ const DEFAULT_PRODUCTION = {
 function scopedKey(user = {}, scope = 'state') {
   const identity = String(user.email || user.id || user.role || 'guest').toLowerCase();
   return `rtbo-refroom-${scope}:${identity}`;
+}
+
+function refroomCodeFromHash() {
+  if (typeof window === 'undefined') return '';
+  const [, code = ''] = String(window.location.hash || '').replace(/^#\/?/, '').split('/');
+  try {
+    return decodeURIComponent(code).trim();
+  } catch {
+    return code.trim();
+  }
 }
 
 function safeReadJson(key, fallback) {
@@ -268,7 +281,14 @@ function CameraFeedTile({ feed, onRemove, onMakePrimary }) {
   );
 }
 
-export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeetings = false }) {
+export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeetings = false, mode = 'workspace' }) {
+  const isPublicPlayer = mode === 'player';
+  const isProductionStudio = mode === 'production';
+  const panelOptions = isProductionStudio ? PRODUCTION_PANELS : isPublicPlayer ? PLAYER_PANELS : REFROOM_PANELS;
+  const displayUser = useMemo(
+    () => (isPublicPlayer && !user.name && !user.email ? { ...user, name: 'RTBO RefRoom', role: 'viewer' } : user),
+    [isPublicPlayer, user]
+  );
   const videoRef = useRef(null);
   const viewportRef = useRef(null);
   const recorderRef = useRef(null);
@@ -280,7 +300,7 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
   const recordingChunksRef = useRef([]);
   const recordingStartedAtRef = useRef(null);
 
-  const [activePanel, setActivePanel] = useState('Studio');
+  const [activePanel, setActivePanel] = useState(() => isProductionStudio ? 'Production' : 'Studio');
   const [roomActive, setRoomActive] = useState(false);
   const [localStream, setLocalStream] = useState(null);
   const [screenStream, setScreenStream] = useState(null);
@@ -296,7 +316,7 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
   const [reactionPickerOpen, setReactionPickerOpen] = useState(false);
   const [chatEmojiPickerOpen, setChatEmojiPickerOpen] = useState(false);
   const [elapsed, setElapsed] = useState(0);
-  const [volume, setVolume] = useState(() => Number(safeReadJson(scopedKey(user, 'volume'), 80)) || 80);
+  const [volume, setVolume] = useState(() => Number(safeReadJson(scopedKey(displayUser, 'volume'), 80)) || 80);
   const [fullscreenActive, setFullscreenActive] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
   const [deviceError, setDeviceError] = useState('');
@@ -306,9 +326,9 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
   const [selectedExtraCameraDevice, setSelectedExtraCameraDevice] = useState('');
   const [selectedExtraAudioDevice, setSelectedExtraAudioDevice] = useState('');
   const [cameraFeeds, setCameraFeeds] = useState([]);
-  const [cameraSources, setCameraSources] = useState(() => safeReadJson(scopedKey(user, 'cameraSources'), []));
+  const [cameraSources, setCameraSources] = useState(() => safeReadJson(scopedKey(displayUser, 'cameraSources'), []));
   const [audioFeeds, setAudioFeeds] = useState([]);
-  const [audioSources, setAudioSources] = useState(() => safeReadJson(scopedKey(user, 'audioSources'), []));
+  const [audioSources, setAudioSources] = useState(() => safeReadJson(scopedKey(displayUser, 'audioSources'), []));
   const [captionDraft, setCaptionDraft] = useState('');
   const [members, setMembers] = useState([]);
   const [memberSearch, setMemberSearch] = useState('');
@@ -316,41 +336,42 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
   const [savingMeeting, setSavingMeeting] = useState(false);
   const [invitationSendingId, setInvitationSendingId] = useState('');
   const [activeMeetingId, setActiveMeetingId] = useState('');
-  const [breakoutRooms, setBreakoutRooms] = useState(() => safeReadJson(scopedKey(user, 'breakoutRooms'), []));
+  const [breakoutRooms, setBreakoutRooms] = useState(() => safeReadJson(scopedKey(displayUser, 'breakoutRooms'), []));
   const [breakoutName, setBreakoutName] = useState('');
-  const [participantLocations, setParticipantLocations] = useState(() => safeReadJson(scopedKey(user, 'participantLocations'), {}));
-  const [participantRoles, setParticipantRoles] = useState(() => safeReadJson(scopedKey(user, 'participantRoles'), {}));
+  const [participantLocations, setParticipantLocations] = useState(() => safeReadJson(scopedKey(displayUser, 'participantLocations'), {}));
+  const [participantRoles, setParticipantRoles] = useState(() => safeReadJson(scopedKey(displayUser, 'participantRoles'), {}));
   const [surveyForm, setSurveyForm] = useState(EMPTY_SURVEY_FORM);
-  const [surveys, setSurveys] = useState(() => safeReadJson(scopedKey(user, 'surveys'), []));
+  const [surveys, setSurveys] = useState(() => safeReadJson(scopedKey(displayUser, 'surveys'), []));
   const [production, setProduction] = useState(() => ({
     ...DEFAULT_PRODUCTION,
-    ...safeReadJson(scopedKey(user, 'production'), {})
+    ...safeReadJson(scopedKey(displayUser, 'production'), {})
   }));
   const [settings, setSettings] = useState(() => ({
     ...DEFAULT_SETTINGS,
-    meetingCode: createMeetingCode(),
-    ...safeReadJson(scopedKey(user, 'settings'), {})
+    roomTitle: isPublicPlayer ? 'RTBO RefRoom Player' : DEFAULT_SETTINGS.roomTitle,
+    meetingCode: refroomCodeFromHash() || createMeetingCode(),
+    ...safeReadJson(scopedKey(displayUser, 'settings'), {})
   }));
-  const [rooms, setRooms] = useState(() => safeReadJson(scopedKey(user, 'rooms'), []));
+  const [rooms, setRooms] = useState(() => safeReadJson(scopedKey(displayUser, 'rooms'), []));
   const [roomForm, setRoomForm] = useState(EMPTY_ROOM_FORM);
   const [editingRoomId, setEditingRoomId] = useState('');
-  const [messages, setMessages] = useState(() => safeReadJson(scopedKey(user, 'messages'), []));
+  const [messages, setMessages] = useState(() => safeReadJson(scopedKey(displayUser, 'messages'), []));
   const [messageDraft, setMessageDraft] = useState('');
-  const [recordings, setRecordings] = useState(() => safeReadJson(scopedKey(user, 'recordings'), []));
-  const [transcript, setTranscript] = useState(() => safeReadJson(scopedKey(user, 'transcript'), []));
+  const [recordings, setRecordings] = useState(() => safeReadJson(scopedKey(displayUser, 'recordings'), []));
+  const [transcript, setTranscript] = useState(() => safeReadJson(scopedKey(displayUser, 'transcript'), []));
 
   const programStream = screenSharing && screenStream ? screenStream : localStream;
   const activeMeeting = useMemo(() => rooms.find(room => String(room.id) === String(activeMeetingId)) || null, [activeMeetingId, rooms]);
   const currentParticipant = useMemo(() => ({
     id: 'current-user',
-    name: displayName(user),
-    role: user.role || 'member',
+    name: displayName(displayUser),
+    role: displayUser.role || 'member',
     status: roomActive ? (recording ? 'Recording' : 'In Room') : 'Not Connected',
     mic: micEnabled,
     camera: cameraEnabled,
-    email: user.email || '',
+    email: displayUser.email || '',
     isCurrentUser: true
-  }), [cameraEnabled, micEnabled, recording, roomActive, user]);
+  }), [cameraEnabled, displayUser, micEnabled, recording, roomActive]);
   const filteredMembers = useMemo(() => {
     const query = memberSearch.trim().toLowerCase();
     if (!query) return members;
@@ -411,59 +432,65 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
   }, [canManageMeetings]);
 
   useEffect(() => {
-    safeWriteJson(scopedKey(user, 'settings'), settings);
-  }, [settings, user]);
+    safeWriteJson(scopedKey(displayUser, 'settings'), settings);
+  }, [displayUser, settings]);
 
   useEffect(() => {
-    safeWriteJson(scopedKey(user, 'rooms'), rooms);
-  }, [rooms, user]);
+    safeWriteJson(scopedKey(displayUser, 'rooms'), rooms);
+  }, [displayUser, rooms]);
 
   useEffect(() => {
-    safeWriteJson(scopedKey(user, 'messages'), messages);
-  }, [messages, user]);
+    safeWriteJson(scopedKey(displayUser, 'messages'), messages);
+  }, [displayUser, messages]);
 
   useEffect(() => {
-    safeWriteJson(scopedKey(user, 'recordings'), recordings);
-  }, [recordings, user]);
+    safeWriteJson(scopedKey(displayUser, 'recordings'), recordings);
+  }, [displayUser, recordings]);
 
   useEffect(() => {
-    safeWriteJson(scopedKey(user, 'transcript'), transcript);
-  }, [transcript, user]);
+    safeWriteJson(scopedKey(displayUser, 'transcript'), transcript);
+  }, [displayUser, transcript]);
 
   useEffect(() => {
-    safeWriteJson(scopedKey(user, 'volume'), volume);
+    safeWriteJson(scopedKey(displayUser, 'volume'), volume);
     if (videoRef.current) {
       videoRef.current.volume = Math.max(0, Math.min(1, Number(volume) / 100));
     }
-  }, [volume, programStream, user]);
+  }, [displayUser, volume, programStream]);
 
   useEffect(() => {
-    safeWriteJson(scopedKey(user, 'breakoutRooms'), breakoutRooms);
-  }, [breakoutRooms, user]);
+    safeWriteJson(scopedKey(displayUser, 'breakoutRooms'), breakoutRooms);
+  }, [breakoutRooms, displayUser]);
 
   useEffect(() => {
-    safeWriteJson(scopedKey(user, 'participantLocations'), participantLocations);
-  }, [participantLocations, user]);
+    safeWriteJson(scopedKey(displayUser, 'participantLocations'), participantLocations);
+  }, [displayUser, participantLocations]);
 
   useEffect(() => {
-    safeWriteJson(scopedKey(user, 'participantRoles'), participantRoles);
-  }, [participantRoles, user]);
+    safeWriteJson(scopedKey(displayUser, 'participantRoles'), participantRoles);
+  }, [displayUser, participantRoles]);
 
   useEffect(() => {
-    safeWriteJson(scopedKey(user, 'surveys'), surveys);
-  }, [surveys, user]);
+    safeWriteJson(scopedKey(displayUser, 'surveys'), surveys);
+  }, [displayUser, surveys]);
 
   useEffect(() => {
-    safeWriteJson(scopedKey(user, 'production'), production);
-  }, [production, user]);
+    safeWriteJson(scopedKey(displayUser, 'production'), production);
+  }, [displayUser, production]);
 
   useEffect(() => {
-    safeWriteJson(scopedKey(user, 'cameraSources'), cameraSources);
-  }, [cameraSources, user]);
+    safeWriteJson(scopedKey(displayUser, 'cameraSources'), cameraSources);
+  }, [cameraSources, displayUser]);
 
   useEffect(() => {
-    safeWriteJson(scopedKey(user, 'audioSources'), audioSources);
-  }, [audioSources, user]);
+    safeWriteJson(scopedKey(displayUser, 'audioSources'), audioSources);
+  }, [audioSources, displayUser]);
+
+  useEffect(() => {
+    if (!panelOptions.includes(activePanel)) {
+      setActivePanel(panelOptions[0]);
+    }
+  }, [activePanel, panelOptions]);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -907,7 +934,7 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
       ...current,
       {
         id: createId('message'),
-        user: displayName(user),
+        user: displayName(displayUser),
         message: emoji,
         emoji,
         meetingId: activeMeeting?.id || activeMeetingId || '',
@@ -952,7 +979,7 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
   }
 
   async function copyInvite() {
-    const inviteUrl = `${window.location.origin}${window.location.pathname}#${settings.meetingCode}`;
+    const inviteUrl = `${window.location.origin}${window.location.pathname}#refroom/${encodeURIComponent(settings.meetingCode)}`;
     const invite = [
       `${settings.roomTitle}`,
       `Meeting Code: ${settings.meetingCode}`,
@@ -967,6 +994,12 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
     }
   }
 
+  function openPublicPlayer() {
+    if (typeof window !== 'undefined') {
+      window.location.hash = 'refroom';
+    }
+  }
+
   function sendMessage(event) {
     event.preventDefault();
     if (!messageDraft.trim()) return;
@@ -974,7 +1007,7 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
       ...current,
       {
         id: createId('message'),
-        user: displayName(user),
+        user: displayName(displayUser),
         message: messageDraft.trim(),
         meetingId: activeMeeting?.id || activeMeetingId || '',
         meetingCode: activeMeeting?.meetingCode || settings.meetingCode,
@@ -1018,7 +1051,7 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
       ...current,
       {
         id: createId('caption'),
-        speaker: displayName(user),
+        speaker: displayName(displayUser),
         text: captionDraft.trim(),
         at: new Date().toISOString()
       }
@@ -1337,23 +1370,46 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
     ['Recordings', recordings.length, 'Local browser recordings saved'],
     ['Room Time', formatClock(elapsed), roomActive ? 'Room is active' : 'Room is idle']
   ];
+  const rootClassName = [
+    isPublicPlayer ? 'rtbo-section rtbo-refroom-public-page' : 'rtbo-dashboard-card rtbo-focused-page-card',
+    'rtbo-refroom-page',
+    isProductionStudio ? 'rtbo-refroom-production-mode' : '',
+    isPublicPlayer ? 'rtbo-refroom-player-mode' : ''
+  ].filter(Boolean).join(' ');
+  const headerCopy = isProductionStudio
+    ? {
+        eyebrow: 'Production Studio',
+        title: 'RefRoom Studio',
+        description: 'Control RefRoom scenes, sources, overlays, microphones, backgrounds, and broadcast setup from the Command Center.'
+      }
+    : isPublicPlayer
+      ? {
+          eyebrow: 'Public Video Player',
+          title: 'RefRoom',
+          description: 'Watch the RTBO RefRoom player for virtual officiating meetings, film rooms, training broadcasts, and live production sessions.'
+        }
+      : {
+          eyebrow: 'Virtual Meeting Studio',
+          title: 'RefRoom',
+          description: 'Run virtual meetings, officiating film rooms, training sessions, recordings, chat, screen share, and meeting controls from one workspace.'
+        };
 
   return (
-    <section className="rtbo-dashboard-card rtbo-focused-page-card rtbo-refroom-page">
+    <section className={rootClassName}>
       <div className="rtbo-dashboard-card-head">
         <div>
-          <p className="eyebrow">Virtual Meeting Studio</p>
-          <h3>RefRoom</h3>
-          <p>Run virtual meetings, officiating film rooms, training sessions, recordings, chat, screen share, and meeting controls from one workspace.</p>
+          <p className="eyebrow">{headerCopy.eyebrow}</p>
+          <h3>{headerCopy.title}</h3>
+          <p>{headerCopy.description}</p>
         </div>
       </div>
 
       {statusMessage && <p className="rtbo-dashboard-status">{statusMessage}</p>}
       {deviceError && <p className="form-message error">{deviceError}</p>}
 
-      <div className="rtbo-refroom-menu-row">
+      {!isPublicPlayer && !isProductionStudio && <div className="rtbo-refroom-menu-row">
         <nav className="rtbo-refroom-tabs" aria-label="RefRoom workspace">
-          {REFROOM_PANELS.map(panel => (
+          {panelOptions.map(panel => (
             <button
               className={activePanel === panel ? 'active' : ''}
               key={panel}
@@ -1370,9 +1426,9 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
             {roomActive ? 'End Room' : 'Start Room'}
           </button>
         </div>
-      </div>
+      </div>}
 
-      <div className="rtbo-refroom-stat-grid" aria-label="RefRoom status">
+      {!isPublicPlayer && !isProductionStudio && <div className="rtbo-refroom-stat-grid" aria-label="RefRoom status">
         {stats.map(([label, value, detail]) => (
           <article className="rtbo-refroom-stat-card" key={label}>
             <span>{label}</span>
@@ -1380,38 +1436,58 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
             <small>{detail}</small>
           </article>
         ))}
-      </div>
+      </div>}
 
       {activePanel === 'Studio' && (
         <div className="rtbo-refroom-studio-grid">
           <section className="rtbo-refroom-stage-card">
             <div className="rtbo-refroom-stage-head">
               <div>
-                <h4>{settings.roomTitle}</h4>
-                <p>Code: {settings.meetingCode} / Layout: {settings.selectedLayout}</p>
+                <h4>{isPublicPlayer ? 'RefRoom Public Player' : settings.roomTitle}</h4>
+                <p>{isPublicPlayer ? `Public program feed / Code: ${settings.meetingCode}` : `Code: ${settings.meetingCode} / Layout: ${settings.selectedLayout}`}</p>
               </div>
               <div className="rtbo-refroom-live-flags">
-                <span className={roomActive ? 'is-live' : ''}>{roomActive ? 'Room Live' : 'Room Idle'}</span>
+                <span className={roomActive ? 'is-live' : ''}>{isPublicPlayer ? 'Player Ready' : roomActive ? 'Room Live' : 'Room Idle'}</span>
                 {recording && <span className="is-recording">REC</span>}
                 {screenSharing && <span>Screen Share</span>}
               </div>
             </div>
 
             <div className={stageClassName} ref={viewportRef} style={stageStyle}>
-              {programStream ? (
+              {isPublicPlayer ? (
+                <>
+                  <video
+                    ref={videoRef}
+                    controls
+                    playsInline
+                    preload="metadata"
+                    poster={PUBLIC_PLAYER_POSTER}
+                    className="rtbo-refroom-public-video"
+                    aria-label="RTBO RefRoom public video player"
+                  >
+                    {production.destination && <source src={production.destination} />}
+                  </video>
+                  {!production.destination && (
+                    <div className="rtbo-refroom-player-standby">
+                      <strong>RefRoom player is ready.</strong>
+                      <span>The production studio can send the live program feed here when a RefRoom session is active.</span>
+                    </div>
+                  )}
+                </>
+              ) : programStream ? (
                 <video ref={videoRef} autoPlay playsInline muted className={production.backgroundBlur ? 'uses-background-blur' : ''} />
               ) : (
                 <div className="rtbo-refroom-video-placeholder">
                   <img src={LOGO_SRC} alt="Raising The Bar Officiating logo" />
-                  <span>{userInitials(user)}</span>
-                  <strong>{displayName(user)}</strong>
+                  <span>{userInitials(displayUser)}</span>
+                  <strong>{displayName(displayUser)}</strong>
                   <small>Start the room to enable the camera, microphone, and meeting viewport.</small>
                 </div>
               )}
               <div className="rtbo-refroom-program-badge">Program</div>
               <div className="rtbo-refroom-lower-third">
-                <strong>{displayName(user)}</strong>
-                <span>{settings.meetingMode}</span>
+                <strong>{isPublicPlayer ? 'Raising The Bar Officiating' : displayName(displayUser)}</strong>
+                <span>{isPublicPlayer ? 'RefRoom Public Program' : settings.meetingMode}</span>
               </div>
               {captionsOpen && transcript.length > 0 && (
                 <div className="rtbo-refroom-caption-overlay">
@@ -1424,27 +1500,36 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
               </button>
             </div>
 
-            <div className="rtbo-refroom-control-grid" aria-label="Meeting controls">
-              <button type="button" aria-pressed={!micEnabled} onClick={toggleMic}>{micEnabled ? 'Mute' : 'Unmute'}</button>
-              <button type="button" aria-pressed={!cameraEnabled} onClick={toggleCamera}>{cameraEnabled ? 'Camera Off' : 'Camera On'}</button>
-              <button type="button" aria-pressed={screenSharing} onClick={screenSharing ? stopScreenShare : startScreenShare}>{screenSharing ? 'Stop Share' : 'Share Screen'}</button>
-              <button type="button" aria-pressed={recording} onClick={recording ? stopRecording : () => startRecording()}>{recording ? 'Stop Record' : 'Record'}</button>
-              <button type="button" aria-pressed={captionsOpen} onClick={() => setCaptionsOpen(current => !current)}>Captions</button>
-              <button type="button" aria-pressed={chatOpen} onClick={() => setChatOpen(current => !current)}>Chat</button>
-              <button type="button" aria-pressed={participantsOpen} onClick={() => setParticipantsOpen(current => !current)}>Participants</button>
-              <button type="button" aria-pressed={handRaised} onClick={() => setHandRaised(current => !current)}>{handRaised ? 'Lower Hand' : 'Raise Hand'}</button>
-              <button type="button" onClick={togglePictureInPicture}>PiP</button>
-              <button type="button" onClick={toggleFullscreen}>{fullscreenActive ? 'Exit Full' : 'Full Screen'}</button>
-              <button type="button" onClick={copyInvite}>Invite</button>
-              <button className="danger" type="button" onClick={endRoom}>End</button>
-            </div>
-            <label className="rtbo-refroom-volume-control">Volume
-              <input type="range" min="0" max="100" value={volume} onChange={event => setVolume(Number(event.target.value))} />
-              <span>{volume}%</span>
-            </label>
+            {isPublicPlayer ? (
+              <div className="rtbo-refroom-control-grid rtbo-refroom-player-control-grid" aria-label="RefRoom player controls">
+                <button type="button" onClick={toggleFullscreen}>{fullscreenActive ? 'Exit Full' : 'Full Screen'}</button>
+                <button type="button" onClick={copyInvite}>Copy Player Link</button>
+              </div>
+            ) : (
+              <>
+                <div className="rtbo-refroom-control-grid" aria-label="Meeting controls">
+                  <button type="button" aria-pressed={!micEnabled} onClick={toggleMic}>{micEnabled ? 'Mute' : 'Unmute'}</button>
+                  <button type="button" aria-pressed={!cameraEnabled} onClick={toggleCamera}>{cameraEnabled ? 'Camera Off' : 'Camera On'}</button>
+                  <button type="button" aria-pressed={screenSharing} onClick={screenSharing ? stopScreenShare : startScreenShare}>{screenSharing ? 'Stop Share' : 'Share Screen'}</button>
+                  <button type="button" aria-pressed={recording} onClick={recording ? stopRecording : () => startRecording()}>{recording ? 'Stop Record' : 'Record'}</button>
+                  <button type="button" aria-pressed={captionsOpen} onClick={() => setCaptionsOpen(current => !current)}>Captions</button>
+                  <button type="button" aria-pressed={chatOpen} onClick={() => setChatOpen(current => !current)}>Chat</button>
+                  <button type="button" aria-pressed={participantsOpen} onClick={() => setParticipantsOpen(current => !current)}>Participants</button>
+                  <button type="button" aria-pressed={handRaised} onClick={() => setHandRaised(current => !current)}>{handRaised ? 'Lower Hand' : 'Raise Hand'}</button>
+                  <button type="button" onClick={togglePictureInPicture}>PiP</button>
+                  <button type="button" onClick={toggleFullscreen}>{fullscreenActive ? 'Exit Full' : 'Full Screen'}</button>
+                  <button type="button" onClick={copyInvite}>Invite</button>
+                  <button className="danger" type="button" onClick={endRoom}>End</button>
+                </div>
+                <label className="rtbo-refroom-volume-control">Volume
+                  <input type="range" min="0" max="100" value={volume} onChange={event => setVolume(Number(event.target.value))} />
+                  <span>{volume}%</span>
+                </label>
+              </>
+            )}
           </section>
 
-          <aside className="rtbo-refroom-side-stack">
+          {!isPublicPlayer && <aside className="rtbo-refroom-side-stack">
             <section className="rtbo-refroom-panel">
               <h4>Layouts</h4>
               <div className="rtbo-refroom-choice-grid">
@@ -1465,7 +1550,7 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
               <section className="rtbo-refroom-panel">
                 <h4>Participants</h4>
                 <div className="rtbo-refroom-participant-row">
-                  <span>{userInitials(user)}</span>
+                  <span>{userInitials(displayUser)}</span>
                   <div>
                     <strong>{currentParticipant.name}</strong>
                     <small>{currentParticipant.status} / {currentParticipant.mic ? 'Mic on' : 'Muted'} / {currentParticipant.camera ? 'Camera on' : 'Camera off'}</small>
@@ -1502,7 +1587,7 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
               </div>
               <button className="rtbo-refroom-source-button" type="button" onClick={() => setActivePanel('Production')}>Open Production Studio</button>
             </section>
-          </aside>
+          </aside>}
         </div>
       )}
 
@@ -1792,16 +1877,25 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
       )}
 
       {activePanel === 'Production' && (
-        <div className="rtbo-refroom-window-backdrop" role="presentation">
+        <div className={`rtbo-refroom-window-backdrop${isProductionStudio ? ' is-docked' : ''}`} role="presentation">
         <section className="rtbo-refroom-panel rtbo-refroom-production-window" role="dialog" aria-modal="false" aria-label="Production Studio">
           <div className="rtbo-refroom-section-head">
             <div>
               <h4>Production Studio</h4>
-              <p>Build a full RefRoom production setup with scenes, overlays, multi-source cameras, microphones, virtual backgrounds, and broadcast controls.</p>
+              <p>Build the RefRoom production setup with scenes, overlays, multi-source cameras, microphones, virtual backgrounds, and broadcast controls. The public player lives on the main website RefRoom page.</p>
             </div>
             <div className="rtbo-refroom-form-actions">
-              <button className="btn secondary dark-btn" type="button" onClick={() => setActivePanel('Studio')}>Open Stage</button>
-              <button className="btn secondary dark-btn" type="button" onClick={() => setActivePanel('Studio')}>Close Window</button>
+              {isProductionStudio ? (
+                <>
+                  <button className="btn secondary dark-btn" type="button" onClick={copyInvite}>Copy Public Player Link</button>
+                  <button className="btn secondary dark-btn" type="button" onClick={openPublicPlayer}>Open Public Player</button>
+                </>
+              ) : (
+                <>
+                  <button className="btn secondary dark-btn" type="button" onClick={() => setActivePanel('Studio')}>Open Stage</button>
+                  <button className="btn secondary dark-btn" type="button" onClick={() => setActivePanel('Studio')}>Close Window</button>
+                </>
+              )}
             </div>
           </div>
 

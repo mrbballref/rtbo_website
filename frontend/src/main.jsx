@@ -11814,7 +11814,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
 
   const refRoomPage = (
     <React.Suspense fallback={<section className="rtbo-dashboard-card rtbo-focused-page-card"><p className="rtbo-empty-state">Loading RefRoom...</p></section>}>
-      <RefRoom user={user} onStatus={setStatus} canManageMeetings={canUseAdminDashboard} />
+      <RefRoom user={user} onStatus={setStatus} canManageMeetings={canUseAdminDashboard} mode={canUseAdminDashboard ? 'production' : 'player'} />
     </React.Suspense>
   );
 
@@ -13406,6 +13406,17 @@ function App() {
     if (active === 'about') return <><PageHero page="about" eyebrow="About RTBO" title="Raising The Standard">Built on service, training, mentorship, and professional development for basketball officials.</PageHero><AboutSummary /><Director /><AboutDifference /><GotUNexRefSection />{managedSections('about')}</>;
     if (active === 'events') return <><EventsSummary onOpenRegister={openRegister} />{managedSections('events')}</>;
     if (active === 'livestream') return <><PageHero page="livestream" eyebrow="Live Training Broadcasts" title="RTBO Livestream">Watch training school coverage, court mechanics, film breakdowns, guest instruction, and promotional moments from one broadcast hub.</PageHero><Livestream />{managedSections('livestream')}</>;
+    if (active === 'refroom') {
+      return (
+        <>
+          <PageHero page="refroom" eyebrow="RefRoom" title="RefRoom Video Player">Watch the public RefRoom program feed for officiating meetings, film study, training sessions, and live production broadcasts.</PageHero>
+          <React.Suspense fallback={<section className="rtbo-section"><p className="rtbo-empty-state">Loading RefRoom player...</p></section>}>
+            <RefRoom user={authUser || { name: 'RTBO RefRoom', role: 'viewer' }} mode="player" />
+          </React.Suspense>
+          {managedSections('refroom')}
+        </>
+      );
+    }
     if (active === 'services') return <><PageHero page="services" eyebrow="Services" title="Complete Officiating Solutions">Event assigning, development, mentorship, evaluations, and leadership standards for the game.</PageHero><Services />{managedSections('services')}</>;
     if (active === 'education') {
       return (

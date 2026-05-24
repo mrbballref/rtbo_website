@@ -67,7 +67,7 @@ function rtbo_refroom_code(): string
 
 function rtbo_refroom_invite_url(string $meetingCode): string
 {
-    return RTBO_BASE_URL . '/#' . rawurlencode($meetingCode);
+    return RTBO_BASE_URL . '/#refroom/' . rawurlencode($meetingCode);
 }
 
 function rtbo_refroom_member_options(): array

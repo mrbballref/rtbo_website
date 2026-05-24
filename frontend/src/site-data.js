@@ -3,6 +3,7 @@ export const navItems = [
   ['about', 'About'],
   ['events', 'Schools & Events'],
   ['livestream', 'Live Stream'],
+  ['refroom', 'RefRoom'],
   ['services', 'Services'],
   ['education', 'RefZone University'],
   ['trainers', 'Trainers'],
@@ -93,6 +94,10 @@ export const seoMeta = {
   livestream: [
     'RTBO Livestream | Basketball Officiating Training Broadcasts',
     'Watch Raising The Bar Officiating training school livestreams, promotional broadcasts, film breakdowns, and social coverage across the website, YouTube, Facebook, TikTok, and Instagram.'
+  ],
+  refroom: [
+    'RefRoom | RTBO Public Video Player & Production Studio',
+    'Watch the RTBO RefRoom public video player for virtual officiating meetings, film rooms, training broadcasts, and production-studio sessions.'
   ],
   services: [
     'Basketball Referee Assigning & Official Development Services | RTBO',
