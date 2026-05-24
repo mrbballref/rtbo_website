@@ -1,0 +1,1735 @@
+# NFHS RefZone University Presentation
+
+## Slide 1: NFHS
+- Claim: NFHS gives officials a structured RefZone University path from weekly concept to visible game behavior.
+- Overview: The NFHS track prepares high-school basketball officials to serve education-based athletics with rules accuracy, professional communication, strong mechanics, student-athlete safety, and state-association readiness.
+- Visual: `frontend/public/assets/images/refzone/course-covers/nfhs.svg`
+
+## Slide 2: Course Architecture
+- Degree Path: Certificate in High School Basketball Officiating - NFHS Track
+- Academic Level: High School Foundation / NFHS Rules
+- Proof object: 52-week course progression, seven academic day types, required evidence trail.
+
+## Slide 3: Evidence Loop
+- Lecture -> rules reasoning -> court lab -> film lab -> role-play -> live practicum -> mentor reflection.
+- Visual: seven lesson visual templates from `frontend/public/assets/images/refzone/lesson-visuals/`.
+
+## Week 1: Orientation and Professional Identity
+- Claim: officials must make Orientation and Professional Identity visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Orientation and Professional Identity. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Orientation and Professional Identity affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Orientation and Professional Identity; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Orientation and Professional Identity; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Orientation and Professional Identity; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Orientation and Professional Identity; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Orientation and Professional Identity; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Orientation and Professional Identity; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Orientation and Professional Identity; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 2: NFHS Rules Architecture and Definitions
+- Claim: officials must make NFHS Rules Architecture and Definitions visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to NFHS Rules Architecture and Definitions. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how NFHS Rules Architecture and Definitions affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to NFHS Rules Architecture and Definitions; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to NFHS Rules Architecture and Definitions; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to NFHS Rules Architecture and Definitions; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to NFHS Rules Architecture and Definitions; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to NFHS Rules Architecture and Definitions; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to NFHS Rules Architecture and Definitions; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to NFHS Rules Architecture and Definitions; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 3: Pre-Game Duties and Crew Preparation
+- Claim: officials must make Pre-Game Duties and Crew Preparation visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Pre-Game Duties and Crew Preparation. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Pre-Game Duties and Crew Preparation affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Pre-Game Duties and Crew Preparation; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Pre-Game Duties and Crew Preparation; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Pre-Game Duties and Crew Preparation; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Pre-Game Duties and Crew Preparation; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Pre-Game Duties and Crew Preparation; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Pre-Game Duties and Crew Preparation; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Pre-Game Duties and Crew Preparation; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 4: Game Administration, Equipment, Uniforms, and Court Standards
+- Claim: officials must make Game Administration, Equipment, Uniforms, and Court Standards visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Game Administration, Equipment, Uniforms, and Court Standards. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Game Administration, Equipment, Uniforms, and Court Standards affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Game Administration, Equipment, Uniforms, and Court Standards; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Game Administration, Equipment, Uniforms, and Court Standards; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Game Administration, Equipment, Uniforms, and Court Standards; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Game Administration, Equipment, Uniforms, and Court Standards; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Game Administration, Equipment, Uniforms, and Court Standards; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Game Administration, Equipment, Uniforms, and Court Standards; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Game Administration, Equipment, Uniforms, and Court Standards; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 5: Live Ball, Dead Ball, Timing, and Clock Awareness
+- Claim: officials must make Live Ball, Dead Ball, Timing, and Clock Awareness visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Live Ball, Dead Ball, Timing, and Clock Awareness. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Live Ball, Dead Ball, Timing, and Clock Awareness affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Live Ball, Dead Ball, Timing, and Clock Awareness; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Live Ball, Dead Ball, Timing, and Clock Awareness; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Live Ball, Dead Ball, Timing, and Clock Awareness; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Live Ball, Dead Ball, Timing, and Clock Awareness; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Live Ball, Dead Ball, Timing, and Clock Awareness; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Live Ball, Dead Ball, Timing, and Clock Awareness; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Live Ball, Dead Ball, Timing, and Clock Awareness; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 6: Player Control, Team Control, Frontcourt, and Backcourt
+- Claim: officials must make Player Control, Team Control, Frontcourt, and Backcourt visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Player Control, Team Control, Frontcourt, and Backcourt. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Player Control, Team Control, Frontcourt, and Backcourt affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Player Control, Team Control, Frontcourt, and Backcourt; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Player Control, Team Control, Frontcourt, and Backcourt; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Player Control, Team Control, Frontcourt, and Backcourt; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Player Control, Team Control, Frontcourt, and Backcourt; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Player Control, Team Control, Frontcourt, and Backcourt; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Player Control, Team Control, Frontcourt, and Backcourt; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Player Control, Team Control, Frontcourt, and Backcourt; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 7: Throw-ins, Boundary Lines, Spots, and Designated Spot Administration
+- Claim: officials must make Throw-ins, Boundary Lines, Spots, and Designated Spot Administration visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Throw-ins, Boundary Lines, Spots, and Designated Spot Administration. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Throw-ins, Boundary Lines, Spots, and Designated Spot Administration affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Throw-ins, Boundary Lines, Spots, and Designated Spot Administration; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Throw-ins, Boundary Lines, Spots, and Designated Spot Administration; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Throw-ins, Boundary Lines, Spots, and Designated Spot Administration; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Throw-ins, Boundary Lines, Spots, and Designated Spot Administration; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Throw-ins, Boundary Lines, Spots, and Designated Spot Administration; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Throw-ins, Boundary Lines, Spots, and Designated Spot Administration; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Throw-ins, Boundary Lines, Spots, and Designated Spot Administration; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 8: Free Throws, Lane Spaces, Violations, and Substitutions
+- Claim: officials must make Free Throws, Lane Spaces, Violations, and Substitutions visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Free Throws, Lane Spaces, Violations, and Substitutions. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Free Throws, Lane Spaces, Violations, and Substitutions affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Free Throws, Lane Spaces, Violations, and Substitutions; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Free Throws, Lane Spaces, Violations, and Substitutions; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Free Throws, Lane Spaces, Violations, and Substitutions; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Free Throws, Lane Spaces, Violations, and Substitutions; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Free Throws, Lane Spaces, Violations, and Substitutions; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Free Throws, Lane Spaces, Violations, and Substitutions; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Free Throws, Lane Spaces, Violations, and Substitutions; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 9: Alternating Possession, Jump Ball, and Held Ball Administration
+- Claim: officials must make Alternating Possession, Jump Ball, and Held Ball Administration visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Alternating Possession, Jump Ball, and Held Ball Administration. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Alternating Possession, Jump Ball, and Held Ball Administration affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Alternating Possession, Jump Ball, and Held Ball Administration; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Alternating Possession, Jump Ball, and Held Ball Administration; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Alternating Possession, Jump Ball, and Held Ball Administration; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Alternating Possession, Jump Ball, and Held Ball Administration; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Alternating Possession, Jump Ball, and Held Ball Administration; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Alternating Possession, Jump Ball, and Held Ball Administration; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Alternating Possession, Jump Ball, and Held Ball Administration; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 10: Primary Coverage and Court Positioning
+- Claim: officials must make Primary Coverage and Court Positioning visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Primary Coverage and Court Positioning. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Primary Coverage and Court Positioning affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Primary Coverage and Court Positioning; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Primary Coverage and Court Positioning; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Primary Coverage and Court Positioning; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Primary Coverage and Court Positioning; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Primary Coverage and Court Positioning; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Primary Coverage and Court Positioning; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Primary Coverage and Court Positioning; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 11: Two-Person Mechanics Foundations
+- Claim: officials must make Two-Person Mechanics Foundations visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Two-Person Mechanics Foundations. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Two-Person Mechanics Foundations affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Two-Person Mechanics Foundations; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Two-Person Mechanics Foundations; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Two-Person Mechanics Foundations; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Two-Person Mechanics Foundations; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Two-Person Mechanics Foundations; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Two-Person Mechanics Foundations; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Two-Person Mechanics Foundations; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 12: Three-Person Mechanics Foundations
+- Claim: officials must make Three-Person Mechanics Foundations visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Three-Person Mechanics Foundations. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Three-Person Mechanics Foundations affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Three-Person Mechanics Foundations; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Three-Person Mechanics Foundations; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Three-Person Mechanics Foundations; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Three-Person Mechanics Foundations; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Three-Person Mechanics Foundations; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Three-Person Mechanics Foundations; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Three-Person Mechanics Foundations; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 13: Lead Official Positioning and Paint Coverage
+- Claim: officials must make Lead Official Positioning and Paint Coverage visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Lead Official Positioning and Paint Coverage. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Lead Official Positioning and Paint Coverage affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Lead Official Positioning and Paint Coverage; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Lead Official Positioning and Paint Coverage; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Lead Official Positioning and Paint Coverage; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Lead Official Positioning and Paint Coverage; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Lead Official Positioning and Paint Coverage; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Lead Official Positioning and Paint Coverage; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Lead Official Positioning and Paint Coverage; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 14: Trail Official Responsibilities and Perimeter Coverage
+- Claim: officials must make Trail Official Responsibilities and Perimeter Coverage visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Trail Official Responsibilities and Perimeter Coverage. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Trail Official Responsibilities and Perimeter Coverage affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Trail Official Responsibilities and Perimeter Coverage; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Trail Official Responsibilities and Perimeter Coverage; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Trail Official Responsibilities and Perimeter Coverage; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Trail Official Responsibilities and Perimeter Coverage; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Trail Official Responsibilities and Perimeter Coverage; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Trail Official Responsibilities and Perimeter Coverage; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Trail Official Responsibilities and Perimeter Coverage; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 15: Center Official Coverage and Rotation Discipline
+- Claim: officials must make Center Official Coverage and Rotation Discipline visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Center Official Coverage and Rotation Discipline. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Center Official Coverage and Rotation Discipline affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Center Official Coverage and Rotation Discipline; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Center Official Coverage and Rotation Discipline; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Center Official Coverage and Rotation Discipline; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Center Official Coverage and Rotation Discipline; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Center Official Coverage and Rotation Discipline; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Center Official Coverage and Rotation Discipline; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Center Official Coverage and Rotation Discipline; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 16: Rotations, Switches, and Transition Coverage
+- Claim: officials must make Rotations, Switches, and Transition Coverage visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Rotations, Switches, and Transition Coverage. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Rotations, Switches, and Transition Coverage affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Rotations, Switches, and Transition Coverage; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Rotations, Switches, and Transition Coverage; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Rotations, Switches, and Transition Coverage; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Rotations, Switches, and Transition Coverage; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Rotations, Switches, and Transition Coverage; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Rotations, Switches, and Transition Coverage; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Rotations, Switches, and Transition Coverage; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 17: Signals, Whistle Discipline, and Table Reporting
+- Claim: officials must make Signals, Whistle Discipline, and Table Reporting visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Signals, Whistle Discipline, and Table Reporting. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Signals, Whistle Discipline, and Table Reporting affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Signals, Whistle Discipline, and Table Reporting; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Signals, Whistle Discipline, and Table Reporting; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Signals, Whistle Discipline, and Table Reporting; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Signals, Whistle Discipline, and Table Reporting; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Signals, Whistle Discipline, and Table Reporting; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Signals, Whistle Discipline, and Table Reporting; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Signals, Whistle Discipline, and Table Reporting; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 18: Contact Principles and Incidental Contact
+- Claim: officials must make Contact Principles and Incidental Contact visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Contact Principles and Incidental Contact. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Contact Principles and Incidental Contact affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Contact Principles and Incidental Contact; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Contact Principles and Incidental Contact; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Contact Principles and Incidental Contact; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Contact Principles and Incidental Contact; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Contact Principles and Incidental Contact; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Contact Principles and Incidental Contact; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Contact Principles and Incidental Contact; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 19: Legal Guarding Position and Block/Charge Judgment
+- Claim: officials must make Legal Guarding Position and Block/Charge Judgment visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Legal Guarding Position and Block/Charge Judgment. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Legal Guarding Position and Block/Charge Judgment affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Legal Guarding Position and Block/Charge Judgment; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Legal Guarding Position and Block/Charge Judgment; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Legal Guarding Position and Block/Charge Judgment; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Legal Guarding Position and Block/Charge Judgment; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Legal Guarding Position and Block/Charge Judgment; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Legal Guarding Position and Block/Charge Judgment; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Legal Guarding Position and Block/Charge Judgment; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 20: Screening, Freedom of Movement, and Off-Ball Contact
+- Claim: officials must make Screening, Freedom of Movement, and Off-Ball Contact visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Screening, Freedom of Movement, and Off-Ball Contact. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Screening, Freedom of Movement, and Off-Ball Contact affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Screening, Freedom of Movement, and Off-Ball Contact; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Screening, Freedom of Movement, and Off-Ball Contact; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Screening, Freedom of Movement, and Off-Ball Contact; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Screening, Freedom of Movement, and Off-Ball Contact; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Screening, Freedom of Movement, and Off-Ball Contact; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Screening, Freedom of Movement, and Off-Ball Contact; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Screening, Freedom of Movement, and Off-Ball Contact; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 21: Verticality, Rebounding, and Post Play
+- Claim: officials must make Verticality, Rebounding, and Post Play visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Verticality, Rebounding, and Post Play. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Verticality, Rebounding, and Post Play affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Verticality, Rebounding, and Post Play; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Verticality, Rebounding, and Post Play; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Verticality, Rebounding, and Post Play; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Verticality, Rebounding, and Post Play; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Verticality, Rebounding, and Post Play; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Verticality, Rebounding, and Post Play; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Verticality, Rebounding, and Post Play; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 22: Shooting Fouls, Continuation, and Try/Act of Shooting
+- Claim: officials must make Shooting Fouls, Continuation, and Try/Act of Shooting visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Shooting Fouls, Continuation, and Try/Act of Shooting. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Shooting Fouls, Continuation, and Try/Act of Shooting affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Shooting Fouls, Continuation, and Try/Act of Shooting; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Shooting Fouls, Continuation, and Try/Act of Shooting; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Shooting Fouls, Continuation, and Try/Act of Shooting; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Shooting Fouls, Continuation, and Try/Act of Shooting; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Shooting Fouls, Continuation, and Try/Act of Shooting; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Shooting Fouls, Continuation, and Try/Act of Shooting; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Shooting Fouls, Continuation, and Try/Act of Shooting; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 23: Common Fouls, Intentional Fouls, Technical Fouls, and Flagrant Conduct
+- Claim: officials must make Common Fouls, Intentional Fouls, Technical Fouls, and Flagrant Conduct visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Common Fouls, Intentional Fouls, Technical Fouls, and Flagrant Conduct. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Common Fouls, Intentional Fouls, Technical Fouls, and Flagrant Conduct affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Common Fouls, Intentional Fouls, Technical Fouls, and Flagrant Conduct; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Common Fouls, Intentional Fouls, Technical Fouls, and Flagrant Conduct; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Common Fouls, Intentional Fouls, Technical Fouls, and Flagrant Conduct; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Common Fouls, Intentional Fouls, Technical Fouls, and Flagrant Conduct; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Common Fouls, Intentional Fouls, Technical Fouls, and Flagrant Conduct; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Common Fouls, Intentional Fouls, Technical Fouls, and Flagrant Conduct; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Common Fouls, Intentional Fouls, Technical Fouls, and Flagrant Conduct; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 24: Bench Decorum, Head Coach Communication, and Game Management
+- Claim: officials must make Bench Decorum, Head Coach Communication, and Game Management visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Bench Decorum, Head Coach Communication, and Game Management. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Bench Decorum, Head Coach Communication, and Game Management affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Bench Decorum, Head Coach Communication, and Game Management; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Bench Decorum, Head Coach Communication, and Game Management; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Bench Decorum, Head Coach Communication, and Game Management; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Bench Decorum, Head Coach Communication, and Game Management; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Bench Decorum, Head Coach Communication, and Game Management; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Bench Decorum, Head Coach Communication, and Game Management; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Bench Decorum, Head Coach Communication, and Game Management; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 25: Unsporting Conduct, Ejections, and Incident Reports
+- Claim: officials must make Unsporting Conduct, Ejections, and Incident Reports visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Unsporting Conduct, Ejections, and Incident Reports. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Unsporting Conduct, Ejections, and Incident Reports affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Unsporting Conduct, Ejections, and Incident Reports; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Unsporting Conduct, Ejections, and Incident Reports; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Unsporting Conduct, Ejections, and Incident Reports; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Unsporting Conduct, Ejections, and Incident Reports; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Unsporting Conduct, Ejections, and Incident Reports; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Unsporting Conduct, Ejections, and Incident Reports; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Unsporting Conduct, Ejections, and Incident Reports; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 26: Traveling, Pivot Foot, Gather Awareness, and Footwork Judgment
+- Claim: officials must make Traveling, Pivot Foot, Gather Awareness, and Footwork Judgment visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Traveling, Pivot Foot, Gather Awareness, and Footwork Judgment. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Traveling, Pivot Foot, Gather Awareness, and Footwork Judgment affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Traveling, Pivot Foot, Gather Awareness, and Footwork Judgment; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Traveling, Pivot Foot, Gather Awareness, and Footwork Judgment; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Traveling, Pivot Foot, Gather Awareness, and Footwork Judgment; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Traveling, Pivot Foot, Gather Awareness, and Footwork Judgment; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Traveling, Pivot Foot, Gather Awareness, and Footwork Judgment; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Traveling, Pivot Foot, Gather Awareness, and Footwork Judgment; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Traveling, Pivot Foot, Gather Awareness, and Footwork Judgment; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 27: Dribbling, Palming, Double Dribble, and Ball-Handling Violations
+- Claim: officials must make Dribbling, Palming, Double Dribble, and Ball-Handling Violations visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Dribbling, Palming, Double Dribble, and Ball-Handling Violations. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Dribbling, Palming, Double Dribble, and Ball-Handling Violations affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Dribbling, Palming, Double Dribble, and Ball-Handling Violations; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Dribbling, Palming, Double Dribble, and Ball-Handling Violations; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Dribbling, Palming, Double Dribble, and Ball-Handling Violations; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Dribbling, Palming, Double Dribble, and Ball-Handling Violations; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Dribbling, Palming, Double Dribble, and Ball-Handling Violations; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Dribbling, Palming, Double Dribble, and Ball-Handling Violations; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Dribbling, Palming, Double Dribble, and Ball-Handling Violations; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 28: Three Seconds, Ten Seconds, Backcourt, and Closely Guarded Counts
+- Claim: officials must make Three Seconds, Ten Seconds, Backcourt, and Closely Guarded Counts visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Three Seconds, Ten Seconds, Backcourt, and Closely Guarded Counts. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Three Seconds, Ten Seconds, Backcourt, and Closely Guarded Counts affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Three Seconds, Ten Seconds, Backcourt, and Closely Guarded Counts; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Three Seconds, Ten Seconds, Backcourt, and Closely Guarded Counts; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Three Seconds, Ten Seconds, Backcourt, and Closely Guarded Counts; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Three Seconds, Ten Seconds, Backcourt, and Closely Guarded Counts; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Three Seconds, Ten Seconds, Backcourt, and Closely Guarded Counts; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Three Seconds, Ten Seconds, Backcourt, and Closely Guarded Counts; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Three Seconds, Ten Seconds, Backcourt, and Closely Guarded Counts; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 29: Goaltending, Basket Interference, and Scoring Administration
+- Claim: officials must make Goaltending, Basket Interference, and Scoring Administration visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Goaltending, Basket Interference, and Scoring Administration. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Goaltending, Basket Interference, and Scoring Administration affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Goaltending, Basket Interference, and Scoring Administration; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Goaltending, Basket Interference, and Scoring Administration; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Goaltending, Basket Interference, and Scoring Administration; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Goaltending, Basket Interference, and Scoring Administration; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Goaltending, Basket Interference, and Scoring Administration; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Goaltending, Basket Interference, and Scoring Administration; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Goaltending, Basket Interference, and Scoring Administration; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 30: Substitutions, Timeouts, Correctable Errors, and Administrative Rulings
+- Claim: officials must make Substitutions, Timeouts, Correctable Errors, and Administrative Rulings visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Substitutions, Timeouts, Correctable Errors, and Administrative Rulings. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Substitutions, Timeouts, Correctable Errors, and Administrative Rulings affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Substitutions, Timeouts, Correctable Errors, and Administrative Rulings; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Substitutions, Timeouts, Correctable Errors, and Administrative Rulings; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Substitutions, Timeouts, Correctable Errors, and Administrative Rulings; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Substitutions, Timeouts, Correctable Errors, and Administrative Rulings; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Substitutions, Timeouts, Correctable Errors, and Administrative Rulings; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Substitutions, Timeouts, Correctable Errors, and Administrative Rulings; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Substitutions, Timeouts, Correctable Errors, and Administrative Rulings; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 31: End-of-Period, Last-Second Shot, and Timing Crew Cooperation
+- Claim: officials must make End-of-Period, Last-Second Shot, and Timing Crew Cooperation visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to End-of-Period, Last-Second Shot, and Timing Crew Cooperation. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how End-of-Period, Last-Second Shot, and Timing Crew Cooperation affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to End-of-Period, Last-Second Shot, and Timing Crew Cooperation; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to End-of-Period, Last-Second Shot, and Timing Crew Cooperation; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to End-of-Period, Last-Second Shot, and Timing Crew Cooperation; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to End-of-Period, Last-Second Shot, and Timing Crew Cooperation; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to End-of-Period, Last-Second Shot, and Timing Crew Cooperation; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to End-of-Period, Last-Second Shot, and Timing Crew Cooperation; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to End-of-Period, Last-Second Shot, and Timing Crew Cooperation; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 32: Press Coverage, Traps, and Full-Court Responsibilities
+- Claim: officials must make Press Coverage, Traps, and Full-Court Responsibilities visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Press Coverage, Traps, and Full-Court Responsibilities. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Press Coverage, Traps, and Full-Court Responsibilities affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Press Coverage, Traps, and Full-Court Responsibilities; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Press Coverage, Traps, and Full-Court Responsibilities; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Press Coverage, Traps, and Full-Court Responsibilities; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Press Coverage, Traps, and Full-Court Responsibilities; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Press Coverage, Traps, and Full-Court Responsibilities; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Press Coverage, Traps, and Full-Court Responsibilities; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Press Coverage, Traps, and Full-Court Responsibilities; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 33: Transition, Fast Breaks, and Secondary Defender Plays
+- Claim: officials must make Transition, Fast Breaks, and Secondary Defender Plays visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Transition, Fast Breaks, and Secondary Defender Plays. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Transition, Fast Breaks, and Secondary Defender Plays affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Transition, Fast Breaks, and Secondary Defender Plays; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Transition, Fast Breaks, and Secondary Defender Plays; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Transition, Fast Breaks, and Secondary Defender Plays; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Transition, Fast Breaks, and Secondary Defender Plays; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Transition, Fast Breaks, and Secondary Defender Plays; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Transition, Fast Breaks, and Secondary Defender Plays; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Transition, Fast Breaks, and Secondary Defender Plays; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 34: Out-of-Bounds, Loose Ball, and Rebounding Scrums
+- Claim: officials must make Out-of-Bounds, Loose Ball, and Rebounding Scrums visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Out-of-Bounds, Loose Ball, and Rebounding Scrums. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Out-of-Bounds, Loose Ball, and Rebounding Scrums affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Out-of-Bounds, Loose Ball, and Rebounding Scrums; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Out-of-Bounds, Loose Ball, and Rebounding Scrums; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Out-of-Bounds, Loose Ball, and Rebounding Scrums; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Out-of-Bounds, Loose Ball, and Rebounding Scrums; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Out-of-Bounds, Loose Ball, and Rebounding Scrums; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Out-of-Bounds, Loose Ball, and Rebounding Scrums; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Out-of-Bounds, Loose Ball, and Rebounding Scrums; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 35: Advantage/Disadvantage Philosophy and Patient Whistle
+- Claim: officials must make Advantage/Disadvantage Philosophy and Patient Whistle visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Advantage/Disadvantage Philosophy and Patient Whistle. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Advantage/Disadvantage Philosophy and Patient Whistle affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Advantage/Disadvantage Philosophy and Patient Whistle; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Advantage/Disadvantage Philosophy and Patient Whistle; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Advantage/Disadvantage Philosophy and Patient Whistle; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Advantage/Disadvantage Philosophy and Patient Whistle; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Advantage/Disadvantage Philosophy and Patient Whistle; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Advantage/Disadvantage Philosophy and Patient Whistle; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Advantage/Disadvantage Philosophy and Patient Whistle; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 36: Crew Communication, Pregame, Halftime, and Postgame
+- Claim: officials must make Crew Communication, Pregame, Halftime, and Postgame visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Crew Communication, Pregame, Halftime, and Postgame. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Crew Communication, Pregame, Halftime, and Postgame affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Crew Communication, Pregame, Halftime, and Postgame; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Crew Communication, Pregame, Halftime, and Postgame; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Crew Communication, Pregame, Halftime, and Postgame; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Crew Communication, Pregame, Halftime, and Postgame; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Crew Communication, Pregame, Halftime, and Postgame; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Crew Communication, Pregame, Halftime, and Postgame; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Crew Communication, Pregame, Halftime, and Postgame; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 37: Table Crew, Scorer, Timer, and Shot Clock if Applicable
+- Claim: officials must make Table Crew, Scorer, Timer, and Shot Clock if Applicable visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Table Crew, Scorer, Timer, and Shot Clock if Applicable. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Table Crew, Scorer, Timer, and Shot Clock if Applicable affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Table Crew, Scorer, Timer, and Shot Clock if Applicable; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Table Crew, Scorer, Timer, and Shot Clock if Applicable; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Table Crew, Scorer, Timer, and Shot Clock if Applicable; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Table Crew, Scorer, Timer, and Shot Clock if Applicable; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Table Crew, Scorer, Timer, and Shot Clock if Applicable; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Table Crew, Scorer, Timer, and Shot Clock if Applicable; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Table Crew, Scorer, Timer, and Shot Clock if Applicable; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 38: Conflict Resolution and Coach/Player Dialogue
+- Claim: officials must make Conflict Resolution and Coach/Player Dialogue visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Conflict Resolution and Coach/Player Dialogue. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Conflict Resolution and Coach/Player Dialogue affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Conflict Resolution and Coach/Player Dialogue; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Conflict Resolution and Coach/Player Dialogue; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Conflict Resolution and Coach/Player Dialogue; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Conflict Resolution and Coach/Player Dialogue; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Conflict Resolution and Coach/Player Dialogue; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Conflict Resolution and Coach/Player Dialogue; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Conflict Resolution and Coach/Player Dialogue; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 39: Facility, Spectator, Security, Weather, and Emergency Administration
+- Claim: officials must make Facility, Spectator, Security, Weather, and Emergency Administration visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Facility, Spectator, Security, Weather, and Emergency Administration. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Facility, Spectator, Security, Weather, and Emergency Administration affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Facility, Spectator, Security, Weather, and Emergency Administration; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Facility, Spectator, Security, Weather, and Emergency Administration; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Facility, Spectator, Security, Weather, and Emergency Administration; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Facility, Spectator, Security, Weather, and Emergency Administration; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Facility, Spectator, Security, Weather, and Emergency Administration; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Facility, Spectator, Security, Weather, and Emergency Administration; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Facility, Spectator, Security, Weather, and Emergency Administration; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 40: Youth/Scholastic Environment, Student-Athlete Safety, and Education-Based Athletics
+- Claim: officials must make Youth/Scholastic Environment, Student-Athlete Safety, and Education-Based Athletics visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Youth/Scholastic Environment, Student-Athlete Safety, and Education-Based Athletics. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Youth/Scholastic Environment, Student-Athlete Safety, and Education-Based Athletics affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Youth/Scholastic Environment, Student-Athlete Safety, and Education-Based Athletics; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Youth/Scholastic Environment, Student-Athlete Safety, and Education-Based Athletics; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Youth/Scholastic Environment, Student-Athlete Safety, and Education-Based Athletics; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Youth/Scholastic Environment, Student-Athlete Safety, and Education-Based Athletics; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Youth/Scholastic Environment, Student-Athlete Safety, and Education-Based Athletics; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Youth/Scholastic Environment, Student-Athlete Safety, and Education-Based Athletics; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Youth/Scholastic Environment, Student-Athlete Safety, and Education-Based Athletics; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 41: Film Study Methodology and Self-Scout
+- Claim: officials must make Film Study Methodology and Self-Scout visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Film Study Methodology and Self-Scout. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Film Study Methodology and Self-Scout affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Film Study Methodology and Self-Scout; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Film Study Methodology and Self-Scout; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Film Study Methodology and Self-Scout; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Film Study Methodology and Self-Scout; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Film Study Methodology and Self-Scout; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Film Study Methodology and Self-Scout; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Film Study Methodology and Self-Scout; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 42: Play-Calling Accuracy, Position Adjustment, and Correction Planning
+- Claim: officials must make Play-Calling Accuracy, Position Adjustment, and Correction Planning visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Play-Calling Accuracy, Position Adjustment, and Correction Planning. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Play-Calling Accuracy, Position Adjustment, and Correction Planning affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Play-Calling Accuracy, Position Adjustment, and Correction Planning; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Play-Calling Accuracy, Position Adjustment, and Correction Planning; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Play-Calling Accuracy, Position Adjustment, and Correction Planning; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Play-Calling Accuracy, Position Adjustment, and Correction Planning; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Play-Calling Accuracy, Position Adjustment, and Correction Planning; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Play-Calling Accuracy, Position Adjustment, and Correction Planning; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Play-Calling Accuracy, Position Adjustment, and Correction Planning; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 43: Partner Feedback, Observer Feedback, and Professional Development
+- Claim: officials must make Partner Feedback, Observer Feedback, and Professional Development visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Partner Feedback, Observer Feedback, and Professional Development. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Partner Feedback, Observer Feedback, and Professional Development affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Partner Feedback, Observer Feedback, and Professional Development; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Partner Feedback, Observer Feedback, and Professional Development; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Partner Feedback, Observer Feedback, and Professional Development; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Partner Feedback, Observer Feedback, and Professional Development; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Partner Feedback, Observer Feedback, and Professional Development; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Partner Feedback, Observer Feedback, and Professional Development; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Partner Feedback, Observer Feedback, and Professional Development; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 44: Game Reports, Incident Documentation, and Supervisor Communication
+- Claim: officials must make Game Reports, Incident Documentation, and Supervisor Communication visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Game Reports, Incident Documentation, and Supervisor Communication. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Game Reports, Incident Documentation, and Supervisor Communication affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Game Reports, Incident Documentation, and Supervisor Communication; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Game Reports, Incident Documentation, and Supervisor Communication; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Game Reports, Incident Documentation, and Supervisor Communication; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Game Reports, Incident Documentation, and Supervisor Communication; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Game Reports, Incident Documentation, and Supervisor Communication; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Game Reports, Incident Documentation, and Supervisor Communication; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Game Reports, Incident Documentation, and Supervisor Communication; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 45: Tournament Readiness and Postseason Expectations
+- Claim: officials must make Tournament Readiness and Postseason Expectations visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Tournament Readiness and Postseason Expectations. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Tournament Readiness and Postseason Expectations affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Tournament Readiness and Postseason Expectations; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Tournament Readiness and Postseason Expectations; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Tournament Readiness and Postseason Expectations; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Tournament Readiness and Postseason Expectations; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Tournament Readiness and Postseason Expectations; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Tournament Readiness and Postseason Expectations; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Tournament Readiness and Postseason Expectations; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 46: Physical Conditioning, Signals, Voice, and Professional Presence
+- Claim: officials must make Physical Conditioning, Signals, Voice, and Professional Presence visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Physical Conditioning, Signals, Voice, and Professional Presence. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Physical Conditioning, Signals, Voice, and Professional Presence affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Physical Conditioning, Signals, Voice, and Professional Presence; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Physical Conditioning, Signals, Voice, and Professional Presence; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Physical Conditioning, Signals, Voice, and Professional Presence; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Physical Conditioning, Signals, Voice, and Professional Presence; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Physical Conditioning, Signals, Voice, and Professional Presence; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Physical Conditioning, Signals, Voice, and Professional Presence; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Physical Conditioning, Signals, Voice, and Professional Presence; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 47: Bias Awareness, Consistency, and Fairness
+- Claim: officials must make Bias Awareness, Consistency, and Fairness visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Bias Awareness, Consistency, and Fairness. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Bias Awareness, Consistency, and Fairness affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Bias Awareness, Consistency, and Fairness; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Bias Awareness, Consistency, and Fairness; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Bias Awareness, Consistency, and Fairness; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Bias Awareness, Consistency, and Fairness; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Bias Awareness, Consistency, and Fairness; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Bias Awareness, Consistency, and Fairness; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Bias Awareness, Consistency, and Fairness; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 48: Assignment Preparation, Travel, Availability, and Conduct
+- Claim: officials must make Assignment Preparation, Travel, Availability, and Conduct visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Assignment Preparation, Travel, Availability, and Conduct. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Assignment Preparation, Travel, Availability, and Conduct affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Assignment Preparation, Travel, Availability, and Conduct; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Assignment Preparation, Travel, Availability, and Conduct; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Assignment Preparation, Travel, Availability, and Conduct; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Assignment Preparation, Travel, Availability, and Conduct; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Assignment Preparation, Travel, Availability, and Conduct; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Assignment Preparation, Travel, Availability, and Conduct; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Assignment Preparation, Travel, Availability, and Conduct; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 49: Advanced Case Plays and Unusual Situations
+- Claim: officials must make Advanced Case Plays and Unusual Situations visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Advanced Case Plays and Unusual Situations. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Advanced Case Plays and Unusual Situations affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Advanced Case Plays and Unusual Situations; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Advanced Case Plays and Unusual Situations; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Advanced Case Plays and Unusual Situations; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Advanced Case Plays and Unusual Situations; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Advanced Case Plays and Unusual Situations; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Advanced Case Plays and Unusual Situations; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Advanced Case Plays and Unusual Situations; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 50: Mock Game Practicum and Full-Crew Evaluation
+- Claim: officials must make Mock Game Practicum and Full-Crew Evaluation visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Mock Game Practicum and Full-Crew Evaluation. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Mock Game Practicum and Full-Crew Evaluation affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Mock Game Practicum and Full-Crew Evaluation; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Mock Game Practicum and Full-Crew Evaluation; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Mock Game Practicum and Full-Crew Evaluation; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Mock Game Practicum and Full-Crew Evaluation; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Mock Game Practicum and Full-Crew Evaluation; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Mock Game Practicum and Full-Crew Evaluation; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Mock Game Practicum and Full-Crew Evaluation; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 51: Final Written Exam, Oral Defense, and Video Test
+- Claim: officials must make Final Written Exam, Oral Defense, and Video Test visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Final Written Exam, Oral Defense, and Video Test. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Final Written Exam, Oral Defense, and Video Test affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Final Written Exam, Oral Defense, and Video Test; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Final Written Exam, Oral Defense, and Video Test; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Final Written Exam, Oral Defense, and Video Test; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Final Written Exam, Oral Defense, and Video Test; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Final Written Exam, Oral Defense, and Video Test; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Final Written Exam, Oral Defense, and Video Test; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Final Written Exam, Oral Defense, and Video Test; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Week 52: Capstone Portfolio, Advancement Board, and Season Development Plan
+- Claim: officials must make Capstone Portfolio, Advancement Board, and Season Development Plan visible through judgment, mechanics, communication, and written evidence.
+- Lecture screenshot: This week in the NFHS program is devoted to Capstone Portfolio, Advancement Board, and Season Development Plan. The professor frames the topic as a college-level study of high-school basketball officiating, education-based athletics, student-athlete safety, mechanics, communication, and state-association readiness.
+- Required evidence: Students must produce a written journal entry, NFHS rule/case-play worksheet, mechanics-lab rubric, film note, role-play score, and mentor note showing how Capstone Portfolio, Advancement Board, and Season Development Plan affects high-school game administration.
+- Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Capstone Portfolio, Advancement Board, and Season Development Plan; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
+  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+- Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Capstone Portfolio, Advancement Board, and Season Development Plan; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
+  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+- Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Capstone Portfolio, Advancement Board, and Season Development Plan; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
+  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+- Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Capstone Portfolio, Advancement Board, and Season Development Plan; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
+  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+- Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Capstone Portfolio, Advancement Board, and Season Development Plan; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
+  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+- Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Capstone Portfolio, Advancement Board, and Season Development Plan; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
+  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+- Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
+  - Reading: Read the current NFHS Basketball Rules Book sections tied to Capstone Portfolio, Advancement Board, and Season Development Plan; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
+  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+
+## Closing Slide: Advancement Board Readiness
+- Claim: completion evidence should prove the official can explain, perform, defend, and improve.
+- Visual: certification progress, mentor sign-off, film evidence, and assignment-readiness record.

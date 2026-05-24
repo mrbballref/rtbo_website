@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Film Laboratory visual</title>
+  <desc id="desc">Clip screenshot frame, freeze-frame callout, primary-coverage tags</desc>
+  <rect width="1280" height="720" fill="#0b0f14"/>
+  <rect x="54" y="46" width="1172" height="628" rx="30" fill="#101820" stroke="#f58220" stroke-width="4"/>
+  <text x="88" y="120" fill="#f58220" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="900">FILM</text>
+  <text x="88" y="190" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="900">Film Laboratory</text>
+  <text x="88" y="242" fill="#dbeafe" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700">Clip screenshot frame, freeze-frame callout, primary-coverage tags</text>
+  
+  <rect x="705" y="154" width="386" height="252" rx="14" fill="#020617" stroke="#ffffff" stroke-width="5"/><path d="M735 197h326M735 252h326M735 307h326M735 362h326" stroke="#f58220" stroke-width="6" opacity=".72"/><rect x="705" y="438" width="386" height="104" rx="12" fill="#ffffff" opacity=".88"/><text x="732" y="500" fill="#0b0f14" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="900">FREEZE FRAME + TAGS</text>
+  
+  <rect x="88" y="444" width="448" height="56" rx="10" fill="#ffffff" opacity=".08"/>
+  <rect x="88" y="520" width="368" height="56" rx="10" fill="#ffffff" opacity=".08"/>
+  <rect x="88" y="596" width="512" height="28" rx="8" fill="#f58220" opacity=".82"/>
+</svg>

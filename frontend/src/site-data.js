@@ -4,6 +4,7 @@ export const navItems = [
   ['events', 'Schools & Events'],
   ['livestream', 'Live Stream'],
   ['services', 'Services'],
+  ['education', 'RefZone University'],
   ['trainers', 'Trainers'],
   ['guests', 'Guests'],
   ['reviews', 'Reviews'],
@@ -96,6 +97,10 @@ export const seoMeta = {
   services: [
     'Basketball Referee Assigning & Official Development Services | RTBO',
     'RTBO provides event assigning, official development, evaluation, technology-driven tools, and leadership standards for basketball officials and organizations.'
+  ],
+  education: [
+    'RefZone University | RTBO Online Basketball Officiating Courses',
+    'Train through RefZone University online basketball officiating courses with video lessons, modules, quizzes, tests, and progress tracking for official development.'
   ],
   trainers: [
     'RTBO Trainers | Basketball Officiating Development Team',

@@ -2,13 +2,37 @@ import React, { useEffect, useMemo, useState } from 'react';
 import './rtbo-academy.css';
 
 const MANUAL_URL = '/course-manual.md';
+const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
+const noopStatus = () => {};
+const COURSE_OVERVIEW_THUMBNAIL = '/assets/images/refzone/course-overview-thumbnail.png';
+const ACADEMY_COURSE_IMAGES = [
+  'three-person-crew.jpg',
+  'training_img_1.jpg',
+  'assigning-workflow-crew.jpg',
+  'u-got-nex-ref-platform.jpg',
+  'uapb_team_camp_card.jpg',
+  'uca_team_camp_card.jpg',
+  'ualr_team_camp_card.jpg',
+  'rtbo_web_banner.jpg'
+];
+const ACADEMY_DAY_VISUALS = [
+  ['lecture', /lecture|seminar/i, 'Professor Lecture', 'Concept map, classroom screenshot, and instructor talking points.'],
+  ['rules', /rules|case/i, 'Rules and Case Plays', 'Rulebook panel, case-play decision tree, and written-answer template.'],
+  ['court-lab', /court|mechanics/i, 'Court Mechanics Lab', 'Half-court positioning diagram, rotation arrows, and visual-angle checkpoints.'],
+  ['film-lab', /film|self-scout/i, 'Film Laboratory', 'Clip screenshot frame, freeze-frame callout, and primary-coverage tags.'],
+  ['role-play', /role|oral|communication/i, 'Role-Play and Oral Defense', 'Scenario card, dialogue rubric, and supervisor-defense slide.'],
+  ['live-practicum', /live|scrimmage|practicum|livestream/i, 'Live Practicum', 'Game-flow screenshot, observer checklist, and performance evidence panel.'],
+  ['reflection', /reflection|remediation|mentor|advancement/i, 'Reflection and Mentor Review', 'Journal prompt, remediation tracker, and mentor sign-off card.']
+];
 const STORAGE_KEYS = {
   completed: 'rtbo_academy_completed_days',
   notes: 'rtbo_academy_student_notes',
   bookmarks: 'rtbo_academy_bookmarks',
   videos: 'rtbo_academy_video_plan',
-  tests: 'rtbo_academy_passed_tests'
+  tests: 'rtbo_academy_passed_tests',
+  courses: 'rtbo-refzone-managed-courses'
 };
+const REFZONE_COURSES_EVENT = 'rtbo-refzone-courses-updated';
 
 function slug(value = '') {
   return String(value).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -18,78 +42,72 @@ function plainText(lines = []) {
   return lines.join('\n').replace(/^#+\s*/gm, '').trim();
 }
 
-const NFHS_WEEK_TOPICS = [
-  'Orientation and Professional Identity',
-  'NFHS Rules Architecture and Definitions',
-  'Pre-Game Duties and Crew Preparation',
-  'Primary Coverage and Court Positioning',
-  'Freedom of Movement and Contact Judgment',
-  'Fouls, Penalties, Signals, and Reporting',
-  'Game Administration, Timing, and Substitutions',
-  'Coach, Player, and Table Communication',
-  'Two-Person Mechanics Laboratory',
-  'Three-Person Mechanics Laboratory',
-  'Film Study and Live Practicum Evaluation',
-  'Postseason Readiness and Capstone Board'
-];
+function courseImageFor(track = {}, index = 0) {
+  if (track.id === 'overview') return COURSE_OVERVIEW_THUMBNAIL;
+  if (track.overviewThumbnail) return track.overviewThumbnail;
+  if (track.cover) return track.cover;
+  if (track.id) return `refzone/course-covers/${track.id}.svg`;
+  const value = `${track.id || ''} ${track.title || ''} ${track.level || ''}`.toLowerCase();
+  if (value.includes('nfhs') || value.includes('high school')) return 'three-person-crew.jpg';
+  if (value.includes('ncaa') || value.includes('college')) return 'assigning-workflow-crew.jpg';
+  if (value.includes('video') || value.includes('film')) return '3d_rtbo_livestream_player.jpg';
+  if (value.includes('technology') || value.includes('platform')) return 'u-got-nex-ref-platform.jpg';
+  return ACADEMY_COURSE_IMAGES[index % ACADEMY_COURSE_IMAGES.length];
+}
 
-const NFHS_DAILY_FLOW = [
-  ['Professor Lecture and Socratic Seminar', 'Study the rule foundation, officiating philosophy, and professional expectations for the weekly NFHS topic.'],
-  ['Rules, Case Plays, and Written Reasoning', 'Complete written case plays and defend the ruling, restart, penalty, signal, and crew responsibility.'],
-  ['Court Laboratory and Mechanics Performance', 'Demonstrate positioning, coverage, signals, rotation discipline, and table reporting on the floor.'],
-  ['Film Laboratory and Self-Scout Analysis', 'Review video clips, identify primary coverage, explain judgment, and write correction points.'],
-  ['Role-Play, Communication, and Oral Defense', 'Practice coach, player, partner, scorer, timer, and administrator communication under pressure.'],
-  ['Live Practicum, Scrimmage, or Livestream Observation', 'Apply the weekly topic in a live or simulated environment with evaluator notes.'],
-  ['Reflection, Remediation, Mentor Conference, and Advancement Record', 'Submit the weekly journal, mentor review, remediation plan, and advancement evidence.']
-];
-
-function buildNfhsTrack() {
+function dayVisualFor(day = {}) {
+  const match = ACADEMY_DAY_VISUALS.find(([, pattern]) => pattern.test(day.title || '')) || ACADEMY_DAY_VISUALS[0];
   return {
-    id: 'nfhs',
-    title: 'NFHS',
-    path: 'Certificate in High School Basketball Officiating - NFHS Track',
-    level: 'High School Foundation / NFHS Rules',
+    key: match[0],
+    title: match[2],
+    proof: match[3],
+    image: `/assets/images/refzone/lesson-visuals/${match[0]}.svg`
+  };
+}
+
+function managedCourseToTrack(course = {}, index = 0) {
+  const id = slug(course.id || course.title || `managed-course-${index + 1}`);
+  const weeks = Array.isArray(course.weeks) && course.weeks.length ? course.weeks : [{
+    id: `${id}-week-1`,
+    month: 1,
+    week: 1,
+    title: 'Course Orientation',
+    lecture: course.description || '',
+    evidence: '',
+    days: [{
+      id: `${id}-week-1-day-1`,
+      day: 1,
+      title: 'Course Welcome and Baseline Assessment',
+      visualType: 'lecture',
+      sections: []
+    }]
+  }];
+  return {
+    id,
+    title: course.title || `Managed Course ${index + 1}`,
+    path: course.overview || course.description || course.path || 'RefZone University course',
+    level: course.level || 'Managed Course',
+    cover: course.cover || `/assets/images/refzone/course-covers/${id}.svg`,
+    overviewThumbnail: course.overviewThumbnail || course.overview_thumbnail || '',
     raw: [],
-    weeks: NFHS_WEEK_TOPICS.map((topic, topicIndex) => {
-      const week = topicIndex + 1;
-      return {
-        id: `nfhs-week-${week}`,
-        month: Math.ceil(week / 4),
-        week,
-        title: topic,
-        content: [
-          `NFHS Week ${week} builds high school basketball officiating skill through classroom teaching, written testing, mechanics performance, film review, role-play, live practicum, and mentor feedback.`,
-          `Students must connect ${topic} to safety, fairness, pace of play, game administration, professional communication, and assignment readiness.`
-        ],
-        days: NFHS_DAILY_FLOW.map(([title, description], dayIndex) => {
-          const day = dayIndex + 1;
-          return {
-            id: `nfhs-week-${week}-day-${day}`,
-            week,
-            day,
-            title,
-            content: [
-              description,
-              `The official must apply ${topic} using NFHS rule language, high school mechanics, correct signals, clear reporting, and calm game management.`
-            ],
-            sections: [
-              {
-                title: 'Student Performance Requirement',
-                content: [
-                  `Complete the assigned NFHS task for ${topic}, submit written evidence, and show improvement through a measurable score, rubric, film note, or mentor approval.`
-                ]
-              },
-              {
-                title: 'Assessment Standard',
-                content: [
-                  'Passing work must identify the correct rule or mechanic, explain the decision professionally, and describe the expected restart, penalty, report, or crew adjustment when applicable.'
-                ]
-              }
-            ]
-          };
-        })
-      };
-    })
+    weeks: weeks.map((week, weekIndex) => ({
+      id: week.id || `${id}-week-${weekIndex + 1}`,
+      month: Number(week.month || Math.ceil((weekIndex + 1) / 4)),
+      week: Number(week.week || weekIndex + 1),
+      title: week.title || `Module ${weekIndex + 1}`,
+      content: [week.lecture, week.evidence].filter(Boolean),
+      days: (week.days || []).map((day, dayIndex) => ({
+        id: day.id || `${id}-week-${weekIndex + 1}-day-${dayIndex + 1}`,
+        week: Number(week.week || weekIndex + 1),
+        day: Number(day.day || dayIndex + 1),
+        title: day.title || `Lesson ${dayIndex + 1}`,
+        content: [day.screenshot, day.presentation].filter(Boolean),
+        sections: (day.sections || []).map((section, sectionIndex) => ({
+          title: section.title || `Line Item ${sectionIndex + 1}`,
+          content: [section.summary, section.screenshot, section.presentation].filter(Boolean)
+        }))
+      }))
+    }))
   };
 }
 
@@ -183,8 +201,7 @@ function splitCourse(markdown = '') {
   const parsedTracks = tracks.filter(track => track.weeks.length || track.raw.length);
   const overviewTracks = parsedTracks.filter(track => track.id === 'overview');
   const courseTracks = parsedTracks.filter(track => track.id !== 'overview');
-  const orderedCourseTracks = courseTracks.some(track => track.id === 'nfhs') ? courseTracks : [buildNfhsTrack(), ...courseTracks];
-  return [...overviewTracks, ...orderedCourseTracks];
+  return [...overviewTracks, ...courseTracks];
 }
 
 function useLocalJson(key, initialValue) {
@@ -299,12 +316,13 @@ function LabView({ title, rows }) {
   );
 }
 
-function RTBOAcademy({ user = {}, onStatus = () => {} }) {
+function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, brandName = 'RTBO Academy' }) {
   const [markdown, setMarkdown] = useState('');
   const [loading, setLoading] = useState(true);
   const [activeView, setActiveView] = useState('dashboard');
   const [query, setQuery] = useState('');
   const [selectedTrackId, setSelectedTrackId] = useState('');
+  const [overviewTrackId, setOverviewTrackId] = useState('');
   const [selectedWeekIndex, setSelectedWeekIndex] = useState(0);
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
   const [completed, setCompleted] = useLocalJson(STORAGE_KEYS.completed, {});
@@ -312,9 +330,10 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
   const [bookmarks, setBookmarks] = useLocalJson(STORAGE_KEYS.bookmarks, {});
   const [videoPlans, setVideoPlans] = useLocalJson(STORAGE_KEYS.videos, {});
   const [passedTests, setPassedTests] = useLocalJson(STORAGE_KEYS.tests, {});
+  const [managedCourses, setManagedCourses] = useState([]);
 
   useEffect(() => {
-    document.title = 'RTBO Academy | Education Workspace';
+    document.title = publicMode ? `${brandName} | RTBO Education` : 'RTBO Academy | Education Workspace';
     fetch(MANUAL_URL)
       .then(response => response.ok ? response.text() : Promise.reject(new Error('Manual unavailable')))
       .then(text => {
@@ -325,16 +344,63 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
         setLoading(false);
         onStatus('RTBO Academy course manual could not be loaded.');
       });
-  }, [onStatus]);
+  }, [brandName, onStatus, publicMode]);
 
-  const tracks = useMemo(() => splitCourse(markdown), [markdown]);
-  const selectedTrack = useMemo(() => tracks.find(track => track.id === selectedTrackId) || tracks[0], [tracks, selectedTrackId]);
+  useEffect(() => {
+    let active = true;
+    async function loadManagedCourses(event) {
+      if (Array.isArray(event?.detail?.courses)) {
+        setManagedCourses(event.detail.courses);
+        return;
+      }
+      try {
+        const response = await fetch(`${API_URL}/refzone-courses.php`, { credentials: 'include' });
+        const data = await response.json();
+        if (active && data?.managed && Array.isArray(data.courses)) setManagedCourses(data.courses);
+      } catch {
+        try {
+          const stored = JSON.parse(localStorage.getItem(STORAGE_KEYS.courses) || '[]');
+          if (active && Array.isArray(stored) && stored.length) {
+            setManagedCourses(stored);
+            return;
+          }
+          const starter = await fetch('/refzone-course-materials.json').then(response => response.json());
+          if (active && Array.isArray(starter.courses)) setManagedCourses(starter.courses);
+        } catch {
+          if (active) setManagedCourses([]);
+        }
+      }
+    }
+    loadManagedCourses();
+    window.addEventListener(REFZONE_COURSES_EVENT, loadManagedCourses);
+    window.addEventListener('storage', loadManagedCourses);
+    return () => {
+      active = false;
+      window.removeEventListener(REFZONE_COURSES_EVENT, loadManagedCourses);
+      window.removeEventListener('storage', loadManagedCourses);
+    };
+  }, []);
+
+  const tracks = useMemo(() => {
+    const managedTracks = managedCourses.filter(course => (course.status || 'active') === 'active').map(managedCourseToTrack);
+    const rows = managedTracks.length ? managedTracks : splitCourse(markdown);
+    return [...rows].sort((a, b) => {
+      if (a.id === 'overview') return -1;
+      if (b.id === 'overview') return 1;
+      if (a.id === 'nfhs') return -1;
+      if (b.id === 'nfhs') return 1;
+      return 0;
+    });
+  }, [managedCourses, markdown]);
+  const defaultTrack = useMemo(() => tracks.find(track => track.weeks?.length) || tracks[0], [tracks]);
+  const selectedTrack = useMemo(() => tracks.find(track => track.id === selectedTrackId) || defaultTrack, [defaultTrack, tracks, selectedTrackId]);
+  const overviewTrack = useMemo(() => tracks.find(track => track.id === overviewTrackId) || selectedTrack, [overviewTrackId, selectedTrack, tracks]);
   const selectedWeek = selectedTrack?.weeks?.[selectedWeekIndex] || selectedTrack?.weeks?.[0];
   const selectedDay = selectedWeek?.days?.[selectedDayIndex] || selectedWeek?.days?.[0];
 
   useEffect(() => {
-    if (!selectedTrackId && tracks[0]) setSelectedTrackId(tracks[0].id);
-  }, [tracks, selectedTrackId]);
+    if ((!selectedTrackId || !tracks.some(track => track.id === selectedTrackId)) && defaultTrack) setSelectedTrackId(defaultTrack.id);
+  }, [defaultTrack, tracks, selectedTrackId]);
 
   const allDays = useMemo(() => {
     const rows = [];
@@ -362,10 +428,24 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
     return { tracks: tracks.length, weeks: totalWeeks, days: allDays.length, completedDays, percent };
   }, [tracks, allDays, completed]);
 
+  const academyViewTabs = [
+    ['dashboard', 'Dashboard'],
+    ['course', 'Course Browser'],
+    ['search', 'Search Manual'],
+    ['assignments', 'Assignments'],
+    ['videos', 'Video Plan'],
+    ['film', 'Film Lab'],
+    ['court', 'Court Lab'],
+    ['roleplay', 'Role Play'],
+    ['certifications', 'Certifications'],
+    ...(!publicMode ? [['admin', 'Admin Controls']] : [])
+  ];
+
   const dayText = selectedDay ? [
     ...selectedDay.content,
     ...selectedDay.sections.flatMap(section => [`#### ${section.title}`, ...section.content])
   ].join('\n') : plainText(selectedTrack?.raw || []) || 'Select a day to begin.';
+  const selectedDayVisual = selectedDay ? dayVisualFor(selectedDay) : null;
 
   function dayTestPassed(dayId) {
     return Boolean(passedTests[dayId]);
@@ -404,6 +484,18 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
     setSelectedDayIndex(0);
   }
 
+  function openCourseOverview(track) {
+    setOverviewTrackId(track.id);
+    setActiveView('overview');
+  }
+
+  function proceedToCourse(track) {
+    setSelectedTrackId(track.id);
+    setSelectedWeekIndex(0);
+    setSelectedDayIndex(0);
+    setActiveView('course');
+  }
+
   function markDay(dayId, value) {
     if (value && !dayTestPassed(dayId)) {
       onStatus('Take and pass this Academy test before marking the module complete.');
@@ -440,19 +532,19 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
 
   if (loading) {
     return (
-      <section className="rtbo-dashboard-card rtbo-academy-page">
-        <p className="rtbo-empty-state">Loading RTBO Academy course manual...</p>
+      <section className={`${publicMode ? 'rtbo-public-academy-shell' : 'rtbo-dashboard-card'} rtbo-academy-page`}>
+        <p className="rtbo-empty-state">Loading {brandName} course manual...</p>
       </section>
     );
   }
 
   if (!tracks.length) {
     return (
-      <section className="rtbo-dashboard-card rtbo-academy-page">
+      <section className={`${publicMode ? 'rtbo-public-academy-shell' : 'rtbo-dashboard-card'} rtbo-academy-page`}>
         <div className="rtbo-dashboard-card-head">
           <div>
             <p className="eyebrow">Education</p>
-            <h3>RTBO Academy</h3>
+            <h3>{brandName}</h3>
             <p>The Academy manual did not load. Confirm that course-manual.md is available in the frontend public folder.</p>
           </div>
         </div>
@@ -461,12 +553,12 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
   }
 
   return (
-    <section className="rtbo-dashboard-card rtbo-academy-page">
+    <section className={`${publicMode ? 'rtbo-public-academy-shell' : 'rtbo-dashboard-card'} rtbo-academy-page`}>
       <div className="rtbo-dashboard-card-head">
         <div>
-          <p className="eyebrow">Education Workspace</p>
-          <h3>RTBO Academy</h3>
-          <p>College-style training paths with daily coursework, evidence, labs, video planning, and advancement tracking.</p>
+          <p className="eyebrow">{publicMode ? 'RefZone University' : 'Education Workspace'}</p>
+          <h3>{brandName}</h3>
+          <p>{publicMode ? 'A Coursera-style officiating course with modules, video planning, lessons, tests, quizzes, notes, progress tracking, and certification readiness.' : 'College-style training paths with daily coursework, evidence, labs, video planning, and advancement tracking.'}</p>
         </div>
         <div className="rtbo-form-toolbar">
           <button className="btn secondary dark-btn" type="button" onClick={() => window.print()}>Print View</button>
@@ -475,18 +567,7 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
       </div>
 
       <div className="rtbo-academy-topbar">
-        {[
-          ['dashboard', 'Dashboard'],
-          ['course', 'Course Browser'],
-          ['search', 'Search Manual'],
-          ['assignments', 'Assignments'],
-          ['videos', 'Video Plan'],
-          ['film', 'Film Lab'],
-          ['court', 'Court Lab'],
-          ['roleplay', 'Role Play'],
-          ['certifications', 'Certifications'],
-          ['admin', 'Admin Controls']
-        ].map(([id, label]) => (
+        {academyViewTabs.map(([id, label]) => (
           <button className={activeView === id ? 'active' : ''} type="button" key={id} onClick={() => setActiveView(id)}>{label}</button>
         ))}
       </div>
@@ -496,9 +577,12 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
           <section className="rtbo-academy-hero">
             <div>
               <p className="eyebrow">Raising The Bar Officiating</p>
-              <h3>RTBO Academy University</h3>
+              <h3>{publicMode ? brandName : 'RTBO Academy University'}</h3>
               <p>A full official-development course flow for tracks, weekly modules, daily performance tasks, lab evidence, film study, mentor review, and advancement board readiness.</p>
-              <button className="btn" type="button" onClick={() => setActiveView('course')}>Open Course Browser</button>
+              <span className="rtbo-academy-track-media rtbo-academy-overview-media">
+                <img src={COURSE_OVERVIEW_THUMBNAIL} alt="RefZone University complete college course manual overview thumbnail" loading="lazy" decoding="async" />
+              </span>
+              <button className="btn" type="button" onClick={() => openCourseOverview(defaultTrack)}>Open Course Browser</button>
             </div>
             <article>
               <span>Overall Progress</span>
@@ -521,13 +605,18 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
               <h3>Degree Pathways</h3>
             </div>
             <div className="rtbo-academy-track-grid">
-              {tracks.map(track => {
+              {tracks.map((track, index) => {
                 const days = track.weeks.flatMap(week => week.days);
                 const done = days.filter(day => completed[day.id]).length;
                 const passed = days.filter(day => passedTests[day.id]).length;
                 const pct = days.length ? Math.round((done / days.length) * 100) : 0;
+                const courseImage = courseImageFor(track, index);
+                const courseImageSrc = courseImage.startsWith('/') ? courseImage : `/assets/images/${courseImage}`;
                 return (
-                  <button className="rtbo-academy-track-card" type="button" key={track.id} onClick={() => { setSelectedTrackId(track.id); setSelectedWeekIndex(0); setSelectedDayIndex(0); setActiveView('course'); }}>
+                  <button className="rtbo-academy-track-card" type="button" key={track.id} onClick={() => openCourseOverview(track)}>
+                    <span className="rtbo-academy-track-media">
+                      <img src={courseImageSrc} alt={`${track.title} course preview`} loading="lazy" decoding="async" />
+                    </span>
                     <span>{track.level || 'Academic Track'}</span>
                     <strong>{track.title}</strong>
                     <small>{track.path || 'College-style officiating pathway'}</small>
@@ -539,6 +628,25 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
             </div>
           </section>
         </div>
+      )}
+
+      {activeView === 'overview' && overviewTrack && (
+        <section className="rtbo-academy-panel">
+          <div className="rtbo-academy-section-head">
+            <p className="eyebrow">Course Overview</p>
+            <h3>{overviewTrack.title}</h3>
+            <p>{overviewTrack.path || 'RefZone University course overview'}</p>
+          </div>
+          <span className="rtbo-academy-track-media rtbo-academy-overview-media">
+            <img src={(courseImageFor(overviewTrack, 0).startsWith('/') ? courseImageFor(overviewTrack, 0) : `/assets/images/${courseImageFor(overviewTrack, 0)}`)} alt={`${overviewTrack.title} course overview thumbnail`} loading="lazy" decoding="async" />
+          </span>
+          <div className="rtbo-academy-card-grid">
+            <article className="rtbo-academy-task-card"><strong>{overviewTrack.weeks.length} Weeks</strong><p>Daily lectures, readings, quizzes, video tests, mechanics labs, role-play, practicum, and mentor review.</p></article>
+            <article className="rtbo-academy-task-card"><strong>{overviewTrack.weeks.reduce((sum, week) => sum + week.days.length, 0)} Academic Days</strong><p>Each day includes required reading, visual aids, assignments, evidence, and a passing standard.</p></article>
+            <article className="rtbo-academy-task-card"><strong>Completion Rule</strong><p>Tests must be passed before the next module or section unlocks.</p></article>
+          </div>
+          <button className="btn" type="button" onClick={() => proceedToCourse(overviewTrack)}>Proceed to Course</button>
+        </section>
       )}
 
       {activeView === 'course' && selectedTrack && (
@@ -602,6 +710,22 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
 
             {selectedDay && (
               <>
+                <section className="rtbo-academy-material-card">
+                  <img src={selectedDayVisual.image} alt={`${selectedDayVisual.title} course visual`} loading="lazy" decoding="async" />
+                  <div>
+                    <p className="eyebrow">Screenshots, Presentations, Visuals</p>
+                    <h4>{selectedDayVisual.title}</h4>
+                    <p>{selectedDayVisual.proof}</p>
+                    <ul>
+                      {selectedDay.sections.slice(0, 3).map(section => (
+                        <li key={section.title}>
+                          <strong>{section.title}</strong>
+                          <span>{section.title.includes('Professor') ? 'Instruction slide and course screenshot' : section.title.includes('Student') ? 'Student activity visual and worksheet frame' : 'Assessment evidence and grading visual'}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </section>
                 <section className="rtbo-academy-test-rule-card">
                   <div>
                     <h4>Required Module Test</h4>
@@ -714,7 +838,7 @@ function RTBOAcademy({ user = {}, onStatus = () => {} }) {
         </section>
       )}
 
-      {activeView === 'admin' && (
+      {!publicMode && activeView === 'admin' && (
         <section className="rtbo-academy-panel">
           <div className="rtbo-academy-section-head">
             <p className="eyebrow">Super Admin</p>

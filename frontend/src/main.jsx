@@ -5465,7 +5465,9 @@ function AdvancedOfficialsEvaluationForm({ user, onSaved }) {
 const addMemberSections = [];
 
 const settingsOfficialsSections = [
-  { id: 'settingsAddOfficial', role: 'official', title: 'Add Official', group: 'Officials' }
+  { id: 'settingsAddOfficial', role: 'official', title: 'Add Official', group: 'Officials' },
+  { id: 'settingsAddEvaluator', role: 'evaluator', title: 'Add Evaluator', group: 'Officials' },
+  { id: 'settingsAddObserver', role: 'observer', title: 'Add Observer', group: 'Officials' }
 ];
 
 const collegeClassificationGroups = [
@@ -13405,6 +13407,16 @@ function App() {
     if (active === 'events') return <><EventsSummary onOpenRegister={openRegister} />{managedSections('events')}</>;
     if (active === 'livestream') return <><PageHero page="livestream" eyebrow="Live Training Broadcasts" title="RTBO Livestream">Watch training school coverage, court mechanics, film breakdowns, guest instruction, and promotional moments from one broadcast hub.</PageHero><Livestream />{managedSections('livestream')}</>;
     if (active === 'services') return <><PageHero page="services" eyebrow="Services" title="Complete Officiating Solutions">Event assigning, development, mentorship, evaluations, and leadership standards for the game.</PageHero><Services />{managedSections('services')}</>;
+    if (active === 'education') {
+      return (
+        <>
+          <React.Suspense fallback={<section className="rtbo-section"><p className="rtbo-empty-state">Loading RTBO Education...</p></section>}>
+            <RTBOAcademy publicMode brandName="RefZone University" />
+          </React.Suspense>
+          {managedSections('education')}
+        </>
+      );
+    }
     if (active === 'trainers') return <><PageHero page="trainers" eyebrow="Trainers" title="Professional Development Team">Meet the trainers helping officials sharpen mechanics, judgment, communication, and leadership.</PageHero><Trainers />{managedSections('trainers')}</>;
     if (active === 'guests') return <><PageHero page="guests" eyebrow="Special Guests & Coordinators" title="RTBO Leadership Network">Guest instructors and coordinators supporting the RTBO school experience.</PageHero><Guests />{managedSections('guests')}</>;
     if (active === 'shop') return <><Shop />{managedSections('shop')}</>;

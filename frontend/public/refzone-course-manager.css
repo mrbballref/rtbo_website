@@ -1,0 +1,124 @@
+.rtbo-refzone-manager-shell,
+.rtbo-education-crud-form,
+.rtbo-education-course-list,
+.rtbo-education-crud-search {
+  display: grid;
+  gap: 12px;
+}
+
+.rtbo-refzone-manager-shell,
+.rtbo-education-crud-page {
+  width: 100%;
+}
+
+.rtbo-education-crud-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 12px;
+  width: 100%;
+}
+
+.rtbo-education-crud-summary .rtbo-form-toolbar {
+  flex: 0 0 auto;
+  justify-content: flex-start;
+}
+
+.rtbo-education-crud-summary .rtbo-education-flow-grid {
+  flex: 1 1 620px;
+  max-width: 760px;
+  justify-content: start;
+}
+
+.rtbo-education-crud-form {
+  width: 100%;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border: 1px solid rgba(245, 130, 32, .24);
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--education-panel);
+}
+
+.rtbo-education-crud-form label,
+.rtbo-education-crud-search {
+  display: grid;
+  gap: 7px;
+  color: var(--education-heading);
+  font-size: .78rem;
+  font-weight: 900;
+}
+
+.rtbo-education-crud-form .wide,
+.rtbo-education-crud-search {
+  grid-column: span 2;
+}
+
+.rtbo-education-crud-form :is(input, select, textarea),
+.rtbo-education-crud-search input {
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid var(--education-button-border);
+  border-radius: 8px;
+  padding: 9px 10px;
+  color: var(--education-heading);
+  background: var(--education-button-bg);
+  font: inherit;
+}
+
+.rtbo-education-course-list article {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr) max-content;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid rgba(245, 130, 32, .24);
+  border-radius: 8px;
+  padding: 12px;
+  background: var(--education-panel);
+}
+
+.rtbo-education-course-list img {
+  width: 150px;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.rtbo-education-course-list p,
+.rtbo-education-course-list small {
+  margin: 3px 0 0;
+  color: var(--education-muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 1280px) {
+  .rtbo-education-crud-form {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .rtbo-education-crud-summary .rtbo-education-flow-grid {
+    flex-basis: 100%;
+    max-width: none;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .rtbo-education-crud-form,
+  .rtbo-education-course-list article {
+    grid-template-columns: 1fr;
+  }
+
+  .rtbo-education-crud-summary .rtbo-education-flow-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .rtbo-education-crud-form .wide,
+  .rtbo-education-crud-search {
+    grid-column: 1;
+  }
+
+  .rtbo-education-course-list img {
+    width: 100%;
+  }
+}

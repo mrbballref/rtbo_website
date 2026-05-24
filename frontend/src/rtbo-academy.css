@@ -16,6 +16,15 @@
   color: var(--academy-text);
 }
 
+.rtbo-public-academy-shell {
+  display: grid;
+  gap: 14px;
+  width: min(1480px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: clamp(18px, 3vw, 34px) 0 42px;
+  background: transparent !important;
+}
+
 :root[data-theme="light"] .rtbo-academy-page {
   --academy-surface: #fff;
   --academy-panel: #fff;
@@ -126,6 +135,7 @@
 .rtbo-academy-reader,
 .rtbo-academy-course-panel,
 .rtbo-academy-content-card,
+.rtbo-academy-material-card,
 .rtbo-academy-test-rule-card,
 .rtbo-academy-notes-card {
   display: grid;
@@ -251,6 +261,7 @@
 .rtbo-academy-course-panel,
 .rtbo-academy-reader,
 .rtbo-academy-content-card,
+.rtbo-academy-material-card,
 .rtbo-academy-test-rule-card,
 .rtbo-academy-notes-card {
   border: 1px solid var(--academy-border);
@@ -281,6 +292,35 @@
   border-color: rgba(245, 130, 32, .72);
   outline: none;
   transform: translateY(-1px);
+}
+
+.rtbo-academy-track-media {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  margin: 0 0 4px;
+  border: 1px solid var(--academy-border);
+  border-radius: 8px;
+  background: var(--academy-panel-flat);
+}
+
+.rtbo-academy-overview-media {
+  width: min(100%, 260px);
+  aspect-ratio: 16 / 9;
+  justify-self: start;
+}
+
+.rtbo-academy-track-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rtbo-academy-overview-media img {
+  object-fit: contain;
+  background: #050505;
 }
 
 .rtbo-academy-track-card strong,
@@ -386,11 +426,40 @@
 }
 
 .rtbo-academy-content-card h4,
+.rtbo-academy-material-card h4,
 .rtbo-academy-test-rule-card h4,
 .rtbo-academy-notes-card h4 {
   margin: 0;
   color: var(--orange);
   font-size: 1rem;
+}
+
+.rtbo-academy-material-card {
+  grid-template-columns: minmax(220px, .48fr) minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.rtbo-academy-material-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 210px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.rtbo-academy-material-card ul {
+  display: grid;
+  gap: 8px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rtbo-academy-material-card li {
+  display: grid;
+  gap: 3px;
+  border-top: 1px solid var(--academy-border);
+  padding-top: 8px;
 }
 
 .rtbo-academy-test-rule-card {
@@ -539,6 +608,7 @@
     display: grid;
   }
 
+  .rtbo-academy-material-card,
   .rtbo-academy-test-rule-card {
     grid-template-columns: 1fr;
   }
@@ -562,6 +632,10 @@
 }
 
 @media (max-width: 480px) {
+  .rtbo-public-academy-shell {
+    width: calc(100% - 20px);
+  }
+
   .rtbo-academy-hero {
     padding: 14px;
   }
