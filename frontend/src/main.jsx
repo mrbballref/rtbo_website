@@ -41,12 +41,16 @@ const RTBOMailClient = React.lazy(() => import('./RTBOMailClient.jsx'));
 const TaxCenter = React.lazy(() => import('./TaxCenter.jsx'));
 const ShopStore = React.lazy(() => import('./ShopStore.jsx'));
 const ShopInventoryManager = React.lazy(() => import('./ShopInventoryManager.jsx'));
+const SiteContentManager = React.lazy(() => import('./SiteContentManager.jsx'));
+const ManagedSiteContent = React.lazy(() => import('./ManagedSiteContent.jsx'));
 const StateSelect = React.lazy(() => import('./StateSelect.jsx'));
 const CountrySelect = React.lazy(() => import('./CountrySelect.jsx'));
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
 const RTBO_AUTH_KEY = 'rtbo_admin_auth';
 const RTBO_DASHBOARD_OPEN_KEY = 'rtbo-dashboard-open';
 const RTBO_THEME_KEY = 'rtbo-theme';
+const SITE_CONTENT_KEY = 'rtbo-site-content-records';
+const SITE_CONTENT_UPDATED_EVENT = 'rtbo-site-content-updated';
 
 function safeLocalStorageGet(key) {
   try {
@@ -428,6 +432,75 @@ async function apiGet(endpoint) {
   return data;
 }
 
+function readStoredSiteContentRecords() {
+  try {
+    return normalizePublicSiteContentRecords(JSON.parse(safeLocalStorageGet(SITE_CONTENT_KEY) || '[]'));
+  } catch {
+    return [];
+  }
+}
+
+async function fetchSiteContentRecords() {
+  const data = await apiGet('/site-content.php');
+  return normalizePublicSiteContentRecords(data.records || []);
+}
+
+function updateManagedPageSeo(pageRecord) {
+  const title = `${pageRecord.title} | Raising The Bar Officiating`;
+  const description = pageRecord.body || `Raising The Bar Officiating ${pageRecord.title}`;
+  document.title = title;
+  [
+    ['meta[name="description"]', description],
+    ['meta[property="og:title"]', title],
+    ['meta[property="og:description"]', description],
+    ['meta[name="twitter:title"]', title],
+    ['meta[name="twitter:description"]', description]
+  ].forEach(([selector, value]) => {
+    const node = document.querySelector(selector);
+    if (node) node.setAttribute('content', value);
+  });
+  const robotsNode = document.querySelector('meta[name="robots"]');
+  if (robotsNode) robotsNode.setAttribute('content', 'index, follow');
+}
+
+function siteContentPublicSlug(value = 'managed-page') {
+  return String(value || 'managed-page').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'managed-page';
+}
+
+function normalizePublicSiteContentRecords(records = []) {
+  const seen = new Set();
+  return (Array.isArray(records) ? records : [])
+    .map((record, index) => {
+      const title = String(record?.title || `Website Content ${index + 1}`).trim();
+      const kind = ['page', 'section', 'feature', 'card', 'image'].includes(record?.kind) ? record.kind : 'section';
+      const page = siteContentPublicSlug(record?.page || (kind === 'page' ? title : 'home'));
+      return {
+        ...record,
+        id: siteContentPublicSlug(record?.id || `${page}-${kind}-${title}-${index + 1}`),
+        kind,
+        page,
+        status: ['active', 'draft', 'hidden'].includes(record?.status) ? record.status : 'active',
+        title,
+        body: String(record?.body || '').trim(),
+        nav_label: String(record?.nav_label || '').trim(),
+        order: Number.isFinite(Number(record?.order)) ? Math.round(Number(record.order)) : (index + 1) * 10,
+        cards: Array.isArray(record?.cards) ? record.cards : []
+      };
+    })
+    .filter((record) => {
+      if (!record.id || seen.has(record.id)) return false;
+      seen.add(record.id);
+      return true;
+    })
+    .sort((a, b) => a.order - b.order);
+}
+
+function activePublicManagedPages(records = []) {
+  return normalizePublicSiteContentRecords(records)
+    .filter(record => record.kind === 'page' && record.status === 'active')
+    .map(record => [record.page, record.nav_label || record.title]);
+}
+
 function ThemeToggle({ className = '' }) {
   const [theme, setTheme] = useState(getRtboTheme);
 
@@ -499,7 +572,7 @@ function SidebarIcon({ id }) {
   return <span className="rtbo-sidebar-icon" data-sidebar-icon={id} aria-hidden="true"></span>;
 }
 
-function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onOpenRegister }) {
+function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onOpenRegister, navLinks = navItems }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -528,7 +601,7 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
       <button className={`nav-flyout-scrim ${open ? 'is-open' : ''}`} type="button" aria-label="Close navigation menu" onClick={() => setOpen(false)}></button>
       <nav className={`site-nav ${open ? 'is-open' : ''}`}>
         <div className="nav-link-group">
-          {navItems.map(([id, label]) => <button className={active === id ? 'active' : ''} key={id} type="button" onClick={() => { setActive(id); setOpen(false); }}>{label}</button>)}
+          {navLinks.map(([id, label]) => <button className={active === id ? 'active' : ''} key={id} type="button" onClick={() => { setActive(id); setOpen(false); }}>{label}</button>)}
         </div>
         <div className="nav-action-group">
           <button className="btn secondary dark-btn nav-chrome-btn" type="button" onClick={() => { setActive('contact'); setOpen(false); }}>Let's Talk</button>
@@ -10112,6 +10185,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['notifications', 'Notifications'],
     ['payments', 'Payments'],
     ['shopInventory', 'Inventory'],
+    ['siteContent', 'Website'],
     ['taxCenter', 'Tax Center'],
     ['education', 'Education'],
     ['reports', 'Forms'],
@@ -10132,7 +10206,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['evaluation', 'Evaluations'],
     ['education', 'Education']
   ];
-  const allowedDashboardSidebarIds = new Set(['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'notifications', 'payments', 'shopInventory', 'taxCenter', 'education', 'profile', 'reports', 'organizations']);
+  const allowedDashboardSidebarIds = new Set(['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'notifications', 'payments', 'shopInventory', 'siteContent', 'taxCenter', 'education', 'profile', 'reports', 'organizations']);
   const visibleAdminSections = adminSections.filter(([id]) => allowedDashboardSidebarIds.has(id) && !hiddenSections.includes(id));
   const visibleAddMemberSections = addMemberSections.filter(item => !hiddenMemberItems.includes(item.id));
   const visibleScheduleSetupSections = scheduleSetupSections.filter(item => !hiddenScheduleItems.includes(item.id));
@@ -10152,7 +10226,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         ? uniqueFormSubSections([...visibleOfficialFormsSubSections, ...officialFormsSubSections])
         : [];
   const completedFormsSectionIds = completedFormsWidgets.map(widget => widget.section);
-  const primaryAdminOrder = ['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'notifications', 'payments', 'shopInventory', 'taxCenter', 'education'];
+  const primaryAdminOrder = ['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'notifications', 'payments', 'shopInventory', 'siteContent', 'taxCenter', 'education'];
   const secondaryAdminOrder = ['reports', 'organizations'];
   const sections = canUseAdminDashboard
     ? [
@@ -10201,7 +10275,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         : []
   }));
   const dashboardControlColumns = [
-    ['overview', 'payments', 'shopInventory', 'taxCenter', 'education'],
+    ['overview', 'payments', 'shopInventory', 'siteContent', 'taxCenter', 'education'],
     ['members', 'reports', 'rtbomail', 'newsletterCenter'],
     ['schedules', 'organizations', 'notifications', 'refroom']
   ].map(column => column.map(id => settingsMenuItems.find(item => item.id === id)).filter(Boolean));
@@ -12770,6 +12844,12 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
           </React.Suspense>
         )}
 
+        {canUseAdminDashboard && activeSection === 'siteContent' && (
+          <React.Suspense fallback={<section className="rtbo-dashboard-card rtbo-focused-page-card"><p className="rtbo-empty-state">Loading Website Manager...</p></section>}>
+            <SiteContentManager onStatus={setStatus} />
+          </React.Suspense>
+        )}
+
         {canUseTaxCenter && activeSection === 'taxCenter' && (
           <React.Suspense fallback={<section className="rtbo-dashboard-card rtbo-focused-page-card"><p className="rtbo-empty-state">Loading Tax Center...</p></section>}>
             <TaxCenter user={user} canManageTaxForms={canUseAdminDashboard} onStatus={setStatus} />
@@ -13008,8 +13088,8 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   );
 }
 
-function Footer({ setActive }) {
-  return <footer className="site-footer rtbo-footer original-footer"><div className="footer-inner"><div className="footer-container grid"><div className="footer-brand"><img className="footer-logo" src={image('logo.png')} alt="RTBO logo" /><p className="footer-desc">We Will Serve, And Will Be Of Service To The Game!</p></div><div><p className="footer-title">Navigation</p><ul className="footer-links grid">{navItems.map(([id, label]) => <li key={id}><button className="footer-link" type="button" onClick={() => setActive(id)}>{label}</button></li>)}</ul></div><div><p className="footer-title">School & Events</p><ul className="footer-timings grid"><li className="footer-timing"><span>UAPB :</span> June 9-10, 2026</li><li className="footer-ruler"></li><li className="footer-timing"><span>UCA :</span> June 19, 2026</li><li className="footer-ruler"></li><li className="footer-timing"><span>UALR :</span> July 21-22, 2026</li></ul></div></div><div className="footer-bottom"><p className="footer-copy">&copy; 2026 <span>Raising The Bar Officiating Inc.</span> All rights reserved.</p><a href="#top" className="scroll-up"><span className="scroll-up-icon">↑</span> Back To Top</a></div></div></footer>;
+function Footer({ setActive, navLinks = navItems }) {
+  return <footer className="site-footer rtbo-footer original-footer"><div className="footer-inner"><div className="footer-container grid"><div className="footer-brand"><img className="footer-logo" src={image('logo.png')} alt="RTBO logo" /><p className="footer-desc">We Will Serve, And Will Be Of Service To The Game!</p></div><div><p className="footer-title">Navigation</p><ul className="footer-links grid">{navLinks.map(([id, label]) => <li key={id}><button className="footer-link" type="button" onClick={() => setActive(id)}>{label}</button></li>)}</ul></div><div><p className="footer-title">School & Events</p><ul className="footer-timings grid"><li className="footer-timing"><span>UAPB :</span> June 9-10, 2026</li><li className="footer-ruler"></li><li className="footer-timing"><span>UCA :</span> June 19, 2026</li><li className="footer-ruler"></li><li className="footer-timing"><span>UALR :</span> July 21-22, 2026</li></ul></div></div><div className="footer-bottom"><p className="footer-copy">&copy; 2026 <span>Raising The Bar Officiating Inc.</span> All rights reserved.</p><a href="#top" className="scroll-up"><span className="scroll-up-icon">↑</span> Back To Top</a></div></div></footer>;
 }
 
 function StandaloneLivestreamStudio() {
@@ -13117,12 +13197,21 @@ function App() {
     return <main className="rtbo-public rtbo-studio-window"><StandaloneLivestreamStudio /></main>;
   }
 
+  const [siteContentRecords, setSiteContentRecords] = useState(readStoredSiteContentRecords);
+  const managedNavItems = useMemo(() => activePublicManagedPages(siteContentRecords).filter(([id]) => !validPages.has(id)), [siteContentRecords]);
+  const managedPageIds = useMemo(() => new Set(managedNavItems.map(([id]) => id)), [managedNavItems]);
+  const publicNavItems = useMemo(() => [...navItems, ...managedNavItems], [managedNavItems]);
+
   const readRoute = () => {
     const route = routeFromHash(window.location.hash);
     const page = pageFromRoute(route);
-    return validPages.has(page) ? page : 'home';
+    return validPages.has(page) || managedPageIds.has(page) ? page : 'home';
   };
   const [active, setActive] = useState(readRoute);
+  const activeManagedPage = useMemo(
+    () => siteContentRecords.find(record => record.kind === 'page' && record.status === 'active' && record.page === active) || null,
+    [active, siteContentRecords]
+  );
   const [authUser, setAuthUser] = useState(readStoredAuthUser);
   const [passwordResetToken, setPasswordResetToken] = useState(readPasswordResetToken);
   const [accountModal, setAccountModal] = useState(() => readPasswordResetToken() ? 'reset' : null);
@@ -13134,8 +13223,46 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (activeManagedPage) {
+      updateManagedPageSeo(activeManagedPage);
+      return;
+    }
     updatePageSeo(active);
-  }, [active]);
+  }, [active, activeManagedPage]);
+
+  useEffect(() => {
+    let isActive = true;
+    async function refreshSiteContent(event) {
+      try {
+        const eventRecords = Array.isArray(event?.detail?.records) ? normalizePublicSiteContentRecords(event.detail.records) : null;
+        const nextRecords = eventRecords || await fetchSiteContentRecords();
+        if (isActive) setSiteContentRecords(nextRecords);
+      } catch {
+        if (isActive) setSiteContentRecords(readStoredSiteContentRecords());
+      }
+    }
+
+    function syncStoredSiteContent(event) {
+      if (event.key !== SITE_CONTENT_KEY) return;
+      setSiteContentRecords(readStoredSiteContentRecords());
+    }
+
+    refreshSiteContent();
+    window.addEventListener(SITE_CONTENT_UPDATED_EVENT, refreshSiteContent);
+    window.addEventListener('storage', syncStoredSiteContent);
+    return () => {
+      isActive = false;
+      window.removeEventListener(SITE_CONTENT_UPDATED_EVENT, refreshSiteContent);
+      window.removeEventListener('storage', syncStoredSiteContent);
+    };
+  }, []);
+
+  useEffect(() => {
+    const routePage = pageFromRoute(routeFromHash(window.location.hash));
+    if (managedPageIds.has(routePage) && active !== routePage) {
+      setActive(routePage);
+    }
+  }, [active, managedPageIds]);
 
   useEffect(() => {
     if (authUser && dashboardOpen) {
@@ -13162,10 +13289,10 @@ function App() {
     };
     window.addEventListener('hashchange', onRouteChange);
     return () => window.removeEventListener('hashchange', onRouteChange);
-  }, []);
+  }, [managedPageIds]);
 
   function goTo(page) {
-    const next = validPages.has(page) ? page : 'home';
+    const next = validPages.has(page) || managedPageIds.has(page) ? page : 'home';
     setDashboardOpen(false);
     localStorage.setItem(RTBO_DASHBOARD_OPEN_KEY, 'false');
     setActive(next);
@@ -13266,16 +13393,22 @@ function App() {
     goTo('home');
   }
 
+  const managedSections = page => (
+    <React.Suspense fallback={null}>
+      <ManagedSiteContent page={page} records={siteContentRecords} />
+    </React.Suspense>
+  );
+
   const content = useMemo(() => {
-    if (active === 'home') return <Home setActive={goTo} onOpenRegister={openRegister} />;
-    if (active === 'about') return <><PageHero page="about" eyebrow="About RTBO" title="Raising The Standard">Built on service, training, mentorship, and professional development for basketball officials.</PageHero><AboutSummary /><Director /><AboutDifference /><GotUNexRefSection /></>;
-    if (active === 'events') return <EventsSummary onOpenRegister={openRegister} />;
-    if (active === 'livestream') return <><PageHero page="livestream" eyebrow="Live Training Broadcasts" title="RTBO Livestream">Watch training school coverage, court mechanics, film breakdowns, guest instruction, and promotional moments from one broadcast hub.</PageHero><Livestream /></>;
-    if (active === 'services') return <><PageHero page="services" eyebrow="Services" title="Complete Officiating Solutions">Event assigning, development, mentorship, evaluations, and leadership standards for the game.</PageHero><Services /></>;
-    if (active === 'trainers') return <><PageHero page="trainers" eyebrow="Trainers" title="Professional Development Team">Meet the trainers helping officials sharpen mechanics, judgment, communication, and leadership.</PageHero><Trainers /></>;
-    if (active === 'guests') return <><PageHero page="guests" eyebrow="Special Guests & Coordinators" title="RTBO Leadership Network">Guest instructors and coordinators supporting the RTBO school experience.</PageHero><Guests /></>;
-    if (active === 'shop') return <Shop />;
-    if (active === 'reviews') return <><PageHero page="reviews" eyebrow="Real Results" title="Testimonials">Officials and coaches sharing the impact of RTBO training, development, and leadership.</PageHero><Reviews /></>;
+    if (active === 'home') return <><Home setActive={goTo} onOpenRegister={openRegister} />{managedSections('home')}</>;
+    if (active === 'about') return <><PageHero page="about" eyebrow="About RTBO" title="Raising The Standard">Built on service, training, mentorship, and professional development for basketball officials.</PageHero><AboutSummary /><Director /><AboutDifference /><GotUNexRefSection />{managedSections('about')}</>;
+    if (active === 'events') return <><EventsSummary onOpenRegister={openRegister} />{managedSections('events')}</>;
+    if (active === 'livestream') return <><PageHero page="livestream" eyebrow="Live Training Broadcasts" title="RTBO Livestream">Watch training school coverage, court mechanics, film breakdowns, guest instruction, and promotional moments from one broadcast hub.</PageHero><Livestream />{managedSections('livestream')}</>;
+    if (active === 'services') return <><PageHero page="services" eyebrow="Services" title="Complete Officiating Solutions">Event assigning, development, mentorship, evaluations, and leadership standards for the game.</PageHero><Services />{managedSections('services')}</>;
+    if (active === 'trainers') return <><PageHero page="trainers" eyebrow="Trainers" title="Professional Development Team">Meet the trainers helping officials sharpen mechanics, judgment, communication, and leadership.</PageHero><Trainers />{managedSections('trainers')}</>;
+    if (active === 'guests') return <><PageHero page="guests" eyebrow="Special Guests & Coordinators" title="RTBO Leadership Network">Guest instructors and coordinators supporting the RTBO school experience.</PageHero><Guests />{managedSections('guests')}</>;
+    if (active === 'shop') return <><Shop />{managedSections('shop')}</>;
+    if (active === 'reviews') return <><PageHero page="reviews" eyebrow="Real Results" title="Testimonials">Officials and coaches sharing the impact of RTBO training, development, and leadership.</PageHero><Reviews />{managedSections('reviews')}</>;
     if (active === 'register') return authUser ? <RegistrationForm user={authUser} active={active} setActive={goTo} onOpenDashboard={openDashboard} onOpenLogin={openLogin} /> : <RegistrationGate onCreateAccount={openRegister} onSignIn={openRegisterSignIn} />;
     if (active === 'contract-sign') {
       return (
@@ -13284,9 +13417,16 @@ function App() {
         </React.Suspense>
       );
     }
-    if (active === 'contact') return <><PageHero page="contact" eyebrow="Let's Talk" title="Contact RTBO">Reach out about schools, events, training, assigning, and Got U Nex Ref platform questions.</PageHero><Contact /></>;
+    if (active === 'contact') return <><PageHero page="contact" eyebrow="Let's Talk" title="Contact RTBO">Reach out about schools, events, training, assigning, and Got U Nex Ref platform questions.</PageHero><Contact />{managedSections('contact')}</>;
+    if (activeManagedPage) {
+      return (
+        <React.Suspense fallback={null}>
+          <ManagedSiteContent page={active} records={siteContentRecords} mode="page" pageRecord={activeManagedPage} />
+        </React.Suspense>
+      );
+    }
     return <Home setActive={goTo} />;
-  }, [active, authUser]);
+  }, [active, activeManagedPage, authUser, siteContentRecords]);
 
   if (dashboardOpen && authUser) {
     return (
@@ -13300,9 +13440,9 @@ function App() {
 
   return (
     <React.Suspense fallback={null}>
-      {!fullScreenRegistration && <Header active={active} setActive={goTo} authUser={authUser} onOpenLogin={openLogin} onOpenDashboard={openDashboard} onOpenRegister={openRegister} />}
+      {!fullScreenRegistration && <Header active={active} setActive={goTo} authUser={authUser} onOpenLogin={openLogin} onOpenDashboard={openDashboard} onOpenRegister={openRegister} navLinks={publicNavItems} />}
       <main className={`rtbo-public ${fullScreenRegistration ? 'rtbo-registration-public' : ''}`.trim()}>{content}</main>
-      {!fullScreenRegistration && <Footer setActive={goTo} />}
+      {!fullScreenRegistration && <Footer setActive={goTo} navLinks={publicNavItems} />}
       {accountModal && <AccountModal mode={accountModal} resetToken={passwordResetToken} onClose={closeAccountModal} onLogin={login} onResetTokenHandled={clearPasswordResetToken} />}
     </React.Suspense>
   );

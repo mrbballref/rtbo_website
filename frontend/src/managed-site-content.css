@@ -1,0 +1,135 @@
+.managed-site-section {
+  display: grid;
+  gap: clamp(18px, 3vw, 30px);
+}
+
+.managed-site-band {
+  border-top: 1px solid rgba(255, 106, 0, 0.22);
+  border-bottom: 1px solid rgba(255, 106, 0, 0.22);
+}
+
+.managed-site-page-hero {
+  min-height: clamp(320px, 34vw, 520px);
+}
+
+.managed-site-copy,
+.managed-site-head {
+  display: grid;
+  gap: 12px;
+}
+
+.managed-site-copy p,
+.managed-site-head p {
+  max-width: 860px;
+}
+
+.managed-site-cta {
+  width: fit-content;
+}
+
+.managed-site-card-grid,
+.managed-site-feature-grid,
+.managed-site-profile-grid {
+  width: 100%;
+}
+
+.managed-site-card-grid article,
+.managed-site-feature-grid article,
+.managed-site-profile-grid article {
+  min-width: 0;
+}
+
+.managed-site-card-image {
+  object-fit: cover;
+}
+
+.managed-site-feature-grid .managed-site-card-image {
+  width: 100%;
+  height: 190px;
+  border-radius: 10px;
+}
+
+.managed-site-card-copy {
+  display: grid;
+  gap: 8px;
+}
+
+.managed-site-media-layout {
+  width: 100%;
+}
+
+.managed-site-media {
+  cursor: default;
+}
+
+.managed-site-image-feature {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.88fr) minmax(0, 1.12fr);
+  gap: clamp(18px, 4vw, 42px);
+  align-items: center;
+}
+
+.managed-site-image-feature > img,
+.managed-site-single-image img {
+  width: 100%;
+  max-height: 520px;
+  border-radius: 18px;
+  object-fit: cover;
+}
+
+.managed-site-single-image {
+  max-width: 980px;
+}
+
+/* Mandatory responsive audit breakpoints: 1536, 1280, 1024, 768, 648, 550, 480, 368. */
+@media (max-width: 1536px) {
+  .managed-site-section {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 1280px) {
+  .managed-site-feature-grid .managed-site-card-image {
+    height: 170px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .managed-site-image-feature,
+  .managed-site-media-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .managed-site-page-hero {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 648px) {
+  .managed-site-card-grid,
+  .managed-site-feature-grid,
+  .managed-site-profile-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 550px) {
+  .managed-site-cta {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .managed-site-image-feature > img,
+  .managed-site-single-image img {
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 368px) {
+  .managed-site-feature-grid .managed-site-card-image {
+    height: 150px;
+  }
+}

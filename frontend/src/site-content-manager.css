@@ -1,0 +1,292 @@
+.rtbo-site-manager-page {
+  display: grid;
+  gap: 18px;
+}
+
+.rtbo-site-manager-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.rtbo-site-manager-summary article,
+.rtbo-site-manager-form,
+.rtbo-site-manager-toolbar,
+.rtbo-site-manager-item {
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.44);
+}
+
+:root[data-theme="light"] .rtbo-site-manager-summary article,
+:root[data-theme="light"] .rtbo-site-manager-form,
+:root[data-theme="light"] .rtbo-site-manager-toolbar,
+:root[data-theme="light"] .rtbo-site-manager-item {
+  background: #ffffff;
+  border-color: #dbe3ef;
+}
+
+.rtbo-site-manager-summary article {
+  display: grid;
+  gap: 4px;
+  padding: 14px;
+}
+
+.rtbo-site-manager-summary span,
+.rtbo-site-manager-item span,
+.rtbo-site-manager-item small {
+  color: var(--app-muted, #cbd5e1);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+:root[data-theme="light"] .rtbo-site-manager-summary span,
+:root[data-theme="light"] .rtbo-site-manager-item span,
+:root[data-theme="light"] .rtbo-site-manager-item small {
+  color: #64748b;
+}
+
+.rtbo-site-manager-summary strong {
+  color: var(--app-text, #ffffff);
+  font-size: 1.7rem;
+}
+
+:root[data-theme="light"] .rtbo-site-manager-summary strong {
+  color: #0f172a;
+}
+
+.rtbo-site-manager-form {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  padding: 16px;
+}
+
+.rtbo-site-manager-form label,
+.rtbo-site-manager-toolbar label {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.rtbo-site-manager-form label.wide {
+  grid-column: span 2;
+}
+
+.rtbo-site-manager-form label.full {
+  grid-column: 1 / -1;
+}
+
+.rtbo-site-manager-form span,
+.rtbo-site-manager-toolbar span {
+  color: var(--app-text, #ffffff);
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+:root[data-theme="light"] .rtbo-site-manager-form span,
+:root[data-theme="light"] .rtbo-site-manager-toolbar span {
+  color: #0f172a;
+}
+
+.rtbo-site-manager-form :is(input, select, textarea),
+.rtbo-site-manager-toolbar :is(input, select) {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid rgba(148, 163, 184, 0.36);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.28);
+  color: var(--app-text, #ffffff);
+  padding: 0 12px;
+  font: inherit;
+  outline: none;
+}
+
+.rtbo-site-manager-form textarea {
+  min-height: 120px;
+  padding-top: 10px;
+  resize: vertical;
+}
+
+.rtbo-site-manager-form input[type="file"] {
+  display: grid;
+  align-content: center;
+  padding: 8px;
+}
+
+:root[data-theme="light"] .rtbo-site-manager-form :is(input, select, textarea),
+:root[data-theme="light"] .rtbo-site-manager-toolbar :is(input, select) {
+  background: #f8fafc;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+
+.rtbo-site-manager-form :is(input, select, textarea):focus,
+.rtbo-site-manager-toolbar :is(input, select):focus {
+  border-color: #ff6a00;
+  box-shadow: 0 0 0 3px rgba(255, 106, 0, 0.18);
+}
+
+.rtbo-site-manager-actions,
+.rtbo-site-manager-toolbar,
+.rtbo-site-manager-item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: end;
+}
+
+.rtbo-site-manager-actions {
+  grid-column: 1 / -1;
+}
+
+.rtbo-site-manager-toolbar {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) 180px 180px;
+  padding: 14px;
+}
+
+.rtbo-site-manager-list {
+  display: grid;
+  gap: 12px;
+}
+
+.rtbo-site-manager-item {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+}
+
+.rtbo-site-manager-item img,
+.rtbo-site-manager-placeholder {
+  width: 112px;
+  height: 86px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: rgba(255, 106, 0, 0.14);
+}
+
+.rtbo-site-manager-placeholder {
+  display: grid;
+  place-items: center;
+  color: #ff8a1d;
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.rtbo-site-manager-item strong {
+  display: block;
+  color: var(--app-text, #ffffff);
+  font-size: 1.05rem;
+}
+
+:root[data-theme="light"] .rtbo-site-manager-item strong {
+  color: #0f172a;
+}
+
+.rtbo-site-manager-item p {
+  display: -webkit-box;
+  margin: 4px 0;
+  overflow: hidden;
+  color: var(--app-muted, #cbd5e1);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+:root[data-theme="light"] .rtbo-site-manager-item p {
+  color: #475569;
+}
+
+.rtbo-site-manager-item.status-draft {
+  border-style: dashed;
+}
+
+.rtbo-site-manager-item.status-hidden {
+  opacity: 0.72;
+}
+
+.rtbo-site-manager-item-actions {
+  justify-content: end;
+}
+
+.rtbo-site-manager-item-actions .btn {
+  min-width: 104px;
+}
+
+/* Mandatory responsive audit breakpoints: 1536, 1280, 1024, 768, 648, 550, 480, 368. */
+@media (max-width: 1536px) {
+  .rtbo-site-manager-page {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 1280px) {
+  .rtbo-site-manager-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .rtbo-site-manager-summary,
+  .rtbo-site-manager-toolbar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .rtbo-site-manager-item {
+    grid-template-columns: 96px minmax(0, 1fr);
+  }
+
+  .rtbo-site-manager-item-actions {
+    grid-column: 1 / -1;
+    justify-content: start;
+  }
+}
+
+@media (max-width: 768px) {
+  .rtbo-site-manager-form,
+  .rtbo-site-manager-summary,
+  .rtbo-site-manager-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .rtbo-site-manager-form label.wide {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 648px) {
+  .rtbo-site-manager-item {
+    grid-template-columns: 1fr;
+  }
+
+  .rtbo-site-manager-item img,
+  .rtbo-site-manager-placeholder {
+    width: 100%;
+    height: 180px;
+  }
+}
+
+@media (max-width: 550px) {
+  .rtbo-site-manager-item-actions .btn,
+  .rtbo-site-manager-actions .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .rtbo-site-manager-form,
+  .rtbo-site-manager-toolbar,
+  .rtbo-site-manager-item {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 368px) {
+  .rtbo-site-manager-summary strong {
+    font-size: 1.35rem;
+  }
+}
