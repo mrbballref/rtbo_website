@@ -15381,3 +15381,150 @@ html.light .rtbo-sidebar-help-card strong {
 html.light .rtbo-sidebar-help-card p {
   color: #475569;
 }
+
+/* Mandatory site-wide visual polish audit guardrails. */
+html,
+body,
+#root {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.rtbo-public {
+  max-width: 100%;
+  overflow-x: clip !important;
+}
+
+.rtbo-public :is(.rtbo-hero, .hero-carousel, .page-hero, .rtbo-section, .rtbo-band, .rtbo-offer) {
+  max-width: 100%;
+  overflow-x: clip !important;
+}
+
+.rtbo-public .hero-carousel {
+  contain: paint;
+  isolation: isolate;
+}
+
+.rtbo-public .hero-carousel-track,
+.rtbo-public .carousel-content {
+  max-width: none;
+}
+
+.rtbo-public :is(h1, h2, h3) {
+  max-width: 100%;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+  white-space: normal !important;
+}
+
+.rtbo-public :is(.page-hero h1, .rtbo-section-head h2, .rtbo-band > div:first-child h2, .rtbo-section.split > div:first-child h2, .rtbo-offer h2, .about-director-content h2, .guest-modal-content h2, #assignments > div:first-child h2) {
+  overflow-wrap: anywhere !important;
+  text-wrap: balance !important;
+  white-space: normal !important;
+  word-break: normal !important;
+}
+
+.rtbo-public :is(.rtbo-section-head h2, .rtbo-section.split > div:first-child h2, .refzone-university-page h1, .refzone-university-page h2, .livestream-intro-title) {
+  font-size: clamp(1.85rem, 3.4vw, 3.2rem);
+  line-height: 1.08;
+}
+
+.rtbo-public .rtbo-hero h1 {
+  max-width: min(100%, 640px);
+  font-size: clamp(2.6rem, 4.7vw, 4.65rem);
+}
+
+.rtbo-public .rtbo-hero h1 span {
+  white-space: normal !important;
+}
+
+.rtbo-public :is(.rtbo-section-head, .button-row, .rtbo-form-toolbar, .refzone-university-actions, .nav-action-group),
+.rtbo-dashboard-main :is(.button-row, .rtbo-form-toolbar, .rtbo-record-actions, .rtbo-dashboard-actions) {
+  gap: clamp(10px, 1.4vw, 16px);
+}
+
+.rtbo-public :is(.btn, a.btn, button.btn),
+.rtbo-dashboard-main .btn {
+  border-radius: 8px;
+  min-height: 38px;
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, .2),
+    inset 0 1px 0 rgba(255, 255, 255, .12);
+}
+
+:where(.rtbo-public, .rtbo-dashboard-main) label:has(> :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea)) {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+:where(.rtbo-public, .rtbo-dashboard-main) label:has(> :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea)) > :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+  margin-top: 2px;
+}
+
+:where(.rtbo-public, .rtbo-dashboard-main) input[type="file"] {
+  min-height: 46px;
+  border: 1px solid rgba(249, 115, 22, .42);
+  border-radius: 8px;
+  padding: 6px;
+  color: #e5e7eb;
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, .72), rgba(5, 8, 12, .94)),
+    #06080c;
+  cursor: pointer;
+}
+
+:where(.rtbo-public, .rtbo-dashboard-main) input[type="file"]::file-selector-button {
+  min-height: 34px;
+  margin-right: 12px;
+  border: 1px solid rgba(249, 115, 22, .72);
+  border-radius: 8px;
+  padding: 0 14px;
+  color: #ffffff;
+  background: linear-gradient(180deg, #f97316, #ea580c);
+  box-shadow: 0 8px 18px rgba(249, 115, 22, .22);
+  font: inherit;
+  font-size: .72rem;
+  font-weight: 1000;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+:where(.rtbo-public, .rtbo-dashboard-main) input[type="file"]:hover::file-selector-button {
+  background: linear-gradient(180deg, #fb923c, #f97316);
+  box-shadow: 0 10px 22px rgba(249, 115, 22, .28);
+  transform: translateY(-1px);
+}
+
+:root[data-theme="light"] :where(.rtbo-public, .rtbo-dashboard-main) input[type="file"] {
+  color: #111827;
+  border-color: rgba(249, 115, 22, .34);
+  background: #f8fafc;
+}
+
+.rtbo-summary-card,
+:where(.rtbo-public, .rtbo-dashboard-main) :is(.summary-card, [class*="summary-card"]) {
+  min-width: 0;
+  border: 1px solid rgba(249, 115, 22, .3);
+  border-radius: 8px;
+  padding: clamp(12px, 1.8vw, 18px);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .02)),
+    rgba(8, 11, 15, .72);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, .2);
+}
+
+:where(.rtbo-public, .rtbo-dashboard-main) :is([class*="summary-grid"], [class*="summary-list"]) > article {
+  min-width: 0;
+  border-radius: 8px;
+  padding: clamp(10px, 1.4vw, 14px);
+}
+
+:root[data-theme="light"] .rtbo-summary-card,
+:root[data-theme="light"] :where(.rtbo-public, .rtbo-dashboard-main) :is(.summary-card, [class*="summary-card"]) {
+  color: #111827;
+  background: #f8fafc;
+  box-shadow: 0 14px 28px rgba(15, 23, 42, .1);
+}

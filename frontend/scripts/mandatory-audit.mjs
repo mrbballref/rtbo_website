@@ -62,6 +62,39 @@ assertCheck(
   'Dark mode must use the shared carbon-fiber background and light mode must remove carbon-fiber backgrounds.'
 );
 
+[
+  [
+    'mandatory site-wide visual polish guardrail block',
+    styles.includes('Mandatory site-wide visual polish audit guardrails.')
+  ],
+  [
+    'desktop horizontal overflow protection for public pages',
+    /\.rtbo-public\s*\{[\s\S]*overflow-x\s*:\s*clip\s*!important/.test(styles)
+  ],
+  [
+    'home hero carousel paint containment',
+    /\.rtbo-public\s+\.hero-carousel\s*\{[\s\S]*contain\s*:\s*paint/.test(styles)
+  ],
+  [
+    'balanced public heading typography',
+    /\.rtbo-public\s+:is\(h1,\s*h2,\s*h3\)\s*\{[\s\S]*text-wrap\s*:\s*balance[\s\S]*white-space\s*:\s*normal\s*!important/.test(styles)
+  ],
+  [
+    'site-wide label to field spacing',
+    styles.includes('label:has(> :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea))')
+  ],
+  [
+    'site-wide polished file upload controls',
+    /input\[type="file"\]::file-selector-button\s*\{[\s\S]*background\s*:\s*linear-gradient/.test(styles)
+  ],
+  [
+    'summary card visual standard',
+    /\.rtbo-summary-card[\s\S]*border-radius\s*:\s*8px/.test(styles)
+  ]
+].forEach(([label, passed]) => {
+  assertCheck(passed, `Mandatory visual polish audit failed: missing ${label}.`);
+});
+
 assertCheck(
   /\.rtbo-dashboard-shell\s*\{[\s\S]*background-image\s*:\s*var\(--rtbo-carbon-fiber\)/.test(styles)
     && /\.rtbo-dashboard-topbar,\s*[\s\S]*?\.rtbo-dashboard-status\s*\{[\s\S]*background-image\s*:\s*var\(--rtbo-carbon-fiber\)/.test(styles)
@@ -248,6 +281,7 @@ assertCheck(
 console.log('RTBO mandatory audit');
 console.log(`Responsive breakpoints checked: ${requiredBreakpoints.map(width => `${width}px`).join(', ')}`);
 console.log(`Theme toggler compliance checked: ${sourceCssFiles.length} source CSS files`);
+console.log('Visual polish guardrails checked: horizontal overflow, heading wrapping, field spacing, file inputs, and summary cards');
 console.log(`Built assets checked: ${assetFiles.length} files, ${formatKb(totalAssetBytes)} total`);
 console.log(`JS/CSS bundle budget checked: ${formatKb(bundleAssetBytes)} / ${formatKb(bundleBudget)}`);
 
