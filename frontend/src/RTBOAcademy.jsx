@@ -24,6 +24,21 @@ const ACADEMY_DAY_VISUALS = [
   ['live-practicum', /live|scrimmage|practicum|livestream/i, 'Live Practicum', 'Game-flow screenshot, observer checklist, and performance evidence panel.'],
   ['reflection', /reflection|remediation|mentor|advancement/i, 'Reflection and Mentor Review', 'Journal prompt, remediation tracker, and mentor sign-off card.']
 ];
+const COURSE_OVERVIEW_THUMBNAILS = {
+  nfhs: '/assets/images/refzone/course-overviews/nfhs.jpg',
+  'njcaa-women': '/assets/images/refzone/course-overviews/njcaa-women.jpg',
+  'njcaa-men': '/assets/images/refzone/course-overviews/njcaa-men.jpg',
+  'naia-women': '/assets/images/refzone/course-overviews/naia-women.jpg',
+  'naia-men': '/assets/images/refzone/course-overviews/naia-men.jpg',
+  'ncaa-women': '/assets/images/refzone/course-overviews/ncaa-women.jpg',
+  'ncaa-men': '/assets/images/refzone/course-overviews/ncaa-men.jpg',
+  wnba: '/assets/images/refzone/course-overviews/wnba.jpg',
+  nba: '/assets/images/refzone/course-overviews/nba.jpg',
+  njcaa: '/assets/images/refzone/course-overviews/njcaa-men.jpg',
+  naia: '/assets/images/refzone/course-overviews/naia-men.jpg',
+  ncaa: '/assets/images/refzone/course-overviews/ncaa-men.jpg',
+  pro: '/assets/images/refzone/course-overviews/nba.jpg'
+};
 const STORAGE_KEYS = {
   completed: 'rtbo_academy_completed_days',
   notes: 'rtbo_academy_student_notes',
@@ -84,7 +99,11 @@ function dayAssessmentFocusFor(day = {}) {
 
 function courseImageFor(track = {}, index = 0) {
   if (track.id === 'overview') return COURSE_OVERVIEW_THUMBNAIL;
-  if (track.overviewThumbnail) return track.overviewThumbnail;
+  const explicitThumbnail = String(track.overviewThumbnail || '').trim();
+  if (explicitThumbnail && !/\/course-covers\//i.test(explicitThumbnail)) return explicitThumbnail;
+  const overviewThumbnail = COURSE_OVERVIEW_THUMBNAILS[slug(track.id || track.title || '')];
+  if (overviewThumbnail) return overviewThumbnail;
+  if (explicitThumbnail) return explicitThumbnail;
   if (track.cover) return track.cover;
   if (track.id) return `refzone/course-covers/${track.id}.svg`;
   const value = `${track.id || ''} ${track.title || ''} ${track.level || ''}`.toLowerCase();

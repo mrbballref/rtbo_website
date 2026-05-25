@@ -2897,11 +2897,11 @@ function PaymentLogo({ brand, compact = false }) {
 }
 
 const refZoneCourseTracks = [
-  ['nfhs', 'NFHS High School Track', 'refzone/course-covers/nfhs.svg', 'Rules, case plays, two-person and three-person mechanics, game administration, and state-association readiness.'],
-  ['njcaa', 'NJCAA Track', 'refzone/course-covers/njcaa-men.svg', 'College mechanics, primary coverage, crew communication, film study, and junior college advancement preparation.'],
-  ['naia', 'NAIA Track', 'refzone/course-covers/naia-men.svg', 'College rules study, positioning labs, professionalism, game management, and supervisor-ready explanations.'],
-  ['ncaa', 'NCAA Track', 'refzone/course-covers/ncaa-men.svg', 'Advanced officiating concepts, adjudication standards, play-calling philosophy, video review, and portfolio evidence.'],
-  ['pro', 'NBA/WNBA Development Track', 'refzone/course-covers/nba.svg', 'Professional-level habits, precision mechanics, communication, film defense, and higher-level readiness.']
+  ['nfhs', 'NFHS High School Track', 'refzone/course-overviews/nfhs.jpg', 'Rules, case plays, two-person and three-person mechanics, game administration, and state-association readiness.'],
+  ['njcaa', 'NJCAA Track', 'refzone/course-overviews/njcaa-men.jpg', 'College mechanics, primary coverage, crew communication, film study, and junior college advancement preparation.'],
+  ['naia', 'NAIA Track', 'refzone/course-overviews/naia-men.jpg', 'College rules study, positioning labs, professionalism, game management, and supervisor-ready explanations.'],
+  ['ncaa', 'NCAA Track', 'refzone/course-overviews/ncaa-men.jpg', 'Advanced officiating concepts, adjudication standards, play-calling philosophy, video review, and portfolio evidence.'],
+  ['pro', 'NBA/WNBA Development Track', 'refzone/course-overviews/nba.jpg', 'Professional-level habits, precision mechanics, communication, film defense, and higher-level readiness.']
 ];
 
 const refZoneCourseRouteLabels = {

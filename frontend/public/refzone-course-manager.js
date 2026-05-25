@@ -2,6 +2,21 @@
   const API_URL = '/api';
   const KEY = 'rtbo-refzone-managed-courses';
   const EVENT = 'rtbo-refzone-courses-updated';
+  const COURSE_OVERVIEW_THUMBNAILS = {
+    nfhs: '/assets/images/refzone/course-overviews/nfhs.jpg',
+    'njcaa-women': '/assets/images/refzone/course-overviews/njcaa-women.jpg',
+    'njcaa-men': '/assets/images/refzone/course-overviews/njcaa-men.jpg',
+    'naia-women': '/assets/images/refzone/course-overviews/naia-women.jpg',
+    'naia-men': '/assets/images/refzone/course-overviews/naia-men.jpg',
+    'ncaa-women': '/assets/images/refzone/course-overviews/ncaa-women.jpg',
+    'ncaa-men': '/assets/images/refzone/course-overviews/ncaa-men.jpg',
+    wnba: '/assets/images/refzone/course-overviews/wnba.jpg',
+    nba: '/assets/images/refzone/course-overviews/nba.jpg',
+    njcaa: '/assets/images/refzone/course-overviews/njcaa-men.jpg',
+    naia: '/assets/images/refzone/course-overviews/naia-men.jpg',
+    ncaa: '/assets/images/refzone/course-overviews/ncaa-men.jpg',
+    pro: '/assets/images/refzone/course-overviews/nba.jpg'
+  };
   const visualOptions = [
     ['lecture', 'Lecture'],
     ['rules', 'Rules / Quiz'],
@@ -29,6 +44,13 @@
 
   function status(value) {
     return ['active', 'draft', 'hidden'].includes(value) ? value : 'active';
+  }
+
+  function overviewThumbnailFor(course = {}) {
+    const id = slug(course.id || course.title || '');
+    const explicitThumbnail = String(course.overviewThumbnail || course.overview_thumbnail || '').trim();
+    if (explicitThumbnail && !/\/course-covers\//i.test(explicitThumbnail)) return explicitThumbnail;
+    return String(COURSE_OVERVIEW_THUMBNAILS[id] || explicitThumbnail || '').trim();
   }
 
   function lines(value) {
@@ -262,7 +284,7 @@
         level: String(course.level || '').trim(),
         status: status(course.status),
         cover: String(course.cover || `/assets/images/refzone/course-covers/${id}.svg`).trim(),
-        overviewThumbnail: String(course.overviewThumbnail || course.overview_thumbnail || '').trim(),
+        overviewThumbnail: overviewThumbnailFor({ ...course, id, title }),
         description: String(course.overview || course.description || course.lecture || '').trim(),
         weeks: Array.isArray(course.weeks) ? course.weeks : [],
         updated_at: course.updated_at || ''
@@ -375,7 +397,7 @@
       level: form.level,
       status: status(form.status),
       cover: form.cover || `/assets/images/refzone/course-covers/${id}.svg`,
-      overviewThumbnail: form.overviewThumbnail,
+      overviewThumbnail: form.overviewThumbnail || COURSE_OVERVIEW_THUMBNAILS[id] || '',
       description: form.description,
       weeks: updateFirstWeek(existing?.weeks, form)
     };
