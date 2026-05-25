@@ -54,6 +54,11 @@
   grid-column: span 2;
 }
 
+.rtbo-education-crud-form .full,
+.rtbo-education-test-bank-panel {
+  grid-column: 1 / -1;
+}
+
 .rtbo-education-crud-form :is(input, select, textarea),
 .rtbo-education-crud-search input {
   width: 100%;
@@ -64,6 +69,62 @@
   color: var(--education-heading);
   background: var(--education-button-bg);
   font: inherit;
+}
+
+.rtbo-education-test-bank-panel {
+  display: grid;
+  gap: 12px;
+  border: 1px solid rgba(245, 130, 32, .24);
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--education-panel);
+}
+
+.rtbo-education-test-bank-panel h4,
+.rtbo-education-test-bank-panel p {
+  margin: 0;
+}
+
+.rtbo-education-test-bank-panel summary {
+  cursor: pointer;
+  color: var(--education-heading);
+  font-weight: 900;
+}
+
+.rtbo-education-test-bank-panel ol {
+  display: grid;
+  gap: 8px;
+  max-height: 360px;
+  overflow: auto;
+  margin: 12px 0 0;
+  padding-left: 22px;
+}
+
+.rtbo-education-test-bank-list {
+  display: grid;
+  gap: 8px;
+  max-height: 620px;
+  overflow: auto;
+  margin-top: 12px;
+}
+
+.rtbo-education-test-bank-list > details {
+  border: 1px solid var(--education-button-border);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.rtbo-education-test-bank-panel li {
+  display: grid;
+  gap: 4px;
+  border-top: 1px solid var(--education-button-border);
+  padding-top: 8px;
+}
+
+.rtbo-education-test-bank-panel li span,
+.rtbo-education-test-bank-panel li small {
+  color: var(--education-muted);
+  line-height: 1.4;
 }
 
 .rtbo-education-course-list article {
@@ -114,6 +175,7 @@
   }
 
   .rtbo-education-crud-form .wide,
+  .rtbo-education-crud-form .full,
   .rtbo-education-crud-search {
     grid-column: 1;
   }

@@ -12,7 +12,7 @@ function TestCenterPage({
           <div>
             <p className="eyebrow">RTBO Academy</p>
             <h3>Academy Tests</h3>
-            <p>Every Academy assessment is listed here as a test widget for official development, course completion, certification, and advancement readiness.</p>
+            <p>Every Academy assessment is listed here as a test workflow for official development, course completion, certification, and advancement readiness. Course modules require 25 questions and an 85% passing score.</p>
           </div>
           <button className="btn secondary dark-btn" type="button" onClick={onOpenAcademy}>Open RTBO Academy</button>
         </div>

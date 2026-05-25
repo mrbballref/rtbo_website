@@ -4,6 +4,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/includes/bootstrap.php';
 require_once __DIR__ . '/includes/users.php';
 require_once __DIR__ . '/includes/refzone-courses.php';
+require_once __DIR__ . '/includes/refzone-enrollments.php';
 
 header('Content-Type: application/json');
 
@@ -38,6 +39,14 @@ try {
         if ($adminScope && !rtbo_refzone_current_admin()) {
             rtbo_refzone_json(['success' => false, 'message' => 'Admin sign-in is required.'], 401);
         }
+        $databaseUser = current_database_user();
+        $access = ['course_ids' => [], 'enrollments' => []];
+        if (!$adminScope && !$databaseUser) {
+            rtbo_refzone_json(['success' => false, 'message' => 'Sign in to access RefZone University courses.'], 401);
+        }
+        if (!$adminScope && $databaseUser) {
+            $access = rtbo_refzone_access_for_user($databaseUser);
+        }
 
         $data = rtbo_refzone_courses_load();
         $savedCourses = rtbo_refzone_courses_normalized($data['courses'] ?? []);
@@ -45,11 +54,14 @@ try {
         $courses = $adminScope ? $allCourses : array_values(array_filter(
             $allCourses,
             static fn(array $course): bool => ($course['status'] ?? 'active') === 'active'
+                && in_array((string) ($course['id'] ?? ''), $access['course_ids'], true)
         ));
 
         rtbo_refzone_json([
             'success' => true,
             'courses' => $courses,
+            'course_ids' => $access['course_ids'],
+            'enrollments' => $access['enrollments'],
             'managed' => $allCourses !== [],
             'managed_source' => $savedCourses !== [] ? 'saved' : 'starter',
             'updated_at' => $data['updated_at'] ?? null,

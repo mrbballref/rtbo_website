@@ -15,6 +15,7 @@ $verified = false;
 $message = 'We could not verify this payment. Please contact RTBO if you believe this is an error.';
 $registration = null;
 $enrollment = null;
+$redirectUrl = '';
 
 if ($type === 'refzone' && in_array($provider, ['stripe', 'paypal'], true) && $enrollmentId !== '') {
     $enrollment = find_refzone_enrollment($enrollmentId);
@@ -52,6 +53,8 @@ if ($type === 'refzone' && in_array($provider, ['stripe', 'paypal'], true) && $e
 
             if ($verified || $alreadyPaid) {
                 update_refzone_enrollment_payment($enrollmentId, 'paid', $updates);
+                $enrollment = array_merge($enrollment, $updates, ['payment_status' => 'paid']);
+                $redirectUrl = rtbo_refzone_course_url($enrollment);
             } else {
                 update_refzone_enrollment_payment($enrollmentId, 'verification_failed', $updates);
             }
@@ -103,6 +106,9 @@ if ($type !== 'refzone' && in_array($provider, ['stripe', 'paypal'], true) && $r
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <?php if ($redirectUrl !== ''): ?>
+  <meta http-equiv="refresh" content="2;url=<?php echo e($redirectUrl); ?>">
+  <?php endif; ?>
   <title>Payment Confirmation | Raising The Bar Officiating</title>
   <style>
     body { margin: 0; min-height: 100vh; display: grid; place-items: center; font-family: Inter, Arial, sans-serif; color: #fff; background: #080808; }
@@ -124,7 +130,12 @@ if ($type !== 'refzone' && in_array($provider, ['stripe', 'paypal'], true) && $r
     <?php if ($enrollment): ?>
       <p><strong>Member:</strong> <?php echo e((string) ($enrollment['full_name'] ?? '')); ?><br><strong>Package:</strong> <?php echo e((string) ($enrollment['package_name'] ?? 'RefZone University')); ?><br><strong>Enrollment:</strong> <?php echo e($enrollmentId); ?></p>
     <?php endif; ?>
-    <a href="/">Return to RTBO</a>
+    <?php if ($redirectUrl !== ''): ?>
+      <p>Redirecting you to your RefZone University course now.</p>
+      <a href="<?php echo e($redirectUrl); ?>">Continue to Course</a>
+    <?php else: ?>
+      <a href="/">Return to RTBO</a>
+    <?php endif; ?>
   </main>
 </body>
 </html>

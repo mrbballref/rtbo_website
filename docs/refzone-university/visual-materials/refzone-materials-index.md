@@ -15,6 +15,7 @@ Generated from `frontend/public/course-manual.md`.
 - The public material manifest lives at `frontend/public/refzone-course-materials.json`.
 - Course image briefs live in `docs/refzone-university/course-overviews.md`.
 - Presentation outlines live in `docs/refzone-university/presentation-outlines/`.
+- Instructor test banks and answer keys live in `docs/refzone-university/assessment-evidence/`.
 - Every academic day now includes required reading, lecture notes, lab work, assignment evidence, assessment, grading rubric, and remediation rule.
 
 ## Courses

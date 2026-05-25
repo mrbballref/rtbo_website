@@ -134,6 +134,75 @@ function rtbo_refzone_college_material(mixed $college): array
     ];
 }
 
+function rtbo_refzone_test_option(mixed $option, int $index = 0): array
+{
+    $option = is_array($option) ? $option : [];
+    $id = strtolower(rtbo_refzone_text($option['id'] ?? chr(97 + $index), 8));
+
+    return [
+        'id' => $id !== '' ? $id : chr(97 + $index),
+        'text' => rtbo_refzone_text($option['text'] ?? '', 900),
+    ];
+}
+
+function rtbo_refzone_test_bank(mixed $test): array
+{
+    $test = is_array($test) ? $test : [];
+    $questions = [];
+    foreach (array_slice(($test['questions'] ?? []), 0, 25) as $questionIndex => $question) {
+        if (!is_array($question)) {
+            continue;
+        }
+        $options = [];
+        foreach (array_slice(($question['options'] ?? []), 0, 6) as $optionIndex => $option) {
+            $normalizedOption = rtbo_refzone_test_option($option, (int) $optionIndex);
+            if ($normalizedOption['text'] !== '') {
+                $options[] = $normalizedOption;
+            }
+        }
+        $prompt = rtbo_refzone_text($question['prompt'] ?? '', 1400);
+        $correctOptionId = strtolower(rtbo_refzone_text($question['correctOptionId'] ?? $question['correct_option_id'] ?? '', 8));
+        if ($prompt === '' || count($options) < 2 || $correctOptionId === '') {
+            continue;
+        }
+        $questions[] = [
+            'id' => rtbo_refzone_text($question['id'] ?? ('q' . ($questionIndex + 1)), 120),
+            'type' => rtbo_refzone_text($question['type'] ?? 'multiple-choice', 80),
+            'prompt' => $prompt,
+            'options' => $options,
+            'correctOptionId' => $correctOptionId,
+            'explanation' => rtbo_refzone_text($question['explanation'] ?? '', 1400),
+        ];
+    }
+
+    return [
+        'id' => rtbo_refzone_text($test['id'] ?? 'course-test', 160),
+        'title' => rtbo_refzone_text($test['title'] ?? 'Course Assessment', 240),
+        'type' => rtbo_refzone_text($test['type'] ?? 'Course Assessment', 120),
+        'passingScore' => 85,
+        'timeLimitMinutes' => max(1, min(240, (int) ($test['timeLimitMinutes'] ?? $test['time_limit_minutes'] ?? 45))),
+        'instructions' => rtbo_refzone_text($test['instructions'] ?? '', 1200),
+        'evidencePrompt' => rtbo_refzone_text($test['evidencePrompt'] ?? $test['evidence_prompt'] ?? '', 1200),
+        'answerKeyVisibleInCommandCenter' => true,
+        'questions' => $questions,
+        'answerKey' => array_map(static function (array $question): array {
+            $answer = '';
+            foreach ($question['options'] as $option) {
+                if ($option['id'] === $question['correctOptionId']) {
+                    $answer = $option['text'];
+                    break;
+                }
+            }
+            return [
+                'questionId' => $question['id'],
+                'correctOptionId' => $question['correctOptionId'],
+                'answer' => $answer,
+                'explanation' => $question['explanation'],
+            ];
+        }, $questions),
+    ];
+}
+
 function rtbo_refzone_section(array $section, int $index = 0): array
 {
     $title = rtbo_refzone_text($section['title'] ?? ('Line Item ' . ($index + 1)), 180);
@@ -174,6 +243,9 @@ function rtbo_refzone_day(array $day, int $index = 0): array
 
     if (is_array($day['college'] ?? null)) {
         $result['college'] = rtbo_refzone_college_material($day['college']);
+    }
+    if (is_array($day['test'] ?? null)) {
+        $result['test'] = rtbo_refzone_test_bank($day['test']);
     }
 
     return $result;

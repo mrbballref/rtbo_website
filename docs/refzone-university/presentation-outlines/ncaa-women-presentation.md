@@ -21,31 +21,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Orientation and Professional Identity; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Orientation and Professional Identity; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Orientation and Professional Identity; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Orientation and Professional Identity; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Orientation and Professional Identity; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Orientation and Professional Identity; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Orientation and Professional Identity; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 2: Rules Architecture and Definitions
 - Claim: officials must make Rules Architecture and Definitions visible through judgment, mechanics, communication, and written evidence.
@@ -54,31 +54,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Rules Architecture and Definitions; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Rules Architecture and Definitions; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Rules Architecture and Definitions; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Rules Architecture and Definitions; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Rules Architecture and Definitions; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Rules Architecture and Definitions; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Rules Architecture and Definitions; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 3: Mechanics as Visual Science
 - Claim: officials must make Mechanics as Visual Science visible through judgment, mechanics, communication, and written evidence.
@@ -87,31 +87,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mechanics as Visual Science; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mechanics as Visual Science; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mechanics as Visual Science; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mechanics as Visual Science; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mechanics as Visual Science; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mechanics as Visual Science; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mechanics as Visual Science; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 4: Communication Psychology
 - Claim: officials must make Communication Psychology visible through judgment, mechanics, communication, and written evidence.
@@ -120,31 +120,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Communication Psychology; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Communication Psychology; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Communication Psychology; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Communication Psychology; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Communication Psychology; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Communication Psychology; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Communication Psychology; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 5: Violations and Administrative Precision
 - Claim: officials must make Violations and Administrative Precision visible through judgment, mechanics, communication, and written evidence.
@@ -153,31 +153,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Violations and Administrative Precision; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Violations and Administrative Precision; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Violations and Administrative Precision; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Violations and Administrative Precision; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Violations and Administrative Precision; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Violations and Administrative Precision; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Violations and Administrative Precision; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 6: Foul Theory and Contact Classification
 - Claim: officials must make Foul Theory and Contact Classification visible through judgment, mechanics, communication, and written evidence.
@@ -186,31 +186,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Foul Theory and Contact Classification; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Foul Theory and Contact Classification; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Foul Theory and Contact Classification; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Foul Theory and Contact Classification; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Foul Theory and Contact Classification; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Foul Theory and Contact Classification; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Foul Theory and Contact Classification; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 7: Advantage/Disadvantage Philosophy
 - Claim: officials must make Advantage/Disadvantage Philosophy visible through judgment, mechanics, communication, and written evidence.
@@ -219,31 +219,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Advantage/Disadvantage Philosophy; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Advantage/Disadvantage Philosophy; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Advantage/Disadvantage Philosophy; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Advantage/Disadvantage Philosophy; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Advantage/Disadvantage Philosophy; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Advantage/Disadvantage Philosophy; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Advantage/Disadvantage Philosophy; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 8: Technical and Reportable Conduct
 - Claim: officials must make Technical and Reportable Conduct visible through judgment, mechanics, communication, and written evidence.
@@ -252,31 +252,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Technical and Reportable Conduct; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Technical and Reportable Conduct; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Technical and Reportable Conduct; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Technical and Reportable Conduct; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Technical and Reportable Conduct; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Technical and Reportable Conduct; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Technical and Reportable Conduct; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 9: Two-Person Mechanics Laboratory
 - Claim: officials must make Two-Person Mechanics Laboratory visible through judgment, mechanics, communication, and written evidence.
@@ -285,31 +285,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Two-Person Mechanics Laboratory; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Two-Person Mechanics Laboratory; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Two-Person Mechanics Laboratory; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Two-Person Mechanics Laboratory; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Two-Person Mechanics Laboratory; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Two-Person Mechanics Laboratory; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Two-Person Mechanics Laboratory; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 10: Three-Person Mechanics Laboratory
 - Claim: officials must make Three-Person Mechanics Laboratory visible through judgment, mechanics, communication, and written evidence.
@@ -318,31 +318,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Three-Person Mechanics Laboratory; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Three-Person Mechanics Laboratory; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Three-Person Mechanics Laboratory; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Three-Person Mechanics Laboratory; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Three-Person Mechanics Laboratory; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Three-Person Mechanics Laboratory; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Three-Person Mechanics Laboratory; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 11: Transition, Press Coverage, and Fast-Break Judgment
 - Claim: officials must make Transition, Press Coverage, and Fast-Break Judgment visible through judgment, mechanics, communication, and written evidence.
@@ -351,31 +351,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Transition, Press Coverage, and Fast-Break Judgment; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Transition, Press Coverage, and Fast-Break Judgment; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Transition, Press Coverage, and Fast-Break Judgment; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Transition, Press Coverage, and Fast-Break Judgment; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Transition, Press Coverage, and Fast-Break Judgment; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Transition, Press Coverage, and Fast-Break Judgment; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Transition, Press Coverage, and Fast-Break Judgment; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 12: Free Throws, Throw-Ins, and Special Situations
 - Claim: officials must make Free Throws, Throw-Ins, and Special Situations visible through judgment, mechanics, communication, and written evidence.
@@ -384,31 +384,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Free Throws, Throw-Ins, and Special Situations; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Free Throws, Throw-Ins, and Special Situations; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Free Throws, Throw-Ins, and Special Situations; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Free Throws, Throw-Ins, and Special Situations; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Free Throws, Throw-Ins, and Special Situations; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Free Throws, Throw-Ins, and Special Situations; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Free Throws, Throw-Ins, and Special Situations; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 13: Block/Charge and Legal Guarding Position
 - Claim: officials must make Block/Charge and Legal Guarding Position visible through judgment, mechanics, communication, and written evidence.
@@ -417,31 +417,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Block/Charge and Legal Guarding Position; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Block/Charge and Legal Guarding Position; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Block/Charge and Legal Guarding Position; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Block/Charge and Legal Guarding Position; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Block/Charge and Legal Guarding Position; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Block/Charge and Legal Guarding Position; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Block/Charge and Legal Guarding Position; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 14: Post Play, Rebounding, and Screening
 - Claim: officials must make Post Play, Rebounding, and Screening visible through judgment, mechanics, communication, and written evidence.
@@ -450,31 +450,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Post Play, Rebounding, and Screening; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Post Play, Rebounding, and Screening; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Post Play, Rebounding, and Screening; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Post Play, Rebounding, and Screening; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Post Play, Rebounding, and Screening; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Post Play, Rebounding, and Screening; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Post Play, Rebounding, and Screening; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 15: Player Safety and Severe Contact
 - Claim: officials must make Player Safety and Severe Contact visible through judgment, mechanics, communication, and written evidence.
@@ -483,31 +483,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Player Safety and Severe Contact; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Player Safety and Severe Contact; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Player Safety and Severe Contact; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Player Safety and Severe Contact; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Player Safety and Severe Contact; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Player Safety and Severe Contact; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Player Safety and Severe Contact; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 16: Coach Communication and Bench Control
 - Claim: officials must make Coach Communication and Bench Control visible through judgment, mechanics, communication, and written evidence.
@@ -516,31 +516,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Coach Communication and Bench Control; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Coach Communication and Bench Control; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Coach Communication and Bench Control; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Coach Communication and Bench Control; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Coach Communication and Bench Control; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Coach Communication and Bench Control; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Coach Communication and Bench Control; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 17: Player Communication and Preventive Officiating
 - Claim: officials must make Player Communication and Preventive Officiating visible through judgment, mechanics, communication, and written evidence.
@@ -549,31 +549,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Player Communication and Preventive Officiating; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Player Communication and Preventive Officiating; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Player Communication and Preventive Officiating; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Player Communication and Preventive Officiating; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Player Communication and Preventive Officiating; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Player Communication and Preventive Officiating; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Player Communication and Preventive Officiating; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 18: Spectators, Security, and Game Administration
 - Claim: officials must make Spectators, Security, and Game Administration visible through judgment, mechanics, communication, and written evidence.
@@ -582,31 +582,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Spectators, Security, and Game Administration; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Spectators, Security, and Game Administration; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Spectators, Security, and Game Administration; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Spectators, Security, and Game Administration; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Spectators, Security, and Game Administration; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Spectators, Security, and Game Administration; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Spectators, Security, and Game Administration; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 19: Difficult Games and Emotional Control
 - Claim: officials must make Difficult Games and Emotional Control visible through judgment, mechanics, communication, and written evidence.
@@ -615,31 +615,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Difficult Games and Emotional Control; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Difficult Games and Emotional Control; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Difficult Games and Emotional Control; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Difficult Games and Emotional Control; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Difficult Games and Emotional Control; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Difficult Games and Emotional Control; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Difficult Games and Emotional Control; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 20: Film Study Methodology
 - Claim: officials must make Film Study Methodology visible through judgment, mechanics, communication, and written evidence.
@@ -648,31 +648,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Film Study Methodology; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Film Study Methodology; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Film Study Methodology; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Film Study Methodology; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Film Study Methodology; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Film Study Methodology; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Film Study Methodology; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 21: Self-Scouting Mechanics
 - Claim: officials must make Self-Scouting Mechanics visible through judgment, mechanics, communication, and written evidence.
@@ -681,31 +681,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Self-Scouting Mechanics; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Self-Scouting Mechanics; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Self-Scouting Mechanics; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Self-Scouting Mechanics; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Self-Scouting Mechanics; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Self-Scouting Mechanics; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Self-Scouting Mechanics; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 22: Self-Scouting Judgment
 - Claim: officials must make Self-Scouting Judgment visible through judgment, mechanics, communication, and written evidence.
@@ -714,31 +714,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Self-Scouting Judgment; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Self-Scouting Judgment; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Self-Scouting Judgment; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Self-Scouting Judgment; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Self-Scouting Judgment; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Self-Scouting Judgment; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Self-Scouting Judgment; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 23: Full-Game Film Review
 - Claim: officials must make Full-Game Film Review visible through judgment, mechanics, communication, and written evidence.
@@ -747,31 +747,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Full-Game Film Review; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Full-Game Film Review; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Full-Game Film Review; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Full-Game Film Review; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Full-Game Film Review; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Full-Game Film Review; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Full-Game Film Review; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 24: Evaluation Preparation
 - Claim: officials must make Evaluation Preparation visible through judgment, mechanics, communication, and written evidence.
@@ -780,31 +780,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Evaluation Preparation; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Evaluation Preparation; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Evaluation Preparation; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Evaluation Preparation; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Evaluation Preparation; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Evaluation Preparation; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Evaluation Preparation; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 25: Live Observation One
 - Claim: officials must make Live Observation One visible through judgment, mechanics, communication, and written evidence.
@@ -813,31 +813,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Live Observation One; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Live Observation One; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Live Observation One; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Live Observation One; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Live Observation One; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Live Observation One; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Live Observation One; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 26: Live Observation Two
 - Claim: officials must make Live Observation Two visible through judgment, mechanics, communication, and written evidence.
@@ -846,31 +846,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Live Observation Two; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Live Observation Two; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Live Observation Two; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Live Observation Two; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Live Observation Two; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Live Observation Two; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Live Observation Two; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 27: Ranking and Placement Review
 - Claim: officials must make Ranking and Placement Review visible through judgment, mechanics, communication, and written evidence.
@@ -879,31 +879,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Ranking and Placement Review; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Ranking and Placement Review; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Ranking and Placement Review; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Ranking and Placement Review; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Ranking and Placement Review; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Ranking and Placement Review; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Ranking and Placement Review; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 28: Level-Specific Rules Intensive
 - Claim: officials must make Level-Specific Rules Intensive visible through judgment, mechanics, communication, and written evidence.
@@ -912,31 +912,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Rules Intensive; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Rules Intensive; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Rules Intensive; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Rules Intensive; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Rules Intensive; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Rules Intensive; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Rules Intensive; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 29: Level-Specific Mechanics Intensive
 - Claim: officials must make Level-Specific Mechanics Intensive visible through judgment, mechanics, communication, and written evidence.
@@ -945,31 +945,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Mechanics Intensive; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Mechanics Intensive; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Mechanics Intensive; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Mechanics Intensive; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Mechanics Intensive; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Mechanics Intensive; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Mechanics Intensive; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 30: Level-Specific Game Management Intensive
 - Claim: officials must make Level-Specific Game Management Intensive visible through judgment, mechanics, communication, and written evidence.
@@ -978,31 +978,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Game Management Intensive; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Game Management Intensive; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Game Management Intensive; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Game Management Intensive; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Game Management Intensive; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Game Management Intensive; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Game Management Intensive; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 31: Level-Specific Film Intensive
 - Claim: officials must make Level-Specific Film Intensive visible through judgment, mechanics, communication, and written evidence.
@@ -1011,31 +1011,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Film Intensive; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Film Intensive; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Film Intensive; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Film Intensive; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Film Intensive; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Film Intensive; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Film Intensive; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 32: Level-Specific Reporting Intensive
 - Claim: officials must make Level-Specific Reporting Intensive visible through judgment, mechanics, communication, and written evidence.
@@ -1044,31 +1044,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Reporting Intensive; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Reporting Intensive; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Reporting Intensive; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Reporting Intensive; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Reporting Intensive; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Reporting Intensive; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Level-Specific Reporting Intensive; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 33: Pregame Leadership
 - Claim: officials must make Pregame Leadership visible through judgment, mechanics, communication, and written evidence.
@@ -1077,31 +1077,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Pregame Leadership; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Pregame Leadership; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Pregame Leadership; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Pregame Leadership; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Pregame Leadership; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Pregame Leadership; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Pregame Leadership; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 34: Crew Communication and Crew Saves
 - Claim: officials must make Crew Communication and Crew Saves visible through judgment, mechanics, communication, and written evidence.
@@ -1110,31 +1110,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Crew Communication and Crew Saves; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Crew Communication and Crew Saves; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Crew Communication and Crew Saves; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Crew Communication and Crew Saves; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Crew Communication and Crew Saves; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Crew Communication and Crew Saves; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Crew Communication and Crew Saves; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 35: Report Responsibility and Crew Accountability
 - Claim: officials must make Report Responsibility and Crew Accountability visible through judgment, mechanics, communication, and written evidence.
@@ -1143,31 +1143,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Report Responsibility and Crew Accountability; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Report Responsibility and Crew Accountability; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Report Responsibility and Crew Accountability; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Report Responsibility and Crew Accountability; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Report Responsibility and Crew Accountability; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Report Responsibility and Crew Accountability; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Report Responsibility and Crew Accountability; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 36: Assignment Readiness and Professional Reliability
 - Claim: officials must make Assignment Readiness and Professional Reliability visible through judgment, mechanics, communication, and written evidence.
@@ -1176,31 +1176,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Assignment Readiness and Professional Reliability; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Assignment Readiness and Professional Reliability; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Assignment Readiness and Professional Reliability; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Assignment Readiness and Professional Reliability; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Assignment Readiness and Professional Reliability; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Assignment Readiness and Professional Reliability; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Assignment Readiness and Professional Reliability; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 37: Mentoring New Officials
 - Claim: officials must make Mentoring New Officials visible through judgment, mechanics, communication, and written evidence.
@@ -1209,31 +1209,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mentoring New Officials; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mentoring New Officials; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mentoring New Officials; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mentoring New Officials; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mentoring New Officials; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mentoring New Officials; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mentoring New Officials; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 38: Observer Training
 - Claim: officials must make Observer Training visible through judgment, mechanics, communication, and written evidence.
@@ -1242,31 +1242,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Observer Training; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Observer Training; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Observer Training; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Observer Training; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Observer Training; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Observer Training; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Observer Training; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 39: Evaluation Writing
 - Claim: officials must make Evaluation Writing visible through judgment, mechanics, communication, and written evidence.
@@ -1275,31 +1275,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Evaluation Writing; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Evaluation Writing; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Evaluation Writing; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Evaluation Writing; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Evaluation Writing; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Evaluation Writing; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Evaluation Writing; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 40: Teaching Clinics and Court Stations
 - Claim: officials must make Teaching Clinics and Court Stations visible through judgment, mechanics, communication, and written evidence.
@@ -1308,31 +1308,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Teaching Clinics and Court Stations; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Teaching Clinics and Court Stations; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Teaching Clinics and Court Stations; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Teaching Clinics and Court Stations; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Teaching Clinics and Court Stations; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Teaching Clinics and Court Stations; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Teaching Clinics and Court Stations; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 41: Elite Preparation and Professional Habits
 - Claim: officials must make Elite Preparation and Professional Habits visible through judgment, mechanics, communication, and written evidence.
@@ -1341,31 +1341,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Preparation and Professional Habits; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Preparation and Professional Habits; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Preparation and Professional Habits; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Preparation and Professional Habits; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Preparation and Professional Habits; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Preparation and Professional Habits; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Preparation and Professional Habits; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 42: Elite Contact Judgment
 - Claim: officials must make Elite Contact Judgment visible through judgment, mechanics, communication, and written evidence.
@@ -1374,31 +1374,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Contact Judgment; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Contact Judgment; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Contact Judgment; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Contact Judgment; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Contact Judgment; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Contact Judgment; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Contact Judgment; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 43: Replay and Technology Awareness
 - Claim: officials must make Replay and Technology Awareness visible through judgment, mechanics, communication, and written evidence.
@@ -1407,31 +1407,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Replay and Technology Awareness; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Replay and Technology Awareness; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Replay and Technology Awareness; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Replay and Technology Awareness; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Replay and Technology Awareness; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Replay and Technology Awareness; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Replay and Technology Awareness; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 44: Elite Communication and Supervisor Presence
 - Claim: officials must make Elite Communication and Supervisor Presence visible through judgment, mechanics, communication, and written evidence.
@@ -1440,31 +1440,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Communication and Supervisor Presence; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Communication and Supervisor Presence; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Communication and Supervisor Presence; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Communication and Supervisor Presence; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Communication and Supervisor Presence; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Communication and Supervisor Presence; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Elite Communication and Supervisor Presence; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 45: Final Rules Examination
 - Claim: officials must make Final Rules Examination visible through judgment, mechanics, communication, and written evidence.
@@ -1473,31 +1473,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Rules Examination; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Rules Examination; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Rules Examination; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Rules Examination; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Rules Examination; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Rules Examination; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Rules Examination; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 46: Final Mechanics Examination
 - Claim: officials must make Final Mechanics Examination visible through judgment, mechanics, communication, and written evidence.
@@ -1506,31 +1506,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Mechanics Examination; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Mechanics Examination; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Mechanics Examination; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Mechanics Examination; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Mechanics Examination; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Mechanics Examination; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Mechanics Examination; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 47: Final Film Portfolio
 - Claim: officials must make Final Film Portfolio visible through judgment, mechanics, communication, and written evidence.
@@ -1539,31 +1539,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Film Portfolio; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Film Portfolio; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Film Portfolio; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Film Portfolio; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Film Portfolio; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Film Portfolio; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Film Portfolio; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 48: Final Live Evaluation
 - Claim: officials must make Final Live Evaluation visible through judgment, mechanics, communication, and written evidence.
@@ -1572,31 +1572,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Live Evaluation; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Live Evaluation; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Live Evaluation; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Live Evaluation; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Live Evaluation; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Live Evaluation; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Final Live Evaluation; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 49: Mentor Review Conference
 - Claim: officials must make Mentor Review Conference visible through judgment, mechanics, communication, and written evidence.
@@ -1605,31 +1605,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mentor Review Conference; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mentor Review Conference; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mentor Review Conference; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mentor Review Conference; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mentor Review Conference; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mentor Review Conference; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Mentor Review Conference; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 50: Advancement Board Review
 - Claim: officials must make Advancement Board Review visible through judgment, mechanics, communication, and written evidence.
@@ -1638,31 +1638,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Advancement Board Review; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Advancement Board Review; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Advancement Board Review; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Advancement Board Review; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Advancement Board Review; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Advancement Board Review; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Advancement Board Review; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 51: Certification and Placement
 - Claim: officials must make Certification and Placement visible through judgment, mechanics, communication, and written evidence.
@@ -1671,31 +1671,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Certification and Placement; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Certification and Placement; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Certification and Placement; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Certification and Placement; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Certification and Placement; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Certification and Placement; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Certification and Placement; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Week 52: Program Reset and Continuing Education
 - Claim: officials must make Program Reset and Continuing Education visible through judgment, mechanics, communication, and written evidence.
@@ -1704,31 +1704,31 @@
 - Day 1: Professor Lecture and Socratic Seminar - use Professor Lecture visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Program Reset and Continuing Education; mark definitions, penalties, exceptions, and restart language that affect Professor Lecture and Socratic Seminar.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Professor Lecture and Socratic Seminar.
-  - Assessment: Written Knowledge Check; 80% or mentor approval is required before Day 2 unlocks.
+  - Assessment: Written Knowledge Check; 85% or mentor approval is required before Day 2 unlocks.
 - Day 2: Rules, Case Plays, and Written Reasoning - use Rules and Case Plays visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Program Reset and Continuing Education; mark definitions, penalties, exceptions, and restart language that affect Rules, Case Plays, and Written Reasoning.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Rules, Case Plays, and Written Reasoning.
-  - Assessment: Rules Quiz; 80% or mentor approval is required before Day 3 unlocks.
+  - Assessment: Rules Quiz; 85% or mentor approval is required before Day 3 unlocks.
 - Day 3: Court Laboratory and Mechanics Performance - use Court Mechanics Lab visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Program Reset and Continuing Education; mark definitions, penalties, exceptions, and restart language that affect Court Laboratory and Mechanics Performance.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Court Laboratory and Mechanics Performance.
-  - Assessment: Mechanics Practical; 80% or mentor approval is required before Day 4 unlocks.
+  - Assessment: Mechanics Practical; 85% or mentor approval is required before Day 4 unlocks.
 - Day 4: Film Laboratory and Self-Scout Analysis - use Film Laboratory visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Program Reset and Continuing Education; mark definitions, penalties, exceptions, and restart language that affect Film Laboratory and Self-Scout Analysis.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Film Laboratory and Self-Scout Analysis.
-  - Assessment: Video Test; 80% or mentor approval is required before Day 5 unlocks.
+  - Assessment: Video Test; 85% or mentor approval is required before Day 5 unlocks.
 - Day 5: Role-Play, Communication, and Oral Defense - use Role-Play and Oral Defense visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Program Reset and Continuing Education; mark definitions, penalties, exceptions, and restart language that affect Role-Play, Communication, and Oral Defense.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Role-Play, Communication, and Oral Defense.
-  - Assessment: Video Quiz; 80% or mentor approval is required before Day 6 unlocks.
+  - Assessment: Video Quiz; 85% or mentor approval is required before Day 6 unlocks.
 - Day 6: Live Practicum, Scrimmage, or Livestream Observation - use Live Practicum visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Program Reset and Continuing Education; mark definitions, penalties, exceptions, and restart language that affect Live Practicum, Scrimmage, or Livestream Observation.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Live Practicum, Scrimmage, or Livestream Observation.
-  - Assessment: Live Performance Evaluation; 80% or mentor approval is required before Day 7 unlocks.
+  - Assessment: Live Performance Evaluation; 85% or mentor approval is required before Day 7 unlocks.
 - Day 7: Reflection, Remediation, Mentor Conference, and Advancement Record - use Reflection and Mentor Review visual, screenshot prompt, and three line-item section cards.
   - Reading: Read the current NCAA Women's Basketball Rules Book sections tied to Program Reset and Continuing Education; mark definitions, penalties, exceptions, and restart language that affect Reflection, Remediation, Mentor Conference, and Advancement Record.
   - Assignment: Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item for Reflection, Remediation, Mentor Conference, and Advancement Record.
-  - Assessment: Portfolio Evidence Check; 80% or mentor approval is required before Day 8 unlocks.
+  - Assessment: Portfolio Evidence Check; 85% or mentor approval is required before Day 8 unlocks.
 
 ## Closing Slide: Advancement Board Readiness
 - Claim: completion evidence should prove the official can explain, perform, defend, and improve.

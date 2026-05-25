@@ -42,6 +42,39 @@ function rtbo_refzone_membership_package(string $packageId): ?array
     return $packages[$packageId] ?? null;
 }
 
+function rtbo_refzone_course_id_for_package(string $packageId, string $courseTrack = ''): string
+{
+    $packageId = strtolower(trim($packageId));
+    $courseTrack = strtolower(trim($courseTrack));
+    $packageCourses = [
+        'fundamentals' => 'nfhs',
+        'advantage' => 'ncaa-men',
+        'elite' => 'nba',
+    ];
+    $trackCourses = [
+        'nfhs' => 'nfhs',
+        'njcaa' => 'njcaa-men',
+        'naia' => 'naia-men',
+        'ncaa' => 'ncaa-men',
+        'pro' => 'nba',
+    ];
+
+    return $packageCourses[$packageId] ?? $trackCourses[$courseTrack] ?? 'nfhs';
+}
+
+function rtbo_refzone_course_url(array $enrollment): string
+{
+    $courseId = trim((string) ($enrollment['course_id'] ?? ''));
+    if ($courseId === '') {
+        $courseId = rtbo_refzone_course_id_for_package(
+            (string) ($enrollment['package_id'] ?? ''),
+            (string) ($enrollment['course_track'] ?? '')
+        );
+    }
+
+    return RTBO_BASE_URL . '/#education/course/' . rawurlencode($courseId);
+}
+
 function rtbo_refzone_enrollments_path(): string
 {
     ensure_dir(STORAGE_DIR);
@@ -95,6 +128,7 @@ function ensure_refzone_enrollment_tables(): void
     db()->exec(
         "CREATE TABLE IF NOT EXISTS refzone_enrollments (
             id VARCHAR(64) PRIMARY KEY,
+            user_id INT NULL,
             full_name VARCHAR(200) NOT NULL,
             email VARCHAR(190) NOT NULL,
             phone VARCHAR(60) NULL,
@@ -103,6 +137,8 @@ function ensure_refzone_enrollment_tables(): void
             amount_cents INT NOT NULL DEFAULT 0,
             currency VARCHAR(10) NOT NULL DEFAULT 'USD',
             course_track VARCHAR(80) NOT NULL,
+            course_id VARCHAR(120) NULL,
+            course_url VARCHAR(500) NULL,
             experience_level VARCHAR(120) NOT NULL,
             membership_goal VARCHAR(255) NULL,
             development_notes TEXT NULL,
@@ -115,12 +151,32 @@ function ensure_refzone_enrollment_tables(): void
             payload JSON NULL,
             submitted_at DATETIME NOT NULL,
             updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            INDEX idx_refzone_enrollments_user (user_id),
             INDEX idx_refzone_enrollments_email (email),
             INDEX idx_refzone_enrollments_package (package_id),
+            INDEX idx_refzone_enrollments_course (course_id),
             INDEX idx_refzone_enrollments_status (payment_status),
             INDEX idx_refzone_enrollments_submitted (submitted_at)
         )"
     );
+
+    foreach ([
+        'user_id' => "ALTER TABLE refzone_enrollments ADD COLUMN user_id INT NULL AFTER id",
+        'course_id' => "ALTER TABLE refzone_enrollments ADD COLUMN course_id VARCHAR(120) NULL AFTER course_track",
+        'course_url' => "ALTER TABLE refzone_enrollments ADD COLUMN course_url VARCHAR(500) NULL AFTER course_id",
+    ] as $column => $sql) {
+        $stmt = db()->prepare(
+            "SELECT COUNT(*)
+             FROM information_schema.COLUMNS
+             WHERE TABLE_SCHEMA = DATABASE()
+               AND TABLE_NAME = 'refzone_enrollments'
+               AND COLUMN_NAME = ?"
+        );
+        $stmt->execute([$column]);
+        if ((int) $stmt->fetchColumn() === 0) {
+            db()->exec($sql);
+        }
+    }
 }
 
 function save_refzone_enrollment_record(array $enrollment): void
@@ -130,16 +186,17 @@ function save_refzone_enrollment_record(array $enrollment): void
         $submittedAt = strtotime((string) ($enrollment['submitted_at'] ?? '')) ?: time();
         $stmt = db()->prepare(
             "INSERT INTO refzone_enrollments (
-                id, full_name, email, phone, package_id, package_name, amount_cents, currency,
-                course_track, experience_level, membership_goal, development_notes, payment_provider,
+                id, user_id, full_name, email, phone, package_id, package_name, amount_cents, currency,
+                course_track, course_id, course_url, experience_level, membership_goal, development_notes, payment_provider,
                 payment_status, stripe_checkout_session_id, stripe_subscription_id, paypal_subscription_id,
                 paid_at, payload, submitted_at
             ) VALUES (
-                :id, :full_name, :email, :phone, :package_id, :package_name, :amount_cents, :currency,
-                :course_track, :experience_level, :membership_goal, :development_notes, :payment_provider,
+                :id, :user_id, :full_name, :email, :phone, :package_id, :package_name, :amount_cents, :currency,
+                :course_track, :course_id, :course_url, :experience_level, :membership_goal, :development_notes, :payment_provider,
                 :payment_status, :stripe_checkout_session_id, :stripe_subscription_id, :paypal_subscription_id,
                 :paid_at, :payload, :submitted_at
             ) ON DUPLICATE KEY UPDATE
+                user_id = VALUES(user_id),
                 full_name = VALUES(full_name),
                 email = VALUES(email),
                 phone = VALUES(phone),
@@ -148,6 +205,8 @@ function save_refzone_enrollment_record(array $enrollment): void
                 amount_cents = VALUES(amount_cents),
                 currency = VALUES(currency),
                 course_track = VALUES(course_track),
+                course_id = VALUES(course_id),
+                course_url = VALUES(course_url),
                 experience_level = VALUES(experience_level),
                 membership_goal = VALUES(membership_goal),
                 development_notes = VALUES(development_notes),
@@ -163,6 +222,7 @@ function save_refzone_enrollment_record(array $enrollment): void
 
         $stmt->execute([
             ':id' => (string) ($enrollment['id'] ?? ''),
+            ':user_id' => (int) ($enrollment['user_id'] ?? 0) > 0 ? (int) $enrollment['user_id'] : null,
             ':full_name' => (string) ($enrollment['full_name'] ?? ''),
             ':email' => (string) ($enrollment['email'] ?? ''),
             ':phone' => rtbo_format_phone_number((string) ($enrollment['phone'] ?? '')),
@@ -171,6 +231,8 @@ function save_refzone_enrollment_record(array $enrollment): void
             ':amount_cents' => (int) ($enrollment['amount_cents'] ?? 0),
             ':currency' => strtoupper((string) ($enrollment['currency'] ?? 'USD')),
             ':course_track' => (string) ($enrollment['course_track'] ?? ''),
+            ':course_id' => (string) ($enrollment['course_id'] ?? ''),
+            ':course_url' => (string) ($enrollment['course_url'] ?? ''),
             ':experience_level' => (string) ($enrollment['experience_level'] ?? ''),
             ':membership_goal' => (string) ($enrollment['membership_goal'] ?? ''),
             ':development_notes' => (string) ($enrollment['development_notes'] ?? ''),
@@ -234,4 +296,76 @@ function update_refzone_enrollment_payment(string $enrollmentId, string $status,
     }
 
     save_refzone_enrollment_record($payload);
+}
+
+function rtbo_refzone_access_for_user(array $user): array
+{
+    $userId = (int) ($user['id'] ?? 0);
+    $email = strtolower(trim((string) ($user['email'] ?? '')));
+    $records = [];
+
+    if ($userId > 0 || $email !== '') {
+        try {
+            ensure_refzone_enrollment_tables();
+            $stmt = db()->prepare(
+                "SELECT *
+                 FROM refzone_enrollments
+                 WHERE payment_status = 'paid'
+                   AND ((user_id IS NOT NULL AND user_id = :user_id) OR LOWER(email) = :email)
+                 ORDER BY submitted_at DESC"
+            );
+            $stmt->execute([
+                ':user_id' => $userId,
+                ':email' => $email,
+            ]);
+            foreach ($stmt->fetchAll() as $row) {
+                $payload = json_decode((string) ($row['payload'] ?? ''), true);
+                $records[] = is_array($payload)
+                    ? array_merge($payload, array_filter($row, static fn($value) => $value !== null))
+                    : $row;
+            }
+        } catch (Throwable $error) {
+            error_log('RTBO RefZone access lookup failed: ' . $error->getMessage());
+        }
+    }
+
+    foreach (rtbo_refzone_read_file_enrollments() as $record) {
+        if ((string) ($record['payment_status'] ?? '') !== 'paid') {
+            continue;
+        }
+        $sameUser = $userId > 0 && (int) ($record['user_id'] ?? 0) === $userId;
+        $sameEmail = $email !== '' && strtolower((string) ($record['email'] ?? '')) === $email;
+        if ($sameUser || $sameEmail) {
+            $records[] = $record;
+        }
+    }
+
+    $byId = [];
+    foreach ($records as $record) {
+        $id = (string) ($record['id'] ?? '');
+        if ($id !== '') {
+            $byId[$id] = $record;
+        }
+    }
+
+    $courseIds = [];
+    $enrollments = [];
+    foreach ($byId as $record) {
+        $courseId = trim((string) ($record['course_id'] ?? ''));
+        if ($courseId === '') {
+            $courseId = rtbo_refzone_course_id_for_package(
+                (string) ($record['package_id'] ?? ''),
+                (string) ($record['course_track'] ?? '')
+            );
+        }
+        $record['course_id'] = $courseId;
+        $record['course_url'] = $record['course_url'] ?? rtbo_refzone_course_url($record);
+        $courseIds[$courseId] = true;
+        $enrollments[] = $record;
+    }
+
+    return [
+        'course_ids' => array_keys($courseIds),
+        'enrollments' => $enrollments,
+    ];
 }

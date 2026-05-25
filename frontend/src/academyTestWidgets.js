@@ -3,8 +3,8 @@ export const ACADEMY_TEST_CENTER_WIDGETS = [
     group: 'Knowledge',
     label: 'Daily Knowledge Check',
     status: 'Ready',
-    detail: 'Short rule, mechanics, communication, and game-situation checks tied to each academic day.',
-    evidence: 'Daily score, missed concepts, remediation notes'
+    detail: '25-question scored assessment tied to each academic day.',
+    evidence: '85% passing score, missed concepts, remediation notes, evidence statement'
   },
   {
     group: 'Written',

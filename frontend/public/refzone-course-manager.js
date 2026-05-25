@@ -66,7 +66,7 @@
       assessment: {
         type: form.assessmentType || 'Course Assessment',
         prompt: form.assessment,
-        passingStandard: form.passingStandard || '80% or mentor approval is required before the next lesson unlocks.'
+        passingStandard: form.passingStandard || '85% or mentor approval is required before the next lesson unlocks.'
       },
       rubric: rubric.length ? rubric : [
         'Rule accuracy and philosophy: 20 points',
@@ -75,6 +75,114 @@
         'Evidence quality and specificity: 20 points',
         'Reflection, correction plan, and mentor readiness: 20 points'
       ]
+    };
+  }
+
+  function fallbackTestFromForm(form, id, weekNumber = 1, dayNumber = 1) {
+    const dayId = `${id}-week-${weekNumber}-day-${dayNumber}`;
+    const courseTitle = form.title || 'RefZone Course';
+    const moduleTitle = form.moduleTitle || 'Course Orientation';
+    const lessonTitle = form.lessonTitle || 'Course Welcome and Baseline Assessment';
+    const assessmentType = form.assessmentType || 'Course Assessment';
+    const baseQuestions = [
+      ['Before this lesson, which preparation best supports the course standard?', [
+        'Read the current governing material, identify rule language, case-play logic, mechanics, and evidence expectations.',
+        'Wait until after class to learn the rule.',
+        'Rely only on personal game experience.',
+        'Study signals without reading the rule or mechanics source.'
+      ], 'a', 'RefZone lessons require current reading, rules reasoning, mechanics study, and evidence before advancement.'],
+      ['What is required evidence for this lesson?', [
+        form.assignment || 'Submit the daily worksheet, lab artifact, and mentor-ready evidence item.',
+        'Attendance only.',
+        'A casual verbal statement.',
+        'No evidence is required.'
+      ], 'a', 'Course completion requires a gradable artifact, not a button click.'],
+      [`What should the official connect when applying ${moduleTitle}?`, [
+        'Rule language, case-play logic, mechanics, communication, and evidence quality.',
+        'Only crowd reaction.',
+        'Only the final score.',
+        'Only personal preference.'
+      ], 'a', 'The course standard is to explain, perform, defend, and improve using evidence.'],
+      ['What is the best professional response to a challenge?', [
+        'Give a short, accurate explanation tied to the rule source, crew responsibility, mechanic, and correction point.',
+        'Argue until the decision is accepted.',
+        'Ignore the concern.',
+        'Change the decision only to avoid conflict.'
+      ], 'a', 'Professional communication should be concise, accurate, and tied to the officiating standard.'],
+      [`What happens if the student does not pass ${assessmentType}?`, [
+        'The student repeats evidence, corrects missed concepts, and completes remediation before advancing.',
+        'The next module still unlocks automatically.',
+        'The course deletes the assessment.',
+        'The mentor ignores the missed standard.'
+      ], 'a', 'The module stays locked until the passing standard is met.']
+    ];
+    const generated = Array.from({ length: 20 }, (_, index) => {
+      const number = index + 6;
+      const prompts = [
+        [`Question ${number}: Which reading action most directly supports ${moduleTitle}?`, 'Identify exact rule language, exception, penalty, restart, and mechanic connected to the play.', 'Ignore exceptions and rely only on the common ruling.', 'Avoid written evidence until the test is complete.', 'Ask the coach which rule should apply.', 'Rule-source accuracy comes before judgment or mechanics.'],
+        [`Question ${number}: What mechanics evidence best proves mastery?`, 'A diagram or note showing starting position, movement path, primary coverage, secondary awareness, signal, and reporting route.', 'A statement that the official was close to the play.', 'A score-only summary.', 'A generic note saying the crew worked hard.', 'Mechanics mastery must be visible and reviewable.'],
+        [`Question ${number}: Which communication response best fits ${courseTitle}?`, 'Use brief, calm, rule-based language, then return focus to the game.', 'Keep explaining until the coach agrees.', 'Use sarcasm to end the conversation.', 'Refuse all communication regardless of the situation.', 'Professional communication is accurate, brief, composed, and game-centered.'],
+        [`Question ${number}: What should a film or visual review identify for ${lessonTitle}?`, 'Primary coverage, open or closed angle, contact effect, crew help, and the correction point.', 'Only whether the call was popular.', 'Only the player who scored.', 'Only whether the official looked confident.', 'Film work must identify observable officiating factors.'],
+        [`Question ${number}: Which portfolio evidence satisfies advancement?`, 'Corrected quiz results, written rule defense, lab artifact, mentor note, and a specific next-step correction plan.', 'A button click showing the lesson as passed.', 'A blank worksheet with no notes.', 'A promise to study later.', 'Advancement requires evidence that can be reviewed by faculty and mentors.']
+      ][index % 5];
+      return [prompts[0], prompts.slice(1, 5), 'a', prompts[5]];
+    });
+    const questions = [...baseQuestions, ...generated].map(([prompt, options, correct, explanation], index) => ({
+      id: `${dayId}-q${index + 1}`,
+      type: 'multiple-choice',
+      prompt,
+      options: options.map((text, optionIndex) => ({ id: String.fromCharCode(97 + optionIndex), text })),
+      correctOptionId: correct,
+      explanation
+    }));
+    return {
+      id: `${dayId}-test`,
+      title: `${courseTitle} Week ${weekNumber}, Day ${dayNumber} ${assessmentType}`,
+      type: assessmentType,
+      passingScore: 85,
+      timeLimitMinutes: 45,
+      instructions: `Complete this 25-question assessment. A minimum score of 85% is required before the next module unlocks.`,
+      evidencePrompt: `In 3-5 sentences, cite the rule or mechanic connected to ${moduleTitle}, explain the official's responsibility during ${lessonTitle}, and name one correction target.`,
+      answerKeyVisibleInCommandCenter: true,
+      questions,
+      answerKey: questions.map(question => ({
+        questionId: question.id,
+        correctOptionId: question.correctOptionId,
+        answer: question.options.find(option => option.id === question.correctOptionId)?.text || '',
+        explanation: question.explanation
+      }))
+    };
+  }
+
+  function normalizeTest(raw, form, id, weekNumber = 1, dayNumber = 1) {
+    const fallback = fallbackTestFromForm(form, id, weekNumber, dayNumber);
+    if (!raw || typeof raw !== 'object') return fallback;
+    const questions = Array.isArray(raw.questions) ? raw.questions.map((question, index) => {
+      const options = Array.isArray(question.options) ? question.options.map((option, optionIndex) => ({
+        id: String(option.id || String.fromCharCode(97 + optionIndex)).toLowerCase(),
+        text: String(option.text || '').trim()
+      })).filter(option => option.text) : [];
+      return {
+        id: String(question.id || `${fallback.id}-q${index + 1}`),
+        type: question.type || 'multiple-choice',
+        prompt: String(question.prompt || '').trim(),
+        options,
+        correctOptionId: String(question.correctOptionId || question.correct_option_id || '').toLowerCase(),
+        explanation: String(question.explanation || '').trim()
+      };
+    }).filter(question => question.prompt && question.options.length >= 2 && question.correctOptionId) : [];
+    return {
+      ...fallback,
+      ...raw,
+      passingScore: 85,
+      timeLimitMinutes: Number(raw.timeLimitMinutes || raw.time_limit_minutes || fallback.timeLimitMinutes),
+      questions: questions.length >= 25 ? questions.slice(0, 25) : fallback.questions,
+      answerKey: (questions.length >= 25 ? questions.slice(0, 25) : fallback.questions).map(question => ({
+        questionId: question.id,
+        correctOptionId: question.correctOptionId,
+        answer: question.options.find(option => option.id === question.correctOptionId)?.text || '',
+        explanation: question.explanation || ''
+      }))
     };
   }
 
@@ -169,7 +277,8 @@
       assessmentType: day.college?.assessment?.type || '',
       assessment: day.college?.assessment?.prompt || day.sections?.[2]?.summary || week.evidence || '',
       passingStandard: day.college?.assessment?.passingStandard || '',
-      rubric: (day.college?.rubric || []).join('\n')
+      rubric: (day.college?.rubric || []).join('\n'),
+      testBank: JSON.stringify(normalizeTest(day.test, course || {}, course?.id || slug(course?.title || 'course'), week.week || 1, day.day || 1), null, 2)
     };
   }
 
@@ -177,6 +286,7 @@
     const weekId = `${id}-week-1`;
     const dayId = `${weekId}-day-1`;
     const college = collegeFromForm(form);
+    const test = normalizeTest(parseTestBank(form.testBank), form, id, 1, 1);
     return {
       id: weekId,
       month: 1,
@@ -194,6 +304,7 @@
         screenshot: 'Learner screen, course visual, and assessment prompt.',
         presentation: `${form.title} opening lesson`,
         college,
+        test,
         sections: [
           { id: `${dayId}-instruction`, title: 'Line Item 1 - Professor Explanation', materialType: 'instruction-slide', collegeRole: 'Professor-facing lecture, required reading, and discussion prompt.', summary: sectionSummary('instruction', form, college), visual: `/assets/images/refzone/lesson-visuals/${form.lessonType}.svg` },
           { id: `${dayId}-student`, title: 'Line Item 2 - What the Student Performs', materialType: 'student-activity', collegeRole: 'Student-facing lab action, assignment, and participation artifact.', summary: sectionSummary('student', form, college), visual: `/assets/images/refzone/lesson-visuals/${form.lessonType}.svg` },
@@ -206,17 +317,20 @@
   function updateFirstWeek(weeks, form) {
     if (!Array.isArray(weeks) || weeks.length === 0) return [firstCourseWeek(form, slug(form.id || form.title))];
     const college = collegeFromForm(form);
+    const courseId = slug(form.id || form.title);
+    const parsedTest = parseTestBank(form.testBank);
     return weeks.map((week, weekIndex) => {
       if (weekIndex !== 0) return week;
       const days = Array.isArray(week.days) ? week.days.map((day, dayIndex) => {
         if (dayIndex !== 0) return day;
+        const test = normalizeTest(parsedTest || day.test, form, courseId, week.week || 1, day.day || 1);
         const sections = Array.isArray(day.sections) ? day.sections.map((section, sectionIndex) => (
           sectionIndex === 0 ? { ...section, summary: sectionSummary('instruction', form, college), collegeRole: section.collegeRole || 'Professor-facing lecture, required reading, and discussion prompt.' }
             : sectionIndex === 1 ? { ...section, summary: sectionSummary('student', form, college), collegeRole: section.collegeRole || 'Student-facing lab action, assignment, and participation artifact.' }
               : sectionIndex === 2 ? { ...section, summary: sectionSummary('evidence', form, college), collegeRole: section.collegeRole || 'Assessment-facing quiz/test item, rubric row, and evidence checkpoint.' }
                 : section
         )) : day.sections;
-        return { ...day, title: form.lessonTitle || day.title, visualType: form.lessonType, visual: `/assets/images/refzone/lesson-visuals/${form.lessonType}.svg`, college, sections };
+        return { ...day, title: form.lessonTitle || day.title, visualType: form.lessonType, visual: `/assets/images/refzone/lesson-visuals/${form.lessonType}.svg`, college, test, sections };
       }) : week.days;
       return { ...week, title: form.moduleTitle || week.title, lecture: form.description || week.lecture, evidence: form.assessment || week.evidence, days };
     });
@@ -236,6 +350,49 @@
       description: form.description,
       weeks: updateFirstWeek(existing?.weeks, form)
     };
+  }
+
+  function parseTestBank(value) {
+    if (!String(value || '').trim()) return null;
+    try {
+      const parsed = JSON.parse(value);
+      return parsed && typeof parsed === 'object' ? parsed : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function testBankSummary(course) {
+    const firstWeek = course?.weeks?.[0] || {};
+    const firstDay = firstWeek.days?.[0] || {};
+    const test = normalizeTest(firstDay.test, formFromCourse(course), course.id || slug(course.title), firstWeek.week || 1, firstDay.day || 1);
+    return {
+      title: test.title,
+      questions: test.questions.length,
+      passingScore: test.passingScore,
+      answers: test.answerKey || []
+    };
+  }
+
+  function courseTestBanks(course) {
+    const form = formFromCourse(course);
+    return (course?.weeks || []).flatMap((week, weekIndex) => (week.days || []).map((day, dayIndex) => {
+      const test = normalizeTest(day.test, {
+        ...form,
+        moduleTitle: week.title,
+        lessonTitle: day.title,
+        assessmentType: day.college?.assessment?.type || form.assessmentType
+      }, course.id || slug(course.title), week.week || weekIndex + 1, day.day || dayIndex + 1);
+      return {
+        week: week.week || weekIndex + 1,
+        day: day.day || dayIndex + 1,
+        lesson: day.title || `Lesson ${dayIndex + 1}`,
+        title: test.title,
+        questions: test.questions.length,
+        passingScore: test.passingScore,
+        answers: test.answerKey || []
+      };
+    }));
   }
 
   async function apiGet(endpoint) {
@@ -265,6 +422,9 @@
     const days = state.courses.reduce((sum, course) => sum + (course.weeks || []).reduce((weekSum, week) => weekSum + (week.days?.length || 0), 0), 0);
     const f = state.form;
     const selectedCourseId = state.editingId || '';
+    const selectedCourse = state.courses.find(course => course.id === selectedCourseId) || null;
+    const selectedTest = selectedCourse ? testBankSummary(selectedCourse) : null;
+    const selectedCourseTests = selectedCourse ? courseTestBanks(selectedCourse) : [];
     root.innerHTML = `
       <div class="rtbo-education-crud-summary">
         <div class="rtbo-form-toolbar">
@@ -305,11 +465,34 @@
         <label class="wide"><span>Test / Quiz / Video Assessment</span><textarea name="assessment" rows="3" placeholder="Passing score, quiz prompt, video test requirement, or grading evidence.">${escapeHtml(f.assessment)}</textarea></label>
         <label class="wide"><span>Passing Standard</span><textarea name="passingStandard" rows="2">${escapeHtml(f.passingStandard)}</textarea></label>
         <label class="wide"><span>Grading Rubric</span><textarea name="rubric" rows="5" placeholder="One rubric row per line.">${escapeHtml(f.rubric)}</textarea></label>
+        <label class="full"><span>25-Question Test Bank and Answer Key JSON</span><textarea name="testBank" rows="12" placeholder="Questions, options, correct answers, and explanations. Passing score is locked at 85%.">${escapeHtml(f.testBank)}</textarea></label>
         <div class="rtbo-form-toolbar wide">
           <button class="btn" type="submit" ${state.saving ? 'disabled' : ''}>${state.saving ? 'Saving...' : state.editingId ? 'Update Course' : 'Create Course'}</button>
           <button class="btn secondary dark-btn" type="button" data-action="new" ${state.saving ? 'disabled' : ''}>Clear Form</button>
         </div>
       </form>
+      ${selectedTest ? `
+        <section class="rtbo-education-test-bank-panel">
+          <div>
+            <p class="eyebrow">Assessment Bank</p>
+            <h4>${escapeHtml(selectedTest.title)}</h4>
+            <p>${selectedCourseTests.length} lesson tests / 25 questions each / ${selectedTest.passingScore}% passing score. Correct answers are visible here for command-center review only.</p>
+          </div>
+          <details>
+            <summary>View Course Test Answers</summary>
+            <div class="rtbo-education-test-bank-list">
+              ${selectedCourseTests.map(test => `
+                <details>
+                  <summary>Week ${test.week}, Day ${test.day}: ${escapeHtml(test.lesson)} (${test.questions} questions)</summary>
+                  <ol>
+                    ${test.answers.map((answer, index) => `<li><strong>Q${index + 1}: ${escapeHtml(String(answer.correctOptionId || '').toUpperCase())}</strong><span>${escapeHtml(answer.answer || '')}</span><small>${escapeHtml(answer.explanation || '')}</small></li>`).join('')}
+                  </ol>
+                </details>
+              `).join('')}
+            </div>
+          </details>
+        </section>
+      ` : ''}
       ${state.message ? `<p class="form-message" role="status">${escapeHtml(state.message)}</p>` : ''}
       <label class="rtbo-education-crud-search"><span>Search Courses</span><input data-action="search" value="${escapeHtml(state.query)}" placeholder="Search title, path, level, or status"></label>
       <div class="rtbo-education-course-list">

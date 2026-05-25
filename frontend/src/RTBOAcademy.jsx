@@ -30,6 +30,7 @@ const STORAGE_KEYS = {
   bookmarks: 'rtbo_academy_bookmarks',
   videos: 'rtbo_academy_video_plan',
   tests: 'rtbo_academy_passed_tests',
+  testResults: 'rtbo_academy_test_results',
   courses: 'rtbo-refzone-managed-courses'
 };
 const REFZONE_COURSES_EVENT = 'rtbo-refzone-courses-updated';
@@ -53,6 +54,35 @@ function courseImageFor(track = {}, index = 0) {
   if (value.includes('video') || value.includes('film')) return '3d_rtbo_livestream_player.jpg';
   if (value.includes('technology') || value.includes('platform')) return 'u-got-nex-ref-platform.jpg';
   return ACADEMY_COURSE_IMAGES[index % ACADEMY_COURSE_IMAGES.length];
+}
+
+function normalizeTestBank(raw = null) {
+  if (!raw || typeof raw !== 'object') return null;
+  const questions = Array.isArray(raw.questions) ? raw.questions.map((question, index) => {
+    const options = Array.isArray(question.options) ? question.options.map((option, optionIndex) => ({
+      id: String(option.id || String.fromCharCode(97 + optionIndex)).toLowerCase(),
+      text: String(option.text || '').trim()
+    })).filter(option => option.text) : [];
+    return {
+      id: String(question.id || `q${index + 1}`),
+      type: question.type || 'multiple-choice',
+      prompt: String(question.prompt || '').trim(),
+      options,
+      correctOptionId: String(question.correctOptionId || question.correct_option_id || '').toLowerCase(),
+      explanation: String(question.explanation || '').trim()
+    };
+  }).filter(question => question.prompt && question.options.length >= 2 && question.correctOptionId) : [];
+
+  return {
+    id: String(raw.id || 'course-test'),
+    title: String(raw.title || 'Course Assessment'),
+    type: String(raw.type || 'Course Assessment'),
+    passingScore: Number(raw.passingScore || raw.passing_score || 85),
+    timeLimitMinutes: Number(raw.timeLimitMinutes || raw.time_limit_minutes || 45),
+    instructions: String(raw.instructions || '').trim(),
+    evidencePrompt: String(raw.evidencePrompt || raw.evidence_prompt || '').trim(),
+    questions
+  };
 }
 
 function dayVisualFor(day = {}) {
@@ -113,7 +143,7 @@ function fallbackCollegeMaterial(track = {}, week = {}, day = {}) {
     assessment: {
       type: 'Module Assessment',
       prompt: `Defend the ruling, mechanic, communication choice, and evidence connected to ${weekTitle}.`,
-      passingStandard: `80% or mentor approval is required before the next module unlocks.`
+      passingStandard: `85% or mentor approval is required before the next module unlocks.`
     },
     rubric: collegeCourseDefaults.gradingScale.map(([label, value]) => `${label}: ${value}`)
   };
@@ -127,6 +157,184 @@ function collegeMaterialForDay(track = {}, week = {}, day = {}) {
       ...fallbackCollegeMaterial(track, week, day).assessment,
       ...(day.college?.assessment || {})
     }
+  };
+}
+
+function fallbackTestForDay(track = {}, week = {}, day = {}) {
+  const material = collegeMaterialForDay(track, week, day);
+  const testType = material.assessment?.type || 'Course Assessment';
+  const courseTitle = track.title || 'Course';
+  const weekTitle = week.title || day.title || 'this module';
+  const dayTitle = day.title || 'this lesson';
+  const scenario = `A live ${courseTitle} game presents a judgment, mechanics, or communication problem tied to ${weekTitle}.`;
+  const baseQuestions = [
+    {
+      id: `${day.id || 'day'}-q1`,
+      type: 'multiple-choice',
+      prompt: `Before ${dayTitle}, which preparation best supports ${weekTitle}?`,
+      options: [
+        { id: 'a', text: material.readings?.[0] || `Read the current governing material tied to ${weekTitle}.` },
+        { id: 'b', text: 'Wait until after class to learn the rule.' },
+        { id: 'c', text: 'Rely only on personal game experience.' },
+        { id: 'd', text: 'Study signals without reading the rule or mechanics source.' }
+      ],
+      correctOptionId: 'a',
+      explanation: 'RefZone lessons require current reading, rules reasoning, mechanics study, and evidence before advancement.'
+    },
+    {
+      id: `${day.id || 'day'}-q2`,
+      type: 'multiple-choice',
+      prompt: `What is required evidence for ${dayTitle}?`,
+      options: [
+        { id: 'a', text: 'Attendance only.' },
+        { id: 'b', text: material.assignment || 'Submit the daily worksheet, lab artifact, and mentor-ready evidence item.' },
+        { id: 'c', text: 'A casual verbal statement.' },
+        { id: 'd', text: 'No evidence is required.' }
+      ],
+      correctOptionId: 'b',
+      explanation: 'Course completion requires a gradable artifact, not a button click.'
+    },
+    {
+      id: `${day.id || 'day'}-q3`,
+      type: 'multiple-choice',
+      prompt: `What should the official connect when applying ${weekTitle}?`,
+      options: [
+        { id: 'a', text: 'Only crowd reaction.' },
+        { id: 'b', text: 'Rule language, case-play logic, mechanics, communication, and evidence quality.' },
+        { id: 'c', text: 'Only the final score.' },
+        { id: 'd', text: 'Only personal preference.' }
+      ],
+      correctOptionId: 'b',
+      explanation: 'The course standard is to explain, perform, defend, and improve using evidence.'
+    },
+    {
+      id: `${day.id || 'day'}-q4`,
+      type: 'multiple-choice',
+      prompt: `Scenario: ${scenario} What is the best first response?`,
+      options: [
+        { id: 'a', text: 'Argue until the decision is accepted.' },
+        { id: 'b', text: 'Ignore the concern.' },
+        { id: 'c', text: 'Give a short, accurate explanation tied to the rule source, crew responsibility, mechanic, and correction point.' },
+        { id: 'd', text: 'Change the decision only to avoid conflict.' }
+      ],
+      correctOptionId: 'c',
+      explanation: 'Professional communication should be concise, accurate, and tied to the officiating standard.'
+    },
+    {
+      id: `${day.id || 'day'}-q5`,
+      type: 'multiple-choice',
+      prompt: `What happens if the student does not pass ${testType}?`,
+      options: [
+        { id: 'a', text: 'The next module still unlocks automatically.' },
+        { id: 'b', text: 'The student repeats evidence, corrects missed concepts, and completes remediation before advancing.' },
+        { id: 'c', text: 'The course deletes the assessment.' },
+        { id: 'd', text: 'The mentor ignores the missed standard.' }
+      ],
+      correctOptionId: 'b',
+      explanation: material.assessment?.passingStandard || '85% or mentor approval is required before advancement.'
+    }
+  ];
+  const patternQuestions = Array.from({ length: 20 }, (_, index) => {
+    const number = index + 6;
+    const group = index % 5;
+    if (group === 0) {
+      return {
+        id: `${day.id || 'day'}-q${number}`,
+        type: 'multiple-choice',
+        prompt: `Question ${number}: Which reading action most directly supports ${weekTitle} during ${dayTitle}?`,
+        options: [
+          { id: 'a', text: 'Identify the exact rule language, exception, penalty, restart, and mechanic connected to the play.' },
+          { id: 'b', text: 'Ignore exceptions and rely only on the most common ruling.' },
+          { id: 'c', text: 'Avoid written evidence until the test is complete.' },
+          { id: 'd', text: 'Ask the coach which rule should apply.' }
+        ],
+        correctOptionId: 'a',
+        explanation: 'The course expects rule-source accuracy before applying judgment or mechanics.'
+      };
+    }
+    if (group === 1) {
+      return {
+        id: `${day.id || 'day'}-q${number}`,
+        type: 'multiple-choice',
+        prompt: `Question ${number}: What mechanics evidence best proves mastery of ${weekTitle}?`,
+        options: [
+          { id: 'a', text: 'A diagram or note showing starting position, movement path, primary coverage, secondary awareness, signal, and reporting route.' },
+          { id: 'b', text: 'A statement that the official was close to the play.' },
+          { id: 'c', text: 'A score-only summary.' },
+          { id: 'd', text: 'A generic note saying the crew worked hard.' }
+        ],
+        correctOptionId: 'a',
+        explanation: 'Mechanics mastery must be visible and reviewable through specific positioning and coverage evidence.'
+      };
+    }
+    if (group === 2) {
+      return {
+        id: `${day.id || 'day'}-q${number}`,
+        type: 'multiple-choice',
+        prompt: `Question ${number}: Which communication response best fits a ${courseTitle} official challenged on ${weekTitle}?`,
+        options: [
+          { id: 'a', text: 'Use brief, calm, rule-based language, then return focus to the game.' },
+          { id: 'b', text: 'Keep explaining until the coach agrees.' },
+          { id: 'c', text: 'Use sarcasm to end the conversation.' },
+          { id: 'd', text: 'Refuse all communication regardless of the situation.' }
+        ],
+        correctOptionId: 'a',
+        explanation: 'Professional communication is accurate, brief, composed, and game-centered.'
+      };
+    }
+    if (group === 3) {
+      return {
+        id: `${day.id || 'day'}-q${number}`,
+        type: 'multiple-choice',
+        prompt: `Question ${number}: What should a film or visual review identify for ${dayTitle}?`,
+        options: [
+          { id: 'a', text: 'Primary coverage, open or closed angle, contact effect, crew help, and the correction point.' },
+          { id: 'b', text: 'Only whether the call was popular.' },
+          { id: 'c', text: 'Only the player who scored.' },
+          { id: 'd', text: 'Only whether the official looked confident.' }
+        ],
+        correctOptionId: 'a',
+        explanation: 'Film and visual work must identify the observable officiating factors behind the decision.'
+      };
+    }
+    return {
+      id: `${day.id || 'day'}-q${number}`,
+      type: 'multiple-choice',
+      prompt: `Question ${number}: Which portfolio evidence would satisfy the advancement standard for ${weekTitle}?`,
+      options: [
+        { id: 'a', text: 'Corrected quiz results, written rule defense, lab artifact, mentor note, and a specific next-step correction plan.' },
+        { id: 'b', text: 'A button click showing the lesson as passed.' },
+        { id: 'c', text: 'A blank worksheet with no notes.' },
+        { id: 'd', text: 'A promise to study later.' }
+      ],
+      correctOptionId: 'a',
+      explanation: 'Advancement requires evidence that can be reviewed by faculty, mentors, and the advancement board.'
+    };
+  });
+  const questions = [...baseQuestions, ...patternQuestions];
+
+  return {
+    id: `${day.id || 'day'}-test`,
+    title: `${courseTitle} Week ${week.week || 1}, Day ${day.day || 1} ${testType}`,
+    type: testType,
+    passingScore: 85,
+    timeLimitMinutes: 45,
+    instructions: `Complete this 25-question scored assessment after studying ${weekTitle}. You must earn at least 85% before the next module unlocks.`,
+    evidencePrompt: `In 3-5 sentences, cite the rule or mechanic connected to ${weekTitle}, explain the official's responsibility during ${dayTitle}, and name one correction target for the next assignment.`,
+    questions
+  };
+}
+
+function testForDay(track = {}, week = {}, day = {}) {
+  const fallback = fallbackTestForDay(track, week, day);
+  const test = normalizeTestBank(day.test) || {};
+  const savedQuestions = Array.isArray(test.questions) ? test.questions : [];
+  const questions = savedQuestions.length >= 25 ? savedQuestions.slice(0, 25) : fallback.questions;
+  return {
+    ...fallback,
+    ...test,
+    passingScore: 85,
+    questions
   };
 }
 
@@ -193,6 +401,7 @@ function managedCourseToTrack(course = {}, index = 0) {
         screenshot: day.screenshot || '',
         presentation: day.presentation || '',
         college: day.college || null,
+        test: day.test || null,
         content: [day.presentation && `Presentation: ${day.presentation}`, day.screenshot && `Screenshot packet: ${day.screenshot}`].filter(Boolean),
         sections: (day.sections || []).map((section, sectionIndex) => ({
           id: section.id || `${id}-week-${weekIndex + 1}-day-${dayIndex + 1}-section-${sectionIndex + 1}`,
@@ -534,7 +743,7 @@ function CourseMaterialPacket({ track = {}, week = {}, day = {} }) {
           ['Class Meeting', `${material.minutes || 90} minutes`],
           ['Visual Type', visual.title],
           ['Assessment', material.assessment?.type || 'Module Assessment'],
-          ['Passing Standard', material.assessment?.passingStandard || '80% or mentor approval']
+          ['Passing Standard', material.assessment?.passingStandard || '85% or mentor approval']
         ].map(([label, value]) => (
           <article key={label}><span>{label}</span><strong>{value}</strong></article>
         ))}
@@ -623,7 +832,101 @@ function CourseMaterialPacket({ track = {}, week = {}, day = {} }) {
   );
 }
 
-function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, brandName = 'RTBO Academy' }) {
+function CourseTestPanel({
+  track = {},
+  week = {},
+  day = {},
+  test = {},
+  result = null,
+  draft = {},
+  onAnswer = () => {},
+  onSubmit = () => {},
+  onClose = () => {}
+}) {
+  const questions = Array.isArray(test.questions) ? test.questions : [];
+  const passed = Boolean(result?.passed);
+
+  return (
+    <section className="rtbo-academy-live-test" aria-live="polite">
+      <div className="rtbo-academy-reader-head">
+        <div>
+          <p className="eyebrow">Scored Assessment</p>
+          <h3>{test.title || `${track.title} Week ${week.week}, Day ${day.day} Test`}</h3>
+          <p>{test.instructions || 'Complete the course test. Passing is required before the next module unlocks.'}</p>
+        </div>
+        <div className="rtbo-form-toolbar">
+          <button className="btn secondary dark-btn" type="button" onClick={onClose}>Close Test</button>
+        </div>
+      </div>
+
+      <div className="rtbo-academy-session-strip">
+        <article><span>Type</span><strong>{test.type || 'Course Assessment'}</strong></article>
+        <article><span>Questions</span><strong>{questions.length}</strong></article>
+        <article><span>Passing Score</span><strong>{test.passingScore || 85}%</strong></article>
+        <article><span>Time Limit</span><strong>{test.timeLimitMinutes || 45} min</strong></article>
+      </div>
+
+      {result && (
+        <article className={`rtbo-academy-test-result ${passed ? 'passed' : 'needs-review'}`}>
+          <span>{passed ? 'Passed' : 'Needs Remediation'}</span>
+          <strong>{result.score}%</strong>
+          <p>{passed ? 'The next module is unlocked.' : 'Review the missed concepts, correct your evidence, and retake the test before advancing.'}</p>
+        </article>
+      )}
+
+      <form className="rtbo-academy-test-form" onSubmit={(event) => { event.preventDefault(); onSubmit(); }}>
+        {questions.map((question, questionIndex) => {
+          const selected = draft[question.id] || '';
+          const missed = result?.missed?.some(item => item.questionId === question.id);
+          return (
+            <fieldset className={missed ? 'is-missed' : ''} key={question.id}>
+              <legend>{questionIndex + 1}. {question.prompt}</legend>
+              <div className="rtbo-academy-answer-list">
+                {(question.options || []).map(option => {
+                  const isSelected = selected === option.id;
+                  const isCorrect = result && option.id === question.correctOptionId;
+                  return (
+                    <label className={`${isSelected ? 'is-selected' : ''} ${isCorrect ? 'is-correct' : ''}`.trim()} key={option.id}>
+                      <input
+                        type="radio"
+                        name={question.id}
+                        value={option.id}
+                        checked={isSelected}
+                        onChange={() => onAnswer(question.id, option.id)}
+                        required
+                      />
+                      <span>{option.id.toUpperCase()}.</span>
+                      <b>{option.text}</b>
+                    </label>
+                  );
+                })}
+              </div>
+              {result && question.explanation && <small>{question.explanation}</small>}
+            </fieldset>
+          );
+        })}
+
+        <label className="rtbo-academy-evidence-response">
+          <span>Required Evidence Statement</span>
+          <textarea
+            value={draft.evidence || ''}
+            onChange={(event) => onAnswer('evidence', event.target.value)}
+            placeholder={test.evidencePrompt || 'Write the rule source, mechanic, communication choice, and correction target.'}
+            required
+            minLength={30}
+          />
+        </label>
+
+        <div className="rtbo-form-toolbar">
+          <button className="btn" type="submit">{result?.passed ? 'Retake Test' : result ? 'Submit Retake' : 'Submit Test'}</button>
+          {result && <span className="rtbo-academy-test-timestamp">Last submitted {new Date(result.submittedAt).toLocaleString()}</span>}
+        </div>
+      </form>
+    </section>
+  );
+}
+
+function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, brandName = 'RTBO Academy', initialTrackId = '' }) {
   const [markdown, setMarkdown] = useState('');
   const [loading, setLoading] = useState(true);
   const [activeView, setActiveView] = useState('dashboard');
@@ -637,6 +940,9 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
   const [bookmarks, setBookmarks] = useLocalJson(STORAGE_KEYS.bookmarks, {});
   const [videoPlans, setVideoPlans] = useLocalJson(STORAGE_KEYS.videos, {});
   const [passedTests, setPassedTests] = useLocalJson(STORAGE_KEYS.tests, {});
+  const [testResults, setTestResults] = useLocalJson(STORAGE_KEYS.testResults, {});
+  const [testDrafts, setTestDrafts] = useState({});
+  const [openTestId, setOpenTestId] = useState('');
   const [managedCourses, setManagedCourses] = useState([]);
 
   useEffect(() => {
@@ -665,6 +971,11 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
         const data = await response.json();
         if (active && data?.managed && Array.isArray(data.courses)) setManagedCourses(data.courses);
       } catch {
+        if (active && publicMode) {
+          setManagedCourses([]);
+          onStatus('Sign in and enroll in a RefZone University membership to access course materials.');
+          return;
+        }
         try {
           const stored = JSON.parse(localStorage.getItem(STORAGE_KEYS.courses) || '[]');
           if (active && Array.isArray(stored) && stored.length) {
@@ -686,11 +997,11 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
       window.removeEventListener(REFZONE_COURSES_EVENT, loadManagedCourses);
       window.removeEventListener('storage', loadManagedCourses);
     };
-  }, []);
+  }, [onStatus, publicMode]);
 
   const tracks = useMemo(() => {
     const managedTracks = managedCourses.filter(course => (course.status || 'active') === 'active').map(managedCourseToTrack);
-    const rows = managedTracks.length ? managedTracks : splitCourse(markdown);
+    const rows = publicMode ? managedTracks : (managedTracks.length ? managedTracks : splitCourse(markdown));
     return [...rows].sort((a, b) => {
       if (a.id === 'overview') return -1;
       if (b.id === 'overview') return 1;
@@ -698,16 +1009,26 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
       if (b.id === 'nfhs') return 1;
       return 0;
     });
-  }, [managedCourses, markdown]);
+  }, [managedCourses, markdown, publicMode]);
   const defaultTrack = useMemo(() => tracks.find(track => track.weeks?.length) || tracks[0], [tracks]);
   const selectedTrack = useMemo(() => tracks.find(track => track.id === selectedTrackId) || defaultTrack, [defaultTrack, tracks, selectedTrackId]);
   const overviewTrack = useMemo(() => tracks.find(track => track.id === overviewTrackId) || selectedTrack, [overviewTrackId, selectedTrack, tracks]);
   const selectedWeek = selectedTrack?.weeks?.[selectedWeekIndex] || selectedTrack?.weeks?.[0];
   const selectedDay = selectedWeek?.days?.[selectedDayIndex] || selectedWeek?.days?.[0];
+  const requestedTrackId = String(initialTrackId || '').trim();
 
   useEffect(() => {
     if ((!selectedTrackId || !tracks.some(track => track.id === selectedTrackId)) && defaultTrack) setSelectedTrackId(defaultTrack.id);
   }, [defaultTrack, tracks, selectedTrackId]);
+
+  useEffect(() => {
+    if (!requestedTrackId || !tracks.some(track => track.id === requestedTrackId)) return;
+    setSelectedTrackId(requestedTrackId);
+    setSelectedWeekIndex(0);
+    setSelectedDayIndex(0);
+    setOpenTestId('');
+    setActiveView('course');
+  }, [requestedTrackId, tracks]);
 
   const allDays = useMemo(() => {
     const rows = [];
@@ -731,6 +1052,13 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
           material.assignment,
           material.assessment?.prompt,
           ...textList(material.rubric),
+          day.test?.title,
+          day.test?.instructions,
+          day.test?.evidencePrompt,
+          ...(day.test?.questions || []).flatMap(question => [
+            question.prompt,
+            ...(question.options || []).map(option => option.text)
+          ]),
           ...day.content,
           ...day.sections.flatMap(section => [
             section.title,
@@ -779,6 +1107,10 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
     ...selectedDay.sections.flatMap(section => [`#### ${section.title}`, ...section.content])
   ].join('\n') : plainText(selectedTrack?.raw || []) || 'Select a day to begin.';
   const selectedDayVisual = selectedDay ? dayVisualFor(selectedDay) : null;
+  const selectedTest = selectedDay ? testForDay(selectedTrack, selectedWeek, selectedDay) : null;
+  const selectedTestResult = selectedDay ? testResults[selectedDay.id] : null;
+  const selectedTestDraft = selectedDay ? (testDrafts[selectedDay.id] || selectedTestResult?.answers || {}) : {};
+  const selectedTestOpen = Boolean(selectedDay && openTestId === selectedDay.id);
 
   function dayTestPassed(dayId) {
     return Boolean(passedTests[dayId]);
@@ -803,6 +1135,7 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
     }
     setSelectedWeekIndex(weekIndex);
     setSelectedDayIndex(dayIndex);
+    setOpenTestId('');
   }
 
   function openAcademyWeek(track, weekIndex) {
@@ -815,6 +1148,7 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
     }
     setSelectedWeekIndex(weekIndex);
     setSelectedDayIndex(0);
+    setOpenTestId('');
   }
 
   function openCourseOverview(track) {
@@ -826,6 +1160,7 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
     setSelectedTrackId(track.id);
     setSelectedWeekIndex(0);
     setSelectedDayIndex(0);
+    setOpenTestId('');
     setActiveView('course');
   }
 
@@ -838,9 +1173,74 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
     onStatus(value ? 'Academy day marked complete.' : 'Academy day marked incomplete.');
   }
 
-  function passDayTest(dayId) {
-    setPassedTests(current => ({ ...current, [dayId]: true }));
-    onStatus('Academy test passed. The next module or section is unlocked.');
+  function openDayTest(dayId) {
+    setOpenTestId(dayId);
+    onStatus('Complete the 25-question assessment. An 85% score is required before the next module unlocks.');
+  }
+
+  function updateTestDraft(dayId, key, value) {
+    setTestDrafts(current => ({
+      ...current,
+      [dayId]: {
+        ...(current[dayId] || testResults[dayId]?.answers || {}),
+        [key]: value
+      }
+    }));
+  }
+
+  function submitDayTest(day, test) {
+    const questions = Array.isArray(test?.questions) ? test.questions : [];
+    const answers = testDrafts[day.id] || testResults[day.id]?.answers || {};
+    const evidence = String(answers.evidence || '').trim();
+    const unanswered = questions.filter(question => !answers[question.id]);
+    if (unanswered.length) {
+      onStatus(`Answer all ${questions.length} questions before submitting this test.`);
+      return;
+    }
+    if (evidence.length < 30) {
+      onStatus('Add the required evidence statement before submitting this test.');
+      return;
+    }
+    const missed = questions
+      .filter(question => answers[question.id] !== question.correctOptionId)
+      .map(question => ({
+        questionId: question.id,
+        prompt: question.prompt,
+        selectedOptionId: answers[question.id],
+        correctOptionId: question.correctOptionId,
+        explanation: question.explanation || ''
+      }));
+    const correctCount = questions.length - missed.length;
+    const score = questions.length ? Math.round((correctCount / questions.length) * 100) : 0;
+    const passingScore = Number(test.passingScore || 85);
+    const passed = score >= passingScore;
+    const result = {
+      testId: test.id,
+      score,
+      correctCount,
+      questionCount: questions.length,
+      passingScore,
+      passed,
+      missed,
+      evidence,
+      answers,
+      submittedAt: new Date().toISOString()
+    };
+    setTestResults(current => ({ ...current, [day.id]: result }));
+    setPassedTests(current => ({ ...current, [day.id]: passed }));
+    if (!passed) {
+      setCompleted(current => ({ ...current, [day.id]: false }));
+    }
+    onStatus(passed ? `Assessment passed with ${score}%. The next module is unlocked.` : `Assessment score: ${score}%. You need ${passingScore}% to pass.`);
+  }
+
+  function resetCourseProgress(track) {
+    const dayIds = new Set((track?.weeks || []).flatMap(week => (week.days || []).map(day => day.id)));
+    setCompleted(current => Object.fromEntries(Object.entries(current).filter(([id]) => !dayIds.has(id))));
+    setPassedTests(current => Object.fromEntries(Object.entries(current).filter(([id]) => !dayIds.has(id))));
+    setTestResults(current => Object.fromEntries(Object.entries(current).filter(([id]) => !dayIds.has(id))));
+    setTestDrafts(current => Object.fromEntries(Object.entries(current).filter(([id]) => !dayIds.has(id))));
+    onStatus(`${track?.title || 'Course'} test progress was reset.`);
   }
 
   function toggleBookmark(dayId) {
@@ -896,6 +1296,7 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
         <div className="rtbo-form-toolbar">
           <button className="btn secondary dark-btn" type="button" onClick={() => window.print()}>Print View</button>
           <a className="btn secondary dark-btn" href={MANUAL_URL} download>Download Manual</a>
+          {selectedTrack && <button className="btn secondary dark-btn" type="button" onClick={() => resetCourseProgress(selectedTrack)}>Reset Test Progress</button>}
         </div>
       </div>
 
@@ -977,7 +1378,7 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
             <div className="rtbo-academy-card-grid">
               <article className="rtbo-academy-task-card"><strong>{overviewTrack.weeks.length} Weeks</strong><p>Daily lectures, readings, quizzes, video tests, mechanics labs, role-play, practicum, and mentor review.</p></article>
               <article className="rtbo-academy-task-card"><strong>{overviewTrack.weeks.reduce((sum, week) => sum + week.days.length, 0)} Academic Days</strong><p>Each day includes required reading, visual aids, assignments, evidence, and a passing standard.</p></article>
-              <article className="rtbo-academy-task-card"><strong>Completion Rule</strong><p>Tests must be passed before the next module or section unlocks.</p></article>
+              <article className="rtbo-academy-task-card"><strong>Completion Rule</strong><p>Each module requires a 25-question test with an 85% passing score before the next module or section unlocks.</p></article>
             </div>
             <button className="btn" type="button" onClick={() => proceedToCourse(overviewTrack)}>Proceed to Course</button>
           </section>
@@ -1019,8 +1420,8 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
               </div>
               {selectedDay && (
                 <div className="rtbo-form-toolbar">
-                  <button className="btn secondary dark-btn" type="button" onClick={() => passDayTest(selectedDay.id)}>
-                    {dayTestPassed(selectedDay.id) ? 'Test Passed' : 'Take Test'}
+                  <button className="btn secondary dark-btn" type="button" onClick={() => openDayTest(selectedDay.id)}>
+                    {dayTestPassed(selectedDay.id) ? `Passed ${selectedTestResult?.score || 0}%` : 'Take Test'}
                   </button>
                   <button className="btn secondary dark-btn" type="button" onClick={() => markDay(selectedDay.id, !completed[selectedDay.id])}>
                     {completed[selectedDay.id] ? 'Completed' : 'Mark Complete'}
@@ -1069,13 +1470,27 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
                 </section>
                 <section className="rtbo-academy-test-rule-card">
                   <div>
-                    <h4>Required Module Test</h4>
-                    <p>Rule: this test must be taken and passed before the next module or section unlocks.</p>
+                    <h4>Required 25-Question Module Test</h4>
+                    <p>Rule: score at least 85% before the next module or section unlocks. Button clicks do not mark this test passed.</p>
+                    {selectedTestResult && <small>Latest score: {selectedTestResult.score}% / {selectedTestResult.correctCount} of {selectedTestResult.questionCount} correct</small>}
                   </div>
-                  <button className="btn secondary dark-btn" type="button" onClick={() => passDayTest(selectedDay.id)}>
-                    {dayTestPassed(selectedDay.id) ? 'Passed' : 'Take and Pass Test'}
+                  <button className="btn secondary dark-btn" type="button" onClick={() => openDayTest(selectedDay.id)}>
+                    {dayTestPassed(selectedDay.id) ? 'Review / Retake Test' : 'Take Test'}
                   </button>
                 </section>
+                {selectedTestOpen && selectedTest && (
+                  <CourseTestPanel
+                    track={selectedTrack}
+                    week={selectedWeek}
+                    day={selectedDay}
+                    test={selectedTest}
+                    result={selectedTestResult}
+                    draft={selectedTestDraft}
+                    onAnswer={(key, value) => updateTestDraft(selectedDay.id, key, value)}
+                    onSubmit={() => submitDayTest(selectedDay, selectedTest)}
+                    onClose={() => setOpenTestId('')}
+                  />
+                )}
                 <section className="rtbo-academy-notes-card">
                   <h4>Student Notes, Evidence, and Mentor Feedback</h4>
                   <textarea

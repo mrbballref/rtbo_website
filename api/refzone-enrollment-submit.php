@@ -6,6 +6,7 @@ require_once __DIR__ . '/includes/payments.php';
 require_once __DIR__ . '/includes/email.php';
 require_once __DIR__ . '/includes/notifications.php';
 require_once __DIR__ . '/includes/refzone-enrollments.php';
+require_once __DIR__ . '/includes/users.php';
 
 header('Content-Type: application/json');
 
@@ -40,6 +41,14 @@ function rtbo_refzone_course_tracks(): array
     ];
 }
 
+$accountUser = current_database_user();
+if (!$accountUser) {
+    rtbo_refzone_json([
+        'success' => false,
+        'message' => 'Create an account or sign in before enrolling in RefZone University.',
+    ], 401);
+}
+
 function rtbo_refzone_create_stripe_checkout(array $enrollment, array $package): array
 {
     $lineItem = [
@@ -68,12 +77,14 @@ function rtbo_refzone_create_stripe_checkout(array $enrollment, array $package):
             'enrollment_id' => (string) $enrollment['id'],
             'package_id' => (string) $enrollment['package_id'],
             'package_name' => (string) $enrollment['package_name'],
+            'course_id' => (string) ($enrollment['course_id'] ?? ''),
             'email' => (string) $enrollment['email'],
         ],
         'subscription_metadata' => [
             'type' => 'refzone_university',
             'enrollment_id' => (string) $enrollment['id'],
             'package_id' => (string) $enrollment['package_id'],
+            'course_id' => (string) ($enrollment['course_id'] ?? ''),
             'email' => (string) $enrollment['email'],
         ],
     ]);
@@ -88,6 +99,7 @@ function rtbo_refzone_send_enrollment_notice(array $enrollment): void
     $body .= 'Package: ' . (string) ($enrollment['package_name'] ?? '') . "\n";
     $body .= 'Amount: $' . number_format(((int) ($enrollment['amount_cents'] ?? 0)) / 100, 2) . " monthly\n";
     $body .= 'Course Track: ' . (string) ($enrollment['course_track_label'] ?? $enrollment['course_track'] ?? '') . "\n";
+    $body .= 'Course Access: ' . (string) ($enrollment['course_id'] ?? '') . "\n";
     $body .= 'Payment Provider: ' . strtoupper((string) ($enrollment['payment_provider'] ?? '')) . "\n";
     $body .= 'Enrollment ID: ' . (string) ($enrollment['id'] ?? '') . "\n";
 
@@ -104,6 +116,10 @@ function rtbo_refzone_send_enrollment_notice(array $enrollment): void
 }
 
 try {
+    $accountPublicUser = public_auth_user($accountUser);
+    $accountEmail = strtolower(trim((string) ($accountPublicUser['email'] ?? '')));
+    $accountFullName = trim((string) ($accountPublicUser['name'] ?? ''));
+    $accountPhone = rtbo_format_phone_number((string) ($accountPublicUser['phone'] ?? ''));
     $package = rtbo_refzone_membership_package(rtbo_refzone_post('package_id', 80));
     if (!$package) {
         throw new RuntimeException('Choose a valid RefZone University membership package.');
@@ -115,13 +131,15 @@ try {
         throw new RuntimeException('Choose a valid RefZone University course track.');
     }
 
-    $fullName = rtbo_refzone_post('full_name', 200);
-    $email = strtolower(rtbo_refzone_post('email', 190));
-    $phone = rtbo_format_phone_number(rtbo_refzone_post('phone', 60));
+    $fullName = rtbo_refzone_post('full_name', 200) ?: $accountFullName;
+    $email = strtolower(rtbo_refzone_post('email', 190) ?: $accountEmail);
+    $phone = rtbo_format_phone_number(rtbo_refzone_post('phone', 60) ?: $accountPhone);
     $experienceLevel = rtbo_refzone_post('experience_level', 120);
     $membershipGoal = rtbo_refzone_post('membership_goal', 255);
     $developmentNotes = rtbo_refzone_post('development_notes', 1000);
     $paymentProvider = strtolower(rtbo_refzone_post('payment_provider', 40));
+    $courseId = rtbo_refzone_course_id_for_package((string) $package['id'], $courseTrack);
+    $courseUrl = RTBO_BASE_URL . '/#education/course/' . rawurlencode($courseId);
 
     foreach ([
         'Full name' => $fullName,
@@ -140,6 +158,10 @@ try {
         throw new RuntimeException('Enter a valid email address.');
     }
 
+    if ($accountEmail === '' || $email !== $accountEmail) {
+        throw new RuntimeException('Use the email address tied to your signed-in RTBO account for RefZone University access.');
+    }
+
     if (!in_array($paymentProvider, ['stripe', 'paypal'], true)) {
         throw new RuntimeException('Choose Stripe or PayPal for the membership payment.');
     }
@@ -150,6 +172,7 @@ try {
 
     $enrollment = [
         'id' => 'RZU-' . gmdate('Ymd-His') . '-' . strtoupper(bin2hex(random_bytes(3))),
+        'user_id' => (int) ($accountUser['id'] ?? 0),
         'full_name' => $fullName,
         'email' => $email,
         'phone' => $phone,
@@ -159,6 +182,8 @@ try {
         'currency' => (string) $package['currency'],
         'course_track' => $courseTrack,
         'course_track_label' => $tracks[$courseTrack],
+        'course_id' => $courseId,
+        'course_url' => $courseUrl,
         'experience_level' => $experienceLevel,
         'membership_goal' => $membershipGoal,
         'development_notes' => $developmentNotes,
@@ -200,6 +225,7 @@ try {
                 'enrollment_id' => $enrollment['id'],
                 'email' => $email,
                 'package_id' => (string) $package['id'],
+                'course_id' => $courseId,
                 'payment_provider' => $paymentProvider,
             ],
         ]);

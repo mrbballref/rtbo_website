@@ -420,6 +420,7 @@ CREATE TABLE IF NOT EXISTS school_registrations (
 
 CREATE TABLE IF NOT EXISTS refzone_enrollments (
   id VARCHAR(64) PRIMARY KEY,
+  user_id INT NULL,
   full_name VARCHAR(200) NOT NULL,
   email VARCHAR(190) NOT NULL,
   phone VARCHAR(60) NULL,
@@ -428,6 +429,8 @@ CREATE TABLE IF NOT EXISTS refzone_enrollments (
   amount_cents INT NOT NULL DEFAULT 0,
   currency VARCHAR(10) NOT NULL DEFAULT 'USD',
   course_track VARCHAR(80) NOT NULL,
+  course_id VARCHAR(120) NULL,
+  course_url VARCHAR(500) NULL,
   experience_level VARCHAR(120) NOT NULL,
   membership_goal VARCHAR(255) NULL,
   development_notes TEXT NULL,
@@ -440,8 +443,10 @@ CREATE TABLE IF NOT EXISTS refzone_enrollments (
   payload JSON NULL,
   submitted_at DATETIME NOT NULL,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_refzone_enrollments_user (user_id),
   INDEX idx_refzone_enrollments_email (email),
   INDEX idx_refzone_enrollments_package (package_id),
+  INDEX idx_refzone_enrollments_course (course_id),
   INDEX idx_refzone_enrollments_status (payment_status),
   INDEX idx_refzone_enrollments_submitted (submitted_at)
 );

@@ -2913,15 +2913,80 @@ const refZoneCourseTracks = [
   ['pro', 'NBA/WNBA Development Track', 'refzone/course-covers/nba.svg', 'Professional-level habits, precision mechanics, communication, film defense, and higher-level readiness.']
 ];
 
-function RefZoneUniversityLanding() {
+const refZoneCourseRouteLabels = {
+  nfhs: 'NFHS Membership Course',
+  'njcaa-men': 'NJCAA Men Course',
+  'njcaa-women': 'NJCAA Women Course',
+  'naia-men': 'NAIA Men Course',
+  'naia-women': 'NAIA Women Course',
+  'ncaa-men': 'NCAA Membership Course',
+  'ncaa-women': 'NCAA Women Course',
+  nba: 'ProAm Membership Course',
+  wnba: 'WNBA Course'
+};
+
+function refZoneCourseRouteLabel(courseId = '') {
+  const normalized = String(courseId || '').trim().toLowerCase();
+  return refZoneCourseRouteLabels[normalized] || 'RefZone University Course';
+}
+
+const emptyRefZoneAccess = {
+  loading: false,
+  courseIds: [],
+  enrollments: [],
+  message: ''
+};
+
+function RefZoneCourseAccessGate({ courseId = '', onCreateAccount = () => {}, onSignIn = () => {} }) {
+  return (
+    <section className="refzone-course-access-section" aria-labelledby="refzone-course-access-title">
+      <div className="refzone-account-required-card">
+        <span>Account Required</span>
+        <h2 id="refzone-course-access-title">{refZoneCourseRouteLabel(courseId)} Access</h2>
+        <p>Sign in with the RTBO account you used for training school registration, or create an account first. After your account is active, you can enroll in a RefZone University membership package and access the course tied to that package.</p>
+        <div className="refzone-account-actions">
+          <button className="btn" type="button" onClick={onCreateAccount}>Create Account</button>
+          <button className="btn secondary dark-btn" type="button" onClick={onSignIn}>Sign In</button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function RefZoneMembershipGate({ courseId = '', loading = false, onEnroll = () => {} }) {
+  return (
+    <section className="refzone-course-access-section" aria-labelledby="refzone-membership-access-title">
+      <div className="refzone-account-required-card">
+        <span>{loading ? 'Checking Access' : 'Membership Required'}</span>
+        <h2 id="refzone-membership-access-title">{loading ? 'Checking RefZone University access.' : `${refZoneCourseRouteLabel(courseId)} requires an active membership.`}</h2>
+        <p>{loading ? 'Please wait while RTBO confirms your RefZone University membership.' : 'Enroll in a RefZone University package with this signed-in RTBO account. Once checkout is confirmed, you will be redirected to the course connected to that package.'}</p>
+        {!loading && (
+          <div className="refzone-account-actions">
+            <button className="btn" type="button" onClick={onEnroll}>Choose Membership Package</button>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function RefZoneUniversityLanding({ user = null, onCreateAccount = () => {}, onSignIn = () => {} }) {
   const defaultPackage = refZoneMembershipPackages[0]?.id || 'fundamentals';
   const [selectedPackageId, setSelectedPackageId] = useState(defaultPackage);
   const [paymentProvider, setPaymentProvider] = useState('stripe');
   const [status, setStatus] = useState('');
   const selectedPackage = refZoneMembershipPackages.find((membership) => membership.id === selectedPackageId) || refZoneMembershipPackages[0];
+  const signedIn = Boolean(user?.email);
+  const accountName = user?.name || [user?.first_name, user?.last_name].filter(Boolean).join(' ');
+  const accountPhone = formatPhoneNumber(user?.phone || '');
 
   async function submitEnrollment(event) {
     event.preventDefault();
+    if (!signedIn) {
+      setStatus('Create an account or sign in before enrolling in RefZone University.');
+      onCreateAccount();
+      return;
+    }
     setStatus('Creating secure membership checkout...');
     try {
       const data = await apiPost('/refzone-enrollment-submit.php', new FormData(event.currentTarget));
@@ -3015,7 +3080,7 @@ function RefZoneUniversityLanding() {
       <section className="refzone-enrollment-section" id="refzone-university-enrollment" aria-labelledby="refzone-enrollment-title">
         <div className="refzone-enrollment-head">
           <h2 id="refzone-enrollment-title">Start RefZone University with {selectedPackage?.name || 'a monthly membership'}.</h2>
-          <p>Complete the enrollment form, select a package, choose Stripe or PayPal, and continue to secure hosted checkout. Your membership access is tied to the email address submitted here.</p>
+          <p>{signedIn ? 'Complete the enrollment form, select a package, choose Stripe or PayPal, and continue to secure hosted checkout. Your membership access is tied to your signed-in RTBO account.' : 'Create an account or sign in first. Then you can enroll in a RefZone University membership package and access the course tied to that package.'}</p>
           {selectedPackage && (
             <div className="refzone-selected-package">
               <span>Select Package</span>
@@ -3024,6 +3089,18 @@ function RefZoneUniversityLanding() {
             </div>
           )}
         </div>
+        {!signedIn ? (
+          <div className="refzone-account-required-card">
+            <span>Account Required</span>
+            <h3>Create an account before enrolling.</h3>
+            <p>Use the same RTBO login you created for training school registration. If you have not registered for a school before, create an account now, then return here to choose your membership package.</p>
+            <div className="refzone-account-actions">
+              <button className="btn" type="button" onClick={onCreateAccount}>Create Account</button>
+              <button className="btn secondary dark-btn" type="button" onClick={onSignIn}>Sign In</button>
+            </div>
+            {status && <p className="form-message">{status}</p>}
+          </div>
+        ) : (
         <form className="form refzone-enrollment-form" method="post" action={`${API_URL}/refzone-enrollment-submit.php`} onSubmit={submitEnrollment}>
           <fieldset className="refzone-package-picker">
             <legend>Membership Package</legend>
@@ -3038,11 +3115,11 @@ function RefZoneUniversityLanding() {
             ))}
           </fieldset>
           <div className="grid two">
-            <label>Full Name<input name="full_name" autoComplete="name" required /></label>
-            <label>Email Address<input type="email" name="email" autoComplete="email" required /></label>
+            <label>Full Name<input name="full_name" defaultValue={accountName} autoComplete="name" required /></label>
+            <label>Email Address<input type="email" name="email" defaultValue={user?.email || ''} autoComplete="email" readOnly required /></label>
           </div>
           <div className="grid two">
-            <label>Phone Number<input type="tel" name="phone" inputMode="tel" autoComplete="tel" maxLength="14" onInput={formatPhoneFieldInput} required /></label>
+            <label>Phone Number<input type="tel" name="phone" defaultValue={accountPhone} inputMode="tel" autoComplete="tel" maxLength="14" onInput={formatPhoneFieldInput} required /></label>
             <label>Primary Course Track<select name="course_track" defaultValue="" required><option value="">Select course track</option>{refZoneCourseTracks.map(([id, title]) => <option key={id} value={id}>{title}</option>)}</select></label>
           </div>
           <div className="grid two">
@@ -3070,6 +3147,7 @@ function RefZoneUniversityLanding() {
           <button className="btn" type="submit">Continue to Membership Checkout</button>
           {status && <p className="form-message">{status}</p>}
         </form>
+        )}
       </section>
     </section>
   );
@@ -13796,17 +13874,20 @@ function App() {
   const managedPageIds = useMemo(() => new Set(managedNavItems.map(([id]) => id)), [managedNavItems]);
   const publicNavItems = useMemo(() => [...navItems, ...managedNavItems], [managedNavItems]);
 
+  const readCurrentRoute = () => routeFromHash(window.location.hash);
   const readRoute = () => {
-    const route = routeFromHash(window.location.hash);
+    const route = readCurrentRoute();
     const page = pageFromRoute(route);
     return validPages.has(page) || managedPageIds.has(page) ? page : 'home';
   };
+  const [currentRoute, setCurrentRoute] = useState(readCurrentRoute);
   const [active, setActive] = useState(readRoute);
   const activeManagedPage = useMemo(
     () => siteContentRecords.find(record => record.kind === 'page' && record.status === 'active' && record.page === active) || null,
     [active, siteContentRecords]
   );
   const [authUser, setAuthUser] = useState(readStoredAuthUser);
+  const [refZoneAccess, setRefZoneAccess] = useState(emptyRefZoneAccess);
   const [passwordResetToken, setPasswordResetToken] = useState(readPasswordResetToken);
   const [accountModal, setAccountModal] = useState(() => readPasswordResetToken() ? 'reset' : null);
   const [postLoginTarget, setPostLoginTarget] = useState(null);
@@ -13867,7 +13948,44 @@ function App() {
   }, [authUser, dashboardOpen]);
 
   useEffect(() => {
+    let isActive = true;
+    if (!authUser) {
+      setRefZoneAccess(emptyRefZoneAccess);
+      return () => {
+        isActive = false;
+      };
+    }
+
+    setRefZoneAccess(current => ({ ...current, loading: true, message: '' }));
+    apiGet('/refzone-access.php')
+      .then(data => {
+        if (!isActive) return;
+        setRefZoneAccess({
+          loading: false,
+          courseIds: Array.isArray(data.course_ids) ? data.course_ids : [],
+          enrollments: Array.isArray(data.enrollments) ? data.enrollments : [],
+          message: ''
+        });
+      })
+      .catch(error => {
+        if (!isActive) return;
+        setRefZoneAccess({
+          loading: false,
+          courseIds: [],
+          enrollments: [],
+          message: error.message || 'RefZone University access could not be verified.'
+        });
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, [authUser]);
+
+  useEffect(() => {
     const onRouteChange = () => {
+      const nextRoute = readCurrentRoute();
+      setCurrentRoute(nextRoute);
       if (window.location.hash.startsWith('#dashboard')) {
         const storedUser = readStoredAuthUser();
         if (storedUser) {
@@ -13887,9 +14005,11 @@ function App() {
 
   function goTo(page) {
     const next = validPages.has(page) || managedPageIds.has(page) ? page : 'home';
+    const nextRoute = next === 'home' ? '' : next;
     setDashboardOpen(false);
     localStorage.setItem(RTBO_DASHBOARD_OPEN_KEY, 'false');
     setActive(next);
+    setCurrentRoute(nextRoute);
     const nextHash = next === 'home' ? '#' : `#${next}`;
     if (window.location.hash !== nextHash) {
       window.location.hash = nextHash;
@@ -13944,6 +14064,21 @@ function App() {
     if (postLoginTarget === 'register') {
       goTo('register');
       setDashboardOpen(false);
+    } else if (postLoginTarget === 'education') {
+      localStorage.setItem(RTBO_DASHBOARD_OPEN_KEY, 'false');
+      setDashboardOpen(false);
+      setActive('education');
+      if (!routeFromHash(window.location.hash).startsWith('education')) {
+        window.location.hash = '#education';
+        setCurrentRoute('education');
+      }
+      requestAnimationFrame(() => {
+        const currentEducationRoute = routeFromHash(window.location.hash);
+        const target = currentEducationRoute.startsWith('education/course/')
+          ? document.querySelector('.rtbo-academy-page')
+          : document.getElementById('refzone-university-enrollment');
+        target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
     } else {
       localStorage.setItem(RTBO_DASHBOARD_OPEN_KEY, 'true');
       setDashboardOpen(true);
@@ -13972,6 +14107,32 @@ function App() {
   function openRegisterSignIn() {
     setPostLoginTarget('register');
     setAccountModal('login');
+  }
+
+  function openRefZoneCreateAccount() {
+    if (authUser) {
+      scrollToRefZoneEnrollment();
+      return;
+    }
+    setPostLoginTarget('education');
+    setAccountModal('signup');
+  }
+
+  function openRefZoneSignIn() {
+    setPostLoginTarget('education');
+    setAccountModal('login');
+  }
+
+  function scrollToRefZoneEnrollment() {
+    setActive('education');
+    setDashboardOpen(false);
+    if (!routeFromHash(window.location.hash).startsWith('education')) {
+      window.location.hash = '#education';
+      setCurrentRoute('education');
+    }
+    requestAnimationFrame(() => {
+      document.getElementById('refzone-university-enrollment')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   }
 
   async function logout() {
@@ -14012,12 +14173,27 @@ function App() {
     }
     if (active === 'services') return <><PageHero page="services" eyebrow="Services" title="Complete Officiating Solutions">Event assigning, development, mentorship, evaluations, and leadership standards for the game.</PageHero><Services />{managedSections('services')}</>;
     if (active === 'education') {
+      const educationCourseId = currentRoute.startsWith('education/course/')
+        ? decodeURIComponent(currentRoute.split('/')[2] || '')
+        : '';
+      const accessibleCourseIds = Array.isArray(refZoneAccess.courseIds) ? refZoneAccess.courseIds : [];
+      const requestedCourseAllowed = educationCourseId === '' || accessibleCourseIds.includes(educationCourseId);
+      const academyInitialCourseId = requestedCourseAllowed ? (educationCourseId || accessibleCourseIds[0] || '') : '';
+      const hasCourseAccess = accessibleCourseIds.length > 0 && requestedCourseAllowed;
       return (
         <>
-          <RefZoneUniversityLanding />
-          <React.Suspense fallback={<section className="rtbo-section"><p className="rtbo-empty-state">Loading RTBO Education...</p></section>}>
-            <RTBOAcademy publicMode brandName="RefZone University" />
-          </React.Suspense>
+          <RefZoneUniversityLanding user={authUser} onCreateAccount={openRefZoneCreateAccount} onSignIn={openRefZoneSignIn} />
+          {authUser && refZoneAccess.loading ? (
+            <RefZoneMembershipGate courseId={educationCourseId} loading onEnroll={scrollToRefZoneEnrollment} />
+          ) : authUser && hasCourseAccess ? (
+            <React.Suspense fallback={<section className="rtbo-section"><p className="rtbo-empty-state">Loading RTBO Education...</p></section>}>
+              <RTBOAcademy user={authUser} publicMode brandName="RefZone University" initialTrackId={academyInitialCourseId} />
+            </React.Suspense>
+          ) : authUser ? (
+            <RefZoneMembershipGate courseId={educationCourseId || accessibleCourseIds[0] || ''} onEnroll={scrollToRefZoneEnrollment} />
+          ) : (
+            <RefZoneCourseAccessGate courseId={educationCourseId} onCreateAccount={openRefZoneCreateAccount} onSignIn={openRefZoneSignIn} />
+          )}
           {managedSections('education')}
         </>
       );
@@ -14043,7 +14219,7 @@ function App() {
       );
     }
     return <Home setActive={goTo} />;
-  }, [active, activeManagedPage, authUser, siteContentRecords]);
+  }, [active, activeManagedPage, authUser, currentRoute, refZoneAccess, siteContentRecords]);
 
   if (dashboardOpen && authUser) {
     return (

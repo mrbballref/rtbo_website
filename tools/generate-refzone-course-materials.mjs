@@ -426,7 +426,197 @@ function collegeAssessmentFor(visual, course, week, day) {
   return {
     type,
     prompt,
-    passingStandard: `80% or mentor approval is required before Day ${day.day + 1} unlocks.`
+    passingStandard: `85% or mentor approval is required before Day ${day.day + 1} unlocks.`
+  };
+}
+
+function dayTestFor(course, week, day, college, visual) {
+  const type = college.assessment?.type || 'Course Assessment';
+  const scenario = materialScenarioFor(course, week, day, visual);
+  const firstReading = college.readings?.[0] || `Read the current governing material for ${week.title}.`;
+  const firstRubric = college.rubric?.[0] || 'Rule accuracy and philosophy: 20 points';
+  const baseQuestions = [
+    {
+      id: `${day.id}-q1`,
+      type: 'multiple-choice',
+      prompt: `Before ${day.title}, which preparation best meets the ${course.title} standard for ${week.title}?`,
+      options: [
+        { id: 'a', text: firstReading },
+        { id: 'b', text: 'Review only the game schedule and wait for the mentor to explain the rule after class.' },
+        { id: 'c', text: 'Memorize signals without connecting the rule, case play, mechanics, and professional language.' },
+        { id: 'd', text: 'Skip the reading and rely on previous playing or coaching experience.' }
+      ],
+      correctOptionId: 'a',
+      answer: firstReading,
+      explanation: `The course requires current reading, marked rule language, case-play reasoning, mechanics study, and proof that the student can apply ${week.title}.`
+    },
+    {
+      id: `${day.id}-q2`,
+      type: 'multiple-choice',
+      prompt: `What is the strongest evidence that a student completed ${day.title}?`,
+      options: [
+        { id: 'a', text: 'Attendance alone, without written, visual, film, court, role-play, or mentor evidence.' },
+        { id: 'b', text: college.assignment },
+        { id: 'c', text: 'A verbal statement that the topic was understood.' },
+        { id: 'd', text: 'A social media post about the course.' }
+      ],
+      correctOptionId: 'b',
+      answer: college.assignment,
+      explanation: 'A passing lesson requires a gradable artifact, not passive attendance or unsupported self-reporting.'
+    },
+    {
+      id: `${day.id}-q3`,
+      type: 'multiple-choice',
+      prompt: `In the ${course.title} pathway, what should the official connect when applying ${week.title}?`,
+      options: [
+        { id: 'a', text: 'Only personal opinion and game feel.' },
+        { id: 'b', text: 'Only the final score and the crowd reaction.' },
+        { id: 'c', text: 'Rule language, case-play logic, mechanics, professional communication, and evidence quality.' },
+        { id: 'd', text: 'Only the strongest official on the crew.' }
+      ],
+      correctOptionId: 'c',
+      answer: 'Rule language, case-play logic, mechanics, professional communication, and evidence quality.',
+      explanation: `RefZone University tests require students to explain, perform, defend, and improve the officiating behavior tied to ${week.title}.`
+    },
+    {
+      id: `${day.id}-q4`,
+      type: 'multiple-choice',
+      prompt: `Scenario: ${scenario} What is the best first response?`,
+      options: [
+        { id: 'a', text: 'Give a short, accurate explanation tied to the rule source, crew responsibility, mechanic, and correction point.' },
+        { id: 'b', text: 'Argue until everyone accepts the decision.' },
+        { id: 'c', text: 'Ignore the play because communication is not part of officiating.' },
+        { id: 'd', text: 'Change the ruling solely to avoid conflict.' }
+      ],
+      correctOptionId: 'a',
+      answer: 'Give a short, accurate explanation tied to the rule source, crew responsibility, mechanic, and correction point.',
+      explanation: 'The expected response is concise, rule-based, mechanically sound, and professional.'
+    },
+    {
+      id: `${day.id}-q5`,
+      type: 'multiple-choice',
+      prompt: `What happens if the student does not meet the passing standard for ${type}?`,
+      options: [
+        { id: 'a', text: 'The student advances automatically because the button was clicked.' },
+        { id: 'b', text: 'The student repeats the lesson evidence, corrects missed concepts, and completes remediation before advancing.' },
+        { id: 'c', text: 'The test is deleted from the record.' },
+        { id: 'd', text: 'The mentor ignores the missed standard.' }
+      ],
+      correctOptionId: 'b',
+      answer: 'The student repeats the lesson evidence, corrects missed concepts, and completes remediation before advancing.',
+      explanation: `The passing standard is ${college.assessment?.passingStandard || '85% or mentor approval before advancement'}.`
+    }
+  ];
+  const patternQuestions = Array.from({ length: 20 }, (_, index) => {
+    const number = index + 6;
+    const group = index % 5;
+    if (group === 0) {
+      return {
+        id: `${day.id}-q${number}`,
+        type: 'multiple-choice',
+        prompt: `Question ${number}: Which reading action most directly supports ${week.title} during ${day.title}?`,
+        options: [
+          { id: 'a', text: 'Identify the exact rule language, exception, penalty, restart, and mechanic connected to the play.' },
+          { id: 'b', text: 'Ignore exceptions and rely only on the most common ruling.' },
+          { id: 'c', text: 'Avoid writing anything until after the assessment is complete.' },
+          { id: 'd', text: 'Ask the coach which rule should apply.' }
+        ],
+        correctOptionId: 'a',
+        answer: 'Identify the exact rule language, exception, penalty, restart, and mechanic connected to the play.',
+        explanation: 'The course expects rule-source accuracy before the student applies judgment or mechanics.'
+      };
+    }
+    if (group === 1) {
+      return {
+        id: `${day.id}-q${number}`,
+        type: 'multiple-choice',
+        prompt: `Question ${number}: What mechanics evidence best proves mastery of ${week.title}?`,
+        options: [
+          { id: 'a', text: 'A diagram or note showing starting position, movement path, primary coverage, secondary awareness, signal, and reporting route.' },
+          { id: 'b', text: 'A statement that the official was close to the play.' },
+          { id: 'c', text: 'A score-only summary of the game.' },
+          { id: 'd', text: 'A generic note saying the crew worked hard.' }
+        ],
+        correctOptionId: 'a',
+        answer: 'A diagram or note showing starting position, movement path, primary coverage, secondary awareness, signal, and reporting route.',
+        explanation: 'Mechanics mastery must be visible and reviewable through specific positioning and coverage evidence.'
+      };
+    }
+    if (group === 2) {
+      return {
+        id: `${day.id}-q${number}`,
+        type: 'multiple-choice',
+        prompt: `Question ${number}: Which communication response best fits a ${course.title} official challenged on ${week.title}?`,
+        options: [
+          { id: 'a', text: 'Use brief, calm, rule-based language, then return focus to the game.' },
+          { id: 'b', text: 'Keep explaining until the coach agrees.' },
+          { id: 'c', text: 'Use sarcasm to end the conversation.' },
+          { id: 'd', text: 'Refuse all communication regardless of the situation.' }
+        ],
+        correctOptionId: 'a',
+        answer: 'Use brief, calm, rule-based language, then return focus to the game.',
+        explanation: 'Professional communication is accurate, brief, composed, and game-centered.'
+      };
+    }
+    if (group === 3) {
+      return {
+        id: `${day.id}-q${number}`,
+        type: 'multiple-choice',
+        prompt: `Question ${number}: What should a film or visual review identify for ${day.title}?`,
+        options: [
+          { id: 'a', text: 'Primary coverage, open or closed angle, contact effect, crew help, and the correction point.' },
+          { id: 'b', text: 'Only whether the call was popular.' },
+          { id: 'c', text: 'Only the player who scored.' },
+          { id: 'd', text: 'Only whether the official looked confident.' }
+        ],
+        correctOptionId: 'a',
+        answer: 'Primary coverage, open or closed angle, contact effect, crew help, and the correction point.',
+        explanation: 'Film and visual work must identify the observable officiating factors behind the decision.'
+      };
+    }
+    return {
+      id: `${day.id}-q${number}`,
+      type: 'multiple-choice',
+      prompt: `Question ${number}: Which portfolio evidence would satisfy the advancement standard for ${week.title}?`,
+      options: [
+        { id: 'a', text: 'Corrected quiz results, written rule defense, lab artifact, mentor note, and a specific next-step correction plan.' },
+        { id: 'b', text: 'A button click showing the lesson as passed.' },
+        { id: 'c', text: 'A blank worksheet with no notes.' },
+        { id: 'd', text: 'A promise to study later.' }
+      ],
+      correctOptionId: 'a',
+      answer: 'Corrected quiz results, written rule defense, lab artifact, mentor note, and a specific next-step correction plan.',
+      explanation: 'Advancement requires evidence that can be reviewed by faculty, mentors, and the advancement board.'
+    };
+  });
+  const questions = [...baseQuestions, ...patternQuestions];
+
+  return {
+    id: `${day.id}-test`,
+    title: `${course.title} Week ${week.week}, Day ${day.day} ${type}`,
+    courseId: course.id,
+    week: week.week,
+    day: day.day,
+    lessonTitle: day.title,
+    type,
+    passingScore: 85,
+    timeLimitMinutes: 45,
+    instructions: `Complete this 25-question scored assessment after studying ${week.title}. You must earn at least 85% before the next module unlocks.`,
+    evidencePrompt: `In 3-5 sentences, cite the rule or mechanic connected to ${week.title}, explain the official's responsibility during ${day.title}, and name one correction target for the next assignment.`,
+    answerKeyVisibleInCommandCenter: true,
+    questions,
+    answerKey: questions.map(question => ({
+      questionId: question.id,
+      correctOptionId: question.correctOptionId,
+      answer: question.answer,
+      explanation: question.explanation
+    })),
+    rubric: [
+      firstRubric,
+      'Scored quiz accuracy: 25 questions / 85% required',
+      'Written evidence statement: required for submission',
+      'Remediation: required for every missed concept before advancement'
+    ]
   };
 }
 
@@ -729,9 +919,11 @@ function enrichCourses(courses) {
         const visual = visualForDay(day.title);
         const screenshot = `/assets/images/refzone/course-screenshots/${course.id}-${visual.key}.svg`;
         const college = collegeMaterialFor(course, week, day);
+        const test = dayTestFor(course, week, day, college, visual);
         const enrichedDay = {
           ...day,
-          college
+          college,
+          test
         };
         return {
           ...day,
@@ -740,6 +932,7 @@ function enrichCourses(courses) {
           visual: `/assets/images/refzone/lesson-visuals/${visual.key}.svg`,
           screenshot,
           college,
+          test,
           sections: day.sections.map(section => ({
             ...section,
             visual: `/assets/images/refzone/lesson-visuals/${visual.key}.svg`,
@@ -950,6 +1143,7 @@ function writeIndexMarkdown(courses, counts) {
     '- The public material manifest lives at `frontend/public/refzone-course-materials.json`.',
     '- Course image briefs live in `docs/refzone-university/course-overviews.md`.',
     '- Presentation outlines live in `docs/refzone-university/presentation-outlines/`.',
+    '- Instructor test banks and answer keys live in `docs/refzone-university/assessment-evidence/`.',
     '- Every academic day now includes required reading, lecture notes, lab work, assignment evidence, assessment, grading rubric, and remediation rule.',
     '',
     '## Courses',
@@ -1038,6 +1232,7 @@ function writeCourseMarkdown(course) {
       lines.push(`  - Required reading: ${day.college.readings.join(' ')}`);
       lines.push(`  - Assignment: ${day.college.assignment}`);
       lines.push(`  - Assessment: ${day.college.assessment.type} - ${day.college.assessment.passingStandard}`);
+      lines.push(`  - Test: ${day.test?.title || 'Course assessment'}; passing score ${day.test?.passingScore || 80}%.`);
       day.sections.forEach(section => {
         lines.push(`  - ${section.title}: ${section.materialType}; ${section.collegeRole}`);
       });
@@ -1088,13 +1283,56 @@ function writePresentationOutline(course) {
   return `${lines.join('\n')}\n`;
 }
 
+function writeTestAnswerKeyMarkdown(course) {
+  const lines = [
+    `# ${course.title} Test Bank and Answer Key`,
+    '',
+    'This command-center answer key is generated from the RefZone University course material. It is intended for instructors, mentors, and administrators. Students should complete the scored test before reviewing missed answers.',
+    '',
+    `**Course:** ${course.title}`,
+    `**Degree Path:** ${course.path}`,
+    `**Academic Level:** ${course.level}`,
+    ''
+  ];
+
+  course.weeks.forEach(week => {
+    lines.push(`## Week ${week.week}: ${week.title}`);
+    lines.push('');
+    week.days.forEach(day => {
+      const test = day.test || dayTestFor(course, week, day, day.college || collegeMaterialFor(course, week, day), visualForDay(day.title));
+      lines.push(`### Day ${day.day}: ${day.title}`);
+      lines.push('');
+      lines.push(`- Test: ${test.title}`);
+      lines.push(`- Type: ${test.type}`);
+      lines.push(`- Passing score: ${test.passingScore}%`);
+      lines.push(`- Questions: ${test.questions.length}`);
+      lines.push(`- Time limit: ${test.timeLimitMinutes} minutes`);
+      lines.push(`- Evidence prompt: ${test.evidencePrompt}`);
+      lines.push('');
+      test.questions.forEach((question, index) => {
+        lines.push(`${index + 1}. ${question.prompt}`);
+        question.options.forEach(option => {
+          const marker = option.id === question.correctOptionId ? ' **Correct**' : '';
+          lines.push(`   - ${option.id.toUpperCase()}. ${option.text}${marker}`);
+        });
+        lines.push(`   - Explanation: ${question.explanation}`);
+      });
+      lines.push('');
+    });
+  });
+
+  return `${lines.join('\n')}\n`;
+}
+
 async function writeDocs(courses, counts) {
   await fs.mkdir(visualDocsDir, { recursive: true });
   await fs.mkdir(presentationDir, { recursive: true });
+  await fs.mkdir(assessmentEvidenceDir, { recursive: true });
   await fs.writeFile(path.join(docsRoot, 'course-overviews.md'), writeCourseOverviewsMarkdown(courses), 'utf8');
   await fs.writeFile(path.join(visualDocsDir, 'refzone-materials-index.md'), writeIndexMarkdown(courses, counts), 'utf8');
   await Promise.all(courses.map(course => fs.writeFile(path.join(visualDocsDir, `${course.id}.md`), writeCourseMarkdown(course), 'utf8')));
   await Promise.all(courses.map(course => fs.writeFile(path.join(presentationDir, `${course.id}-presentation.md`), writePresentationOutline(course), 'utf8')));
+  await Promise.all(courses.map(course => fs.writeFile(path.join(assessmentEvidenceDir, `${course.id}-test-answer-key.md`), writeTestAnswerKeyMarkdown(course), 'utf8')));
 }
 
 async function main() {

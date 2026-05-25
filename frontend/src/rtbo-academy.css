@@ -138,6 +138,7 @@
 .rtbo-academy-material-card,
 .rtbo-academy-college-packet,
 .rtbo-academy-test-rule-card,
+.rtbo-academy-live-test,
 .rtbo-academy-notes-card {
   display: grid;
   gap: 14px;
@@ -265,6 +266,7 @@
 .rtbo-academy-material-card,
 .rtbo-academy-college-packet,
 .rtbo-academy-test-rule-card,
+.rtbo-academy-live-test,
 .rtbo-academy-notes-card {
   border: 1px solid var(--academy-border);
   border-radius: 8px;
@@ -626,6 +628,128 @@
   line-height: 1.4;
 }
 
+.rtbo-academy-live-test {
+  background: var(--academy-panel);
+}
+
+.rtbo-academy-test-result {
+  display: grid;
+  gap: 6px;
+  border: 1px solid var(--academy-border);
+  border-radius: 8px;
+  padding: 12px;
+  background: var(--academy-panel-flat);
+}
+
+.rtbo-academy-test-result span {
+  color: var(--orange);
+  font-size: .72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.rtbo-academy-test-result strong {
+  font-size: 1.8rem;
+}
+
+.rtbo-academy-test-result.passed {
+  border-color: rgba(34, 197, 94, .55);
+}
+
+.rtbo-academy-test-result.needs-review {
+  border-color: rgba(245, 130, 32, .72);
+}
+
+.rtbo-academy-test-form {
+  display: grid;
+  gap: 12px;
+}
+
+.rtbo-academy-test-form fieldset {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  margin: 0;
+  border: 1px solid var(--academy-border);
+  border-radius: 8px;
+  padding: 12px;
+  background: var(--academy-panel-flat);
+}
+
+.rtbo-academy-test-form fieldset.is-missed {
+  border-color: rgba(245, 130, 32, .86);
+}
+
+.rtbo-academy-test-form legend {
+  color: var(--academy-heading);
+  font-size: .9rem;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.rtbo-academy-answer-list {
+  display: grid;
+  gap: 7px;
+}
+
+.rtbo-academy-answer-list label {
+  display: grid;
+  grid-template-columns: auto 28px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  border: 1px solid var(--academy-button-border);
+  border-radius: 8px;
+  padding: 9px;
+  background: var(--academy-button-bg);
+}
+
+.rtbo-academy-answer-list label.is-selected {
+  border-color: var(--orange);
+}
+
+.rtbo-academy-answer-list label.is-correct {
+  border-color: rgba(34, 197, 94, .68);
+}
+
+.rtbo-academy-answer-list input {
+  margin-top: 3px;
+}
+
+.rtbo-academy-answer-list span {
+  color: var(--orange);
+  font-weight: 900;
+}
+
+.rtbo-academy-answer-list b {
+  font-size: .84rem;
+  line-height: 1.35;
+}
+
+.rtbo-academy-evidence-response {
+  display: grid;
+  gap: 7px;
+  color: var(--academy-heading);
+  font-size: .78rem;
+  font-weight: 900;
+}
+
+.rtbo-academy-evidence-response textarea {
+  min-height: 120px;
+  border: 1px solid var(--academy-button-border);
+  border-radius: 8px;
+  padding: 10px;
+  color: var(--academy-heading);
+  background: var(--academy-field-bg);
+  font: inherit;
+  resize: vertical;
+}
+
+.rtbo-academy-test-timestamp {
+  align-self: center;
+  color: var(--academy-muted);
+  font-size: .78rem;
+}
+
 .rtbo-academy-markdown {
   display: grid;
   gap: 10px;
@@ -789,6 +913,7 @@
   .rtbo-academy-content-card,
   .rtbo-academy-material-card,
   .rtbo-academy-college-packet,
+  .rtbo-academy-live-test,
   .rtbo-academy-notes-card {
     padding: 12px;
   }
