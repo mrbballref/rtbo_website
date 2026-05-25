@@ -114,6 +114,56 @@ function courseImageFor(track = {}, index = 0) {
   return ACADEMY_COURSE_IMAGES[index % ACADEMY_COURSE_IMAGES.length];
 }
 
+function courseImageSrcFor(track = {}, index = 0) {
+  const image = courseImageFor(track, index);
+  return image.startsWith('/') ? image : `/assets/images/${image}`;
+}
+
+function courseLessonRowsFor(track = {}) {
+  return (track.weeks || []).flatMap((week, weekIndex) => (
+    (week.days || []).map((day, dayIndex) => ({
+      track,
+      week,
+      day,
+      weekIndex,
+      dayIndex,
+      material: collegeMaterialForDay(track, week, day)
+    }))
+  ));
+}
+
+function courseProgressFor(track = {}, completed = {}, passedTests = {}) {
+  const lessons = courseLessonRowsFor(track);
+  const completedLessons = lessons.filter(row => completed[row.day.id]).length;
+  const passedAssessments = lessons.filter(row => passedTests[row.day.id]).length;
+  const percent = lessons.length ? Math.round((completedLessons / lessons.length) * 100) : 0;
+  const totalMinutes = lessons.reduce((total, row) => total + Number(row.material?.minutes || 90), 0);
+  return {
+    lessons,
+    completedLessons,
+    passedAssessments,
+    percent,
+    totalMinutes,
+    hours: Math.max(1, Math.round(totalMinutes / 60))
+  };
+}
+
+function lessonStatusFor(day = {}, completed = {}, passedTests = {}) {
+  if (completed[day.id] && passedTests[day.id]) return 'Complete';
+  if (passedTests[day.id]) return 'Assessment passed';
+  if (completed[day.id]) return 'Marked complete';
+  return 'Not started';
+}
+
+function lessonKindFor(day = {}, material = {}) {
+  const source = `${day.title || ''} ${material.assessment?.type || ''}`.toLowerCase();
+  if (/test|assessment|quiz|exam/.test(source)) return 'Quiz';
+  if (/reading|rules|case|syllabus|manual/.test(source)) return 'Reading';
+  if (/discussion|seminar|dialogue|role/.test(source)) return 'Dialogue';
+  if (/lab|mechanics|film|court/.test(source)) return 'Lab';
+  return 'Video';
+}
+
 function normalizeTestBank(raw = null) {
   if (!raw || typeof raw !== 'object') return null;
   const questions = Array.isArray(raw.questions) ? raw.questions.map((question, index) => {
@@ -1200,7 +1250,7 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
   const academyViewTabs = [
     ['dashboard', 'Dashboard'],
     ['syllabus', 'Syllabus'],
-    ['course', 'Course Browser'],
+    ['course', 'Course Home'],
     ['materials', 'Study Materials'],
     ['search', 'Search Manual'],
     ['assignments', 'Assignments'],
@@ -1221,6 +1271,12 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
   const selectedTestResult = selectedDay ? testResults[selectedDay.id] : null;
   const selectedTestDraft = selectedDay ? (testDrafts[selectedDay.id] || selectedTestResult?.answers || {}) : {};
   const selectedTestOpen = Boolean(selectedDay && openTestId === selectedDay.id);
+  const selectedMaterial = selectedDay ? collegeMaterialForDay(selectedTrack, selectedWeek, selectedDay) : null;
+  const selectedTrackProgress = useMemo(() => courseProgressFor(selectedTrack, completed, passedTests), [selectedTrack, completed, passedTests]);
+  const selectedTrackLessons = selectedTrackProgress.lessons;
+  const selectedLessonNumber = selectedTrackLessons.findIndex(row => row.day.id === selectedDay?.id) + 1;
+  const followingCourseLesson = selectedTrackLessons[selectedLessonNumber] || null;
+  const nextCourseLesson = selectedTrackLessons.find(row => !completed[row.day.id] || !passedTests[row.day.id]) || selectedTrackLessons[0] || null;
 
   function dayTestPassed(dayId) {
     return Boolean(passedTests[dayId]);
@@ -1501,117 +1557,216 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
       )}
 
       {activeView === 'course' && selectedTrack && (
-        <div className="rtbo-academy-course-layout">
-          <aside className="rtbo-academy-course-panel">
-            <label>Track
-              <select value={selectedTrack.id} onChange={(event) => { setSelectedTrackId(event.target.value); setSelectedWeekIndex(0); setSelectedDayIndex(0); }}>
-                {tracks.map(track => <option key={track.id} value={track.id}>{track.title}</option>)}
-              </select>
-            </label>
-            <div className="rtbo-academy-week-list">
-              {selectedTrack.weeks.map((week, index) => {
-                const gate = academyDayGate(selectedTrack, week.days[0]?.id);
-                return (
-                  <button className={`${index === selectedWeekIndex ? 'active' : ''} ${gate.open ? '' : 'is-locked'}`.trim()} type="button" key={week.id} disabled={!gate.open} onClick={() => openAcademyWeek(selectedTrack, index)}>
-                    <span>Week {week.week}</span>
-                    <small>{gate.open ? week.title : `Locked until ${gate.previousDay?.title || 'previous test'} is passed`}</small>
-                  </button>
-                );
-              })}
+        <div className="rtbo-coursera-course rtbo-coursera-course-shell">
+          <section className="rtbo-coursera-topbar" aria-label="Course player controls">
+            <div className="rtbo-coursera-brand">
+              <strong>RefZone University</strong>
+              <span>RTBO</span>
             </div>
-          </aside>
-
-          <section className="rtbo-academy-reader">
-            <div className="rtbo-academy-reader-head">
-              <div>
-                <p className="eyebrow">{selectedTrack.title}</p>
-                <h3>{selectedWeek?.title}</h3>
-                <p>{selectedTrack.path}</p>
-              </div>
-              {selectedDay && (
-                <div className="rtbo-form-toolbar">
-                  <button className="btn secondary dark-btn" type="button" onClick={() => openDayTest(selectedDay.id)}>
-                    {dayTestPassed(selectedDay.id) ? `Passed ${selectedTestResult?.score || 0}%` : 'Take Test'}
-                  </button>
-                  <button className="btn secondary dark-btn" type="button" onClick={() => markDay(selectedDay.id, !completed[selectedDay.id])}>
-                    {completed[selectedDay.id] ? 'Completed' : 'Mark Complete'}
-                  </button>
-                  <button className="btn secondary dark-btn" type="button" onClick={() => toggleBookmark(selectedDay.id)}>
-                    {bookmarks[selectedDay.id] ? 'Bookmarked' : 'Bookmark'}
-                  </button>
-                </div>
-              )}
+            <div className="rtbo-coursera-top-progress">
+              <span>{selectedTrackProgress.completedLessons}/{selectedTrackLessons.length} learning items</span>
+              <div className="rtbo-academy-progress"><span style={{ width: `${selectedTrackProgress.percent}%` }} /></div>
             </div>
-
-            <div className="rtbo-academy-day-tabs">
-              {selectedWeek?.days.map((day, index) => {
-                const gate = academyDayGate(selectedTrack, day.id);
-                return (
-                  <button className={`${index === selectedDayIndex ? 'active' : ''} ${gate.open ? '' : 'is-locked'}`.trim()} type="button" key={day.id} disabled={!gate.open} title={gate.open ? day.title : `Pass ${gate.previousDay?.title || 'the previous test'} first`} onClick={() => openAcademyDay(selectedTrack, selectedWeekIndex, index)}>
-                    Day {day.day}: {gate.open ? day.title : 'Locked'}
-                  </button>
-                );
-              })}
+            <div className="rtbo-coursera-top-actions">
+              <button className="btn secondary dark-btn" type="button" onClick={() => setActiveView('dashboard')}>Course Dashboard</button>
             </div>
-
-            <article className="rtbo-academy-content-card">
-              <h4>{selectedDay ? `Day ${selectedDay.day} - ${selectedDay.title}` : selectedTrack.title}</h4>
-              <div className="rtbo-academy-markdown"><MarkdownBlock text={dayText} /></div>
-            </article>
-
-            {selectedDay && (
-              <>
-                <CourseMaterialPacket track={selectedTrack} week={selectedWeek} day={selectedDay} />
-                <section className="rtbo-academy-material-card">
-                  <img src={selectedDayVisual.image} alt={`${selectedDayVisual.title} course visual`} loading="lazy" decoding="async" />
-                  <div>
-                    <p className="eyebrow">Screenshots, Presentations, Visuals</p>
-                    <h4>{selectedDayVisual.title}</h4>
-                    <p>{selectedDayVisual.proof}</p>
-                    <ul>
-                      {selectedDay.sections.slice(0, 3).map(section => (
-                        <li key={section.title}>
-                          <strong>{section.title}</strong>
-                          <span>{section.title.includes('Professor') ? 'Instruction slide and course screenshot' : section.title.includes('Student') ? 'Student activity visual and worksheet frame' : 'Assessment evidence and grading visual'}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </section>
-                <section className="rtbo-academy-test-rule-card">
-                  <div>
-                    <h4>Required 25-Question Module Test</h4>
-                    <p>Rule: score at least 85% before the next module or section unlocks. Button clicks do not mark this test passed.</p>
-                    {selectedTestResult && <small>Latest score: {selectedTestResult.score}% / {selectedTestResult.correctCount} of {selectedTestResult.questionCount} correct</small>}
-                  </div>
-                  <button className="btn secondary dark-btn" type="button" onClick={() => openDayTest(selectedDay.id)}>
-                    {dayTestPassed(selectedDay.id) ? 'Review / Retake Test' : 'Take Test'}
-                  </button>
-                </section>
-                {selectedTestOpen && selectedTest && (
-                  <CourseTestPanel
-                    track={selectedTrack}
-                    week={selectedWeek}
-                    day={selectedDay}
-                    test={selectedTest}
-                    result={selectedTestResult}
-                    draft={selectedTestDraft}
-                    onAnswer={(key, value) => updateTestDraft(selectedDay.id, key, value)}
-                    onSubmit={() => submitDayTest(selectedDay, selectedTest)}
-                    onClose={() => setOpenTestId('')}
-                  />
-                )}
-                <section className="rtbo-academy-notes-card">
-                  <h4>Student Notes, Evidence, and Mentor Feedback</h4>
-                  <textarea
-                    value={notes[selectedDay.id] || ''}
-                    onChange={(event) => setNotes(current => ({ ...current, [selectedDay.id]: event.target.value }))}
-                    placeholder="Record film notes, mechanics corrections, professor feedback, mentor notes, role-play performance, and completion evidence."
-                  />
-                </section>
-              </>
-            )}
           </section>
+
+          <div className="rtbo-coursera-layout rtbo-coursera-workspace">
+            <aside className="rtbo-coursera-sidebar" aria-label="Course content">
+              <div className="rtbo-coursera-course-title">
+                <strong>{selectedTrack.title}</strong>
+                <button type="button" aria-label="Close course player" onClick={() => setActiveView('dashboard')}>x</button>
+              </div>
+              <label className="rtbo-coursera-track-select">Course Path
+                <select
+                  value={selectedTrack.id}
+                  onChange={(event) => {
+                    setSelectedTrackId(event.target.value);
+                    setSelectedWeekIndex(0);
+                    setSelectedDayIndex(0);
+                    setOpenTestId('');
+                  }}
+                >
+                  {tracks.map(track => <option key={track.id} value={track.id}>{track.title}</option>)}
+                </select>
+              </label>
+              <div className="rtbo-coursera-module-list">
+                {selectedTrack.weeks.map((week, weekIndex) => {
+                  const weekRows = selectedTrackLessons.filter(row => row.week.id === week.id);
+                  const weekDone = weekRows.filter(row => completed[row.day.id] && passedTests[row.day.id]).length;
+                  const weekGate = academyDayGate(selectedTrack, week.days[0]?.id);
+                  return (
+                    <section className={`${weekIndex === selectedWeekIndex ? 'is-active' : ''} ${weekGate.open ? '' : 'is-locked'}`.trim()} key={week.id}>
+                      <button
+                        className="rtbo-coursera-module-head"
+                        type="button"
+                        disabled={!weekGate.open}
+                        onClick={() => openAcademyWeek(selectedTrack, weekIndex)}
+                      >
+                        <span>Module {week.week}</span>
+                        <strong>{week.title}</strong>
+                        <small>{weekGate.open ? `${weekDone} / ${weekRows.length} completed` : `Locked until ${weekGate.previousDay?.title || 'previous test'} is passed`}</small>
+                      </button>
+                      <div className="rtbo-coursera-lesson-list">
+                        {week.days.map((day, dayIndex) => {
+                          const gate = academyDayGate(selectedTrack, day.id);
+                          const isActive = weekIndex === selectedWeekIndex && dayIndex === selectedDayIndex;
+                          const isComplete = completed[day.id] && passedTests[day.id];
+                          const material = collegeMaterialForDay(selectedTrack, week, day);
+                          const lessonKind = lessonKindFor(day, material);
+                          return (
+                            <button
+                              className={`${isActive ? 'is-active' : ''} ${isComplete ? 'is-complete' : ''} ${gate.open ? '' : 'is-locked'}`.trim()}
+                              type="button"
+                              key={day.id}
+                              disabled={!gate.open}
+                              title={gate.open ? day.title : `Pass ${gate.previousDay?.title || 'the previous test'} first`}
+                              onClick={() => openAcademyDay(selectedTrack, weekIndex, dayIndex)}
+                            >
+                              <i aria-hidden="true" />
+                              <span>{gate.open ? day.title : 'Complete the previous assessment'}</span>
+                              <small>{gate.open ? `${lessonKind} / ${material.minutes || 90} min` : 'Locked'}</small>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </section>
+                  );
+                })}
+              </div>
+            </aside>
+
+            <main className="rtbo-coursera-main rtbo-coursera-stage">
+              {selectedDay && (
+                <>
+                  <section className="rtbo-coursera-player">
+                    <div className="rtbo-coursera-player-media" role="img" aria-label={`${selectedDayVisual.title} lesson player`}>
+                      <img src={selectedDayVisual.image} alt={`${selectedDayVisual.title} lesson visual`} loading="lazy" decoding="async" />
+                      <button type="button" className="rtbo-coursera-play-button" onClick={() => openDayTest(selectedDay.id)} aria-label="Open lesson assessment">
+                        <span aria-hidden="true" />
+                      </button>
+                    </div>
+                  </section>
+
+                  <section className="rtbo-coursera-content-band">
+                    <div className="rtbo-coursera-lesson-head">
+                      <div>
+                        <p className="eyebrow">Module {selectedWeek?.week} / Day {selectedDay.day}</p>
+                        <h3>{selectedDay.title}</h3>
+                      </div>
+                      <button className="btn secondary dark-btn" type="button" onClick={() => toggleBookmark(selectedDay.id)}>
+                        {bookmarks[selectedDay.id] ? 'Note Saved' : 'Save Note'}
+                      </button>
+                    </div>
+
+                    <article className="rtbo-coursera-ai-card">
+                      <div className="rtbo-coursera-ai-card-head">
+                        <span aria-hidden="true">*</span>
+                        <strong>Dive deeper on this topic</strong>
+                        <button type="button" aria-label="Collapse topic prompts">^</button>
+                      </div>
+                      <div className="rtbo-coursera-ai-actions">
+                        <button type="button">Give me practice questions</button>
+                        <button type="button">Explain this topic in simple terms</button>
+                        <button type="button">Give me a summary</button>
+                        <button type="button">Give me real-life examples</button>
+                      </div>
+                    </article>
+
+                    <div className="rtbo-coursera-action-row">
+                      <button className="btn secondary dark-btn" type="button" onClick={() => openDayTest(selectedDay.id)}>
+                        {dayTestPassed(selectedDay.id) ? `Passed ${selectedTestResult?.score || 0}%` : 'Take Assessment'}
+                      </button>
+                      <button className="btn secondary dark-btn" type="button" onClick={() => markDay(selectedDay.id, !completed[selectedDay.id])}>
+                        {completed[selectedDay.id] ? 'Mark Incomplete' : 'Mark Complete'}
+                      </button>
+                      <button
+                        className="btn"
+                        type="button"
+                        disabled={!followingCourseLesson}
+                        onClick={() => followingCourseLesson && openAcademyDay(selectedTrack, followingCourseLesson.weekIndex, followingCourseLesson.dayIndex)}
+                      >
+                        Go to next item -&gt;
+                      </button>
+                    </div>
+                  </section>
+
+                  <section className="rtbo-coursera-resource-grid" aria-label="Lesson materials">
+                    <article>
+                      <span>Required Reading</span>
+                      <ul>{textList(selectedMaterial?.readings).slice(0, 3).map(item => <li key={item}>{item}</li>)}</ul>
+                    </article>
+                    <article>
+                      <span>Lecture Notes</span>
+                      <ul>{textList(selectedMaterial?.lectureNotes).slice(0, 3).map(item => <li key={item}>{item}</li>)}</ul>
+                    </article>
+                    <article>
+                      <span>Discussion</span>
+                      <ul>{textList(selectedMaterial?.discussion).slice(0, 3).map(item => <li key={item}>{item}</li>)}</ul>
+                    </article>
+                    <article>
+                      <span>Lab and Assignment</span>
+                      <p>{selectedMaterial?.lab}</p>
+                      <p>{selectedMaterial?.assignment}</p>
+                    </article>
+                  </section>
+
+                  <section className="rtbo-coursera-content-band">
+                    <div className="rtbo-coursera-section-title">
+                      <p className="eyebrow">Lesson Overview</p>
+                      <h4>What you will learn</h4>
+                    </div>
+                    <div className="rtbo-coursera-objectives">
+                      {textList(selectedMaterial?.objectives).slice(0, 4).map(item => <span key={item}>{item}</span>)}
+                    </div>
+                    <div className="rtbo-academy-markdown"><MarkdownBlock text={dayText} /></div>
+                  </section>
+
+                  <section className="rtbo-coursera-assessment-card">
+                    <div>
+                      <p className="eyebrow">Assessment</p>
+                      <h4>Required 25-Question Module Test</h4>
+                      <p>Score at least 85% before the next module or section unlocks. The existing advancement rule remains in force.</p>
+                      {selectedTestResult && <small>Latest score: {selectedTestResult.score}% / {selectedTestResult.correctCount} of {selectedTestResult.questionCount} correct</small>}
+                    </div>
+                    <button className="btn" type="button" onClick={() => openDayTest(selectedDay.id)}>
+                      {dayTestPassed(selectedDay.id) ? 'Review / Retake Test' : 'Open Test'}
+                    </button>
+                  </section>
+
+                  {selectedTestOpen && selectedTest && (
+                    <CourseTestPanel
+                      track={selectedTrack}
+                      week={selectedWeek}
+                      day={selectedDay}
+                      test={selectedTest}
+                      result={selectedTestResult}
+                      draft={selectedTestDraft}
+                      onAnswer={(key, value) => updateTestDraft(selectedDay.id, key, value)}
+                      onSubmit={() => submitDayTest(selectedDay, selectedTest)}
+                      onClose={() => setOpenTestId('')}
+                    />
+                  )}
+
+                  <section className="rtbo-coursera-notes-card">
+                    <h4>Student Notes, Evidence, and Mentor Feedback</h4>
+                    <textarea
+                      value={notes[selectedDay.id] || ''}
+                      onChange={(event) => setNotes(current => ({ ...current, [selectedDay.id]: event.target.value }))}
+                      placeholder="Record film notes, mechanics corrections, professor feedback, mentor notes, role-play performance, and completion evidence."
+                    />
+                  </section>
+                </>
+              )}
+            </main>
+
+            <aside className="rtbo-coursera-aside rtbo-coursera-tool-rail" aria-label="Course tools">
+              <button type="button" onClick={() => setActiveView('materials')}><span aria-hidden="true">T</span>Transcript</button>
+              <button type="button" disabled={!selectedDay} onClick={() => selectedDay && toggleBookmark(selectedDay.id)}><span aria-hidden="true">N</span>Notes</button>
+              <button type="button" onClick={() => setActiveView('materials')}><span aria-hidden="true">F</span>Files</button>
+            </aside>
+          </div>
         </div>
       )}
 

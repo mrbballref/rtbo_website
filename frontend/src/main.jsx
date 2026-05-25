@@ -677,9 +677,9 @@ function Home({ setActive, onOpenRegister }) {
           Scroll Down <span aria-hidden="true">↓</span>
         </button>
       </section>
+      <AboutSummary setActive={setActive} />
       <HomeRefZoneUniversity setActive={setActive} />
       <HomeRefZoneMemberships setActive={setActive} />
-      <AboutSummary setActive={setActive} />
       <HomeResultsFeature setActive={setActive} />
       <GotUNexRefSection />
       <Services />
@@ -3002,7 +3002,7 @@ function RefZoneUniversityLanding({ user = null, onCreateAccount = () => {}, onS
         <div className="refzone-university-hero-copy">
           <p className="eyebrow">RefZone University</p>
           <h1 id="refzone-university-title">A college-style officiating program for serious basketball officials.</h1>
-          <p>RefZone University turns rules study, mechanics, film review, discussion, testing, and mentor feedback into a structured online learning experience. Every course includes required readings, lecture notes, visual aids, daily assignments, assessments, and advancement evidence.</p>
+          <p><strong>9 course tracks.</strong> Daily college-style lessons, labs, quizzes, tests, and portfolio evidence. RefZone University turns rules study, mechanics, film review, discussion, testing, and mentor feedback into a structured online learning experience.</p>
           <div className="refzone-university-actions">
             <button className="btn" type="button" onClick={scrollToEnrollment}>Enroll Now</button>
             <button className="btn secondary dark-btn" type="button" onClick={() => document.getElementById('refzone-university-packages')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>View Packages</button>
@@ -3010,10 +3010,6 @@ function RefZoneUniversityLanding({ user = null, onCreateAccount = () => {}, onS
         </div>
         <figure className="refzone-university-hero-media">
           <img src={image('refzone/course-overview-thumbnail.png')} alt="RefZone University course overview" loading="eager" decoding="async" />
-          <figcaption>
-            <strong>9 course tracks</strong>
-            <span>Daily college-style lessons, labs, quizzes, tests, and portfolio evidence.</span>
-          </figcaption>
         </figure>
       </div>
 
@@ -3133,7 +3129,7 @@ function RefZoneUniversityLanding({ user = null, onCreateAccount = () => {}, onS
           </fieldset>
           <label className="refzone-terms-row">
             <input type="checkbox" name="membership_terms" value="Agree" required />
-            <span>I understand this is a recurring monthly RefZone University membership and authorize secure checkout for the selected package.</span>
+            <span>I understand this is a recurring monthly RefZone University membership. I authorize secure checkout for the selected package.</span>
           </label>
           <button className="btn" type="submit">Continue to Membership Checkout</button>
           {status && <p className="form-message">{status}</p>}
@@ -14148,7 +14144,7 @@ function App() {
   const content = useMemo(() => {
     if (active === 'home') return <><Home setActive={goTo} onOpenRegister={openRegister} />{managedSections('home')}</>;
     if (active === 'about') return <><PageHero page="about" eyebrow="About RTBO" title="Raising The Standard">Built on service, training, mentorship, and professional development for basketball officials.</PageHero><AboutSummary /><Director /><AboutDifference /><GotUNexRefSection />{managedSections('about')}</>;
-    if (active === 'events') return <><EventsSummary onOpenRegister={openRegister} />{managedSections('events')}</>;
+    if (active === 'events') return <><PageHero page="events" eyebrow="Schools & Events" title="Training Schools & Camps">Register for RTBO training schools, team camps, paid officiating events, and development opportunities built for serious basketball officials.</PageHero><EventsSummary onOpenRegister={openRegister} />{managedSections('events')}</>;
     if (active === 'livestream') return <><PageHero page="livestream" eyebrow="Live Training Broadcasts" title="RTBO Livestream">Watch training school coverage, court mechanics, film breakdowns, guest instruction, and promotional moments from one broadcast hub.</PageHero><Livestream />{managedSections('livestream')}</>;
     if (active === 'refroom') {
       return (
@@ -14173,6 +14169,7 @@ function App() {
       const hasCourseAccess = accessibleCourseIds.length > 0 && requestedCourseAllowed;
       return (
         <>
+          <PageHero page="education" eyebrow="RefZone University" title="College-Style Officiating Education">Structured rules study, lecture notes, visual aids, labs, tests, and portfolio evidence for basketball officials at every level.</PageHero>
           <RefZoneUniversityLanding user={authUser} onCreateAccount={openRefZoneCreateAccount} onSignIn={openRefZoneSignIn} />
           {authUser && refZoneAccess.loading ? (
             <RefZoneMembershipGate courseId={educationCourseId} loading onEnroll={scrollToRefZoneEnrollment} />

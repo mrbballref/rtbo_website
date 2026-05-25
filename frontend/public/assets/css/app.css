@@ -10,6 +10,7 @@
   --green: #16a34a;
   --red: #dc2626;
   --shadow: 0 18px 45px rgba(15, 23, 42, 0.1);
+  --rtbo-site-max-width: 1920px;
   --rtbo-carbon-bg: #050505;
   --rtbo-carbon-fiber:
     linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.58)),
@@ -53,7 +54,7 @@ html {
 
 body {
   width: 100%;
-  max-width: 1920px;
+  max-width: var(--rtbo-site-max-width);
   margin: 0;
   margin-inline: auto;
   font-family: Inter, Arial, Helvetica, sans-serif;
@@ -2419,7 +2420,7 @@ textarea:focus {
 
 .pricing-block .rtbo-section-head.compact {
   width: 100%;
-  max-width: min(100%, 1320px);
+  max-width: min(100%, var(--rtbo-site-max-width));
 }
 
 .pricing-block .rtbo-section-head.compact h2 {
@@ -2850,7 +2851,7 @@ textarea:focus {
 
 .page-hero {
   width: 100%;
-  max-width: 1920px;
+  max-width: var(--rtbo-site-max-width);
   margin-inline: auto;
   box-sizing: border-box;
   min-height: clamp(300px, 34vw, 440px);
@@ -3312,7 +3313,7 @@ textarea:focus {
 .original-footer .footer-inner {
   display: grid;
   gap: clamp(28px, 4vw, 42px);
-  width: min(1320px, 100%);
+  width: min(var(--rtbo-site-max-width), 100%);
   margin: 0 auto;
 }
 
@@ -3535,8 +3536,8 @@ textarea:focus {
 
 .rtbo-public .site-footer.original-footer .footer-inner {
   display: grid !important;
-  width: min(1320px, 100%) !important;
-  max-width: 1320px !important;
+  width: min(var(--rtbo-site-max-width), 100%) !important;
+  max-width: var(--rtbo-site-max-width) !important;
   margin-inline: auto !important;
   gap: clamp(24px, 3vw, 38px);
 }
@@ -3909,7 +3910,7 @@ textarea:focus {
 :root[data-theme="dark"] .page-hero,
 :root[data-theme="light"] .page-hero {
   width: 100%;
-  max-width: 1920px;
+  max-width: var(--rtbo-site-max-width);
   margin-inline: auto;
   background-size: auto, 100% auto, auto !important;
   background-repeat: no-repeat !important;
@@ -4280,7 +4281,7 @@ textarea:focus {
 }
 
 #development > div:first-child h2 {
-  max-width: min(100%, 1320px);
+  max-width: min(100%, var(--rtbo-site-max-width));
   white-space: normal;
   overflow-wrap: normal;
   text-wrap: balance;
@@ -4661,7 +4662,7 @@ textarea:focus {
 }
 
 .rtbo-offer h2 {
-  width: min(100%, 1500px);
+  width: min(100%, var(--rtbo-site-max-width));
   max-width: calc(100vw - clamp(40px, 10vw, 144px));
   white-space: normal;
   overflow-wrap: normal;
@@ -4789,7 +4790,7 @@ textarea:focus {
 .services-features-section > div:first-child,
 .services-technology-section > div:first-child {
   width: 100%;
-  max-width: 1320px;
+  max-width: var(--rtbo-site-max-width);
 }
 
 .services-features-section > div:first-child h2,

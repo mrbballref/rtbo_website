@@ -1462,6 +1462,7 @@ export default function ShopStore() {
   const initialRouteProduct = readShopRouteProduct(initialProducts);
   const initialProduct = initialRouteProduct || initialProducts[0] || products[0];
   const checkoutCloseTimerRef = useRef(null);
+  const checkoutPanelRef = useRef(null);
   const [products, setProducts] = useState(initialProducts);
   const [query, setQuery] = useState('');
   const [searchDraft, setSearchDraft] = useState('');
@@ -1634,6 +1635,23 @@ export default function ShopStore() {
 
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
+  }, [checkoutClosing, checkoutOpen]);
+
+  useEffect(() => {
+    if (!checkoutOpen || checkoutClosing) return undefined;
+
+    function handleOutsidePointer(event) {
+      if (checkoutPanelRef.current && !checkoutPanelRef.current.contains(event.target)) {
+        closeCheckoutSidebar();
+      }
+    }
+
+    document.addEventListener('mousedown', handleOutsidePointer);
+    document.addEventListener('touchstart', handleOutsidePointer);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsidePointer);
+      document.removeEventListener('touchstart', handleOutsidePointer);
+    };
   }, [checkoutClosing, checkoutOpen]);
 
   useEffect(() => () => {
@@ -2028,7 +2046,7 @@ export default function ShopStore() {
   const paymentNotice = 'Affirm and Klarna are opened through Stripe Checkout when those payment methods are enabled and the order is eligible.';
 
   return (
-    <section className={`rtbo-shop-store ${cartLines.length && !checkoutOpen ? 'has-compact-cart' : ''}`} aria-labelledby="rtbo-shop-title">
+    <section className={`rtbo-shop-store ${cartLines.length && (!checkoutOpen || checkoutClosing) ? 'has-compact-cart' : ''}`} aria-labelledby="rtbo-shop-title">
       <section className="page-hero page-hero-shop rtbo-shop-banner">
         <div className="rtbo-shop-banner-copy">
           <p className="eyebrow">RTBO Shop</p>
@@ -2230,15 +2248,16 @@ export default function ShopStore() {
         data-cart-lines={cartLines.length}
         style={cartSizing}
         onMouseDown={event => {
-          if (checkoutOpen && event.target === event.currentTarget) {
+          if (checkoutOpen && !checkoutClosing && event.target === event.currentTarget) {
             closeCheckoutSidebar();
           }
         }}
       >
         <div
           className="rtbo-shop-checkout-panel"
-          role={checkoutOpen ? 'dialog' : 'complementary'}
-          aria-modal={checkoutOpen ? 'true' : undefined}
+          ref={checkoutPanelRef}
+          role={checkoutOpen && !checkoutClosing ? 'dialog' : 'complementary'}
+          aria-modal={checkoutOpen && !checkoutClosing ? 'true' : undefined}
           aria-label="RTBO store checkout"
 	        >
 	          <div className="rtbo-shop-checkout-head">

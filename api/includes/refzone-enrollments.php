@@ -62,6 +62,21 @@ function rtbo_refzone_course_id_for_package(string $packageId, string $courseTra
     return $packageCourses[$packageId] ?? $trackCourses[$courseTrack] ?? 'nfhs';
 }
 
+function rtbo_refzone_all_course_ids(): array
+{
+    return [
+        'nfhs',
+        'njcaa-men',
+        'njcaa-women',
+        'naia-men',
+        'naia-women',
+        'ncaa-men',
+        'ncaa-women',
+        'nba',
+        'wnba',
+    ];
+}
+
 function rtbo_refzone_course_url(array $enrollment): string
 {
     $courseId = trim((string) ($enrollment['course_id'] ?? ''));
@@ -300,6 +315,22 @@ function update_refzone_enrollment_payment(string $enrollmentId, string $status,
 
 function rtbo_refzone_access_for_user(array $user): array
 {
+    if (function_exists('is_super_admin') && is_super_admin($user)) {
+        return [
+            'course_ids' => rtbo_refzone_all_course_ids(),
+            'enrollments' => [[
+                'id' => 'super-admin-refzone-access',
+                'user_id' => (int) ($user['id'] ?? 0) ?: null,
+                'email' => (string) ($user['email'] ?? ''),
+                'package_id' => 'super_admin',
+                'package_name' => 'Super Admin Course Access',
+                'course_id' => 'all',
+                'course_url' => RTBO_BASE_URL . '/#education',
+                'payment_status' => 'super_admin',
+            ]],
+        ];
+    }
+
     $userId = (int) ($user['id'] ?? 0);
     $email = strtolower(trim((string) ($user['email'] ?? '')));
     $records = [];

@@ -3,8 +3,10 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const optionalRequire = createRequire(import.meta.url);
 const manualPath = path.join(repoRoot, 'frontend', 'public', 'course-manual.md');
 const publicRoot = path.join(repoRoot, 'frontend', 'public');
 const coverDir = path.join(publicRoot, 'assets', 'images', 'refzone', 'course-covers');
@@ -21,12 +23,122 @@ const learnerSlidesDir = path.join(docsRoot, 'learner-slides');
 const instructorPresentationDir = path.join(docsRoot, 'presentations');
 const worksheetDir = path.join(docsRoot, 'worksheets');
 const assessmentEvidenceDir = path.join(docsRoot, 'assessment-evidence');
+const manualDir = path.join(publicMaterialsRoot, 'manuals');
+const sourceDocumentDir = path.join(publicMaterialsRoot, 'source-documents');
 const publicCoursePacketDir = path.join(publicMaterialsRoot, 'course-packets');
 const publicLearnerSlidesDir = path.join(publicMaterialsRoot, 'learner-slides');
 const publicInstructorPresentationDir = path.join(publicMaterialsRoot, 'presentations');
 const publicWorksheetDir = path.join(publicMaterialsRoot, 'worksheets');
 const publicAssessmentEvidenceDir = path.join(publicMaterialsRoot, 'assessment-evidence');
 const manifestPath = path.join(publicRoot, 'refzone-course-materials.json');
+
+const sourceDocumentCandidates = [
+  {
+    id: 'ncaa-women-2025-26-rulebook',
+    title: '2025-26 NCAA Women\'s Basketball Rule Book',
+    type: 'Rulebook',
+    courses: ['ncaa-women', 'njcaa-women', 'naia-women'],
+    source: '/Volumes/Extreme/Desktop Files/NCAA Publications/2025-26 Publications/2025-26 NCAA Women\'s Basketball Rule Book.pdf'
+  },
+  {
+    id: 'ncaa-women-2025-26-casebook',
+    title: '2025-26 NCAA Women\'s Basketball Casebook',
+    type: 'Casebook',
+    courses: ['ncaa-women', 'njcaa-women', 'naia-women'],
+    source: '/Volumes/Extreme/Desktop Files/NCAA Publications/2025-26 Publications/2025-26 NCAA Women\'s Casebook.pdf'
+  },
+  {
+    id: 'ncaa-women-2025-26-cca-manual',
+    title: '2025-26 NCAA Women\'s CCA Manual',
+    type: 'Officiating Manual',
+    courses: ['ncaa-women', 'njcaa-women', 'naia-women'],
+    source: '/Volumes/Extreme/Desktop Files/NCAA Publications/2025-26 Publications/2025-26 NCAA Women\'s CCA Manual.pdf'
+  },
+  {
+    id: 'ncaa-women-rules-test',
+    title: '2025-26 NCAA Women\'s Basketball Rules Test',
+    type: 'Rules Test',
+    courses: ['ncaa-women', 'njcaa-women', 'naia-women'],
+    source: '/Volumes/Extreme/Desktop Files/NCAA Publications/2025-26 NCAA Women\'s Basketball Rules Test/2025-26 NCAA Women\'s Basketball Rules Test.pdf'
+  },
+  {
+    id: 'ncaa-women-rules-test-answer-packet',
+    title: '2025-26 NCAA Women\'s Basketball Rules Test Answer Packet',
+    type: 'Instructor Answer Key',
+    courses: ['ncaa-women', 'njcaa-women', 'naia-women'],
+    source: '/Volumes/Extreme/Desktop Files/NCAA Publications/2025-26 NCAA Women\'s Basketball Rules Test/NCAA Test and answres.pdf'
+  },
+  {
+    id: 'ncaa-option-advance-ball',
+    title: '2025-27 Guidelines for the Option to Advance the Ball',
+    type: 'Rules Guide',
+    courses: ['ncaa-women', 'njcaa-women', 'naia-women'],
+    source: '/Volumes/Extreme/Desktop Files/NCAA Publications/2025-26 Publications/Joel Oswald Documents/2025-27  Guidelines for the Option to Advance the Ball .pdf'
+  },
+  {
+    id: 'ncaa-coaches-appeal-handout',
+    title: '2025-27 Coaches Appeal Handout',
+    type: 'Rules Guide',
+    courses: ['ncaa-women', 'njcaa-women', 'naia-women'],
+    source: '/Volumes/Extreme/Desktop Files/NCAA Publications/2025-26 Publications/Joel Oswald Documents/2025-27 COACHES’ APPEAL HANDOUT .pdf'
+  },
+  {
+    id: 'ncaa-table-crew-reference',
+    title: '2025-27 NCAA Women\'s Basketball Game Administration and Table Crew Reference Sheet',
+    type: 'Administration Guide',
+    courses: ['ncaa-women', 'njcaa-women', 'naia-women'],
+    source: '/Volumes/Extreme/Desktop Files/NCAA Publications/2025-26 Publications/Joel Oswald Documents/2025-27 NCAA WOMEN’S BASKETBALL  GAME ADMINISTRATION AND TABLE CREW REFERENCE SHEET .pdf'
+  },
+  {
+    id: 'ncaa-rule-terminology-guide',
+    title: '2025-27 NCAA Women\'s Basketball Guide to Rule Terminology',
+    type: 'Rule Terminology Guide',
+    courses: ['ncaa-women', 'njcaa-women', 'naia-women'],
+    source: '/Volumes/Extreme/Desktop Files/NCAA Publications/2025-26 Publications/Joel Oswald Documents/2025-27 NCAA Women\'s Basketball Guide to Rule Terminology .pdf'
+  },
+  {
+    id: 'major-rules-differences',
+    title: 'MBB / WBB / NFHS Major Rules Differences',
+    type: 'Comparison Document',
+    courses: ['nfhs', 'ncaa-men', 'ncaa-women', 'njcaa-men', 'njcaa-women', 'naia-men', 'naia-women'],
+    source: '/Volumes/Extreme/Desktop Files/NCAA Publications/Referee Huddle Files/MBB_WBB_NFHS_Major_Rules_Differences_2023-24_NFHS Edits.docx'
+  },
+  {
+    id: 'at-the-monitor-presentation',
+    title: 'At the Monitor Presentation',
+    type: 'Presentation',
+    courses: ['ncaa-men', 'ncaa-women', 'njcaa-men', 'njcaa-women', 'naia-men', 'naia-women', 'nba', 'wnba'],
+    source: '/Volumes/Extreme/Desktop Files/NCAA Publications/Referee Huddle Files/At the Monitor Presentation.pdf'
+  },
+  {
+    id: 'poe-presentation',
+    title: 'Points of Emphasis Presentation',
+    type: 'Presentation',
+    courses: ['nfhs', 'ncaa-men', 'ncaa-women', 'njcaa-men', 'njcaa-women', 'naia-men', 'naia-women'],
+    source: '/Volumes/Extreme/Desktop Files/NCAA Publications/Referee Huddle Files/POEs Presentation.pptx'
+  },
+  {
+    id: 'court-coverage-playlist',
+    title: 'Court Coverage Playlist',
+    type: 'Film / Coverage Guide',
+    courses: ['nfhs', 'ncaa-men', 'ncaa-women', 'njcaa-men', 'njcaa-women', 'naia-men', 'naia-women'],
+    source: '/Volumes/Extreme/Desktop Files/NCAA Publications/Referee Huddle Files/Court Coverage Playlist.docx'
+  },
+  {
+    id: 'nba-2025-26-casebook',
+    title: 'Official 2025-26 NBA Case Book',
+    type: 'Casebook',
+    courses: ['nba', 'wnba'],
+    source: '/Volumes/Extreme/Desktop Files/NBA Rule Book and Casebook/Official 2025-26 NBA Case Book_9b4d3640-d51a-11f0-a7d9-bdfec8e38efc.pdf'
+  },
+  {
+    id: 'refzone-combined-officiating-manual',
+    title: 'Raising The Bar Officiating Combined Manual',
+    type: 'Training Manual Source',
+    courses: ['all'],
+    source: '/Volumes/Extreme/Desktop Files/NCAA Publications/2025-26 Publications/Raising_The_Bar_Officiating_Combined_FULL.docx'
+  }
+];
 
 const dayVisuals = [
   {
@@ -182,17 +294,63 @@ function weekAnchor(week) {
   return `week-${week.week}`;
 }
 
+function extensionFor(filePath = '') {
+  const value = path.extname(filePath).replace('.', '').toLowerCase();
+  return value || 'document';
+}
+
+function sourceDocumentFileName(item) {
+  return `${item.id}.${extensionFor(item.source)}`;
+}
+
+async function fileExists(filePath) {
+  try {
+    await fs.access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function sourceDocumentsFor(course) {
+  return sourceDocumentCandidates
+    .filter(item => item.courses.includes('all') || item.courses.includes(course.id))
+    .map(item => {
+      const fileName = sourceDocumentFileName(item);
+      return {
+        id: item.id,
+        title: item.title,
+        type: item.type,
+        format: extensionFor(item.source).toUpperCase(),
+        url: `/refzone-university/source-documents/${fileName}`,
+        sourceFileName: path.basename(item.source),
+        required: true
+      };
+    });
+}
+
+function attachment(title, type, url, description = '', required = true) {
+  return {
+    title,
+    type,
+    url,
+    description,
+    required
+  };
+}
+
 function materialPathsFor(course, week, day) {
   const anchor = dayAnchor(week, day);
   return {
     required: true,
-    standard: 'Mandatory RefZone University course material bundle',
+    standard: 'Mandatory RefZone University lesson document bundle',
     visualAid: `/assets/images/refzone/course-visual-aids/${course.id}-week-${week.week}-day-${day.day}.svg`,
-    learnerSlides: `/refzone-university/learner-slides/${course.id}-learner-slides.md#${anchor}`,
-    instructorPresentation: `/refzone-university/presentations/${course.id}-instructor-presentation.md#${anchor}`,
-    worksheet: `/refzone-university/worksheets/${course.id}-worksheets.md#${anchor}`,
-    assessmentEvidence: `/refzone-university/assessment-evidence/${course.id}-assessment-evidence.md#${anchor}`,
-    coursePacket: `/refzone-university/course-packets/${course.id}-course-packet.md#${anchor}`,
+    learnerSlides: `/refzone-university/learner-slides/${course.id}-learner-slides.html#${anchor}`,
+    instructorPresentation: `/refzone-university/presentations/${course.id}-instructor-presentation.html#${anchor}`,
+    worksheet: `/refzone-university/worksheets/${course.id}-worksheets.html#${anchor}`,
+    assessmentEvidence: `/refzone-university/assessment-evidence/${course.id}-assessment-evidence.html#${anchor}`,
+    coursePacket: `/refzone-university/course-packets/${course.id}-course-packet.html#${anchor}`,
+    trainingManual: '/refzone-university/manuals/refzone-university-training-manual.pdf',
     presentationOutline: `/docs/refzone-university/presentation-outlines/${course.id}-presentation.md#week-${week.week}`
   };
 }
@@ -200,13 +358,15 @@ function materialPathsFor(course, week, day) {
 function courseMaterialBundleFor(course) {
   return {
     required: true,
-    standard: 'Every active course must include visual aids, learner slides, instructor presentation notes, worksheets, assessment evidence, rubrics, and a course packet before it is publishable.',
-    coursePacket: `/refzone-university/course-packets/${course.id}-course-packet.md`,
-    learnerSlides: `/refzone-university/learner-slides/${course.id}-learner-slides.md`,
-    instructorPresentation: `/refzone-university/presentations/${course.id}-instructor-presentation.md`,
-    worksheets: `/refzone-university/worksheets/${course.id}-worksheets.md`,
-    assessmentEvidence: `/refzone-university/assessment-evidence/${course.id}-assessment-evidence.md`,
-    presentationOutline: `/docs/refzone-university/presentation-outlines/${course.id}-presentation.md`
+    standard: 'Every active course must include content-specific visual aids, learner slides, instructor presentation notes, worksheets, assessment evidence, rubrics, source documents, and a course packet before it is publishable.',
+    coursePacket: `/refzone-university/course-packets/${course.id}-course-packet.html`,
+    learnerSlides: `/refzone-university/learner-slides/${course.id}-learner-slides.html`,
+    instructorPresentation: `/refzone-university/presentations/${course.id}-instructor-presentation.html`,
+    worksheets: `/refzone-university/worksheets/${course.id}-worksheets.html`,
+    assessmentEvidence: `/refzone-university/assessment-evidence/${course.id}-assessment-evidence.html`,
+    trainingManual: '/refzone-university/manuals/refzone-university-training-manual.pdf',
+    presentationOutline: `/docs/refzone-university/presentation-outlines/${course.id}-presentation.md`,
+    sourceDocuments: sourceDocumentsFor(course)
   };
 }
 
@@ -215,11 +375,11 @@ function weekMaterialPathsFor(course, week) {
   return {
     required: true,
     standard: 'Mandatory weekly RefZone University material bundle',
-    learnerSlides: `/refzone-university/learner-slides/${course.id}-learner-slides.md#${anchor}`,
-    instructorPresentation: `/refzone-university/presentations/${course.id}-instructor-presentation.md#${anchor}`,
-    worksheets: `/refzone-university/worksheets/${course.id}-worksheets.md#${anchor}`,
-    assessmentEvidence: `/refzone-university/assessment-evidence/${course.id}-assessment-evidence.md#${anchor}`,
-    coursePacket: `/refzone-university/course-packets/${course.id}-course-packet.md#${anchor}`,
+    learnerSlides: `/refzone-university/learner-slides/${course.id}-learner-slides.html#${anchor}`,
+    instructorPresentation: `/refzone-university/presentations/${course.id}-instructor-presentation.html#${anchor}`,
+    worksheets: `/refzone-university/worksheets/${course.id}-worksheets.html#${anchor}`,
+    assessmentEvidence: `/refzone-university/assessment-evidence/${course.id}-assessment-evidence.html#${anchor}`,
+    coursePacket: `/refzone-university/course-packets/${course.id}-course-packet.html#${anchor}`,
     presentationOutline: `/docs/refzone-university/presentation-outlines/${course.id}-presentation.md#week-${week.week}`
   };
 }
@@ -959,11 +1119,15 @@ function withGeneratedCourses(courses) {
 function enrichCourses(courses) {
   return courses.map(course => ({
     ...course,
+    documentVault: courseMaterialBundleFor(course),
+    sourceDocuments: sourceDocumentsFor(course),
     weeks: course.weeks.map(week => ({
       ...week,
+      materialPaths: weekMaterialPathsFor(course, week),
       days: week.days.map(day => {
         const visual = visualForDay(day.title);
         const screenshot = `/assets/images/refzone/course-screenshots/${course.id}-${visual.key}.svg`;
+        const materialPaths = materialPathsFor(course, week, day);
         const college = collegeMaterialFor(course, week, day);
         const test = dayTestFor(course, week, day, college, visual);
         const enrichedDay = {
@@ -975,13 +1139,23 @@ function enrichCourses(courses) {
           ...day,
           visualType: visual.key,
           visualTitle: visual.title,
-          visual: `/assets/images/refzone/lesson-visuals/${visual.key}.svg`,
+          visual: materialPaths.visualAid,
+          fallbackVisual: `/assets/images/refzone/lesson-visuals/${visual.key}.svg`,
           screenshot,
+          materialPaths,
+          attachments: [
+            attachment('Content-Specific Visual Aid', 'Visual Aid', materialPaths.visualAid, `${course.title} Week ${week.week}, Day ${day.day} visual aid for ${day.title}.`),
+            attachment('Learner Slides', 'Learner Slide Deck', materialPaths.learnerSlides, 'Student-facing slide sequence for the lesson.'),
+            attachment('Instructor Presentation', 'Presentation', materialPaths.instructorPresentation, 'Faculty-facing presentation notes and teaching flow.'),
+            attachment('Student Worksheet', 'Worksheet', materialPaths.worksheet, 'Daily student worksheet and evidence form.'),
+            attachment('Assessment Evidence Packet', 'Assessment Evidence', materialPaths.assessmentEvidence, 'Rubric, assessment evidence, and remediation record.'),
+            attachment('Course Packet', 'Course Packet', materialPaths.coursePacket, 'Complete course packet section for this lesson.')
+          ],
           college,
           test,
           sections: day.sections.map(section => ({
             ...section,
-            visual: `/assets/images/refzone/lesson-visuals/${visual.key}.svg`,
+            visual: materialPaths.visualAid,
             screenshot,
             summary: sectionCollegeSummary(section, course, week, enrichedDay, visual),
             collegeRole: section.materialType === 'instruction-slide'
@@ -1095,14 +1269,76 @@ function courseScreenshotSvg(course, item, index) {
 `;
 }
 
+function dailyVisualAidSvg(course, week, day, visual) {
+  const topic = officiatingAssessmentTopicFor(course, week, day);
+  const reading = day.college?.readings?.[0] || `Read the governing material for ${topic}.`;
+  const lab = day.college?.lab || `Complete the lab evidence for ${topic}.`;
+  const assessment = day.college?.assessment?.type || 'Module Assessment';
+  const accent = {
+    lecture: '#f58220',
+    rules: '#38bdf8',
+    'court-lab': '#22c55e',
+    'film-lab': '#fbbf24',
+    'role-play': '#a855f7',
+    'live-practicum': '#ef4444',
+    reflection: '#14b8a6'
+  }[visual.key] || '#f58220';
+  const diagram = visual.key === 'rules'
+    ? `<path d="M744 192h286v70H744zM788 350h286v70H788zM704 508h286v70H704z" fill="#111827" stroke="${accent}" stroke-width="4"/><path d="M887 262v58M930 420v58M887 320l43 30-43 30M930 478l-43 30 43 30" fill="none" stroke="#fff" stroke-width="5"/><text x="780" y="238" fill="#fff" font-family="Arial" font-size="24" font-weight="900">RULE SOURCE</text><text x="824" y="396" fill="#fff" font-family="Arial" font-size="24" font-weight="900">CASE PLAY</text><text x="742" y="554" fill="#fff" font-family="Arial" font-size="24" font-weight="900">RULING DEFENSE</text>`
+    : visual.key === 'film-lab'
+      ? `<rect x="696" y="178" width="420" height="238" rx="16" fill="#020617" stroke="${accent}" stroke-width="5"/><path d="M730 230h350M730 288h260M730 346h320" stroke="#fff" stroke-width="10" stroke-linecap="round" opacity=".55"/><circle cx="1032" cy="324" r="46" fill="none" stroke="${accent}" stroke-width="8"/><rect x="728" y="462" width="356" height="74" rx="12" fill="${accent}"/><text x="760" y="508" fill="#07111f" font-family="Arial" font-size="27" font-weight="900">FREEZE + TAG + CORRECT</text>`
+      : `<path d="M692 154h438v416H692zM692 362h438M910 154v416M778 246h264v232H778z" fill="none" stroke="${accent}" stroke-width="8"/><circle cx="910" cy="362" r="72" fill="none" stroke="#fff" stroke-width="5" opacity=".75"/><path d="M752 502c78-78 210-82 312-20" fill="none" stroke="#22c55e" stroke-width="11" stroke-linecap="round"/><circle cx="784" cy="502" r="16" fill="${accent}"/><circle cx="1018" cy="482" r="16" fill="${accent}"/><text x="742" y="626" fill="#fff" font-family="Arial" font-size="24" font-weight="900">POSITION -> ANGLE -> SIGNAL -> REPORT</text>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">${escapeHtml(course.title)} Week ${week.week} Day ${day.day} visual aid</title>
+  <desc id="desc">Content-specific RefZone University visual aid for ${escapeHtml(day.title)}.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#06080b"/>
+      <stop offset=".55" stop-color="#121212"/>
+      <stop offset="1" stop-color="#1b0f08"/>
+    </linearGradient>
+  </defs>
+  <rect width="1440" height="900" fill="url(#bg)"/>
+  <rect x="38" y="36" width="1364" height="828" rx="30" fill="#0f1115" stroke="${accent}" stroke-width="4"/>
+  <text x="76" y="95" fill="${accent}" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="900" letter-spacing="2">REFZONE UNIVERSITY VISUAL AID</text>
+  <text x="76" y="155" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="900">${svgTspans(`${course.title} / Week ${week.week} / Day ${day.day}`, 76, 155, 52, 46, 1)}</text>
+  <text x="76" y="230" fill="#dbeafe" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="900">${svgTspans(day.title, 76, 230, 60, 40, 2)}</text>
+  <rect x="76" y="320" width="560" height="104" rx="18" fill="#151a21" stroke="#374151"/>
+  <text x="104" y="360" fill="${accent}" font-family="Arial" font-size="19" font-weight="900">REQUIRED READING ACTION</text>
+  <text x="104" y="394" fill="#ffffff" font-family="Arial" font-size="23" font-weight="700">${svgTspans(reading, 104, 394, 53, 28, 2)}</text>
+  <rect x="76" y="450" width="560" height="124" rx="18" fill="#151a21" stroke="#374151"/>
+  <text x="104" y="490" fill="${accent}" font-family="Arial" font-size="19" font-weight="900">COURT / FILM / ROLE-PLAY TASK</text>
+  <text x="104" y="524" fill="#ffffff" font-family="Arial" font-size="23" font-weight="700">${svgTspans(lab, 104, 524, 55, 28, 3)}</text>
+  <rect x="76" y="600" width="560" height="122" rx="18" fill="#151a21" stroke="#374151"/>
+  <text x="104" y="640" fill="${accent}" font-family="Arial" font-size="19" font-weight="900">ASSESSMENT EVIDENCE</text>
+  <text x="104" y="674" fill="#ffffff" font-family="Arial" font-size="24" font-weight="900">${escapeHtml(assessment)} / ${escapeHtml(day.college?.assessment?.passingStandard || '85% passing standard')}</text>
+  <text x="104" y="714" fill="#d1d5db" font-family="Arial" font-size="21" font-weight="700">${svgTspans(day.college?.assignment || 'Submit the required evidence packet.', 104, 714, 58, 25, 2)}</text>
+  <text x="700" y="106" fill="${accent}" font-family="Arial" font-size="24" font-weight="900">${escapeHtml(visual.title).toUpperCase()}</text>
+  <text x="700" y="146" fill="#ffffff" font-family="Arial" font-size="25" font-weight="700">${svgTspans(topic, 700, 146, 50, 30, 3)}</text>
+  ${diagram}
+  <rect x="700" y="690" width="622" height="78" rx="16" fill="#ffffff" opacity=".08" stroke="#ffffff" stroke-opacity=".12"/>
+  <text x="730" y="738" fill="#ffffff" font-family="Arial" font-size="24" font-weight="900">Student must explain, perform, defend, and improve with evidence.</text>
+</svg>
+`;
+}
+
 async function writePublicAssets(courses) {
   await fs.mkdir(coverDir, { recursive: true });
   await fs.mkdir(overviewDir, { recursive: true });
   await fs.mkdir(visualDir, { recursive: true });
   await fs.mkdir(screenshotDir, { recursive: true });
+  await fs.mkdir(dailyVisualAidDir, { recursive: true });
   await Promise.all(dayVisuals.map(item => fs.writeFile(path.join(visualDir, `${item.key}.svg`), lessonVisualSvg(item), 'utf8')));
   await Promise.all(courses.map((course, index) => fs.writeFile(path.join(coverDir, `${course.id}.svg`), courseCoverSvg(course, index), 'utf8')));
   await Promise.all(courses.flatMap((course, index) => dayVisuals.map(item => fs.writeFile(path.join(screenshotDir, `${course.id}-${item.key}.svg`), courseScreenshotSvg(course, item, index), 'utf8'))));
+  await Promise.all(courses.flatMap(course => course.weeks.flatMap(week => week.days.map(day => {
+    const visual = visualForDay(day.title);
+    return fs.writeFile(
+      path.join(dailyVisualAidDir, `${course.id}-week-${week.week}-day-${day.day}.svg`),
+      dailyVisualAidSvg(course, week, day, visual),
+      'utf8'
+    );
+  }))));
 }
 
 function overviewThumbnailFor(course) {
@@ -1150,6 +1386,8 @@ function courseManifest(course) {
     graduation: course.graduation,
     cover: `/assets/images/refzone/course-covers/${course.id}.svg`,
     overviewThumbnail: overviewThumbnailFor(course),
+    documentVault: course.documentVault || courseMaterialBundleFor(course),
+    sourceDocuments: course.sourceDocuments || sourceDocumentsFor(course),
     weeks: course.weeks.map(week => ({
       id: week.id,
       month: week.month,
@@ -1159,6 +1397,7 @@ function courseManifest(course) {
       evidence: week.evidence,
       presentation: `/docs/refzone-university/presentation-outlines/${course.id}-presentation.md#week-${week.week}`,
       screenshot: `${course.title} Week ${week.week} learner screen and section visual set.`,
+      materialPaths: week.materialPaths || weekMaterialPathsFor(course, week),
       days: week.days.map(day => ({
         id: day.id,
         week: day.week,
@@ -1167,8 +1406,11 @@ function courseManifest(course) {
         visualType: day.visualType,
         visualTitle: day.visualTitle,
         visual: day.visual,
+        fallbackVisual: day.fallbackVisual,
         screenshot: day.screenshot,
         presentation: day.presentation,
+        materialPaths: day.materialPaths || materialPathsFor(course, week, day),
+        attachments: day.attachments || [],
         college: day.college,
         test: testManifestFor(course, week, day),
         sections: day.sections.map(section => ({
@@ -1386,14 +1628,323 @@ function writeTestAnswerKeyMarkdown(course) {
   return `${lines.join('\n')}\n`;
 }
 
+function listHtml(items = []) {
+  const rows = (items || []).filter(Boolean);
+  return rows.length ? `<ul>${rows.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '<p>No items recorded.</p>';
+}
+
+function documentLinksHtml(items = []) {
+  const rows = (items || []).filter(item => item?.url);
+  if (!rows.length) return '<p>No attached documents are available for this course yet.</p>';
+  return `<div class="document-grid">${rows.map(item => `
+    <a class="doc-card" href="${escapeHtml(item.url)}" target="_blank" rel="noopener">
+      <span>${escapeHtml(item.type || 'Document')}</span>
+      <strong>${escapeHtml(item.title || item.url)}</strong>
+      ${item.description ? `<small>${escapeHtml(item.description)}</small>` : ''}
+    </a>
+  `).join('')}</div>`;
+}
+
+function courseSummaryCardsHtml(course) {
+  const weeks = course.weeks || [];
+  const days = weeks.flatMap(week => week.days || []);
+  return `<section class="summary-cards">
+    <article><span>Course Level</span><strong>${escapeHtml(course.level || 'Academic Track')}</strong></article>
+    <article><span>Credit / Contact Hours</span><strong>3 credit-hour equivalent / 90 minutes per class meeting</strong></article>
+    <article><span>Instructor / Faculty</span><strong>RTBO Faculty, mentor evaluator, and advancement board</strong></article>
+    <article><span>Office Hours</span><strong>Weekly virtual office hours, mentor conference, and remediation appointment by request</strong></article>
+    <article><span>Prerequisites</span><strong>Active or prospective basketball official, rules-study commitment, court shoes, whistle, uniform readiness, and video-review access</strong></article>
+    <article><span>Course Length</span><strong>${weeks.length} weeks / ${days.length} academic class days</strong></article>
+  </section>`;
+}
+
+function htmlShell(title, body, mode = 'course') {
+  return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${escapeHtml(title)}</title>
+  <style>
+    :root { color-scheme: dark; --bg:#080808; --panel:#111; --ink:#f8fafc; --muted:#cbd5e1; --orange:#ff7a1a; --line:rgba(255,122,26,.42); }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: Arial, Helvetica, sans-serif; color:var(--ink); background:var(--bg); line-height:1.45; }
+    main { max-width:${mode === 'slides' ? '1320px' : '1120px'}; margin:0 auto; padding:32px 18px 64px; }
+    header { border:1px solid var(--line); border-radius:8px; padding:24px; background:linear-gradient(135deg,#121212,#070707); margin-bottom:22px; }
+    .eyebrow, h2 span, article span { color:var(--orange); text-transform:uppercase; font-size:.74rem; font-weight:900; letter-spacing:.04em; }
+    h1, h2, h3, p { margin-top:0; }
+    h1 { font-size:clamp(2rem,4vw,4rem); line-height:1; margin-bottom:12px; }
+    h2 { color:var(--orange); border-bottom:1px solid var(--line); padding-bottom:8px; margin-top:34px; }
+    h3 { color:#fff; margin-bottom:8px; }
+    p, li, small { color:var(--muted); }
+    .summary-cards, .document-grid, .lesson-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin:18px 0; }
+    .summary-cards article, .doc-card, .lesson-card, .slide, .worksheet, .evidence-card { border:1px solid var(--line); border-radius:8px; padding:14px; background:var(--panel); min-width:0; }
+    .summary-cards strong, .doc-card strong { display:block; color:#fff; margin-top:6px; }
+    .doc-card { color:inherit; text-decoration:none; }
+    .doc-card:hover { border-color:var(--orange); }
+    .slide { min-height:440px; display:grid; align-content:start; gap:10px; page-break-after:always; }
+    .slide h2 { border:0; margin:0; padding:0; font-size:2rem; }
+    .slide img { width:100%; max-height:250px; object-fit:contain; border-radius:8px; background:#050505; border:1px solid var(--line); }
+    .slide-number { justify-self:end; color:var(--orange); font-weight:900; }
+    .worksheet textarea, .response-lines { display:block; width:100%; min-height:86px; border:1px solid var(--line); border-radius:8px; background:#050505; margin-top:8px; }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .cover-page { min-height:10in; display:grid; align-content:center; text-align:center; background:radial-gradient(circle at center,#301203,#050505 58%); border:6px solid var(--orange); padding:48px; page-break-after:always; }
+    .cover-page img { max-width:360px; width:68%; margin:0 auto 24px; border-radius:10px; }
+    .cover-page h1 { font-size:4rem; text-transform:uppercase; }
+    .toc ol { columns:2; }
+    @media (max-width:860px) { .summary-cards, .document-grid, .lesson-grid, .two-col { grid-template-columns:1fr; } main { padding-inline:12px; } }
+    @media print {
+      body { background:#fff; color:#111; }
+      header, .summary-cards article, .doc-card, .lesson-card, .slide, .worksheet, .evidence-card { background:#fff; color:#111; border-color:#d97706; }
+      p, li, small { color:#222; }
+      a { color:#111; }
+      .slide { min-height:8.5in; }
+    }
+  </style>
+</head>
+<body>
+  <main>${body}</main>
+</body>
+</html>
+`;
+}
+
+function courseDocumentsFor(course) {
+  const bundle = course.documentVault || courseMaterialBundleFor(course);
+  return [
+    attachment('Course Packet', 'Course Packet', bundle.coursePacket, 'Complete reading, lecture, lab, assignment, and assessment packet.'),
+    attachment('Learner Slides', 'Learner Slide Deck', bundle.learnerSlides, 'Student-facing slide sequence.'),
+    attachment('Instructor Presentation', 'Presentation', bundle.instructorPresentation, 'Faculty-facing slide sequence and teaching notes.'),
+    attachment('Worksheets', 'Worksheet', bundle.worksheets, 'Student response worksheets and evidence forms.'),
+    attachment('Assessment Evidence', 'Assessment Evidence', bundle.assessmentEvidence, 'Rubrics, evidence standards, and remediation records.'),
+    attachment('Training Manual PDF', 'PDF Manual', bundle.trainingManual, 'Book-style RefZone University training manual.')
+  ];
+}
+
+function writeCoursePacketHtml(course) {
+  const body = `
+    <header>
+      <p class="eyebrow">RefZone University Course Packet</p>
+      <h1>${escapeHtml(course.title)}</h1>
+      <p>${escapeHtml(courseOverviewFor(course))}</p>
+    </header>
+    ${courseSummaryCardsHtml(course)}
+    <h2>Attached Course Documents</h2>
+    ${documentLinksHtml([...courseDocumentsFor(course), ...sourceDocumentsFor(course)])}
+    <h2>Required Materials</h2>
+    ${listHtml([
+      'Current governing rulebook for this course track.',
+      'Current casebook, interpretations, points of emphasis, and official bulletins.',
+      'Current officials manual, mechanics manual, state association, conference, or league directives.',
+      'RefZone University visual aids, learner slides, instructor presentation, worksheets, tests, and portfolio evidence.'
+    ])}
+    ${course.weeks.map(week => `
+      <section id="${weekAnchor(week)}">
+        <h2><span>Week ${week.week}</span> ${escapeHtml(week.title)}</h2>
+        <p>${escapeHtml(week.lecture || week.evidence || 'Course week lecture and evidence sequence.')}</p>
+        <div class="lesson-grid">
+          ${week.days.map(day => `
+            <article class="lesson-card" id="${dayAnchor(week, day)}">
+              <span>Day ${day.day} / ${escapeHtml(day.visualTitle || 'Lesson')}</span>
+              <h3>${escapeHtml(day.title)}</h3>
+              <p><strong>Reading:</strong> ${escapeHtml(day.college?.readings?.[0] || '')}</p>
+              <p><strong>Lecture:</strong> ${escapeHtml(day.college?.lectureNotes?.[0] || '')}</p>
+              <p><strong>Lab:</strong> ${escapeHtml(day.college?.lab || '')}</p>
+              <p><strong>Assessment:</strong> ${escapeHtml(day.college?.assessment?.type || 'Assessment')} / ${escapeHtml(day.college?.assessment?.passingStandard || '85%')}</p>
+              ${documentLinksHtml(day.attachments || [])}
+            </article>
+          `).join('')}
+        </div>
+      </section>
+    `).join('')}
+  `;
+  return htmlShell(`${course.title} Course Packet`, body);
+}
+
+function writeLearnerSlidesHtml(course) {
+  let number = 1;
+  const slides = [
+    `<section class="slide"><span class="slide-number">Slide ${number++}</span><p class="eyebrow">Learner Slides</p><h1>${escapeHtml(course.title)}</h1><p>${escapeHtml(courseOverviewFor(course))}</p><img src="${escapeHtml(overviewThumbnailFor(course))}" alt=""></section>`
+  ];
+  course.weeks.forEach(week => {
+    slides.push(`<section class="slide" id="${weekAnchor(week)}"><span class="slide-number">Slide ${number++}</span><p class="eyebrow">Week ${week.week}</p><h2>${escapeHtml(week.title)}</h2><p>${escapeHtml(week.lecture || week.evidence || '')}</p><ul><li>Read the assigned rulebook, casebook, mechanics manual, and course packet.</li><li>Complete each daily evidence item before taking the test.</li><li>Score at least 85% before advancing.</li></ul></section>`);
+    week.days.forEach(day => {
+      slides.push(`<section class="slide" id="${dayAnchor(week, day)}"><span class="slide-number">Slide ${number++}</span><p class="eyebrow">Week ${week.week} / Day ${day.day}</p><h2>${escapeHtml(day.title)}</h2><img src="${escapeHtml(day.visual)}" alt=""><div class="two-col"><div><h3>Required Reading</h3>${listHtml(day.college?.readings?.slice(0, 3) || [])}</div><div><h3>Evidence</h3>${listHtml([day.college?.lab, day.college?.assignment, day.college?.assessment?.prompt].filter(Boolean))}</div></div></section>`);
+    });
+  });
+  return htmlShell(`${course.title} Learner Slides`, slides.join('\n'), 'slides');
+}
+
+function writeInstructorPresentationHtml(course) {
+  let number = 1;
+  const slides = [
+    `<section class="slide"><span class="slide-number">Slide ${number++}</span><p class="eyebrow">Instructor Presentation</p><h1>${escapeHtml(course.title)}</h1><p>${escapeHtml(courseOverviewFor(course))}</p><img src="${escapeHtml(overviewThumbnailFor(course))}" alt=""></section>`
+  ];
+  course.weeks.forEach(week => {
+    slides.push(`<section class="slide" id="${weekAnchor(week)}"><span class="slide-number">Slide ${number++}</span><p class="eyebrow">Faculty Week Plan</p><h2>Week ${week.week}: ${escapeHtml(week.title)}</h2><p>${escapeHtml(week.evidence || 'Weekly evidence standard.')}</p><h3>Teaching Moves</h3><ul><li>Open with the weekly rule and philosophy thesis.</li><li>Model one correct ruling, one common shortcut, and one supervisor-ready correction.</li><li>Close with evidence review and remediation instructions.</li></ul></section>`);
+    week.days.forEach(day => {
+      slides.push(`<section class="slide" id="${dayAnchor(week, day)}"><span class="slide-number">Slide ${number++}</span><p class="eyebrow">Professor Lecture Notes</p><h2>${escapeHtml(day.title)}</h2><img src="${escapeHtml(day.visual)}" alt=""><div class="two-col"><div><h3>Lecture Notes</h3>${listHtml(day.college?.lectureNotes || [])}</div><div><h3>Discussion</h3>${listHtml(day.college?.discussion || [])}</div></div><h3>Assessment Gate</h3><p>${escapeHtml(day.college?.assessment?.prompt || '')}</p></section>`);
+    });
+  });
+  return htmlShell(`${course.title} Instructor Presentation`, slides.join('\n'), 'slides');
+}
+
+function writeWorksheetsHtml(course) {
+  const body = `
+    <header><p class="eyebrow">Student Worksheets</p><h1>${escapeHtml(course.title)}</h1><p>Print or complete these worksheets as the daily evidence packet for each lesson.</p></header>
+    ${course.weeks.map(week => `
+      <section id="${weekAnchor(week)}">
+        <h2>Week ${week.week}: ${escapeHtml(week.title)}</h2>
+        ${week.days.map(day => `
+          <article class="worksheet" id="${dayAnchor(week, day)}">
+            <span>Day ${day.day}</span>
+            <h3>${escapeHtml(day.title)}</h3>
+            <p><strong>Reading proof:</strong> Cite the rulebook/casebook/mechanics source and summarize the controlling language.</p><div class="response-lines"></div>
+            <p><strong>Visual annotation:</strong> Explain the key coverage, angle, ruling, or communication point shown in the visual aid.</p><img src="${escapeHtml(day.visual)}" alt="" style="width:100%;max-height:360px;object-fit:contain;background:#050505;border:1px solid var(--line);border-radius:8px;"><div class="response-lines"></div>
+            <p><strong>Daily evidence:</strong> ${escapeHtml(day.college?.assignment || '')}</p><div class="response-lines"></div>
+            <p><strong>Mentor correction target:</strong></p><div class="response-lines"></div>
+          </article>
+        `).join('')}
+      </section>
+    `).join('')}
+  `;
+  return htmlShell(`${course.title} Worksheets`, body);
+}
+
+function writeAssessmentEvidenceHtml(course) {
+  const body = `
+    <header><p class="eyebrow">Assessment Evidence</p><h1>${escapeHtml(course.title)}</h1><p>Every lesson requires evidence and an 85% passing score before advancement.</p></header>
+    ${courseSummaryCardsHtml(course)}
+    ${course.weeks.map(week => `
+      <section id="${weekAnchor(week)}">
+        <h2>Week ${week.week}: ${escapeHtml(week.title)}</h2>
+        <div class="lesson-grid">
+          ${week.days.map(day => `
+            <article class="evidence-card" id="${dayAnchor(week, day)}">
+              <span>Day ${day.day} / ${escapeHtml(day.college?.assessment?.type || 'Assessment')}</span>
+              <h3>${escapeHtml(day.title)}</h3>
+              <p>${escapeHtml(day.college?.assessment?.prompt || '')}</p>
+              <p><strong>Passing Standard:</strong> ${escapeHtml(day.college?.assessment?.passingStandard || '85%')}</p>
+              <h3>Rubric</h3>
+              ${listHtml(day.college?.rubric || [])}
+            </article>
+          `).join('')}
+        </div>
+      </section>
+    `).join('')}
+  `;
+  return htmlShell(`${course.title} Assessment Evidence`, body);
+}
+
+function trainingManualHtml(courses) {
+  const body = `
+    <section class="cover-page">
+      <img src="/assets/images/refzone/course-overview-thumbnail.png" alt="RefZone University">
+      <p class="eyebrow">Raising The Bar Officiating</p>
+      <h1>RefZone University</h1>
+      <h2>Basketball Officiating Training Manual</h2>
+      <p>Rules. Mechanics. Leadership. Excellence.</p>
+    </section>
+    <header><p class="eyebrow">Training Manual</p><h1>Complete Course Manual</h1><p>This book-style PDF is generated from the current RefZone University course manifest. Regenerate the course materials after adding, editing, or deleting course content so the PDF stays current.</p></header>
+    <section class="toc"><h2>Table of Contents</h2><ol>${courses.map(course => `<li>${escapeHtml(course.title)} - ${course.weeks.length} weeks</li>`).join('')}</ol></section>
+    <h2>Preface</h2><p>RefZone University is a college-style basketball officiating curriculum built around required reading, lecture, case-play reasoning, mechanics labs, film study, role-play, live practicum, mentor review, and advancement evidence.</p>
+    ${courses.map(course => `
+      <section>
+        <h2>${escapeHtml(course.title)}</h2>
+        <p>${escapeHtml(courseOverviewFor(course))}</p>
+        ${courseSummaryCardsHtml(course)}
+        <h3>Attached Source and Course Documents</h3>
+        ${documentLinksHtml([...courseDocumentsFor(course), ...sourceDocumentsFor(course)])}
+        <h3>Weekly Course Map</h3>
+        <div class="lesson-grid">
+          ${course.weeks.map(week => `<article class="lesson-card"><span>Week ${week.week}</span><strong>${escapeHtml(week.title)}</strong><p>${escapeHtml(week.evidence || week.lecture || '')}</p></article>`).join('')}
+        </div>
+      </section>
+    `).join('')}
+    <h2>Glossary</h2>
+    ${listHtml(['Advancement evidence: A reviewable artifact proving reading, ruling, mechanics, communication, and correction work.', 'Case-play reasoning: Written explanation connecting facts, rule language, penalty, restart, and crew responsibility.', 'Mechanics lab: On-court performance work for positioning, movement, primary coverage, signal, and reporting.', 'Mentor review: Faculty or evaluator feedback used to confirm readiness or assign remediation.', 'Visual aid: A course-specific diagram, slide, or screenshot that teaches the lesson evidence target.'])}
+    <h2>Index</h2>
+    <p>Use the course document vault in each course page for lesson-level visual aids, learner slides, instructor presentations, worksheets, assessment evidence, source documents, and course packets.</p>
+  `;
+  return htmlShell('RefZone University Basketball Officiating Training Manual', body, 'manual');
+}
+
+async function copySourceDocuments() {
+  await fs.mkdir(sourceDocumentDir, { recursive: true });
+  const copied = [];
+  for (const item of sourceDocumentCandidates) {
+    if (!(await fileExists(item.source))) continue;
+    const fileName = sourceDocumentFileName(item);
+    await fs.copyFile(item.source, path.join(sourceDocumentDir, fileName));
+    copied.push(fileName);
+  }
+  return copied;
+}
+
+async function renderTrainingManualPdf(htmlPath, pdfPath) {
+  let playwright;
+  try {
+    playwright = optionalRequire('playwright');
+  } catch {
+    return false;
+  }
+  const browser = await playwright.chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage();
+    await page.goto(`file://${htmlPath}`, { waitUntil: 'networkidle' });
+    await page.pdf({
+      path: pdfPath,
+      format: 'Letter',
+      printBackground: true,
+      margin: { top: '0.55in', right: '0.55in', bottom: '0.62in', left: '0.55in' },
+      displayHeaderFooter: true,
+      footerTemplate: '<div style="font-size:8px;color:#777;width:100%;padding:0 40px;display:flex;justify-content:space-between;"><span>RefZone University Training Manual</span><span class="pageNumber"></span></div>',
+      headerTemplate: '<div></div>'
+    });
+    return true;
+  } finally {
+    await browser.close();
+  }
+}
+
+async function writePublicMaterialDocuments(courses) {
+  await fs.mkdir(publicMaterialsRoot, { recursive: true });
+  await fs.mkdir(publicCoursePacketDir, { recursive: true });
+  await fs.mkdir(publicLearnerSlidesDir, { recursive: true });
+  await fs.mkdir(publicInstructorPresentationDir, { recursive: true });
+  await fs.mkdir(publicWorksheetDir, { recursive: true });
+  await fs.mkdir(publicAssessmentEvidenceDir, { recursive: true });
+  await fs.mkdir(manualDir, { recursive: true });
+  await copySourceDocuments();
+  await Promise.all(courses.flatMap(course => [
+    fs.writeFile(path.join(publicCoursePacketDir, `${course.id}-course-packet.html`), writeCoursePacketHtml(course), 'utf8'),
+    fs.writeFile(path.join(publicLearnerSlidesDir, `${course.id}-learner-slides.html`), writeLearnerSlidesHtml(course), 'utf8'),
+    fs.writeFile(path.join(publicInstructorPresentationDir, `${course.id}-instructor-presentation.html`), writeInstructorPresentationHtml(course), 'utf8'),
+    fs.writeFile(path.join(publicWorksheetDir, `${course.id}-worksheets.html`), writeWorksheetsHtml(course), 'utf8'),
+    fs.writeFile(path.join(publicAssessmentEvidenceDir, `${course.id}-assessment-evidence.html`), writeAssessmentEvidenceHtml(course), 'utf8')
+  ]));
+  const manualHtmlPath = path.join(manualDir, 'refzone-university-training-manual.html');
+  const manualPdfPath = path.join(manualDir, 'refzone-university-training-manual.pdf');
+  await fs.writeFile(manualHtmlPath, trainingManualHtml(courses), 'utf8');
+  await renderTrainingManualPdf(manualHtmlPath, manualPdfPath);
+}
+
 async function writeDocs(courses, counts) {
   await fs.mkdir(visualDocsDir, { recursive: true });
   await fs.mkdir(presentationDir, { recursive: true });
+  await fs.mkdir(coursePacketDir, { recursive: true });
+  await fs.mkdir(learnerSlidesDir, { recursive: true });
+  await fs.mkdir(instructorPresentationDir, { recursive: true });
+  await fs.mkdir(worksheetDir, { recursive: true });
   await fs.mkdir(assessmentEvidenceDir, { recursive: true });
   await fs.writeFile(path.join(docsRoot, 'course-overviews.md'), writeCourseOverviewsMarkdown(courses), 'utf8');
   await fs.writeFile(path.join(visualDocsDir, 'refzone-materials-index.md'), writeIndexMarkdown(courses, counts), 'utf8');
   await Promise.all(courses.map(course => fs.writeFile(path.join(visualDocsDir, `${course.id}.md`), writeCourseMarkdown(course), 'utf8')));
   await Promise.all(courses.map(course => fs.writeFile(path.join(presentationDir, `${course.id}-presentation.md`), writePresentationOutline(course), 'utf8')));
+  await Promise.all(courses.map(course => fs.writeFile(path.join(coursePacketDir, `${course.id}-course-packet.html`), writeCoursePacketHtml(course), 'utf8')));
+  await Promise.all(courses.map(course => fs.writeFile(path.join(learnerSlidesDir, `${course.id}-learner-slides.html`), writeLearnerSlidesHtml(course), 'utf8')));
+  await Promise.all(courses.map(course => fs.writeFile(path.join(instructorPresentationDir, `${course.id}-instructor-presentation.html`), writeInstructorPresentationHtml(course), 'utf8')));
+  await Promise.all(courses.map(course => fs.writeFile(path.join(worksheetDir, `${course.id}-worksheets.html`), writeWorksheetsHtml(course), 'utf8')));
   await Promise.all(courses.map(course => fs.writeFile(path.join(assessmentEvidenceDir, `${course.id}-test-answer-key.md`), writeTestAnswerKeyMarkdown(course), 'utf8')));
 }
 
@@ -1408,6 +1959,7 @@ async function main() {
   };
   await writePublicAssets(courses);
   await writeDocs(courses, counts);
+  await writePublicMaterialDocuments(courses);
   await fs.writeFile(manifestPath, `${JSON.stringify({
     generatedAt: new Date().toISOString(),
     source: 'frontend/public/course-manual.md plus generated NFHS track',
