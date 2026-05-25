@@ -1195,7 +1195,7 @@ function CourseVideoPlayer({
   const [durationSeconds, setDurationSeconds] = useState(0);
   const [muted, setMuted] = useState(false);
   const [volume, setVolume] = useState(0.76);
-  const [captionsOn, setCaptionsOn] = useState(true);
+  const [captionsOn, setCaptionsOn] = useState(false);
   const [speed, setSpeed] = useState(1);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [theaterMode, setTheaterMode] = useState(false);
@@ -1237,15 +1237,27 @@ function CourseVideoPlayer({
     video.playbackRate = speed;
   }, [muted, volume, speed, hasPublishedVideo]);
 
+  useEffect(() => {
+    syncNativeCaptionTracks();
+  }, [captionsOn, hasPublishedVideo, publishedVideoSource, videoJob?.captionsPath]);
+
   useEffect(() => () => {
     window.clearInterval(timerRef.current);
     if (typeof window !== 'undefined' && window.speechSynthesis) window.speechSynthesis.cancel();
   }, []);
 
+  function syncNativeCaptionTracks(video = videoRef.current) {
+    if (!video?.textTracks) return;
+    Array.from(video.textTracks).forEach(track => {
+      track.mode = captionsOn ? 'showing' : 'disabled';
+    });
+  }
+
   function updateVideoProgress(video) {
     const duration = Number.isFinite(video.duration) && video.duration > 0 ? video.duration : estimatedDuration;
     setDurationSeconds(duration);
     setCurrentSeconds(video.currentTime || 0);
+    syncNativeCaptionTracks(video);
   }
 
   function stopGeneratedVoiceover() {
@@ -1450,17 +1462,12 @@ function CourseVideoPlayer({
         ) : (
           <div className="rtbo-course-generated-stage">
             {activeVisual.src && <img src={activeVisual.src} alt={`${activeVisual.title} visual aid`} loading="eager" decoding="async" />}
-            <div className="rtbo-course-generated-copy">
-              <span>{activeVisual.title}</span>
-              <strong>{playing ? 'Voiceover playing' : 'Voiceover ready'}</strong>
-              <p>{activeVisual.description}</p>
-            </div>
           </div>
         )}
         <button type="button" className="rtbo-course-video-play" onClick={togglePlayer} aria-label={playing ? 'Pause course video' : 'Play course video'}>
           <span aria-hidden="true">{playing ? 'Pause' : 'Play'}</span>
         </button>
-        {captionsOn && (
+        {captionsOn && (!hasPublishedVideo || !videoJob?.captionsPath) && (
           <div className="rtbo-course-caption-strip" aria-live="polite">
             {captionText}
           </div>
@@ -1485,7 +1492,14 @@ function CourseVideoPlayer({
           <button type="button" onClick={nextMarker}>Next</button>
           <button type="button" onClick={() => setMuted(current => !current)}>{muted ? 'Muted' : 'Sound'}</button>
           <input type="range" min="0" max="1" step="0.05" value={muted ? 0 : volume} onChange={(event) => changeVolume(Number(event.target.value))} aria-label="Course video volume" />
-          <button className={captionsOn ? 'active' : ''} type="button" onClick={() => setCaptionsOn(current => !current)}>CC</button>
+          <button
+            className={captionsOn ? 'active' : ''}
+            type="button"
+            aria-pressed={captionsOn}
+            onClick={() => setCaptionsOn(current => !current)}
+          >
+            {captionsOn ? 'CC On' : 'CC'}
+          </button>
           <button type="button" onClick={changeSpeed}>{speed.toFixed(1)}x</button>
           <button className={settingsOpen ? 'active' : ''} type="button" onClick={() => setSettingsOpen(current => !current)}>Settings</button>
           <button className={theaterMode ? 'active' : ''} type="button" onClick={() => setTheaterMode(current => !current)}>Theater</button>

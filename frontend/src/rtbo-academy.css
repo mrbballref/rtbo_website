@@ -1908,45 +1908,6 @@
   filter: drop-shadow(0 24px 42px rgba(0, 0, 0, .34));
 }
 
-.rtbo-course-generated-copy {
-  position: absolute;
-  left: 18px;
-  right: 18px;
-  bottom: 62px;
-  display: grid;
-  gap: 4px;
-  max-width: 680px;
-  border: 1px solid rgba(245, 130, 32, .34);
-  border-radius: 8px;
-  padding: 12px 14px;
-  background: rgba(255, 255, 255, .9);
-  backdrop-filter: blur(10px);
-}
-
-.rtbo-course-generated-copy span {
-  color: var(--orange) !important;
-  -webkit-text-fill-color: var(--orange) !important;
-  font-size: .7rem;
-  font-weight: 950;
-  text-transform: uppercase;
-}
-
-.rtbo-course-generated-copy strong,
-.rtbo-course-generated-copy p {
-  color: #111827 !important;
-  -webkit-text-fill-color: #111827 !important;
-}
-
-.rtbo-course-generated-copy strong {
-  font-size: 1rem;
-}
-
-.rtbo-course-generated-copy p {
-  margin: 0;
-  font-size: .8rem;
-  line-height: 1.42;
-}
-
 .rtbo-course-video-play {
   position: absolute;
   left: 50%;
@@ -1972,8 +1933,11 @@
 }
 
 .rtbo-course-caption-strip {
-  display: none;
   position: absolute;
+  left: 50%;
+  bottom: 24px;
+  z-index: 4;
+  width: min(88%, 820px);
   border: 1px solid rgba(255, 255, 255, .22);
   border-radius: 8px;
   padding: 10px 12px;
@@ -1983,6 +1947,8 @@
   font-size: .82rem;
   font-weight: 850;
   line-height: 1.35;
+  text-align: center;
+  transform: translateX(-50%);
 }
 
 .rtbo-course-video-controls {
