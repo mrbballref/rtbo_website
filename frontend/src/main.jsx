@@ -2552,6 +2552,7 @@ function Reviews() {
   });
   const [reviewStatus, setReviewStatus] = useState('');
   const [reviewSubmitting, setReviewSubmitting] = useState(false);
+  const [reviewPhotoName, setReviewPhotoName] = useState('');
 
   async function submitReview(event) {
     event.preventDefault();
@@ -2575,6 +2576,7 @@ function Reviews() {
         experience: String(formData.get('experience_type') || '').trim(),
         schoolOrCourse: String(formData.get('school_or_course') || '').trim(),
         rating: String(formData.get('rating') || '').trim(),
+        photoName: reviewPhotoName,
         review: reviewText,
         submittedAt: new Date().toISOString()
       };
@@ -2582,6 +2584,7 @@ function Reviews() {
       setSubmittedReviews(nextReviews);
       localStorage.setItem(RTBO_REVIEW_STORAGE_KEY, JSON.stringify(nextReviews));
       form.reset();
+      setReviewPhotoName('');
       setReviewStatus(data.message || 'Thank you. Your review was submitted for RTBO review.');
     } catch (error) {
       setReviewStatus(error.message || 'Your review could not be submitted right now.');
@@ -2631,6 +2634,7 @@ function Reviews() {
                     <strong>{review.name}</strong>
                     <span>{review.rating} Stars / {review.schoolOrCourse}</span>
                   </div>
+                  {review.photoName && <small>Picture uploaded: {review.photoName}</small>}
                   <p>{review.review}</p>
                 </article>
               ))}
@@ -2689,6 +2693,18 @@ function Reviews() {
           <label>
             Review
             <textarea name="review" rows="6" minLength="20" maxLength="1200" placeholder="Tell us about your school or course experience" required></textarea>
+          </label>
+          <label className="attendee-review-photo-upload" htmlFor="attendee-review-photo">
+            <span>Upload Picture</span>
+            <input
+              id="attendee-review-photo"
+              type="file"
+              name="review_photo"
+              accept="image/jpeg,image/png,image/webp"
+              onChange={(event) => setReviewPhotoName(event.target.files?.[0]?.name || '')}
+            />
+            <b>{reviewPhotoName || 'No picture selected'}</b>
+            <small>JPG, PNG, or WebP. Maximum 5MB.</small>
           </label>
           <label className="attendee-review-consent">
             <input type="checkbox" name="public_consent" value="yes" required />

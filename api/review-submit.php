@@ -48,8 +48,61 @@ if (
     exit;
 }
 
+$reviewId = bin2hex(random_bytes(12));
+$photoPath = '';
+$reviewPhoto = $_FILES['review_photo'] ?? null;
+
+if (is_array($reviewPhoto) && (int) ($reviewPhoto['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
+    if ((int) ($reviewPhoto['error'] ?? UPLOAD_ERR_OK) !== UPLOAD_ERR_OK || empty($reviewPhoto['tmp_name']) || !is_uploaded_file((string) $reviewPhoto['tmp_name'])) {
+        http_response_code(422);
+        echo json_encode(['success' => false, 'message' => 'The review picture could not be uploaded. Please choose a JPG, PNG, or WebP image.']);
+        exit;
+    }
+
+    if ((int) ($reviewPhoto['size'] ?? 0) > 5 * 1024 * 1024) {
+        http_response_code(422);
+        echo json_encode(['success' => false, 'message' => 'Review picture must be 5MB or smaller.']);
+        exit;
+    }
+
+    $mimeType = '';
+    if (function_exists('finfo_open')) {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        if ($finfo !== false) {
+            $detected = finfo_file($finfo, (string) $reviewPhoto['tmp_name']);
+            finfo_close($finfo);
+            $mimeType = is_string($detected) ? $detected : '';
+        }
+    }
+
+    if ($mimeType === '') {
+        $mimeType = (string) ($reviewPhoto['type'] ?? '');
+    }
+
+    $extension = match ($mimeType) {
+        'image/jpeg' => 'jpg',
+        'image/png' => 'png',
+        'image/webp' => 'webp',
+        default => '',
+    };
+
+    if ($extension === '') {
+        http_response_code(422);
+        echo json_encode(['success' => false, 'message' => 'Review picture must be a JPG, PNG, or WebP image.']);
+        exit;
+    }
+
+    ensure_dir(REVIEW_PHOTO_DIR);
+    $photoPath = REVIEW_PHOTO_DIR . '/' . $reviewId . '.' . $extension;
+    if (!move_uploaded_file((string) $reviewPhoto['tmp_name'], $photoPath)) {
+        http_response_code(500);
+        echo json_encode(['success' => false, 'message' => 'Review picture could not be saved. Please try again.']);
+        exit;
+    }
+}
+
 $review = [
-    'review_id' => bin2hex(random_bytes(12)),
+    'review_id' => $reviewId,
     'submitted_at' => date('c'),
     'full_name' => $fullName,
     'email' => $email,
@@ -60,6 +113,7 @@ $review = [
     'attendee_role' => $attendeeRole,
     'rating' => $rating,
     'review_text' => $reviewText,
+    'photo_path' => $photoPath,
     'public_consent' => $publicConsent,
     'contact_ok' => $contactOk,
     'status' => 'pending',
@@ -79,6 +133,7 @@ try {
             'experience_type' => $experienceType,
             'school_or_course' => $schoolOrCourse,
             'rating' => $rating,
+            'photo_uploaded' => $photoPath !== '',
         ],
     ]);
 } catch (Throwable $notificationError) {

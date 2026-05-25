@@ -46,6 +46,7 @@ function ensure_attendee_review_tables(): void
             attendee_role VARCHAR(80) NOT NULL,
             rating TINYINT NOT NULL,
             review_text TEXT NOT NULL,
+            photo_path VARCHAR(500) NULL,
             public_consent TINYINT(1) NOT NULL DEFAULT 0,
             contact_ok TINYINT(1) NOT NULL DEFAULT 0,
             status VARCHAR(40) NOT NULL DEFAULT 'pending',
@@ -56,6 +57,14 @@ function ensure_attendee_review_tables(): void
             INDEX idx_attendee_reviews_experience (experience_type)
         )"
     );
+
+    try {
+        db()->exec("ALTER TABLE attendee_reviews ADD COLUMN photo_path VARCHAR(500) NULL AFTER review_text");
+    } catch (Throwable $error) {
+        if (!str_contains(strtolower($error->getMessage()), 'duplicate')) {
+            error_log('RTBO attendee review photo column migration skipped: ' . $error->getMessage());
+        }
+    }
 }
 
 function save_attendee_review(array $review): void
@@ -74,6 +83,7 @@ function save_attendee_review(array $review): void
                 attendee_role,
                 rating,
                 review_text,
+                photo_path,
                 public_consent,
                 contact_ok,
                 status,
@@ -88,6 +98,7 @@ function save_attendee_review(array $review): void
                 :attendee_role,
                 :rating,
                 :review_text,
+                :photo_path,
                 :public_consent,
                 :contact_ok,
                 :status,
@@ -104,6 +115,7 @@ function save_attendee_review(array $review): void
             ':attendee_role' => $review['attendee_role'],
             ':rating' => $review['rating'],
             ':review_text' => $review['review_text'],
+            ':photo_path' => (string) ($review['photo_path'] ?? ''),
             ':public_consent' => $review['public_consent'] ? 1 : 0,
             ':contact_ok' => $review['contact_ok'] ? 1 : 0,
             ':status' => $review['status'],

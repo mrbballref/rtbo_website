@@ -80,6 +80,7 @@ const STORAGE_DIR = __DIR__ . '/../storage';
 const REGISTRATION_DIR = STORAGE_DIR . '/registrations';
 const PDF_DIR = STORAGE_DIR . '/pdf';
 const PROFILE_PHOTO_DIR = STORAGE_DIR . '/profile-photos';
+const REVIEW_PHOTO_DIR = STORAGE_DIR . '/review-photos';
 const GOT_U_NEX_REF_SYNC_DIR = STORAGE_DIR . '/got-u-nex-ref-sync';
 
 define('GOT_U_NEX_REF_API_URL', rtrim(env_value('GOT_U_NEX_REF_API_URL', ''), '/'));

@@ -2351,6 +2351,12 @@ button.hero-scroll-link {
   margin: 0;
 }
 
+.attendee-review-submitted-list small {
+  color: rgba(248, 250, 252, .68);
+  font-size: .74rem;
+  font-weight: 900;
+}
+
 .attendee-review-form {
   display: grid;
   gap: 16px;
@@ -2394,6 +2400,68 @@ button.hero-scroll-link {
 .attendee-review-form :is(input, select, textarea):focus-visible {
   border-color: rgba(249, 115, 22, .82);
   outline: none;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, .16);
+}
+
+.attendee-review-photo-upload {
+  position: relative;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px 12px !important;
+  min-height: 68px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .065), rgba(255, 255, 255, .02)),
+    rgba(0, 0, 0, .24);
+  cursor: pointer;
+}
+
+.attendee-review-photo-upload span {
+  display: inline-grid;
+  place-items: center;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid rgba(249, 115, 22, .7);
+  border-radius: 7px;
+  color: #fff;
+  background: var(--orange);
+  font-size: .78rem;
+  font-weight: 1000;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.attendee-review-photo-upload input {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.attendee-review-photo-upload b {
+  min-width: 0;
+  overflow: hidden;
+  color: #fff;
+  font-size: .9rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.attendee-review-photo-upload small {
+  grid-column: 2;
+  color: rgba(248, 250, 252, .66);
+  font-size: .74rem;
+  font-weight: 800;
+}
+
+.attendee-review-photo-upload:focus-within {
+  border-color: rgba(249, 115, 22, .82);
   box-shadow: 0 0 0 3px rgba(249, 115, 22, .16);
 }
 
@@ -9500,7 +9568,8 @@ button.hero-scroll-link {
 }
 
 :root[data-theme="light"] .attendee-review-copy h3,
-:root[data-theme="light"] .attendee-review-submitted-list strong {
+:root[data-theme="light"] .attendee-review-submitted-list strong,
+:root[data-theme="light"] .attendee-review-photo-upload b {
   color: #111827;
 }
 
@@ -9508,6 +9577,19 @@ button.hero-scroll-link {
   color: #111827;
   border-color: rgba(15, 23, 42, .18);
   background: rgba(255, 255, 255, .82);
+}
+
+:root[data-theme="light"] .attendee-review-photo-upload,
+:root[data-theme="light"] .attendee-review-photo-upload input {
+  border-color: rgba(15, 23, 42, .14);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .92), rgba(255, 255, 255, .72)),
+    #fff;
+}
+
+:root[data-theme="light"] .attendee-review-photo-upload small,
+:root[data-theme="light"] .attendee-review-submitted-list small {
+  color: rgba(15, 23, 42, .66);
 }
 
 :root[data-theme="light"] .paid-event-card,

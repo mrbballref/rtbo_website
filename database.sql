@@ -368,6 +368,7 @@ CREATE TABLE IF NOT EXISTS attendee_reviews (
   attendee_role VARCHAR(80) NOT NULL,
   rating TINYINT NOT NULL,
   review_text TEXT NOT NULL,
+  photo_path VARCHAR(500) NULL,
   public_consent TINYINT(1) NOT NULL DEFAULT 0,
   contact_ok TINYINT(1) NOT NULL DEFAULT 0,
   status VARCHAR(40) NOT NULL DEFAULT 'pending',
