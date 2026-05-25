@@ -221,6 +221,26 @@ function pageFromRoute(route = '') {
   return String(route || '').split('/')[0] || 'home';
 }
 
+function decodeRouteSegment(value = '') {
+  try {
+    return decodeURIComponent(String(value || ''));
+  } catch {
+    return String(value || '');
+  }
+}
+
+function routeParts(route = '') {
+  return String(route || '').split('/').filter(Boolean).map(decodeRouteSegment);
+}
+
+function educationCourseIdFromRoute(route = '') {
+  const parts = routeParts(route);
+  if (parts[0] !== 'education') return '';
+  if (parts[1] === 'course' || parts[1] === 'overview') return parts[2] || '';
+  if (parts[1] === 'view') return parts[3] || '';
+  return '';
+}
+
 function isDashboardRouteHash(hash = '') {
   return routeFromHash(hash).startsWith('dashboard');
 }
@@ -2915,6 +2935,11 @@ const refZoneCourseRouteLabels = {
   nba: 'Pro-Am Membership Course',
   wnba: 'WNBA Course'
 };
+
+const allRefZoneCourseRouteIds = Array.from(new Set([
+  ...Object.keys(refZoneCourseRouteLabels),
+  ...refZoneCourseTracks.map(([courseId]) => courseId)
+]));
 
 function refZoneCourseRouteLabel(courseId = '') {
   const normalized = String(courseId || '').trim().toLowerCase();
@@ -13943,6 +13968,22 @@ function App() {
       };
     }
 
+    if (isSuperAdminUser(authUser)) {
+      setRefZoneAccess({
+        loading: false,
+        courseIds: allRefZoneCourseRouteIds,
+        enrollments: [{
+          id: 'super-admin-refzone-access',
+          package_name: 'Super Admin Course Access',
+          payment_status: 'super_admin'
+        }],
+        message: ''
+      });
+      return () => {
+        isActive = false;
+      };
+    }
+
     setRefZoneAccess(current => ({ ...current, loading: true, message: '' }));
     apiGet('/refzone-access.php')
       .then(data => {
@@ -13987,7 +14028,11 @@ function App() {
       window.scrollTo(0, 0);
     };
     window.addEventListener('hashchange', onRouteChange);
-    return () => window.removeEventListener('hashchange', onRouteChange);
+    window.addEventListener('popstate', onRouteChange);
+    return () => {
+      window.removeEventListener('hashchange', onRouteChange);
+      window.removeEventListener('popstate', onRouteChange);
+    };
   }, [managedPageIds]);
 
   function goTo(page) {
@@ -14160,13 +14205,12 @@ function App() {
     }
     if (active === 'services') return <><PageHero page="services" eyebrow="Services" title="Complete Officiating Solutions">Event assigning, development, mentorship, evaluations, and leadership standards for the game.</PageHero><Services />{managedSections('services')}</>;
     if (active === 'education') {
-      const educationCourseId = currentRoute.startsWith('education/course/')
-        ? decodeURIComponent(currentRoute.split('/')[2] || '')
-        : '';
+      const educationCourseId = educationCourseIdFromRoute(currentRoute);
       const accessibleCourseIds = Array.isArray(refZoneAccess.courseIds) ? refZoneAccess.courseIds : [];
-      const requestedCourseAllowed = educationCourseId === '' || accessibleCourseIds.includes(educationCourseId);
+      const superAdminCourseAccess = isSuperAdminUser(authUser);
+      const requestedCourseAllowed = superAdminCourseAccess || educationCourseId === '' || accessibleCourseIds.includes(educationCourseId);
       const academyInitialCourseId = requestedCourseAllowed ? (educationCourseId || accessibleCourseIds[0] || '') : '';
-      const hasCourseAccess = accessibleCourseIds.length > 0 && requestedCourseAllowed;
+      const hasCourseAccess = superAdminCourseAccess || (accessibleCourseIds.length > 0 && requestedCourseAllowed);
       const showEducationLanding = !authUser || !hasCourseAccess;
       return (
         <>
@@ -14176,7 +14220,7 @@ function App() {
             <RefZoneMembershipGate courseId={educationCourseId} loading onEnroll={scrollToRefZoneEnrollment} />
           ) : authUser && hasCourseAccess ? (
             <React.Suspense fallback={<section className="rtbo-section"><p className="rtbo-empty-state">Loading RTBO Education...</p></section>}>
-              <RTBOAcademy user={authUser} publicMode brandName="RefZone University" initialTrackId={academyInitialCourseId} />
+              <RTBOAcademy user={authUser} publicMode brandName="RefZone University" initialTrackId={academyInitialCourseId} routePath={currentRoute} />
             </React.Suspense>
           ) : authUser ? (
             <RefZoneMembershipGate courseId={educationCourseId || accessibleCourseIds[0] || ''} onEnroll={scrollToRefZoneEnrollment} />

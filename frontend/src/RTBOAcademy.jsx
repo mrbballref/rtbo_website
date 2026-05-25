@@ -55,6 +55,120 @@ function slug(value = '') {
   return String(value).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 }
 
+const ACADEMY_ROUTE_VIEWS = new Set([
+  'dashboard',
+  'overview',
+  'syllabus',
+  'course',
+  'materials',
+  'search',
+  'assignments',
+  'videos',
+  'film',
+  'court',
+  'roleplay',
+  'certifications',
+  'admin'
+]);
+
+function decodeAcademyRoutePart(value = '') {
+  try {
+    return decodeURIComponent(String(value || ''));
+  } catch {
+    return String(value || '');
+  }
+}
+
+function academyRouteParts(route = '') {
+  return String(route || '').replace(/^#\/?/, '').split('?')[0].split('/').filter(Boolean).map(decodeAcademyRoutePart);
+}
+
+function routeIndex(parts = [], marker = '') {
+  const markerIndex = parts.indexOf(marker);
+  if (markerIndex < 0) return 0;
+  const parsed = Number.parseInt(parts[markerIndex + 1] || '', 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed - 1 : 0;
+}
+
+function academyRouteStateFromRoute(route = '') {
+  const parts = academyRouteParts(route);
+  if (parts[0] !== 'education') {
+    return { explicit: false, view: 'dashboard', trackId: '', weekIndex: 0, dayIndex: 0 };
+  }
+  if (parts[1] === 'course') {
+    return {
+      explicit: true,
+      view: 'course',
+      trackId: parts[2] || '',
+      weekIndex: routeIndex(parts, 'week'),
+      dayIndex: routeIndex(parts, 'day')
+    };
+  }
+  if (parts[1] === 'overview') {
+    return {
+      explicit: true,
+      view: 'overview',
+      trackId: parts[2] || '',
+      weekIndex: 0,
+      dayIndex: 0
+    };
+  }
+  if (parts[1] === 'view') {
+    const view = ACADEMY_ROUTE_VIEWS.has(parts[2]) ? parts[2] : 'dashboard';
+    return {
+      explicit: true,
+      view,
+      trackId: parts[3] || '',
+      weekIndex: routeIndex(parts, 'week'),
+      dayIndex: routeIndex(parts, 'day')
+    };
+  }
+  if (ACADEMY_ROUTE_VIEWS.has(parts[1])) {
+    return {
+      explicit: true,
+      view: parts[1],
+      trackId: parts[2] || '',
+      weekIndex: routeIndex(parts, 'week'),
+      dayIndex: routeIndex(parts, 'day')
+    };
+  }
+  return { explicit: false, view: 'dashboard', trackId: '', weekIndex: 0, dayIndex: 0 };
+}
+
+function currentAcademyRouteState(routePath = '') {
+  if (typeof window !== 'undefined' && window.location.hash) {
+    return academyRouteStateFromRoute(window.location.hash);
+  }
+  return academyRouteStateFromRoute(routePath);
+}
+
+function clampRouteIndex(index = 0, length = 0) {
+  if (!length) return 0;
+  return Math.max(0, Math.min(length - 1, Number.isFinite(index) ? index : 0));
+}
+
+function academyRouteHashForState(state = {}) {
+  const view = ACADEMY_ROUTE_VIEWS.has(state.view) ? state.view : 'dashboard';
+  const trackId = String(state.trackId || '').trim();
+  const encodedTrackId = trackId ? encodeURIComponent(trackId) : '';
+  const weekNumber = Number.isFinite(state.weekIndex) ? state.weekIndex + 1 : 1;
+  const dayNumber = Number.isFinite(state.dayIndex) ? state.dayIndex + 1 : 1;
+  if (view === 'course' && encodedTrackId) return `#education/course/${encodedTrackId}/week/${weekNumber}/day/${dayNumber}`;
+  if (view === 'overview' && encodedTrackId) return `#education/overview/${encodedTrackId}`;
+  if (view === 'dashboard') return '#education/view/dashboard';
+  const trackSuffix = encodedTrackId ? `/${encodedTrackId}/week/${weekNumber}/day/${dayNumber}` : '';
+  return `#education/view/${view}${trackSuffix}`;
+}
+
+function writeAcademyRouteState(state = {}, mode = 'push') {
+  if (typeof window === 'undefined') return;
+  const nextHash = academyRouteHashForState(state);
+  if (window.location.hash === nextHash) return;
+  const nextUrl = `${window.location.pathname}${window.location.search}${nextHash}`;
+  if (mode === 'replace') window.history.replaceState(null, '', nextUrl);
+  else window.history.pushState(null, '', nextUrl);
+}
+
 function plainText(lines = []) {
   return lines.join('\n').replace(/^#+\s*/gm, '').trim();
 }
@@ -544,6 +658,11 @@ function coursePublishedVideoSource(day = {}, material = {}, videoJob = null) {
   return '';
 }
 
+function courseVoiceoverSource(videoJob = null) {
+  if (videoJob?.voiceoverReady && videoJob.voiceoverPath) return mediaSourceFor(videoJob.voiceoverPath);
+  return '';
+}
+
 function courseLessonVisuals(track = {}, week = {}, day = {}, visual = null, videoJob = null) {
   const rows = [];
   const baseVisual = visual || dayVisualFor(day);
@@ -599,13 +718,28 @@ function courseLessonVisuals(track = {}, week = {}, day = {}, visual = null, vid
 
 function courseLessonFiles(track = {}, week = {}, day = {}, material = {}, visual = null, videoJob = null) {
   const files = [];
+  const courseId = videoJob?.sourceMaterial?.courseId || track.id || '';
+  const dayId = videoJob?.sourceMaterial?.dayId || day.id || '';
+  const courseFileHref = (type, index = '') => {
+    if (!courseId || !dayId) return '';
+    const params = new URLSearchParams({ course: courseId, day: dayId, type });
+    if (index !== '') params.set('index', String(index));
+    return `/refzone-course-file.php?${params.toString()}`;
+  };
+  files.push({
+    id: 'lesson-packet-download',
+    kind: 'Lesson Packet',
+    title: `${day.title || 'Lesson'} Packet`,
+    description: 'Complete objectives, required readings, lecture notes, lab, assignment, assessment, and rubric for this lesson.',
+    href: courseFileHref('packet')
+  });
   textList(material.readings).forEach((item, index) => {
     files.push({
       id: `reading-${index + 1}`,
       kind: 'Reading',
       title: `Required Reading ${index + 1}`,
       description: item,
-      href: ''
+      href: courseFileHref('reading', index)
     });
   });
   textList(material.lectureNotes).forEach((item, index) => {
@@ -614,7 +748,7 @@ function courseLessonFiles(track = {}, week = {}, day = {}, material = {}, visua
       kind: 'Lecture Notes',
       title: `Professor Lecture Note ${index + 1}`,
       description: item,
-      href: ''
+      href: index === 0 ? courseFileHref('lecture-notes') : ''
     });
   });
   textList(material.discussion).forEach((item, index) => {
@@ -626,9 +760,9 @@ function courseLessonFiles(track = {}, week = {}, day = {}, material = {}, visua
       href: ''
     });
   });
-  if (material.lab) files.push({ id: 'lab-activity', kind: 'Lab', title: 'Lab / Visual Activity', description: material.lab, href: '' });
-  if (material.assignment) files.push({ id: 'daily-assignment', kind: 'Assignment', title: 'Daily Assignment', description: material.assignment, href: '' });
-  if (material.assessment?.prompt) files.push({ id: 'assessment-prompt', kind: 'Assessment', title: material.assessment.type || 'Assessment Prompt', description: material.assessment.prompt, href: '' });
+  if (material.lab) files.push({ id: 'lab-activity', kind: 'Lab', title: 'Lab / Visual Activity', description: material.lab, href: courseFileHref('lab') });
+  if (material.assignment) files.push({ id: 'daily-assignment', kind: 'Assignment', title: 'Daily Assignment', description: material.assignment, href: courseFileHref('assignment') });
+  if (material.assessment?.prompt) files.push({ id: 'assessment-prompt', kind: 'Assessment', title: material.assessment.type || 'Assessment Prompt', description: material.assessment.prompt, href: courseFileHref('assessment') });
   courseLessonVisuals(track, week, day, visual, videoJob).forEach(item => {
     files.push({
       id: `visual-${item.id}`,
@@ -656,7 +790,10 @@ function courseLessonFiles(track = {}, week = {}, day = {}, material = {}, visua
       href: mediaSourceFor(item.href || item.path || '')
     });
   });
-  return files;
+  return files.filter((file, index, list) => {
+    const key = file.href || `${file.kind}-${file.title}-${file.description}`;
+    return key && list.findIndex(item => (item.href || `${item.kind}-${item.title}-${item.description}`) === key) === index;
+  });
 }
 
 function sectionVisualsFor(section = {}, day = {}, index = 0) {
@@ -1187,9 +1324,9 @@ function CourseVideoPlayer({
   onStatus = noopStatus
 }) {
   const videoRef = useRef(null);
+  const audioRef = useRef(null);
   const shellRef = useRef(null);
   const timerRef = useRef(null);
-  const utteranceRef = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [currentSeconds, setCurrentSeconds] = useState(0);
   const [durationSeconds, setDurationSeconds] = useState(0);
@@ -1201,12 +1338,18 @@ function CourseVideoPlayer({
   const [theaterMode, setTheaterMode] = useState(false);
   const [miniMode, setMiniMode] = useState(false);
   const [videoFailed, setVideoFailed] = useState(false);
+  const [audioFailed, setAudioFailed] = useState(false);
   const script = useMemo(() => courseNarrationScript(track, week, day, material, videoJob), [day, material, track, videoJob, week]);
   const visuals = useMemo(() => courseLessonVisuals(track, week, day, visual, videoJob), [day, track, videoJob, visual, week]);
   const publishedVideoSource = coursePublishedVideoSource(day, material, videoJob);
+  const voiceoverSource = courseVoiceoverSource(videoJob);
   const hasPublishedVideo = Boolean(publishedVideoSource && !videoFailed);
-  const estimatedDuration = useMemo(() => Math.max(180, Math.min(1200, Math.round(script.length / 12))), [script]);
-  const effectiveDuration = hasPublishedVideo ? (durationSeconds || estimatedDuration) : estimatedDuration;
+  const hasVoiceoverAudio = Boolean(!hasPublishedVideo && voiceoverSource && !audioFailed);
+  const estimatedDuration = useMemo(() => (
+    videoJob?.estimatedDurationSeconds || Math.max(180, Math.min(1200, Math.round(script.length / 12)))
+  ), [script, videoJob?.estimatedDurationSeconds]);
+  const hasPlayableMedia = hasPublishedVideo || hasVoiceoverAudio;
+  const effectiveDuration = hasPlayableMedia ? (durationSeconds || estimatedDuration) : estimatedDuration;
   const progress = effectiveDuration > 0 ? Math.min(100, (currentSeconds / effectiveDuration) * 100) : 0;
   const activeVisualIndex = visuals.length ? Math.min(visuals.length - 1, Math.floor((progress / 100) * visuals.length)) : 0;
   const activeVisual = visuals[activeVisualIndex] || {
@@ -1220,72 +1363,54 @@ function CourseVideoPlayer({
   useEffect(() => {
     window.clearInterval(timerRef.current);
     timerRef.current = null;
-    if (typeof window !== 'undefined' && window.speechSynthesis) window.speechSynthesis.cancel();
     setPlaying(false);
     setCurrentSeconds(0);
     setDurationSeconds(0);
     setSettingsOpen(false);
     setMiniMode(false);
     setVideoFailed(false);
-  }, [day?.id, publishedVideoSource]);
+    setAudioFailed(false);
+  }, [day?.id, publishedVideoSource, voiceoverSource]);
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = muted;
-    video.volume = muted ? 0 : volume;
-    video.playbackRate = speed;
-  }, [muted, volume, speed, hasPublishedVideo]);
+    [videoRef.current, audioRef.current].filter(Boolean).forEach(media => {
+      media.muted = muted;
+      media.volume = muted ? 0 : volume;
+      media.playbackRate = speed;
+    });
+  }, [muted, volume, speed, hasPublishedVideo, hasVoiceoverAudio]);
 
   useEffect(() => {
     syncNativeCaptionTracks();
-  }, [captionsOn, hasPublishedVideo, publishedVideoSource, videoJob?.captionsPath]);
+  }, [captionsOn, hasPublishedVideo, hasVoiceoverAudio, publishedVideoSource, voiceoverSource, videoJob?.captionsPath]);
 
   useEffect(() => () => {
     window.clearInterval(timerRef.current);
-    if (typeof window !== 'undefined' && window.speechSynthesis) window.speechSynthesis.cancel();
   }, []);
 
-  function syncNativeCaptionTracks(video = videoRef.current) {
-    if (!video?.textTracks) return;
-    Array.from(video.textTracks).forEach(track => {
+  function activeMediaElement() {
+    if (hasPublishedVideo) return videoRef.current;
+    if (hasVoiceoverAudio) return audioRef.current;
+    return null;
+  }
+
+  function syncNativeCaptionTracks(media = activeMediaElement()) {
+    if (!media?.textTracks) return;
+    Array.from(media.textTracks).forEach(track => {
       track.mode = captionsOn ? 'showing' : 'disabled';
     });
   }
 
-  function updateVideoProgress(video) {
-    const duration = Number.isFinite(video.duration) && video.duration > 0 ? video.duration : estimatedDuration;
+  function updateMediaProgress(media) {
+    const duration = Number.isFinite(media.duration) && media.duration > 0 ? media.duration : estimatedDuration;
     setDurationSeconds(duration);
-    setCurrentSeconds(video.currentTime || 0);
-    syncNativeCaptionTracks(video);
+    setCurrentSeconds(media.currentTime || 0);
+    syncNativeCaptionTracks(media);
   }
 
-  function stopGeneratedVoiceover() {
+  function stopGeneratedPreview() {
     window.clearInterval(timerRef.current);
     timerRef.current = null;
-    if (typeof window !== 'undefined' && window.speechSynthesis) window.speechSynthesis.cancel();
-  }
-
-  function speakGeneratedLesson(startSeconds = currentSeconds) {
-    if (typeof window === 'undefined' || !window.speechSynthesis || !script) return;
-    window.speechSynthesis.cancel();
-    const startIndex = Math.max(0, Math.min(script.length - 1, Math.floor((startSeconds / estimatedDuration) * script.length)));
-    const utterance = new SpeechSynthesisUtterance(script.slice(startIndex) || script);
-    utterance.rate = Math.max(.75, Math.min(1.35, speed));
-    utterance.volume = muted ? 0 : volume;
-    utterance.onend = () => {
-      window.clearInterval(timerRef.current);
-      timerRef.current = null;
-      setPlaying(false);
-    };
-    utterance.onerror = () => {
-      window.clearInterval(timerRef.current);
-      timerRef.current = null;
-      setPlaying(false);
-      onStatus('The browser voiceover stopped. The lesson visuals and transcript remain available.');
-    };
-    utteranceRef.current = utterance;
-    window.speechSynthesis.speak(utterance);
   }
 
   function startGeneratedTimer(startSeconds = currentSeconds) {
@@ -1305,9 +1430,10 @@ function CourseVideoPlayer({
   }
 
   async function startPlayer() {
-    if (hasPublishedVideo && videoRef.current) {
+    const media = activeMediaElement();
+    if (media) {
       try {
-        await videoRef.current.play();
+        await media.play();
       } catch {
         onStatus('The course video could not start automatically. Use the player control again after the browser allows playback.');
       }
@@ -1315,14 +1441,15 @@ function CourseVideoPlayer({
     }
     setPlaying(true);
     startGeneratedTimer(currentSeconds);
-    speakGeneratedLesson(currentSeconds);
+    onStatus('This lesson is using the visual preview until the ElevenLabs voiceover and Remotion MP4 are rendered.');
   }
 
   function pausePlayer() {
-    if (hasPublishedVideo && videoRef.current) {
-      videoRef.current.pause();
+    const media = activeMediaElement();
+    if (media) {
+      media.pause();
     } else {
-      stopGeneratedVoiceover();
+      stopGeneratedPreview();
     }
     setPlaying(false);
   }
@@ -1333,11 +1460,12 @@ function CourseVideoPlayer({
   }
 
   function stopPlayer() {
-    if (hasPublishedVideo && videoRef.current) {
-      videoRef.current.pause();
-      videoRef.current.currentTime = 0;
+    const media = activeMediaElement();
+    if (media) {
+      media.pause();
+      media.currentTime = 0;
     } else {
-      stopGeneratedVoiceover();
+      stopGeneratedPreview();
     }
     setCurrentSeconds(0);
     setPlaying(false);
@@ -1346,11 +1474,11 @@ function CourseVideoPlayer({
   function seekTo(nextProgress) {
     const boundedProgress = Math.max(0, Math.min(100, nextProgress));
     const nextSeconds = effectiveDuration > 0 ? (boundedProgress / 100) * effectiveDuration : 0;
-    if (hasPublishedVideo && videoRef.current) {
-      videoRef.current.currentTime = nextSeconds;
+    const media = activeMediaElement();
+    if (media) {
+      media.currentTime = nextSeconds;
     } else if (playing) {
-      stopGeneratedVoiceover();
-      speakGeneratedLesson(nextSeconds);
+      stopGeneratedPreview();
       startGeneratedTimer(nextSeconds);
     } else {
       setCurrentSeconds(nextSeconds);
@@ -1433,7 +1561,7 @@ function CourseVideoPlayer({
           <strong>{day.title || 'RefZone lesson'}</strong>
         </div>
         <div className="rtbo-course-video-status">
-          <span>{hasPublishedVideo ? 'Published video' : 'Generated lesson video'}</span>
+          <span>{hasPublishedVideo ? 'Published video' : hasVoiceoverAudio ? 'Voiceover lesson video' : 'Production visual preview'}</span>
           <time>{formatCoursePlayerTime(currentSeconds)} / {formatCoursePlayerTime(effectiveDuration)}</time>
         </div>
       </header>
@@ -1445,8 +1573,8 @@ function CourseVideoPlayer({
             playsInline
             preload="metadata"
             poster={activeVisual.src}
-            onLoadedMetadata={(event) => updateVideoProgress(event.currentTarget)}
-            onTimeUpdate={(event) => updateVideoProgress(event.currentTarget)}
+            onLoadedMetadata={(event) => updateMediaProgress(event.currentTarget)}
+            onTimeUpdate={(event) => updateMediaProgress(event.currentTarget)}
             onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
             onEnded={() => setPlaying(false)}
@@ -1461,6 +1589,25 @@ function CourseVideoPlayer({
           </video>
         ) : (
           <div className="rtbo-course-generated-stage">
+            {hasVoiceoverAudio && (
+              <audio
+                className="rtbo-course-video-audio"
+                ref={audioRef}
+                preload="metadata"
+                onLoadedMetadata={(event) => updateMediaProgress(event.currentTarget)}
+                onTimeUpdate={(event) => updateMediaProgress(event.currentTarget)}
+                onPlay={() => setPlaying(true)}
+                onPause={() => setPlaying(false)}
+                onEnded={() => setPlaying(false)}
+                onError={() => {
+                  setAudioFailed(true);
+                  onStatus('Production voiceover was not reachable. Render the ElevenLabs audio again from the RefZone video pipeline.');
+                }}
+              >
+                <source src={voiceoverSource} type="audio/mpeg" />
+                {videoJob?.captionsPath && <track src={mediaSourceFor(videoJob.captionsPath)} kind="captions" srcLang="en" label="English" />}
+              </audio>
+            )}
             {activeVisual.src && <img src={activeVisual.src} alt={`${activeVisual.title} visual aid`} loading="eager" decoding="async" />}
           </div>
         )}
@@ -1509,7 +1656,7 @@ function CourseVideoPlayer({
         </div>
         {settingsOpen && (
           <div className="rtbo-course-video-settings">
-            <p>{hasPublishedVideo ? 'Playing the published course video asset.' : 'Playing the generated lesson video with browser voiceover, course visual aids, and transcript captions. Published MP4/HLS assets will load automatically when rendered.'}</p>
+            <p>{hasPublishedVideo ? 'Playing the published Remotion MP4 course video asset.' : hasVoiceoverAudio ? 'Playing the ElevenLabs voiceover with synchronized lesson visuals while the final Remotion MP4 remains optional.' : 'Production preview is active. Render the ElevenLabs voiceover and Remotion MP4 to publish the complete course video.'}</p>
             {videoJob?.videoPath && <span>Production output: {videoJob.videoPath}</span>}
             {videoJob?.renderer && <span>Renderer: {videoJob.renderer} / Voiceover: {videoJob.voiceover}</span>}
           </div>
@@ -1704,15 +1851,26 @@ function CourseTestPanel({
   );
 }
 
-function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, brandName = 'RTBO Academy', initialTrackId = '' }) {
+function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, brandName = 'RTBO Academy', initialTrackId = '', routePath = '' }) {
+  const requestedTrackId = String(initialTrackId || '').trim();
   const [markdown, setMarkdown] = useState('');
   const [loading, setLoading] = useState(true);
-  const [activeView, setActiveView] = useState('dashboard');
+  const [activeView, setActiveView] = useState(() => {
+    const routeState = currentAcademyRouteState(routePath);
+    if (routeState.explicit) return routeState.view;
+    return publicMode && requestedTrackId ? 'course' : 'dashboard';
+  });
   const [query, setQuery] = useState('');
-  const [selectedTrackId, setSelectedTrackId] = useState('');
-  const [overviewTrackId, setOverviewTrackId] = useState('');
-  const [selectedWeekIndex, setSelectedWeekIndex] = useState(0);
-  const [selectedDayIndex, setSelectedDayIndex] = useState(0);
+  const [selectedTrackId, setSelectedTrackId] = useState(() => {
+    const routeState = currentAcademyRouteState(routePath);
+    return routeState.trackId || (!routeState.explicit ? requestedTrackId : '');
+  });
+  const [overviewTrackId, setOverviewTrackId] = useState(() => {
+    const routeState = currentAcademyRouteState(routePath);
+    return routeState.view === 'overview' ? routeState.trackId : '';
+  });
+  const [selectedWeekIndex, setSelectedWeekIndex] = useState(() => currentAcademyRouteState(routePath).weekIndex);
+  const [selectedDayIndex, setSelectedDayIndex] = useState(() => currentAcademyRouteState(routePath).dayIndex);
   const [completed, setCompleted] = useLocalJson(STORAGE_KEYS.completed, {});
   const [notes, setNotes] = useLocalJson(STORAGE_KEYS.notes, {});
   const [bookmarks, setBookmarks] = useLocalJson(STORAGE_KEYS.bookmarks, {});
@@ -1814,20 +1972,64 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
   const overviewTrack = useMemo(() => tracks.find(track => track.id === overviewTrackId) || selectedTrack, [overviewTrackId, selectedTrack, tracks]);
   const selectedWeek = selectedTrack?.weeks?.[selectedWeekIndex] || selectedTrack?.weeks?.[0];
   const selectedDay = selectedWeek?.days?.[selectedDayIndex] || selectedWeek?.days?.[0];
-  const requestedTrackId = String(initialTrackId || '').trim();
 
   useEffect(() => {
     if ((!selectedTrackId || !tracks.some(track => track.id === selectedTrackId)) && defaultTrack) setSelectedTrackId(defaultTrack.id);
   }, [defaultTrack, tracks, selectedTrackId]);
 
   useEffect(() => {
-    if (!requestedTrackId || !tracks.some(track => track.id === requestedTrackId)) return;
-    setSelectedTrackId(requestedTrackId);
-    setSelectedWeekIndex(0);
-    setSelectedDayIndex(0);
-    setOpenTestId('');
-    setActiveView('course');
-  }, [requestedTrackId, tracks]);
+    const routeState = currentAcademyRouteState(routePath);
+    const fallbackTrackId = !routeState.explicit ? requestedTrackId : '';
+    const targetTrackId = routeState.trackId || fallbackTrackId;
+    const targetTrack = targetTrackId ? tracks.find(track => track.id === targetTrackId) : null;
+
+    if (routeState.explicit && routeState.view === 'dashboard') {
+      if (targetTrack) setSelectedTrackId(targetTrack.id);
+      setActiveView('dashboard');
+      return;
+    }
+
+    if (routeState.view === 'overview') {
+      if (!targetTrack) return;
+      setSelectedTrackId(targetTrack.id);
+      setOverviewTrackId(targetTrack.id);
+      setActiveView('overview');
+      return;
+    }
+
+    if (routeState.view === 'course' || (!routeState.explicit && targetTrack)) {
+      if (!targetTrack) return;
+      const nextWeekIndex = clampRouteIndex(routeState.weekIndex, targetTrack.weeks?.length || 0);
+      const nextDayIndex = clampRouteIndex(routeState.dayIndex, targetTrack.weeks?.[nextWeekIndex]?.days?.length || 0);
+      setSelectedTrackId(targetTrack.id);
+      setSelectedWeekIndex(nextWeekIndex);
+      setSelectedDayIndex(nextDayIndex);
+      setOpenTestId('');
+      setCourseToolPanelOpen(false);
+      setCoursePromptResponse('');
+      setActiveView('course');
+      if (publicMode && !routeState.explicit) {
+        writeAcademyRouteState({
+          view: 'course',
+          trackId: targetTrack.id,
+          weekIndex: nextWeekIndex,
+          dayIndex: nextDayIndex
+        }, 'replace');
+      }
+      return;
+    }
+
+    if (routeState.explicit && ACADEMY_ROUTE_VIEWS.has(routeState.view)) {
+      if (targetTrack) {
+        const nextWeekIndex = clampRouteIndex(routeState.weekIndex, targetTrack.weeks?.length || 0);
+        const nextDayIndex = clampRouteIndex(routeState.dayIndex, targetTrack.weeks?.[nextWeekIndex]?.days?.length || 0);
+        setSelectedTrackId(targetTrack.id);
+        setSelectedWeekIndex(nextWeekIndex);
+        setSelectedDayIndex(nextDayIndex);
+      }
+      setActiveView(routeState.view);
+    }
+  }, [publicMode, requestedTrackId, routePath, tracks]);
 
   const allDays = useMemo(() => {
     const rows = [];
@@ -1901,10 +2103,6 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
     ...(!publicMode ? [['admin', 'Admin Controls']] : [])
   ];
 
-  const dayText = selectedDay ? [
-    ...selectedDay.content,
-    ...selectedDay.sections.flatMap(section => [`#### ${section.title}`, ...section.content])
-  ].join('\n') : plainText(selectedTrack?.raw || []) || 'Select a day to begin.';
   const selectedDayVisual = selectedDay ? dayVisualFor(selectedDay) : null;
   const selectedTest = selectedDay ? testForDay(selectedTrack, selectedWeek, selectedDay) : null;
   const selectedTestResult = selectedDay ? testResults[selectedDay.id] : null;
@@ -1918,8 +2116,56 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
   const selectedTrackLessons = selectedTrackProgress.lessons;
   const selectedLessonNumber = selectedTrackLessons.findIndex(row => row.day.id === selectedDay?.id) + 1;
   const followingCourseLesson = selectedTrackLessons[selectedLessonNumber] || null;
+  const canOpenFollowingCourseLesson = Boolean(selectedDay && followingCourseLesson && dayTestPassed(selectedDay.id));
   const nextCourseLesson = selectedTrackLessons.find(row => !completed[row.day.id] || !passedTests[row.day.id]) || selectedTrackLessons[0] || null;
   const inCourseWorkspace = activeView === 'course' && Boolean(selectedTrack);
+
+  function syncAcademyRoute(state, mode = 'push') {
+    if (!publicMode) return;
+    writeAcademyRouteState(state, mode);
+  }
+
+  function openAcademyView(view) {
+    if (!ACADEMY_ROUTE_VIEWS.has(view)) return;
+
+    if (view === 'course') {
+      const track = selectedTrack || defaultTrack;
+      if (!track) return;
+      const nextWeekIndex = clampRouteIndex(selectedWeekIndex, track.weeks?.length || 0);
+      const nextDayIndex = clampRouteIndex(selectedDayIndex, track.weeks?.[nextWeekIndex]?.days?.length || 0);
+      setSelectedTrackId(track.id);
+      setSelectedWeekIndex(nextWeekIndex);
+      setSelectedDayIndex(nextDayIndex);
+      setOpenTestId('');
+      setCourseToolPanelOpen(false);
+      setCoursePromptResponse('');
+      setActiveView('course');
+      syncAcademyRoute({ view: 'course', trackId: track.id, weekIndex: nextWeekIndex, dayIndex: nextDayIndex });
+      return;
+    }
+
+    if (view === 'overview') {
+      const track = overviewTrack || selectedTrack || defaultTrack;
+      if (track) {
+        setOverviewTrackId(track.id);
+        syncAcademyRoute({ view: 'overview', trackId: track.id });
+      }
+      setActiveView('overview');
+      return;
+    }
+
+    setActiveView(view);
+    if (view === 'dashboard') {
+      syncAcademyRoute({ view: 'dashboard' });
+      return;
+    }
+    syncAcademyRoute({
+      view,
+      trackId: selectedTrack?.id || defaultTrack?.id || '',
+      weekIndex: selectedWeekIndex,
+      dayIndex: selectedDayIndex
+    });
+  }
 
   function dayTestPassed(dayId) {
     return Boolean(passedTests[dayId]);
@@ -1942,11 +2188,14 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
       onStatus(`Pass the test for ${gate.previousDay.title} before moving to the next module or section.`);
       return;
     }
+    setSelectedTrackId(track.id);
     setSelectedWeekIndex(weekIndex);
     setSelectedDayIndex(dayIndex);
     setOpenTestId('');
     setCourseToolPanelOpen(false);
     setCoursePromptResponse('');
+    setActiveView('course');
+    syncAcademyRoute({ view: 'course', trackId: track.id, weekIndex, dayIndex });
   }
 
   function openAcademyWeek(track, weekIndex) {
@@ -1957,16 +2206,20 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
       onStatus(`Pass the test for ${gate.previousDay.title} before moving to the next module.`);
       return;
     }
+    setSelectedTrackId(track.id);
     setSelectedWeekIndex(weekIndex);
     setSelectedDayIndex(0);
     setOpenTestId('');
     setCourseToolPanelOpen(false);
     setCoursePromptResponse('');
+    setActiveView('course');
+    syncAcademyRoute({ view: 'course', trackId: track.id, weekIndex, dayIndex: 0 });
   }
 
   function openCourseOverview(track) {
     setOverviewTrackId(track.id);
     setActiveView('overview');
+    syncAcademyRoute({ view: 'overview', trackId: track.id });
   }
 
   function proceedToCourse(track) {
@@ -1977,6 +2230,7 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
     setCourseToolPanelOpen(false);
     setCoursePromptResponse('');
     setActiveView('course');
+    syncAcademyRoute({ view: 'course', trackId: track.id, weekIndex: 0, dayIndex: 0 });
   }
 
   function markDay(dayId, value) {
@@ -2072,12 +2326,20 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
       onStatus(`Pass the test for ${gate.previousDay.title} before opening this module or section.`);
       return;
     }
+    const weekIndex = row.track.weeks.findIndex(week => week.id === row.week.id);
+    const dayIndex = row.week.days.findIndex(day => day.id === row.day.id);
     setSelectedTrackId(row.track.id);
-    setSelectedWeekIndex(row.track.weeks.findIndex(week => week.id === row.week.id));
-    setSelectedDayIndex(row.week.days.findIndex(day => day.id === row.day.id));
+    setSelectedWeekIndex(weekIndex);
+    setSelectedDayIndex(dayIndex);
     setCourseToolPanelOpen(false);
     setCoursePromptResponse('');
     setActiveView('course');
+    syncAcademyRoute({
+      view: 'course',
+      trackId: row.track.id,
+      weekIndex,
+      dayIndex
+    });
   }
 
   function openCourseTool(tool) {
@@ -2137,7 +2399,7 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
 
       {!inCourseWorkspace && <div className="rtbo-academy-topbar">
         {academyViewTabs.map(([id, label]) => (
-          <button className={activeView === id ? 'active' : ''} type="button" key={id} onClick={() => setActiveView(id)}>{label}</button>
+          <button className={activeView === id ? 'active' : ''} type="button" key={id} onClick={() => openAcademyView(id)}>{label}</button>
         ))}
       </div>}
 
@@ -2229,15 +2491,18 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
         <div className="rtbo-coursera-course rtbo-coursera-course-shell">
           <section className="rtbo-coursera-topbar" aria-label="Course player controls">
             <div className="rtbo-coursera-brand">
-              <strong>RefZone University</strong>
-              <span>RTBO</span>
+              <strong>refzone</strong>
+              <span><i aria-hidden="true" />RTBO</span>
             </div>
             <div className="rtbo-coursera-top-progress">
               <span>{selectedTrackProgress.completedLessons}/{selectedTrackLessons.length} learning items</span>
               <div className="rtbo-academy-progress"><span style={{ width: `${selectedTrackProgress.percent}%` }} /></div>
             </div>
             <div className="rtbo-coursera-top-actions">
-              <button className="btn secondary dark-btn" type="button" onClick={() => setActiveView('dashboard')}>Course Dashboard</button>
+              <button type="button" aria-label="Course help" onClick={() => onStatus('Course help opened.')}>?</button>
+              <button type="button" aria-label="Language and region" onClick={() => onStatus('Language options opened.')}>O</button>
+              <button type="button" aria-label="Learning assistant" onClick={() => runCoursePrompt('summary')}>AI</button>
+              <button className="rtbo-coursera-avatar-button" type="button" aria-label="Course Dashboard" onClick={() => openAcademyView('dashboard')}>M<small>PLUS</small></button>
             </div>
           </section>
 
@@ -2245,21 +2510,8 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
             <aside className="rtbo-coursera-sidebar" aria-label="Course content">
               <div className="rtbo-coursera-course-title">
                 <strong>{selectedTrack.title}</strong>
-                <button type="button" aria-label="Close course player" onClick={() => setActiveView('dashboard')}>x</button>
+                <button type="button" aria-label="Close course player" onClick={() => openAcademyView('dashboard')}>x</button>
               </div>
-              <label className="rtbo-coursera-track-select">Course Path
-                <select
-                  value={selectedTrack.id}
-                  onChange={(event) => {
-                    setSelectedTrackId(event.target.value);
-                    setSelectedWeekIndex(0);
-                    setSelectedDayIndex(0);
-                    setOpenTestId('');
-                  }}
-                >
-                  {tracks.map(track => <option key={track.id} value={track.id}>{track.title}</option>)}
-                </select>
-              </label>
               <div className="rtbo-coursera-module-list">
                 {selectedTrack.weeks.map((week, weekIndex) => {
                   const weekRows = selectedTrackLessons.filter(row => row.week.id === week.id);
@@ -2362,49 +2614,23 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
                       {coursePromptResponse && <p className="rtbo-coursera-ai-response">{coursePromptResponse}</p>}
                     </article>
 
-                    <div className="rtbo-coursera-footer-actions">
-                      <div className="rtbo-coursera-feedback-actions" aria-label="Lesson feedback">
-                        <button type="button" aria-label="This lesson was helpful" onClick={() => onStatus('Lesson feedback recorded.')}>+</button>
-                        <button type="button" aria-label="This lesson needs improvement" onClick={() => onStatus('Lesson feedback recorded for review.')}>-</button>
-                        <button type="button" aria-label="Flag this lesson" onClick={() => onStatus('Lesson flagged for review.')}>!</button>
+                    <section className="rtbo-coursera-assessment-card">
+                      <div>
+                        <p className="eyebrow">Assessment</p>
+                        <h4>Required 25-Question Module Test</h4>
+                        <p>Score at least 85% before the next module or section unlocks. The existing advancement rule remains in force.</p>
+                        {selectedTestResult && <small>Latest score: {selectedTestResult.score}% / {selectedTestResult.correctCount} of {selectedTestResult.questionCount} correct</small>}
                       </div>
-                      <button
-                        className="btn"
-                        type="button"
-                        disabled={!followingCourseLesson}
-                        onClick={() => followingCourseLesson && openAcademyDay(selectedTrack, followingCourseLesson.weekIndex, followingCourseLesson.dayIndex)}
-                      >
-                        Go to next item -&gt;
-                      </button>
-                    </div>
-                  </section>
+                      <div className="rtbo-coursera-assessment-actions">
+                        <button className="btn" type="button" onClick={() => openDayTest(selectedDay.id)}>
+                          {dayTestPassed(selectedDay.id) ? 'Review / Retake Test' : 'Open Test'}
+                        </button>
+                        <button className="btn secondary dark-btn" type="button" onClick={() => markDay(selectedDay.id, !completed[selectedDay.id])}>
+                          {completed[selectedDay.id] ? 'Mark Incomplete' : 'Mark Complete'}
+                        </button>
+                      </div>
+                    </section>
 
-                  <section className="rtbo-coursera-content-band">
-                    <div className="rtbo-coursera-section-title">
-                      <p className="eyebrow">Lesson Overview</p>
-                      <h4>What you will learn</h4>
-                    </div>
-                    <div className="rtbo-coursera-objectives">
-                      {textList(selectedMaterial?.objectives).slice(0, 4).map(item => <span key={item}>{item}</span>)}
-                    </div>
-                    <div className="rtbo-academy-markdown"><MarkdownBlock text={dayText} /></div>
-                  </section>
-
-                  <section className="rtbo-coursera-assessment-card">
-                    <div>
-                      <p className="eyebrow">Assessment</p>
-                      <h4>Required 25-Question Module Test</h4>
-                      <p>Score at least 85% before the next module or section unlocks. The existing advancement rule remains in force.</p>
-                      {selectedTestResult && <small>Latest score: {selectedTestResult.score}% / {selectedTestResult.correctCount} of {selectedTestResult.questionCount} correct</small>}
-                    </div>
-                    <div className="rtbo-coursera-assessment-actions">
-                      <button className="btn" type="button" onClick={() => openDayTest(selectedDay.id)}>
-                        {dayTestPassed(selectedDay.id) ? 'Review / Retake Test' : 'Open Test'}
-                      </button>
-                      <button className="btn secondary dark-btn" type="button" onClick={() => markDay(selectedDay.id, !completed[selectedDay.id])}>
-                        {completed[selectedDay.id] ? 'Mark Incomplete' : 'Mark Complete'}
-                      </button>
-                    </div>
                   </section>
 
                   {selectedTestOpen && selectedTest && (
@@ -2420,6 +2646,29 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
                       onClose={() => setOpenTestId('')}
                     />
                   )}
+
+                  <section className="rtbo-coursera-bottom-actions">
+                    <div className="rtbo-coursera-feedback-actions" aria-label="Lesson feedback">
+                      <button type="button" aria-label="This lesson was helpful" onClick={() => onStatus('Lesson feedback recorded.')}>+</button>
+                      <button type="button" aria-label="This lesson needs improvement" onClick={() => onStatus('Lesson feedback recorded for review.')}>-</button>
+                      <button type="button" aria-label="Flag this lesson" onClick={() => onStatus('Lesson flagged for review.')}>!</button>
+                    </div>
+                    <button
+                      className="btn"
+                      type="button"
+                      disabled={!canOpenFollowingCourseLesson}
+                      title={canOpenFollowingCourseLesson ? 'Go to next item' : 'Pass this lesson test before moving to the next item'}
+                      onClick={() => {
+                        if (!canOpenFollowingCourseLesson) {
+                          onStatus('Pass this lesson test before moving to the next course item.');
+                          return;
+                        }
+                        openAcademyDay(selectedTrack, followingCourseLesson.weekIndex, followingCourseLesson.dayIndex);
+                      }}
+                    >
+                      Go to next item -&gt;
+                    </button>
+                  </section>
                 </>
               )}
             </main>

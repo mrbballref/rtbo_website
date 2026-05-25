@@ -8,8 +8,16 @@
     "audit:refzone-tests": "node tools/audit-refzone-test-banks.mjs",
     "audit:production": "node tools/run-rtbo-production-audits.mjs",
     "refzone:video-jobs": "node tools/generate-refzone-course-video-jobs.mjs",
+    "refzone:render-videos": "node video-renderer/render-refzone-course-videos.mjs",
     "frontend:build": "npm --prefix frontend run build",
     "frontend:audit": "npm --prefix frontend run audit"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.466",
+    "@remotion/renderer": "4.0.466",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "remotion": "4.0.466"
   },
   "engines": {
     "node": ">=20"
