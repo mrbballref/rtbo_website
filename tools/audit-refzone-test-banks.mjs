@@ -43,6 +43,35 @@ function fail(context, message) {
   failures.push(`${context}: ${message}`);
 }
 
+function assessmentContentFor(dayText = '') {
+  return dayText
+    .split('\n')
+    .filter(line => /^- Test:|^- Evidence prompt:|^\d+\.\s|^\s+- [A-D]\.|^\s+- Explanation:/.test(line))
+    .join('\n');
+}
+
+function auditAssessmentFocus(dayContext, test = {}, dayText = '') {
+  const content = [
+    test.title || '',
+    test.evidencePrompt || '',
+    assessmentContentFor(dayText)
+  ].join('\n');
+  [
+    ['delivery-only lecture title', /\bProfessor Lecture\b/i],
+    ['delivery-only seminar title', /\bSocratic Seminar\b/i],
+    ['generic orientation title', /\bOrientation and Professional Identity\b/i],
+    ['generic course welcome title', /\bCourse Welcome\b/i],
+    ['generic baseline title', /\bBaseline Assessment\b/i]
+  ].forEach(([label, pattern]) => {
+    if (pattern.test(content)) {
+      fail(dayContext, `test content references ${label}; assessments must target basketball officiating material.`);
+    }
+  });
+  if (!/(basketball|officiat|official|rule|case|mechanic|coverage|signal|whistle|ruling|penalt|restart|violation|foul|contact|game|crew|coach|player|table|bench|communication|judgment|position)/i.test(content)) {
+    fail(dayContext, 'test content must explicitly assess basketball officiating material.');
+  }
+}
+
 if (!fs.existsSync(manifestPath)) {
   fail('RefZone manifest', 'frontend/public/refzone-course-materials.json is missing.');
 } else {
@@ -93,6 +122,7 @@ if (!fs.existsSync(manifestPath)) {
         if (correctEntries < 25) {
           fail(dayContext, `answer key day section must include 25 correct-answer markers, found ${correctEntries}.`);
         }
+        auditAssessmentFocus(dayContext, test, dayText);
       });
     });
   });

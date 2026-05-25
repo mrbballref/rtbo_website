@@ -43,6 +43,45 @@ function plainText(lines = []) {
   return lines.join('\n').replace(/^#+\s*/gm, '').trim();
 }
 
+function cleanAssessmentText(value = '') {
+  return String(value || '').replace(/\s+/g, ' ').trim();
+}
+
+function competitionLabelForTrack(track = {}) {
+  const source = `${track.title || ''} ${track.path || ''} ${track.level || ''}`.toLowerCase();
+  if (source.includes('nfhs') || source.includes('high school')) return 'high-school basketball';
+  if (source.includes('njcaa')) return 'junior-college basketball';
+  if (source.includes('naia')) return 'NAIA basketball';
+  if (source.includes('ncaa men')) return 'NCAA men\'s basketball';
+  if (source.includes('ncaa women')) return 'NCAA women\'s basketball';
+  if (source.includes('wnba')) return 'WNBA basketball';
+  if (source.includes('nba')) return 'NBA basketball';
+  return `${track.title || 'basketball'} basketball`;
+}
+
+function officiatingAssessmentTopicFor(track = {}, week = {}, day = {}) {
+  const rawTopic = cleanAssessmentText(week.title || day.title || 'basketball officiating fundamentals');
+  const competition = competitionLabelForTrack(track);
+  if (/orientation|professional identity|course welcome|baseline assessment/i.test(rawTopic)) {
+    return `${competition} officiating professionalism, rule readiness, crew communication, game administration, and player safety`;
+  }
+  if (/professional development/i.test(rawTopic) && !/(officiat|official|crew|game|assignment|feedback|observer|communication|conduct|report)/i.test(rawTopic)) {
+    return `${competition} officiating development, rule study, mechanics evidence, and assignment readiness`;
+  }
+  if (/(basketball|officiat|official|rule|case|mechanic|coverage|signal|whistle|ruling|penalt|restart|violation|foul|contact|throw|clock|game|crew|coach|player|table|score|bench|safety|communication|judgment|position)/i.test(rawTopic)) {
+    return `${rawTopic} in ${competition} officiating`;
+  }
+  return `${rawTopic} as applied to ${competition} officiating`;
+}
+
+function dayAssessmentFocusFor(day = {}) {
+  const title = cleanAssessmentText(day.title || 'daily lesson');
+  if (/professor lecture|socratic seminar|course welcome|baseline assessment|orientation/i.test(title)) {
+    return 'the daily basketball officiating lesson';
+  }
+  return `${title} officiating work`;
+}
+
 function courseImageFor(track = {}, index = 0) {
   if (track.id === 'overview') return COURSE_OVERVIEW_THUMBNAIL;
   if (track.overviewThumbnail) return track.overviewThumbnail;
@@ -110,39 +149,39 @@ function textList(items, fallback = []) {
 function fallbackCollegeMaterial(track = {}, week = {}, day = {}) {
   const visual = dayVisualFor(day);
   const trackTitle = track.title || 'Course';
-  const weekTitle = week.title || day.title || 'Daily Topic';
-  const dayTitle = day.title || 'Class Session';
+  const topic = officiatingAssessmentTopicFor(track, week, day);
+  const focus = dayAssessmentFocusFor(day);
   return {
     minutes: 90,
     objectives: [
-      `Explain ${weekTitle} using the current rulebook, case book, mechanics manual, and governing directives.`,
-      `Apply ${dayTitle} to realistic ${trackTitle} game situations with judgment, positioning, communication, and evidence.`,
+      `Explain ${topic} using the current rulebook, case book, mechanics manual, and governing directives.`,
+      `Apply ${topic} to realistic ${trackTitle} game situations with judgment, positioning, communication, and evidence.`,
       'Produce a gradable artifact that proves preparation, performance, reflection, and mentor readiness.'
     ],
     readings: [
-      `Read current rulebook sections connected to ${weekTitle}; mark definitions, penalties, exceptions, and restart language.`,
-      `Read case plays and interpretations connected to ${weekTitle}; write the ruling, reason, crew responsibility, and supervisor explanation.`,
-      `Study mechanics-manual coverage for ${dayTitle}; draw starting position, movement path, primary area, secondary awareness, and reporting route.`,
+      `Read current rulebook sections connected to ${topic}; mark definitions, penalties, exceptions, and restart language.`,
+      `Read case plays and interpretations connected to ${topic}; write the ruling, reason, crew responsibility, and supervisor explanation.`,
+      `Study mechanics-manual coverage for ${topic}; draw starting position, movement path, primary area, secondary awareness, and reporting route.`,
       'Review professional communication, bench decorum, reporting, and sportsmanship expectations for the applicable level.',
       `Study the ${visual.title.toLowerCase()} visual aid and attach one film, court, or written example that proves learning transfer.`
     ],
-    preparation: `Arrive prepared to cite the reading, explain the ruling, perform the mechanic, and submit evidence for ${dayTitle}.`,
+    preparation: `Arrive prepared to cite the reading, explain the ruling, perform the mechanic, and submit evidence for ${topic}.`,
     media: `${visual.title} visual aid, screenshot packet, lecture slide, worksheet frame, and instructor talking points.`,
     lectureNotes: [
-      `Frame ${weekTitle} as a college-level officiating discipline, not a clinic tip.`,
+      `Frame ${topic} as a college-level officiating discipline, not a clinic tip.`,
       `Connect rule language, philosophy, mechanics, and communication to ${trackTitle} game pressure.`,
       'Model one correct explanation, one incorrect shortcut, and one supervisor-ready correction statement.'
     ],
     discussion: [
-      `Where does ${weekTitle} most often break down in live games?`,
+      `Where does ${topic} most often break down in live games?`,
       'What evidence proves the official applied the reading instead of guessing?',
       'How should the official communicate once, professionally, and then stop?'
     ],
-    lab: `${visual.title}: complete the visual worksheet, screenshot annotation, court/film/role-play task, and mentor observation note.`,
-    assignment: `Submit the daily journal entry, worksheet/lab artifact, and one mentor-ready evidence item for ${dayTitle}.`,
+    lab: `${visual.title}: complete the visual worksheet, screenshot annotation, court/film/role-play task, and mentor observation note for ${focus}.`,
+    assignment: `Submit the daily journal entry, worksheet/lab artifact, and one mentor-ready evidence item tied to ${topic}.`,
     assessment: {
       type: 'Module Assessment',
-      prompt: `Defend the ruling, mechanic, communication choice, and evidence connected to ${weekTitle}.`,
+      prompt: `Defend the ruling, mechanic, communication choice, and evidence connected to ${topic}.`,
       passingStandard: `85% or mentor approval is required before the next module unlocks.`
     },
     rubric: collegeCourseDefaults.gradingScale.map(([label, value]) => `${label}: ${value}`)
@@ -164,16 +203,16 @@ function fallbackTestForDay(track = {}, week = {}, day = {}) {
   const material = collegeMaterialForDay(track, week, day);
   const testType = material.assessment?.type || 'Course Assessment';
   const courseTitle = track.title || 'Course';
-  const weekTitle = week.title || day.title || 'this module';
-  const dayTitle = day.title || 'this lesson';
-  const scenario = `A live ${courseTitle} game presents a judgment, mechanics, or communication problem tied to ${weekTitle}.`;
+  const topic = officiatingAssessmentTopicFor(track, week, day);
+  const focus = dayAssessmentFocusFor(day);
+  const scenario = `A live ${courseTitle} game presents a judgment, mechanics, or communication problem tied to ${topic}.`;
   const baseQuestions = [
     {
       id: `${day.id || 'day'}-q1`,
       type: 'multiple-choice',
-      prompt: `Before ${dayTitle}, which preparation best supports ${weekTitle}?`,
+      prompt: `Before the basketball officiating assessment on ${topic}, which preparation best supports the course standard?`,
       options: [
-        { id: 'a', text: material.readings?.[0] || `Read the current governing material tied to ${weekTitle}.` },
+        { id: 'a', text: material.readings?.[0] || `Read the current governing basketball officiating material tied to ${topic}.` },
         { id: 'b', text: 'Wait until after class to learn the rule.' },
         { id: 'c', text: 'Rely only on personal game experience.' },
         { id: 'd', text: 'Study signals without reading the rule or mechanics source.' }
@@ -184,7 +223,7 @@ function fallbackTestForDay(track = {}, week = {}, day = {}) {
     {
       id: `${day.id || 'day'}-q2`,
       type: 'multiple-choice',
-      prompt: `What is required evidence for ${dayTitle}?`,
+      prompt: `What is required evidence for applying ${topic} in a game setting?`,
       options: [
         { id: 'a', text: 'Attendance only.' },
         { id: 'b', text: material.assignment || 'Submit the daily worksheet, lab artifact, and mentor-ready evidence item.' },
@@ -197,7 +236,7 @@ function fallbackTestForDay(track = {}, week = {}, day = {}) {
     {
       id: `${day.id || 'day'}-q3`,
       type: 'multiple-choice',
-      prompt: `What should the official connect when applying ${weekTitle}?`,
+      prompt: `What should the official connect when applying ${topic}?`,
       options: [
         { id: 'a', text: 'Only crowd reaction.' },
         { id: 'b', text: 'Rule language, case-play logic, mechanics, communication, and evidence quality.' },
@@ -241,7 +280,7 @@ function fallbackTestForDay(track = {}, week = {}, day = {}) {
       return {
         id: `${day.id || 'day'}-q${number}`,
         type: 'multiple-choice',
-        prompt: `Question ${number}: Which reading action most directly supports ${weekTitle} during ${dayTitle}?`,
+        prompt: `Question ${number}: Which reading action most directly supports officiating judgment on ${topic}?`,
         options: [
           { id: 'a', text: 'Identify the exact rule language, exception, penalty, restart, and mechanic connected to the play.' },
           { id: 'b', text: 'Ignore exceptions and rely only on the most common ruling.' },
@@ -256,7 +295,7 @@ function fallbackTestForDay(track = {}, week = {}, day = {}) {
       return {
         id: `${day.id || 'day'}-q${number}`,
         type: 'multiple-choice',
-        prompt: `Question ${number}: What mechanics evidence best proves mastery of ${weekTitle}?`,
+        prompt: `Question ${number}: What mechanics evidence best proves mastery of ${topic}?`,
         options: [
           { id: 'a', text: 'A diagram or note showing starting position, movement path, primary coverage, secondary awareness, signal, and reporting route.' },
           { id: 'b', text: 'A statement that the official was close to the play.' },
@@ -271,7 +310,7 @@ function fallbackTestForDay(track = {}, week = {}, day = {}) {
       return {
         id: `${day.id || 'day'}-q${number}`,
         type: 'multiple-choice',
-        prompt: `Question ${number}: Which communication response best fits a ${courseTitle} official challenged on ${weekTitle}?`,
+        prompt: `Question ${number}: Which communication response best fits a ${courseTitle} official challenged on ${topic}?`,
         options: [
           { id: 'a', text: 'Use brief, calm, rule-based language, then return focus to the game.' },
           { id: 'b', text: 'Keep explaining until the coach agrees.' },
@@ -286,7 +325,7 @@ function fallbackTestForDay(track = {}, week = {}, day = {}) {
       return {
         id: `${day.id || 'day'}-q${number}`,
         type: 'multiple-choice',
-        prompt: `Question ${number}: What should a film or visual review identify for ${dayTitle}?`,
+        prompt: `Question ${number}: What should a film or visual review identify for ${topic}?`,
         options: [
           { id: 'a', text: 'Primary coverage, open or closed angle, contact effect, crew help, and the correction point.' },
           { id: 'b', text: 'Only whether the call was popular.' },
@@ -300,7 +339,7 @@ function fallbackTestForDay(track = {}, week = {}, day = {}) {
     return {
       id: `${day.id || 'day'}-q${number}`,
       type: 'multiple-choice',
-      prompt: `Question ${number}: Which portfolio evidence would satisfy the advancement standard for ${weekTitle}?`,
+      prompt: `Question ${number}: Which portfolio evidence would satisfy the advancement standard for ${topic}?`,
       options: [
         { id: 'a', text: 'Corrected quiz results, written rule defense, lab artifact, mentor note, and a specific next-step correction plan.' },
         { id: 'b', text: 'A button click showing the lesson as passed.' },
@@ -315,12 +354,12 @@ function fallbackTestForDay(track = {}, week = {}, day = {}) {
 
   return {
     id: `${day.id || 'day'}-test`,
-    title: `${courseTitle} Week ${week.week || 1}, Day ${day.day || 1} ${testType}`,
+    title: `${courseTitle} Week ${week.week || 1}, Day ${day.day || 1} Basketball Officiating ${testType}`,
     type: testType,
     passingScore: 85,
     timeLimitMinutes: 45,
-    instructions: `Complete this 25-question scored assessment after studying ${weekTitle}. You must earn at least 85% before the next module unlocks.`,
-    evidencePrompt: `In 3-5 sentences, cite the rule or mechanic connected to ${weekTitle}, explain the official's responsibility during ${dayTitle}, and name one correction target for the next assignment.`,
+    instructions: `Complete this 25-question scored assessment after studying the basketball officiating material for ${topic}. You must earn at least 85% before the next module unlocks.`,
+    evidencePrompt: `In 3-5 sentences, cite the rule or mechanic connected to ${topic}, explain the official's game responsibility during ${focus}, and name one correction target for the next assignment.`,
     questions
   };
 }

@@ -35,34 +35,63 @@
     return String(value || '').split(/\n+/).map(item => item.trim()).filter(Boolean);
   }
 
+  function cleanAssessmentText(value = '') {
+    return String(value || '').replace(/\s+/g, ' ').trim();
+  }
+
+  function officiatingAssessmentTopicFor(form = {}) {
+    const rawTopic = cleanAssessmentText(form.moduleTitle || form.title || 'basketball officiating fundamentals');
+    const courseTitle = form.title || 'RefZone Course';
+    if (/orientation|professional identity|course welcome|baseline assessment/i.test(rawTopic)) {
+      return `${courseTitle} basketball officiating professionalism, rule readiness, crew communication, game administration, and player safety`;
+    }
+    if (/professional development/i.test(rawTopic) && !/(officiat|official|crew|game|assignment|feedback|observer|communication|conduct|report)/i.test(rawTopic)) {
+      return `${courseTitle} basketball officiating development, rule study, mechanics evidence, and assignment readiness`;
+    }
+    if (/(basketball|officiat|official|rule|case|mechanic|coverage|signal|whistle|ruling|penalt|restart|violation|foul|contact|throw|clock|game|crew|coach|player|table|score|bench|safety|communication|judgment|position)/i.test(rawTopic)) {
+      return `${rawTopic} in ${courseTitle} basketball officiating`;
+    }
+    return `${rawTopic} as applied to ${courseTitle} basketball officiating`;
+  }
+
+  function dayAssessmentFocusFor(form = {}) {
+    const title = cleanAssessmentText(form.lessonTitle || 'daily lesson');
+    if (/professor lecture|socratic seminar|course welcome|baseline assessment|orientation/i.test(title)) {
+      return 'the daily basketball officiating lesson';
+    }
+    return `${title} officiating work`;
+  }
+
   function collegeFromForm(form) {
     const readings = lines(form.readings);
     const lectureNotes = lines(form.lectureNotes);
     const rubric = lines(form.rubric);
+    const topic = officiatingAssessmentTopicFor(form);
+    const focus = dayAssessmentFocusFor(form);
     return {
       minutes: Number(form.minutes || 90),
       objectives: [
-        `Explain ${form.moduleTitle || form.title} using current rulebook, casebook, mechanics, and assignment standards.`,
-        `Apply ${form.lessonTitle || 'the lesson'} to realistic game situations with visible evidence.`,
+        `Explain ${topic} using current rulebook, casebook, mechanics, and assignment standards.`,
+        `Apply ${topic} to realistic game situations with visible evidence.`,
         'Produce a gradable artifact that proves the student can explain, perform, defend, and improve.'
       ],
       readings: readings.length ? readings : [
-        `Read the current governing rulebook sections tied to ${form.moduleTitle || form.title}.`,
+        `Read the current governing rulebook sections tied to ${topic}.`,
         'Read current case plays, interpretations, supervisor bulletins, and points of emphasis.',
         'Study current mechanics, coverage, communication, and reporting standards for the assignment level.'
       ],
       preparation: form.preparation || 'Bring rulebook notes, mechanics notebook, film journal, whistle, and the current worksheet.',
       media: 'Course visual, screenshot packet, presentation slide, worksheet frame, and instructor notes.',
       lectureNotes: lectureNotes.length ? lectureNotes : [
-        `Frame ${form.moduleTitle || form.title} as a college-level officiating concept.`,
+        `Frame ${topic} as a college-level officiating concept.`,
         'Model one correct explanation, one incorrect shortcut, and one supervisor-ready correction statement.'
       ],
       discussion: [
         'Where does this lesson break down in a live game?',
         'What evidence proves the official applied the reading instead of guessing?'
       ],
-      lab: form.lab || `Complete the visual worksheet, court/film/role-play task, and mentor observation note for ${form.lessonTitle || 'this lesson'}.`,
-      assignment: form.assignment || 'Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item.',
+      lab: form.lab || `Complete the visual worksheet, court/film/role-play task, and mentor observation note for ${focus}.`,
+      assignment: form.assignment || `Submit the daily journal entry, worksheet or lab artifact, and one mentor-ready evidence item tied to ${topic}.`,
       assessment: {
         type: form.assessmentType || 'Course Assessment',
         prompt: form.assessment,
@@ -81,23 +110,23 @@
   function fallbackTestFromForm(form, id, weekNumber = 1, dayNumber = 1) {
     const dayId = `${id}-week-${weekNumber}-day-${dayNumber}`;
     const courseTitle = form.title || 'RefZone Course';
-    const moduleTitle = form.moduleTitle || 'Course Orientation';
-    const lessonTitle = form.lessonTitle || 'Course Welcome and Baseline Assessment';
+    const topic = officiatingAssessmentTopicFor(form);
+    const focus = dayAssessmentFocusFor(form);
     const assessmentType = form.assessmentType || 'Course Assessment';
     const baseQuestions = [
-      ['Before this lesson, which preparation best supports the course standard?', [
-        'Read the current governing material, identify rule language, case-play logic, mechanics, and evidence expectations.',
+      [`Before the basketball officiating assessment on ${topic}, which preparation best supports the course standard?`, [
+        `Read the current governing material tied to ${topic}; identify rule language, case-play logic, mechanics, and evidence expectations.`,
         'Wait until after class to learn the rule.',
         'Rely only on personal game experience.',
         'Study signals without reading the rule or mechanics source.'
       ], 'a', 'RefZone lessons require current reading, rules reasoning, mechanics study, and evidence before advancement.'],
-      ['What is required evidence for this lesson?', [
+      [`What is required evidence for applying ${topic} in a game setting?`, [
         form.assignment || 'Submit the daily worksheet, lab artifact, and mentor-ready evidence item.',
         'Attendance only.',
         'A casual verbal statement.',
         'No evidence is required.'
       ], 'a', 'Course completion requires a gradable artifact, not a button click.'],
-      [`What should the official connect when applying ${moduleTitle}?`, [
+      [`What should the official connect when applying ${topic}?`, [
         'Rule language, case-play logic, mechanics, communication, and evidence quality.',
         'Only crowd reaction.',
         'Only the final score.',
@@ -119,10 +148,10 @@
     const generated = Array.from({ length: 20 }, (_, index) => {
       const number = index + 6;
       const prompts = [
-        [`Question ${number}: Which reading action most directly supports ${moduleTitle}?`, 'Identify exact rule language, exception, penalty, restart, and mechanic connected to the play.', 'Ignore exceptions and rely only on the common ruling.', 'Avoid written evidence until the test is complete.', 'Ask the coach which rule should apply.', 'Rule-source accuracy comes before judgment or mechanics.'],
+        [`Question ${number}: Which reading action most directly supports officiating judgment on ${topic}?`, 'Identify exact rule language, exception, penalty, restart, and mechanic connected to the play.', 'Ignore exceptions and rely only on the common ruling.', 'Avoid written evidence until the test is complete.', 'Ask the coach which rule should apply.', 'Rule-source accuracy comes before judgment or mechanics.'],
         [`Question ${number}: What mechanics evidence best proves mastery?`, 'A diagram or note showing starting position, movement path, primary coverage, secondary awareness, signal, and reporting route.', 'A statement that the official was close to the play.', 'A score-only summary.', 'A generic note saying the crew worked hard.', 'Mechanics mastery must be visible and reviewable.'],
         [`Question ${number}: Which communication response best fits ${courseTitle}?`, 'Use brief, calm, rule-based language, then return focus to the game.', 'Keep explaining until the coach agrees.', 'Use sarcasm to end the conversation.', 'Refuse all communication regardless of the situation.', 'Professional communication is accurate, brief, composed, and game-centered.'],
-        [`Question ${number}: What should a film or visual review identify for ${lessonTitle}?`, 'Primary coverage, open or closed angle, contact effect, crew help, and the correction point.', 'Only whether the call was popular.', 'Only the player who scored.', 'Only whether the official looked confident.', 'Film work must identify observable officiating factors.'],
+        [`Question ${number}: What should a film or visual review identify for ${topic}?`, 'Primary coverage, open or closed angle, contact effect, crew help, and the correction point.', 'Only whether the call was popular.', 'Only the player who scored.', 'Only whether the official looked confident.', 'Film work must identify observable officiating factors.'],
         [`Question ${number}: Which portfolio evidence satisfies advancement?`, 'Corrected quiz results, written rule defense, lab artifact, mentor note, and a specific next-step correction plan.', 'A button click showing the lesson as passed.', 'A blank worksheet with no notes.', 'A promise to study later.', 'Advancement requires evidence that can be reviewed by faculty and mentors.']
       ][index % 5];
       return [prompts[0], prompts.slice(1, 5), 'a', prompts[5]];
@@ -137,12 +166,12 @@
     }));
     return {
       id: `${dayId}-test`,
-      title: `${courseTitle} Week ${weekNumber}, Day ${dayNumber} ${assessmentType}`,
+      title: `${courseTitle} Week ${weekNumber}, Day ${dayNumber} Basketball Officiating ${assessmentType}`,
       type: assessmentType,
       passingScore: 85,
       timeLimitMinutes: 45,
-      instructions: `Complete this 25-question assessment. A minimum score of 85% is required before the next module unlocks.`,
-      evidencePrompt: `In 3-5 sentences, cite the rule or mechanic connected to ${moduleTitle}, explain the official's responsibility during ${lessonTitle}, and name one correction target.`,
+      instructions: `Complete this 25-question basketball officiating assessment. A minimum score of 85% is required before the next module unlocks.`,
+      evidencePrompt: `In 3-5 sentences, cite the rule or mechanic connected to ${topic}, explain the official's game responsibility during ${focus}, and name one correction target.`,
       answerKeyVisibleInCommandCenter: true,
       questions,
       answerKey: questions.map(question => ({

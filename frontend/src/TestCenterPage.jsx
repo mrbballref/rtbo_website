@@ -11,6 +11,45 @@ function optionId(index) {
   return String.fromCharCode(97 + index);
 }
 
+function cleanAssessmentText(value = '') {
+  return String(value || '').replace(/\s+/g, ' ').trim();
+}
+
+function competitionLabelForCourse(course = {}) {
+  const source = `${course.title || ''} ${course.path || ''} ${course.level || ''}`.toLowerCase();
+  if (source.includes('nfhs') || source.includes('high school')) return 'high-school basketball';
+  if (source.includes('njcaa')) return 'junior-college basketball';
+  if (source.includes('naia')) return 'NAIA basketball';
+  if (source.includes('ncaa men')) return 'NCAA men\'s basketball';
+  if (source.includes('ncaa women')) return 'NCAA women\'s basketball';
+  if (source.includes('wnba')) return 'WNBA basketball';
+  if (source.includes('nba')) return 'NBA basketball';
+  return `${course.title || 'basketball'} basketball`;
+}
+
+function officiatingAssessmentTopicFor(course = {}, week = {}, day = {}) {
+  const rawTopic = cleanAssessmentText(week.title || day.title || 'basketball officiating fundamentals');
+  const competition = competitionLabelForCourse(course);
+  if (/orientation|professional identity|course welcome|baseline assessment/i.test(rawTopic)) {
+    return `${competition} officiating professionalism, rule readiness, crew communication, game administration, and player safety`;
+  }
+  if (/professional development/i.test(rawTopic) && !/(officiat|official|crew|game|assignment|feedback|observer|communication|conduct|report)/i.test(rawTopic)) {
+    return `${competition} officiating development, rule study, mechanics evidence, and assignment readiness`;
+  }
+  if (/(basketball|officiat|official|rule|case|mechanic|coverage|signal|whistle|ruling|penalt|restart|violation|foul|contact|throw|clock|game|crew|coach|player|table|score|bench|safety|communication|judgment|position)/i.test(rawTopic)) {
+    return `${rawTopic} in ${competition} officiating`;
+  }
+  return `${rawTopic} as applied to ${competition} officiating`;
+}
+
+function dayAssessmentFocusFor(day = {}) {
+  const title = cleanAssessmentText(day.title || 'daily lesson');
+  if (/professor lecture|socratic seminar|course welcome|baseline assessment|orientation/i.test(title)) {
+    return 'the daily basketball officiating lesson';
+  }
+  return `${title} officiating work`;
+}
+
 function normalizeCourses(items = []) {
   return (Array.isArray(items) ? items : []).map((course, courseIndex) => {
     const courseId = slug(course.id || course.title || `course-${courseIndex + 1}`);
@@ -95,14 +134,16 @@ function collegeForDay(week = {}, day = {}) {
 function fallbackTestForDay(course = {}, week = {}, day = {}) {
   const college = collegeForDay(week, day);
   const courseTitle = course.title || 'RefZone Course';
-  const weekTitle = week.title || 'this module';
-  const dayTitle = day.title || 'this lesson';
+  const topic = officiatingAssessmentTopicFor(course, week, day);
+  const focus = dayAssessmentFocusFor(day);
   const type = college.assessment.type || 'Course Assessment';
+  const firstReading = college.readings[0] || `Read the current governing basketball officiating material tied to ${topic}.`;
+  const assignmentEvidence = college.assignment || `Submit the daily worksheet, lab artifact, and mentor-ready evidence item tied to ${topic}.`;
   const baseQuestions = [
     {
-      prompt: `Before ${dayTitle}, which preparation best supports ${weekTitle}?`,
+      prompt: `Before the basketball officiating assessment on ${topic}, which preparation best supports the course standard?`,
       options: [
-        college.readings[0] || `Read the current governing material tied to ${weekTitle}.`,
+        firstReading,
         'Wait until after class to learn the rule.',
         'Rely only on personal game experience.',
         'Study signals without reading the rule or mechanics source.'
@@ -111,10 +152,10 @@ function fallbackTestForDay(course = {}, week = {}, day = {}) {
       explanation: 'RefZone lessons require current reading, rules reasoning, mechanics study, and evidence before advancement.'
     },
     {
-      prompt: `What is required evidence for ${dayTitle}?`,
+      prompt: `What is required evidence for applying ${topic} in a game setting?`,
       options: [
         'Attendance only.',
-        college.assignment,
+        assignmentEvidence,
         'A casual verbal statement.',
         'No evidence is required.'
       ],
@@ -122,7 +163,7 @@ function fallbackTestForDay(course = {}, week = {}, day = {}) {
       explanation: 'Course completion requires a gradable artifact, not a button click.'
     },
     {
-      prompt: `What should the official connect when applying ${weekTitle}?`,
+      prompt: `What should the official connect when applying ${topic}?`,
       options: [
         'Only crowd reaction.',
         'Rule language, case-play logic, mechanics, communication, and evidence quality.',
@@ -159,7 +200,7 @@ function fallbackTestForDay(course = {}, week = {}, day = {}) {
     const number = index + 6;
     const patterns = [
       {
-        prompt: `Question ${number}: Which reading action most directly supports ${weekTitle}?`,
+        prompt: `Question ${number}: Which reading action most directly supports officiating judgment on ${topic}?`,
         options: [
           'Identify exact rule language, exception, penalty, restart, and mechanic connected to the play.',
           'Ignore exceptions and rely only on the common ruling.',
@@ -169,7 +210,7 @@ function fallbackTestForDay(course = {}, week = {}, day = {}) {
         explanation: 'Rule-source accuracy comes before judgment or mechanics.'
       },
       {
-        prompt: `Question ${number}: What mechanics evidence best proves mastery of ${weekTitle}?`,
+        prompt: `Question ${number}: What mechanics evidence best proves mastery of ${topic}?`,
         options: [
           'A diagram or note showing starting position, movement path, primary coverage, secondary awareness, signal, and reporting route.',
           'A statement that the official was close to the play.',
@@ -189,7 +230,7 @@ function fallbackTestForDay(course = {}, week = {}, day = {}) {
         explanation: 'Professional communication is accurate, brief, composed, and game-centered.'
       },
       {
-        prompt: `Question ${number}: What should a film or visual review identify for ${dayTitle}?`,
+        prompt: `Question ${number}: What should a film or visual review identify for ${topic}?`,
         options: [
           'Primary coverage, open or closed angle, contact effect, crew help, and the correction point.',
           'Only whether the call was popular.',
@@ -222,12 +263,12 @@ function fallbackTestForDay(course = {}, week = {}, day = {}) {
 
   return {
     id: `${day.id || 'day'}-test`,
-    title: `${courseTitle} Week ${week.week || day.week || 1}, Day ${day.day || 1} ${type}`,
+    title: `${courseTitle} Week ${week.week || day.week || 1}, Day ${day.day || 1} Basketball Officiating ${type}`,
     type,
     passingScore: 85,
     timeLimitMinutes: 45,
-    instructions: `Complete this 25-question scored assessment after studying ${weekTitle}. A minimum score of 85% is required before the next module unlocks.`,
-    evidencePrompt: `In 3-5 sentences, cite the rule or mechanic connected to ${weekTitle}, explain the official's responsibility during ${dayTitle}, and name one correction target.`,
+    instructions: `Complete this 25-question scored assessment after studying the basketball officiating material for ${topic}. A minimum score of 85% is required before the next module unlocks.`,
+    evidencePrompt: `In 3-5 sentences, cite the rule or mechanic connected to ${topic}, explain the official's game responsibility during ${focus}, and name one correction target.`,
     questions,
     answerKey: answerKeyForQuestions(questions)
   };
