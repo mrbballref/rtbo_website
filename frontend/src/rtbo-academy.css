@@ -1798,6 +1798,14 @@
   background: transparent;
 }
 
+.rtbo-coursera-stage .rtbo-coursera-player-footer {
+  display: grid;
+  gap: 18px;
+  min-height: 238px;
+  border-bottom: 1px solid var(--academy-button-border);
+  background: var(--academy-field-bg);
+}
+
 .rtbo-coursera-lesson-head {
   display: flex;
   gap: 12px;
@@ -1869,6 +1877,48 @@
 .rtbo-coursera-stage .rtbo-coursera-action-row {
   align-items: center;
   justify-content: space-between;
+}
+
+.rtbo-coursera-footer-actions {
+  display: flex;
+  gap: 14px;
+  align-items: end;
+  justify-content: space-between;
+  min-height: 56px;
+}
+
+.rtbo-coursera-feedback-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.rtbo-coursera-feedback-actions button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid transparent !important;
+  border-radius: 6px !important;
+  color: var(--academy-heading) !important;
+  -webkit-text-fill-color: var(--academy-heading) !important;
+  background: transparent !important;
+  font-size: .9rem;
+  font-weight: 900;
+}
+
+.rtbo-coursera-feedback-actions button:hover,
+.rtbo-coursera-feedback-actions button:focus-visible {
+  border-color: var(--academy-button-border) !important;
+  background: var(--academy-button-bg) !important;
+  outline: none;
+}
+
+.rtbo-coursera-assessment-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
 }
 
 .rtbo-coursera-tool-rail {
@@ -2012,12 +2062,19 @@
   }
 
   .rtbo-coursera-stage .rtbo-coursera-action-row,
+  .rtbo-coursera-footer-actions,
   .rtbo-coursera-lesson-head {
     display: grid;
   }
 
   .rtbo-coursera-ai-actions button,
-  .rtbo-coursera-stage .rtbo-coursera-action-row .btn {
+  .rtbo-coursera-stage .rtbo-coursera-action-row .btn,
+  .rtbo-coursera-footer-actions .btn,
+  .rtbo-coursera-assessment-actions .btn {
     width: 100%;
+  }
+
+  .rtbo-coursera-assessment-actions {
+    justify-content: stretch;
   }
 }

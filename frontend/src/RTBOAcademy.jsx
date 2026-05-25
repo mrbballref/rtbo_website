@@ -1649,7 +1649,7 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
                     </div>
                   </section>
 
-                  <section className="rtbo-coursera-content-band">
+                  <section className="rtbo-coursera-content-band rtbo-coursera-player-footer">
                     <div className="rtbo-coursera-lesson-head">
                       <div>
                         <p className="eyebrow">Module {selectedWeek?.week} / Day {selectedDay.day}</p>
@@ -1674,13 +1674,12 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
                       </div>
                     </article>
 
-                    <div className="rtbo-coursera-action-row">
-                      <button className="btn secondary dark-btn" type="button" onClick={() => openDayTest(selectedDay.id)}>
-                        {dayTestPassed(selectedDay.id) ? `Passed ${selectedTestResult?.score || 0}%` : 'Take Assessment'}
-                      </button>
-                      <button className="btn secondary dark-btn" type="button" onClick={() => markDay(selectedDay.id, !completed[selectedDay.id])}>
-                        {completed[selectedDay.id] ? 'Mark Incomplete' : 'Mark Complete'}
-                      </button>
+                    <div className="rtbo-coursera-footer-actions">
+                      <div className="rtbo-coursera-feedback-actions" aria-label="Lesson feedback">
+                        <button type="button" aria-label="This lesson was helpful" onClick={() => onStatus('Lesson feedback recorded.')}>+</button>
+                        <button type="button" aria-label="This lesson needs improvement" onClick={() => onStatus('Lesson feedback recorded for review.')}>-</button>
+                        <button type="button" aria-label="Flag this lesson" onClick={() => onStatus('Lesson flagged for review.')}>!</button>
+                      </div>
                       <button
                         className="btn"
                         type="button"
@@ -1730,9 +1729,14 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
                       <p>Score at least 85% before the next module or section unlocks. The existing advancement rule remains in force.</p>
                       {selectedTestResult && <small>Latest score: {selectedTestResult.score}% / {selectedTestResult.correctCount} of {selectedTestResult.questionCount} correct</small>}
                     </div>
-                    <button className="btn" type="button" onClick={() => openDayTest(selectedDay.id)}>
-                      {dayTestPassed(selectedDay.id) ? 'Review / Retake Test' : 'Open Test'}
-                    </button>
+                    <div className="rtbo-coursera-assessment-actions">
+                      <button className="btn" type="button" onClick={() => openDayTest(selectedDay.id)}>
+                        {dayTestPassed(selectedDay.id) ? 'Review / Retake Test' : 'Open Test'}
+                      </button>
+                      <button className="btn secondary dark-btn" type="button" onClick={() => markDay(selectedDay.id, !completed[selectedDay.id])}>
+                        {completed[selectedDay.id] ? 'Mark Incomplete' : 'Mark Complete'}
+                      </button>
+                    </div>
                   </section>
 
                   {selectedTestOpen && selectedTest && (
