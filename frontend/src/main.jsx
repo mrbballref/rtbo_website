@@ -2657,7 +2657,7 @@ function Reviews() {
             </div>
           )}
         </div>
-        <form className="form attendee-review-form" onSubmit={submitReview}>
+        <form className="form attendee-review-form" method="post" action={`${API_URL}/review-submit.php`} encType="multipart/form-data" onSubmit={submitReview}>
           <div className="grid two">
             <label>
               Full Name
@@ -3857,7 +3857,7 @@ function AccountModal({ mode = 'login', resetToken = '', onClose, onLogin, onRes
   );
 }
 
-function CrudPanel({ title, description, fields, records, onAdd, onUpdate, onDelete }) {
+function CrudPanel({ title, description, fields, records, onAdd, onUpdate, onDelete, readOnly = false }) {
   const emptyForm = () => Object.fromEntries(fields.map((field, index) => [`field${index}`, '']));
   const [form, setForm] = useState(emptyForm);
   const [editing, setEditing] = useState(null);
@@ -3917,22 +3917,22 @@ function CrudPanel({ title, description, fields, records, onAdd, onUpdate, onDel
     <article className="rtbo-dashboard-card rtbo-crud-panel">
       <div className="rtbo-dashboard-card-head">
         <div><h3>{title}</h3><p>{description}</p></div>
-        <div className="rtbo-form-toolbar">
+        {!readOnly && <div className="rtbo-form-toolbar">
           <button className="btn" type="button" onClick={createNewForm} disabled={saving}>Create New Form</button>
           <button className="btn secondary dark-btn danger-action" type="button" onClick={deleteForm} disabled={saving}>Delete Form</button>
-        </div>
+        </div>}
       </div>
-      <form className="rtbo-crud-form" onSubmit={submit}>
+      {!readOnly && <form className="rtbo-crud-form" onSubmit={submit}>
         {fields.map((field, index) => <label key={field}>{field}<input name={`field${index}`} value={form[`field${index}`] || ''} onChange={update} placeholder={field} /></label>)}
         <button className="btn" type="submit" disabled={saving}>{saving ? 'Saving...' : editing === null ? 'Save Form' : 'Update Form'}</button>
-      </form>
+      </form>}
       {error && <p className="form-message error">{error}</p>}
       <div className="rtbo-crud-table">
-        <div className="rtbo-crud-row head">{fields.map(field => <span key={field}>{field}</span>)}<span>Actions</span></div>
+        <div className="rtbo-crud-row head">{fields.map(field => <span key={field}>{field}</span>)}{!readOnly && <span>Actions</span>}</div>
         {records.map((record, index) => (
           <div className="rtbo-crud-row" key={`${title}-${index}`}>
             {fields.map((field, fieldIndex) => <span key={field}>{record[`field${fieldIndex}`] || '-'}</span>)}
-            <span className="rtbo-table-actions"><button type="button" onClick={() => startEdit(index)}>Edit</button><button type="button" onClick={() => onDelete(index)}>Delete</button></span>
+            {!readOnly && <span className="rtbo-table-actions"><button type="button" onClick={() => startEdit(index)}>Edit</button><button type="button" onClick={() => onDelete(index)}>Delete</button></span>}
           </div>
         ))}
       </div>
@@ -10261,6 +10261,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   const [records, setRecords] = useState({
     registrations: [],
     contacts: [],
+    reviews: [],
     payments: [],
     education: [],
     reports: []
@@ -10419,6 +10420,17 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
                 field4: contact.message || ''
               }))
             : [],
+            reviews: (data.reviews || []).length
+            ? data.reviews.map(review => ({
+                id: review.review_id || review.id,
+                source: 'attendee_reviews',
+                field0: review.full_name || review.email || 'Reviewer',
+                field1: review.school_or_course || review.experience_label || review.experience_type || '',
+                field2: `${review.rating || '-'} Star${String(review.rating || '') === '1' ? '' : 's'}`,
+                field3: review.status || 'pending',
+                field4: (review.photo_path || review.photoPath) ? 'Picture uploaded' : 'No picture'
+              }))
+            : [],
             payments: (data.registrations || []).length
             ? data.registrations.map(registration => ({
                 id: registration.id,
@@ -10444,7 +10456,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         setOverviewData(data.overview && !Array.isArray(data.overview) ? data.overview : emptyOverviewData);
         updateNotificationState(data);
 
-        setStatus('Dashboard loaded the latest registration, contact, newsletter, and payment records from the server database.');
+        setStatus('Dashboard loaded the latest registration, review, contact, newsletter, and payment records from the server database.');
       })
       .catch((error) => {
         if (!active) return;
@@ -10550,6 +10562,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['taxCenter', 'Tax Center'],
     ['education', 'Education'],
     ['reports', 'Forms'],
+    ['reviews', 'Reviews'],
     ['organizations', 'Organizations']
   ];
   const officialPortalSections = [
@@ -10567,7 +10580,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['evaluation', 'Evaluations'],
     ['education', 'Education']
   ];
-  const allowedDashboardSidebarIds = new Set(['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'notifications', 'payments', 'shopInventory', 'siteContent', 'taxCenter', 'education', 'profile', 'reports', 'organizations']);
+  const allowedDashboardSidebarIds = new Set(['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'notifications', 'payments', 'shopInventory', 'siteContent', 'taxCenter', 'education', 'profile', 'reports', 'reviews', 'organizations']);
   const visibleAdminSections = adminSections.filter(([id]) => allowedDashboardSidebarIds.has(id) && !hiddenSections.includes(id));
   const visibleAddMemberSections = addMemberSections.filter(item => !hiddenMemberItems.includes(item.id));
   const visibleScheduleSetupSections = scheduleSetupSections.filter(item => !hiddenScheduleItems.includes(item.id));
@@ -10588,7 +10601,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         : [];
   const completedFormsSectionIds = completedFormsWidgets.map(widget => widget.section);
   const primaryAdminOrder = ['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'notifications', 'payments', 'shopInventory', 'siteContent', 'taxCenter', 'education'];
-  const secondaryAdminOrder = ['reports', 'organizations'];
+  const secondaryAdminOrder = ['reports', 'reviews', 'organizations'];
   const sections = canUseAdminDashboard
     ? [
         ...visibleAdminSections.filter(([id]) => primaryAdminOrder.includes(id)),
@@ -10604,6 +10617,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['dashboardControls', 'Dashboard Controls'],
     ['registrations', 'Registrations'],
     ['contacts', 'Contacts'],
+    ['reviews', 'Reviews'],
     ['payments', 'Payments'],
     ['completedOfficialForms', 'Completed Official Game Reports'],
     ['completedEvaluatorForms', 'Completed Evaluator Evaluations'],
@@ -10637,7 +10651,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   }));
   const dashboardControlColumns = [
     ['overview', 'payments', 'shopInventory', 'siteContent', 'taxCenter', 'education'],
-    ['members', 'reports', 'rtbomail', 'newsletterCenter'],
+    ['members', 'reports', 'reviews', 'rtbomail', 'newsletterCenter'],
     ['schedules', 'organizations', 'notifications', 'refroom']
   ].map(column => column.map(id => settingsMenuItems.find(item => item.id === id)).filter(Boolean));
   const settingsWorkflowById = new Map(settingsWorkflowSections.map(item => [item.id, item]));
@@ -10645,6 +10659,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   const configs = {
     registrations: ['Applicant', 'Session(s)', 'Payment Status', 'PDF Status', 'Profile Status'],
     contacts: ['Name', 'Email', 'Subject', 'Status', 'Notes'],
+    reviews: ['Reviewer', 'School / Course', 'Rating', 'Status', 'Picture'],
     payments: ['Item', 'Amount', 'Provider', 'Status', 'Notes'],
     education: ['Module', 'Level', 'Type', 'Status', 'Audience'],
     reports: ['Form', 'Count', 'Format', 'Date Range', 'Status']
@@ -13058,6 +13073,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
           <section className="rtbo-dashboard-grid">
             {[
               ['Registrations', records.registrations.length, 'Applications in queue'],
+              ['Reviews', records.reviews.length, 'Attendee reviews pending'],
               ['Unaccepted Games', overviewData.counts?.unaccepted_assignments || 0, 'Officials still need to respond'],
               ['Today’s Games', overviewData.counts?.todays_games || 0, 'Games scheduled today'],
               ['Live Tracking', overviewData.counts?.tracked_officials || 0, 'Officials sharing live location']
@@ -13183,15 +13199,16 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
           </React.Suspense>
         )}
 
-        {canUseAdminDashboard && ['registrations', 'contacts'].includes(activeSection) && (
+        {canUseAdminDashboard && ['registrations', 'contacts', 'reviews'].includes(activeSection) && (
           <CrudPanel
             title={sectionLabels.get(activeSection)}
-            description="Review server-loaded records and use local planning actions for launch testing."
+            description={activeSection === 'reviews' ? 'Review attendee school and RefZone University submissions loaded from production storage.' : 'Review server-loaded records and use local planning actions for launch testing.'}
             fields={configs[activeSection]}
             records={records[activeSection]}
             onAdd={(record) => addRecord(activeSection, record)}
             onUpdate={(index, record) => updateRecord(activeSection, index, record)}
             onDelete={(index) => deleteRecord(activeSection, index)}
+            readOnly={activeSection === 'reviews'}
           />
         )}
 

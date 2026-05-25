@@ -5,6 +5,7 @@ require_once __DIR__ . '/includes/bootstrap.php';
 require_once __DIR__ . '/includes/newsletter.php';
 require_once __DIR__ . '/includes/contact.php';
 require_once __DIR__ . '/includes/registration-store.php';
+require_once __DIR__ . '/includes/reviews.php';
 require_once __DIR__ . '/includes/users.php';
 require_once __DIR__ . '/includes/geo.php';
 require_once __DIR__ . '/includes/admin-dashboard.php';
@@ -203,6 +204,7 @@ function dashboard_overview_data(): array
 
 $registrations = safe_dashboard_list(static fn() => recent_school_registrations(50));
 $contacts = safe_dashboard_list(static fn() => recent_contact_messages(50));
+$reviews = safe_dashboard_list(static fn() => recent_attendee_reviews(50));
 $subscribers = safe_dashboard_list(static fn() => newsletter_recent_subscribers(50));
 $newsletters = safe_dashboard_list(static fn() => newsletter_history(50));
 $adminRecords = safe_dashboard_list(static fn() => dashboard_records_by_section());
@@ -212,6 +214,7 @@ echo json_encode([
     'success' => true,
     'registrations' => $registrations,
     'contacts' => $contacts,
+    'reviews' => $reviews,
     'subscribers' => $subscribers,
     'newsletters' => $newsletters,
     'adminRecords' => $adminRecords,

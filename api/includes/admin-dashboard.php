@@ -40,6 +40,7 @@ function dashboard_allowed_sections(): array
     return [
         'registrations',
         'contacts',
+        'reviews',
         'newsletters',
         'payments',
         'schoolsTeams',
