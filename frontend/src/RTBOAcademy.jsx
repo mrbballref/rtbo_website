@@ -1337,6 +1337,8 @@ function CourseVideoPlayer({
   const audioRef = useRef(null);
   const shellRef = useRef(null);
   const timerRef = useRef(null);
+  const utteranceRef = useRef(null);
+  const speechRunRef = useRef(0);
   const [playing, setPlaying] = useState(false);
   const [currentSeconds, setCurrentSeconds] = useState(0);
   const [durationSeconds, setDurationSeconds] = useState(0);
@@ -1373,6 +1375,7 @@ function CourseVideoPlayer({
   useEffect(() => {
     window.clearInterval(timerRef.current);
     timerRef.current = null;
+    stopGeneratedVoiceover();
     setPlaying(false);
     setCurrentSeconds(0);
     setDurationSeconds(0);
@@ -1396,6 +1399,7 @@ function CourseVideoPlayer({
 
   useEffect(() => () => {
     window.clearInterval(timerRef.current);
+    stopGeneratedVoiceover();
   }, []);
 
   function activeMediaElement() {
@@ -1421,6 +1425,85 @@ function CourseVideoPlayer({
   function stopGeneratedPreview() {
     window.clearInterval(timerRef.current);
     timerRef.current = null;
+    stopGeneratedVoiceover();
+  }
+
+  function stopGeneratedVoiceover() {
+    speechRunRef.current += 1;
+    utteranceRef.current = null;
+    if (typeof window !== 'undefined' && window.speechSynthesis) window.speechSynthesis.cancel();
+  }
+
+  function preferredCourseVoice() {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return null;
+    const voices = window.speechSynthesis.getVoices?.() || [];
+    const preferred = [
+      /samantha/i,
+      /google us english/i,
+      /microsoft aria/i,
+      /microsoft jenny/i,
+      /alex/i,
+      /daniel/i
+    ];
+    return preferred.map(pattern => voices.find(voice => pattern.test(voice.name || '') && /^en/i.test(voice.lang || ''))).find(Boolean)
+      || voices.find(voice => /^en/i.test(voice.lang || ''))
+      || null;
+  }
+
+  function speechChunks(value = '') {
+    const sentences = String(value || '').split(/(?<=[.!?])\s+/).filter(Boolean);
+    const chunks = [];
+    let current = '';
+    sentences.forEach(sentence => {
+      const next = `${current}${current ? ' ' : ''}${sentence}`.trim();
+      if (next.length > 760 && current) {
+        chunks.push(current);
+        current = sentence;
+      } else {
+        current = next;
+      }
+    });
+    if (current) chunks.push(current);
+    return chunks;
+  }
+
+  function speakGeneratedPreview(startSeconds = currentSeconds) {
+    if (typeof window === 'undefined' || !window.speechSynthesis || !script) {
+      onStatus('No course audio source is available in this browser. Render the ElevenLabs MP3 or use a browser with speech playback.');
+      return;
+    }
+    stopGeneratedVoiceover();
+    const runId = speechRunRef.current;
+    const startIndex = Math.max(0, Math.min(script.length - 1, Math.floor((startSeconds / estimatedDuration) * script.length)));
+    const chunks = speechChunks(script.slice(startIndex) || script);
+    const voice = preferredCourseVoice();
+
+    const speakChunk = index => {
+      if (runId !== speechRunRef.current || index >= chunks.length) {
+        if (index >= chunks.length) {
+          window.clearInterval(timerRef.current);
+          timerRef.current = null;
+          setPlaying(false);
+        }
+        return;
+      }
+      const utterance = new SpeechSynthesisUtterance(chunks[index]);
+      utterance.voice = voice;
+      utterance.rate = Math.max(.82, Math.min(1.18, speed));
+      utterance.pitch = .96;
+      utterance.volume = muted ? 0 : volume;
+      utterance.onend = () => speakChunk(index + 1);
+      utterance.onerror = () => {
+        window.clearInterval(timerRef.current);
+        timerRef.current = null;
+        setPlaying(false);
+        onStatus('Course voiceover playback stopped. Render the ElevenLabs MP3 for production audio.');
+      };
+      utteranceRef.current = utterance;
+      window.speechSynthesis.speak(utterance);
+    };
+
+    speakChunk(0);
   }
 
   function startGeneratedTimer(startSeconds = currentSeconds) {
@@ -1451,7 +1534,8 @@ function CourseVideoPlayer({
     }
     setPlaying(true);
     startGeneratedTimer(currentSeconds);
-    onStatus('This lesson is using the visual preview until the ElevenLabs voiceover and Remotion MP4 are rendered.');
+    speakGeneratedPreview(currentSeconds);
+    onStatus('This lesson is using spoken preview audio until the ElevenLabs voiceover and Remotion MP4 are rendered.');
   }
 
   function pausePlayer() {
@@ -1489,6 +1573,7 @@ function CourseVideoPlayer({
       media.currentTime = nextSeconds;
     } else if (playing) {
       stopGeneratedPreview();
+      speakGeneratedPreview(nextSeconds);
       startGeneratedTimer(nextSeconds);
     } else {
       setCurrentSeconds(nextSeconds);
@@ -1669,7 +1754,7 @@ function CourseVideoPlayer({
         </div>
         {settingsOpen && (
           <div className="rtbo-course-video-settings">
-            <p>{hasPublishedVideo ? 'Playing the published Remotion MP4 course video asset.' : hasVoiceoverAudio ? 'Playing the ElevenLabs voiceover with synchronized lesson visuals while the final Remotion MP4 remains optional.' : 'Production preview is active. Render the ElevenLabs voiceover and Remotion MP4 to publish the complete course video.'}</p>
+            <p>{hasPublishedVideo ? 'Playing the published Remotion MP4 course video asset.' : hasVoiceoverAudio ? 'Playing the ElevenLabs voiceover with synchronized lesson visuals while the final Remotion MP4 remains optional.' : 'Playing spoken preview audio with synchronized lesson visuals. Render the ElevenLabs voiceover and Remotion MP4 to publish the complete course video.'}</p>
             {videoJob?.videoPath && <span>Production output: {videoJob.videoPath}</span>}
             {videoJob?.renderer && <span>Renderer: {videoJob.renderer} / Voiceover: {videoJob.voiceover}</span>}
           </div>
