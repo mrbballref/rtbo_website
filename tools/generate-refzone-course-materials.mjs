@@ -11,9 +11,21 @@ const coverDir = path.join(publicRoot, 'assets', 'images', 'refzone', 'course-co
 const overviewDir = path.join(publicRoot, 'assets', 'images', 'refzone', 'course-overviews');
 const visualDir = path.join(publicRoot, 'assets', 'images', 'refzone', 'lesson-visuals');
 const screenshotDir = path.join(publicRoot, 'assets', 'images', 'refzone', 'course-screenshots');
+const dailyVisualAidDir = path.join(publicRoot, 'assets', 'images', 'refzone', 'course-visual-aids');
 const docsRoot = path.join(repoRoot, 'docs', 'refzone-university');
+const publicMaterialsRoot = path.join(publicRoot, 'refzone-university');
 const visualDocsDir = path.join(docsRoot, 'visual-materials');
 const presentationDir = path.join(docsRoot, 'presentation-outlines');
+const coursePacketDir = path.join(docsRoot, 'course-packets');
+const learnerSlidesDir = path.join(docsRoot, 'learner-slides');
+const instructorPresentationDir = path.join(docsRoot, 'presentations');
+const worksheetDir = path.join(docsRoot, 'worksheets');
+const assessmentEvidenceDir = path.join(docsRoot, 'assessment-evidence');
+const publicCoursePacketDir = path.join(publicMaterialsRoot, 'course-packets');
+const publicLearnerSlidesDir = path.join(publicMaterialsRoot, 'learner-slides');
+const publicInstructorPresentationDir = path.join(publicMaterialsRoot, 'presentations');
+const publicWorksheetDir = path.join(publicMaterialsRoot, 'worksheets');
+const publicAssessmentEvidenceDir = path.join(publicMaterialsRoot, 'assessment-evidence');
 const manifestPath = path.join(publicRoot, 'refzone-course-materials.json');
 
 const dayVisuals = [
@@ -156,6 +168,94 @@ function cleanText(value = '') {
 function shortText(value = '', max = 220) {
   const text = cleanText(value);
   return text.length > max ? `${text.slice(0, max - 1).trim()}...` : text;
+}
+
+function mdAnchor(value = '') {
+  return slug(value).replace(/^-+|-+$/g, '') || 'section';
+}
+
+function dayAnchor(week, day) {
+  return `week-${week.week}-day-${day.day}`;
+}
+
+function weekAnchor(week) {
+  return `week-${week.week}`;
+}
+
+function materialPathsFor(course, week, day) {
+  const anchor = dayAnchor(week, day);
+  return {
+    required: true,
+    standard: 'Mandatory RefZone University course material bundle',
+    visualAid: `/assets/images/refzone/course-visual-aids/${course.id}-week-${week.week}-day-${day.day}.svg`,
+    learnerSlides: `/refzone-university/learner-slides/${course.id}-learner-slides.md#${anchor}`,
+    instructorPresentation: `/refzone-university/presentations/${course.id}-instructor-presentation.md#${anchor}`,
+    worksheet: `/refzone-university/worksheets/${course.id}-worksheets.md#${anchor}`,
+    assessmentEvidence: `/refzone-university/assessment-evidence/${course.id}-assessment-evidence.md#${anchor}`,
+    coursePacket: `/refzone-university/course-packets/${course.id}-course-packet.md#${anchor}`,
+    presentationOutline: `/docs/refzone-university/presentation-outlines/${course.id}-presentation.md#week-${week.week}`
+  };
+}
+
+function courseMaterialBundleFor(course) {
+  return {
+    required: true,
+    standard: 'Every active course must include visual aids, learner slides, instructor presentation notes, worksheets, assessment evidence, rubrics, and a course packet before it is publishable.',
+    coursePacket: `/refzone-university/course-packets/${course.id}-course-packet.md`,
+    learnerSlides: `/refzone-university/learner-slides/${course.id}-learner-slides.md`,
+    instructorPresentation: `/refzone-university/presentations/${course.id}-instructor-presentation.md`,
+    worksheets: `/refzone-university/worksheets/${course.id}-worksheets.md`,
+    assessmentEvidence: `/refzone-university/assessment-evidence/${course.id}-assessment-evidence.md`,
+    presentationOutline: `/docs/refzone-university/presentation-outlines/${course.id}-presentation.md`
+  };
+}
+
+function weekMaterialPathsFor(course, week) {
+  const anchor = weekAnchor(week);
+  return {
+    required: true,
+    standard: 'Mandatory weekly RefZone University material bundle',
+    learnerSlides: `/refzone-university/learner-slides/${course.id}-learner-slides.md#${anchor}`,
+    instructorPresentation: `/refzone-university/presentations/${course.id}-instructor-presentation.md#${anchor}`,
+    worksheets: `/refzone-university/worksheets/${course.id}-worksheets.md#${anchor}`,
+    assessmentEvidence: `/refzone-university/assessment-evidence/${course.id}-assessment-evidence.md#${anchor}`,
+    coursePacket: `/refzone-university/course-packets/${course.id}-course-packet.md#${anchor}`,
+    presentationOutline: `/docs/refzone-university/presentation-outlines/${course.id}-presentation.md#week-${week.week}`
+  };
+}
+
+function svgTspans(value = '', x = 0, y = 0, width = 54, lineHeight = 28, maxLines = 3) {
+  const words = cleanText(value).split(' ').filter(Boolean);
+  const lines = [];
+  let current = '';
+  words.forEach(word => {
+    const next = current ? `${current} ${word}` : word;
+    if (next.length > width && current) {
+      lines.push(current);
+      current = word;
+    } else {
+      current = next;
+    }
+  });
+  if (current) lines.push(current);
+  const visible = lines.slice(0, maxLines);
+  if (lines.length > maxLines) visible[visible.length - 1] = `${visible[visible.length - 1].replace(/\.+$/, '')}...`;
+  return visible.map((line, index) => `<tspan x="${x}" y="${y + (index * lineHeight)}">${escapeHtml(line)}</tspan>`).join('');
+}
+
+function materialScenarioFor(course, week, day, visual) {
+  const track = course.title || 'this track';
+  const topic = week.title || 'the weekly topic';
+  const scenarios = {
+    lecture: `A crew enters a ${track} assignment with two competing interpretations of ${topic}; the student must teach the rule, philosophy, mechanics impact, and evidence standard in one coherent explanation.`,
+    rules: `During a close ${track} game, ${topic} creates a disputed ruling. The student must cite the rule source, administer the penalty or restart, identify crew responsibility, and write the supervisor defense.`,
+    'court-lab': `The crew must demonstrate the mechanic connected to ${topic}; the student diagrams starting position, movement path, primary coverage, secondary awareness, signal, and reporting route.`,
+    'film-lab': `A freeze frame from a ${track} game shows a judgment problem tied to ${topic}; the student tags primary coverage, open angle, contact effect, crew help, and correction point.`,
+    'role-play': `A coach, player, partner, table crew member, or supervisor challenges a ${topic} decision; the student must answer once with calm, accurate, professional language.`,
+    'live-practicum': `A live or simulated ${track} assignment requires the student to apply ${topic}, collect observer evidence, and identify one correction target before leaving the floor.`,
+    reflection: `The student reviews evidence from ${topic}, identifies a pattern, writes a remediation plan, and prepares a mentor-ready advancement record.`
+  };
+  return scenarios[visual.key] || scenarios.lecture;
 }
 
 function courseOverviewFor(course) {
