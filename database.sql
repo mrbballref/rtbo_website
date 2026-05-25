@@ -358,6 +358,26 @@ CREATE TABLE IF NOT EXISTS contact_messages (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS attendee_reviews (
+  review_id VARCHAR(64) PRIMARY KEY,
+  full_name VARCHAR(200) NOT NULL,
+  email VARCHAR(190) NOT NULL,
+  phone VARCHAR(60) NULL,
+  experience_type VARCHAR(80) NOT NULL,
+  school_or_course VARCHAR(190) NOT NULL,
+  attendee_role VARCHAR(80) NOT NULL,
+  rating TINYINT NOT NULL,
+  review_text TEXT NOT NULL,
+  public_consent TINYINT(1) NOT NULL DEFAULT 0,
+  contact_ok TINYINT(1) NOT NULL DEFAULT 0,
+  status VARCHAR(40) NOT NULL DEFAULT 'pending',
+  payload LONGTEXT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_attendee_reviews_status (status),
+  INDEX idx_attendee_reviews_created (created_at),
+  INDEX idx_attendee_reviews_experience (experience_type)
+);
+
 CREATE TABLE IF NOT EXISTS school_registrations (
   id VARCHAR(64) PRIMARY KEY,
   user_id INT NULL,

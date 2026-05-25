@@ -49,6 +49,7 @@ const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
 const RTBO_AUTH_KEY = 'rtbo_admin_auth';
 const RTBO_DASHBOARD_OPEN_KEY = 'rtbo-dashboard-open';
 const RTBO_THEME_KEY = 'rtbo-theme';
+const RTBO_REVIEW_STORAGE_KEY = 'rtbo-attendee-reviews';
 const SITE_CONTENT_KEY = 'rtbo-site-content-records';
 const SITE_CONTENT_UPDATED_EVENT = 'rtbo-site-content-updated';
 
@@ -2541,6 +2542,54 @@ function Livestream() {
 }
 
 function Reviews() {
+  const [submittedReviews, setSubmittedReviews] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(RTBO_REVIEW_STORAGE_KEY) || '[]');
+      return Array.isArray(saved) ? saved.slice(0, 3) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [reviewStatus, setReviewStatus] = useState('');
+  const [reviewSubmitting, setReviewSubmitting] = useState(false);
+
+  async function submitReview(event) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const reviewText = String(formData.get('review') || '').trim();
+
+    if (reviewText.length < 20) {
+      setReviewStatus('Please write at least 20 characters about your school or course experience.');
+      return;
+    }
+
+    setReviewSubmitting(true);
+    setReviewStatus('Submitting your review...');
+
+    try {
+      const data = await apiPost('/review-submit.php', formData);
+      const nextReview = {
+        id: `local-${Date.now()}`,
+        name: String(formData.get('full_name') || '').trim(),
+        experience: String(formData.get('experience_type') || '').trim(),
+        schoolOrCourse: String(formData.get('school_or_course') || '').trim(),
+        rating: String(formData.get('rating') || '').trim(),
+        review: reviewText,
+        submittedAt: new Date().toISOString()
+      };
+      const nextReviews = [nextReview, ...submittedReviews].slice(0, 3);
+      setSubmittedReviews(nextReviews);
+      localStorage.setItem(RTBO_REVIEW_STORAGE_KEY, JSON.stringify(nextReviews));
+      form.reset();
+      setReviewStatus(data.message || 'Thank you. Your review was submitted for RTBO review.');
+    } catch (error) {
+      setReviewStatus(error.message || 'Your review could not be submitted right now.');
+    } finally {
+      setReviewSubmitting(false);
+    }
+  }
+
   return (
     <section className="rtbo-section testimonials-section">
       <div className="rtbo-section-head">
@@ -2563,6 +2612,97 @@ function Reviews() {
             </div>
           </article>
         ))}
+      </div>
+      <div className="attendee-review-section" id="leave-review">
+        <div className="attendee-review-copy">
+          <p className="eyebrow">Share Your Experience</p>
+          <h3>Leave a review for RTBO training.</h3>
+          <p>Officials who attended an in-person training school or enrolled in a RefZone University course can submit feedback about the instruction, course materials, clinicians, court work, and overall school experience.</p>
+          <div className="attendee-review-paths" aria-label="Review categories">
+            <span>In-person school</span>
+            <span>RefZone University</span>
+            <span>Both experiences</span>
+          </div>
+          {submittedReviews.length > 0 && (
+            <div className="attendee-review-submitted-list" aria-label="Recently submitted reviews">
+              {submittedReviews.map((review) => (
+                <article key={review.id}>
+                  <div>
+                    <strong>{review.name}</strong>
+                    <span>{review.rating} Stars / {review.schoolOrCourse}</span>
+                  </div>
+                  <p>{review.review}</p>
+                </article>
+              ))}
+            </div>
+          )}
+        </div>
+        <form className="form attendee-review-form" onSubmit={submitReview}>
+          <div className="grid two">
+            <label>
+              Full Name
+              <input name="full_name" placeholder="Enter your name" required />
+            </label>
+            <label>
+              Email Address
+              <input type="email" name="email" placeholder="Enter your email" required />
+            </label>
+          </div>
+          <div className="grid two">
+            <label>
+              Review Type
+              <select name="experience_type" required defaultValue="">
+                <option value="" disabled>Select review type</option>
+                <option value="in_person_school">In-person training school</option>
+                <option value="refzone_university">RefZone University course</option>
+                <option value="both">Both experiences</option>
+              </select>
+            </label>
+            <label>
+              School or Course
+              <input name="school_or_course" placeholder="Enter school or course name" required />
+            </label>
+          </div>
+          <div className="grid two">
+            <label>
+              Your Role
+              <select name="attendee_role" required defaultValue="">
+                <option value="" disabled>Select role</option>
+                <option>Official</option>
+                <option>Evaluator</option>
+                <option>Observer</option>
+                <option>Coach</option>
+                <option>Other</option>
+              </select>
+            </label>
+            <label>
+              Rating
+              <select name="rating" required defaultValue="5">
+                <option value="5">5 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="2">2 Stars</option>
+                <option value="1">1 Star</option>
+              </select>
+            </label>
+          </div>
+          <label>
+            Review
+            <textarea name="review" rows="6" minLength="20" maxLength="1200" placeholder="Tell us about your school or course experience" required></textarea>
+          </label>
+          <label className="attendee-review-consent">
+            <input type="checkbox" name="public_consent" value="yes" required />
+            <span>I confirm this review reflects my experience and may be reviewed by RTBO before being published.</span>
+          </label>
+          <label className="attendee-review-consent">
+            <input type="checkbox" name="contact_ok" value="yes" />
+            <span>RTBO may contact me about this review.</span>
+          </label>
+          <button className="btn attendee-review-submit" type="submit" disabled={reviewSubmitting}>
+            {reviewSubmitting ? 'Submitting Review...' : 'Submit Review'}
+          </button>
+          {reviewStatus && <p className={`form-message${reviewStatus.toLowerCase().includes('could not') || reviewStatus.toLowerCase().includes('please') ? ' error' : ''}`} role="status">{reviewStatus}</p>}
+        </form>
       </div>
     </section>
   );
