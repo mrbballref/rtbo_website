@@ -892,20 +892,20 @@ button.rtbo-shop-list-option {
 }
 
 .rtbo-shop-product-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: stretch;
-  justify-content: flex-start;
   gap: 14px;
   margin-top: 8px;
 }
 
 .rtbo-shop-product-actions .btn {
-  flex: 0 0 auto;
-  width: 86px;
+  width: 100%;
   min-width: 0;
 }
 
 .rtbo-shop-product-actions .btn:first-child {
-  width: 96px;
+  width: 100%;
 }
 
 .rtbo-shop-product-actions strong,
