@@ -13411,7 +13411,7 @@ function App() {
         <>
           <PageHero page="refroom" eyebrow="RefRoom" title="RefRoom Video Player">Watch the public RefRoom program feed for officiating meetings, film study, training sessions, and live production broadcasts.</PageHero>
           <React.Suspense fallback={<section className="rtbo-section"><p className="rtbo-empty-state">Loading RefRoom player...</p></section>}>
-            <RefRoom user={authUser || { name: 'RTBO RefRoom', role: 'viewer' }} mode="player" />
+            <RefRoom user={authUser || { name: 'Guest Viewer', role: 'viewer' }} mode="player" />
           </React.Suspense>
           {managedSections('refroom')}
         </>

@@ -43,6 +43,7 @@ const EMPTY_ROOM_FORM = {
   purpose: '',
   passcode: '',
   invited_member_ids: [],
+  invited_emails: '',
   sendInvitations: false
 };
 
@@ -57,36 +58,14 @@ const EMPTY_SURVEY_FORM = {
 const DEFAULT_PRODUCTION = {
   lowerThird: true,
   brandOverlay: true,
-  greenRoom: true,
-  virtualCamera: true,
-  virtualMicrophone: true,
-  replayQueue: true,
-  autoFraming: false,
-  noiseSuppression: true,
   backgroundBlur: false,
   backgroundMode: 'rtbo-logo',
   backgroundImage: LOGO_SRC,
   customBackground: '',
   cleanBackgroundEdges: true,
-  sceneTransition: 'Live Motion',
   destination: '',
   overlayText: 'RTBO RefRoom',
-  scene: 'Main Program',
-  streamProfile: 'RTBO Production',
-  monitorMode: 'Program + Preview',
-  cameraEffects: true,
-  greenScreen: true,
-  interviewMode: true,
-  commentsOverlay: true,
-  multistreaming: true,
-  isolatedRecording: true,
-  soundEffects: true,
-  videoPlayback: true,
-  countdownTimer: true,
-  streamDeckControls: true,
-  profiles: true,
-  ndiOutput: false,
-  screenInterviewShare: true
+  programNote: ''
 };
 
 function scopedKey(user = {}, scope = 'state') {
@@ -127,6 +106,37 @@ function createId(prefix = 'refroom') {
 
 function createMeetingCode() {
   return `REF-${Math.random().toString(36).slice(2, 5).toUpperCase()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
+}
+
+function dateInputValue(value = new Date()) {
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, '0'),
+    String(date.getDate()).padStart(2, '0')
+  ].join('-');
+}
+
+function timeInputValue(value = new Date()) {
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+  return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+}
+
+function parseInviteEmails(value = '') {
+  return Array.from(new Set(
+    String(value)
+      .split(/[\s,;]+/)
+      .map(email => email.trim().toLowerCase())
+      .filter(email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+  ));
+}
+
+function inviteRecipientCount(room = {}) {
+  const memberCount = Array.isArray(room.invited_member_ids) ? room.invited_member_ids.length : 0;
+  const emailCount = Array.isArray(room.invited_emails) ? room.invited_emails.length : parseInviteEmails(room.invited_emails).length;
+  return memberCount + emailCount;
 }
 
 async function refroomApiGet(endpoint) {
@@ -299,6 +309,7 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
   const recordingAudioContextRef = useRef(null);
   const recordingChunksRef = useRef([]);
   const recordingStartedAtRef = useRef(null);
+  const meetingFormRef = useRef(null);
 
   const [activePanel, setActivePanel] = useState(() => isProductionStudio ? 'Production' : 'Studio');
   const [roomActive, setRoomActive] = useState(false);
@@ -348,13 +359,14 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
   }));
   const [settings, setSettings] = useState(() => ({
     ...DEFAULT_SETTINGS,
-    roomTitle: isPublicPlayer ? 'RTBO RefRoom Player' : DEFAULT_SETTINGS.roomTitle,
+    roomTitle: isPublicPlayer ? 'RefRoom Public Player' : DEFAULT_SETTINGS.roomTitle,
     meetingCode: refroomCodeFromHash() || createMeetingCode(),
-    ...safeReadJson(scopedKey(displayUser, 'settings'), {})
+    ...(isPublicPlayer ? {} : safeReadJson(scopedKey(displayUser, 'settings'), {}))
   }));
-  const [rooms, setRooms] = useState(() => safeReadJson(scopedKey(displayUser, 'rooms'), []));
+  const [rooms, setRooms] = useState(() => isPublicPlayer ? [] : safeReadJson(scopedKey(displayUser, 'rooms'), []));
   const [roomForm, setRoomForm] = useState(EMPTY_ROOM_FORM);
   const [editingRoomId, setEditingRoomId] = useState('');
+  const [publicMeetingCreatorOpen, setPublicMeetingCreatorOpen] = useState(false);
   const [messages, setMessages] = useState(() => safeReadJson(scopedKey(displayUser, 'messages'), []));
   const [messageDraft, setMessageDraft] = useState('');
   const [recordings, setRecordings] = useState(() => safeReadJson(scopedKey(displayUser, 'recordings'), []));
@@ -432,12 +444,21 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
   }, [canManageMeetings]);
 
   useEffect(() => {
-    safeWriteJson(scopedKey(displayUser, 'settings'), settings);
-  }, [displayUser, settings]);
+    if (!isPublicPlayer) return;
+    const code = refroomCodeFromHash();
+    if (!code) return;
+    loadPublicMeeting(code);
+  }, [isPublicPlayer]);
 
   useEffect(() => {
+    if (isPublicPlayer) return;
+    safeWriteJson(scopedKey(displayUser, 'settings'), settings);
+  }, [displayUser, isPublicPlayer, settings]);
+
+  useEffect(() => {
+    if (isPublicPlayer) return;
     safeWriteJson(scopedKey(displayUser, 'rooms'), rooms);
-  }, [displayUser, rooms]);
+  }, [displayUser, isPublicPlayer, rooms]);
 
   useEffect(() => {
     safeWriteJson(scopedKey(displayUser, 'messages'), messages);
@@ -553,6 +574,25 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
       updateStatus(error.message || 'RefRoom meeting data could not be loaded.');
     } finally {
       setLoadingMeetings(false);
+    }
+  }
+
+  async function loadPublicMeeting(meetingCode) {
+    try {
+      const data = await refroomApiGet(`/refroom.php?code=${encodeURIComponent(meetingCode)}`);
+      const meeting = data.meeting;
+      if (!meeting?.meetingCode) return;
+      setRooms(currentRoomsWith(meeting));
+      setActiveMeetingId(String(meeting.id || meeting.meetingCode));
+      setSettings(current => ({
+        ...current,
+        roomTitle: meeting.title || current.roomTitle,
+        passcode: meeting.passcode || '',
+        meetingCode: meeting.meetingCode
+      }));
+      updateStatus('RefRoom meeting loaded from invite link.');
+    } catch (error) {
+      updateStatus(error.message || 'RefRoom meeting could not be loaded from this invite link.');
     }
   }
 
@@ -978,14 +1018,38 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
     reader.readAsDataURL(file);
   }
 
-  async function copyInvite() {
-    const inviteUrl = `${window.location.origin}${window.location.pathname}#refroom/${encodeURIComponent(settings.meetingCode)}`;
-    const invite = [
-      `${settings.roomTitle}`,
-      `Meeting Code: ${settings.meetingCode}`,
-      settings.passcode ? `Passcode: ${settings.passcode}` : '',
-      inviteUrl
+  function resolveInviteMeeting(roomOrEvent) {
+    if (roomOrEvent?.meetingCode || roomOrEvent?.title || roomOrEvent?.id) return roomOrEvent;
+    return activeMeeting || {
+      title: settings.roomTitle,
+      passcode: settings.passcode,
+      meetingCode: settings.meetingCode,
+      invited_emails: []
+    };
+  }
+
+  function inviteUrlForMeeting(roomOrEvent) {
+    const meeting = resolveInviteMeeting(roomOrEvent);
+    const code = meeting.meetingCode || settings.meetingCode;
+    return `${window.location.origin}${window.location.pathname}#refroom/${encodeURIComponent(code)}`;
+  }
+
+  function inviteTextForMeeting(roomOrEvent) {
+    const meeting = resolveInviteMeeting(roomOrEvent);
+    const inviteUrl = inviteUrlForMeeting(meeting);
+    return [
+      `${meeting.title || settings.roomTitle || 'RefRoom Meeting'}`,
+      meeting.startsAt ? `When: ${formatDateTime(meeting.startsAt)}` : '',
+      meeting.purpose ? `Purpose: ${meeting.purpose}` : '',
+      `Meeting Code: ${meeting.meetingCode || settings.meetingCode}`,
+      meeting.passcode ? `Passcode: ${meeting.passcode}` : '',
+      `Join RefRoom: ${inviteUrl}`
     ].filter(Boolean).join('\n');
+  }
+
+  async function copyInvite(roomOrEvent) {
+    const meeting = resolveInviteMeeting(roomOrEvent);
+    const invite = inviteTextForMeeting(meeting);
     try {
       await navigator.clipboard.writeText(invite);
       updateStatus('RefRoom invite copied to the clipboard.');
@@ -994,9 +1058,35 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
     }
   }
 
+  function openEmailInvite(roomOrEvent) {
+    const meeting = resolveInviteMeeting(roomOrEvent);
+    const recipients = Array.isArray(meeting.invited_emails) ? meeting.invited_emails : parseInviteEmails(meeting.invited_emails);
+    const subject = encodeURIComponent(`RefRoom Invitation - ${meeting.title || settings.roomTitle || 'Meeting'}`);
+    const body = encodeURIComponent(inviteTextForMeeting(meeting));
+    const to = recipients.map(encodeURIComponent).join(',');
+    window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+    updateStatus('Email invite draft opened with the RefRoom join link.');
+  }
+
+  function openMeetingCreator() {
+    if (!isPublicPlayer) setActivePanel('Meetings');
+    setRoomForm(current => {
+      if (current.title || current.date || current.time) return current;
+      const next = new Date(Date.now() + 30 * 60 * 1000);
+      return {
+        ...current,
+        title: 'RefRoom Meeting',
+        date: dateInputValue(next),
+        time: timeInputValue(next)
+      };
+    });
+    setPublicMeetingCreatorOpen(true);
+    window.setTimeout(() => meetingFormRef.current?.scrollIntoView?.({ behavior: 'smooth', block: 'start' }), 0);
+  }
+
   function openPublicPlayer() {
     if (typeof window !== 'undefined') {
-      window.location.hash = 'refroom';
+      window.location.hash = `refroom/${encodeURIComponent(settings.meetingCode)}`;
     }
   }
 
@@ -1065,8 +1155,10 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
       updateStatus('Complete the room title, date, and time before saving the RefRoom meeting.');
       return;
     }
-    if (roomForm.sendInvitations && (roomForm.invited_member_ids || []).length === 0) {
-      updateStatus('Select one or more members before sending RefRoom invitations.');
+    const invitedEmails = parseInviteEmails(roomForm.invited_emails);
+    const selectedMemberIds = roomForm.invited_member_ids || [];
+    if (roomForm.sendInvitations && selectedMemberIds.length === 0 && invitedEmails.length === 0) {
+      updateStatus('Add at least one invite email or selected member before sending RefRoom invitations.');
       return;
     }
     const startsAt = `${roomForm.date}T${roomForm.time}`;
@@ -1081,8 +1173,11 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
       meetingCode: editingRoomId
         ? rooms.find(room => room.id === editingRoomId)?.meetingCode || createMeetingCode()
         : createMeetingCode(),
-      invited_member_ids: roomForm.invited_member_ids || [],
-      invited_emails: selectedInviteMembers.map(member => member.email).filter(Boolean)
+      invited_member_ids: selectedMemberIds,
+      invited_emails: Array.from(new Set([
+        ...selectedInviteMembers.map(member => member.email).filter(Boolean),
+        ...invitedEmails
+      ]))
     };
 
     setSavingMeeting(true);
@@ -1101,6 +1196,37 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
         updateStatus(data.message || (editingRoomId ? 'RefRoom meeting updated.' : 'RefRoom meeting scheduled.'));
         if (roomForm.sendInvitations) {
           await sendRoomInvitations(savedMeeting);
+        }
+      } else if (isPublicPlayer) {
+        let savedMeeting = null;
+        let apiMessage = '';
+        try {
+          const data = await refroomApiPost('/refroom.php', { action: 'create_public', meeting: nextRoom });
+          savedMeeting = data.meeting || nextRoom;
+          apiMessage = data.message || '';
+        } catch {
+          savedMeeting = {
+            ...nextRoom,
+            invite_status: 'draft_ready',
+            invite_recipient_count: inviteRecipientCount(nextRoom),
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          };
+          apiMessage = 'RefRoom meeting created. Copy or email the invite link to share it.';
+        }
+        setRooms(currentRoomsWith(savedMeeting));
+        setActiveMeetingId(String(savedMeeting.id || savedMeeting.meetingCode));
+        setSettings(current => ({
+          ...current,
+          roomTitle: savedMeeting.title || current.roomTitle,
+          passcode: savedMeeting.passcode || '',
+          meetingCode: savedMeeting.meetingCode || current.meetingCode
+        }));
+        setEditingRoomId('');
+        setRoomForm(EMPTY_ROOM_FORM);
+        updateStatus(apiMessage || 'RefRoom meeting created. The invite link is ready to share.');
+        if (roomForm.sendInvitations) {
+          openEmailInvite(savedMeeting);
         }
       } else {
         setRooms(current => editingRoomId
@@ -1135,9 +1261,11 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
       purpose: room.purpose || '',
       passcode: room.passcode || '',
       invited_member_ids: Array.isArray(room.invited_member_ids) ? room.invited_member_ids : [],
+      invited_emails: Array.isArray(room.invited_emails) ? room.invited_emails.join(', ') : '',
       sendInvitations: false
     });
-    setActivePanel('Meetings');
+    if (isPublicPlayer) setPublicMeetingCreatorOpen(true);
+    else setActivePanel('Meetings');
   }
 
   async function deleteRoom(roomId) {
@@ -1172,8 +1300,8 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
       updateStatus('Save the meeting before sending RefRoom invitations.');
       return;
     }
-    if (!Array.isArray(room.invited_member_ids) || room.invited_member_ids.length === 0) {
-      updateStatus('Select one or more members before sending RefRoom invitations.');
+    if (inviteRecipientCount(room) === 0) {
+      updateStatus('Select one or more members or invite emails before sending RefRoom invitations.');
       return;
     }
 
@@ -1407,6 +1535,20 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
       {statusMessage && <p className="rtbo-dashboard-status">{statusMessage}</p>}
       {deviceError && <p className="form-message error">{deviceError}</p>}
 
+      {isPublicPlayer && (
+        <section className="rtbo-refroom-public-actions" aria-label="RefRoom meeting actions">
+          <div>
+            <strong>{activeMeeting ? activeMeeting.title : 'Create or join a RefRoom meeting'}</strong>
+            <span>{activeMeeting ? `Code: ${activeMeeting.meetingCode}` : 'Create a meeting first, then share the invite link or email draft.'}</span>
+          </div>
+          <div className="rtbo-refroom-form-actions">
+            <button className="btn" type="button" onClick={openMeetingCreator}>Create Meeting</button>
+            <button className="btn secondary dark-btn" type="button" onClick={() => copyInvite(activeMeeting || null)} disabled={!activeMeeting}>Copy Invite</button>
+            <button className="btn secondary dark-btn" type="button" onClick={() => openEmailInvite(activeMeeting || null)} disabled={!activeMeeting}>Email Invite</button>
+          </div>
+        </section>
+      )}
+
       {!isPublicPlayer && !isProductionStudio && <div className="rtbo-refroom-menu-row">
         <nav className="rtbo-refroom-tabs" aria-label="RefRoom workspace">
           {panelOptions.map(panel => (
@@ -1444,10 +1586,10 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
             <div className="rtbo-refroom-stage-head">
               <div>
                 <h4>{isPublicPlayer ? 'RefRoom Public Player' : settings.roomTitle}</h4>
-                <p>{isPublicPlayer ? `Public program feed / Code: ${settings.meetingCode}` : `Code: ${settings.meetingCode} / Layout: ${settings.selectedLayout}`}</p>
+                <p>{isPublicPlayer ? `${activeMeeting ? activeMeeting.title : 'No meeting selected'} / Code: ${settings.meetingCode}` : `Code: ${settings.meetingCode} / Layout: ${settings.selectedLayout}`}</p>
               </div>
               <div className="rtbo-refroom-live-flags">
-                <span className={roomActive ? 'is-live' : ''}>{isPublicPlayer ? 'Player Ready' : roomActive ? 'Room Live' : 'Room Idle'}</span>
+                <span className={roomActive || production.destination ? 'is-live' : ''}>{isPublicPlayer ? (production.destination ? 'Program Live' : activeMeeting ? 'Meeting Loaded' : 'No Live Feed') : roomActive ? 'Room Live' : 'Room Idle'}</span>
                 {recording && <span className="is-recording">REC</span>}
                 {screenSharing && <span>Screen Share</span>}
               </div>
@@ -1469,8 +1611,8 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
                   </video>
                   {!production.destination && (
                     <div className="rtbo-refroom-player-standby">
-                      <strong>RefRoom player is ready.</strong>
-                      <span>The production studio can send the live program feed here when a RefRoom session is active.</span>
+                      <strong>{activeMeeting ? activeMeeting.title : 'No live program connected.'}</strong>
+                      <span>{activeMeeting ? 'This meeting exists. The player will show video after the host connects a stream.' : 'Create or open a meeting invite to prepare the player and share a join link.'}</span>
                     </div>
                   )}
                 </>
@@ -1484,11 +1626,13 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
                   <small>Start the room to enable the camera, microphone, and meeting viewport.</small>
                 </div>
               )}
-              <div className="rtbo-refroom-program-badge">Program</div>
-              <div className="rtbo-refroom-lower-third">
-                <strong>{isPublicPlayer ? 'Raising The Bar Officiating' : displayName(displayUser)}</strong>
-                <span>{isPublicPlayer ? 'RefRoom Public Program' : settings.meetingMode}</span>
-              </div>
+              {production.brandOverlay !== false && <div className="rtbo-refroom-program-badge">Program</div>}
+              {production.lowerThird !== false && (
+                <div className="rtbo-refroom-lower-third">
+                  <strong>{isPublicPlayer ? (activeMeeting?.title || 'Raising The Bar Officiating') : (production.overlayText || displayName(displayUser))}</strong>
+                  <span>{isPublicPlayer ? (activeMeeting ? `Meeting Code ${activeMeeting.meetingCode}` : 'RefRoom Public Program') : settings.meetingMode}</span>
+                </div>
+              )}
               {captionsOpen && transcript.length > 0 && (
                 <div className="rtbo-refroom-caption-overlay">
                   {transcript.slice(-1).map(line => <span key={line.id}>{line.text}</span>)}
@@ -1503,7 +1647,9 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
             {isPublicPlayer ? (
               <div className="rtbo-refroom-control-grid rtbo-refroom-player-control-grid" aria-label="RefRoom player controls">
                 <button type="button" onClick={toggleFullscreen}>{fullscreenActive ? 'Exit Full' : 'Full Screen'}</button>
-                <button type="button" onClick={copyInvite}>Copy Player Link</button>
+                <button type="button" onClick={openMeetingCreator}>Create Meeting</button>
+                <button type="button" onClick={() => copyInvite(activeMeeting || null)} disabled={!activeMeeting}>Copy Invite</button>
+                <button type="button" onClick={() => openEmailInvite(activeMeeting || null)} disabled={!activeMeeting}>Email Invite</button>
               </div>
             ) : (
               <>
@@ -1591,16 +1737,17 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
         </div>
       )}
 
-      {activePanel === 'Meetings' && (
-        <section className="rtbo-refroom-panel">
+      {(activePanel === 'Meetings' || (isPublicPlayer && publicMeetingCreatorOpen)) && (
+        <section className="rtbo-refroom-panel" ref={meetingFormRef}>
           <div className="rtbo-refroom-section-head">
             <div>
-              <h4>Schedule RefRoom</h4>
-              <p>Create meeting rooms, select invited members, and send invitations after the meeting has been created.</p>
+              <h4>{isPublicPlayer ? 'Create RefRoom Meeting' : 'Schedule RefRoom'}</h4>
+              <p>{isPublicPlayer ? 'Create the meeting first. After it is created, copy the invite link or open an email draft for people to join from the main website.' : 'Create meeting rooms, select invited members, and send invitations after the meeting has been created.'}</p>
             </div>
             <div className="rtbo-refroom-form-actions">
               {canManageMeetings && <button className="btn secondary dark-btn" type="button" onClick={loadMeetingWorkspace} disabled={loadingMeetings}>{loadingMeetings ? 'Loading...' : 'Refresh Meetings'}</button>}
               {editingRoomId && <button className="btn secondary dark-btn" type="button" onClick={() => { setEditingRoomId(''); setRoomForm(EMPTY_ROOM_FORM); }}>Cancel Edit</button>}
+              {isPublicPlayer && <button className="btn secondary dark-btn" type="button" onClick={() => setPublicMeetingCreatorOpen(false)}>Close</button>}
             </div>
           </div>
           <form className="rtbo-refroom-form-grid" onSubmit={saveRoom}>
@@ -1609,6 +1756,9 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
             <label>Time<input type="time" value={roomForm.time} onChange={event => setRoomForm(current => ({ ...current, time: event.target.value }))} /></label>
             <label>Passcode<input value={roomForm.passcode} onChange={event => setRoomForm(current => ({ ...current, passcode: event.target.value }))} /></label>
             <label className="wide">Purpose<textarea value={roomForm.purpose} onChange={event => setRoomForm(current => ({ ...current, purpose: event.target.value }))} /></label>
+            <label className="wide">Invite Email Addresses
+              <textarea value={roomForm.invited_emails} onChange={event => setRoomForm(current => ({ ...current, invited_emails: event.target.value }))} placeholder="name@example.com, second@example.com" />
+            </label>
             {canManageMeetings && (
               <section className="rtbo-refroom-invite-panel wide" aria-label="Meeting invitation recipients">
                 <div className="rtbo-refroom-section-head">
@@ -1635,10 +1785,16 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
                   })}
                 </div>
                 <label className="rtbo-refroom-toggle">
-                  <span>Send invitations immediately after saving this meeting</span>
+                  <span>{isPublicPlayer ? 'Open an email draft immediately after creating this meeting' : 'Send invitations immediately after saving this meeting'}</span>
                   <input type="checkbox" checked={Boolean(roomForm.sendInvitations)} onChange={event => setRoomForm(current => ({ ...current, sendInvitations: event.target.checked }))} />
                 </label>
               </section>
+            )}
+            {!canManageMeetings && (
+              <label className="rtbo-refroom-toggle wide">
+                <span>Open an email draft immediately after creating this meeting</span>
+                <input type="checkbox" checked={Boolean(roomForm.sendInvitations)} onChange={event => setRoomForm(current => ({ ...current, sendInvitations: event.target.checked }))} />
+              </label>
             )}
             <div className="rtbo-refroom-form-actions">
               <button className="btn" type="submit" disabled={savingMeeting}>{savingMeeting ? 'Saving...' : editingRoomId ? 'Save Changes' : 'Create Meeting'}</button>
@@ -1655,15 +1811,17 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
                 {room.purpose && <p>{room.purpose}</p>}
                 <small>
                   Code: {room.meetingCode}{room.passcode ? ' / Passcode set' : ''}
-                  {Array.isArray(room.invited_member_ids) && room.invited_member_ids.length > 0 ? ` / ${room.invited_member_ids.length} invitee${room.invited_member_ids.length === 1 ? '' : 's'}` : ''}
+                  {inviteRecipientCount(room) > 0 ? ` / ${inviteRecipientCount(room)} invitee${inviteRecipientCount(room) === 1 ? '' : 's'}` : ''}
                   {room.invite_status ? ` / Invite status: ${String(room.invite_status).replace(/_/g, ' ')}` : ''}
                 </small>
-                {room.invite_sent_at && <small>Invites sent {formatDateTime(room.invite_sent_at)} to {room.invite_recipient_count || room.invited_member_ids?.length || 0} recipient(s).</small>}
+                {room.invite_sent_at && <small>Invites sent {formatDateTime(room.invite_sent_at)} to {room.invite_recipient_count || inviteRecipientCount(room)} recipient(s).</small>}
                 <div className="rtbo-refroom-card-actions">
-                  <button type="button" onClick={() => startScheduledRoom(room)}>Start</button>
-                  {canManageMeetings && <button type="button" onClick={() => sendRoomInvitations(room)} disabled={String(invitationSendingId) === String(room.id) || !Array.isArray(room.invited_member_ids) || room.invited_member_ids.length === 0}>{String(invitationSendingId) === String(room.id) ? 'Sending...' : 'Send Invitations'}</button>}
-                  <button type="button" onClick={() => editRoom(room)}>Edit</button>
-                  <button className="danger" type="button" onClick={() => deleteRoom(room.id)}>Delete</button>
+                  {!isPublicPlayer && <button type="button" onClick={() => startScheduledRoom(room)}>Start</button>}
+                  <button type="button" onClick={() => copyInvite(room)}>Copy Invite</button>
+                  <button type="button" onClick={() => openEmailInvite(room)}>Email Invite</button>
+                  {canManageMeetings && <button type="button" onClick={() => sendRoomInvitations(room)} disabled={String(invitationSendingId) === String(room.id) || inviteRecipientCount(room) === 0}>{String(invitationSendingId) === String(room.id) ? 'Sending...' : 'Send Invitations'}</button>}
+                  {!isPublicPlayer && <button type="button" onClick={() => editRoom(room)}>Edit</button>}
+                  {!isPublicPlayer && <button className="danger" type="button" onClick={() => deleteRoom(room.id)}>Delete</button>}
                 </div>
               </article>
             ))}
@@ -1955,45 +2113,25 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
               <div className="rtbo-refroom-toggle-grid">
                 <label className="rtbo-refroom-toggle"><span>Blur Background</span><input type="checkbox" checked={Boolean(production.backgroundBlur)} onChange={event => updateProduction('backgroundBlur', event.target.checked)} /></label>
                 <label className="rtbo-refroom-toggle"><span>No Blurred Edges</span><input type="checkbox" checked={Boolean(production.cleanBackgroundEdges)} onChange={event => updateProduction('cleanBackgroundEdges', event.target.checked)} /></label>
-                <label className="rtbo-refroom-toggle"><span>Green Screen</span><input type="checkbox" checked={Boolean(production.greenScreen)} onChange={event => updateProduction('greenScreen', event.target.checked)} /></label>
-                <label className="rtbo-refroom-toggle"><span>Camera Effects</span><input type="checkbox" checked={Boolean(production.cameraEffects)} onChange={event => updateProduction('cameraEffects', event.target.checked)} /></label>
               </div>
             </article>
 
             <article className="rtbo-refroom-production-card wide">
-              <h4>Broadcast Controls</h4>
+              <h4>Public Player Feed</h4>
               <div className="rtbo-refroom-form-grid">
-                <label>Scene<input value={production.scene} onChange={event => updateProduction('scene', event.target.value)} /></label>
-                <label>Stream Profile<input value={production.streamProfile} onChange={event => updateProduction('streamProfile', event.target.value)} /></label>
-                <label>Monitor Mode<select value={production.monitorMode} onChange={event => updateProduction('monitorMode', event.target.value)}><option>Program + Preview</option><option>Program Only</option><option>Preview Only</option><option>Multiview</option></select></label>
-                <label>Transition<select value={production.sceneTransition} onChange={event => updateProduction('sceneTransition', event.target.value)}><option>Cut</option><option>Fade</option><option>Live Motion</option><option>Slide</option></select></label>
                 <label className="wide">Lower Third / Overlay Text<input value={production.overlayText} onChange={event => updateProduction('overlayText', event.target.value)} /></label>
-                <label className="wide">Streaming Destination<input value={production.destination} onChange={event => updateProduction('destination', event.target.value)} placeholder="RTBO, YouTube, Facebook, private stream URL" /></label>
+                <label className="wide">Video Source URL<input value={production.destination} onChange={event => updateProduction('destination', event.target.value)} placeholder="Paste a playable MP4/WebM/HLS URL for the public RefRoom player" /></label>
+                <label className="wide">Program Note<textarea value={production.programNote} onChange={event => updateProduction('programNote', event.target.value)} placeholder="Optional production note for the host team" /></label>
               </div>
               <div className="rtbo-refroom-toggle-grid">
-                {[
-                  ['lowerThird', 'Lower Thirds'],
-                  ['brandOverlay', 'Brand Overlay'],
-                  ['commentsOverlay', 'Comments Overlay'],
-                  ['multistreaming', 'Multistreaming'],
-                  ['interviewMode', 'Interview Mode'],
-                  ['virtualCamera', 'Virtual Camera'],
-                  ['virtualMicrophone', 'Virtual Microphone'],
-                  ['isolatedRecording', 'Isolated Recording'],
-                  ['soundEffects', 'Sound Effects'],
-                  ['videoPlayback', 'Video Playback'],
-                  ['countdownTimer', 'Countdown Timer'],
-                  ['streamDeckControls', 'Stream Deck Controls'],
-                  ['profiles', 'Profiles'],
-                  ['autoFraming', 'Auto Framing'],
-                  ['noiseSuppression', 'Noise Suppression'],
-                  ['screenInterviewShare', 'Screen Interview Share']
-                ].map(([key, label]) => (
-                  <label className="rtbo-refroom-toggle" key={key}>
-                    <span>{label}</span>
-                    <input type="checkbox" checked={Boolean(production[key])} onChange={event => updateProduction(key, event.target.checked)} />
-                  </label>
-                ))}
+                <label className="rtbo-refroom-toggle">
+                  <span>Show Lower Third</span>
+                  <input type="checkbox" checked={Boolean(production.lowerThird)} onChange={event => updateProduction('lowerThird', event.target.checked)} />
+                </label>
+                <label className="rtbo-refroom-toggle">
+                  <span>Show Program Badge</span>
+                  <input type="checkbox" checked={Boolean(production.brandOverlay)} onChange={event => updateProduction('brandOverlay', event.target.checked)} />
+                </label>
               </div>
             </article>
           </div>

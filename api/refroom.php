@@ -207,16 +207,79 @@ function rtbo_refroom_send_invites(array $meeting, array $members, array $actor)
     return $result;
 }
 
+function rtbo_refroom_public_meeting(array $meeting): array
+{
+    return [
+        'id' => (int) ($meeting['id'] ?? 0),
+        'title' => (string) ($meeting['title'] ?? ''),
+        'date' => (string) ($meeting['date'] ?? ''),
+        'time' => (string) ($meeting['time'] ?? ''),
+        'startsAt' => (string) ($meeting['startsAt'] ?? ''),
+        'purpose' => (string) ($meeting['purpose'] ?? ''),
+        'passcode' => (string) ($meeting['passcode'] ?? ''),
+        'meetingCode' => (string) ($meeting['meetingCode'] ?? ''),
+        'invite_status' => (string) ($meeting['invite_status'] ?? 'not_sent'),
+        'invite_recipient_count' => (int) ($meeting['invite_recipient_count'] ?? 0),
+        'created_at' => (string) ($meeting['created_at'] ?? ''),
+        'updated_at' => (string) ($meeting['updated_at'] ?? ''),
+    ];
+}
+
+function rtbo_refroom_find_by_code(string $meetingCode, array $meetings): ?array
+{
+    $needle = strtoupper(trim($meetingCode));
+    foreach ($meetings as $meeting) {
+        if (strtoupper((string) ($meeting['meetingCode'] ?? '')) === $needle) {
+            return is_array($meeting) ? $meeting : null;
+        }
+    }
+
+    return null;
+}
+
 $databaseUser = current_database_user();
 $user = $databaseUser ? public_auth_user($databaseUser) : current_user();
-if (!$user || !is_admin_user($user)) {
-    http_response_code(401);
-    echo json_encode(['success' => false, 'message' => 'Admin sign-in is required.']);
-    exit;
-}
 
 try {
     $method = strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET'));
+    $requestInput = $method === 'POST' ? rtbo_refroom_input() : [];
+
+    if ($method === 'GET' && trim((string) ($_GET['code'] ?? '')) !== '') {
+        $meeting = rtbo_refroom_find_by_code((string) $_GET['code'], rtbo_refroom_read_store()['meetings'] ?? []);
+        if (!$meeting) {
+            http_response_code(404);
+            echo json_encode(['success' => false, 'message' => 'RefRoom meeting not found.']);
+            exit;
+        }
+
+        echo json_encode(['success' => true, 'meeting' => rtbo_refroom_public_meeting($meeting)], JSON_UNESCAPED_SLASHES);
+        exit;
+    }
+
+    if ($method === 'POST') {
+        if ((string) ($requestInput['action'] ?? '') === 'create_public') {
+            require_same_origin_request();
+            $store = rtbo_refroom_read_store();
+            $meetings = is_array($store['meetings'] ?? null) ? $store['meetings'] : [];
+            $meeting = rtbo_refroom_meeting_payload(is_array($requestInput['meeting'] ?? null) ? $requestInput['meeting'] : []);
+            $meeting['id'] = (int) ($store['next_id'] ?? 1);
+            $meeting['invite_status'] = 'draft_ready';
+            $meeting['invite_recipient_count'] = count(is_array($meeting['invited_emails'] ?? null) ? $meeting['invited_emails'] : []);
+            $store['next_id'] = $meeting['id'] + 1;
+            array_unshift($meetings, $meeting);
+            $store['meetings'] = $meetings;
+            rtbo_refroom_write_store($store);
+
+            echo json_encode(['success' => true, 'message' => 'RefRoom meeting created.', 'meeting' => $meeting], JSON_UNESCAPED_SLASHES);
+            exit;
+        }
+    }
+
+    if (!$user || !is_admin_user($user)) {
+        http_response_code(401);
+        echo json_encode(['success' => false, 'message' => 'Admin sign-in is required.']);
+        exit;
+    }
 
     if ($method === 'GET') {
         echo json_encode([
@@ -235,7 +298,7 @@ try {
 
     require_same_origin_request();
 
-    $input = rtbo_refroom_input();
+    $input = $requestInput;
     $action = (string) ($input['action'] ?? '');
     $store = rtbo_refroom_read_store();
     $meetings = is_array($store['meetings'] ?? null) ? $store['meetings'] : [];

@@ -56,12 +56,91 @@ function courseImageFor(track = {}, index = 0) {
 }
 
 function dayVisualFor(day = {}) {
+  if (day.visual) {
+    return {
+      key: day.visualType || 'lecture',
+      title: day.visualTitle || 'Course Visual Aid',
+      proof: day.screenshot ? 'Lesson visual aid, learner screenshot, presentation slide, and worksheet frame.' : 'Lesson visual aid and course packet.',
+      image: imageSourceFor(day.visual)
+    };
+  }
   const match = ACADEMY_DAY_VISUALS.find(([, pattern]) => pattern.test(day.title || '')) || ACADEMY_DAY_VISUALS[0];
   return {
     key: match[0],
     title: match[2],
     proof: match[3],
     image: `/assets/images/refzone/lesson-visuals/${match[0]}.svg`
+  };
+}
+
+function textList(items, fallback = []) {
+  return Array.isArray(items) && items.length ? items.filter(Boolean) : fallback;
+}
+
+function fallbackCollegeMaterial(track = {}, week = {}, day = {}) {
+  const visual = dayVisualFor(day);
+  const trackTitle = track.title || 'Course';
+  const weekTitle = week.title || day.title || 'Daily Topic';
+  const dayTitle = day.title || 'Class Session';
+  return {
+    minutes: 90,
+    objectives: [
+      `Explain ${weekTitle} using the current rulebook, case book, mechanics manual, and governing directives.`,
+      `Apply ${dayTitle} to realistic ${trackTitle} game situations with judgment, positioning, communication, and evidence.`,
+      'Produce a gradable artifact that proves preparation, performance, reflection, and mentor readiness.'
+    ],
+    readings: [
+      `Read current rulebook sections connected to ${weekTitle}; mark definitions, penalties, exceptions, and restart language.`,
+      `Read case plays and interpretations connected to ${weekTitle}; write the ruling, reason, crew responsibility, and supervisor explanation.`,
+      `Study mechanics-manual coverage for ${dayTitle}; draw starting position, movement path, primary area, secondary awareness, and reporting route.`,
+      'Review professional communication, bench decorum, reporting, and sportsmanship expectations for the applicable level.',
+      `Study the ${visual.title.toLowerCase()} visual aid and attach one film, court, or written example that proves learning transfer.`
+    ],
+    preparation: `Arrive prepared to cite the reading, explain the ruling, perform the mechanic, and submit evidence for ${dayTitle}.`,
+    media: `${visual.title} visual aid, screenshot packet, lecture slide, worksheet frame, and instructor talking points.`,
+    lectureNotes: [
+      `Frame ${weekTitle} as a college-level officiating discipline, not a clinic tip.`,
+      `Connect rule language, philosophy, mechanics, and communication to ${trackTitle} game pressure.`,
+      'Model one correct explanation, one incorrect shortcut, and one supervisor-ready correction statement.'
+    ],
+    discussion: [
+      `Where does ${weekTitle} most often break down in live games?`,
+      'What evidence proves the official applied the reading instead of guessing?',
+      'How should the official communicate once, professionally, and then stop?'
+    ],
+    lab: `${visual.title}: complete the visual worksheet, screenshot annotation, court/film/role-play task, and mentor observation note.`,
+    assignment: `Submit the daily journal entry, worksheet/lab artifact, and one mentor-ready evidence item for ${dayTitle}.`,
+    assessment: {
+      type: 'Module Assessment',
+      prompt: `Defend the ruling, mechanic, communication choice, and evidence connected to ${weekTitle}.`,
+      passingStandard: `80% or mentor approval is required before the next module unlocks.`
+    },
+    rubric: collegeCourseDefaults.gradingScale.map(([label, value]) => `${label}: ${value}`)
+  };
+}
+
+function collegeMaterialForDay(track = {}, week = {}, day = {}) {
+  return {
+    ...fallbackCollegeMaterial(track, week, day),
+    ...(day.college || {}),
+    assessment: {
+      ...fallbackCollegeMaterial(track, week, day).assessment,
+      ...(day.college?.assessment || {})
+    }
+  };
+}
+
+function imageSourceFor(value = '') {
+  if (!value) return '';
+  return value.startsWith('/') ? value : `/assets/images/${value}`;
+}
+
+function sectionVisualsFor(section = {}, day = {}, index = 0) {
+  const visual = dayVisualFor(day);
+  return {
+    visual: imageSourceFor(section.visual) || visual.image,
+    screenshot: imageSourceFor(section.screenshot) || imageSourceFor(day.screenshot),
+    label: section.materialType || section.collegeRole || `Section ${index + 1} Material`
   };
 }
 
@@ -89,22 +168,42 @@ function managedCourseToTrack(course = {}, index = 0) {
     level: course.level || 'Managed Course',
     cover: course.cover || `/assets/images/refzone/course-covers/${id}.svg`,
     overviewThumbnail: course.overviewThumbnail || course.overview_thumbnail || '',
+    overview: course.overview || course.description || '',
+    identity: course.identity || '',
+    graduation: Array.isArray(course.graduation) ? course.graduation : [],
     raw: [],
     weeks: weeks.map((week, weekIndex) => ({
       id: week.id || `${id}-week-${weekIndex + 1}`,
       month: Number(week.month || Math.ceil((weekIndex + 1) / 4)),
       week: Number(week.week || weekIndex + 1),
       title: week.title || `Module ${weekIndex + 1}`,
+      lecture: week.lecture || '',
+      evidence: week.evidence || '',
+      presentation: week.presentation || '',
+      screenshot: week.screenshot || '',
       content: [week.lecture, week.evidence].filter(Boolean),
       days: (week.days || []).map((day, dayIndex) => ({
         id: day.id || `${id}-week-${weekIndex + 1}-day-${dayIndex + 1}`,
         week: Number(week.week || weekIndex + 1),
         day: Number(day.day || dayIndex + 1),
         title: day.title || `Lesson ${dayIndex + 1}`,
-        content: [day.screenshot, day.presentation].filter(Boolean),
+        visualType: day.visualType || day.visual_type || '',
+        visualTitle: day.visualTitle || day.visual_title || '',
+        visual: day.visual || '',
+        screenshot: day.screenshot || '',
+        presentation: day.presentation || '',
+        college: day.college || null,
+        content: [day.presentation && `Presentation: ${day.presentation}`, day.screenshot && `Screenshot packet: ${day.screenshot}`].filter(Boolean),
         sections: (day.sections || []).map((section, sectionIndex) => ({
+          id: section.id || `${id}-week-${weekIndex + 1}-day-${dayIndex + 1}-section-${sectionIndex + 1}`,
           title: section.title || `Line Item ${sectionIndex + 1}`,
-          content: [section.summary, section.screenshot, section.presentation].filter(Boolean)
+          summary: section.summary || '',
+          materialType: section.materialType || section.material_type || '',
+          visual: section.visual || '',
+          screenshot: section.screenshot || '',
+          presentation: section.presentation || '',
+          collegeRole: section.collegeRole || section.college_role || '',
+          content: [section.summary].filter(Boolean)
         }))
       }))
     }))
@@ -281,6 +380,33 @@ const videoProductionStages = [
   ['Assessment', 'Record the assignment instructions, evidence checklist, and remediation expectations.']
 ];
 
+const collegeCourseDefaults = {
+  creditHours: '3 credit-hour equivalent / 90 minutes per class meeting',
+  professor: 'RTBO Faculty, mentor evaluator, and advancement board',
+  officeHours: 'Weekly virtual office hours, mentor conference, and remediation appointment by request',
+  prerequisites: 'Active or prospective basketball official, rules-study commitment, court shoes, whistle, uniform readiness, and video-review access',
+  textbooks: [
+    'Current governing basketball rules book for this track',
+    'Current case book, interpretations, and points of emphasis',
+    'Current officials manual, mechanics manual, state association or conference directives',
+    'RefZone University course packet, visual aids, worksheets, quizzes, film labs, and portfolio templates'
+  ],
+  gradingScale: [
+    ['Daily preparation and attendance', '10%'],
+    ['Reading notes and case-play worksheets', '15%'],
+    ['Court mechanics labs and visual worksheets', '20%'],
+    ['Film labs, video quizzes, and self-scout evidence', '20%'],
+    ['Role-play, oral defense, and communication performance', '15%'],
+    ['Final portfolio, mentor review, and advancement board', '20%']
+  ],
+  policies: [
+    'Every module requires reading, visible performance evidence, and a passing assessment before the next module unlocks.',
+    'Students who miss the passing standard complete remediation and repeat the lesson evidence before advancing.',
+    'Portfolio work must be original student work with clear notes, clips, diagrams, reflection, and mentor feedback.',
+    'Course references point students to current official publications; RefZone does not replace official rulebooks or state/conference directives.'
+  ]
+};
+
 function AcademyMetric({ label, value, detail }) {
   return (
     <article className="rtbo-academy-metric">
@@ -311,6 +437,187 @@ function LabView({ title, rows }) {
             </div>
           </article>
         ))}
+      </div>
+    </section>
+  );
+}
+
+function CourseSyllabus({ track = {} }) {
+  const weeks = track.weeks || [];
+  const days = weeks.flatMap(week => week.days || []);
+  const graduation = textList(track.graduation, [
+    'Complete every module, assignment, assessment, lab, and mentor evidence checkpoint.',
+    'Pass all written, video, mechanics, oral-defense, and portfolio assessments.',
+    'Defend the completed portfolio before the advancement board.'
+  ]);
+
+  return (
+    <section className="rtbo-academy-panel rtbo-academy-syllabus">
+      <div className="rtbo-academy-section-head">
+        <p className="eyebrow">College Course Syllabus</p>
+        <h3>{track.title || 'Course Syllabus'}</h3>
+        <p>{track.identity || track.overview || track.path || 'Structured college-style officiating course.'}</p>
+      </div>
+
+      <div className="rtbo-academy-syllabus-grid">
+        {[
+          ['Course Level', track.level || 'Academic Track'],
+          ['Credit / Contact Hours', collegeCourseDefaults.creditHours],
+          ['Instructor / Faculty', collegeCourseDefaults.professor],
+          ['Office Hours', collegeCourseDefaults.officeHours],
+          ['Prerequisites', collegeCourseDefaults.prerequisites],
+          ['Course Length', `${weeks.length} weeks / ${days.length} academic class days`]
+        ].map(([label, value]) => (
+          <article key={label}>
+            <span>{label}</span>
+            <strong>{value}</strong>
+          </article>
+        ))}
+      </div>
+
+      <div className="rtbo-academy-college-grid">
+        <article className="rtbo-academy-college-card">
+          <h4>Required Materials</h4>
+          <ul>{collegeCourseDefaults.textbooks.map(item => <li key={item}>{item}</li>)}</ul>
+        </article>
+        <article className="rtbo-academy-college-card">
+          <h4>Learning Outcomes</h4>
+          <ul>{graduation.map(item => <li key={item}>{item}</li>)}</ul>
+        </article>
+        <article className="rtbo-academy-college-card">
+          <h4>Grading Scale</h4>
+          <div className="rtbo-academy-gradebook">
+            {collegeCourseDefaults.gradingScale.map(([label, value]) => <span key={label}><b>{value}</b>{label}</span>)}
+          </div>
+        </article>
+        <article className="rtbo-academy-college-card">
+          <h4>Academic Policies</h4>
+          <ul>{collegeCourseDefaults.policies.map(item => <li key={item}>{item}</li>)}</ul>
+        </article>
+      </div>
+
+      <div className="rtbo-academy-course-map">
+        {weeks.slice(0, 12).map(week => (
+          <article key={week.id}>
+            <span>Week {week.week}</span>
+            <strong>{week.title}</strong>
+            <small>{(week.days || []).length} class meetings / lecture, reading, lab, assessment, and evidence work</small>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CourseMaterialPacket({ track = {}, week = {}, day = {} }) {
+  if (!day?.id) return null;
+  const material = collegeMaterialForDay(track, week, day);
+  const visual = dayVisualFor(day);
+  const screenshot = imageSourceFor(day.screenshot);
+  const objectives = textList(material.objectives);
+  const readings = textList(material.readings);
+  const lectureNotes = textList(material.lectureNotes);
+  const discussion = textList(material.discussion);
+  const rubric = textList(material.rubric);
+  const sections = day.sections || [];
+
+  return (
+    <section className="rtbo-academy-college-packet">
+      <div className="rtbo-academy-section-head">
+        <p className="eyebrow">Study Materials and Visual Aids</p>
+        <h3>College Course Packet</h3>
+        <p>{material.preparation}</p>
+      </div>
+
+      <div className="rtbo-academy-session-strip">
+        {[
+          ['Class Meeting', `${material.minutes || 90} minutes`],
+          ['Visual Type', visual.title],
+          ['Assessment', material.assessment?.type || 'Module Assessment'],
+          ['Passing Standard', material.assessment?.passingStandard || '80% or mentor approval']
+        ].map(([label, value]) => (
+          <article key={label}><span>{label}</span><strong>{value}</strong></article>
+        ))}
+      </div>
+
+      <div className="rtbo-academy-visual-aid-grid">
+        <article>
+          <span>Visual Aid</span>
+          <img src={visual.image} alt={`${visual.title} visual aid`} loading="lazy" decoding="async" />
+          <strong>{visual.title}</strong>
+          <p>{visual.proof}</p>
+        </article>
+        {screenshot && (
+          <article>
+            <span>Learner Screenshot / Slide</span>
+            <img src={screenshot} alt={`${day.title} learner screenshot and slide packet`} loading="lazy" decoding="async" />
+            <strong>{day.presentation || `${track.title} / Week ${week.week} / Day ${day.day}`}</strong>
+            <p>Screenshot packet for the lecture, worksheet, activity frame, and assessment evidence.</p>
+          </article>
+        )}
+      </div>
+
+      <div className="rtbo-academy-college-grid">
+        <article className="rtbo-academy-college-card">
+          <h4>Learning Objectives</h4>
+          <ul>{objectives.map(item => <li key={item}>{item}</li>)}</ul>
+        </article>
+        <article className="rtbo-academy-college-card">
+          <h4>Required Reading</h4>
+          <ul>{readings.map(item => <li key={item}>{item}</li>)}</ul>
+        </article>
+        <article className="rtbo-academy-college-card">
+          <h4>Professor Lecture Notes</h4>
+          <ul>{lectureNotes.map(item => <li key={item}>{item}</li>)}</ul>
+        </article>
+        <article className="rtbo-academy-college-card">
+          <h4>Class Discussion</h4>
+          <ul>{discussion.map(item => <li key={item}>{item}</li>)}</ul>
+        </article>
+      </div>
+
+      <div className="rtbo-academy-assignment-grid">
+        <article>
+          <span>Lab</span>
+          <p>{material.lab}</p>
+        </article>
+        <article>
+          <span>Assignment</span>
+          <p>{material.assignment}</p>
+        </article>
+        <article>
+          <span>{material.assessment?.type || 'Assessment'}</span>
+          <p>{material.assessment?.prompt}</p>
+          <small>{material.assessment?.passingStandard}</small>
+        </article>
+      </div>
+
+      <article className="rtbo-academy-college-card">
+        <h4>Rubric</h4>
+        <div className="rtbo-academy-gradebook">
+          {rubric.map(item => {
+            const [label, value = 'Required'] = item.split(':').map(part => part.trim());
+            return <span key={item}><b>{value}</b>{label}</span>;
+          })}
+        </div>
+      </article>
+
+      <div className="rtbo-academy-line-item-grid">
+        {sections.map((section, index) => {
+          const sectionVisuals = sectionVisualsFor(section, day, index);
+          return (
+          <article key={section.id || section.title}>
+            <span>{section.collegeRole || section.materialType || 'Course Material'}</span>
+            <div className="rtbo-academy-section-asset-row">
+              {sectionVisuals.visual && <img src={sectionVisuals.visual} alt={`${section.title} visual aid`} loading="lazy" decoding="async" />}
+              {sectionVisuals.screenshot && <img src={sectionVisuals.screenshot} alt={`${section.title} screenshot packet`} loading="lazy" decoding="async" />}
+            </div>
+            <strong>{section.title}</strong>
+            {section.presentation && <small>{section.presentation}</small>}
+            <MarkdownBlock text={section.summary || section.content?.join('\n') || ''} />
+          </article>
+          );
+        })}
       </div>
     </section>
   );
@@ -405,11 +712,35 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
   const allDays = useMemo(() => {
     const rows = [];
     tracks.forEach(track => track.weeks.forEach(week => week.days.forEach(day => {
+      const material = collegeMaterialForDay(track, week, day);
       rows.push({
         track,
         week,
         day,
-        text: [track.title, week.title, day.title, ...day.content, ...day.sections.flatMap(section => [section.title, ...section.content])].join(' ')
+        text: [
+          track.title,
+          week.title,
+          day.title,
+          material.preparation,
+          material.media,
+          ...textList(material.objectives),
+          ...textList(material.readings),
+          ...textList(material.lectureNotes),
+          ...textList(material.discussion),
+          material.lab,
+          material.assignment,
+          material.assessment?.prompt,
+          ...textList(material.rubric),
+          ...day.content,
+          ...day.sections.flatMap(section => [
+            section.title,
+            section.summary,
+            section.materialType,
+            section.collegeRole,
+            section.presentation,
+            ...section.content
+          ])
+        ].filter(Boolean).join(' ')
       });
     })));
     return rows;
@@ -430,7 +761,9 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
 
   const academyViewTabs = [
     ['dashboard', 'Dashboard'],
+    ['syllabus', 'Syllabus'],
     ['course', 'Course Browser'],
+    ['materials', 'Study Materials'],
     ['search', 'Search Manual'],
     ['assignments', 'Assignments'],
     ['videos', 'Video Plan'],
@@ -631,22 +964,29 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
       )}
 
       {activeView === 'overview' && overviewTrack && (
-        <section className="rtbo-academy-panel">
-          <div className="rtbo-academy-section-head">
-            <p className="eyebrow">Course Overview</p>
-            <h3>{overviewTrack.title}</h3>
-            <p>{overviewTrack.path || 'RefZone University course overview'}</p>
-          </div>
-          <span className="rtbo-academy-track-media rtbo-academy-overview-media">
-            <img src={(courseImageFor(overviewTrack, 0).startsWith('/') ? courseImageFor(overviewTrack, 0) : `/assets/images/${courseImageFor(overviewTrack, 0)}`)} alt={`${overviewTrack.title} course overview thumbnail`} loading="lazy" decoding="async" />
-          </span>
-          <div className="rtbo-academy-card-grid">
-            <article className="rtbo-academy-task-card"><strong>{overviewTrack.weeks.length} Weeks</strong><p>Daily lectures, readings, quizzes, video tests, mechanics labs, role-play, practicum, and mentor review.</p></article>
-            <article className="rtbo-academy-task-card"><strong>{overviewTrack.weeks.reduce((sum, week) => sum + week.days.length, 0)} Academic Days</strong><p>Each day includes required reading, visual aids, assignments, evidence, and a passing standard.</p></article>
-            <article className="rtbo-academy-task-card"><strong>Completion Rule</strong><p>Tests must be passed before the next module or section unlocks.</p></article>
-          </div>
-          <button className="btn" type="button" onClick={() => proceedToCourse(overviewTrack)}>Proceed to Course</button>
-        </section>
+        <>
+          <section className="rtbo-academy-panel">
+            <div className="rtbo-academy-section-head">
+              <p className="eyebrow">Course Overview</p>
+              <h3>{overviewTrack.title}</h3>
+              <p>{overviewTrack.path || 'RefZone University course overview'}</p>
+            </div>
+            <span className="rtbo-academy-track-media rtbo-academy-overview-media">
+              <img src={(courseImageFor(overviewTrack, 0).startsWith('/') ? courseImageFor(overviewTrack, 0) : `/assets/images/${courseImageFor(overviewTrack, 0)}`)} alt={`${overviewTrack.title} course overview thumbnail`} loading="lazy" decoding="async" />
+            </span>
+            <div className="rtbo-academy-card-grid">
+              <article className="rtbo-academy-task-card"><strong>{overviewTrack.weeks.length} Weeks</strong><p>Daily lectures, readings, quizzes, video tests, mechanics labs, role-play, practicum, and mentor review.</p></article>
+              <article className="rtbo-academy-task-card"><strong>{overviewTrack.weeks.reduce((sum, week) => sum + week.days.length, 0)} Academic Days</strong><p>Each day includes required reading, visual aids, assignments, evidence, and a passing standard.</p></article>
+              <article className="rtbo-academy-task-card"><strong>Completion Rule</strong><p>Tests must be passed before the next module or section unlocks.</p></article>
+            </div>
+            <button className="btn" type="button" onClick={() => proceedToCourse(overviewTrack)}>Proceed to Course</button>
+          </section>
+          <CourseSyllabus track={overviewTrack} />
+        </>
+      )}
+
+      {activeView === 'syllabus' && selectedTrack && (
+        <CourseSyllabus track={selectedTrack} />
       )}
 
       {activeView === 'course' && selectedTrack && (
@@ -710,6 +1050,7 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
 
             {selectedDay && (
               <>
+                <CourseMaterialPacket track={selectedTrack} week={selectedWeek} day={selectedDay} />
                 <section className="rtbo-academy-material-card">
                   <img src={selectedDayVisual.image} alt={`${selectedDayVisual.title} course visual`} loading="lazy" decoding="async" />
                   <div>
@@ -747,6 +1088,10 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
             )}
           </section>
         </div>
+      )}
+
+      {activeView === 'materials' && selectedTrack && selectedWeek && selectedDay && (
+        <CourseMaterialPacket track={selectedTrack} week={selectedWeek} day={selectedDay} />
       )}
 
       {activeView === 'search' && (

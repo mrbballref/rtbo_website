@@ -136,6 +136,7 @@
 .rtbo-academy-course-panel,
 .rtbo-academy-content-card,
 .rtbo-academy-material-card,
+.rtbo-academy-college-packet,
 .rtbo-academy-test-rule-card,
 .rtbo-academy-notes-card {
   display: grid;
@@ -262,6 +263,7 @@
 .rtbo-academy-reader,
 .rtbo-academy-content-card,
 .rtbo-academy-material-card,
+.rtbo-academy-college-packet,
 .rtbo-academy-test-rule-card,
 .rtbo-academy-notes-card {
   border: 1px solid var(--academy-border);
@@ -462,6 +464,152 @@
   padding-top: 8px;
 }
 
+.rtbo-academy-syllabus-grid,
+.rtbo-academy-session-strip,
+.rtbo-academy-college-grid,
+.rtbo-academy-visual-aid-grid,
+.rtbo-academy-assignment-grid,
+.rtbo-academy-line-item-grid,
+.rtbo-academy-course-map {
+  display: grid;
+  gap: 10px;
+}
+
+.rtbo-academy-syllabus-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.rtbo-academy-session-strip {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.rtbo-academy-college-grid,
+.rtbo-academy-visual-aid-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.rtbo-academy-assignment-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.rtbo-academy-line-item-grid,
+.rtbo-academy-course-map {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.rtbo-academy-syllabus-grid article,
+.rtbo-academy-session-strip article,
+.rtbo-academy-college-card,
+.rtbo-academy-visual-aid-grid article,
+.rtbo-academy-assignment-grid article,
+.rtbo-academy-line-item-grid article,
+.rtbo-academy-course-map article {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  border: 1px solid var(--academy-border);
+  border-radius: 8px;
+  padding: 12px;
+  background: var(--academy-panel-flat);
+}
+
+.rtbo-academy-syllabus-grid span,
+.rtbo-academy-session-strip span,
+.rtbo-academy-college-card h4,
+.rtbo-academy-visual-aid-grid span,
+.rtbo-academy-assignment-grid span,
+.rtbo-academy-line-item-grid span,
+.rtbo-academy-course-map span {
+  margin: 0;
+  color: var(--orange) !important;
+  -webkit-text-fill-color: var(--orange) !important;
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+.rtbo-academy-syllabus-grid strong,
+.rtbo-academy-session-strip strong,
+.rtbo-academy-course-map strong,
+.rtbo-academy-line-item-grid strong {
+  color: var(--academy-heading);
+  font-size: .92rem;
+  line-height: 1.3;
+}
+
+.rtbo-academy-college-card h4 {
+  font-size: .82rem;
+}
+
+.rtbo-academy-college-card ul,
+.rtbo-academy-line-item-grid ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.rtbo-academy-college-card li,
+.rtbo-academy-line-item-grid li,
+.rtbo-academy-line-item-grid p,
+.rtbo-academy-assignment-grid p,
+.rtbo-academy-assignment-grid small,
+.rtbo-academy-visual-aid-grid p,
+.rtbo-academy-course-map small {
+  margin: 0;
+  color: var(--academy-text);
+  font-size: .82rem;
+  line-height: 1.45;
+}
+
+.rtbo-academy-gradebook {
+  display: grid;
+  gap: 7px;
+}
+
+.rtbo-academy-gradebook span {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  color: var(--academy-text) !important;
+  -webkit-text-fill-color: var(--academy-text) !important;
+  font-size: .8rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.rtbo-academy-gradebook b {
+  color: var(--orange) !important;
+  -webkit-text-fill-color: var(--orange) !important;
+}
+
+.rtbo-academy-visual-aid-grid img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--academy-border);
+  border-radius: 8px;
+  object-fit: contain;
+  background: #050505;
+}
+
+.rtbo-academy-section-asset-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.rtbo-academy-section-asset-row img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--academy-border);
+  border-radius: 6px;
+  object-fit: contain;
+  background: #050505;
+}
+
 .rtbo-academy-test-rule-card {
   grid-template-columns: minmax(0, 1fr) max-content;
   align-items: center;
@@ -580,7 +728,10 @@
 @media (max-width: 1280px) {
   .rtbo-academy-track-grid,
   .rtbo-academy-card-grid,
-  .rtbo-academy-video-grid {
+  .rtbo-academy-video-grid,
+  .rtbo-academy-syllabus-grid,
+  .rtbo-academy-line-item-grid,
+  .rtbo-academy-course-map {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -589,6 +740,11 @@
   .rtbo-academy-hero,
   .rtbo-academy-course-layout {
     grid-template-columns: 1fr;
+  }
+
+  .rtbo-academy-session-strip,
+  .rtbo-academy-assignment-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .rtbo-academy-week-list {
@@ -600,7 +756,14 @@
   .rtbo-academy-metrics,
   .rtbo-academy-track-grid,
   .rtbo-academy-card-grid,
-  .rtbo-academy-video-grid {
+  .rtbo-academy-video-grid,
+  .rtbo-academy-syllabus-grid,
+  .rtbo-academy-session-strip,
+  .rtbo-academy-college-grid,
+  .rtbo-academy-visual-aid-grid,
+  .rtbo-academy-assignment-grid,
+  .rtbo-academy-line-item-grid,
+  .rtbo-academy-course-map {
     grid-template-columns: 1fr;
   }
 
@@ -619,6 +782,8 @@
   .rtbo-academy-course-panel,
   .rtbo-academy-reader,
   .rtbo-academy-content-card,
+  .rtbo-academy-material-card,
+  .rtbo-academy-college-packet,
   .rtbo-academy-notes-card {
     padding: 12px;
   }
