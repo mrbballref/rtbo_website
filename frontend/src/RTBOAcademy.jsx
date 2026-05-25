@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import './rtbo-academy.css';
 
 const MANUAL_URL = '/course-manual.md';
+const VIDEO_JOBS_URL = '/refzone-course-video-jobs.json';
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
 const noopStatus = () => {};
 const COURSE_OVERVIEW_THUMBNAIL = '/assets/images/refzone/course-overview-thumbnail.png';
@@ -162,6 +163,18 @@ function lessonKindFor(day = {}, material = {}) {
   if (/discussion|seminar|dialogue|role/.test(source)) return 'Dialogue';
   if (/lab|mechanics|film|court/.test(source)) return 'Lab';
   return 'Video';
+}
+
+function lessonGroupTitleFor(day = {}, week = {}) {
+  const source = `${day.title || ''} ${day.visualType || ''}`.toLowerCase();
+  if (/rules|case/.test(source)) return 'Rules and Case Plays';
+  if (/court|mechanics/.test(source)) return 'Court Mechanics Lab';
+  if (/film|self-scout/.test(source)) return 'Film Review';
+  if (/role|oral|communication/.test(source)) return 'Communication Lab';
+  if (/live|scrimmage|practicum/.test(source)) return 'Live Practicum';
+  if (/reflection|mentor|remediation|advancement/.test(source)) return 'Mentor Review';
+  if (/syllabus|orientation|lecture|seminar|introduction|welcome/.test(source)) return 'Introduction to the Course';
+  return week.title || 'Course Module';
 }
 
 function normalizeTestBank(raw = null) {
@@ -473,6 +486,177 @@ function testForDay(track = {}, week = {}, day = {}) {
 function imageSourceFor(value = '') {
   if (!value) return '';
   return value.startsWith('/') ? value : `/assets/images/${value}`;
+}
+
+function mediaSourceFor(value = '') {
+  const source = String(value || '').trim();
+  if (!source) return '';
+  if (/^(https?:|data:|blob:)/i.test(source) || source.startsWith('/')) return source;
+  return `/${source.replace(/^\/+/, '')}`;
+}
+
+function formatCoursePlayerTime(seconds = 0) {
+  const total = Math.max(0, Math.floor(Number(seconds) || 0));
+  const minutes = Math.floor(total / 60);
+  const remaining = total % 60;
+  return `${minutes}:${String(remaining).padStart(2, '0')}`;
+}
+
+function compactLessonText(value = '', maxLength = 900) {
+  const text = String(value || '').replace(/\*\*/g, '').replace(/\s+/g, ' ').trim();
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength).replace(/\s+\S*$/, '')}...`;
+}
+
+function courseVideoJobForLesson(jobs = [], track = {}, week = {}, day = {}) {
+  if (!Array.isArray(jobs) || !day?.id) return null;
+  return jobs.find(job => (
+    job.dayId === day.id ||
+    (job.trackId === track.id && Number(job.week) === Number(week.week) && Number(job.day) === Number(day.day))
+  )) || null;
+}
+
+function courseNarrationScript(track = {}, week = {}, day = {}, material = {}, videoJob = null) {
+  if (videoJob?.voiceoverScript) return videoJob.voiceoverScript;
+  const readings = textList(material.readings);
+  const lectureNotes = textList(material.lectureNotes);
+  const discussion = textList(material.discussion);
+  return [
+    `${track.title || 'RefZone University'}: Week ${week.week || 1}, Day ${day.day || 1}. ${day.title || 'Course lesson'}.`,
+    material.preparation,
+    'Learning objectives.',
+    ...textList(material.objectives).map((item, index) => `Objective ${index + 1}: ${item}`),
+    'Required reading.',
+    ...readings.map((item, index) => `Reading ${index + 1}: ${item}`),
+    'Professor lecture notes.',
+    ...lectureNotes.map((item, index) => `Lecture note ${index + 1}: ${item}`),
+    material.lab ? `Lab activity: ${material.lab}` : '',
+    material.assignment ? `Daily assignment: ${material.assignment}` : '',
+    discussion.length ? `Discussion question: ${discussion[0]}` : '',
+    material.assessment?.prompt ? `Assessment: ${material.assessment.prompt}` : ''
+  ].filter(Boolean).join(' ');
+}
+
+function coursePublishedVideoSource(day = {}, material = {}, videoJob = null) {
+  const explicit = day.videoUrl || day.video_url || day.videoSrc || day.video_src || day.video || material.videoUrl || material.video || '';
+  if (explicit) return mediaSourceFor(explicit);
+  if (videoJob?.published && videoJob.videoPath) return mediaSourceFor(videoJob.videoPath);
+  return '';
+}
+
+function courseLessonVisuals(track = {}, week = {}, day = {}, visual = null, videoJob = null) {
+  const rows = [];
+  const baseVisual = visual || dayVisualFor(day);
+  if (baseVisual?.image) {
+    rows.push({
+      id: 'primary-visual',
+      title: baseVisual.title || 'Lesson Visual Aid',
+      src: baseVisual.image,
+      description: baseVisual.proof || 'Primary visual aid for this lesson.'
+    });
+  }
+  const screenshot = imageSourceFor(day.screenshot || week.screenshot);
+  if (screenshot) {
+    rows.push({
+      id: 'lesson-screenshot',
+      title: 'Screenshot Packet',
+      src: screenshot,
+      description: day.presentation || week.presentation || 'Screenshot packet for the lesson activity and evidence work.'
+    });
+  }
+  (day.sections || []).slice(0, 6).forEach((section, index) => {
+    const sectionVisual = sectionVisualsFor(section, day, index);
+    if (sectionVisual.visual) {
+      rows.push({
+        id: `${section.id || `section-${index}`}-visual`,
+        title: section.title || `Section ${index + 1} Visual`,
+        src: sectionVisual.visual,
+        description: section.collegeRole || section.materialType || 'Section visual aid.'
+      });
+    }
+    if (sectionVisual.screenshot) {
+      rows.push({
+        id: `${section.id || `section-${index}`}-screenshot`,
+        title: `${section.title || `Section ${index + 1}`} Screenshot`,
+        src: sectionVisual.screenshot,
+        description: section.presentation || 'Section screenshot packet.'
+      });
+    }
+  });
+  (videoJob?.visuals || []).forEach((item, index) => {
+    const src = mediaSourceFor(item.src || item.path || item);
+    if (src && !rows.some(row => row.src === src)) {
+      rows.push({
+        id: `job-visual-${index}`,
+        title: item.title || `Production Visual ${index + 1}`,
+        src,
+        description: item.description || 'Production visual asset.'
+      });
+    }
+  });
+  return rows.filter((item, index, list) => item.src && list.findIndex(row => row.src === item.src) === index);
+}
+
+function courseLessonFiles(track = {}, week = {}, day = {}, material = {}, visual = null, videoJob = null) {
+  const files = [];
+  textList(material.readings).forEach((item, index) => {
+    files.push({
+      id: `reading-${index + 1}`,
+      kind: 'Reading',
+      title: `Required Reading ${index + 1}`,
+      description: item,
+      href: ''
+    });
+  });
+  textList(material.lectureNotes).forEach((item, index) => {
+    files.push({
+      id: `lecture-note-${index + 1}`,
+      kind: 'Lecture Notes',
+      title: `Professor Lecture Note ${index + 1}`,
+      description: item,
+      href: ''
+    });
+  });
+  textList(material.discussion).forEach((item, index) => {
+    files.push({
+      id: `discussion-${index + 1}`,
+      kind: 'Discussion',
+      title: `Discussion Question ${index + 1}`,
+      description: item,
+      href: ''
+    });
+  });
+  if (material.lab) files.push({ id: 'lab-activity', kind: 'Lab', title: 'Lab / Visual Activity', description: material.lab, href: '' });
+  if (material.assignment) files.push({ id: 'daily-assignment', kind: 'Assignment', title: 'Daily Assignment', description: material.assignment, href: '' });
+  if (material.assessment?.prompt) files.push({ id: 'assessment-prompt', kind: 'Assessment', title: material.assessment.type || 'Assessment Prompt', description: material.assessment.prompt, href: '' });
+  courseLessonVisuals(track, week, day, visual, videoJob).forEach(item => {
+    files.push({
+      id: `visual-${item.id}`,
+      kind: 'Visual Aid',
+      title: item.title,
+      description: item.description,
+      href: item.src
+    });
+  });
+  if (day.test?.answerKeyPath) {
+    files.push({
+      id: 'answer-key',
+      kind: 'Faculty File',
+      title: 'Assessment Answer Key',
+      description: 'Command-center answer key reference for faculty review.',
+      href: day.test.answerKeyPath
+    });
+  }
+  (videoJob?.readingFiles || []).forEach((item, index) => {
+    files.push({
+      id: `production-file-${index}`,
+      kind: item.kind || 'Production File',
+      title: item.title || `Production File ${index + 1}`,
+      description: item.description || item.summary || '',
+      href: mediaSourceFor(item.href || item.path || '')
+    });
+  });
+  return files;
 }
 
 function sectionVisualsFor(section = {}, day = {}, index = 0) {
@@ -992,6 +1176,426 @@ function RubricSummary({ rubric = [] }) {
   );
 }
 
+function CourseVideoPlayer({
+  track = {},
+  week = {},
+  day = {},
+  material = {},
+  visual = null,
+  videoJob = null,
+  onOpenTest = () => {},
+  onStatus = noopStatus
+}) {
+  const videoRef = useRef(null);
+  const shellRef = useRef(null);
+  const timerRef = useRef(null);
+  const utteranceRef = useRef(null);
+  const [playing, setPlaying] = useState(false);
+  const [currentSeconds, setCurrentSeconds] = useState(0);
+  const [durationSeconds, setDurationSeconds] = useState(0);
+  const [muted, setMuted] = useState(false);
+  const [volume, setVolume] = useState(0.76);
+  const [captionsOn, setCaptionsOn] = useState(true);
+  const [speed, setSpeed] = useState(1);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [theaterMode, setTheaterMode] = useState(false);
+  const [miniMode, setMiniMode] = useState(false);
+  const [videoFailed, setVideoFailed] = useState(false);
+  const script = useMemo(() => courseNarrationScript(track, week, day, material, videoJob), [day, material, track, videoJob, week]);
+  const visuals = useMemo(() => courseLessonVisuals(track, week, day, visual, videoJob), [day, track, videoJob, visual, week]);
+  const publishedVideoSource = coursePublishedVideoSource(day, material, videoJob);
+  const hasPublishedVideo = Boolean(publishedVideoSource && !videoFailed);
+  const estimatedDuration = useMemo(() => Math.max(180, Math.min(1200, Math.round(script.length / 12))), [script]);
+  const effectiveDuration = hasPublishedVideo ? (durationSeconds || estimatedDuration) : estimatedDuration;
+  const progress = effectiveDuration > 0 ? Math.min(100, (currentSeconds / effectiveDuration) * 100) : 0;
+  const activeVisualIndex = visuals.length ? Math.min(visuals.length - 1, Math.floor((progress / 100) * visuals.length)) : 0;
+  const activeVisual = visuals[activeVisualIndex] || {
+    title: visual?.title || day.title || 'Lesson Visual Aid',
+    src: visual?.image || '',
+    description: visual?.proof || 'Lesson visuals are loaded from the course packet.'
+  };
+  const captionStart = Math.max(0, Math.floor((progress / 100) * script.length) - 80);
+  const captionText = compactLessonText(script.slice(captionStart, captionStart + 420), 300) || 'Captions are enabled for this course lesson.';
+
+  useEffect(() => {
+    window.clearInterval(timerRef.current);
+    timerRef.current = null;
+    if (typeof window !== 'undefined' && window.speechSynthesis) window.speechSynthesis.cancel();
+    setPlaying(false);
+    setCurrentSeconds(0);
+    setDurationSeconds(0);
+    setSettingsOpen(false);
+    setMiniMode(false);
+    setVideoFailed(false);
+  }, [day?.id, publishedVideoSource]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = muted;
+    video.volume = muted ? 0 : volume;
+    video.playbackRate = speed;
+  }, [muted, volume, speed, hasPublishedVideo]);
+
+  useEffect(() => () => {
+    window.clearInterval(timerRef.current);
+    if (typeof window !== 'undefined' && window.speechSynthesis) window.speechSynthesis.cancel();
+  }, []);
+
+  function updateVideoProgress(video) {
+    const duration = Number.isFinite(video.duration) && video.duration > 0 ? video.duration : estimatedDuration;
+    setDurationSeconds(duration);
+    setCurrentSeconds(video.currentTime || 0);
+  }
+
+  function stopGeneratedVoiceover() {
+    window.clearInterval(timerRef.current);
+    timerRef.current = null;
+    if (typeof window !== 'undefined' && window.speechSynthesis) window.speechSynthesis.cancel();
+  }
+
+  function speakGeneratedLesson(startSeconds = currentSeconds) {
+    if (typeof window === 'undefined' || !window.speechSynthesis || !script) return;
+    window.speechSynthesis.cancel();
+    const startIndex = Math.max(0, Math.min(script.length - 1, Math.floor((startSeconds / estimatedDuration) * script.length)));
+    const utterance = new SpeechSynthesisUtterance(script.slice(startIndex) || script);
+    utterance.rate = Math.max(.75, Math.min(1.35, speed));
+    utterance.volume = muted ? 0 : volume;
+    utterance.onend = () => {
+      window.clearInterval(timerRef.current);
+      timerRef.current = null;
+      setPlaying(false);
+    };
+    utterance.onerror = () => {
+      window.clearInterval(timerRef.current);
+      timerRef.current = null;
+      setPlaying(false);
+      onStatus('The browser voiceover stopped. The lesson visuals and transcript remain available.');
+    };
+    utteranceRef.current = utterance;
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function startGeneratedTimer(startSeconds = currentSeconds) {
+    window.clearInterval(timerRef.current);
+    timerRef.current = window.setInterval(() => {
+      setCurrentSeconds(current => {
+        const next = Math.min(estimatedDuration, current + speed);
+        if (next >= estimatedDuration) {
+          window.clearInterval(timerRef.current);
+          timerRef.current = null;
+          setPlaying(false);
+        }
+        return next;
+      });
+    }, 1000);
+    setCurrentSeconds(Math.min(estimatedDuration, Math.max(0, startSeconds)));
+  }
+
+  async function startPlayer() {
+    if (hasPublishedVideo && videoRef.current) {
+      try {
+        await videoRef.current.play();
+      } catch {
+        onStatus('The course video could not start automatically. Use the player control again after the browser allows playback.');
+      }
+      return;
+    }
+    setPlaying(true);
+    startGeneratedTimer(currentSeconds);
+    speakGeneratedLesson(currentSeconds);
+  }
+
+  function pausePlayer() {
+    if (hasPublishedVideo && videoRef.current) {
+      videoRef.current.pause();
+    } else {
+      stopGeneratedVoiceover();
+    }
+    setPlaying(false);
+  }
+
+  function togglePlayer() {
+    if (playing) pausePlayer();
+    else startPlayer();
+  }
+
+  function stopPlayer() {
+    if (hasPublishedVideo && videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    } else {
+      stopGeneratedVoiceover();
+    }
+    setCurrentSeconds(0);
+    setPlaying(false);
+  }
+
+  function seekTo(nextProgress) {
+    const boundedProgress = Math.max(0, Math.min(100, nextProgress));
+    const nextSeconds = effectiveDuration > 0 ? (boundedProgress / 100) * effectiveDuration : 0;
+    if (hasPublishedVideo && videoRef.current) {
+      videoRef.current.currentTime = nextSeconds;
+    } else if (playing) {
+      stopGeneratedVoiceover();
+      speakGeneratedLesson(nextSeconds);
+      startGeneratedTimer(nextSeconds);
+    } else {
+      setCurrentSeconds(nextSeconds);
+    }
+  }
+
+  function seekToSeconds(nextSeconds) {
+    seekTo(effectiveDuration > 0 ? (Math.max(0, Math.min(effectiveDuration, nextSeconds)) / effectiveDuration) * 100 : 0);
+  }
+
+  function skipBy(seconds) {
+    seekToSeconds(currentSeconds + seconds);
+  }
+
+  function previousMarker() {
+    const markers = [0, effectiveDuration * .25, effectiveDuration * .5, effectiveDuration * .75, effectiveDuration];
+    const previous = [...markers].reverse().find(marker => marker < currentSeconds - 3) ?? 0;
+    seekToSeconds(previous);
+  }
+
+  function nextMarker() {
+    const markers = [0, effectiveDuration * .25, effectiveDuration * .5, effectiveDuration * .75, effectiveDuration];
+    const next = markers.find(marker => marker > currentSeconds + 3) ?? effectiveDuration;
+    seekToSeconds(next);
+  }
+
+  function changeSpeed() {
+    setSpeed(current => {
+      const speeds = [1, 1.25, 1.5, 2, .75];
+      const next = speeds[(speeds.indexOf(current) + 1) % speeds.length] || 1;
+      return next;
+    });
+  }
+
+  function changeVolume(nextVolume) {
+    const boundedVolume = Math.max(0, Math.min(1, nextVolume));
+    setVolume(boundedVolume);
+    setMuted(boundedVolume === 0);
+  }
+
+  function toggleFullscreen() {
+    const node = shellRef.current;
+    if (!node) return;
+    if (document.fullscreenElement) {
+      document.exitFullscreen?.();
+      return;
+    }
+    node.requestFullscreen?.();
+  }
+
+  async function toggleMiniPlayer() {
+    const video = videoRef.current;
+    if (hasPublishedVideo && video?.requestPictureInPicture) {
+      try {
+        if (document.pictureInPictureElement) {
+          await document.exitPictureInPicture();
+          setMiniMode(false);
+        } else {
+          await video.requestPictureInPicture();
+          setMiniMode(true);
+        }
+        return;
+      } catch {
+        setMiniMode(current => !current);
+        return;
+      }
+    }
+    setMiniMode(current => !current);
+  }
+
+  return (
+    <section
+      className={`rtbo-course-video-player ${theaterMode ? 'is-theater-mode' : ''} ${miniMode ? 'is-mini-mode' : ''}`.trim()}
+      ref={shellRef}
+      aria-label={`${day.title || 'Course'} video player`}
+    >
+      <header className="rtbo-course-video-topbar">
+        <div>
+          <span>Course Video</span>
+          <strong>{day.title || 'RefZone lesson'}</strong>
+        </div>
+        <div className="rtbo-course-video-status">
+          <span>{hasPublishedVideo ? 'Published video' : 'Generated lesson video'}</span>
+          <time>{formatCoursePlayerTime(currentSeconds)} / {formatCoursePlayerTime(effectiveDuration)}</time>
+        </div>
+      </header>
+
+      <div className="rtbo-course-video-viewport">
+        {hasPublishedVideo ? (
+          <video
+            ref={videoRef}
+            playsInline
+            preload="metadata"
+            poster={activeVisual.src}
+            onLoadedMetadata={(event) => updateVideoProgress(event.currentTarget)}
+            onTimeUpdate={(event) => updateVideoProgress(event.currentTarget)}
+            onPlay={() => setPlaying(true)}
+            onPause={() => setPlaying(false)}
+            onEnded={() => setPlaying(false)}
+            onError={() => {
+              setVideoFailed(true);
+              onStatus('Published course video was not reachable, so the generated lesson video is active.');
+            }}
+          >
+            <source src={publishedVideoSource} />
+            {videoJob?.captionsPath && <track src={mediaSourceFor(videoJob.captionsPath)} kind="captions" srcLang="en" label="English" />}
+            Your browser does not support this course video.
+          </video>
+        ) : (
+          <div className="rtbo-course-generated-stage">
+            {activeVisual.src && <img src={activeVisual.src} alt={`${activeVisual.title} visual aid`} loading="eager" decoding="async" />}
+            <div className="rtbo-course-generated-copy">
+              <span>{activeVisual.title}</span>
+              <strong>{playing ? 'Voiceover playing' : 'Voiceover ready'}</strong>
+              <p>{activeVisual.description}</p>
+            </div>
+          </div>
+        )}
+        <button type="button" className="rtbo-course-video-play" onClick={togglePlayer} aria-label={playing ? 'Pause course video' : 'Play course video'}>
+          <span aria-hidden="true">{playing ? 'Pause' : 'Play'}</span>
+        </button>
+        {captionsOn && (
+          <div className="rtbo-course-caption-strip" aria-live="polite">
+            {captionText}
+          </div>
+        )}
+      </div>
+
+      <div className="rtbo-course-video-controls" aria-label="Course video controls">
+        <div className="rtbo-course-video-progress">
+          <span>{formatCoursePlayerTime(currentSeconds)}</span>
+          <input type="range" min="0" max="100" value={progress} onChange={(event) => seekTo(Number(event.target.value))} aria-label="Seek course video" />
+          <span>{formatCoursePlayerTime(effectiveDuration)}</span>
+        </div>
+        <div className="rtbo-course-video-control-row">
+          <button type="button" onClick={startPlayer}>Play</button>
+          <button type="button" onClick={pausePlayer}>Pause</button>
+          <button type="button" onClick={stopPlayer}>Stop</button>
+          <button type="button" onClick={previousMarker}>Prev</button>
+          <button type="button" onClick={() => skipBy(-30)}>Rewind</button>
+          <button type="button" onClick={() => skipBy(-10)}>-10</button>
+          <button type="button" onClick={() => skipBy(10)}>+10</button>
+          <button type="button" onClick={() => skipBy(30)}>Fast Fwd</button>
+          <button type="button" onClick={nextMarker}>Next</button>
+          <button type="button" onClick={() => setMuted(current => !current)}>{muted ? 'Muted' : 'Sound'}</button>
+          <input type="range" min="0" max="1" step="0.05" value={muted ? 0 : volume} onChange={(event) => changeVolume(Number(event.target.value))} aria-label="Course video volume" />
+          <button className={captionsOn ? 'active' : ''} type="button" onClick={() => setCaptionsOn(current => !current)}>CC</button>
+          <button type="button" onClick={changeSpeed}>{speed.toFixed(1)}x</button>
+          <button className={settingsOpen ? 'active' : ''} type="button" onClick={() => setSettingsOpen(current => !current)}>Settings</button>
+          <button className={theaterMode ? 'active' : ''} type="button" onClick={() => setTheaterMode(current => !current)}>Theater</button>
+          <button className={miniMode ? 'active' : ''} type="button" onClick={toggleMiniPlayer}>Mini</button>
+          <button type="button" onClick={toggleFullscreen}>Full</button>
+          <button type="button" onClick={onOpenTest}>Open Test</button>
+        </div>
+        {settingsOpen && (
+          <div className="rtbo-course-video-settings">
+            <p>{hasPublishedVideo ? 'Playing the published course video asset.' : 'Playing the generated lesson video with browser voiceover, course visual aids, and transcript captions. Published MP4/HLS assets will load automatically when rendered.'}</p>
+            {videoJob?.videoPath && <span>Production output: {videoJob.videoPath}</span>}
+            {videoJob?.renderer && <span>Renderer: {videoJob.renderer} / Voiceover: {videoJob.voiceover}</span>}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function CourseToolPanel({
+  activeTool = 'files',
+  track = {},
+  week = {},
+  day = {},
+  files = [],
+  transcript = '',
+  notesValue = '',
+  onNotesChange = () => {},
+  onClose = () => {}
+}) {
+  const transcriptBlocks = transcript
+    .split(/(?<=\.)\s+(?=[A-Z])/)
+    .filter(Boolean)
+    .reduce((rows, sentence, index) => {
+      const bucket = Math.floor(index / 4);
+      if (!rows[bucket]) rows[bucket] = [];
+      rows[bucket].push(sentence);
+      return rows;
+    }, []);
+  const downloadFiles = files.filter(file => file.href).slice(0, 16);
+  const packetFiles = files.filter(file => !file.href).slice(0, 16);
+
+  return (
+    <aside className="rtbo-coursera-tool-panel" aria-label="Course resource panel">
+      <button className="rtbo-coursera-tool-panel-close" type="button" onClick={onClose} aria-label="Close course resource panel">x</button>
+      {activeTool === 'transcript' && (
+        <section>
+          <p className="eyebrow">Transcript</p>
+          <h4>Transcript</h4>
+          <label className="rtbo-coursera-language-select">Language: English
+            <select defaultValue="English" aria-label="Transcript language">
+              <option>English</option>
+            </select>
+          </label>
+          <div className="rtbo-coursera-transcript">
+            {transcriptBlocks.map((block, index) => (
+              <article key={`${day.id}-transcript-${index}`}>
+                <span>{formatCoursePlayerTime(index * 67 + 7)}</span>
+                <p>{block.join(' ')}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {activeTool === 'notes' && (
+        <section>
+          <p className="eyebrow">Notes</p>
+          <h4>Student Notes</h4>
+          <button className="rtbo-coursera-view-notes" type="button">View all notes</button>
+          {notesValue ? (
+            <textarea
+              value={notesValue}
+              onChange={(event) => onNotesChange(event.target.value)}
+              placeholder="Record film notes, mechanics corrections, professor feedback, mentor notes, and completion evidence."
+            />
+          ) : (
+            <div className="rtbo-coursera-notes-empty">
+              <div aria-hidden="true">Notes</div>
+              <p>To save notes, use the "Save note" option under the video or highlight lines in the transcript and save them as notes.</p>
+            </div>
+          )}
+        </section>
+      )}
+
+      {activeTool === 'files' && (
+        <section>
+          <p className="eyebrow">Files</p>
+          <h4>Files</h4>
+          <div className="rtbo-coursera-file-list">
+            {downloadFiles.map(file => (
+              <article key={file.id}>
+                <span>{file.kind}</span>
+                <strong>{file.title}</strong>
+                <a href={file.href} target={file.href.startsWith('#') ? undefined : '_blank'} rel="noreferrer" aria-label={`Open ${file.title}`}>Download</a>
+              </article>
+            ))}
+            {packetFiles.length > 0 && (
+              <div className="rtbo-coursera-packet-files">
+                <strong>Lesson packet</strong>
+                {packetFiles.map(file => <p key={file.id}><b>{file.title}</b>{file.description}</p>)}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+    </aside>
+  );
+}
+
 function CourseTestPanel({
   track = {},
   week = {},
@@ -1104,6 +1708,10 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
   const [testDrafts, setTestDrafts] = useState({});
   const [openTestId, setOpenTestId] = useState('');
   const [managedCourses, setManagedCourses] = useState([]);
+  const [courseVideoJobs, setCourseVideoJobs] = useState([]);
+  const [courseToolPanel, setCourseToolPanel] = useState('');
+  const [courseToolPanelOpen, setCourseToolPanelOpen] = useState(false);
+  const [coursePromptResponse, setCoursePromptResponse] = useState('');
 
   useEffect(() => {
     document.title = publicMode ? `${brandName} | RTBO Education` : 'RTBO Academy | Education Workspace';
@@ -1129,13 +1737,15 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
       try {
         const response = await fetch(`${API_URL}/refzone-courses.php`, { credentials: 'include' });
         const data = await response.json();
-        if (active && data?.managed && Array.isArray(data.courses)) setManagedCourses(data.courses);
-      } catch {
-        if (active && publicMode) {
-          setManagedCourses([]);
-          onStatus('Sign in and enroll in a RefZone University membership to access course materials.');
-          return;
+        if (active && data?.managed && Array.isArray(data.courses)) {
+          setManagedCourses(data.courses);
+          try {
+            localStorage.setItem(STORAGE_KEYS.courses, JSON.stringify(data.courses));
+          } catch {
+            // Local mirroring is best effort; the API remains the source of truth.
+          }
         }
+      } catch {
         try {
           const stored = JSON.parse(localStorage.getItem(STORAGE_KEYS.courses) || '[]');
           if (active && Array.isArray(stored) && stored.length) {
@@ -1158,6 +1768,21 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
       window.removeEventListener('storage', loadManagedCourses);
     };
   }, [onStatus, publicMode]);
+
+  useEffect(() => {
+    let active = true;
+    fetch(VIDEO_JOBS_URL)
+      .then(response => response.ok ? response.json() : Promise.reject(new Error('Video jobs unavailable')))
+      .then(data => {
+        if (active) setCourseVideoJobs(Array.isArray(data?.jobs) ? data.jobs : []);
+      })
+      .catch(() => {
+        if (active) setCourseVideoJobs([]);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const tracks = useMemo(() => {
     const managedTracks = managedCourses.filter(course => (course.status || 'active') === 'active').map(managedCourseToTrack);
@@ -1272,11 +1897,15 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
   const selectedTestDraft = selectedDay ? (testDrafts[selectedDay.id] || selectedTestResult?.answers || {}) : {};
   const selectedTestOpen = Boolean(selectedDay && openTestId === selectedDay.id);
   const selectedMaterial = selectedDay ? collegeMaterialForDay(selectedTrack, selectedWeek, selectedDay) : null;
+  const selectedVideoJob = selectedDay ? courseVideoJobForLesson(courseVideoJobs, selectedTrack, selectedWeek, selectedDay) : null;
+  const selectedTranscript = selectedDay && selectedMaterial ? courseNarrationScript(selectedTrack, selectedWeek, selectedDay, selectedMaterial, selectedVideoJob) : '';
+  const selectedCourseFiles = selectedDay && selectedMaterial ? courseLessonFiles(selectedTrack, selectedWeek, selectedDay, selectedMaterial, selectedDayVisual, selectedVideoJob) : [];
   const selectedTrackProgress = useMemo(() => courseProgressFor(selectedTrack, completed, passedTests), [selectedTrack, completed, passedTests]);
   const selectedTrackLessons = selectedTrackProgress.lessons;
   const selectedLessonNumber = selectedTrackLessons.findIndex(row => row.day.id === selectedDay?.id) + 1;
   const followingCourseLesson = selectedTrackLessons[selectedLessonNumber] || null;
   const nextCourseLesson = selectedTrackLessons.find(row => !completed[row.day.id] || !passedTests[row.day.id]) || selectedTrackLessons[0] || null;
+  const inCourseWorkspace = activeView === 'course' && Boolean(selectedTrack);
 
   function dayTestPassed(dayId) {
     return Boolean(passedTests[dayId]);
@@ -1302,6 +1931,8 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
     setSelectedWeekIndex(weekIndex);
     setSelectedDayIndex(dayIndex);
     setOpenTestId('');
+    setCourseToolPanelOpen(false);
+    setCoursePromptResponse('');
   }
 
   function openAcademyWeek(track, weekIndex) {
@@ -1315,6 +1946,8 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
     setSelectedWeekIndex(weekIndex);
     setSelectedDayIndex(0);
     setOpenTestId('');
+    setCourseToolPanelOpen(false);
+    setCoursePromptResponse('');
   }
 
   function openCourseOverview(track) {
@@ -1327,6 +1960,8 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
     setSelectedWeekIndex(0);
     setSelectedDayIndex(0);
     setOpenTestId('');
+    setCourseToolPanelOpen(false);
+    setCoursePromptResponse('');
     setActiveView('course');
   }
 
@@ -1426,7 +2061,27 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
     setSelectedTrackId(row.track.id);
     setSelectedWeekIndex(row.track.weeks.findIndex(week => week.id === row.week.id));
     setSelectedDayIndex(row.week.days.findIndex(day => day.id === row.day.id));
+    setCourseToolPanelOpen(false);
+    setCoursePromptResponse('');
     setActiveView('course');
+  }
+
+  function openCourseTool(tool) {
+    setCourseToolPanel(tool);
+    setCourseToolPanelOpen(true);
+  }
+
+  function runCoursePrompt(promptType) {
+    const topic = selectedDay?.title || 'this lesson';
+    const readings = textList(selectedMaterial?.readings);
+    const notes = textList(selectedMaterial?.lectureNotes);
+    const responses = {
+      questions: `Practice questions for ${topic}: 1. Which rule or mechanic controls the play? 2. What evidence proves the official had the right angle? 3. What is the concise supervisor-ready explanation?`,
+      simple: `${topic} in simple terms: study the rule source, see the play from the proper angle, communicate once with professional language, and submit evidence that proves you can repeat the standard in a game.`,
+      summary: `${topic} summary: ${compactLessonText([selectedMaterial?.preparation, readings[0], notes[0], selectedMaterial?.assignment].filter(Boolean).join(' '), 520)}`,
+      examples: `Real-game examples for ${topic}: apply the reading to a live play, a film freeze-frame, a partner conference, and a coach communication moment. Each example should include the ruling, mechanic, signal, and correction point.`
+    };
+    setCoursePromptResponse(responses[promptType] || responses.summary);
   }
 
   if (loading) {
@@ -1452,8 +2107,8 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
   }
 
   return (
-    <section className={`${publicMode ? 'rtbo-public-academy-shell' : 'rtbo-dashboard-card'} rtbo-academy-page`}>
-      <div className="rtbo-dashboard-card-head">
+    <section className={`${publicMode ? 'rtbo-public-academy-shell' : 'rtbo-dashboard-card'} ${inCourseWorkspace ? 'rtbo-academy-course-mode' : ''} rtbo-academy-page`}>
+      {!inCourseWorkspace && <div className="rtbo-dashboard-card-head">
         <div>
           <p className="eyebrow">{publicMode ? 'RefZone University' : 'Education Workspace'}</p>
           <h3>{brandName}</h3>
@@ -1464,13 +2119,13 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
           <a className="btn secondary dark-btn" href={MANUAL_URL} download>Download Manual</a>
           {selectedTrack && <button className="btn secondary dark-btn" type="button" onClick={() => resetCourseProgress(selectedTrack)}>Reset Test Progress</button>}
         </div>
-      </div>
+      </div>}
 
-      <div className="rtbo-academy-topbar">
+      {!inCourseWorkspace && <div className="rtbo-academy-topbar">
         {academyViewTabs.map(([id, label]) => (
           <button className={activeView === id ? 'active' : ''} type="button" key={id} onClick={() => setActiveView(id)}>{label}</button>
         ))}
-      </div>
+      </div>}
 
       {activeView === 'dashboard' && (
         <div className="rtbo-academy-dashboard">
@@ -1572,7 +2227,7 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
             </div>
           </section>
 
-          <div className="rtbo-coursera-layout rtbo-coursera-workspace">
+          <div className={`rtbo-coursera-layout rtbo-coursera-workspace ${courseToolPanelOpen ? 'has-tool-panel' : 'tool-panel-closed'}`.trim()}>
             <aside className="rtbo-coursera-sidebar" aria-label="Course content">
               <div className="rtbo-coursera-course-title">
                 <strong>{selectedTrack.title}</strong>
@@ -1596,6 +2251,14 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
                   const weekRows = selectedTrackLessons.filter(row => row.week.id === week.id);
                   const weekDone = weekRows.filter(row => completed[row.day.id] && passedTests[row.day.id]).length;
                   const weekGate = academyDayGate(selectedTrack, week.days[0]?.id);
+                  const groupedDays = (week.days || []).reduce((groups, day, dayIndex) => {
+                    const title = lessonGroupTitleFor(day, week);
+                    const group = groups.find(item => item.title === title);
+                    const row = { day, dayIndex };
+                    if (group) group.days.push(row);
+                    else groups.push({ title, days: [row] });
+                    return groups;
+                  }, []);
                   return (
                     <section className={`${weekIndex === selectedWeekIndex ? 'is-active' : ''} ${weekGate.open ? '' : 'is-locked'}`.trim()} key={week.id}>
                       <button
@@ -1609,27 +2272,33 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
                         <small>{weekGate.open ? `${weekDone} / ${weekRows.length} completed` : `Locked until ${weekGate.previousDay?.title || 'previous test'} is passed`}</small>
                       </button>
                       <div className="rtbo-coursera-lesson-list">
-                        {week.days.map((day, dayIndex) => {
-                          const gate = academyDayGate(selectedTrack, day.id);
-                          const isActive = weekIndex === selectedWeekIndex && dayIndex === selectedDayIndex;
-                          const isComplete = completed[day.id] && passedTests[day.id];
-                          const material = collegeMaterialForDay(selectedTrack, week, day);
-                          const lessonKind = lessonKindFor(day, material);
-                          return (
-                            <button
-                              className={`${isActive ? 'is-active' : ''} ${isComplete ? 'is-complete' : ''} ${gate.open ? '' : 'is-locked'}`.trim()}
-                              type="button"
-                              key={day.id}
-                              disabled={!gate.open}
-                              title={gate.open ? day.title : `Pass ${gate.previousDay?.title || 'the previous test'} first`}
-                              onClick={() => openAcademyDay(selectedTrack, weekIndex, dayIndex)}
-                            >
-                              <i aria-hidden="true" />
-                              <span>{gate.open ? day.title : 'Complete the previous assessment'}</span>
-                              <small>{gate.open ? `${lessonKind} / ${material.minutes || 90} min` : 'Locked'}</small>
-                            </button>
-                          );
-                        })}
+                        {groupedDays.map((group, groupIndex) => (
+                          <div className="rtbo-coursera-lesson-group" key={`${week.id}-${group.title}`}>
+                            <strong>{group.title}</strong>
+                            {group.days.map(({ day, dayIndex }) => {
+                              const gate = academyDayGate(selectedTrack, day.id);
+                              const isActive = weekIndex === selectedWeekIndex && dayIndex === selectedDayIndex;
+                              const isComplete = completed[day.id] && passedTests[day.id];
+                              const material = collegeMaterialForDay(selectedTrack, week, day);
+                              const lessonKind = lessonKindFor(day, material);
+                              return (
+                                <button
+                                  className={`${isActive ? 'is-active' : ''} ${isComplete ? 'is-complete' : ''} ${gate.open ? '' : 'is-locked'}`.trim()}
+                                  type="button"
+                                  key={day.id}
+                                  disabled={!gate.open}
+                                  title={gate.open ? day.title : `Pass ${gate.previousDay?.title || 'the previous test'} first`}
+                                  onClick={() => openAcademyDay(selectedTrack, weekIndex, dayIndex)}
+                                >
+                                  <i aria-hidden="true" />
+                                  <span>{gate.open ? day.title : 'Complete the previous assessment'}</span>
+                                  <small>{gate.open ? `${lessonKind} - ${material.minutes || 90} min` : 'Locked'}</small>
+                                </button>
+                              );
+                            })}
+                            {groupIndex < groupedDays.length - 1 && <hr />}
+                          </div>
+                        ))}
                       </div>
                     </section>
                   );
@@ -1641,12 +2310,16 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
               {selectedDay && (
                 <>
                   <section className="rtbo-coursera-player">
-                    <div className="rtbo-coursera-player-media" role="img" aria-label={`${selectedDayVisual.title} lesson player`}>
-                      <img src={selectedDayVisual.image} alt={`${selectedDayVisual.title} lesson visual`} loading="lazy" decoding="async" />
-                      <button type="button" className="rtbo-coursera-play-button" onClick={() => openDayTest(selectedDay.id)} aria-label="Open lesson assessment">
-                        <span aria-hidden="true" />
-                      </button>
-                    </div>
+                    <CourseVideoPlayer
+                      track={selectedTrack}
+                      week={selectedWeek}
+                      day={selectedDay}
+                      material={selectedMaterial}
+                      visual={selectedDayVisual}
+                      videoJob={selectedVideoJob}
+                      onOpenTest={() => openDayTest(selectedDay.id)}
+                      onStatus={onStatus}
+                    />
                   </section>
 
                   <section className="rtbo-coursera-content-band rtbo-coursera-player-footer">
@@ -1667,11 +2340,12 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
                         <button type="button" aria-label="Collapse topic prompts">^</button>
                       </div>
                       <div className="rtbo-coursera-ai-actions">
-                        <button type="button">Give me practice questions</button>
-                        <button type="button">Explain this topic in simple terms</button>
-                        <button type="button">Give me a summary</button>
-                        <button type="button">Give me real-life examples</button>
+                        <button type="button" onClick={() => runCoursePrompt('questions')}>Give me practice questions</button>
+                        <button type="button" onClick={() => runCoursePrompt('simple')}>Explain this topic in simple terms</button>
+                        <button type="button" onClick={() => runCoursePrompt('summary')}>Give me a summary</button>
+                        <button type="button" onClick={() => runCoursePrompt('examples')}>Give me real-life examples</button>
                       </div>
+                      {coursePromptResponse && <p className="rtbo-coursera-ai-response">{coursePromptResponse}</p>}
                     </article>
 
                     <div className="rtbo-coursera-footer-actions">
@@ -1689,26 +2363,6 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
                         Go to next item -&gt;
                       </button>
                     </div>
-                  </section>
-
-                  <section className="rtbo-coursera-resource-grid" aria-label="Lesson materials">
-                    <article>
-                      <span>Required Reading</span>
-                      <ul>{textList(selectedMaterial?.readings).slice(0, 3).map(item => <li key={item}>{item}</li>)}</ul>
-                    </article>
-                    <article>
-                      <span>Lecture Notes</span>
-                      <ul>{textList(selectedMaterial?.lectureNotes).slice(0, 3).map(item => <li key={item}>{item}</li>)}</ul>
-                    </article>
-                    <article>
-                      <span>Discussion</span>
-                      <ul>{textList(selectedMaterial?.discussion).slice(0, 3).map(item => <li key={item}>{item}</li>)}</ul>
-                    </article>
-                    <article>
-                      <span>Lab and Assignment</span>
-                      <p>{selectedMaterial?.lab}</p>
-                      <p>{selectedMaterial?.assignment}</p>
-                    </article>
                   </section>
 
                   <section className="rtbo-coursera-content-band">
@@ -1752,23 +2406,28 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
                       onClose={() => setOpenTestId('')}
                     />
                   )}
-
-                  <section className="rtbo-coursera-notes-card">
-                    <h4>Student Notes, Evidence, and Mentor Feedback</h4>
-                    <textarea
-                      value={notes[selectedDay.id] || ''}
-                      onChange={(event) => setNotes(current => ({ ...current, [selectedDay.id]: event.target.value }))}
-                      placeholder="Record film notes, mechanics corrections, professor feedback, mentor notes, role-play performance, and completion evidence."
-                    />
-                  </section>
                 </>
               )}
             </main>
 
+            {courseToolPanelOpen && (
+              <CourseToolPanel
+                activeTool={courseToolPanel}
+                track={selectedTrack}
+                week={selectedWeek}
+                day={selectedDay}
+                files={selectedCourseFiles}
+                transcript={selectedTranscript}
+                notesValue={selectedDay ? (notes[selectedDay.id] || '') : ''}
+                onNotesChange={(value) => selectedDay && setNotes(current => ({ ...current, [selectedDay.id]: value }))}
+                onClose={() => setCourseToolPanelOpen(false)}
+              />
+            )}
+
             <aside className="rtbo-coursera-aside rtbo-coursera-tool-rail" aria-label="Course tools">
-              <button type="button" onClick={() => setActiveView('materials')}><span aria-hidden="true">T</span>Transcript</button>
-              <button type="button" disabled={!selectedDay} onClick={() => selectedDay && toggleBookmark(selectedDay.id)}><span aria-hidden="true">N</span>Notes</button>
-              <button type="button" onClick={() => setActiveView('materials')}><span aria-hidden="true">F</span>Files</button>
+              <button className={courseToolPanel === 'transcript' && courseToolPanelOpen ? 'active' : ''} type="button" onClick={() => openCourseTool('transcript')}><span aria-hidden="true">T</span>Transcript</button>
+              <button className={courseToolPanel === 'notes' && courseToolPanelOpen ? 'active' : ''} type="button" disabled={!selectedDay} onClick={() => openCourseTool('notes')}><span aria-hidden="true">N</span>Notes</button>
+              <button className={courseToolPanel === 'files' && courseToolPanelOpen ? 'active' : ''} type="button" onClick={() => openCourseTool('files')}><span aria-hidden="true">F</span>Files</button>
             </aside>
           </div>
         </div>

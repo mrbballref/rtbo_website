@@ -14,6 +14,7 @@
 .rtbo-refzone-manager-shell {
   grid-template-columns: minmax(0, 1fr) !important;
   align-items: stretch;
+  max-width: min(100%, 1540px);
 }
 
 .rtbo-refzone-manager-shell > * {
@@ -45,7 +46,8 @@
   width: 100%;
   max-width: none;
   justify-self: stretch;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(150px, 1fr));
+  align-items: start;
   gap: 14px;
   border: 1px solid rgba(245, 130, 32, .24);
   border-radius: 8px;
@@ -63,13 +65,14 @@
 }
 
 .rtbo-education-crud-form label {
-  grid-column: span 2;
+  grid-column: span 1;
+  min-width: 0;
 }
 
 .rtbo-education-crud-form .wide,
 .rtbo-education-image-upload,
 .rtbo-education-crud-search {
-  grid-column: span 4;
+  grid-column: span 2;
 }
 
 .rtbo-education-crud-form .full,
@@ -87,16 +90,35 @@
   color: var(--education-heading);
   background: var(--education-button-bg);
   font: inherit;
+  font-size: .78rem;
 }
 
 .rtbo-education-crud-form textarea {
-  min-height: 92px;
+  min-height: 78px;
+  max-height: 172px;
   line-height: 1.35;
   resize: vertical;
 }
 
 .rtbo-education-crud-form label.full textarea {
-  min-height: 190px;
+  min-height: 160px;
+  max-height: 360px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: .72rem;
+}
+
+.rtbo-education-crud-form label:nth-of-type(n+11):not(.full) textarea {
+  min-height: 92px;
+}
+
+.rtbo-education-crud-form label:nth-of-type(13),
+.rtbo-education-crud-form label:nth-of-type(14),
+.rtbo-education-crud-form label:nth-of-type(16),
+.rtbo-education-crud-form label:nth-of-type(17),
+.rtbo-education-crud-form label:nth-of-type(18),
+.rtbo-education-crud-form label:nth-of-type(19),
+.rtbo-education-crud-form label:nth-of-type(20) {
+  grid-column: span 3;
 }
 
 .rtbo-education-image-upload {
@@ -170,6 +192,12 @@
   border-radius: 8px;
   padding: 14px;
   background: var(--education-panel);
+}
+
+.rtbo-education-crud-form + .rtbo-education-test-bank-panel,
+.rtbo-education-test-bank-panel {
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .rtbo-education-test-bank-panel h4,
@@ -246,19 +274,19 @@
 
 @media (max-width: 1280px) {
   .rtbo-education-crud-form {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .rtbo-education-crud-form label {
-    grid-column: span 2;
+    grid-column: span 1;
   }
 
   .rtbo-education-crud-form .wide {
-    grid-column: span 3;
+    grid-column: span 1;
   }
 
   .rtbo-education-image-upload {
-    grid-column: span 3;
+    grid-column: span 1;
   }
 
   .rtbo-education-crud-summary .rtbo-education-flow-grid {
@@ -282,6 +310,13 @@
   .rtbo-education-image-upload,
   .rtbo-education-crud-form .full,
   .rtbo-education-crud-form label,
+  .rtbo-education-crud-form label:nth-of-type(13),
+  .rtbo-education-crud-form label:nth-of-type(14),
+  .rtbo-education-crud-form label:nth-of-type(16),
+  .rtbo-education-crud-form label:nth-of-type(17),
+  .rtbo-education-crud-form label:nth-of-type(18),
+  .rtbo-education-crud-form label:nth-of-type(19),
+  .rtbo-education-crud-form label:nth-of-type(20),
   .rtbo-education-crud-search {
     grid-column: 1;
   }

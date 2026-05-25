@@ -14167,10 +14167,11 @@ function App() {
       const requestedCourseAllowed = educationCourseId === '' || accessibleCourseIds.includes(educationCourseId);
       const academyInitialCourseId = requestedCourseAllowed ? (educationCourseId || accessibleCourseIds[0] || '') : '';
       const hasCourseAccess = accessibleCourseIds.length > 0 && requestedCourseAllowed;
+      const showEducationLanding = !authUser || !hasCourseAccess;
       return (
         <>
-          <PageHero page="education" eyebrow="RefZone University" title="College-Style Officiating Education">Structured rules study, lecture notes, visual aids, labs, tests, and portfolio evidence for basketball officials at every level.</PageHero>
-          <RefZoneUniversityLanding user={authUser} onCreateAccount={openRefZoneCreateAccount} onSignIn={openRefZoneSignIn} />
+          {showEducationLanding && <PageHero page="education" eyebrow="RefZone University" title="College-Style Officiating Education">Structured rules study, lecture notes, visual aids, labs, tests, and portfolio evidence for basketball officials at every level.</PageHero>}
+          {showEducationLanding && <RefZoneUniversityLanding user={authUser} onCreateAccount={openRefZoneCreateAccount} onSignIn={openRefZoneSignIn} />}
           {authUser && refZoneAccess.loading ? (
             <RefZoneMembershipGate courseId={educationCourseId} loading onEnroll={scrollToRefZoneEnrollment} />
           ) : authUser && hasCourseAccess ? (

@@ -7,6 +7,7 @@
     "audit:source": "node tools/audit-rtbo-source-integrity.mjs && node tools/audit-refzone-test-banks.mjs",
     "audit:refzone-tests": "node tools/audit-refzone-test-banks.mjs",
     "audit:production": "node tools/run-rtbo-production-audits.mjs",
+    "refzone:video-jobs": "node tools/generate-refzone-course-video-jobs.mjs",
     "frontend:build": "npm --prefix frontend run build",
     "frontend:audit": "npm --prefix frontend run audit"
   },
