@@ -6,7 +6,7 @@ export const navItems = [
   ['refroom', 'RefRoom'],
   ['services', 'Services'],
   ['education', 'RefZone University'],
-  ['trainers', 'Trainers'],
+  ['trainers', 'Training'],
   ['guests', 'Guests'],
   ['reviews', 'Reviews'],
   ['shop', 'Shop']
