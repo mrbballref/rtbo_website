@@ -156,12 +156,14 @@ async function main() {
     const videoFile = toPublicFile(job.videoPath);
     const audioFile = toPublicFile(job.voiceoverPath);
     let durationSeconds = job.estimatedDurationSeconds || 240;
-    if (force || !fs.existsSync(audioFile)) {
+    const forceVoiceover = force || hasFlag('force-voiceover');
+    const forceVideo = force || hasFlag('force-video');
+    if (forceVoiceover || !fs.existsSync(audioFile)) {
       console.log(`Creating ElevenLabs voiceover for ${job.trackId} / ${job.dayId}`);
       durationSeconds = await createVoiceover(job);
     }
 
-    if (force || !fs.existsSync(videoFile)) {
+    if (forceVideo || !fs.existsSync(videoFile)) {
       console.log(`Rendering Remotion MP4 for ${job.trackId} / ${job.dayId}`);
       ensureDir(videoFile);
       const inputProps = { ...job, durationSeconds };
@@ -177,8 +179,9 @@ async function main() {
         audioCodec: 'aac',
         outputLocation: videoFile,
         inputProps,
-        crf: 19,
-        audioBitrate: '192k',
+        videoBitrate: '2200k',
+        audioBitrate: '128k',
+        scale: 0.6667,
         overwrite: true,
         onProgress: ({ progress }) => {
           process.stdout.write(`\r${job.dayId}: ${Math.round(progress * 100)}%`);

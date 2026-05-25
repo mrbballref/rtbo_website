@@ -805,7 +805,11 @@ function courseNarrationScript(track = {}, week = {}, day = {}, material = {}, v
 function coursePublishedVideoSource(day = {}, material = {}, videoJob = null) {
   const explicit = day.videoUrl || day.video_url || day.videoSrc || day.video_src || day.video || material.videoUrl || material.video || '';
   if (explicit) return mediaSourceFor(explicit);
-  if (videoJob?.published && videoJob.videoPath) return mediaSourceFor(videoJob.videoPath);
+  if (videoJob?.published && videoJob.videoPath) {
+    const source = mediaSourceFor(videoJob.videoPath);
+    const version = videoJob.videoVersion || videoJob.publishedAt || videoJob.id || 'published';
+    return source ? `${source}${source.includes('?') ? '&' : '?'}v=${encodeURIComponent(version)}` : '';
+  }
   return '';
 }
 
@@ -1927,6 +1931,7 @@ function CourseVideoPlayer({
       <div className="rtbo-course-video-viewport">
         {hasPublishedVideo ? (
           <video
+            key={publishedVideoSource}
             ref={videoRef}
             playsInline
             preload="metadata"
@@ -1950,6 +1955,7 @@ function CourseVideoPlayer({
           <div className={`rtbo-course-generated-stage ${playing ? 'is-playing' : ''}`} style={{ '--rtbo-course-scene-progress': `${progress}%` }}>
             {hasVoiceoverAudio && (
               <audio
+                key={voiceoverSource}
                 className="rtbo-course-video-audio"
                 ref={audioRef}
                 preload="metadata"
@@ -1986,9 +1992,11 @@ function CourseVideoPlayer({
             <p className="sr-only">{activeScene.title || activeVisual.title}</p>
           </div>
         )}
-        <button type="button" className="rtbo-course-video-play" onClick={togglePlayer} aria-label={playing ? 'Pause course video' : 'Play course video'}>
-          <span aria-hidden="true">{playing ? 'Pause' : 'Play'}</span>
-        </button>
+        {!playing && (
+          <button type="button" className="rtbo-course-video-play" onClick={togglePlayer} aria-label="Play course video">
+            <span aria-hidden="true">Play</span>
+          </button>
+        )}
         {captionsOn && (!hasPublishedVideo || !videoJob?.captionsPath) && (
           <div className="rtbo-course-caption-strip" aria-live="polite">
             {captionText}
@@ -2959,16 +2967,17 @@ function RTBOAcademy({
                           const lessonKind = lessonKindFor(day, material);
                           return (
                             <button
-                              className={`${isActive ? 'is-active' : ''} ${isComplete ? 'is-complete' : ''} ${gate.open ? '' : 'is-locked'}`.trim()}
+                              className={`rtbo-coursera-lesson-row ${isActive ? 'is-active' : ''} ${isComplete ? 'is-complete' : ''} ${gate.open ? '' : 'is-locked'}`.trim()}
                               type="button"
                               key={day.id}
                               disabled={!gate.open}
                               title={gate.open ? day.title : `Pass ${gate.previousDay?.title || 'the previous test'} first`}
                               onClick={() => openAcademyDay(selectedTrack, weekIndex, dayIndex)}
                             >
-                              <i aria-hidden="true" />
-                              <span>{day.title}</span>
+                              <span>Day {day.day}</span>
+                              <strong>{day.title}</strong>
                               <small>{lessonKind} <b aria-hidden="true">&bull;</b> {material.minutes || 90} min</small>
+                              <b aria-hidden="true">{isActive ? '>' : 'v'}</b>
                             </button>
                           );
                         })}
