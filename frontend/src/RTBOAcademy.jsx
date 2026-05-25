@@ -6,6 +6,7 @@ const VIDEO_JOBS_URL = '/refzone-course-video-jobs.json';
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
 const noopStatus = () => {};
 const COURSE_OVERVIEW_THUMBNAIL = '/assets/images/refzone/course-overview-thumbnail.png';
+const ACADEMY_LAST_ROUTE_KEY = 'rtbo_refzone_university_last_route';
 const ACADEMY_COURSE_IMAGES = [
   'three-person-crew.jpg',
   'training_img_1.jpg',
@@ -136,10 +137,18 @@ function academyRouteStateFromRoute(route = '') {
 }
 
 function currentAcademyRouteState(routePath = '') {
-  if (typeof window !== 'undefined' && window.location.hash) {
-    return academyRouteStateFromRoute(window.location.hash);
+  const currentRoute = typeof window !== 'undefined' && window.location.hash ? window.location.hash : routePath;
+  const routeState = academyRouteStateFromRoute(currentRoute);
+  if (routeState.explicit) {
+    if (typeof window !== 'undefined') localStorage.setItem(ACADEMY_LAST_ROUTE_KEY, academyRouteHashForState(routeState));
+    return routeState;
   }
-  return academyRouteStateFromRoute(routePath);
+  const parts = academyRouteParts(currentRoute);
+  if (typeof window !== 'undefined' && parts[0] === 'education') {
+    const savedState = academyRouteStateFromRoute(localStorage.getItem(ACADEMY_LAST_ROUTE_KEY) || '');
+    if (savedState.explicit) return savedState;
+  }
+  return routeState;
 }
 
 function clampRouteIndex(index = 0, length = 0) {
@@ -163,6 +172,7 @@ function academyRouteHashForState(state = {}) {
 function writeAcademyRouteState(state = {}, mode = 'push') {
   if (typeof window === 'undefined') return;
   const nextHash = academyRouteHashForState(state);
+  localStorage.setItem(ACADEMY_LAST_ROUTE_KEY, nextHash);
   if (window.location.hash === nextHash) return;
   const nextUrl = `${window.location.pathname}${window.location.search}${nextHash}`;
   if (mode === 'replace') window.history.replaceState(null, '', nextUrl);
@@ -1556,12 +1566,15 @@ function CourseVideoPlayer({
       aria-label={`${day.title || 'Course'} video player`}
     >
       <header className="rtbo-course-video-topbar">
-        <div>
-          <span>Course Video</span>
-          <strong>{day.title || 'RefZone lesson'}</strong>
+        <div className="rtbo-course-video-brand">
+          <img src="/assets/images/logo.png" alt="" aria-hidden="true" />
+          <div>
+            <strong>REFZONE</strong>
+            <span>RTBO COURSE VIDEO PLAYER</span>
+          </div>
         </div>
         <div className="rtbo-course-video-status">
-          <span>{hasPublishedVideo ? 'Published video' : hasVoiceoverAudio ? 'Voiceover lesson video' : 'Production visual preview'}</span>
+          <span>{playing ? 'Playing' : hasPublishedVideo || hasVoiceoverAudio ? 'Ready' : 'Standby'}</span>
           <time>{formatCoursePlayerTime(currentSeconds)} / {formatCoursePlayerTime(effectiveDuration)}</time>
         </div>
       </header>
@@ -2517,6 +2530,7 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
                   const weekRows = selectedTrackLessons.filter(row => row.week.id === week.id);
                   const weekDone = weekRows.filter(row => completed[row.day.id] && passedTests[row.day.id]).length;
                   const weekGate = academyDayGate(selectedTrack, week.days[0]?.id);
+                  const isExpandedWeek = weekIndex === selectedWeekIndex;
                   const groupedDays = (week.days || []).reduce((groups, day, dayIndex) => {
                     const title = lessonGroupTitleFor(day, week);
                     const group = groups.find(item => item.title === title);
@@ -2526,18 +2540,20 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
                     return groups;
                   }, []);
                   return (
-                    <section className={`${weekIndex === selectedWeekIndex ? 'is-active' : ''} ${weekGate.open ? '' : 'is-locked'}`.trim()} key={week.id}>
+                    <section className={`${isExpandedWeek ? 'is-active is-expanded' : 'is-collapsed'} ${weekGate.open ? '' : 'is-locked'}`.trim()} key={week.id}>
                       <button
                         className="rtbo-coursera-module-head"
                         type="button"
+                        aria-expanded={isExpandedWeek}
                         disabled={!weekGate.open}
                         onClick={() => openAcademyWeek(selectedTrack, weekIndex)}
                       >
                         <span>Module {week.week}</span>
                         <strong>{week.title}</strong>
                         <small>{weekGate.open ? `${weekDone} / ${weekRows.length} completed` : `Locked until ${weekGate.previousDay?.title || 'previous test'} is passed`}</small>
+                        <b aria-hidden="true">{isExpandedWeek ? '^' : 'v'}</b>
                       </button>
-                      <div className="rtbo-coursera-lesson-list">
+                      {isExpandedWeek && <div className="rtbo-coursera-lesson-list">
                         {groupedDays.map((group, groupIndex) => (
                           <div className="rtbo-coursera-lesson-group" key={`${week.id}-${group.title}`}>
                             <strong>{group.title}</strong>
@@ -2565,7 +2581,7 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
                             {groupIndex < groupedDays.length - 1 && <hr />}
                           </div>
                         ))}
-                      </div>
+                      </div>}
                     </section>
                   );
                 })}
