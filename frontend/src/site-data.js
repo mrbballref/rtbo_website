@@ -108,10 +108,10 @@ export const refZoneMembershipPackages = [
   },
   {
     id: 'elite',
-    name: 'ProAm Membership',
+    name: 'Pro-Am Membership',
     price: '$79.00',
     cadence: 'per month',
-    summary: 'Advanced ProAm membership for officials who want evaluated work, portfolio feedback, and advancement preparation.',
+    summary: 'Advanced Pro-Am membership for officials who want evaluated work, portfolio feedback, and advancement preparation.',
     features: [
       'Everything in NCAA',
       'Monthly mentor evaluation checkpoint',

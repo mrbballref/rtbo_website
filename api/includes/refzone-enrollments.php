@@ -24,8 +24,8 @@ function rtbo_refzone_membership_packages(): array
         ],
         'elite' => [
             'id' => 'elite',
-            'name' => 'ProAm Membership',
-            'description' => 'Advanced RefZone University ProAm membership with mentor evaluation checkpoints, portfolio review, and advancement guidance.',
+            'name' => 'Pro-Am Membership',
+            'description' => 'Advanced RefZone University Pro-Am membership with mentor evaluation checkpoints, portfolio review, and advancement guidance.',
             'amount_cents' => 7900,
             'currency' => 'USD',
             'stripe_price_id' => STRIPE_REFZONE_ELITE_PRICE_ID,

@@ -2921,7 +2921,7 @@ const refZoneCourseRouteLabels = {
   'naia-women': 'NAIA Women Course',
   'ncaa-men': 'NCAA Membership Course',
   'ncaa-women': 'NCAA Women Course',
-  nba: 'ProAm Membership Course',
+  nba: 'Pro-Am Membership Course',
   wnba: 'WNBA Course'
 };
 
