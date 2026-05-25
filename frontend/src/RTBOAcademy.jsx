@@ -2269,6 +2269,7 @@ function RTBOAcademy({
   const [courseToolPanel, setCourseToolPanel] = useState('');
   const [courseToolPanelOpen, setCourseToolPanelOpen] = useState(false);
   const [coursePromptResponse, setCoursePromptResponse] = useState('');
+  const [proUpgradeOpen, setProUpgradeOpen] = useState(false);
 
   useEffect(() => {
     document.title = publicMode ? `${brandName} | RTBO Education` : 'RTBO Academy | Education Workspace';
@@ -2294,6 +2295,7 @@ function RTBOAcademy({
       }
       setCoursesLoading(true);
       try {
+        if (publicMode) throw new Error('Public course pages use bundled student course materials.');
         const response = await fetch(`${API_URL}/refzone-courses.php`, { credentials: 'include' });
         const data = await response.json();
         if (active && data?.managed && Array.isArray(data.courses) && data.courses.length) {
@@ -2897,9 +2899,29 @@ function RTBOAcademy({
               <button type="button" aria-label="Course help" onClick={() => onStatus('Course help opened.')}>?</button>
               <button type="button" aria-label="Language and region" onClick={() => onStatus('Language options opened.')}>O</button>
               <button type="button" aria-label="Learning assistant" onClick={() => runCoursePrompt('summary')}>AI</button>
+              <button
+                className="rtbo-coursera-pro-button"
+                type="button"
+                aria-expanded={proUpgradeOpen}
+                onClick={() => setProUpgradeOpen(current => !current)}
+              >
+                Upgrade to Pro
+              </button>
               <button className="rtbo-coursera-avatar-button" type="button" aria-label="Course Dashboard" onClick={() => openAcademyView('dashboard')}>M<small>PLUS</small></button>
             </div>
           </section>
+
+          {proUpgradeOpen && (
+            <section className="rtbo-coursera-pro-upgrade-card" aria-label="Upgrade to Pro version">
+              <div>
+                <p className="eyebrow">Pro Version</p>
+                <h3>Upgrade to Pro-Am Membership</h3>
+                <p>Add mentor checkpoints, portfolio review, evaluated development work, and advanced advancement planning.</p>
+              </div>
+              <strong>$79.00 <small>per month</small></strong>
+              <button type="button" onClick={() => onStatus('Pro-Am Membership upgrade option selected. Use RefZone University enrollment to complete checkout.')}>View Pro Option</button>
+            </section>
+          )}
 
           <div className={`rtbo-coursera-layout rtbo-coursera-workspace ${courseToolPanelOpen ? 'has-tool-panel' : 'tool-panel-closed'}`.trim()}>
             <aside className="rtbo-coursera-sidebar" aria-label="Course content">
@@ -2913,14 +2935,7 @@ function RTBOAcademy({
                   const weekDone = weekRows.filter(row => completed[row.day.id] && passedTests[row.day.id]).length;
                   const weekGate = academyDayGate(selectedTrack, week.days[0]?.id);
                   const isExpandedWeek = weekIndex === selectedWeekIndex;
-                  const groupedDays = (week.days || []).reduce((groups, day, dayIndex) => {
-                    const title = lessonGroupTitleFor(day, week);
-                    const group = groups.find(item => item.title === title);
-                    const row = { day, dayIndex };
-                    if (group) group.days.push(row);
-                    else groups.push({ title, days: [row] });
-                    return groups;
-                  }, []);
+                  const weekDays = week.days || [];
                   return (
                     <section className={`${isExpandedWeek ? 'is-active is-expanded' : 'is-collapsed'} ${weekGate.open ? '' : 'is-locked'}`.trim()} key={week.id}>
                       <button
@@ -2936,33 +2951,27 @@ function RTBOAcademy({
                         <b aria-hidden="true">{isExpandedWeek ? '^' : 'v'}</b>
                       </button>
                       {isExpandedWeek && <div className="rtbo-coursera-lesson-list">
-                        {groupedDays.map((group, groupIndex) => (
-                          <div className="rtbo-coursera-lesson-group" key={`${week.id}-${group.title}`}>
-                            <strong>{group.title}</strong>
-                            {group.days.map(({ day, dayIndex }) => {
-                              const gate = academyDayGate(selectedTrack, day.id);
-                              const isActive = weekIndex === selectedWeekIndex && dayIndex === selectedDayIndex;
-                              const isComplete = completed[day.id] && passedTests[day.id];
-                              const material = collegeMaterialForDay(selectedTrack, week, day);
-                              const lessonKind = lessonKindFor(day, material);
-                              return (
-                                <button
-                                  className={`${isActive ? 'is-active' : ''} ${isComplete ? 'is-complete' : ''} ${gate.open ? '' : 'is-locked'}`.trim()}
-                                  type="button"
-                                  key={day.id}
-                                  disabled={!gate.open}
-                                  title={gate.open ? day.title : `Pass ${gate.previousDay?.title || 'the previous test'} first`}
-                                  onClick={() => openAcademyDay(selectedTrack, weekIndex, dayIndex)}
-                                >
-                                  <i aria-hidden="true" />
-                                  <span>{gate.open ? day.title : 'Complete the previous assessment'}</span>
-                                  <small>{gate.open ? `${lessonKind} - ${material.minutes || 90} min` : 'Locked'}</small>
-                                </button>
-                              );
-                            })}
-                            {groupIndex < groupedDays.length - 1 && <hr />}
-                          </div>
-                        ))}
+                        {weekDays.map((day, dayIndex) => {
+                          const gate = academyDayGate(selectedTrack, day.id);
+                          const isActive = weekIndex === selectedWeekIndex && dayIndex === selectedDayIndex;
+                          const isComplete = completed[day.id] && passedTests[day.id];
+                          const material = collegeMaterialForDay(selectedTrack, week, day);
+                          const lessonKind = lessonKindFor(day, material);
+                          return (
+                            <button
+                              className={`${isActive ? 'is-active' : ''} ${isComplete ? 'is-complete' : ''} ${gate.open ? '' : 'is-locked'}`.trim()}
+                              type="button"
+                              key={day.id}
+                              disabled={!gate.open}
+                              title={gate.open ? day.title : `Pass ${gate.previousDay?.title || 'the previous test'} first`}
+                              onClick={() => openAcademyDay(selectedTrack, weekIndex, dayIndex)}
+                            >
+                              <i aria-hidden="true" />
+                              <span>{day.title}</span>
+                              <small>{lessonKind} <b aria-hidden="true">&bull;</b> {material.minutes || 90} min</small>
+                            </button>
+                          );
+                        })}
                       </div>}
                     </section>
                   );

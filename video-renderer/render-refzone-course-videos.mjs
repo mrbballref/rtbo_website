@@ -147,7 +147,10 @@ async function main() {
     });
     return;
   }
-  const serveUrl = await bundle({ entryPoint });
+  const serveUrl = await bundle({
+    entryPoint,
+    publicDir: publicRoot
+  });
 
   for (const job of jobs) {
     const videoFile = toPublicFile(job.videoPath);
@@ -175,7 +178,6 @@ async function main() {
         outputLocation: videoFile,
         inputProps,
         crf: 19,
-        videoBitrate: '4500k',
         audioBitrate: '192k',
         overwrite: true,
         onProgress: ({ progress }) => {
