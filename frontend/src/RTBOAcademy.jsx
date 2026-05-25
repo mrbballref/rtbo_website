@@ -146,6 +146,30 @@ function textList(items, fallback = []) {
   return Array.isArray(items) && items.length ? items.filter(Boolean) : fallback;
 }
 
+function rubricItemFromText(item = '') {
+  const text = String(item || '').trim();
+  const trailingPoints = text.match(/^(.*?):\s*(\d+)\s*points?$/i);
+  if (trailingPoints) {
+    return {
+      label: trailingPoints[1].trim(),
+      points: Number(trailingPoints[2])
+    };
+  }
+
+  const leadingPoints = text.match(/^(\d+)\s*points?\s*[-:]\s*(.*)$/i);
+  if (leadingPoints) {
+    return {
+      label: leadingPoints[2].trim(),
+      points: Number(leadingPoints[1])
+    };
+  }
+
+  return {
+    label: text,
+    points: null
+  };
+}
+
 function fallbackCollegeMaterial(track = {}, week = {}, day = {}) {
   const visual = dayVisualFor(day);
   const trackTitle = track.title || 'Course';
@@ -840,15 +864,7 @@ function CourseMaterialPacket({ track = {}, week = {}, day = {} }) {
         </article>
       </div>
 
-      <article className="rtbo-academy-college-card">
-        <h4>Rubric</h4>
-        <div className="rtbo-academy-gradebook">
-          {rubric.map(item => {
-            const [label, value = 'Required'] = item.split(':').map(part => part.trim());
-            return <span key={item}><b>{value}</b>{label}</span>;
-          })}
-        </div>
-      </article>
+      <RubricSummary rubric={rubric} />
 
       <div className="rtbo-academy-line-item-grid">
         {sections.map((section, index) => {
@@ -868,6 +884,42 @@ function CourseMaterialPacket({ track = {}, week = {}, day = {} }) {
         })}
       </div>
     </section>
+  );
+}
+
+function RubricSummary({ rubric = [] }) {
+  const items = textList(rubric).map(rubricItemFromText).filter(item => item.label);
+  if (!items.length) return null;
+
+  const totalPoints = items.reduce((total, item) => total + (Number(item.points) || 0), 0);
+
+  return (
+    <article className="rtbo-academy-rubric-summary">
+      <div className="rtbo-academy-rubric-summary-head">
+        <div>
+          <span>Rubric</span>
+          <strong>Assessment Standards</strong>
+        </div>
+        {totalPoints > 0 && <b>{totalPoints} points</b>}
+      </div>
+      <div className="rtbo-academy-rubric-summary-grid">
+        {items.map((item, index) => (
+          <section className="rtbo-academy-rubric-summary-item" key={`${item.label}-${index}`}>
+            <div className="rtbo-academy-rubric-points">
+              {item.points ? (
+                <>
+                  <strong>{item.points}</strong>
+                  <small>points</small>
+                </>
+              ) : (
+                <strong>Required</strong>
+              )}
+            </div>
+            <p>{item.label}</p>
+          </section>
+        ))}
+      </div>
+    </article>
   );
 }
 

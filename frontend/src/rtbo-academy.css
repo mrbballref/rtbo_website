@@ -593,6 +593,121 @@
   -webkit-text-fill-color: var(--orange) !important;
 }
 
+.rtbo-academy-rubric-summary {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  border: 1px solid var(--academy-border);
+  border-radius: 8px;
+  padding: 14px;
+  background:
+    linear-gradient(135deg, rgba(245, 130, 32, .14), rgba(245, 130, 32, 0) 34%),
+    var(--academy-panel-flat);
+}
+
+.rtbo-academy-rubric-summary-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rtbo-academy-rubric-summary-head > div {
+  display: grid;
+  gap: 3px;
+}
+
+.rtbo-academy-rubric-summary-head span {
+  color: var(--orange) !important;
+  -webkit-text-fill-color: var(--orange) !important;
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.rtbo-academy-rubric-summary-head strong {
+  color: var(--academy-heading) !important;
+  -webkit-text-fill-color: var(--academy-heading) !important;
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+
+.rtbo-academy-rubric-summary-head b {
+  border: 1px solid rgba(245, 130, 32, .42);
+  border-radius: 999px;
+  padding: 7px 10px;
+  color: var(--orange) !important;
+  -webkit-text-fill-color: var(--orange) !important;
+  background: rgba(245, 130, 32, .11);
+  font-size: .78rem;
+  line-height: 1;
+}
+
+.rtbo-academy-rubric-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 10px;
+}
+
+.rtbo-academy-rubric-summary-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+  border: 1px solid var(--academy-button-border);
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(255, 255, 255, .035);
+}
+
+.rtbo-academy-rubric-points {
+  display: grid;
+  place-items: center;
+  min-width: 66px;
+  min-height: 54px;
+  border: 1px solid rgba(245, 130, 32, .44);
+  border-radius: 8px;
+  padding: 7px 9px;
+  background: rgba(245, 130, 32, .13);
+}
+
+.rtbo-academy-rubric-points strong {
+  color: var(--orange) !important;
+  -webkit-text-fill-color: var(--orange) !important;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.rtbo-academy-rubric-points small {
+  color: var(--academy-muted) !important;
+  -webkit-text-fill-color: var(--academy-muted) !important;
+  font-size: .68rem;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.rtbo-academy-rubric-summary-item p {
+  margin: 0;
+  color: var(--academy-heading) !important;
+  -webkit-text-fill-color: var(--academy-heading) !important;
+  font-size: .86rem;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+:root[data-theme="light"] .rtbo-academy-rubric-summary {
+  background:
+    linear-gradient(135deg, rgba(245, 130, 32, .12), rgba(245, 130, 32, 0) 34%),
+    #fff;
+}
+
+:root[data-theme="light"] .rtbo-academy-rubric-summary-item {
+  background: #f8fafc;
+}
+
 .rtbo-academy-visual-aid-grid img {
   width: 100%;
   aspect-ratio: 16 / 9;
