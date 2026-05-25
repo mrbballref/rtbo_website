@@ -3013,13 +3013,12 @@ function RefZoneUniversityLanding() {
       </section>
 
       <section className="refzone-enrollment-section" id="refzone-university-enrollment" aria-labelledby="refzone-enrollment-title">
-        <div className="refzone-enrollment-copy">
-          <p className="eyebrow">Enroll Today</p>
+        <div className="refzone-enrollment-head">
           <h2 id="refzone-enrollment-title">Start RefZone University with {selectedPackage?.name || 'a monthly membership'}.</h2>
           <p>Complete the enrollment form, select a package, choose Stripe or PayPal, and continue to secure hosted checkout. Your membership access is tied to the email address submitted here.</p>
           {selectedPackage && (
             <div className="refzone-selected-package">
-              <span>Selected Package</span>
+              <span>Select Package</span>
               <strong>{selectedPackage.name}</strong>
               <b>{selectedPackage.price} {selectedPackage.cadence}</b>
             </div>
@@ -3029,7 +3028,7 @@ function RefZoneUniversityLanding() {
           <fieldset className="refzone-package-picker">
             <legend>Membership Package</legend>
             {refZoneMembershipPackages.map((membership) => (
-              <label className={selectedPackageId === membership.id ? 'selected' : ''} key={membership.id}>
+              <label className={`refzone-summary-radio-card${selectedPackageId === membership.id ? ' selected' : ''}`} key={membership.id}>
                 <input type="radio" name="package_id" value={membership.id} checked={selectedPackageId === membership.id} onChange={() => setSelectedPackageId(membership.id)} required />
                 <span>
                   <strong>{membership.name}</strong>
@@ -3054,12 +3053,12 @@ function RefZoneUniversityLanding() {
           <fieldset className="rtbo-registration-payment refzone-payment-methods">
             <legend>Payment Method</legend>
             <small>Recurring monthly membership checkout</small>
-            <label>
+            <label className={`refzone-summary-radio-card refzone-payment-card${paymentProvider === 'stripe' ? ' selected' : ''}`}>
               <input type="radio" name="payment_provider" value="stripe" checked={paymentProvider === 'stripe'} onChange={() => setPaymentProvider('stripe')} required />
               <span>Credit or Debit Card</span>
               <span className="rtbo-registration-payment-mini-logos" aria-label="Visa, Mastercard, American Express, and Discover"><PaymentLogo brand="visa" compact /><PaymentLogo brand="mastercard" compact /><PaymentLogo brand="amex" compact /><PaymentLogo brand="discover" compact /></span>
             </label>
-            <label>
+            <label className={`refzone-summary-radio-card refzone-payment-card${paymentProvider === 'paypal' ? ' selected' : ''}`}>
               <input type="radio" name="payment_provider" value="paypal" checked={paymentProvider === 'paypal'} onChange={() => setPaymentProvider('paypal')} required />
               <PaymentLogo brand="paypal" />
             </label>

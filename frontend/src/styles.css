@@ -394,6 +394,12 @@ button.hero-scroll-link {
   color: var(--rtbo-orange);
 }
 
+.refzone-selected-package {
+  justify-items: center;
+  width: min(420px, 100%);
+  text-align: center;
+}
+
 .refzone-university-page {
   display: grid;
   gap: 34px;
@@ -409,7 +415,7 @@ button.hero-scroll-link {
 }
 
 .refzone-university-hero-copy,
-.refzone-enrollment-copy,
+.refzone-enrollment-head,
 .refzone-enrollment-form {
   display: grid;
   gap: 16px;
@@ -583,10 +589,31 @@ button.hero-scroll-link {
 
 .refzone-enrollment-section {
   display: grid;
-  grid-template-columns: minmax(280px, .75fr) minmax(0, 1.25fr);
-  gap: 26px;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 24px;
   margin: 0 min(4vw, 54px) 42px;
-  padding: 24px;
+  padding: clamp(22px, 3vw, 34px);
+}
+
+.refzone-enrollment-head {
+  justify-items: center;
+  width: min(920px, 100%);
+  text-align: center;
+}
+
+.refzone-enrollment-head h2 {
+  margin: 0;
+}
+
+.refzone-enrollment-head > p {
+  max-width: 820px;
+  margin: 0;
+}
+
+.refzone-enrollment-form {
+  width: min(920px, 100%);
+  margin: 0 auto;
 }
 
 .refzone-package-picker {
@@ -606,26 +633,51 @@ button.hero-scroll-link {
   text-transform: uppercase;
 }
 
-.refzone-package-picker label,
+.refzone-summary-radio-card,
 .refzone-terms-row {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
+  position: relative;
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  min-height: 112px;
   border: 1px solid rgba(148, 163, 184, .28);
   border-radius: 8px;
-  padding: 12px;
+  padding: 16px 16px 16px 46px;
   background: rgba(15, 23, 42, .42);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, .18);
   cursor: pointer;
+  transition: border-color .18s ease, background-color .18s ease, transform .18s ease;
 }
 
-.refzone-package-picker label.selected {
+.refzone-summary-radio-card:hover {
+  border-color: rgba(249, 115, 22, .58);
+  transform: translateY(-1px);
+}
+
+.refzone-summary-radio-card.selected {
   border-color: rgba(249, 115, 22, .72);
   background: rgba(249, 115, 22, .12);
+}
+
+.refzone-summary-radio-card input[type="radio"] {
+  position: absolute;
+  top: 18px;
+  left: 16px;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--rtbo-orange);
 }
 
 .refzone-package-picker label span {
   display: grid;
   gap: 3px;
+}
+
+.refzone-summary-radio-card strong,
+.refzone-summary-radio-card > span:first-of-type {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 900;
 }
 
 .refzone-package-picker label small {
@@ -634,11 +686,39 @@ button.hero-scroll-link {
 }
 
 .refzone-payment-methods {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
   margin-top: 4px;
 }
 
+.refzone-payment-methods legend,
+.refzone-payment-methods > small {
+  grid-column: 1 / -1;
+}
+
+.refzone-payment-methods .refzone-summary-radio-card {
+  min-height: 96px;
+  align-content: center;
+  border-color: rgba(148, 163, 184, .28);
+  padding: 16px 16px 16px 48px;
+  background: rgba(15, 23, 42, .46);
+}
+
+.refzone-payment-methods .rtbo-registration-payment-mini-logos {
+  margin-top: 2px;
+}
+
+.refzone-payment-methods .rtbo-payment-logo-paypal {
+  width: 128px;
+}
+
 .refzone-terms-row {
+  display: flex;
   align-items: center;
+  min-height: auto;
+  padding-left: 16px;
+  cursor: pointer;
 }
 
 .refzone-enrollment-form :is(input, select, textarea) {
@@ -652,7 +732,7 @@ button.hero-scroll-link {
 :root[data-theme="light"] .refzone-track-grid article,
 :root[data-theme="light"] .refzone-membership-grid article,
 :root[data-theme="light"] .refzone-enrollment-section,
-:root[data-theme="light"] .refzone-package-picker label,
+:root[data-theme="light"] .refzone-summary-radio-card,
 :root[data-theme="light"] .refzone-terms-row {
   background: rgba(255, 255, 255, .88);
 }
@@ -666,7 +746,9 @@ button.hero-scroll-link {
 :root[data-theme="light"] .refzone-university-overview h2,
 :root[data-theme="light"] .refzone-track-grid h3,
 :root[data-theme="light"] .refzone-membership-grid h3,
-:root[data-theme="light"] .refzone-membership-grid article > strong {
+:root[data-theme="light"] .refzone-membership-grid article > strong,
+:root[data-theme="light"] .refzone-summary-radio-card strong,
+:root[data-theme="light"] .refzone-summary-radio-card > span:first-of-type {
   color: #111827;
 }
 
