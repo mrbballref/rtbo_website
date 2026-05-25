@@ -3,9 +3,19 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/api/includes/bootstrap.php';
 require_once __DIR__ . '/api/includes/registration-store.php';
+require_once __DIR__ . '/api/includes/refzone-enrollments.php';
 
+$type = strtolower(trim((string) ($_GET['type'] ?? '')));
 $registrationId = trim((string) ($_GET['registration'] ?? ''));
-if ($registrationId !== '') {
+$enrollmentId = trim((string) ($_GET['enrollment'] ?? ''));
+
+if ($type === 'refzone' && $enrollmentId !== '') {
+    try {
+        update_refzone_enrollment_payment($enrollmentId, 'canceled');
+    } catch (Throwable $error) {
+        error_log('RTBO RefZone payment cancellation update failed: ' . $error->getMessage());
+    }
+} elseif ($registrationId !== '') {
     try {
         update_school_registration_payment($registrationId, 'canceled');
     } catch (Throwable $error) {
@@ -32,7 +42,7 @@ if ($registrationId !== '') {
     <img src="/assets/images/logo.png" alt="Raising The Bar Officiating logo">
     <p>Raising The Bar Officiating Inc.</p>
     <h1>Payment Canceled</h1>
-    <p>Your registration was received, but payment was not completed. You can return to the website and submit payment again when you are ready.</p>
+    <p><?php echo $type === 'refzone' ? 'Your RefZone University enrollment was received, but membership payment was not completed.' : 'Your registration was received, but payment was not completed.'; ?> You can return to the website and submit payment again when you are ready.</p>
     <a href="/">Return to RTBO</a>
   </main>
 </body>

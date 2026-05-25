@@ -4,15 +4,71 @@ declare(strict_types=1);
 require_once __DIR__ . '/api/includes/bootstrap.php';
 require_once __DIR__ . '/api/includes/payments.php';
 require_once __DIR__ . '/api/includes/registration-store.php';
+require_once __DIR__ . '/api/includes/refzone-enrollments.php';
 require_once __DIR__ . '/api/includes/email.php';
 
 $provider = strtolower(trim((string) ($_GET['provider'] ?? '')));
+$type = strtolower(trim((string) ($_GET['type'] ?? '')));
 $registrationId = trim((string) ($_GET['registration'] ?? ''));
+$enrollmentId = trim((string) ($_GET['enrollment'] ?? ''));
 $verified = false;
 $message = 'We could not verify this payment. Please contact RTBO if you believe this is an error.';
 $registration = null;
+$enrollment = null;
 
-if (in_array($provider, ['stripe', 'paypal'], true) && $registrationId !== '') {
+if ($type === 'refzone' && in_array($provider, ['stripe', 'paypal'], true) && $enrollmentId !== '') {
+    $enrollment = find_refzone_enrollment($enrollmentId);
+
+    if ($enrollment) {
+        try {
+            $alreadyPaid = (($enrollment['payment_status'] ?? '') === 'paid');
+            $updates = [];
+
+            if (!$alreadyPaid && $provider === 'stripe') {
+                $sessionId = trim((string) ($_GET['session_id'] ?? ''));
+                if ($sessionId !== '') {
+                    $session = retrieve_stripe_checkout_session($sessionId);
+                    $metadata = is_array($session['metadata'] ?? null) ? $session['metadata'] : [];
+                    $verified = (($session['payment_status'] ?? '') === 'paid' || ($session['mode'] ?? '') === 'subscription')
+                        && (($metadata['enrollment_id'] ?? '') === $enrollmentId || ($session['client_reference_id'] ?? '') === $enrollmentId);
+                    $updates = [
+                        'stripe_checkout_session_id' => (string) ($session['id'] ?? ''),
+                        'stripe_subscription_id' => (string) ($session['subscription'] ?? ''),
+                    ];
+                }
+            } elseif (!$alreadyPaid && $provider === 'paypal') {
+                $subscriptionId = trim((string) ($_GET['subscription_id'] ?? $_GET['token'] ?? ''));
+                if ($subscriptionId !== '') {
+                    $subscription = retrieve_paypal_subscription($subscriptionId);
+                    $verified = (string) ($subscription['status'] ?? '') === 'ACTIVE'
+                        && ((string) ($subscription['custom_id'] ?? '') === $enrollmentId);
+                    $updates = [
+                        'paypal_subscription_id' => (string) ($subscription['id'] ?? $subscriptionId),
+                    ];
+                }
+            } else {
+                $verified = true;
+            }
+
+            if ($verified || $alreadyPaid) {
+                update_refzone_enrollment_payment($enrollmentId, 'paid', $updates);
+            } else {
+                update_refzone_enrollment_payment($enrollmentId, 'verification_failed', $updates);
+            }
+
+            $message = ($verified || $alreadyPaid)
+                ? 'Payment verified. Your RefZone University membership is confirmed.'
+                : 'Payment returned, but membership verification did not complete.';
+        } catch (Throwable $error) {
+            error_log('RTBO RefZone payment verification failed: ' . $error->getMessage());
+            update_refzone_enrollment_payment($enrollmentId, 'verification_error');
+        }
+    } else {
+        $message = 'RefZone University enrollment record was not found.';
+    }
+}
+
+if ($type !== 'refzone' && in_array($provider, ['stripe', 'paypal'], true) && $registrationId !== '') {
     $registration = find_school_registration($registrationId);
 
     if ($registration) {
@@ -64,6 +120,9 @@ if (in_array($provider, ['stripe', 'paypal'], true) && $registrationId !== '') {
     <p><?php echo e($message); ?></p>
     <?php if ($registration): ?>
       <p><strong>Applicant:</strong> <?php echo e((string) ($registration['full_name'] ?? '')); ?><br><strong>Registration:</strong> <?php echo e($registrationId); ?></p>
+    <?php endif; ?>
+    <?php if ($enrollment): ?>
+      <p><strong>Member:</strong> <?php echo e((string) ($enrollment['full_name'] ?? '')); ?><br><strong>Package:</strong> <?php echo e((string) ($enrollment['package_name'] ?? 'RefZone University')); ?><br><strong>Enrollment:</strong> <?php echo e($enrollmentId); ?></p>
     <?php endif; ?>
     <a href="/">Return to RTBO</a>
   </main>

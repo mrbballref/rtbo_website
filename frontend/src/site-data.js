@@ -78,6 +78,49 @@ export const pricingFeatures = [
   'Film Breakdown'
 ];
 
+export const refZoneMembershipPackages = [
+  {
+    id: 'fundamentals',
+    name: 'NFHS Membership',
+    price: '$25.00',
+    cadence: 'per month',
+    summary: 'Self-paced college-style course access for officials building a stronger NFHS rules and mechanics foundation.',
+    features: [
+      'Full RefZone University course library',
+      'Required readings, lecture notes, and visual aids',
+      'Daily lessons, quizzes, tests, and progress tracking',
+      'Discussion prompts and downloadable study resources'
+    ]
+  },
+  {
+    id: 'advantage',
+    name: 'NCAA Membership',
+    price: '$49.00',
+    cadence: 'per month',
+    badge: 'Most Popular',
+    summary: 'Structured college officiating course access plus guided film work and live development touchpoints.',
+    features: [
+      'Everything in NFHS',
+      'Monthly RefRoom live study session access',
+      'Film lab worksheets and play-call review prompts',
+      'Priority course support and mentor discussion review'
+    ]
+  },
+  {
+    id: 'elite',
+    name: 'ProAm Membership',
+    price: '$79.00',
+    cadence: 'per month',
+    summary: 'Advanced ProAm membership for officials who want evaluated work, portfolio feedback, and advancement preparation.',
+    features: [
+      'Everything in NCAA',
+      'Monthly mentor evaluation checkpoint',
+      'Portfolio review for promotion readiness',
+      'Certification pathway guidance and advancement planning'
+    ]
+  }
+];
+
 export const seoMeta = {
   home: [
     'Raising The Bar Officiating | Basketball Referee Training, Camps & Assigning',

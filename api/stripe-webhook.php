@@ -4,6 +4,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/includes/bootstrap.php';
 require_once __DIR__ . '/includes/payments.php';
 require_once __DIR__ . '/includes/registration-store.php';
+require_once __DIR__ . '/includes/refzone-enrollments.php';
 require_once __DIR__ . '/includes/email.php';
 
 header('Content-Type: application/json');
@@ -111,6 +112,16 @@ try {
                 update_school_registration_payment($registrationId, 'paid', $registration);
             }
         }
+
+        if (($metadata['type'] ?? '') === 'refzone_university') {
+            $enrollmentId = (string) ($metadata['enrollment_id'] ?? $object['client_reference_id'] ?? '');
+            if ($enrollmentId !== '') {
+                update_refzone_enrollment_payment($enrollmentId, 'paid', [
+                    'stripe_checkout_session_id' => (string) ($object['id'] ?? ''),
+                    'stripe_subscription_id' => (string) ($object['subscription'] ?? ''),
+                ]);
+            }
+        }
     }
 
     if ($type === 'checkout.session.async_payment_failed') {
@@ -127,6 +138,15 @@ try {
             update_school_registration_payment($registrationId, 'payment_failed', [
                 'stripe_checkout_session_id' => (string) ($object['id'] ?? ''),
             ]);
+        }
+
+        if (($metadata['type'] ?? '') === 'refzone_university') {
+            $enrollmentId = (string) ($metadata['enrollment_id'] ?? $object['client_reference_id'] ?? '');
+            if ($enrollmentId !== '') {
+                update_refzone_enrollment_payment($enrollmentId, 'payment_failed', [
+                    'stripe_checkout_session_id' => (string) ($object['id'] ?? ''),
+                ]);
+            }
         }
     }
 

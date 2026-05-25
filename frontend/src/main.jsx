@@ -22,6 +22,7 @@ import {
   platformFlow,
   pricingFeatures,
   pricingPlans,
+  refZoneMembershipPackages,
   schoolCardSessions,
   seoMeta,
   sessions,
@@ -676,6 +677,8 @@ function Home({ setActive, onOpenRegister }) {
           Scroll Down <span aria-hidden="true">↓</span>
         </button>
       </section>
+      <HomeRefZoneUniversity setActive={setActive} />
+      <HomeRefZoneMemberships setActive={setActive} />
       <AboutSummary setActive={setActive} />
       <HomeResultsFeature setActive={setActive} />
       <GotUNexRefSection />
@@ -703,6 +706,49 @@ function AboutSummary({ setActive }) {
             {aboutCards.map(([icon, title, text]) => <article key={title}><img className="card-icon" src={image(icon)} alt="" /><h3>{title}</h3><p>{text}</p></article>)}
           </div>
         </div>
+      </div>
+    </section>
+  );
+}
+
+function HomeRefZoneUniversity({ setActive }) {
+  const featuredPackage = refZoneMembershipPackages[0];
+
+  return (
+    <section className="rtbo-section home-refzone-university">
+      <div className="home-refzone-media">
+        <img src={image('refzone/course-overview-thumbnail.png')} alt="RefZone University online officiating course workspace" loading="lazy" decoding="async" />
+      </div>
+      <div className="home-refzone-copy">
+        <p className="eyebrow">RefZone University</p>
+        <h2>Online officiating education built like a real college course.</h2>
+        <p>RefZone University gives basketball officials structured readings, lecture notes, visual aids, discussion prompts, quizzes, tests, film labs, and daily assignments across NFHS, NJCAA, NAIA, NCAA, NBA, and WNBA learning tracks.</p>
+        <div className="button-row">
+          <button className="btn" type="button" onClick={() => setActive('education')}>Learn More</button>
+          {featuredPackage && <span className="home-refzone-price">Memberships start at <b>{featuredPackage.price}</b> monthly.</span>}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function HomeRefZoneMemberships({ setActive }) {
+  return (
+    <section className="rtbo-section home-refzone-memberships" aria-labelledby="home-refzone-memberships-title">
+      <div className="rtbo-section-head">
+        <p className="eyebrow">Membership Packages</p>
+        <h2 id="home-refzone-memberships-title">Choose the RefZone University membership that fits your development plan.</h2>
+      </div>
+      <div className="home-refzone-membership-grid">
+        {refZoneMembershipPackages.map((membership) => (
+          <article className={membership.badge ? 'featured' : ''} key={membership.id}>
+            {membership.badge && <span className="refzone-package-badge">{membership.badge}</span>}
+            <h3>{membership.name}</h3>
+            <strong>{membership.price}<small> {membership.cadence}</small></strong>
+            <p>{membership.summary}</p>
+            <button className="btn secondary dark-btn" type="button" onClick={() => setActive('education')}>View Membership</button>
+          </article>
+        ))}
       </div>
     </section>
   );
@@ -2857,6 +2903,177 @@ function PaymentLogo({ brand, compact = false }) {
     );
   }
   return null;
+}
+
+const refZoneCourseTracks = [
+  ['nfhs', 'NFHS High School Track', 'refzone/course-covers/nfhs.svg', 'Rules, case plays, two-person and three-person mechanics, game administration, and state-association readiness.'],
+  ['njcaa', 'NJCAA Track', 'refzone/course-covers/njcaa-men.svg', 'College mechanics, primary coverage, crew communication, film study, and junior college advancement preparation.'],
+  ['naia', 'NAIA Track', 'refzone/course-covers/naia-men.svg', 'College rules study, positioning labs, professionalism, game management, and supervisor-ready explanations.'],
+  ['ncaa', 'NCAA Track', 'refzone/course-covers/ncaa-men.svg', 'Advanced officiating concepts, adjudication standards, play-calling philosophy, video review, and portfolio evidence.'],
+  ['pro', 'NBA/WNBA Development Track', 'refzone/course-covers/nba.svg', 'Professional-level habits, precision mechanics, communication, film defense, and higher-level readiness.']
+];
+
+function RefZoneUniversityLanding() {
+  const defaultPackage = refZoneMembershipPackages[0]?.id || 'fundamentals';
+  const [selectedPackageId, setSelectedPackageId] = useState(defaultPackage);
+  const [paymentProvider, setPaymentProvider] = useState('stripe');
+  const [status, setStatus] = useState('');
+  const selectedPackage = refZoneMembershipPackages.find((membership) => membership.id === selectedPackageId) || refZoneMembershipPackages[0];
+
+  async function submitEnrollment(event) {
+    event.preventDefault();
+    setStatus('Creating secure membership checkout...');
+    try {
+      const data = await apiPost('/refzone-enrollment-submit.php', new FormData(event.currentTarget));
+      const redirect = data.redirect || data.checkout_url;
+      if (redirect) {
+        window.location.href = redirect;
+        return;
+      }
+      setStatus(data.message || 'Enrollment received.');
+    } catch (error) {
+      setStatus(error.message);
+    }
+  }
+
+  function scrollToEnrollment() {
+    document.getElementById('refzone-university-enrollment')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  return (
+    <section className="refzone-university-page" aria-labelledby="refzone-university-title">
+      <div className="refzone-university-hero">
+        <div className="refzone-university-hero-copy">
+          <p className="eyebrow">RefZone University</p>
+          <h1 id="refzone-university-title">A college-style officiating program for serious basketball officials.</h1>
+          <p>RefZone University turns rules study, mechanics, film review, discussion, testing, and mentor feedback into a structured online learning experience. Every course includes required readings, lecture notes, visual aids, daily assignments, assessments, and advancement evidence.</p>
+          <div className="refzone-university-actions">
+            <button className="btn" type="button" onClick={scrollToEnrollment}>Enroll Now</button>
+            <button className="btn secondary dark-btn" type="button" onClick={() => document.getElementById('refzone-university-packages')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>View Packages</button>
+          </div>
+        </div>
+        <figure className="refzone-university-hero-media">
+          <img src={image('refzone/course-overview-thumbnail.png')} alt="RefZone University course overview" loading="eager" decoding="async" />
+          <figcaption>
+            <strong>9 course tracks</strong>
+            <span>Daily college-style lessons, labs, quizzes, tests, and portfolio evidence.</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div className="refzone-university-overview">
+        {[
+          ['Course Materials', 'Required readings, lecture notes, screenshots, visual aids, discussion questions, written assignments, and practical labs.'],
+          ['Academic Structure', 'Weekly modules, daily sections, graded assessments, remediation rules, and completion standards that mirror a true course experience.'],
+          ['Development Pathway', 'Officials can move from foundation study to film labs, live practicum preparation, mentor feedback, and advancement readiness.']
+        ].map(([title, text]) => (
+          <article key={title}>
+            <h2>{title}</h2>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+
+      <section className="refzone-university-track-section" aria-labelledby="refzone-track-title">
+        <div className="rtbo-section-head">
+          <p className="eyebrow">Course Tracks</p>
+          <h2 id="refzone-track-title">Choose the officiating pathway that fits your next level.</h2>
+        </div>
+        <div className="refzone-track-grid">
+          {refZoneCourseTracks.map(([id, title, asset, text]) => (
+            <article key={id}>
+              <img src={image(asset)} alt="" loading="lazy" decoding="async" />
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="refzone-membership-section" id="refzone-university-packages" aria-labelledby="refzone-membership-title">
+        <div className="rtbo-section-head">
+          <p className="eyebrow">Membership Packages</p>
+          <h2 id="refzone-membership-title">Monthly memberships for every stage of development.</h2>
+          <p>All packages are recurring monthly memberships and continue through secure Stripe or PayPal checkout.</p>
+        </div>
+        <div className="refzone-membership-grid">
+          {refZoneMembershipPackages.map((membership) => (
+            <article className={membership.badge ? 'featured' : ''} key={membership.id}>
+              {membership.badge && <span className="refzone-package-badge">{membership.badge}</span>}
+              <h3>{membership.name}</h3>
+              <p>{membership.summary}</p>
+              <strong>{membership.price}<small> {membership.cadence}</small></strong>
+              <ul>
+                {membership.features.map((feature) => <li key={feature}>{feature}</li>)}
+              </ul>
+              <button className="btn secondary dark-btn" type="button" onClick={() => { setSelectedPackageId(membership.id); scrollToEnrollment(); }}>Choose {membership.name.replace(' Membership', '')}</button>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="refzone-enrollment-section" id="refzone-university-enrollment" aria-labelledby="refzone-enrollment-title">
+        <div className="refzone-enrollment-copy">
+          <p className="eyebrow">Enroll Today</p>
+          <h2 id="refzone-enrollment-title">Start RefZone University with {selectedPackage?.name || 'a monthly membership'}.</h2>
+          <p>Complete the enrollment form, select a package, choose Stripe or PayPal, and continue to secure hosted checkout. Your membership access is tied to the email address submitted here.</p>
+          {selectedPackage && (
+            <div className="refzone-selected-package">
+              <span>Selected Package</span>
+              <strong>{selectedPackage.name}</strong>
+              <b>{selectedPackage.price} {selectedPackage.cadence}</b>
+            </div>
+          )}
+        </div>
+        <form className="form refzone-enrollment-form" method="post" action={`${API_URL}/refzone-enrollment-submit.php`} onSubmit={submitEnrollment}>
+          <fieldset className="refzone-package-picker">
+            <legend>Membership Package</legend>
+            {refZoneMembershipPackages.map((membership) => (
+              <label className={selectedPackageId === membership.id ? 'selected' : ''} key={membership.id}>
+                <input type="radio" name="package_id" value={membership.id} checked={selectedPackageId === membership.id} onChange={() => setSelectedPackageId(membership.id)} required />
+                <span>
+                  <strong>{membership.name}</strong>
+                  <small>{membership.price} {membership.cadence}</small>
+                </span>
+              </label>
+            ))}
+          </fieldset>
+          <div className="grid two">
+            <label>Full Name<input name="full_name" autoComplete="name" required /></label>
+            <label>Email Address<input type="email" name="email" autoComplete="email" required /></label>
+          </div>
+          <div className="grid two">
+            <label>Phone Number<input type="tel" name="phone" inputMode="tel" autoComplete="tel" maxLength="14" onInput={formatPhoneFieldInput} required /></label>
+            <label>Primary Course Track<select name="course_track" defaultValue="" required><option value="">Select course track</option>{refZoneCourseTracks.map(([id, title]) => <option key={id} value={id}>{title}</option>)}</select></label>
+          </div>
+          <div className="grid two">
+            <label>Experience Level<select name="experience_level" defaultValue="" required><option value="">Select experience</option><option>New official</option><option>1-2 years</option><option>3-5 years</option><option>6-10 years</option><option>11+ years</option><option>College official</option></select></label>
+            <label>Membership Goal<input name="membership_goal" placeholder="Example: Improve rules, advance levels, prepare for college" required /></label>
+          </div>
+          <label>What do you want RefZone University to help you improve?<textarea name="development_notes" rows="4" maxLength="1000" required></textarea></label>
+          <fieldset className="rtbo-registration-payment refzone-payment-methods">
+            <legend>Payment Method</legend>
+            <small>Recurring monthly membership checkout</small>
+            <label>
+              <input type="radio" name="payment_provider" value="stripe" checked={paymentProvider === 'stripe'} onChange={() => setPaymentProvider('stripe')} required />
+              <span>Credit or Debit Card</span>
+              <span className="rtbo-registration-payment-mini-logos" aria-label="Visa, Mastercard, American Express, and Discover"><PaymentLogo brand="visa" compact /><PaymentLogo brand="mastercard" compact /><PaymentLogo brand="amex" compact /><PaymentLogo brand="discover" compact /></span>
+            </label>
+            <label>
+              <input type="radio" name="payment_provider" value="paypal" checked={paymentProvider === 'paypal'} onChange={() => setPaymentProvider('paypal')} required />
+              <PaymentLogo brand="paypal" />
+            </label>
+          </fieldset>
+          <label className="refzone-terms-row">
+            <input type="checkbox" name="membership_terms" value="Agree" required />
+            <span>I understand this is a recurring monthly RefZone University membership and authorize secure checkout for the selected package.</span>
+          </label>
+          <button className="btn" type="submit">Continue to Membership Checkout</button>
+          {status && <p className="form-message">{status}</p>}
+        </form>
+      </section>
+    </section>
+  );
 }
 
 function RegistrationGate({ onCreateAccount, onSignIn }) {
@@ -13798,6 +14015,7 @@ function App() {
     if (active === 'education') {
       return (
         <>
+          <RefZoneUniversityLanding />
           <React.Suspense fallback={<section className="rtbo-section"><p className="rtbo-empty-state">Loading RTBO Education...</p></section>}>
             <RTBOAcademy publicMode brandName="RefZone University" />
           </React.Suspense>

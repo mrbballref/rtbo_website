@@ -262,6 +262,414 @@ button.hero-scroll-link {
   font: inherit;
 }
 
+.home-refzone-university {
+  display: grid;
+  grid-template-columns: minmax(280px, .9fr) minmax(0, 1.1fr);
+  gap: 34px;
+  align-items: center;
+}
+
+.home-refzone-media,
+.refzone-university-hero-media {
+  overflow: hidden;
+  border: 1px solid rgba(249, 115, 22, .34);
+  border-radius: 8px;
+  background: #070a0e;
+}
+
+.home-refzone-media img,
+.refzone-university-hero-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.home-refzone-copy {
+  display: grid;
+  gap: 16px;
+  align-content: center;
+}
+
+.home-refzone-copy h2,
+.refzone-university-page h1,
+.refzone-university-page h2 {
+  max-width: 980px;
+  margin: 0;
+  line-height: 1.08;
+}
+
+.home-refzone-copy h2 {
+  font-size: 2.55rem;
+}
+
+.home-refzone-copy p:not(.eyebrow),
+.refzone-university-page p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.home-refzone-package-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.home-refzone-memberships {
+  display: grid;
+  gap: 22px;
+  padding-top: 28px;
+}
+
+.home-refzone-membership-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.home-refzone-membership-grid article {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  min-width: 0;
+  border: 1px solid rgba(148, 163, 184, .24);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(8, 11, 15, .72);
+}
+
+.home-refzone-membership-grid article.featured {
+  border-color: rgba(249, 115, 22, .68);
+  box-shadow: 0 18px 44px rgba(249, 115, 22, .12);
+}
+
+.home-refzone-membership-grid h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.15rem;
+}
+
+.home-refzone-membership-grid article > strong {
+  color: #fff;
+  font-size: 1.85rem;
+  line-height: 1;
+}
+
+.home-refzone-membership-grid article > strong small {
+  color: var(--muted);
+  font-size: .86rem;
+}
+
+.home-refzone-membership-grid p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.home-refzone-package-strip span,
+.refzone-selected-package {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  border: 1px solid rgba(148, 163, 184, .26);
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(15, 23, 42, .5);
+}
+
+.home-refzone-package-strip strong,
+.refzone-selected-package strong {
+  color: #fff;
+}
+
+.home-refzone-package-strip small,
+.home-refzone-price,
+.refzone-selected-package span,
+.refzone-selected-package b {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.home-refzone-price b,
+.refzone-selected-package b {
+  color: var(--rtbo-orange);
+}
+
+.refzone-university-page {
+  display: grid;
+  gap: 34px;
+  padding: 28px 0 0;
+}
+
+.refzone-university-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.04fr) minmax(340px, .96fr);
+  gap: 34px;
+  align-items: center;
+  padding: 0 min(4vw, 54px);
+}
+
+.refzone-university-hero-copy,
+.refzone-enrollment-copy,
+.refzone-enrollment-form {
+  display: grid;
+  gap: 16px;
+}
+
+.refzone-university-page h1 {
+  color: #fff;
+  font-size: 3.1rem;
+}
+
+.refzone-university-page h2 {
+  color: #fff;
+  font-size: 2.2rem;
+}
+
+.refzone-university-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.refzone-university-hero-media {
+  position: relative;
+  margin: 0;
+}
+
+.refzone-university-hero-media figcaption {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  left: 14px;
+  display: grid;
+  gap: 3px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 12px;
+  color: #fff;
+  background: rgba(0, 0, 0, .72);
+}
+
+.refzone-university-hero-media figcaption strong {
+  font-size: 1.05rem;
+}
+
+.refzone-university-hero-media figcaption span {
+  color: rgba(255, 255, 255, .76);
+  line-height: 1.45;
+}
+
+.refzone-university-overview,
+.refzone-track-grid,
+.refzone-membership-grid {
+  display: grid;
+  gap: 16px;
+  padding: 0 min(4vw, 54px);
+}
+
+.refzone-university-overview {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.refzone-university-overview article,
+.refzone-track-grid article,
+.refzone-membership-grid article,
+.refzone-enrollment-section {
+  border: 1px solid rgba(148, 163, 184, .24);
+  border-radius: 8px;
+  background: rgba(8, 11, 15, .72);
+}
+
+.refzone-university-overview article,
+.refzone-track-grid article,
+.refzone-membership-grid article {
+  padding: 18px;
+}
+
+.refzone-university-overview h2,
+.refzone-track-grid h3,
+.refzone-membership-grid h3 {
+  margin: 0 0 8px;
+  color: #fff;
+  font-size: 1.15rem;
+}
+
+.refzone-university-track-section,
+.refzone-membership-section {
+  display: grid;
+  gap: 18px;
+}
+
+.refzone-university-track-section .rtbo-section-head,
+.refzone-membership-section .rtbo-section-head {
+  padding: 0 min(4vw, 54px);
+}
+
+.refzone-track-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.refzone-track-grid img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+
+.refzone-membership-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.refzone-membership-grid article {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+.refzone-membership-grid article.featured {
+  border-color: rgba(249, 115, 22, .68);
+  box-shadow: 0 18px 44px rgba(249, 115, 22, .12);
+}
+
+.refzone-package-badge {
+  justify-self: start;
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: #111827;
+  background: var(--rtbo-orange);
+  font-size: .78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.refzone-membership-grid article > strong {
+  color: #fff;
+  font-size: 2rem;
+}
+
+.refzone-membership-grid article > strong small {
+  color: var(--muted);
+  font-size: .88rem;
+}
+
+.refzone-membership-grid ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.refzone-membership-grid li {
+  position: relative;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.refzone-membership-grid li::before {
+  content: "";
+  position: absolute;
+  top: .62em;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--rtbo-orange);
+}
+
+.refzone-enrollment-section {
+  display: grid;
+  grid-template-columns: minmax(280px, .75fr) minmax(0, 1.25fr);
+  gap: 26px;
+  margin: 0 min(4vw, 54px) 42px;
+  padding: 24px;
+}
+
+.refzone-package-picker {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.refzone-package-picker legend,
+.refzone-payment-methods legend {
+  margin-bottom: 10px;
+  color: var(--rtbo-orange);
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.refzone-package-picker label,
+.refzone-terms-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  border: 1px solid rgba(148, 163, 184, .28);
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(15, 23, 42, .42);
+  cursor: pointer;
+}
+
+.refzone-package-picker label.selected {
+  border-color: rgba(249, 115, 22, .72);
+  background: rgba(249, 115, 22, .12);
+}
+
+.refzone-package-picker label span {
+  display: grid;
+  gap: 3px;
+}
+
+.refzone-package-picker label small {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.refzone-payment-methods {
+  margin-top: 4px;
+}
+
+.refzone-terms-row {
+  align-items: center;
+}
+
+.refzone-enrollment-form :is(input, select, textarea) {
+  margin-top: 8px;
+}
+
+:root[data-theme="light"] .home-refzone-package-strip span,
+:root[data-theme="light"] .home-refzone-membership-grid article,
+:root[data-theme="light"] .refzone-selected-package,
+:root[data-theme="light"] .refzone-university-overview article,
+:root[data-theme="light"] .refzone-track-grid article,
+:root[data-theme="light"] .refzone-membership-grid article,
+:root[data-theme="light"] .refzone-enrollment-section,
+:root[data-theme="light"] .refzone-package-picker label,
+:root[data-theme="light"] .refzone-terms-row {
+  background: rgba(255, 255, 255, .88);
+}
+
+:root[data-theme="light"] .home-refzone-package-strip strong,
+:root[data-theme="light"] .home-refzone-membership-grid h3,
+:root[data-theme="light"] .home-refzone-membership-grid article > strong,
+:root[data-theme="light"] .refzone-selected-package strong,
+:root[data-theme="light"] .refzone-university-page h1,
+:root[data-theme="light"] .refzone-university-page h2,
+:root[data-theme="light"] .refzone-university-overview h2,
+:root[data-theme="light"] .refzone-track-grid h3,
+:root[data-theme="light"] .refzone-membership-grid h3,
+:root[data-theme="light"] .refzone-membership-grid article > strong {
+  color: #111827;
+}
+
 .page-hero {
   position: relative;
   overflow: hidden;
@@ -353,6 +761,26 @@ button.hero-scroll-link {
 }
 
 @media (max-width: 1024px) {
+  .home-refzone-university,
+  .refzone-university-hero,
+  .refzone-enrollment-section {
+    grid-template-columns: 1fr;
+  }
+
+  .refzone-university-page h1 {
+    font-size: 2.45rem;
+  }
+
+  .refzone-track-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .refzone-membership-grid,
+  .refzone-university-overview,
+  .home-refzone-membership-grid {
+    grid-template-columns: 1fr;
+  }
+
   .rtbo-dashboard-shell {
     grid-template-columns: minmax(220px, 248px) minmax(0, 1fr);
   }
@@ -375,6 +803,36 @@ button.hero-scroll-link {
 }
 
 @media (max-width: 768px) {
+  .home-refzone-package-strip,
+  .refzone-package-picker {
+    grid-template-columns: 1fr;
+  }
+
+  .refzone-university-page h1 {
+    font-size: 2.05rem;
+  }
+
+  .refzone-university-page h2,
+  .home-refzone-copy h2 {
+    font-size: 1.65rem;
+  }
+
+  .refzone-university-hero,
+  .refzone-university-overview,
+  .refzone-track-grid,
+  .refzone-membership-grid,
+  .refzone-university-track-section .rtbo-section-head,
+  .refzone-membership-section .rtbo-section-head {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .refzone-enrollment-section {
+    margin-right: 16px;
+    margin-left: 16px;
+    padding: 18px;
+  }
+
   .rtbo-dashboard-topbar,
   .rtbo-dashboard-actions,
   .rtbo-dashboard-card-head {
@@ -427,6 +885,15 @@ button.hero-scroll-link {
 }
 
 @media (max-width: 480px) {
+  .refzone-track-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .refzone-university-hero-media figcaption {
+    position: static;
+    border-radius: 0;
+  }
+
   .rtbo-public,
   .rtbo-dashboard-shell {
     overflow-x: clip;

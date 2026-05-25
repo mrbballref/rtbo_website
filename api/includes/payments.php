@@ -153,6 +153,27 @@ function create_stripe_checkout_session(array $options): array
         $params["line_items[$index][price_data][currency]"] = strtolower((string) ($item['currency'] ?? 'usd'));
         $params["line_items[$index][price_data][product_data][name]"] = (string) ($item['name'] ?? 'RTBO Payment');
         $params["line_items[$index][price_data][unit_amount]"] = $amountCents;
+
+        if ($mode === 'subscription') {
+            $interval = strtolower((string) ($item['recurring_interval'] ?? 'month'));
+            if (!in_array($interval, ['day', 'week', 'month', 'year'], true)) {
+                throw new RuntimeException('Unsupported Stripe subscription interval.');
+            }
+            $params["line_items[$index][price_data][recurring][interval]"] = $interval;
+
+            $intervalCount = max(1, (int) ($item['recurring_interval_count'] ?? 1));
+            if ($intervalCount > 1) {
+                $params["line_items[$index][price_data][recurring][interval_count]"] = $intervalCount;
+            }
+        }
+    }
+
+    if ($mode === 'subscription') {
+        foreach (($options['subscription_metadata'] ?? []) as $key => $value) {
+            if ((string) $value !== '') {
+                $params['subscription_data[metadata][' . $key . ']'] = (string) $value;
+            }
+        }
     }
 
     $session = stripe_api_request('/v1/checkout/sessions', 'POST', $params);
@@ -358,6 +379,195 @@ function create_paypal_order(array $registration): string
     }
 
     throw new RuntimeException('PayPal order could not be created.');
+}
+
+function paypal_json_request(string $path, string $method, string $token, array $payload = []): array
+{
+    $response = http_json(paypal_base_url() . $path, $method, [
+        'Authorization: Bearer ' . $token,
+        'Content-Type: application/json',
+        'Accept: application/json',
+    ], $payload === [] ? null : json_encode($payload, JSON_UNESCAPED_SLASHES));
+
+    if ($response['status'] >= 400) {
+        $message = (string) ($response['body']['message'] ?? $response['body']['error_description'] ?? 'PayPal request failed.');
+        throw new RuntimeException($message);
+    }
+
+    return $response['body'];
+}
+
+function paypal_subscription_plan_cache_path(): string
+{
+    ensure_dir(STORAGE_DIR);
+
+    return STORAGE_DIR . '/paypal-subscription-plans.json';
+}
+
+function paypal_subscription_plan_cache(): array
+{
+    $path = paypal_subscription_plan_cache_path();
+    if (!is_file($path)) {
+        return [];
+    }
+
+    $plans = json_decode((string) file_get_contents($path), true);
+
+    return is_array($plans) ? $plans : [];
+}
+
+function paypal_subscription_plan_cache_save(array $plans): void
+{
+    file_put_contents(
+        paypal_subscription_plan_cache_path(),
+        json_encode($plans, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
+        LOCK_EX
+    );
+}
+
+function paypal_subscription_plan_cache_key(array $package): string
+{
+    return hash('sha256', implode('|', [
+        PAYPAL_MODE,
+        (string) ($package['id'] ?? ''),
+        (string) ($package['name'] ?? ''),
+        (string) ($package['amount_cents'] ?? 0),
+        (string) ($package['currency'] ?? 'USD'),
+        (string) ($package['interval'] ?? 'MONTH'),
+    ]));
+}
+
+function paypal_ensure_monthly_subscription_plan(array $package): string
+{
+    $configuredPlanId = trim((string) ($package['paypal_plan_id'] ?? ''));
+    if ($configuredPlanId !== '') {
+        return $configuredPlanId;
+    }
+
+    $cache = paypal_subscription_plan_cache();
+    $cacheKey = paypal_subscription_plan_cache_key($package);
+    if (!empty($cache[$cacheKey]['plan_id'])) {
+        return (string) $cache[$cacheKey]['plan_id'];
+    }
+
+    $token = paypal_access_token();
+    $currency = strtoupper((string) ($package['currency'] ?? 'USD'));
+    $amount = number_format(((int) ($package['amount_cents'] ?? 0)) / 100, 2, '.', '');
+    if ((float) $amount <= 0) {
+        throw new RuntimeException('PayPal subscription amount is not valid.');
+    }
+
+    $product = paypal_json_request('/v1/catalogs/products', 'POST', $token, [
+        'name' => 'RefZone University',
+        'description' => 'Raising The Bar Officiating RefZone University online officiating education memberships.',
+        'type' => 'SERVICE',
+        'category' => 'EDUCATIONAL_AND_TEXTBOOKS',
+        'home_url' => RTBO_BASE_URL . '/#education',
+    ]);
+
+    $productId = (string) ($product['id'] ?? '');
+    if ($productId === '') {
+        throw new RuntimeException('PayPal subscription product could not be created.');
+    }
+
+    $plan = paypal_json_request('/v1/billing/plans', 'POST', $token, [
+        'product_id' => $productId,
+        'name' => (string) ($package['name'] ?? 'RefZone University Membership'),
+        'description' => (string) ($package['description'] ?? 'Monthly RefZone University membership.'),
+        'billing_cycles' => [[
+            'frequency' => [
+                'interval_unit' => 'MONTH',
+                'interval_count' => 1,
+            ],
+            'tenure_type' => 'REGULAR',
+            'sequence' => 1,
+            'total_cycles' => 0,
+            'pricing_scheme' => [
+                'fixed_price' => [
+                    'value' => $amount,
+                    'currency_code' => $currency,
+                ],
+            ],
+        ]],
+        'payment_preferences' => [
+            'auto_bill_outstanding' => true,
+            'setup_fee' => [
+                'value' => '0.00',
+                'currency_code' => $currency,
+            ],
+            'setup_fee_failure_action' => 'CONTINUE',
+            'payment_failure_threshold' => 3,
+        ],
+    ]);
+
+    $planId = (string) ($plan['id'] ?? '');
+    if ($planId === '') {
+        throw new RuntimeException('PayPal subscription plan could not be created.');
+    }
+
+    if (($plan['status'] ?? '') !== 'ACTIVE') {
+        paypal_json_request('/v1/billing/plans/' . rawurlencode($planId) . '/activate', 'POST', $token);
+    }
+
+    $cache[$cacheKey] = [
+        'plan_id' => $planId,
+        'product_id' => $productId,
+        'package_id' => (string) ($package['id'] ?? ''),
+        'amount_cents' => (int) ($package['amount_cents'] ?? 0),
+        'currency' => $currency,
+        'mode' => PAYPAL_MODE,
+        'created_at' => date('c'),
+    ];
+    paypal_subscription_plan_cache_save($cache);
+
+    return $planId;
+}
+
+function create_paypal_subscription_checkout(array $enrollment, array $package): string
+{
+    $token = paypal_access_token();
+    $nameParts = preg_split('/\s+/', trim((string) ($enrollment['full_name'] ?? ''))) ?: [];
+    $givenName = $nameParts[0] ?? '';
+    $surname = count($nameParts) > 1 ? implode(' ', array_slice($nameParts, 1)) : '';
+    $planId = paypal_ensure_monthly_subscription_plan($package);
+
+    $payload = [
+        'plan_id' => $planId,
+        'custom_id' => (string) ($enrollment['id'] ?? ''),
+        'subscriber' => [
+            'name' => [
+                'given_name' => $givenName,
+                'surname' => $surname,
+            ],
+            'email_address' => (string) ($enrollment['email'] ?? ''),
+        ],
+        'application_context' => [
+            'brand_name' => RTBO_COMPANY_NAME,
+            'locale' => 'en-US',
+            'shipping_preference' => 'NO_SHIPPING',
+            'user_action' => 'SUBSCRIBE_NOW',
+            'return_url' => RTBO_BASE_URL . '/payment-success.php?provider=paypal&type=refzone&enrollment=' . rawurlencode((string) ($enrollment['id'] ?? '')),
+            'cancel_url' => RTBO_BASE_URL . '/payment-cancel.php?type=refzone&enrollment=' . rawurlencode((string) ($enrollment['id'] ?? '')),
+        ],
+    ];
+
+    $response = paypal_json_request('/v1/billing/subscriptions', 'POST', $token, $payload);
+    foreach (($response['links'] ?? []) as $link) {
+        if (($link['rel'] ?? '') === 'approve') {
+            return (string) $link['href'];
+        }
+    }
+
+    throw new RuntimeException('PayPal subscription approval link could not be created.');
+}
+
+function retrieve_paypal_subscription(string $subscriptionId): array
+{
+    if ($subscriptionId === '') {
+        throw new RuntimeException('PayPal subscription ID is required.');
+    }
+
+    return paypal_json_request('/v1/billing/subscriptions/' . rawurlencode($subscriptionId), 'GET', paypal_access_token());
 }
 
 function verify_payment(string $provider, string $registrationId): bool
