@@ -154,6 +154,82 @@
   font-size: .72rem;
 }
 
+.rtbo-test-center-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, .86fr) minmax(0, 1.14fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.rtbo-test-center-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  align-items: stretch;
+}
+
+.rtbo-test-workflow-card {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 10px;
+  min-height: 186px;
+  border: 1px solid rgba(245, 130, 32, .26);
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--education-panel);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, .18);
+}
+
+.rtbo-test-workflow-card.active {
+  border-color: rgba(245, 130, 32, .72);
+  background: linear-gradient(145deg, rgba(245, 130, 32, .14), rgba(255, 255, 255, .024)), rgba(12, 12, 12, .72);
+}
+
+.rtbo-test-workflow-card div:first-child {
+  display: grid;
+  gap: 5px;
+}
+
+.rtbo-test-workflow-card span {
+  color: var(--orange);
+  font-size: .72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.rtbo-test-workflow-card strong {
+  color: var(--education-heading);
+  font-size: .98rem;
+  line-height: 1.18;
+}
+
+.rtbo-test-workflow-card small,
+.rtbo-test-workflow-card p {
+  color: var(--education-muted);
+  font-size: .8rem;
+  line-height: 1.38;
+}
+
+.rtbo-test-workflow-card p {
+  margin: 0;
+}
+
+.rtbo-test-workflow-card-footer {
+  align-self: end;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid var(--education-button-border);
+  padding-top: 12px;
+  margin-top: 2px;
+}
+
+.rtbo-test-workflow-card-footer .btn {
+  justify-content: center;
+  min-width: min(220px, 100%);
+  min-height: 36px;
+  text-align: center;
+}
+
 :root[data-theme="light"] :is(
   .rtbo-education-hero,
   .rtbo-education-hero article,
@@ -162,6 +238,10 @@
   .rtbo-academy-test-widget
 ) {
   border-color: rgba(245, 130, 32, .3);
+}
+
+:root[data-theme="light"] .rtbo-test-workflow-card.active {
+  background: rgba(245, 130, 32, .1);
 }
 
 @media (max-width: 1536px) {
@@ -185,12 +265,17 @@
   .rtbo-education-hero {
     grid-template-columns: 1fr;
   }
+
+  .rtbo-test-center-layout {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 768px) {
   .rtbo-education-widget-grid,
   .rtbo-education-flow-grid,
-  .rtbo-academy-test-widget-grid {
+  .rtbo-academy-test-widget-grid,
+  .rtbo-test-center-list {
     grid-template-columns: 1fr;
   }
 }

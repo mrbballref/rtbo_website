@@ -379,7 +379,9 @@ function TestCenterPage({
                     <small>{row.week.title}</small>
                   </div>
                   <p>{row.test.type} / {row.test.questions.length} questions / {row.test.passingScore}% passing</p>
-                  <button className="btn secondary dark-btn" type="button" onClick={() => setSelectedTestKey(row.key)}>Open Test & Answer Key</button>
+                  <div className="rtbo-test-workflow-card-footer">
+                    <button className="btn secondary dark-btn" type="button" onClick={() => setSelectedTestKey(row.key)}>Open Test & Answer Key</button>
+                  </div>
                 </article>
               )) : <p className="rtbo-empty-state">No tests match this filter.</p>}
             </div>
