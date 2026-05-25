@@ -291,7 +291,7 @@ function CameraFeedTile({ feed, onRemove, onMakePrimary }) {
   );
 }
 
-export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeetings = false, mode = 'workspace' }) {
+export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeetings = false, mode = 'workspace', meetingToolsOnly = false }) {
   const isPublicPlayer = mode === 'player';
   const isProductionStudio = mode === 'production';
   const panelOptions = isProductionStudio ? PRODUCTION_PANELS : isPublicPlayer ? PLAYER_PANELS : REFROOM_PANELS;
@@ -1502,7 +1502,8 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
     isPublicPlayer ? 'rtbo-section rtbo-refroom-public-page' : 'rtbo-dashboard-card rtbo-focused-page-card',
     'rtbo-refroom-page',
     isProductionStudio ? 'rtbo-refroom-production-mode' : '',
-    isPublicPlayer ? 'rtbo-refroom-player-mode' : ''
+    isPublicPlayer ? 'rtbo-refroom-player-mode' : '',
+    meetingToolsOnly ? 'rtbo-refroom-tools-only' : ''
   ].filter(Boolean).join(' ');
   const headerCopy = isProductionStudio
     ? {
@@ -1524,13 +1525,13 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
 
   return (
     <section className={rootClassName}>
-      <div className="rtbo-dashboard-card-head">
+      {!meetingToolsOnly && <div className="rtbo-dashboard-card-head">
         <div>
           <p className="eyebrow">{headerCopy.eyebrow}</p>
           <h3>{headerCopy.title}</h3>
           <p>{headerCopy.description}</p>
         </div>
-      </div>
+      </div>}
 
       {statusMessage && <p className="rtbo-dashboard-status">{statusMessage}</p>}
       {deviceError && <p className="form-message error">{deviceError}</p>}
@@ -1580,7 +1581,7 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
         ))}
       </div>}
 
-      {activePanel === 'Studio' && (
+      {activePanel === 'Studio' && !meetingToolsOnly && (
         <div className="rtbo-refroom-studio-grid">
           <section className="rtbo-refroom-stage-card">
             <div className="rtbo-refroom-stage-head">

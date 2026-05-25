@@ -320,6 +320,11 @@
   object-fit: cover;
 }
 
+.rtbo-academy-track-card .rtbo-academy-track-media img {
+  object-fit: contain;
+  background: #050505;
+}
+
 .rtbo-academy-overview-media img {
   object-fit: contain;
   background: #050505;

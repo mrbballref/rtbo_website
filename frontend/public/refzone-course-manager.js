@@ -290,7 +290,7 @@
         <label><span>Status</span><select name="status">${['active', 'draft', 'hidden'].map(item => `<option value="${item}" ${f.status === item ? 'selected' : ''}>${item}</option>`).join('')}</select></label>
         <label class="wide"><span>Degree Path</span><input name="path" value="${escapeHtml(f.path)}" placeholder="Bachelor of Science in Basketball Officiating"></label>
         <label class="wide"><span>Course Cover</span><input name="cover" value="${escapeHtml(f.cover)}" placeholder="/assets/images/refzone/course-covers/njcaa-women.svg"></label>
-        <label class="wide"><span>Course Overview Thumbnail</span><input name="overviewThumbnail" value="${escapeHtml(f.overviewThumbnail)}" placeholder="/assets/images/refzone/course-overviews/nfhs.png"></label>
+        <label class="wide"><span>Course Overview Thumbnail</span><input name="overviewThumbnail" value="${escapeHtml(f.overviewThumbnail)}" placeholder="/assets/images/refzone/course-overviews/nfhs.jpg"></label>
         <label><span>First Module</span><input name="moduleTitle" value="${escapeHtml(f.moduleTitle)}" placeholder="Course Orientation"></label>
         <label><span>First Lesson</span><input name="lessonTitle" value="${escapeHtml(f.lessonTitle)}" placeholder="Course Welcome"></label>
         <label><span>Lesson Visual Type</span><select name="lessonType">${visualOptions.map(([value, label]) => `<option value="${value}" ${f.lessonType === value ? 'selected' : ''}>${label}</option>`).join('')}</select></label>
@@ -315,7 +315,7 @@
       <div class="rtbo-education-course-list">
         ${visible.length ? visible.map(course => `
           <article>
-            <img src="${escapeHtml(course.cover || `/assets/images/refzone/course-covers/${course.id}.svg`)}" alt="" loading="lazy" decoding="async">
+            <img src="${escapeHtml(course.overviewThumbnail || course.cover || `/assets/images/refzone/course-covers/${course.id}.svg`)}" alt="" loading="lazy" decoding="async">
             <div><span>${escapeHtml(course.status)}</span><strong>${escapeHtml(course.title)}</strong><p>${escapeHtml(course.description || course.path || 'RefZone University course')}</p><small>${course.weeks?.length || 0} modules</small></div>
             <div class="rtbo-form-toolbar">
               <button class="btn secondary dark-btn" type="button" data-action="edit" data-id="${escapeHtml(course.id)}">Edit</button>

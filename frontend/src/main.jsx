@@ -574,6 +574,16 @@ function SidebarIcon({ id }) {
 
 function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onOpenRegister, navLinks = navItems }) {
   const [open, setOpen] = useState(false);
+  const [trainingOpen, setTrainingOpen] = useState(false);
+  const trainingNavLinks = navLinks.filter(([id]) => id === 'trainers' || id === 'refroom' || id === 'education');
+  const primaryNavLinks = navLinks.filter(([id]) => id !== 'refroom' && id !== 'education');
+  const trainingActive = trainingNavLinks.some(([id]) => id === active);
+
+  function openNavPage(id) {
+    setActive(id);
+    setOpen(false);
+    setTrainingOpen(false);
+  }
 
   return (
     <header className={`site-header rtbo-header ${open ? 'nav-open' : ''}`}>
@@ -582,8 +592,7 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
         href="#"
         onClick={(event) => {
           event.preventDefault();
-          setActive('home');
-          setOpen(false);
+          openNavPage('home');
         }}
         aria-label="Raising The Bar Officiating home"
       >
@@ -594,19 +603,39 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
         type="button"
         aria-label={open ? 'Close menu panel' : 'Open navigation menu'}
         aria-expanded={open}
-        onClick={() => setOpen((current) => !current)}
+        onClick={() => setOpen((current) => {
+          if (current) setTrainingOpen(false);
+          return !current;
+        })}
       >
         <span className="nav-menu-icon" aria-hidden="true"></span><span>Menu</span>
       </button>
-      <button className={`nav-flyout-scrim ${open ? 'is-open' : ''}`} type="button" aria-label="Close navigation menu" onClick={() => setOpen(false)}></button>
+      <button className={`nav-flyout-scrim ${open ? 'is-open' : ''}`} type="button" aria-label="Close navigation menu" onClick={() => { setOpen(false); setTrainingOpen(false); }}></button>
       <nav className={`site-nav ${open ? 'is-open' : ''}`}>
         <div className="nav-link-group">
-          {navLinks.map(([id, label]) => <button className={active === id ? 'active' : ''} key={id} type="button" onClick={() => { setActive(id); setOpen(false); }}>{label}</button>)}
+          {primaryNavLinks.map(([id, label]) => id === 'trainers' ? (
+            <div className={`nav-dropdown ${trainingOpen ? 'is-open' : ''}`} key={id}>
+              <button
+                className={`nav-dropdown-trigger ${trainingActive ? 'active' : ''}`}
+                type="button"
+                aria-expanded={trainingOpen}
+                aria-haspopup="true"
+                onClick={() => setTrainingOpen(current => !current)}
+              >
+                {label}<span className="nav-dropdown-caret" aria-hidden="true"></span>
+              </button>
+              <div className="nav-dropdown-menu" aria-label="Training navigation">
+                {trainingNavLinks.map(([childId, childLabel]) => (
+                  <button className={active === childId ? 'active' : ''} key={childId} type="button" onClick={() => openNavPage(childId)}>{childLabel}</button>
+                ))}
+              </div>
+            </div>
+          ) : <button className={active === id ? 'active' : ''} key={id} type="button" onClick={() => openNavPage(id)}>{label}</button>)}
         </div>
         <div className="nav-action-group">
-          <button className="btn secondary dark-btn nav-chrome-btn" type="button" onClick={() => { setActive('contact'); setOpen(false); }}>Let's Talk</button>
-          <button className="btn nav-chrome-btn" type="button" onClick={() => { onOpenRegister(); setOpen(false); }}>Register</button>
-          <button className="btn secondary dark-btn" type="button" onClick={() => { authUser ? onOpenDashboard() : onOpenLogin(); setOpen(false); }}>{authUser ? 'Dashboard' : 'Sign In'}</button>
+          <button className="btn secondary dark-btn nav-chrome-btn" type="button" onClick={() => openNavPage('contact')}>Let's Talk</button>
+          <button className="btn nav-chrome-btn" type="button" onClick={() => { onOpenRegister(); setOpen(false); setTrainingOpen(false); }}>Register</button>
+          <button className="btn secondary dark-btn" type="button" onClick={() => { authUser ? onOpenDashboard() : onOpenLogin(); setOpen(false); setTrainingOpen(false); }}>{authUser ? 'Dashboard' : 'Sign In'}</button>
           <ThemeToggle className="nav-theme-toggle" />
         </div>
       </nav>
@@ -1568,45 +1597,51 @@ function LivestreamControls({
   onToggleMini,
   onFullscreen
 }) {
-  const controlNote = canControlMedia
+  const playerOptions = channel.playerOptions || {};
+  const hasPlayableSource = Boolean(channel.streamUrl || channel.embedUrl || channel.embedHtml);
+  const controlsDisabled = Boolean(
+    playerOptions.disableMediaControls ||
+    (playerOptions.disableMediaControlsWithoutSource && !hasPlayableSource)
+  );
+  const controlNote = playerOptions.controlNote || (canControlMedia
     ? 'Controls are connected to the RTBO website stream.'
-    : `${channel.label} uses its own platform player. These controls keep the RTBO viewing shell active.`;
+    : `${channel.label} uses its own platform player. These controls keep the RTBO viewing shell active.`);
 
   return (
     <div className="livestream-control-layer" aria-label="RTBO livestream controls">
       <div className="livestream-progress-row">
         <span>{formatLivestreamTime(currentSeconds)}</span>
-        <input type="range" min="0" max="100" value={progress} onChange={(event) => onSeek(Number(event.target.value))} aria-label="Seek livestream timeline" />
+        <input type="range" min="0" max="100" value={progress} onChange={(event) => onSeek(Number(event.target.value))} aria-label="Seek livestream timeline" disabled={controlsDisabled} />
         <span>{formatLivestreamTime(durationSeconds)}</span>
         <strong>Live</strong>
       </div>
 
       <div className="livestream-control-row">
-        <button className="livestream-primary-control" type="button" onClick={onPlay} aria-label="Play livestream">
+        <button className="livestream-primary-control" type="button" onClick={onPlay} aria-label="Play livestream" disabled={controlsDisabled}>
           <span aria-hidden="true">Play</span>
         </button>
-        <button type="button" onClick={onPause} aria-label="Pause livestream">Pause</button>
-        <button type="button" onClick={onStop} aria-label="Stop livestream">Stop</button>
-        <button type="button" onClick={onPrevious} aria-label="Previous livestream marker">Prev</button>
-        <button type="button" onClick={onRewind} aria-label="Rewind livestream">Rewind</button>
-        <button type="button" onClick={() => onSkip(-10)} aria-label="Skip back 10 seconds">-10</button>
-        <button type="button" onClick={() => onSkip(10)} aria-label="Skip forward 10 seconds">+10</button>
-        <button type="button" onClick={onFastForward} aria-label="Fast forward livestream">Fast Fwd</button>
-        <button type="button" onClick={onNext} aria-label="Next livestream marker">Next</button>
-        <button className={recording ? 'active livestream-record-control' : 'livestream-record-control'} type="button" onClick={onToggleRecording} aria-label={recording ? 'Stop recording livestream' : 'Record livestream'}>
+        <button type="button" onClick={onPause} aria-label="Pause livestream" disabled={controlsDisabled}>Pause</button>
+        <button type="button" onClick={onStop} aria-label="Stop livestream" disabled={controlsDisabled}>Stop</button>
+        <button type="button" onClick={onPrevious} aria-label="Previous livestream marker" disabled={controlsDisabled}>Prev</button>
+        <button type="button" onClick={onRewind} aria-label="Rewind livestream" disabled={controlsDisabled}>Rewind</button>
+        <button type="button" onClick={() => onSkip(-10)} aria-label="Skip back 10 seconds" disabled={controlsDisabled}>-10</button>
+        <button type="button" onClick={() => onSkip(10)} aria-label="Skip forward 10 seconds" disabled={controlsDisabled}>+10</button>
+        <button type="button" onClick={onFastForward} aria-label="Fast forward livestream" disabled={controlsDisabled}>Fast Fwd</button>
+        <button type="button" onClick={onNext} aria-label="Next livestream marker" disabled={controlsDisabled}>Next</button>
+        <button className={recording ? 'active livestream-record-control' : 'livestream-record-control'} type="button" onClick={onToggleRecording} aria-label={recording ? 'Stop recording livestream' : 'Record livestream'} disabled={controlsDisabled}>
           {recording ? 'Recording' : 'Record'}
         </button>
-        <button type="button" onClick={onToggleMute} aria-label={muted ? 'Unmute livestream' : 'Mute livestream'}>{muted ? 'Muted' : 'Sound'}</button>
-        <input className="livestream-volume" type="range" min="0" max="1" step="0.05" value={muted ? 0 : volume} onChange={(event) => onVolume(Number(event.target.value))} aria-label="Livestream volume" />
+        <button type="button" onClick={onToggleMute} aria-label={muted ? 'Unmute livestream' : 'Mute livestream'} disabled={controlsDisabled}>{muted ? 'Muted' : 'Sound'}</button>
+        <input className="livestream-volume" type="range" min="0" max="1" step="0.05" value={muted ? 0 : volume} onChange={(event) => onVolume(Number(event.target.value))} aria-label="Livestream volume" disabled={controlsDisabled} />
         <button className={captionsOn ? 'active' : ''} type="button" onClick={onToggleCaptions} aria-label="Toggle captions">CC</button>
-        <button type="button" onClick={onSpeed} aria-label="Change playback speed">{speed.toFixed(1)}x</button>
+        <button type="button" onClick={onSpeed} aria-label="Change playback speed" disabled={controlsDisabled}>{speed.toFixed(1)}x</button>
         <button className={settingsOpen ? 'active' : ''} type="button" onClick={onToggleSettings} aria-label="Open livestream settings">Settings</button>
-        <button className="livestream-studio-control-button" type="button" onClick={onOpenStudioPanel} aria-label="Open production controls">Studio</button>
-        <button type="button" onClick={onOpenExternal} aria-label={`Open ${channel.label}`}>Pop Out</button>
+        {playerOptions.showStudioButton !== false && <button className="livestream-studio-control-button" type="button" onClick={onOpenStudioPanel} aria-label="Open production controls">Studio</button>}
+        {playerOptions.showPopOutButton !== false && <button type="button" onClick={onOpenExternal} aria-label={`Open ${channel.label}`}>Pop Out</button>}
         <button className={theaterMode ? 'active' : ''} type="button" onClick={onToggleTheater} aria-label="Toggle theater mode">Theater</button>
         <button className={miniMode ? 'active' : ''} type="button" onClick={onToggleMini} aria-label="Toggle mini player">Mini</button>
         <button type="button" onClick={onFullscreen} aria-label="Fullscreen player">Full</button>
-        <button type="button" onClick={onGoLive} aria-label="Jump to live">Go Live</button>
+        {playerOptions.showGoLiveButton !== false && <button type="button" onClick={onGoLive} aria-label="Jump to live" disabled={controlsDisabled}>Go Live</button>}
       </div>
 
       {settingsOpen && (
@@ -1617,7 +1652,7 @@ function LivestreamControls({
           <button type="button" onClick={onToggleTheater}>{theaterMode ? 'Exit theater mode' : 'Enter theater mode'}</button>
           <button type="button" onClick={onToggleMini}>{miniMode ? 'Close mini player' : 'Open mini player'}</button>
           <button type="button" onClick={onToggleRecording}>{recording ? 'Stop recording' : 'Start recording'}</button>
-          <button type="button" onClick={onOpenStudioPanel}>Open production controls</button>
+          {playerOptions.showStudioButton !== false && <button type="button" onClick={onOpenStudioPanel}>Open production controls</button>}
         </div>
       )}
     </div>
@@ -1676,6 +1711,37 @@ function LivestreamScoreboard() {
   );
 }
 
+function LivestreamScoreLowerThird({ score = {} }) {
+  const details = {
+    homeName: 'Home',
+    awayName: 'Away',
+    homeScore: '--',
+    awayScore: '--',
+    period: 'Period',
+    clock: '--:--',
+    status: 'Standby',
+    ...score
+  };
+
+  return (
+    <div className="livestream-score-lower-third" aria-label="Score lower third">
+      <div className="livestream-score-lower-third-team">
+        <span>{details.homeName}</span>
+        <strong>{details.homeScore}</strong>
+      </div>
+      <div className="livestream-score-lower-third-center">
+        <span>{details.period}</span>
+        <strong>{details.clock}</strong>
+        <em>{details.status}</em>
+      </div>
+      <div className="livestream-score-lower-third-team livestream-score-lower-third-away">
+        <strong>{details.awayScore}</strong>
+        <span>{details.awayName}</span>
+      </div>
+    </div>
+  );
+}
+
 function LivestreamStreamInfo({ channel }) {
   return (
     <aside className="livestream-stream-info" aria-label="Stream information">
@@ -1704,8 +1770,10 @@ function LivestreamStreamInfo({ channel }) {
 }
 
 function LivestreamPlayerShell({ channel, children, controls, studio }) {
+  const playerOptions = channel.playerOptions || {};
   const shellClass = [
     'livestream-player-shell',
+    playerOptions.className || '',
     controls.theaterMode ? 'is-theater-mode' : '',
     controls.miniMode ? 'is-mini-mode' : ''
   ].filter(Boolean).join(' ');
@@ -1717,16 +1785,16 @@ function LivestreamPlayerShell({ channel, children, controls, studio }) {
           <div className="livestream-player-brand">
             <img src={image('logo.png')} alt="" />
             <div>
-              <strong>Raising The Bar Officiating</strong>
-              <span>Elevating officiating. Elevating the game.</span>
+              <strong>{playerOptions.brandTitle || 'Raising The Bar Officiating'}</strong>
+              <span>{playerOptions.brandSubtitle || 'Elevating officiating. Elevating the game.'}</span>
             </div>
           </div>
           <div className="livestream-player-header-tools">
             <div className="livestream-player-status">
-              <span>Live</span>
+              <span>{playerOptions.statusLabel || 'Live'}</span>
               <time>{new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</time>
             </div>
-            <LivestreamFollowLinks />
+            {playerOptions.showFollowLinks !== false && <LivestreamFollowLinks />}
           </div>
         </header>
 
@@ -1734,19 +1802,22 @@ function LivestreamPlayerShell({ channel, children, controls, studio }) {
           <div className="livestream-player-main">
             <div className={`livestream-player-viewport livestream-player-viewport-${channel.aspect}`}>
               {children}
-              <LivestreamBroadcastOverlays studio={studio} channel={channel} />
+              {playerOptions.showOverlays !== false && <LivestreamBroadcastOverlays studio={studio} channel={channel} />}
+              {playerOptions.showScoreLowerThird && <LivestreamScoreLowerThird score={playerOptions.scoreLowerThird} />}
               {controls.captionsOn && (
                 <div className="livestream-caption-strip" aria-live="polite">
-                  RTBO live captions enabled for this viewing session.
+                  {playerOptions.captionText || 'RTBO live captions enabled for this viewing session.'}
                 </div>
               )}
             </div>
-            <LivestreamScoreboard />
+            {playerOptions.showScoreboard !== false && <LivestreamScoreboard />}
           </div>
-          <div className="livestream-player-sidebar">
-            <LivestreamChatPanel channel={channel} />
-            <LivestreamStreamInfo channel={channel} />
-          </div>
+          {playerOptions.showSidebar !== false && (
+            <div className="livestream-player-sidebar">
+              <LivestreamChatPanel channel={channel} />
+              <LivestreamStreamInfo channel={channel} />
+            </div>
+          )}
         </div>
 
         <LivestreamControls channel={channel} {...controls} />
@@ -1756,23 +1827,27 @@ function LivestreamPlayerShell({ channel, children, controls, studio }) {
 }
 
 function LivestreamFallback({ channel, playing, onStart, onOpenExternal }) {
+  const playerOptions = channel.playerOptions || {};
   const canOpenPlatform = isExternalUrl(channel.watchUrl);
+  const showActions = playerOptions.showFallbackActions !== false;
 
   return (
     <div className="livestream-placeholder">
       <img className="livestream-player-fallback-icon" src={image(channel.icon)} alt="" />
-      <h3>{channel.title}</h3>
-      <p>{channel.description}</p>
-      <div className="livestream-placeholder-actions">
-        <button className="btn" type="button" onClick={onStart}>
-          {playing ? `${channel.label} Player Active` : `View ${channel.label} Livestream`}
-        </button>
-        {canOpenPlatform && (
-          <button className="btn btn-outline livestream-external-link" type="button" onClick={onOpenExternal}>
-            Open on {channel.label}
+      <h3>{playerOptions.fallbackTitle || channel.title}</h3>
+      <p>{playerOptions.fallbackDescription || channel.description}</p>
+      {showActions && (
+        <div className="livestream-placeholder-actions">
+          <button className="btn" type="button" onClick={onStart}>
+            {playing ? `${channel.label} Player Active` : `View ${channel.label} Livestream`}
           </button>
-        )}
-      </div>
+          {canOpenPlatform && (
+            <button className="btn btn-outline livestream-external-link" type="button" onClick={onOpenExternal}>
+              Open on {channel.label}
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -1780,7 +1855,7 @@ function LivestreamFallback({ channel, playing, onStart, onOpenExternal }) {
 function LivestreamPlayer({ channel, studio, activationKey, recording = false, onToggleRecording = () => {}, onOpenStudioPanel }) {
   const videoRef = useRef(null);
   const shellRef = useRef(null);
-  const simulatedDuration = 45 * 60;
+  const simulatedDuration = Math.max(0, Number(channel.playerOptions?.simulatedDurationSeconds ?? 45 * 60) || 0);
   const [playing, setPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [durationSeconds, setDurationSeconds] = useState(simulatedDuration);
@@ -1814,7 +1889,7 @@ function LivestreamPlayer({ channel, studio, activationKey, recording = false, o
     setDurationSeconds(simulatedDuration);
     setSettingsOpen(false);
     setMiniMode(false);
-  }, [channel.id]);
+  }, [channel.id, simulatedDuration]);
 
   useEffect(() => {
     if (!activationKey) return;
@@ -1833,19 +1908,23 @@ function LivestreamPlayer({ channel, studio, activationKey, recording = false, o
     if (canControlMedia || !playing) return undefined;
     const timer = window.setInterval(() => {
       setCurrentSeconds(current => {
+        if (simulatedDuration <= 0) {
+          setProgress(0);
+          return 0;
+        }
         const next = current >= simulatedDuration ? simulatedDuration : current + speed;
         setProgress(Math.min(100, (next / simulatedDuration) * 100));
         return next;
       });
     }, 1000);
     return () => window.clearInterval(timer);
-  }, [canControlMedia, playing, speed]);
+  }, [canControlMedia, playing, simulatedDuration, speed]);
 
   function updateVideoProgress(video) {
     const duration = Number.isFinite(video.duration) && video.duration > 0 ? video.duration : simulatedDuration;
     setDurationSeconds(duration);
     setCurrentSeconds(video.currentTime || 0);
-    setProgress(Math.min(100, ((video.currentTime || 0) / duration) * 100));
+    setProgress(duration > 0 ? Math.min(100, ((video.currentTime || 0) / duration) * 100) : 0);
   }
 
   async function togglePlay() {
@@ -1893,6 +1972,11 @@ function LivestreamPlayer({ channel, studio, activationKey, recording = false, o
   }
 
   function seekTo(nextProgress) {
+    if (durationSeconds <= 0) {
+      setProgress(0);
+      setCurrentSeconds(0);
+      return;
+    }
     const boundedProgress = Math.max(0, Math.min(100, nextProgress));
     const nextSeconds = (boundedProgress / 100) * durationSeconds;
     if (canControlMedia && videoRef.current && Number.isFinite(videoRef.current.duration)) {
@@ -1908,17 +1992,20 @@ function LivestreamPlayer({ channel, studio, activationKey, recording = false, o
   }
 
   function skipBy(seconds) {
+    if (durationSeconds <= 0) return;
     const nextSeconds = Math.max(0, Math.min(durationSeconds, currentSeconds + seconds));
     seekTo((nextSeconds / durationSeconds) * 100);
   }
 
   function previousMarker() {
+    if (durationSeconds <= 0) return;
     const markers = [0, durationSeconds * 0.25, durationSeconds * 0.5, durationSeconds * 0.75, durationSeconds];
     const previous = [...markers].reverse().find(marker => marker < currentSeconds - 3) ?? 0;
     seekToSeconds(previous);
   }
 
   function nextMarker() {
+    if (durationSeconds <= 0) return;
     const markers = [0, durationSeconds * 0.25, durationSeconds * 0.5, durationSeconds * 0.75, durationSeconds];
     const next = markers.find(marker => marker > currentSeconds + 3) ?? durationSeconds;
     seekToSeconds(next);
@@ -1947,6 +2034,7 @@ function LivestreamPlayer({ channel, studio, activationKey, recording = false, o
       }
       video.play?.().catch(() => setPlaying(true));
     }
+    if (durationSeconds <= 0) return;
     seekTo(100);
     setPlaying(true);
   }
@@ -2084,6 +2172,95 @@ function LivestreamPlayer({ channel, studio, activationKey, recording = false, o
         <LivestreamFallback channel={channel} playing={playing} onStart={startPlayer} onOpenExternal={openExternal} />
       </div>
     </LivestreamPlayerShell>
+  );
+}
+
+function RefRoomLivestreamPlayer() {
+  const [recording, setRecording] = useState(false);
+  const refroomChannel = useMemo(() => ({
+    id: 'refroom',
+    label: 'RefRoom',
+    mark: 'REF',
+    status: 'Standby',
+    title: 'RefRoom Live Stream Player',
+    description: 'No active RefRoom live source is connected yet.',
+    icon: '3d_rtbo_livestream_icon.jpg',
+    streamUrl: '',
+    embedUrl: '',
+    embedHtml: '',
+    watchUrl: '#refroom',
+    aspect: 'wide',
+    playerOptions: {
+      className: 'refroom-livestream-player',
+      brandTitle: 'RefRoom',
+      brandSubtitle: 'RTBO live meeting and training broadcast player',
+      statusLabel: 'Standby',
+      showFollowLinks: false,
+      showSidebar: false,
+      showScoreboard: false,
+      showScoreLowerThird: true,
+      showOverlays: false,
+      showFallbackActions: false,
+      showStudioButton: true,
+      showPopOutButton: false,
+      showGoLiveButton: false,
+      disableMediaControlsWithoutSource: true,
+      simulatedDurationSeconds: 0,
+      scoreLowerThird: {
+        homeName: 'Home',
+        awayName: 'Away',
+        homeScore: '--',
+        awayScore: '--',
+        period: 'Period',
+        clock: '--:--',
+        status: 'Standby'
+      },
+      fallbackTitle: 'No RefRoom stream connected',
+      fallbackDescription: 'When the production studio connects a live source, the RefRoom feed will play here using the same RTBO live stream player.',
+      captionText: 'RefRoom captions will appear when the live source provides captions.',
+      controlNote: 'RefRoom uses the RTBO live stream player. Connect a live source from the production studio to make playback available.'
+    }
+  }), []);
+  const refroomScene = useMemo(() => ({
+    id: 'refroom',
+    name: 'RefRoom Player',
+    cue: 'Standby',
+    layout: 'Wide',
+    sources: [],
+    note: 'Public RefRoom player waiting for a live production source.'
+  }), []);
+  const studio = useMemo(() => ({
+    activeScene: refroomScene,
+    previewScene: refroomScene,
+    activeOverlayIds: [],
+    destinationIds: ['refroom'],
+    activeSourceIds: [],
+    sourceLevels: {},
+    lowerThird: { name: '', title: '' },
+    spotlightComment: null,
+    countdownSeconds: 0,
+    studioMode: 'Standby',
+    recording,
+    transitionName: '',
+    markerCount: 0,
+    snapshotCount: 0
+  }), [recording, refroomScene]);
+
+  function openRefRoomStudio() {
+    window.location.hash = 'dashboard/refroom';
+  }
+
+  return (
+    <section className="rtbo-section refroom-livestream-section">
+      <LivestreamPlayer
+        channel={refroomChannel}
+        studio={studio}
+        activationKey={0}
+        recording={recording}
+        onToggleRecording={() => setRecording(current => !current)}
+        onOpenStudioPanel={openRefRoomStudio}
+      />
+    </section>
   );
 }
 
@@ -13410,8 +13587,9 @@ function App() {
       return (
         <>
           <PageHero page="refroom" eyebrow="RefRoom" title="RefRoom Video Player">Watch the public RefRoom program feed for officiating meetings, film study, training sessions, and live production broadcasts.</PageHero>
+          <RefRoomLivestreamPlayer />
           <React.Suspense fallback={<section className="rtbo-section"><p className="rtbo-empty-state">Loading RefRoom player...</p></section>}>
-            <RefRoom user={authUser || { name: 'Guest Viewer', role: 'viewer' }} mode="player" />
+            <RefRoom user={authUser || { name: 'Guest Viewer', role: 'viewer' }} mode="player" meetingToolsOnly />
           </React.Suspense>
           {managedSections('refroom')}
         </>

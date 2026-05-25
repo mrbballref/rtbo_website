@@ -767,8 +767,18 @@ async function writePublicAssets(courses) {
 }
 
 function overviewThumbnailFor(course) {
-  if (course.id === 'nfhs') return '/assets/images/refzone/course-overviews/nfhs.png';
-  return `/assets/images/refzone/course-covers/${course.id}.svg`;
+  const thumbnails = {
+    nfhs: '/assets/images/refzone/course-overviews/nfhs.jpg',
+    'njcaa-women': '/assets/images/refzone/course-overviews/njcaa-women.jpg',
+    'njcaa-men': '/assets/images/refzone/course-overviews/njcaa-men.jpg',
+    'naia-women': '/assets/images/refzone/course-overviews/naia-women.jpg',
+    'naia-men': '/assets/images/refzone/course-overviews/naia-men.jpg',
+    'ncaa-women': '/assets/images/refzone/course-overviews/ncaa-women.jpg',
+    'ncaa-men': '/assets/images/refzone/course-overviews/ncaa-men.jpg',
+    wnba: '/assets/images/refzone/course-overviews/wnba.jpg',
+    nba: '/assets/images/refzone/course-overviews/nba.jpg'
+  };
+  return thumbnails[course.id] || `/assets/images/refzone/course-covers/${course.id}.svg`;
 }
 
 function courseManifest(course) {

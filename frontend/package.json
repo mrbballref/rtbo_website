@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/minify-public-css.mjs",
     "audit": "node scripts/mandatory-audit.mjs",
     "preview": "vite preview"
   },
