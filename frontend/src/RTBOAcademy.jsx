@@ -7,6 +7,8 @@ const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
 const noopStatus = () => {};
 const COURSE_OVERVIEW_THUMBNAIL = '/assets/images/refzone/course-overview-thumbnail.png';
 const ACADEMY_LAST_ROUTE_KEY = 'rtbo_refzone_university_last_route';
+const ACADEMY_PUBLIC_ROUTE_BASE = 'education';
+const ACADEMY_DASHBOARD_ROUTE_BASE = 'dashboard/rtboAcademy';
 const ACADEMY_COURSE_IMAGES = [
   'three-person-crew.jpg',
   'training_img_1.jpg',
@@ -84,6 +86,47 @@ function academyRouteParts(route = '') {
   return String(route || '').replace(/^#\/?/, '').split('?')[0].split('/').filter(Boolean).map(decodeAcademyRoutePart);
 }
 
+function normalizeAcademyRouteBase(routeBase = ACADEMY_PUBLIC_ROUTE_BASE) {
+  return academyRouteParts(routeBase).join('/') || ACADEMY_PUBLIC_ROUTE_BASE;
+}
+
+function academyLastRouteKey(routeBase = ACADEMY_PUBLIC_ROUTE_BASE) {
+  return `${ACADEMY_LAST_ROUTE_KEY}:${normalizeAcademyRouteBase(routeBase)}`;
+}
+
+function saveLastAcademyRoute(routeHash = '', routeBase = ACADEMY_PUBLIC_ROUTE_BASE) {
+  if (typeof window === 'undefined' || !routeHash) return;
+  try {
+    localStorage.setItem(academyLastRouteKey(routeBase), routeHash);
+    if (normalizeAcademyRouteBase(routeBase) === ACADEMY_PUBLIC_ROUTE_BASE) {
+      localStorage.setItem(ACADEMY_LAST_ROUTE_KEY, routeHash);
+    }
+  } catch {
+    // Route memory is best-effort; the hash remains the source of truth.
+  }
+}
+
+function readLastAcademyRoute(routeBase = ACADEMY_PUBLIC_ROUTE_BASE) {
+  if (typeof window === 'undefined') return '';
+  try {
+    return localStorage.getItem(academyLastRouteKey(routeBase))
+      || (normalizeAcademyRouteBase(routeBase) === ACADEMY_PUBLIC_ROUTE_BASE ? localStorage.getItem(ACADEMY_LAST_ROUTE_KEY) : '')
+      || '';
+  } catch {
+    return '';
+  }
+}
+
+function academyRouteRemainder(parts = [], routeBase = ACADEMY_PUBLIC_ROUTE_BASE) {
+  const baseParts = academyRouteParts(normalizeAcademyRouteBase(routeBase));
+  if (baseParts.length && baseParts.every((part, index) => parts[index] === part)) {
+    return parts.slice(baseParts.length);
+  }
+  if (parts[0] === ACADEMY_PUBLIC_ROUTE_BASE) return parts.slice(1);
+  if (parts[0] === 'dashboard' && parts[1] === 'rtboAcademy') return parts.slice(2);
+  return null;
+}
+
 function routeIndex(parts = [], marker = '') {
   const markerIndex = parts.indexOf(marker);
   if (markerIndex < 0) return 0;
@@ -91,61 +134,62 @@ function routeIndex(parts = [], marker = '') {
   return Number.isFinite(parsed) && parsed > 0 ? parsed - 1 : 0;
 }
 
-function academyRouteStateFromRoute(route = '') {
+function academyRouteStateFromRoute(route = '', routeBase = ACADEMY_PUBLIC_ROUTE_BASE) {
   const parts = academyRouteParts(route);
-  if (parts[0] !== 'education') {
+  const routeParts = academyRouteRemainder(parts, routeBase);
+  if (!routeParts) {
     return { explicit: false, view: 'dashboard', trackId: '', weekIndex: 0, dayIndex: 0 };
   }
-  if (parts[1] === 'course') {
+  if (routeParts[0] === 'course') {
     return {
       explicit: true,
       view: 'course',
-      trackId: parts[2] || '',
-      weekIndex: routeIndex(parts, 'week'),
-      dayIndex: routeIndex(parts, 'day')
+      trackId: routeParts[1] || '',
+      weekIndex: routeIndex(routeParts, 'week'),
+      dayIndex: routeIndex(routeParts, 'day')
     };
   }
-  if (parts[1] === 'overview') {
+  if (routeParts[0] === 'overview') {
     return {
       explicit: true,
       view: 'overview',
-      trackId: parts[2] || '',
+      trackId: routeParts[1] || '',
       weekIndex: 0,
       dayIndex: 0
     };
   }
-  if (parts[1] === 'view') {
-    const view = ACADEMY_ROUTE_VIEWS.has(parts[2]) ? parts[2] : 'dashboard';
+  if (routeParts[0] === 'view') {
+    const view = ACADEMY_ROUTE_VIEWS.has(routeParts[1]) ? routeParts[1] : 'dashboard';
     return {
       explicit: true,
       view,
-      trackId: parts[3] || '',
-      weekIndex: routeIndex(parts, 'week'),
-      dayIndex: routeIndex(parts, 'day')
+      trackId: routeParts[2] || '',
+      weekIndex: routeIndex(routeParts, 'week'),
+      dayIndex: routeIndex(routeParts, 'day')
     };
   }
-  if (ACADEMY_ROUTE_VIEWS.has(parts[1])) {
+  if (ACADEMY_ROUTE_VIEWS.has(routeParts[0])) {
     return {
       explicit: true,
-      view: parts[1],
-      trackId: parts[2] || '',
-      weekIndex: routeIndex(parts, 'week'),
-      dayIndex: routeIndex(parts, 'day')
+      view: routeParts[0],
+      trackId: routeParts[1] || '',
+      weekIndex: routeIndex(routeParts, 'week'),
+      dayIndex: routeIndex(routeParts, 'day')
     };
   }
   return { explicit: false, view: 'dashboard', trackId: '', weekIndex: 0, dayIndex: 0 };
 }
 
-function currentAcademyRouteState(routePath = '') {
+function currentAcademyRouteState(routePath = '', routeBase = ACADEMY_PUBLIC_ROUTE_BASE) {
   const currentRoute = typeof window !== 'undefined' && window.location.hash ? window.location.hash : routePath;
-  const routeState = academyRouteStateFromRoute(currentRoute);
+  const routeState = academyRouteStateFromRoute(currentRoute, routeBase);
   if (routeState.explicit) {
-    if (typeof window !== 'undefined') localStorage.setItem(ACADEMY_LAST_ROUTE_KEY, academyRouteHashForState(routeState));
+    saveLastAcademyRoute(academyRouteHashForState(routeState, routeBase), routeBase);
     return routeState;
   }
   const parts = academyRouteParts(currentRoute);
-  if (typeof window !== 'undefined' && parts[0] === 'education') {
-    const savedState = academyRouteStateFromRoute(localStorage.getItem(ACADEMY_LAST_ROUTE_KEY) || '');
+  if (typeof window !== 'undefined' && academyRouteRemainder(parts, routeBase)) {
+    const savedState = academyRouteStateFromRoute(readLastAcademyRoute(routeBase), routeBase);
     if (savedState.explicit) return savedState;
   }
   return routeState;
@@ -156,23 +200,24 @@ function clampRouteIndex(index = 0, length = 0) {
   return Math.max(0, Math.min(length - 1, Number.isFinite(index) ? index : 0));
 }
 
-function academyRouteHashForState(state = {}) {
+function academyRouteHashForState(state = {}, routeBase = ACADEMY_PUBLIC_ROUTE_BASE) {
   const view = ACADEMY_ROUTE_VIEWS.has(state.view) ? state.view : 'dashboard';
   const trackId = String(state.trackId || '').trim();
   const encodedTrackId = trackId ? encodeURIComponent(trackId) : '';
   const weekNumber = Number.isFinite(state.weekIndex) ? state.weekIndex + 1 : 1;
   const dayNumber = Number.isFinite(state.dayIndex) ? state.dayIndex + 1 : 1;
-  if (view === 'course' && encodedTrackId) return `#education/course/${encodedTrackId}/week/${weekNumber}/day/${dayNumber}`;
-  if (view === 'overview' && encodedTrackId) return `#education/overview/${encodedTrackId}`;
-  if (view === 'dashboard') return '#education/view/dashboard';
+  const base = normalizeAcademyRouteBase(routeBase);
+  if (view === 'course' && encodedTrackId) return `#${base}/course/${encodedTrackId}/week/${weekNumber}/day/${dayNumber}`;
+  if (view === 'overview' && encodedTrackId) return `#${base}/overview/${encodedTrackId}`;
+  if (view === 'dashboard') return `#${base}/view/dashboard`;
   const trackSuffix = encodedTrackId ? `/${encodedTrackId}/week/${weekNumber}/day/${dayNumber}` : '';
-  return `#education/view/${view}${trackSuffix}`;
+  return `#${base}/view/${view}${trackSuffix}`;
 }
 
-function writeAcademyRouteState(state = {}, mode = 'push') {
+function writeAcademyRouteState(state = {}, mode = 'push', routeBase = ACADEMY_PUBLIC_ROUTE_BASE) {
   if (typeof window === 'undefined') return;
-  const nextHash = academyRouteHashForState(state);
-  localStorage.setItem(ACADEMY_LAST_ROUTE_KEY, nextHash);
+  const nextHash = academyRouteHashForState(state, routeBase);
+  saveLastAcademyRoute(nextHash, routeBase);
   if (window.location.hash === nextHash) return;
   const nextUrl = `${window.location.pathname}${window.location.search}${nextHash}`;
   if (mode === 'replace') window.history.replaceState(null, '', nextUrl);
@@ -632,6 +677,102 @@ function compactLessonText(value = '', maxLength = 900) {
   return `${text.slice(0, maxLength).replace(/\s+\S*$/, '')}...`;
 }
 
+function courseFileSlug(value = '') {
+  return String(value || 'refzone-course-file').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'refzone-course-file';
+}
+
+function markdownList(items = []) {
+  const rows = textList(items);
+  return rows.length ? rows.map(item => `- ${item}`).join('\n') : '- No items listed.';
+}
+
+function lessonMaterialMarkdown({ track = {}, week = {}, day = {}, material = {}, type = 'packet', index = 0 }) {
+  const title = `${track.title || 'RefZone University'}: ${day.title || 'Lesson'}`;
+  const header = [
+    `# ${title}`,
+    '',
+    `Week ${week.week || day.week || 1} / Day ${day.day || 1}`,
+    ''
+  ].join('\n');
+  const readings = textList(material.readings);
+  const notes = textList(material.lectureNotes);
+  const discussion = textList(material.discussion);
+  const rubric = textList(material.rubric);
+
+  if (type === 'reading') {
+    return `${header}## Required Reading ${Number(index) + 1}\n\n${readings[index] || readings.join('\n\n') || 'No required reading is listed for this lesson.'}\n`;
+  }
+  if (type === 'lecture-notes') return `${header}## Professor Lecture Notes\n\n${markdownList(notes)}\n`;
+  if (type === 'discussion') return `${header}## Class Discussion\n\n${markdownList(discussion)}\n`;
+  if (type === 'lab') return `${header}## Lab / Visual Activity\n\n${material.lab || 'No lab is listed for this lesson.'}\n`;
+  if (type === 'assignment') return `${header}## Daily Assignment\n\n${material.assignment || 'No assignment is listed for this lesson.'}\n`;
+  if (type === 'assessment') {
+    return `${header}## Assessment\n\n**Type:** ${material.assessment?.type || 'Assessment'}\n\n${material.assessment?.prompt || 'No assessment prompt is listed for this lesson.'}\n`;
+  }
+
+  return [
+    header,
+    '## Learning Objectives',
+    markdownList(material.objectives),
+    '',
+    '## Required Reading',
+    markdownList(readings),
+    '',
+    '## Professor Lecture Notes',
+    markdownList(notes),
+    '',
+    '## Class Discussion',
+    markdownList(discussion),
+    '',
+    '## Lab / Visual Activity',
+    material.lab || 'No lab is listed for this lesson.',
+    '',
+    '## Daily Assignment',
+    material.assignment || 'No assignment is listed for this lesson.',
+    '',
+    '## Assessment',
+    material.assessment?.prompt || 'No assessment prompt is listed for this lesson.',
+    '',
+    '## Rubric',
+    markdownList(rubric)
+  ].join('\n');
+}
+
+function openCourseFile(file = {}) {
+  if (file.href && !String(file.href).includes('refzone-course-file.php')) {
+    window.open(file.href, '_blank', 'noopener,noreferrer');
+    return;
+  }
+  const content = file.content || `${file.title}\n\n${file.description || ''}`;
+  const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  window.open(url, '_blank', 'noopener,noreferrer');
+  window.setTimeout(() => URL.revokeObjectURL(url), 30000);
+}
+
+function downloadCourseFile(file = {}) {
+  if (file.href && !String(file.href).includes('refzone-course-file.php')) {
+    const anchor = document.createElement('a');
+    anchor.href = file.href;
+    anchor.download = '';
+    anchor.rel = 'noreferrer';
+    document.body.append(anchor);
+    anchor.click();
+    anchor.remove();
+    return;
+  }
+  const content = file.content || `${file.title}\n\n${file.description || ''}`;
+  const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = `${courseFileSlug(file.filename || file.title)}.md`;
+  document.body.append(anchor);
+  anchor.click();
+  anchor.remove();
+  URL.revokeObjectURL(url);
+}
+
 function courseVideoJobForLesson(jobs = [], track = {}, week = {}, day = {}) {
   if (!Array.isArray(jobs) || !day?.id) return null;
   return jobs.find(job => (
@@ -671,6 +812,15 @@ function coursePublishedVideoSource(day = {}, material = {}, videoJob = null) {
 function courseVoiceoverSource(videoJob = null) {
   if (videoJob?.voiceoverReady && videoJob.voiceoverPath) return mediaSourceFor(videoJob.voiceoverPath);
   return '';
+}
+
+function courseAudioMimeType(source = '') {
+  const value = String(source || '').toLowerCase();
+  if (value.endsWith('.aac')) return 'audio/aac';
+  if (value.endsWith('.m4a') || value.endsWith('.mp4')) return 'audio/mp4';
+  if (value.endsWith('.wav')) return 'audio/wav';
+  if (value.endsWith('.ogg') || value.endsWith('.oga')) return 'audio/ogg';
+  return 'audio/mpeg';
 }
 
 function courseLessonVisuals(track = {}, week = {}, day = {}, visual = null, videoJob = null) {
@@ -726,22 +876,89 @@ function courseLessonVisuals(track = {}, week = {}, day = {}, visual = null, vid
   return rows.filter((item, index, list) => item.src && list.findIndex(row => row.src === item.src) === index);
 }
 
+function courseGeneratedScenes(track = {}, week = {}, day = {}, material = {}, visuals = [], videoJob = null) {
+  const fallbackVisual = visuals[0]?.src
+    || dayVisualFor(day).image
+    || mediaSourceFor(track.cover || track.overviewThumbnail || '/assets/images/refzone/course-overview-thumbnail.png');
+  const jobScenes = Array.isArray(videoJob?.scenePlan) ? videoJob.scenePlan : [];
+  const rows = jobScenes.length ? jobScenes : [
+    {
+      id: 'intro',
+      title: day.title || 'Course Lesson',
+      kind: 'Opening',
+      text: material.preparation || track.description || track.overview || '',
+      visual: visuals[0]?.src || fallbackVisual
+    },
+    {
+      id: 'objectives',
+      title: 'Learning Objectives',
+      kind: 'Objectives',
+      text: textList(material.objectives).join(' '),
+      visual: visuals[1]?.src || fallbackVisual
+    },
+    {
+      id: 'readings',
+      title: 'Required Reading',
+      kind: 'Reading',
+      text: textList(material.readings).join(' '),
+      visual: visuals[2]?.src || fallbackVisual
+    },
+    {
+      id: 'lecture',
+      title: 'Professor Lecture',
+      kind: 'Lecture',
+      text: textList(material.lectureNotes).join(' '),
+      visual: visuals[3]?.src || fallbackVisual
+    },
+    {
+      id: 'lab',
+      title: 'Visual Lab',
+      kind: 'Lab',
+      text: material.lab || '',
+      visual: visuals[4]?.src || fallbackVisual
+    },
+    {
+      id: 'assignment',
+      title: 'Daily Evidence',
+      kind: 'Assignment',
+      text: material.assignment || material.assessment?.prompt || '',
+      visual: visuals[5]?.src || fallbackVisual
+    }
+  ];
+
+  const scenes = rows.map((scene, index) => {
+    const visualSource = scene.visual || scene.src || visuals[index % Math.max(visuals.length, 1)]?.src || fallbackVisual;
+    return {
+      id: scene.id || `generated-scene-${index + 1}`,
+      title: scene.title || scene.kind || `Scene ${index + 1}`,
+      kind: scene.kind || 'Course Scene',
+      text: compactLessonText(scene.text || scene.description || '', 360),
+      visual: mediaSourceFor(visualSource)
+    };
+  }).filter(scene => scene.visual || scene.text || scene.title);
+
+  return scenes.length ? scenes : [{
+    id: 'default-scene',
+    title: day.title || 'Course Lesson',
+    kind: 'Course Scene',
+    text: compactLessonText(material.preparation || track.description || '', 360),
+    visual: fallbackVisual
+  }];
+}
+
+function courseFileIdentity(file = {}) {
+  return file.href || file.content || `${file.kind}-${file.title}-${file.description}`;
+}
+
 function courseLessonFiles(track = {}, week = {}, day = {}, material = {}, visual = null, videoJob = null) {
   const files = [];
-  const courseId = videoJob?.sourceMaterial?.courseId || track.id || '';
-  const dayId = videoJob?.sourceMaterial?.dayId || day.id || '';
-  const courseFileHref = (type, index = '') => {
-    if (!courseId || !dayId) return '';
-    const params = new URLSearchParams({ course: courseId, day: dayId, type });
-    if (index !== '') params.set('index', String(index));
-    return `/refzone-course-file.php?${params.toString()}`;
-  };
   files.push({
     id: 'lesson-packet-download',
     kind: 'Lesson Packet',
     title: `${day.title || 'Lesson'} Packet`,
     description: 'Complete objectives, required readings, lecture notes, lab, assignment, assessment, and rubric for this lesson.',
-    href: courseFileHref('packet')
+    filename: `${track.id || 'refzone'}-${day.id || 'lesson'}-packet`,
+    content: lessonMaterialMarkdown({ track, week, day, material, type: 'packet' })
   });
   textList(material.readings).forEach((item, index) => {
     files.push({
@@ -749,7 +966,8 @@ function courseLessonFiles(track = {}, week = {}, day = {}, material = {}, visua
       kind: 'Reading',
       title: `Required Reading ${index + 1}`,
       description: item,
-      href: courseFileHref('reading', index)
+      filename: `${track.id || 'refzone'}-${day.id || 'lesson'}-reading-${index + 1}`,
+      content: lessonMaterialMarkdown({ track, week, day, material, type: 'reading', index })
     });
   });
   textList(material.lectureNotes).forEach((item, index) => {
@@ -758,7 +976,8 @@ function courseLessonFiles(track = {}, week = {}, day = {}, material = {}, visua
       kind: 'Lecture Notes',
       title: `Professor Lecture Note ${index + 1}`,
       description: item,
-      href: index === 0 ? courseFileHref('lecture-notes') : ''
+      filename: `${track.id || 'refzone'}-${day.id || 'lesson'}-lecture-notes`,
+      content: lessonMaterialMarkdown({ track, week, day, material, type: 'lecture-notes' })
     });
   });
   textList(material.discussion).forEach((item, index) => {
@@ -767,12 +986,34 @@ function courseLessonFiles(track = {}, week = {}, day = {}, material = {}, visua
       kind: 'Discussion',
       title: `Discussion Question ${index + 1}`,
       description: item,
-      href: ''
+      filename: `${track.id || 'refzone'}-${day.id || 'lesson'}-discussion`,
+      content: lessonMaterialMarkdown({ track, week, day, material, type: 'discussion' })
     });
   });
-  if (material.lab) files.push({ id: 'lab-activity', kind: 'Lab', title: 'Lab / Visual Activity', description: material.lab, href: courseFileHref('lab') });
-  if (material.assignment) files.push({ id: 'daily-assignment', kind: 'Assignment', title: 'Daily Assignment', description: material.assignment, href: courseFileHref('assignment') });
-  if (material.assessment?.prompt) files.push({ id: 'assessment-prompt', kind: 'Assessment', title: material.assessment.type || 'Assessment Prompt', description: material.assessment.prompt, href: courseFileHref('assessment') });
+  if (material.lab) files.push({
+    id: 'lab-activity',
+    kind: 'Lab',
+    title: 'Lab / Visual Activity',
+    description: material.lab,
+    filename: `${track.id || 'refzone'}-${day.id || 'lesson'}-lab`,
+    content: lessonMaterialMarkdown({ track, week, day, material, type: 'lab' })
+  });
+  if (material.assignment) files.push({
+    id: 'daily-assignment',
+    kind: 'Assignment',
+    title: 'Daily Assignment',
+    description: material.assignment,
+    filename: `${track.id || 'refzone'}-${day.id || 'lesson'}-assignment`,
+    content: lessonMaterialMarkdown({ track, week, day, material, type: 'assignment' })
+  });
+  if (material.assessment?.prompt) files.push({
+    id: 'assessment-prompt',
+    kind: 'Assessment',
+    title: material.assessment.type || 'Assessment Prompt',
+    description: material.assessment.prompt,
+    filename: `${track.id || 'refzone'}-${day.id || 'lesson'}-assessment`,
+    content: lessonMaterialMarkdown({ track, week, day, material, type: 'assessment' })
+  });
   courseLessonVisuals(track, week, day, visual, videoJob).forEach(item => {
     files.push({
       id: `visual-${item.id}`,
@@ -782,27 +1023,9 @@ function courseLessonFiles(track = {}, week = {}, day = {}, material = {}, visua
       href: item.src
     });
   });
-  if (day.test?.answerKeyPath) {
-    files.push({
-      id: 'answer-key',
-      kind: 'Faculty File',
-      title: 'Assessment Answer Key',
-      description: 'Command-center answer key reference for faculty review.',
-      href: day.test.answerKeyPath
-    });
-  }
-  (videoJob?.readingFiles || []).forEach((item, index) => {
-    files.push({
-      id: `production-file-${index}`,
-      kind: item.kind || 'Production File',
-      title: item.title || `Production File ${index + 1}`,
-      description: item.description || item.summary || '',
-      href: mediaSourceFor(item.href || item.path || '')
-    });
-  });
   return files.filter((file, index, list) => {
-    const key = file.href || `${file.kind}-${file.title}-${file.description}`;
-    return key && list.findIndex(item => (item.href || `${item.kind}-${item.title}-${item.description}`) === key) === index;
+    const key = courseFileIdentity(file);
+    return key && list.findIndex(item => courseFileIdentity(item) === key) === index;
   });
 }
 
@@ -1353,6 +1576,7 @@ function CourseVideoPlayer({
   const [audioFailed, setAudioFailed] = useState(false);
   const script = useMemo(() => courseNarrationScript(track, week, day, material, videoJob), [day, material, track, videoJob, week]);
   const visuals = useMemo(() => courseLessonVisuals(track, week, day, visual, videoJob), [day, track, videoJob, visual, week]);
+  const generatedScenes = useMemo(() => courseGeneratedScenes(track, week, day, material, visuals, videoJob), [day, material, track, videoJob, visuals, week]);
   const publishedVideoSource = coursePublishedVideoSource(day, material, videoJob);
   const voiceoverSource = courseVoiceoverSource(videoJob);
   const hasPublishedVideo = Boolean(publishedVideoSource && !videoFailed);
@@ -1364,10 +1588,16 @@ function CourseVideoPlayer({
   const effectiveDuration = hasPlayableMedia ? (durationSeconds || estimatedDuration) : estimatedDuration;
   const progress = effectiveDuration > 0 ? Math.min(100, (currentSeconds / effectiveDuration) * 100) : 0;
   const activeVisualIndex = visuals.length ? Math.min(visuals.length - 1, Math.floor((progress / 100) * visuals.length)) : 0;
+  const activeSceneIndex = generatedScenes.length ? Math.min(generatedScenes.length - 1, Math.floor((progress / 100) * generatedScenes.length)) : 0;
   const activeVisual = visuals[activeVisualIndex] || {
     title: visual?.title || day.title || 'Lesson Visual Aid',
     src: visual?.image || '',
     description: visual?.proof || 'Lesson visuals are loaded from the course packet.'
+  };
+  const activeScene = generatedScenes[activeSceneIndex] || {
+    title: activeVisual.title,
+    visual: activeVisual.src,
+    kind: 'Course Scene'
   };
   const captionStart = Math.max(0, Math.floor((progress / 100) * script.length) - 80);
   const captionText = compactLessonText(script.slice(captionStart, captionStart + 420), 300) || 'Captions are enabled for this course lesson.';
@@ -1468,17 +1698,17 @@ function CourseVideoPlayer({
   }
 
   function speakGeneratedPreview(startSeconds = currentSeconds) {
-    if (typeof window === 'undefined' || !window.speechSynthesis || !script) {
+    if (typeof window === 'undefined' || !window.speechSynthesis || !window.SpeechSynthesisUtterance || !script) {
       onStatus('No course audio source is available in this browser. Render the ElevenLabs MP3 or use a browser with speech playback.');
       return;
     }
     stopGeneratedVoiceover();
+    const synth = window.speechSynthesis;
     const runId = speechRunRef.current;
     const startIndex = Math.max(0, Math.min(script.length - 1, Math.floor((startSeconds / estimatedDuration) * script.length)));
     const chunks = speechChunks(script.slice(startIndex) || script);
-    const voice = preferredCourseVoice();
 
-    const speakChunk = index => {
+    const speakChunk = (index, voice) => {
       if (runId !== speechRunRef.current || index >= chunks.length) {
         if (index >= chunks.length) {
           window.clearInterval(timerRef.current);
@@ -1487,23 +1717,47 @@ function CourseVideoPlayer({
         }
         return;
       }
-      const utterance = new SpeechSynthesisUtterance(chunks[index]);
+      const utterance = new window.SpeechSynthesisUtterance(chunks[index]);
       utterance.voice = voice;
       utterance.rate = Math.max(.82, Math.min(1.18, speed));
       utterance.pitch = .96;
       utterance.volume = muted ? 0 : volume;
-      utterance.onend = () => speakChunk(index + 1);
+      utterance.onend = () => speakChunk(index + 1, voice);
       utterance.onerror = () => {
+        if (runId !== speechRunRef.current) return;
         window.clearInterval(timerRef.current);
         timerRef.current = null;
         setPlaying(false);
         onStatus('Course voiceover playback stopped. Render the ElevenLabs MP3 for production audio.');
       };
       utteranceRef.current = utterance;
-      window.speechSynthesis.speak(utterance);
+      synth.speak(utterance);
+      synth.resume?.();
+      window.setTimeout(() => {
+        if (runId === speechRunRef.current) synth.resume?.();
+      }, 120);
     };
 
-    speakChunk(0);
+    const beginSpeech = () => {
+      if (runId !== speechRunRef.current) return;
+      synth.resume?.();
+      speakChunk(0, preferredCourseVoice());
+    };
+
+    if (!(synth.getVoices?.() || []).length && 'onvoiceschanged' in synth) {
+      let started = false;
+      const startOnce = () => {
+        if (started) return;
+        started = true;
+        synth.onvoiceschanged = null;
+        beginSpeech();
+      };
+      synth.onvoiceschanged = startOnce;
+      window.setTimeout(startOnce, 300);
+      return;
+    }
+
+    beginSpeech();
   }
 
   function startGeneratedTimer(startSeconds = currentSeconds) {
@@ -1522,20 +1776,26 @@ function CourseVideoPlayer({
     setCurrentSeconds(Math.min(estimatedDuration, Math.max(0, startSeconds)));
   }
 
+  function startGeneratedFallback(startSeconds = currentSeconds, message = 'Production media was not reachable, so the generated lesson preview is active.') {
+    setPlaying(true);
+    startGeneratedTimer(startSeconds);
+    speakGeneratedPreview(startSeconds);
+    onStatus(message);
+  }
+
   async function startPlayer() {
     const media = activeMediaElement();
     if (media) {
       try {
         await media.play();
       } catch {
-        onStatus('The course video could not start automatically. Use the player control again after the browser allows playback.');
+        if (hasPublishedVideo) setVideoFailed(true);
+        if (hasVoiceoverAudio) setAudioFailed(true);
+        startGeneratedFallback(currentSeconds, 'The published media could not start, so the generated lesson preview is active.');
       }
       return;
     }
-    setPlaying(true);
-    startGeneratedTimer(currentSeconds);
-    speakGeneratedPreview(currentSeconds);
-    onStatus('This lesson is using spoken preview audio until the ElevenLabs voiceover and Remotion MP4 are rendered.');
+    startGeneratedFallback(currentSeconds, 'This lesson is using spoken preview audio until the ElevenLabs voiceover and Remotion MP4 are rendered.');
   }
 
   function pausePlayer() {
@@ -1678,7 +1938,8 @@ function CourseVideoPlayer({
             onEnded={() => setPlaying(false)}
             onError={() => {
               setVideoFailed(true);
-              onStatus('Published course video was not reachable, so the generated lesson video is active.');
+              if (playing) startGeneratedFallback(currentSeconds, 'Published course video was not reachable, so the generated lesson video is active.');
+              else onStatus('Published course video was not reachable, so the generated lesson video is active.');
             }}
           >
             <source src={publishedVideoSource} />
@@ -1686,7 +1947,7 @@ function CourseVideoPlayer({
             Your browser does not support this course video.
           </video>
         ) : (
-          <div className="rtbo-course-generated-stage">
+          <div className={`rtbo-course-generated-stage ${playing ? 'is-playing' : ''}`} style={{ '--rtbo-course-scene-progress': `${progress}%` }}>
             {hasVoiceoverAudio && (
               <audio
                 className="rtbo-course-video-audio"
@@ -1699,14 +1960,30 @@ function CourseVideoPlayer({
                 onEnded={() => setPlaying(false)}
                 onError={() => {
                   setAudioFailed(true);
-                  onStatus('Production voiceover was not reachable. Render the ElevenLabs audio again from the RefZone video pipeline.');
+                  if (playing) startGeneratedFallback(currentSeconds, 'Production voiceover was not reachable, so the spoken preview audio is active.');
+                  else onStatus('Production voiceover was not reachable. Render the ElevenLabs audio again from the RefZone video pipeline.');
                 }}
               >
-                <source src={voiceoverSource} type="audio/mpeg" />
+                <source src={voiceoverSource} type={courseAudioMimeType(voiceoverSource)} />
                 {videoJob?.captionsPath && <track src={mediaSourceFor(videoJob.captionsPath)} kind="captions" srcLang="en" label="English" />}
               </audio>
             )}
-            {activeVisual.src && <img src={activeVisual.src} alt={`${activeVisual.title} visual aid`} loading="eager" decoding="async" />}
+            <div className="rtbo-course-generated-reel" aria-hidden="true">
+              {generatedScenes.map((scene, index) => (
+                <figure
+                  className={`rtbo-course-generated-scene ${index === activeSceneIndex ? 'is-active' : ''}`.trim()}
+                  key={scene.id}
+                >
+                  {scene.visual && <img src={scene.visual} alt="" loading={index === activeSceneIndex ? 'eager' : 'lazy'} decoding="async" />}
+                </figure>
+              ))}
+            </div>
+            <div className="rtbo-course-generated-motion" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </div>
+            <p className="sr-only">{activeScene.title || activeVisual.title}</p>
           </div>
         )}
         <button type="button" className="rtbo-course-video-play" onClick={togglePlayer} aria-label={playing ? 'Pause course video' : 'Play course video'}>
@@ -1784,8 +2061,7 @@ function CourseToolPanel({
       rows[bucket].push(sentence);
       return rows;
     }, []);
-  const downloadFiles = files.filter(file => file.href).slice(0, 16);
-  const packetFiles = files.filter(file => !file.href).slice(0, 16);
+  const visibleFiles = files.slice(0, 24);
 
   return (
     <aside className="rtbo-coursera-tool-panel" aria-label="Course resource panel">
@@ -1835,19 +2111,20 @@ function CourseToolPanel({
           <p className="eyebrow">Files</p>
           <h4>Files</h4>
           <div className="rtbo-coursera-file-list">
-            {downloadFiles.map(file => (
+            {visibleFiles.map(file => (
               <article key={file.id}>
-                <span>{file.kind}</span>
-                <strong>{file.title}</strong>
-                <a href={file.href} target={file.href.startsWith('#') ? undefined : '_blank'} rel="noreferrer" aria-label={`Open ${file.title}`}>Download</a>
+                <div>
+                  <span>{file.kind}</span>
+                  <strong>{file.title}</strong>
+                </div>
+                {file.description && <p>{file.description}</p>}
+                <div className="rtbo-coursera-file-actions">
+                  <button type="button" onClick={() => openCourseFile(file)}>Open</button>
+                  <button type="button" onClick={() => downloadCourseFile(file)}>Download</button>
+                </div>
               </article>
             ))}
-            {packetFiles.length > 0 && (
-              <div className="rtbo-coursera-packet-files">
-                <strong>Lesson packet</strong>
-                {packetFiles.map(file => <p key={file.id}><b>{file.title}</b>{file.description}</p>)}
-              </div>
-            )}
+            {!visibleFiles.length && <p className="rtbo-coursera-files-empty">No files are attached to this lesson yet.</p>}
           </div>
         </section>
       )}
@@ -1949,26 +2226,35 @@ function CourseTestPanel({
   );
 }
 
-function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, brandName = 'RTBO Academy', initialTrackId = '', routePath = '' }) {
+function RTBOAcademy({
+  user = {},
+  onStatus = noopStatus,
+  publicMode = false,
+  brandName = 'RTBO Academy',
+  initialTrackId = '',
+  routePath = '',
+  routeBase = ''
+}) {
   const requestedTrackId = String(initialTrackId || '').trim();
+  const academyRouteBase = normalizeAcademyRouteBase(routeBase || (publicMode ? ACADEMY_PUBLIC_ROUTE_BASE : ACADEMY_DASHBOARD_ROUTE_BASE));
   const [markdown, setMarkdown] = useState('');
   const [loading, setLoading] = useState(true);
   const [activeView, setActiveView] = useState(() => {
-    const routeState = currentAcademyRouteState(routePath);
+    const routeState = currentAcademyRouteState(routePath, academyRouteBase);
     if (routeState.explicit) return routeState.view;
     return publicMode && requestedTrackId ? 'course' : 'dashboard';
   });
   const [query, setQuery] = useState('');
   const [selectedTrackId, setSelectedTrackId] = useState(() => {
-    const routeState = currentAcademyRouteState(routePath);
+    const routeState = currentAcademyRouteState(routePath, academyRouteBase);
     return routeState.trackId || (!routeState.explicit ? requestedTrackId : '');
   });
   const [overviewTrackId, setOverviewTrackId] = useState(() => {
-    const routeState = currentAcademyRouteState(routePath);
+    const routeState = currentAcademyRouteState(routePath, academyRouteBase);
     return routeState.view === 'overview' ? routeState.trackId : '';
   });
-  const [selectedWeekIndex, setSelectedWeekIndex] = useState(() => currentAcademyRouteState(routePath).weekIndex);
-  const [selectedDayIndex, setSelectedDayIndex] = useState(() => currentAcademyRouteState(routePath).dayIndex);
+  const [selectedWeekIndex, setSelectedWeekIndex] = useState(() => currentAcademyRouteState(routePath, academyRouteBase).weekIndex);
+  const [selectedDayIndex, setSelectedDayIndex] = useState(() => currentAcademyRouteState(routePath, academyRouteBase).dayIndex);
   const [completed, setCompleted] = useLocalJson(STORAGE_KEYS.completed, {});
   const [notes, setNotes] = useLocalJson(STORAGE_KEYS.notes, {});
   const [bookmarks, setBookmarks] = useLocalJson(STORAGE_KEYS.bookmarks, {});
@@ -1978,6 +2264,7 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
   const [testDrafts, setTestDrafts] = useState({});
   const [openTestId, setOpenTestId] = useState('');
   const [managedCourses, setManagedCourses] = useState([]);
+  const [coursesLoading, setCoursesLoading] = useState(true);
   const [courseVideoJobs, setCourseVideoJobs] = useState([]);
   const [courseToolPanel, setCourseToolPanel] = useState('');
   const [courseToolPanelOpen, setCourseToolPanelOpen] = useState(false);
@@ -2002,30 +2289,38 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
     async function loadManagedCourses(event) {
       if (Array.isArray(event?.detail?.courses)) {
         setManagedCourses(event.detail.courses);
+        setCoursesLoading(false);
         return;
       }
+      setCoursesLoading(true);
       try {
         const response = await fetch(`${API_URL}/refzone-courses.php`, { credentials: 'include' });
         const data = await response.json();
-        if (active && data?.managed && Array.isArray(data.courses)) {
+        if (active && data?.managed && Array.isArray(data.courses) && data.courses.length) {
           setManagedCourses(data.courses);
           try {
             localStorage.setItem(STORAGE_KEYS.courses, JSON.stringify(data.courses));
           } catch {
             // Local mirroring is best effort; the API remains the source of truth.
           }
+          setCoursesLoading(false);
+          return;
         }
+        throw new Error('Managed course records are empty.');
       } catch {
         try {
           const stored = JSON.parse(localStorage.getItem(STORAGE_KEYS.courses) || '[]');
           if (active && Array.isArray(stored) && stored.length) {
             setManagedCourses(stored);
+            setCoursesLoading(false);
             return;
           }
           const starter = await fetch('/refzone-course-materials.json').then(response => response.json());
           if (active && Array.isArray(starter.courses)) setManagedCourses(starter.courses);
         } catch {
           if (active) setManagedCourses([]);
+        } finally {
+          if (active) setCoursesLoading(false);
         }
       }
     }
@@ -2056,7 +2351,7 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
 
   const tracks = useMemo(() => {
     const managedTracks = managedCourses.filter(course => (course.status || 'active') === 'active').map(managedCourseToTrack);
-    const rows = publicMode ? managedTracks : (managedTracks.length ? managedTracks : splitCourse(markdown));
+    const rows = managedTracks.length ? managedTracks : splitCourse(markdown);
     return [...rows].sort((a, b) => {
       if (a.id === 'overview') return -1;
       if (b.id === 'overview') return 1;
@@ -2064,7 +2359,7 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
       if (b.id === 'nfhs') return 1;
       return 0;
     });
-  }, [managedCourses, markdown, publicMode]);
+  }, [managedCourses, markdown]);
   const defaultTrack = useMemo(() => tracks.find(track => track.weeks?.length) || tracks[0], [tracks]);
   const selectedTrack = useMemo(() => tracks.find(track => track.id === selectedTrackId) || defaultTrack, [defaultTrack, tracks, selectedTrackId]);
   const overviewTrack = useMemo(() => tracks.find(track => track.id === overviewTrackId) || selectedTrack, [overviewTrackId, selectedTrack, tracks]);
@@ -2076,7 +2371,7 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
   }, [defaultTrack, tracks, selectedTrackId]);
 
   useEffect(() => {
-    const routeState = currentAcademyRouteState(routePath);
+    const routeState = currentAcademyRouteState(routePath, academyRouteBase);
     const fallbackTrackId = !routeState.explicit ? requestedTrackId : '';
     const targetTrackId = routeState.trackId || fallbackTrackId;
     const targetTrack = targetTrackId ? tracks.find(track => track.id === targetTrackId) : null;
@@ -2112,7 +2407,7 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
           trackId: targetTrack.id,
           weekIndex: nextWeekIndex,
           dayIndex: nextDayIndex
-        }, 'replace');
+        }, 'replace', academyRouteBase);
       }
       return;
     }
@@ -2127,7 +2422,7 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
       }
       setActiveView(routeState.view);
     }
-  }, [publicMode, requestedTrackId, routePath, tracks]);
+  }, [academyRouteBase, publicMode, requestedTrackId, routePath, tracks]);
 
   const allDays = useMemo(() => {
     const rows = [];
@@ -2219,8 +2514,7 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
   const inCourseWorkspace = activeView === 'course' && Boolean(selectedTrack);
 
   function syncAcademyRoute(state, mode = 'push') {
-    if (!publicMode) return;
-    writeAcademyRouteState(state, mode);
+    writeAcademyRouteState(state, mode, academyRouteBase);
   }
 
   function openAcademyView(view) {
@@ -2458,10 +2752,13 @@ function RTBOAcademy({ user = {}, onStatus = noopStatus, publicMode = false, bra
     setCoursePromptResponse(responses[promptType] || responses.summary);
   }
 
-  if (loading) {
+  const visibleRouteState = currentAcademyRouteState(routePath, academyRouteBase);
+  const routeNeedsCourseRecords = Boolean(visibleRouteState.trackId && ['course', 'overview', 'materials', 'syllabus'].includes(visibleRouteState.view));
+
+  if (loading || ((publicMode || routeNeedsCourseRecords) && coursesLoading)) {
     return (
       <section className={`${publicMode ? 'rtbo-public-academy-shell' : 'rtbo-dashboard-card'} rtbo-academy-page`}>
-        <p className="rtbo-empty-state">Loading {brandName} course manual...</p>
+        <p className="rtbo-empty-state">Loading {brandName} course materials...</p>
       </section>
     );
   }

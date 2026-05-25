@@ -34,12 +34,6 @@ function publicPathExists(value = '') {
   return fs.existsSync(path.join(publicRoot, source.replace(/^\//, '')));
 }
 
-function courseFileHref(courseId, dayId, type, index = '') {
-  const params = new URLSearchParams({ course: courseId, day: dayId, type });
-  if (index !== '') params.set('index', String(index));
-  return `/refzone-course-file.php?${params.toString()}`;
-}
-
 function narrationScriptFor(course = {}, week = {}, day = {}) {
   const college = day.college || {};
   const readings = textList(college.readings);
@@ -122,14 +116,14 @@ function readingFilesFor(course = {}, week = {}, day = {}, trackId = '') {
     kind: 'Lesson Packet',
     title: `${day.title || 'Lesson'} Packet`,
     description: 'Complete downloadable packet with objectives, required readings, lecture notes, lab, assignment, assessment, and rubric.',
-    href: courseFileHref(courseId, dayId, 'packet')
+    sourceMaterial: { courseId, dayId, type: 'packet' }
   }];
   textList(college.readings).forEach((item, index) => {
     files.push({
       kind: 'Required Reading',
       title: `Required Reading ${index + 1}`,
       description: item,
-      href: courseFileHref(courseId, dayId, 'reading', index)
+      sourceMaterial: { courseId, dayId, type: 'reading', index }
     });
   });
   if (textList(college.lectureNotes).length) {
@@ -137,12 +131,12 @@ function readingFilesFor(course = {}, week = {}, day = {}, trackId = '') {
       kind: 'Lecture Notes',
       title: 'Professor Lecture Notes',
       description: 'Download the professor lecture notes for this lesson.',
-      href: courseFileHref(courseId, dayId, 'lecture-notes')
+      sourceMaterial: { courseId, dayId, type: 'lecture-notes' }
     });
   }
-  if (college.lab) files.push({ kind: 'Lab', title: 'Lab / Visual Activity', description: college.lab, href: courseFileHref(courseId, dayId, 'lab') });
-  if (college.assignment) files.push({ kind: 'Assignment', title: 'Daily Assignment', description: college.assignment, href: courseFileHref(courseId, dayId, 'assignment') });
-  if (college.assessment?.prompt) files.push({ kind: 'Assessment', title: college.assessment.type || 'Assessment Prompt', description: college.assessment.prompt, href: courseFileHref(courseId, dayId, 'assessment') });
+  if (college.lab) files.push({ kind: 'Lab', title: 'Lab / Visual Activity', description: college.lab, sourceMaterial: { courseId, dayId, type: 'lab' } });
+  if (college.assignment) files.push({ kind: 'Assignment', title: 'Daily Assignment', description: college.assignment, sourceMaterial: { courseId, dayId, type: 'assignment' } });
+  if (college.assessment?.prompt) files.push({ kind: 'Assessment', title: college.assessment.type || 'Assessment Prompt', description: college.assessment.prompt, sourceMaterial: { courseId, dayId, type: 'assessment' } });
   return files;
 }
 
@@ -168,6 +162,8 @@ for (const course of materials.courses || []) {
       const videoPath = `/assets/videos/refzone/${trackId}/${dayId}.mp4`;
       const captionsPath = `/assets/videos/refzone/${trackId}/${dayId}.vtt`;
       const voiceoverPath = `/assets/audio/refzone/${trackId}/${dayId}.mp3`;
+      const previewVoiceoverPath = `/assets/audio/refzone/${trackId}/${dayId}.aac`;
+      const resolvedVoiceoverPath = publicPathExists(voiceoverPath) ? voiceoverPath : (publicPathExists(previewVoiceoverPath) ? previewVoiceoverPath : voiceoverPath);
       const transcriptPath = `/assets/videos/refzone/${trackId}/${dayId}.json`;
       const voiceoverScript = narrationScriptFor(course, week, day);
       const estimatedDurationSeconds = Math.max(150, Math.min(780, Math.ceil(voiceoverScript.length / 12)));
@@ -183,11 +179,11 @@ for (const course of materials.courses || []) {
         renderer: 'Remotion',
         voiceover: 'ElevenLabs',
         published: publicPathExists(videoPath),
-        voiceoverReady: publicPathExists(voiceoverPath),
+        voiceoverReady: publicPathExists(resolvedVoiceoverPath),
         captionsReady: publicPathExists(captionsPath),
         videoPath,
         captionsPath,
-        voiceoverPath,
+        voiceoverPath: resolvedVoiceoverPath,
         transcriptPath,
         poster,
         visuals: uniqueVisuals,

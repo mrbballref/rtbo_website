@@ -10628,6 +10628,11 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     localStorage.setItem(dashboardSectionStorageKey(user), activeSection);
     const nextHash = `#dashboard/${encodeURIComponent(activeSection)}`;
     if (typeof window !== 'undefined' && window.location.hash !== nextHash) {
+      const currentRoute = routeFromHash(window.location.hash);
+      const currentDashboardSection = currentRoute.startsWith('dashboard')
+        ? decodeRouteSegment(currentRoute.split('/')[1] || '')
+        : '';
+      if (currentDashboardSection === activeSection) return;
       window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${nextHash}`);
     }
   }, [activeSection, user]);
