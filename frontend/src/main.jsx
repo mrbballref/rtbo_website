@@ -2541,6 +2541,18 @@ function Livestream() {
   );
 }
 
+function ReviewRatingDisplay({ rating }) {
+  const value = Math.max(0, Math.min(5, Number(rating) || 0));
+
+  return (
+    <span className="attendee-review-rating-display" aria-label={`${value} out of 5 stars`}>
+      {Array.from({ length: 5 }, (_, index) => (
+        <i className={index < value ? 'active' : ''} aria-hidden="true" key={index}>★</i>
+      ))}
+    </span>
+  );
+}
+
 function Reviews() {
   const [submittedReviews, setSubmittedReviews] = useState(() => {
     try {
@@ -2553,6 +2565,8 @@ function Reviews() {
   const [reviewStatus, setReviewStatus] = useState('');
   const [reviewSubmitting, setReviewSubmitting] = useState(false);
   const [reviewPhotoName, setReviewPhotoName] = useState('');
+  const [reviewRating, setReviewRating] = useState('5');
+  const ratingOptions = ['1', '2', '3', '4', '5'];
 
   async function submitReview(event) {
     event.preventDefault();
@@ -2585,6 +2599,7 @@ function Reviews() {
       localStorage.setItem(RTBO_REVIEW_STORAGE_KEY, JSON.stringify(nextReviews));
       form.reset();
       setReviewPhotoName('');
+      setReviewRating('5');
       setReviewStatus(data.message || 'Thank you. Your review was submitted for RTBO review.');
     } catch (error) {
       setReviewStatus(error.message || 'Your review could not be submitted right now.');
@@ -2632,8 +2647,9 @@ function Reviews() {
                 <article key={review.id}>
                   <div>
                     <strong>{review.name}</strong>
-                    <span>{review.rating} Stars / {review.schoolOrCourse}</span>
+                    <span>{review.schoolOrCourse}</span>
                   </div>
+                  <ReviewRatingDisplay rating={review.rating} />
                   {review.photoName && <small>Picture uploaded: {review.photoName}</small>}
                   <p>{review.review}</p>
                 </article>
@@ -2679,16 +2695,26 @@ function Reviews() {
                 <option>Other</option>
               </select>
             </label>
-            <label>
-              Rating
-              <select name="rating" required defaultValue="5">
-                <option value="5">5 Stars</option>
-                <option value="4">4 Stars</option>
-                <option value="3">3 Stars</option>
-                <option value="2">2 Stars</option>
-                <option value="1">1 Star</option>
-              </select>
-            </label>
+            <fieldset className="attendee-review-rating">
+              <legend>Rating</legend>
+              <div className="attendee-review-star-options" role="radiogroup" aria-label="School experience rating">
+                {ratingOptions.map((rating) => (
+                  <label className={Number(reviewRating) >= Number(rating) ? 'selected' : ''} key={rating}>
+                    <input
+                      type="radio"
+                      name="rating"
+                      value={rating}
+                      checked={reviewRating === rating}
+                      onChange={() => setReviewRating(rating)}
+                      required
+                    />
+                    <span aria-hidden="true">★</span>
+                    <b>{rating}</b>
+                  </label>
+                ))}
+              </div>
+              <p>{reviewRating} star rating selected</p>
+            </fieldset>
           </div>
           <label>
             Review
