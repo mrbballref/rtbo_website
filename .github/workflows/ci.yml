@@ -38,5 +38,8 @@ jobs:
       - name: Build frontend
         run: npm --prefix frontend run build
 
+      - name: Run RefZone course test bank audit
+        run: npm run audit:refzone-tests
+
       - name: Run mandatory responsive, SEO, and optimization audit
         run: npm --prefix frontend run audit

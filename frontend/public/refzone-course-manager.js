@@ -414,6 +414,17 @@
     return data;
   }
 
+  async function apiUpload(endpoint, payload) {
+    const response = await fetch(`${API_URL}${endpoint}`, {
+      method: 'POST',
+      body: payload,
+      credentials: 'include'
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || data.success === false) throw new Error(data.message || 'Upload failed.');
+    return data;
+  }
+
   function render(root, state) {
     const needle = state.query.toLowerCase();
     const visible = state.courses.filter(course => !needle || [course.title, course.path, course.description, course.level, course.status].join(' ').toLowerCase().includes(needle));
@@ -421,6 +432,7 @@
     const weeks = state.courses.reduce((sum, course) => sum + (course.weeks?.length || 0), 0);
     const days = state.courses.reduce((sum, course) => sum + (course.weeks || []).reduce((weekSum, week) => weekSum + (week.days?.length || 0), 0), 0);
     const f = state.form;
+    const courseImage = f.cover || '';
     const selectedCourseId = state.editingId || '';
     const selectedCourse = state.courses.find(course => course.id === selectedCourseId) || null;
     const selectedTest = selectedCourse ? testBankSummary(selectedCourse) : null;
@@ -450,6 +462,17 @@
         <label><span>Status</span><select name="status">${['active', 'draft', 'hidden'].map(item => `<option value="${item}" ${f.status === item ? 'selected' : ''}>${item}</option>`).join('')}</select></label>
         <label class="wide"><span>Degree Path</span><input name="path" value="${escapeHtml(f.path)}" placeholder="Bachelor of Science in Basketball Officiating"></label>
         <label class="wide"><span>Course Cover</span><input name="cover" value="${escapeHtml(f.cover)}" placeholder="/assets/images/refzone/course-covers/njcaa-women.svg"></label>
+        <div class="wide rtbo-education-image-upload">
+          <span>Update Course Image</span>
+          <div class="rtbo-education-image-upload-box">
+            ${courseImage ? `<img class="rtbo-education-image-preview" src="${escapeHtml(courseImage)}" alt="" loading="lazy" decoding="async">` : '<div class="rtbo-education-image-empty">No image selected</div>'}
+            <div>
+              <button class="btn secondary dark-btn" type="button" data-action="choose-cover-image" ${state.saving || state.uploadingImage ? 'disabled' : ''}>${state.uploadingImage ? 'Uploading...' : 'Choose Course Image'}</button>
+              <small>JPG, PNG, or WebP. Save the course after upload to publish the new image.</small>
+            </div>
+            <input class="rtbo-education-image-file" type="file" accept="image/jpeg,image/png,image/webp" data-action="cover-image-input">
+          </div>
+        </div>
         <label class="wide"><span>Course Overview Thumbnail</span><input name="overviewThumbnail" value="${escapeHtml(f.overviewThumbnail)}" placeholder="/assets/images/refzone/course-overviews/nfhs.jpg"></label>
         <label><span>First Module</span><input name="moduleTitle" value="${escapeHtml(f.moduleTitle)}" placeholder="Course Orientation"></label>
         <label><span>First Lesson</span><input name="lessonTitle" value="${escapeHtml(f.lessonTitle)}" placeholder="Course Welcome"></label>
@@ -524,8 +547,39 @@
       editingId: '',
       query: '',
       message: '',
-      saving: false
+      saving: false,
+      uploadingImage: false
     };
+
+    async function uploadCourseImage(file) {
+      if (!file) return;
+      if (!/^image\/(jpeg|png|webp)$/.test(file.type)) {
+        state.message = 'Course image must be a JPG, PNG, or WebP file.';
+        render(root, state);
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        state.message = 'Course image must be 5MB or smaller.';
+        render(root, state);
+        return;
+      }
+      state.form = { ...state.form, ...readForm(root) };
+      state.uploadingImage = true;
+      state.message = 'Uploading course image...';
+      render(root, state);
+      try {
+        const payload = new FormData();
+        payload.append('image', file);
+        const data = await apiUpload('/refzone-course-image-upload.php', payload);
+        state.form = { ...state.form, cover: data.url || state.form.cover };
+        state.message = 'Course image uploaded. Save the course to publish the updated image.';
+      } catch (error) {
+        state.message = error.message;
+      } finally {
+        state.uploadingImage = false;
+        render(root, state);
+      }
+    }
 
     async function saveAll(nextCourses, message) {
       state.saving = true;
@@ -551,6 +605,12 @@
       if (!button) return;
       const action = button.dataset.action;
       const course = state.courses.find(item => item.id === button.dataset.id);
+      if (action === 'choose-cover-image') {
+        event.preventDefault();
+        state.form = { ...state.form, ...readForm(root) };
+        root.querySelector('[data-action="cover-image-input"]')?.click();
+        return;
+      }
       if (action === 'new') {
         state.editingId = '';
         state.form = formFromCourse({ status: 'active' });
@@ -574,6 +634,12 @@
     };
 
     root.onchange = event => {
+      if (event.target.dataset.action === 'cover-image-input') {
+        const file = event.target.files?.[0] || null;
+        event.target.value = '';
+        uploadCourseImage(file);
+        return;
+      }
       if (event.target.dataset.action !== 'course-select') return;
       if (event.target.value === '__new__') {
         state.editingId = '';

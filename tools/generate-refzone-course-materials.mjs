@@ -1074,6 +1074,21 @@ function overviewThumbnailFor(course) {
   return thumbnails[course.id] || `/assets/images/refzone/course-covers/${course.id}.svg`;
 }
 
+function testManifestFor(course, week, day) {
+  const test = day.test || dayTestFor(course, week, day, day.college || collegeMaterialFor(course, week, day), visualForDay(day.title));
+  return {
+    id: test.id,
+    title: test.title,
+    type: test.type,
+    passingScore: test.passingScore,
+    timeLimitMinutes: test.timeLimitMinutes,
+    questionCount: test.questions.length,
+    answerKeyCount: test.answerKey.length,
+    evidencePrompt: test.evidencePrompt,
+    answerKeyPath: `/docs/refzone-university/assessment-evidence/${course.id}-test-answer-key.md#week-${week.week}-day-${day.day}`
+  };
+}
+
 function courseManifest(course) {
   const overview = courseOverviewFor(course);
   const imageBrief = courseImageBriefFor(course);
@@ -1109,6 +1124,7 @@ function courseManifest(course) {
         screenshot: day.screenshot,
         presentation: day.presentation,
         college: day.college,
+        test: testManifestFor(course, week, day),
         sections: day.sections.map(section => ({
           id: section.id,
           title: section.title,

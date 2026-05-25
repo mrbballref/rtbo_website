@@ -52,13 +52,19 @@ Run the source integrity audit from the repo root:
 npm run audit:source
 ```
 
+Run the RefZone course test-bank audit by itself when course materials, tests, answer keys, or the Test Center changes:
+
+```bash
+npm run audit:refzone-tests
+```
+
 Run the full local production gate from the repo root:
 
 ```bash
 npm run audit:production
 ```
 
-The production gate installs frontend dependencies when needed, builds the React app, runs the mandatory RTBO frontend audit, checks production npm dependencies, and runs PHP syntax lint when `php` is available on the machine. To require PHP lint in a PHP-enabled environment, run:
+The production gate installs frontend dependencies when needed, builds the React app, runs the mandatory RefZone test-bank audit, runs the mandatory RTBO frontend audit, checks production npm dependencies, and runs PHP syntax lint when `php` is available on the machine. To require PHP lint in a PHP-enabled environment, run:
 
 ```bash
 RTBO_REQUIRE_PHP_LINT=true npm run audit:production
@@ -67,6 +73,10 @@ RTBO_REQUIRE_PHP_LINT=true npm run audit:production
 ## Mandatory Refresh Routing Rule
 
 Every page and dashboard section must preserve its current URL route on browser refresh. Public pages use hash routes like `#events`; dashboard pages use `#dashboard/overview` and `#dashboard/<section>`. Stored login or dashboard state must never force a different page after refresh. This rule is enforced by both `npm run audit:source` and `npm --prefix frontend run audit`.
+
+## Mandatory RefZone Test Bank Rule
+
+Every RefZone University course, week, and day must expose a test-bank record with 25 questions, a declared 85% passing score, and 25 answer-key entries linked to the command-center answer-key documents. This rule is enforced by `npm run audit:refzone-tests`, `npm run audit:source`, and CI.
 
 ## Production Deployment
 

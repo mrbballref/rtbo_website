@@ -71,6 +71,7 @@ function lintPhpIfAvailable() {
 }
 
 run('Source integrity audit', 'node', ['tools/audit-rtbo-source-integrity.mjs']);
+run('RefZone test bank audit', 'node', ['tools/audit-refzone-test-banks.mjs']);
 maybeInstallFrontendDependencies();
 run('React production build', 'npm', ['run', 'build'], { cwd: frontendRoot });
 run('Mandatory frontend audit', 'npm', ['run', 'audit'], { cwd: frontendRoot });

@@ -741,17 +741,33 @@ function CartProductCard({
   products: productList = products,
   isSaved,
   showCompare,
+  purchaseOption = 'one-time',
   onDecrease,
   onIncrease,
   onBuyNow,
   onAddSimilar,
   onOpenProduct,
+  onSelectPurchaseOption,
   onToggleWishlist
 }) {
   const product = item.product;
   const selectedVariant = [item.size, item.color].filter(Boolean).join(' / ') || 'Standard';
   const memberPrice = Math.round(product.price * 0.9);
   const relatedProducts = similarProducts(product, productList);
+  const purchaseOptions = [
+    {
+      id: 'one-time',
+      title: 'One-time purchase',
+      price: money(product.price),
+      detail: 'Pay once for this item today.'
+    },
+    {
+      id: 'subscribe',
+      title: 'Subscribe & Save',
+      price: money(memberPrice),
+      detail: 'Recurring delivery option with estimated 10% savings.'
+    }
+  ];
 
   return (
     <article className="rtbo-shop-cart-line">
@@ -794,18 +810,27 @@ function CartProductCard({
 
         <div className="rtbo-shop-cart-buy-method">
           <span>Ways to buy:</span>
-          <strong>One-time purchase</strong>
+          <strong>{purchaseOption === 'subscribe' ? 'Subscribe & Save' : 'One-time purchase'}</strong>
         </div>
 
         <div className="rtbo-shop-cart-purchase-options" aria-label={`${product.name} purchase options`}>
-          <button className="is-selected" type="button">
-            <strong>One-time purchase</strong>
-            <span>{money(product.price)}</span>
-          </button>
-          <button type="button">
-            <strong>Subscribe & Save</strong>
-            <span>{money(memberPrice)}</span>
-          </button>
+          {purchaseOptions.map(option => (
+            <button
+              className={purchaseOption === option.id ? 'is-selected' : ''}
+              type="button"
+              key={option.id}
+              aria-pressed={purchaseOption === option.id}
+              onClick={() => onSelectPurchaseOption?.(item.key, option.id)}
+            >
+              <span className="rtbo-shop-cart-purchase-radio" aria-hidden="true" />
+              <span className="rtbo-shop-cart-purchase-copy">
+                <strong>{option.title}</strong>
+                <small>{option.detail}</small>
+              </span>
+              <b>{option.price}</b>
+              {purchaseOption === option.id && <em>Selected</em>}
+            </button>
+          ))}
         </div>
 
         <div className="rtbo-shop-cart-price-row">
@@ -1101,6 +1126,7 @@ function CartPage({
             <header className="rtbo-shop-cart-page-head">
               <div>
                 <h3>Shopping Cart</h3>
+                <p className="rtbo-shop-cart-selection-note">Checked items are included when you proceed to checkout.</p>
                 <button type="button" onClick={onToggleAll}>{allCartSelected ? 'Deselect all items' : 'Select all items'}</button>
               </div>
               <span>Price</span>
@@ -1108,12 +1134,14 @@ function CartPage({
             {cartStatus ? <p className="rtbo-shop-cart-page-status">{cartStatus}</p> : null}
             {cartLines.length ? cartLines.map(item => (
               <article className="rtbo-shop-cart-page-row" key={item.key}>
-                <input
-                  type="checkbox"
-                  checked={selectedCartKeys.includes(item.key)}
-                  onChange={event => onToggleItemSelected(item.key, event.target.checked)}
-                  aria-label={`Select ${item.product.name}`}
-                />
+                <label className="rtbo-shop-cart-page-select">
+                  <input
+                    type="checkbox"
+                    checked={selectedCartKeys.includes(item.key)}
+                    onChange={event => onToggleItemSelected(item.key, event.target.checked)}
+                  />
+                  <span>Select item for checkout</span>
+                </label>
                 <button className="rtbo-shop-cart-page-image" type="button" onClick={() => onOpenProduct(item.product)}>
                   <img src={item.product.image} alt={item.product.name} loading="lazy" decoding="async" />
                 </button>
@@ -1452,6 +1480,7 @@ export default function ShopStore() {
   const [listNameDraft, setListNameDraft] = useState(() => readStoredWishlistName() || 'Wish list');
   const [listNameError, setListNameError] = useState('');
   const [selectedCartKeys, setSelectedCartKeys] = useState([]);
+  const [cartPurchaseOptions, setCartPurchaseOptions] = useState({});
   const [cartGiftOptions, setCartGiftOptions] = useState({});
   const [cartStatus, setCartStatus] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(initialProduct);
@@ -1790,6 +1819,11 @@ export default function ShopStore() {
 
   function selectPaymentPlan() {
     setCartStatus('Payment plan selected for checkout review.');
+  }
+
+  function selectCartPurchaseOption(key, option) {
+    setCartPurchaseOptions(current => ({ ...current, [key]: option }));
+    setCartStatus(option === 'subscribe' ? 'Subscribe & Save selected for this cart item.' : 'One-time purchase selected for this cart item.');
   }
 
   function proceedFromCart() {
@@ -2230,11 +2264,13 @@ export default function ShopStore() {
 	                isSaved={wishlist.includes(item.sku)}
 	                products={products}
 	                showCompare={index === 0}
+                  purchaseOption={cartPurchaseOptions[item.key] || 'one-time'}
 	                onDecrease={() => updateQuantity(item.key, -1)}
 	                onIncrease={() => updateQuantity(item.key, 1)}
 	                onBuyNow={() => buyCartLineNow(item.key)}
 	                onAddSimilar={product => addToCart(product, { size: product.sizes[0] || '', color: product.colors[0] || '' })}
 	                onOpenProduct={(product = item.product) => openProduct(product)}
+                  onSelectPurchaseOption={selectCartPurchaseOption}
 	                onToggleWishlist={() => handleWishlistToggle(item.sku)}
 	              />
 	            )) : <p className="rtbo-shop-empty">Your cart is ready for official gear.</p>}
