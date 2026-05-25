@@ -3040,6 +3040,61 @@ button.rtbo-shop-list-option {
   -webkit-text-fill-color: var(--rtbo-cart-accent);
 }
 
+:root:not([data-theme="light"]) .rtbo-shop-checkout:not(.is-open) .rtbo-shop-checkout-panel,
+:root:not([data-theme="light"]) .rtbo-shop-checkout.is-open.is-closing .rtbo-shop-checkout-panel,
+:root:not([data-theme="light"]) .rtbo-shop-checkout:not(.is-open) .rtbo-shop-cart-line,
+:root:not([data-theme="light"]) .rtbo-shop-checkout.is-open.is-closing .rtbo-shop-cart-line {
+  background: var(--rtbo-cart-panel-image), var(--rtbo-cart-panel-bg);
+  border-color: var(--rtbo-cart-border);
+  color: var(--rtbo-cart-text);
+}
+
+:root:not([data-theme="light"]) .rtbo-shop-checkout:not(.is-open) :where(.rtbo-shop-cart-rail-head, .rtbo-shop-cart-compact, .rtbo-shop-cart-compact-price, strong, span),
+:root:not([data-theme="light"]) .rtbo-shop-checkout.is-open.is-closing :where(.rtbo-shop-cart-rail-head, .rtbo-shop-cart-compact, .rtbo-shop-cart-compact-price, strong, span) {
+  color: var(--rtbo-cart-text);
+  -webkit-text-fill-color: var(--rtbo-cart-text);
+}
+
+:root:not([data-theme="light"]) .rtbo-shop-checkout:not(.is-open) .rtbo-shop-cart-rail-head,
+:root:not([data-theme="light"]) .rtbo-shop-checkout.is-open.is-closing .rtbo-shop-cart-rail-head,
+:root:not([data-theme="light"]) .rtbo-shop-checkout:not(.is-open) .rtbo-shop-cart-rail-qty,
+:root:not([data-theme="light"]) .rtbo-shop-checkout.is-open.is-closing .rtbo-shop-cart-rail-qty {
+  background: var(--rtbo-cart-soft-bg);
+  border-color: var(--rtbo-cart-border);
+  color: var(--rtbo-cart-text);
+}
+
+:root:not([data-theme="light"]) .rtbo-shop-checkout:not(.is-open) .rtbo-shop-cart-rail-head strong,
+:root:not([data-theme="light"]) .rtbo-shop-checkout.is-open.is-closing .rtbo-shop-cart-rail-head strong,
+:root:not([data-theme="light"]) .rtbo-shop-checkout:not(.is-open) .rtbo-shop-cart-compact-price,
+:root:not([data-theme="light"]) .rtbo-shop-checkout.is-open.is-closing .rtbo-shop-cart-compact-price {
+  color: var(--rtbo-cart-price);
+  -webkit-text-fill-color: var(--rtbo-cart-price);
+}
+
+:root:not([data-theme="light"]) .rtbo-shop-checkout:not(.is-open) .rtbo-shop-cart-rail-head .btn,
+:root:not([data-theme="light"]) .rtbo-shop-checkout.is-open.is-closing .rtbo-shop-cart-rail-head .btn,
+:root:not([data-theme="light"]) .rtbo-shop-checkout:not(.is-open) .rtbo-shop-cart-rail-qty button,
+:root:not([data-theme="light"]) .rtbo-shop-checkout.is-open.is-closing .rtbo-shop-cart-rail-qty button {
+  background: var(--rtbo-cart-elevated-bg);
+  border-color: var(--rtbo-cart-border);
+  color: var(--rtbo-cart-text);
+}
+
+:root:not([data-theme="light"]) .rtbo-shop-checkout:not(.is-open) .rtbo-shop-cart-thumb,
+:root:not([data-theme="light"]) .rtbo-shop-checkout:not(.is-open) .rtbo-shop-cart-thumb img,
+:root:not([data-theme="light"]) .rtbo-shop-checkout.is-open.is-closing .rtbo-shop-cart-thumb,
+:root:not([data-theme="light"]) .rtbo-shop-checkout.is-open.is-closing .rtbo-shop-cart-thumb img {
+  background: var(--rtbo-cart-media-bg);
+  border-color: var(--rtbo-cart-border);
+}
+
+:root:not([data-theme="light"]) .rtbo-shop-checkout:not(.is-open) .rtbo-shop-cart-rail-qty span,
+:root:not([data-theme="light"]) .rtbo-shop-checkout.is-open.is-closing .rtbo-shop-cart-rail-qty span {
+  color: var(--rtbo-cart-text);
+  -webkit-text-fill-color: var(--rtbo-cart-text);
+}
+
 @media (max-width: 1536px) {
   .rtbo-shop-layout,
   .rtbo-shop-content-grid {
