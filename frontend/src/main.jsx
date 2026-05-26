@@ -284,6 +284,11 @@ function readStoredDashboardSection(user, allowedSections, fallback) {
   }
 }
 
+function dashboardHashForUser(user, preferredSection = '') {
+  const section = preferredSection || readDashboardHashSection() || safeLocalStorageGet(dashboardSectionStorageKey(user)) || '';
+  return `#dashboard${section ? `/${encodeURIComponent(section)}` : ''}`;
+}
+
 function readPasswordResetToken() {
   try {
     return new URLSearchParams(window.location.search).get('reset_token') || '';
@@ -13977,6 +13982,18 @@ function App() {
   }, [authUser, dashboardOpen]);
 
   useEffect(() => {
+    if (!isDashboardRouteHash(window.location.hash)) return;
+    if (authUser) {
+      setDashboardOpen(true);
+      localStorage.setItem(RTBO_DASHBOARD_OPEN_KEY, 'true');
+      return;
+    }
+    setDashboardOpen(false);
+    setPostLoginTarget('dashboard');
+    setAccountModal(current => current || 'login');
+  }, [authUser]);
+
+  useEffect(() => {
     let isActive = true;
     if (!authUser) {
       setRefZoneAccess(emptyRefZoneAccess);
@@ -14039,6 +14056,8 @@ function App() {
           localStorage.setItem(RTBO_DASHBOARD_OPEN_KEY, 'true');
           return;
         }
+        setPostLoginTarget('dashboard');
+        setAccountModal(current => current || 'login');
       }
       setDashboardOpen(false);
       setActive(readRoute());
@@ -14069,16 +14088,15 @@ function App() {
 
   function openDashboard() {
     if (!authUser) {
-      openLogin();
+      setPostLoginTarget('dashboard');
+      setAccountModal('login');
       return;
     }
 
     localStorage.setItem(RTBO_DASHBOARD_OPEN_KEY, 'true');
     setDashboardOpen(true);
     if (!isDashboardRouteHash(window.location.hash)) {
-      const savedSection = localStorage.getItem(dashboardSectionStorageKey(authUser)) || '';
-      const nextSection = savedSection ? `/${encodeURIComponent(savedSection)}` : '';
-      window.location.hash = `#dashboard${nextSection}`;
+      window.location.hash = dashboardHashForUser(authUser);
     }
   }
 
@@ -14105,9 +14123,14 @@ function App() {
       setPostLoginTarget(null);
       localStorage.setItem(RTBO_DASHBOARD_OPEN_KEY, 'true');
       setDashboardOpen(true);
-      const savedSection = localStorage.getItem(dashboardSectionStorageKey(user)) || '';
-      const nextSection = savedSection ? `/${encodeURIComponent(savedSection)}` : '';
-      window.location.hash = `#dashboard${nextSection}`;
+      window.location.hash = dashboardHashForUser(user);
+      return;
+    }
+    if (postLoginTarget === 'dashboard') {
+      setPostLoginTarget(null);
+      localStorage.setItem(RTBO_DASHBOARD_OPEN_KEY, 'true');
+      setDashboardOpen(true);
+      window.location.hash = dashboardHashForUser(user);
       return;
     }
     if (postLoginTarget === 'register') {
