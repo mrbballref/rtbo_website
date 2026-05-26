@@ -613,14 +613,18 @@ function SidebarIcon({ id }) {
 function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onOpenRegister, navLinks = navItems }) {
   const [open, setOpen] = useState(false);
   const [trainingOpen, setTrainingOpen] = useState(false);
-  const trainingNavLinks = navLinks.filter(([id]) => id === 'trainers' || id === 'refroom' || id === 'education');
+  const [liveStreamOpen, setLiveStreamOpen] = useState(false);
+  const liveStreamNavLinks = navLinks.filter(([id]) => id === 'livestream' || id === 'refroom');
+  const trainingNavLinks = navLinks.filter(([id]) => id === 'trainers' || id === 'education');
   const primaryNavLinks = navLinks.filter(([id]) => id !== 'refroom' && id !== 'education');
+  const liveStreamActive = liveStreamNavLinks.some(([id]) => id === active);
   const trainingActive = trainingNavLinks.some(([id]) => id === active);
 
   function openNavPage(id) {
     setActive(id);
     setOpen(false);
     setTrainingOpen(false);
+    setLiveStreamOpen(false);
   }
 
   return (
@@ -642,23 +646,49 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
         aria-label={open ? 'Close menu panel' : 'Open navigation menu'}
         aria-expanded={open}
         onClick={() => setOpen((current) => {
-          if (current) setTrainingOpen(false);
+          if (current) {
+            setTrainingOpen(false);
+            setLiveStreamOpen(false);
+          }
           return !current;
         })}
       >
         <span className="nav-menu-icon" aria-hidden="true"></span><span>Menu</span>
       </button>
-      <button className={`nav-flyout-scrim ${open ? 'is-open' : ''}`} type="button" aria-label="Close navigation menu" onClick={() => { setOpen(false); setTrainingOpen(false); }}></button>
+      <button className={`nav-flyout-scrim ${open ? 'is-open' : ''}`} type="button" aria-label="Close navigation menu" onClick={() => { setOpen(false); setTrainingOpen(false); setLiveStreamOpen(false); }}></button>
       <nav className={`site-nav ${open ? 'is-open' : ''}`}>
         <div className="nav-link-group">
-          {primaryNavLinks.map(([id, label]) => id === 'trainers' ? (
+          {primaryNavLinks.map(([id, label]) => id === 'livestream' ? (
+            <div className={`nav-dropdown ${liveStreamOpen ? 'is-open' : ''}`} key={id}>
+              <button
+                className={`nav-dropdown-trigger ${liveStreamActive ? 'active' : ''}`}
+                type="button"
+                aria-expanded={liveStreamOpen}
+                aria-haspopup="true"
+                onClick={() => {
+                  setLiveStreamOpen(current => !current);
+                  setTrainingOpen(false);
+                }}
+              >
+                {label}<span className="nav-dropdown-caret" aria-hidden="true"></span>
+              </button>
+              <div className="nav-dropdown-menu" aria-label="Live stream navigation">
+                {liveStreamNavLinks.map(([childId, childLabel]) => (
+                  <button className={active === childId ? 'active' : ''} key={childId} type="button" onClick={() => openNavPage(childId)}>{childLabel}</button>
+                ))}
+              </div>
+            </div>
+          ) : id === 'trainers' ? (
             <div className={`nav-dropdown ${trainingOpen ? 'is-open' : ''}`} key={id}>
               <button
                 className={`nav-dropdown-trigger ${trainingActive ? 'active' : ''}`}
                 type="button"
                 aria-expanded={trainingOpen}
                 aria-haspopup="true"
-                onClick={() => setTrainingOpen(current => !current)}
+                onClick={() => {
+                  setTrainingOpen(current => !current);
+                  setLiveStreamOpen(false);
+                }}
               >
                 {label}<span className="nav-dropdown-caret" aria-hidden="true"></span>
               </button>
@@ -672,8 +702,8 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
         </div>
         <div className="nav-action-group">
           <button className="btn secondary dark-btn nav-chrome-btn" type="button" onClick={() => openNavPage('contact')}>Let's Talk</button>
-          <button className="btn nav-chrome-btn" type="button" onClick={() => { onOpenRegister(); setOpen(false); setTrainingOpen(false); }}>Register</button>
-          <button className="btn secondary dark-btn" type="button" onClick={() => { authUser ? onOpenDashboard() : onOpenLogin(); setOpen(false); setTrainingOpen(false); }}>{authUser ? 'Dashboard' : 'Sign In'}</button>
+          <button className="btn nav-chrome-btn" type="button" onClick={() => { onOpenRegister(); setOpen(false); setTrainingOpen(false); setLiveStreamOpen(false); }}>Register</button>
+          <button className="btn secondary dark-btn" type="button" onClick={() => { authUser ? onOpenDashboard() : onOpenLogin(); setOpen(false); setTrainingOpen(false); setLiveStreamOpen(false); }}>{authUser ? 'Dashboard' : 'Sign In'}</button>
           <ThemeToggle className="nav-theme-toggle" />
         </div>
       </nav>
