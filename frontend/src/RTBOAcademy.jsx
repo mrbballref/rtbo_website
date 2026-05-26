@@ -1577,6 +1577,7 @@ function CourseVideoPlayer({
   const [theaterMode, setTheaterMode] = useState(false);
   const [miniMode, setMiniMode] = useState(false);
   const [videoFailed, setVideoFailed] = useState(false);
+  const [videoFrameReady, setVideoFrameReady] = useState(false);
   const [audioFailed, setAudioFailed] = useState(false);
   const script = useMemo(() => courseNarrationScript(track, week, day, material, videoJob), [day, material, track, videoJob, week]);
   const visuals = useMemo(() => courseLessonVisuals(track, week, day, visual, videoJob), [day, track, videoJob, visual, week]);
@@ -1616,6 +1617,7 @@ function CourseVideoPlayer({
     setSettingsOpen(false);
     setMiniMode(false);
     setVideoFailed(false);
+    setVideoFrameReady(false);
     setAudioFailed(false);
   }, [day?.id, publishedVideoSource, voiceoverSource]);
 
@@ -1654,6 +1656,15 @@ function CourseVideoPlayer({
     setDurationSeconds(duration);
     setCurrentSeconds(media.currentTime || 0);
     syncNativeCaptionTracks(media);
+  }
+
+  function markPublishedVideoReady(media) {
+    updateMediaProgress(media);
+    if (media?.requestVideoFrameCallback) {
+      media.requestVideoFrameCallback(() => setVideoFrameReady(true));
+      return;
+    }
+    setVideoFrameReady(true);
   }
 
   function stopGeneratedPreview() {
@@ -1792,8 +1803,19 @@ function CourseVideoPlayer({
     if (media) {
       try {
         await media.play();
+        if (hasPublishedVideo && media.readyState >= 2) markPublishedVideoReady(media);
+        if (hasPublishedVideo && media.readyState < 2) {
+          window.setTimeout(() => {
+            if (videoRef.current === media && media.readyState < 2 && !media.error) {
+              onStatus('Course video is loading. Animated lesson visuals remain visible until the first video frame is ready.');
+            }
+          }, 1200);
+        }
       } catch {
-        if (hasPublishedVideo) setVideoFailed(true);
+        if (hasPublishedVideo) {
+          setVideoFrameReady(false);
+          setVideoFailed(true);
+        }
         if (hasVoiceoverAudio) setAudioFailed(true);
         startGeneratedFallback(currentSeconds, 'The published media could not start, so the generated lesson preview is active.');
       }
@@ -1908,6 +1930,52 @@ function CourseVideoPlayer({
     setMiniMode(current => !current);
   }
 
+  const showGeneratedStage = !hasPublishedVideo || !videoFrameReady;
+  const generatedStage = (
+    <div
+      className={`rtbo-course-generated-stage ${playing ? 'is-playing' : ''} ${hasPublishedVideo ? 'is-published-backdrop' : ''}`.trim()}
+      style={{ '--rtbo-course-scene-progress': `${progress}%` }}
+    >
+      {!hasPublishedVideo && hasVoiceoverAudio && (
+        <audio
+          key={voiceoverSource}
+          className="rtbo-course-video-audio"
+          ref={audioRef}
+          preload="metadata"
+          onLoadedMetadata={(event) => updateMediaProgress(event.currentTarget)}
+          onTimeUpdate={(event) => updateMediaProgress(event.currentTarget)}
+          onPlay={() => setPlaying(true)}
+          onPause={() => setPlaying(false)}
+          onEnded={() => setPlaying(false)}
+          onError={() => {
+            setAudioFailed(true);
+            if (playing) startGeneratedFallback(currentSeconds, 'Production voiceover was not reachable, so the spoken preview audio is active.');
+            else onStatus('Production voiceover was not reachable. Render the ElevenLabs audio again from the RefZone video pipeline.');
+          }}
+        >
+          <source src={voiceoverSource} type={courseAudioMimeType(voiceoverSource)} />
+          {videoJob?.captionsPath && <track src={mediaSourceFor(videoJob.captionsPath)} kind="captions" srcLang="en" label="English" />}
+        </audio>
+      )}
+      <div className="rtbo-course-generated-reel" aria-hidden="true">
+        {generatedScenes.map((scene, index) => (
+          <figure
+            className={`rtbo-course-generated-scene ${index === activeSceneIndex ? 'is-active' : ''}`.trim()}
+            key={scene.id}
+          >
+            {scene.visual && <img src={scene.visual} alt="" loading={index === activeSceneIndex ? 'eager' : 'lazy'} decoding="async" />}
+          </figure>
+        ))}
+      </div>
+      <div className="rtbo-course-generated-motion" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </div>
+      <p className="sr-only">{activeScene.title || activeVisual.title}</p>
+    </div>
+  );
+
   return (
     <section
       className={`rtbo-course-video-player ${theaterMode ? 'is-theater-mode' : ''} ${miniMode ? 'is-mini-mode' : ''}`.trim()}
@@ -1929,68 +1997,39 @@ function CourseVideoPlayer({
       </header>
 
       <div className="rtbo-course-video-viewport">
-        {hasPublishedVideo ? (
+        {showGeneratedStage && generatedStage}
+        {hasPublishedVideo && (
           <video
             key={publishedVideoSource}
+            className={videoFrameReady ? 'is-frame-ready' : 'is-frame-loading'}
             ref={videoRef}
             playsInline
-            preload="metadata"
+            preload="auto"
             poster={activeVisual.src}
             onLoadedMetadata={(event) => updateMediaProgress(event.currentTarget)}
+            onLoadedData={(event) => markPublishedVideoReady(event.currentTarget)}
+            onCanPlay={(event) => markPublishedVideoReady(event.currentTarget)}
             onTimeUpdate={(event) => updateMediaProgress(event.currentTarget)}
             onPlay={() => setPlaying(true)}
+            onPlaying={(event) => {
+              setPlaying(true);
+              markPublishedVideoReady(event.currentTarget);
+            }}
+            onWaiting={() => onStatus('Course video is buffering. Animated lesson visuals remain visible until video playback resumes.')}
+            onStalled={() => onStatus('Course video stalled while loading from the local server.')}
             onPause={() => setPlaying(false)}
             onEnded={() => setPlaying(false)}
             onError={() => {
+              setVideoFrameReady(false);
               setVideoFailed(true);
               if (playing) startGeneratedFallback(currentSeconds, 'Published course video was not reachable, so the generated lesson video is active.');
               else onStatus('Published course video was not reachable, so the generated lesson video is active.');
             }}
           >
-            <source src={publishedVideoSource} />
+            <source src={publishedVideoSource} type="video/mp4" />
             {videoJob?.captionsPath && <track src={mediaSourceFor(videoJob.captionsPath)} kind="captions" srcLang="en" label="English" />}
             Your browser does not support this course video.
           </video>
-        ) : (
-          <div className={`rtbo-course-generated-stage ${playing ? 'is-playing' : ''}`} style={{ '--rtbo-course-scene-progress': `${progress}%` }}>
-            {hasVoiceoverAudio && (
-              <audio
-                key={voiceoverSource}
-                className="rtbo-course-video-audio"
-                ref={audioRef}
-                preload="metadata"
-                onLoadedMetadata={(event) => updateMediaProgress(event.currentTarget)}
-                onTimeUpdate={(event) => updateMediaProgress(event.currentTarget)}
-                onPlay={() => setPlaying(true)}
-                onPause={() => setPlaying(false)}
-                onEnded={() => setPlaying(false)}
-                onError={() => {
-                  setAudioFailed(true);
-                  if (playing) startGeneratedFallback(currentSeconds, 'Production voiceover was not reachable, so the spoken preview audio is active.');
-                  else onStatus('Production voiceover was not reachable. Render the ElevenLabs audio again from the RefZone video pipeline.');
-                }}
-              >
-                <source src={voiceoverSource} type={courseAudioMimeType(voiceoverSource)} />
-                {videoJob?.captionsPath && <track src={mediaSourceFor(videoJob.captionsPath)} kind="captions" srcLang="en" label="English" />}
-              </audio>
-            )}
-            <div className="rtbo-course-generated-reel" aria-hidden="true">
-              {generatedScenes.map((scene, index) => (
-                <figure
-                  className={`rtbo-course-generated-scene ${index === activeSceneIndex ? 'is-active' : ''}`.trim()}
-                  key={scene.id}
-                >
-                  {scene.visual && <img src={scene.visual} alt="" loading={index === activeSceneIndex ? 'eager' : 'lazy'} decoding="async" />}
-                </figure>
-              ))}
-            </div>
-            <div className="rtbo-course-generated-motion" aria-hidden="true">
-              <span />
-              <span />
-              <span />
-            </div>
-            <p className="sr-only">{activeScene.title || activeVisual.title}</p>
-          </div>
         )}
         {!playing && (
           <button type="button" className="rtbo-course-video-play" onClick={togglePlayer} aria-label="Play course video">
