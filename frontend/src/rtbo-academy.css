@@ -1174,6 +1174,31 @@
   background: #050505;
 }
 
+.rtbo-academy-section-video-list {
+  display: grid;
+  gap: 8px;
+}
+
+.rtbo-academy-section-video-list a {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) max-content;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--academy-button-border);
+  border-radius: 8px;
+  padding: 8px;
+  text-decoration: none;
+  background: var(--academy-button-bg);
+}
+
+.rtbo-academy-section-video-list img {
+  width: 72px;
+  aspect-ratio: 16 / 9;
+  border-radius: 6px;
+  object-fit: cover;
+  background: #050505;
+}
+
 .rtbo-academy-test-rule-card {
   grid-template-columns: minmax(0, 1fr) max-content;
   align-items: center;
@@ -3207,5 +3232,13 @@
 
   .rtbo-coursera-assessment-actions {
     justify-content: stretch;
+  }
+
+  .rtbo-academy-section-video-list a {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+
+  .rtbo-academy-section-video-list small {
+    grid-column: 2;
   }
 }

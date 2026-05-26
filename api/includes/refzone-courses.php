@@ -203,6 +203,49 @@ function rtbo_refzone_test_bank(mixed $test): array
     ];
 }
 
+function rtbo_refzone_video_asset(mixed $video, int $index = 0): ?array
+{
+    if (!is_array($video)) {
+        $video = ['url' => $video];
+    }
+
+    $url = rtbo_refzone_text(
+        $video['url'] ?? $video['href'] ?? $video['src'] ?? $video['path'] ?? $video['video'] ?? $video['videoUrl'] ?? $video['video_url'] ?? '',
+        900
+    );
+    if ($url === '') {
+        return null;
+    }
+
+    $title = rtbo_refzone_text($video['title'] ?? $video['name'] ?? ('Section Video ' . ($index + 1)), 220);
+
+    return [
+        'id' => rtbo_refzone_slug($video['id'] ?? $title, 'section-video-' . $index),
+        'title' => $title !== '' ? $title : ('Section Video ' . ($index + 1)),
+        'url' => $url,
+        'thumbnail' => rtbo_refzone_text($video['thumbnail'] ?? $video['poster'] ?? $video['image'] ?? '', 900),
+        'duration' => rtbo_refzone_text($video['duration'] ?? $video['durationLabel'] ?? $video['duration_label'] ?? '', 80),
+        'type' => rtbo_refzone_text($video['type'] ?? $video['mime'] ?? 'video/mp4', 120),
+    ];
+}
+
+function rtbo_refzone_video_assets(mixed $videos, int $maxItems = 24): array
+{
+    if (!is_array($videos)) {
+        return [];
+    }
+
+    $items = [];
+    foreach (array_slice($videos, 0, $maxItems) as $index => $video) {
+        $normalized = rtbo_refzone_video_asset($video, (int) $index);
+        if ($normalized !== null) {
+            $items[] = $normalized;
+        }
+    }
+
+    return $items;
+}
+
 function rtbo_refzone_section(array $section, int $index = 0): array
 {
     $title = rtbo_refzone_text($section['title'] ?? ('Line Item ' . ($index + 1)), 180);
@@ -216,6 +259,7 @@ function rtbo_refzone_section(array $section, int $index = 0): array
         'screenshot' => rtbo_refzone_text($section['screenshot'] ?? '', 500),
         'presentation' => rtbo_refzone_text($section['presentation'] ?? '', 500),
         'collegeRole' => rtbo_refzone_text($section['collegeRole'] ?? $section['college_role'] ?? '', 500),
+        'videos' => rtbo_refzone_video_assets($section['videos'] ?? []),
     ];
 }
 
@@ -238,6 +282,8 @@ function rtbo_refzone_day(array $day, int $index = 0): array
         'visual' => rtbo_refzone_text($day['visual'] ?? '', 500),
         'screenshot' => rtbo_refzone_text($day['screenshot'] ?? '', 500),
         'presentation' => rtbo_refzone_text($day['presentation'] ?? '', 500),
+        'videoUrl' => rtbo_refzone_text($day['videoUrl'] ?? $day['video_url'] ?? $day['video'] ?? '', 900),
+        'videos' => rtbo_refzone_video_assets($day['videos'] ?? []),
         'sections' => $sections,
     ];
 

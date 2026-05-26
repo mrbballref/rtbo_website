@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import './education-workspace.css';
 
+const COURSE_MANAGER_ASSET_VERSION = '2026-05-25-video-uploads';
+
 function EducationLanding({
   canUseAdminDashboard = false,
   onOpenAcademy = () => {},
@@ -17,16 +19,21 @@ function EducationLanding({
       window.rtboMountRefZoneCourseManager(managerRef.current);
     }
 
-    if (window.rtboMountRefZoneCourseManager) {
+    if (
+      window.rtboMountRefZoneCourseManager
+      && window.rtboRefZoneCourseManagerVersion === COURSE_MANAGER_ASSET_VERSION
+    ) {
       mountManager();
       return () => {
         cancelled = true;
       };
     }
 
+    document.querySelectorAll('script[data-rtbo-refzone-course-manager]').forEach(node => node.remove());
     const script = document.createElement('script');
-    script.src = '/refzone-course-manager.js';
+    script.src = `/refzone-course-manager.js?v=${COURSE_MANAGER_ASSET_VERSION}`;
     script.async = true;
+    script.dataset.rtboRefzoneCourseManager = COURSE_MANAGER_ASSET_VERSION;
     script.onload = mountManager;
     document.head.appendChild(script);
 

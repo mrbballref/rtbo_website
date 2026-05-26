@@ -2,6 +2,7 @@
   const API_URL = '/api';
   const KEY = 'rtbo-refzone-managed-courses';
   const EVENT = 'rtbo-refzone-courses-updated';
+  const ASSET_VERSION = '2026-05-25-video-uploads';
   const COURSE_OVERVIEW_THUMBNAILS = {
     nfhs: '/assets/images/refzone/course-overviews/nfhs.jpg',
     'njcaa-women': '/assets/images/refzone/course-overviews/njcaa-women.jpg',
@@ -27,10 +28,17 @@
     ['reflection', 'Reflection']
   ];
 
-  if (!document.querySelector('link[href="/refzone-course-manager.css"]')) {
+  window.rtboRefZoneCourseManagerVersion = ASSET_VERSION;
+
+  const cssHref = `/refzone-course-manager.css?v=${ASSET_VERSION}`;
+  const existingCss = document.querySelector('link[data-rtbo-refzone-course-manager-css]');
+  if (existingCss) {
+    existingCss.href = cssHref;
+  } else {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = '/refzone-course-manager.css';
+    link.href = cssHref;
+    link.dataset.rtboRefzoneCourseManagerCss = ASSET_VERSION;
     document.head.appendChild(link);
   }
 
@@ -55,6 +63,154 @@
 
   function lines(value) {
     return String(value || '').split(/\n+/).map(item => item.trim()).filter(Boolean);
+  }
+
+  function looksLikeMediaUrl(value = '') {
+    return /^(https?:|\/|assets\/|videos\/|frontend\/public\/assets\/videos\/)/i.test(String(value || '').trim());
+  }
+
+  function normalizeVideoItem(item = {}, index = 0) {
+    const raw = item && typeof item === 'object' ? item : { url: item };
+    const url = String(raw.url || raw.href || raw.src || raw.path || raw.video || raw.videoUrl || raw.video_url || '').trim();
+    if (!url) return null;
+    const title = String(raw.title || raw.name || `Section Video ${index + 1}`).trim();
+    const thumbnail = String(raw.thumbnail || raw.poster || raw.image || '').trim();
+    const duration = String(raw.duration || raw.durationLabel || raw.duration_label || '').trim();
+    const type = String(raw.type || raw.mime || 'video/mp4').trim();
+    return {
+      id: slug(raw.id || title || `section-video-${index + 1}`),
+      title,
+      url,
+      thumbnail,
+      duration,
+      type
+    };
+  }
+
+  function normalizeVideoList(items = []) {
+    return (Array.isArray(items) ? items : []).map(normalizeVideoItem).filter(Boolean);
+  }
+
+  function splitVideoLine(line = '') {
+    if (line.includes('|')) return line.split('|').map(item => item.trim());
+    if (line.includes('\t')) return line.split('\t').map(item => item.trim());
+    return line.split(',').map(item => item.trim());
+  }
+
+  function parseSectionVideoLines(value = '') {
+    return String(value || '').split(/\n+/).map(item => item.trim()).filter(Boolean).map((line, index) => {
+      const parts = splitVideoLine(line);
+      let week = '1';
+      let day = '1';
+      let section = '1';
+      let title = `Section Video ${index + 1}`;
+      let url = '';
+      let thumbnail = '';
+      let duration = '';
+      let type = 'video/mp4';
+
+      if (parts.length >= 5) {
+        [week, day, section, title, url, thumbnail = '', duration = '', type = 'video/mp4'] = parts;
+      } else if (parts.length === 4) {
+        [section, title, url, thumbnail = ''] = parts;
+      } else if (parts.length === 3) {
+        [title, url, thumbnail = ''] = parts;
+      } else if (parts.length === 2 && looksLikeMediaUrl(parts[1])) {
+        [title, url] = parts;
+      } else {
+        url = parts[0] || '';
+        title = parts[1] || title;
+      }
+
+      const video = normalizeVideoItem({ title, url, thumbnail, duration, type }, index);
+      if (!video) return null;
+      return {
+        week: String(week || '1').trim(),
+        day: String(day || '1').trim(),
+        section: String(section || '1').trim(),
+        video
+      };
+    }).filter(Boolean);
+  }
+
+  function appendUploadedVideosToForm(form = {}, videos = []) {
+    const week = String(form.videoUploadWeek || '1').trim() || '1';
+    const day = String(form.videoUploadDay || '1').trim() || '1';
+    const section = String(form.videoUploadSection || '1').trim() || '1';
+    const rows = normalizeVideoList(videos).map(video => [
+      week,
+      day,
+      section,
+      video.title,
+      video.url,
+      video.thumbnail || '',
+      video.duration || '',
+      video.type || 'video/mp4'
+    ].join(' | '));
+    return {
+      ...form,
+      sectionVideos: [form.sectionVideos, ...rows].filter(Boolean).join('\n')
+    };
+  }
+
+  function videoTargetMatches(target = '', actualNumber = 1, id = '', title = '', index = 0) {
+    const value = String(target || '').trim().toLowerCase();
+    if (!value || value === '*' || value === 'all') return true;
+    if (/^\d+$/.test(value)) return Number(value) === Number(actualNumber || index + 1);
+    return value === slug(id || '') || value === slug(title || '');
+  }
+
+  function videosForCoursePart(entries = [], week = {}, weekIndex = 0, day = {}, dayIndex = 0, section = {}, sectionIndex = 0) {
+    return entries
+      .filter(entry => (
+        videoTargetMatches(entry.week, week.week || weekIndex + 1, week.id, week.title, weekIndex)
+        && videoTargetMatches(entry.day, day.day || dayIndex + 1, day.id, day.title, dayIndex)
+        && videoTargetMatches(entry.section, sectionIndex + 1, section.id, section.title, sectionIndex)
+      ))
+      .map(entry => entry.video);
+  }
+
+  function sectionVideoLinesFromCourse(course = {}) {
+    const rows = [];
+    (course.weeks || []).forEach((week, weekIndex) => {
+      (week.days || []).forEach((day, dayIndex) => {
+        (day.sections || []).forEach((section, sectionIndex) => {
+          normalizeVideoList(section.videos).forEach(video => {
+            rows.push([
+              week.week || weekIndex + 1,
+              day.day || dayIndex + 1,
+              sectionIndex + 1,
+              video.title,
+              video.url,
+              video.thumbnail || '',
+              video.duration || '',
+              video.type || 'video/mp4'
+            ].join(' | '));
+          });
+        });
+      });
+    });
+    return rows.join('\n');
+  }
+
+  function applySectionVideosToWeeks(weeks = [], form = {}) {
+    const videoEntries = parseSectionVideoLines(form.sectionVideos);
+    return (Array.isArray(weeks) ? weeks : []).map((week, weekIndex) => {
+      const days = Array.isArray(week.days) ? week.days.map((day, dayIndex) => {
+        const sections = Array.isArray(day.sections) ? day.sections.map((section, sectionIndex) => ({
+          ...section,
+          videos: videosForCoursePart(videoEntries, week, weekIndex, day, dayIndex, section, sectionIndex)
+        })) : [];
+        const firstVideo = sections.flatMap(section => section.videos || [])[0] || null;
+        return {
+          ...day,
+          videoUrl: firstVideo?.url || '',
+          videos: firstVideo ? [firstVideo] : [],
+          sections
+        };
+      }) : week.days;
+      return { ...week, days };
+    });
   }
 
   function cleanAssessmentText(value = '') {
@@ -329,6 +485,7 @@
       assessment: day.college?.assessment?.prompt || day.sections?.[2]?.summary || week.evidence || '',
       passingStandard: day.college?.assessment?.passingStandard || '',
       rubric: (day.college?.rubric || []).join('\n'),
+      sectionVideos: sectionVideoLinesFromCourse(course || {}),
       testBank: JSON.stringify(normalizeTest(day.test, course || {}, course?.id || slug(course?.title || 'course'), week.week || 1, day.day || 1), null, 2)
     };
   }
@@ -399,7 +556,7 @@
       cover: form.cover || `/assets/images/refzone/course-covers/${id}.svg`,
       overviewThumbnail: form.overviewThumbnail || COURSE_OVERVIEW_THUMBNAILS[id] || '',
       description: form.description,
-      weeks: updateFirstWeek(existing?.weeks, form)
+      weeks: applySectionVideosToWeeks(updateFirstWeek(existing?.weeks, form), form)
     };
   }
 
@@ -525,6 +682,18 @@
           </div>
         </div>
         <label class="wide"><span>Course Overview Thumbnail</span><input name="overviewThumbnail" value="${escapeHtml(f.overviewThumbnail)}" placeholder="/assets/images/refzone/course-overviews/nfhs.jpg"></label>
+        <div class="full rtbo-education-video-uploader">
+          <span>Upload Videos to a Course Section</span>
+          <div class="rtbo-education-video-upload-grid">
+            <label><span>Week</span><input name="videoUploadWeek" value="${escapeHtml(f.videoUploadWeek || '1')}" placeholder="1 or *"></label>
+            <label><span>Day</span><input name="videoUploadDay" value="${escapeHtml(f.videoUploadDay || '1')}" placeholder="1 or *"></label>
+            <label><span>Section</span><input name="videoUploadSection" value="${escapeHtml(f.videoUploadSection || '1')}" placeholder="1, 2, 3, section id, or *"></label>
+            <button class="btn secondary dark-btn" type="button" data-action="choose-course-videos" ${state.saving || state.uploadingVideo ? 'disabled' : ''}>${state.uploadingVideo ? 'Uploading Videos...' : 'Choose Video Files'}</button>
+          </div>
+          <small>Select one or multiple MP4, WebM, MOV, or M4V files. Uploaded files are automatically added to the Course Section Video URL(s) field below for the selected week, day, and section.</small>
+          <input class="rtbo-education-video-file" type="file" accept="video/mp4,video/webm,video/quicktime,video/x-m4v,.mp4,.webm,.mov,.m4v" multiple data-action="course-video-input">
+        </div>
+        <label class="full rtbo-education-video-field"><span>Course Section Video URL(s)</span><textarea name="sectionVideos" rows="8" placeholder="Week | Day | Section | Video title | Video URL | Thumbnail URL | Duration | MIME type">${escapeHtml(f.sectionVideos)}</textarea><small>One video per line. Example: 1 | 1 | 1 | Opening Lecture | /assets/videos/refzone/nfhs/nfhs-week-1-day-1.mp4 | /assets/images/refzone/course-overviews/nfhs.jpg | 12:30 | video/mp4. Use * to attach a video to every week, day, or section.</small></label>
         <label><span>First Module</span><input name="moduleTitle" value="${escapeHtml(f.moduleTitle)}" placeholder="Course Orientation"></label>
         <label><span>First Lesson</span><input name="lessonTitle" value="${escapeHtml(f.lessonTitle)}" placeholder="Course Welcome"></label>
         <label><span>Lesson Visual Type</span><select name="lessonType">${visualOptions.map(([value, label]) => `<option value="${value}" ${f.lessonType === value ? 'selected' : ''}>${label}</option>`).join('')}</select></label>
@@ -599,7 +768,8 @@
       query: '',
       message: '',
       saving: false,
-      uploadingImage: false
+      uploadingImage: false,
+      uploadingVideo: false
     };
 
     async function uploadCourseImage(file) {
@@ -628,6 +798,33 @@
         state.message = error.message;
       } finally {
         state.uploadingImage = false;
+        render(root, state);
+      }
+    }
+
+    async function uploadCourseVideos(fileList) {
+      const files = Array.from(fileList || []);
+      if (!files.length) return;
+      const invalid = files.find(file => !/^(video\/mp4|video\/webm|video\/quicktime|video\/x-m4v)$/i.test(file.type) && !/\.(mp4|webm|mov|m4v)$/i.test(file.name || ''));
+      if (invalid) {
+        state.message = 'Course videos must be MP4, WebM, MOV, or M4V files.';
+        render(root, state);
+        return;
+      }
+      state.form = { ...state.form, ...readForm(root) };
+      state.uploadingVideo = true;
+      state.message = `Uploading ${files.length} course video${files.length === 1 ? '' : 's'}...`;
+      render(root, state);
+      try {
+        const payload = new FormData();
+        files.forEach(file => payload.append('videos[]', file));
+        const data = await apiUpload('/refzone-course-video-upload.php', payload);
+        state.form = appendUploadedVideosToForm(state.form, data.videos || []);
+        state.message = `${data.message || 'Course video uploaded.'} Save the course to publish the video URL(s).`;
+      } catch (error) {
+        state.message = error.message;
+      } finally {
+        state.uploadingVideo = false;
         render(root, state);
       }
     }
@@ -662,6 +859,12 @@
         root.querySelector('[data-action="cover-image-input"]')?.click();
         return;
       }
+      if (action === 'choose-course-videos') {
+        event.preventDefault();
+        state.form = { ...state.form, ...readForm(root) };
+        root.querySelector('[data-action="course-video-input"]')?.click();
+        return;
+      }
       if (action === 'new') {
         state.editingId = '';
         state.form = formFromCourse({ status: 'active' });
@@ -689,6 +892,12 @@
         const file = event.target.files?.[0] || null;
         event.target.value = '';
         uploadCourseImage(file);
+        return;
+      }
+      if (event.target.dataset.action === 'course-video-input') {
+        const files = event.target.files || [];
+        event.target.value = '';
+        uploadCourseVideos(files);
         return;
       }
       if (event.target.dataset.action !== 'course-select') return;

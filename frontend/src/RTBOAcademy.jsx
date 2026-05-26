@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import './rtbo-academy.css';
 
 const MANUAL_URL = '/course-manual.md';
+const MANUAL_PDF_FILENAME = 'refzone-university-training-manual';
 const VIDEO_JOBS_URL = '/refzone-course-video-jobs.json';
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
 const noopStatus = () => {};
@@ -664,6 +665,39 @@ function mediaSourceFor(value = '') {
   return `/${source.replace(/^\/+/, '')}`;
 }
 
+function normalizeCourseVideoAsset(item = {}, index = 0) {
+  const raw = item && typeof item === 'object' ? item : { url: item };
+  const url = raw.url || raw.href || raw.src || raw.path || raw.video || raw.videoUrl || raw.video_url || '';
+  const source = mediaSourceFor(url);
+  if (!source) return null;
+  return {
+    id: slug(raw.id || raw.title || raw.name || `course-video-${index + 1}`),
+    title: String(raw.title || raw.name || `Course Video ${index + 1}`).trim(),
+    url: source,
+    thumbnail: mediaSourceFor(raw.thumbnail || raw.poster || raw.image || ''),
+    duration: String(raw.duration || raw.durationLabel || raw.duration_label || '').trim(),
+    type: String(raw.type || raw.mime || 'video/mp4').trim()
+  };
+}
+
+function normalizeCourseVideoAssets(items = []) {
+  return (Array.isArray(items) ? items : []).map(normalizeCourseVideoAsset).filter(Boolean);
+}
+
+function courseVideoAssetsForLesson(day = {}) {
+  const dayVideos = normalizeCourseVideoAssets(day.videos || []);
+  const sectionVideos = (day.sections || []).flatMap((section, sectionIndex) => (
+    normalizeCourseVideoAssets(section.videos || []).map((video, videoIndex) => ({
+      ...video,
+      id: `${section.id || `section-${sectionIndex + 1}`}-video-${video.id || videoIndex + 1}`,
+      sectionTitle: section.title || `Section ${sectionIndex + 1}`
+    }))
+  ));
+  return [...dayVideos, ...sectionVideos].filter((video, index, list) => (
+    video.url && list.findIndex(item => item.url === video.url && item.title === video.title) === index
+  ));
+}
+
 function formatCoursePlayerTime(seconds = 0) {
   const total = Math.max(0, Math.floor(Number(seconds) || 0));
   const minutes = Math.floor(total / 60);
@@ -679,6 +713,122 @@ function compactLessonText(value = '', maxLength = 900) {
 
 function courseFileSlug(value = '') {
   return String(value || 'refzone-course-file').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'refzone-course-file';
+}
+
+function pdfSafeText(value = '') {
+  return String(value || '')
+    .replace(/[–—]/g, '-')
+    .replace(/[“”]/g, '"')
+    .replace(/[‘’]/g, "'")
+    .replace(/[•]/g, '-')
+    .replace(/[^\x09\x0A\x0D\x20-\x7E]/g, '');
+}
+
+function pdfEscape(value = '') {
+  return pdfSafeText(value).replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)').replace(/\r/g, '');
+}
+
+function wrapPdfTextLine(line = '', maxChars = 92) {
+  const text = pdfSafeText(line).replace(/\t/g, '  ').trimEnd();
+  if (!text) return [''];
+  const rows = [];
+  let current = '';
+  text.split(/\s+/).forEach(word => {
+    const next = `${current}${current ? ' ' : ''}${word}`;
+    if (next.length > maxChars && current) {
+      rows.push(current);
+      current = word;
+    } else {
+      current = next;
+    }
+  });
+  if (current) rows.push(current);
+  return rows;
+}
+
+function textToPdfBlob(title = 'RefZone University Course File', content = '') {
+  const sourceLines = [
+    title,
+    '',
+    ...String(content || '').replace(/\*\*/g, '').split(/\n/)
+  ].flatMap(line => wrapPdfTextLine(line));
+  const linesPerPage = 52;
+  const pages = [];
+  for (let index = 0; index < sourceLines.length; index += linesPerPage) {
+    pages.push(sourceLines.slice(index, index + linesPerPage));
+  }
+  if (!pages.length) pages.push(['RefZone University Course File']);
+
+  const objects = [];
+  const addObject = value => {
+    objects.push(value);
+    return objects.length;
+  };
+
+  const catalogId = addObject('<< /Type /Catalog /Pages 2 0 R >>');
+  const pagesId = addObject('');
+  const fontId = addObject('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>');
+  const pageIds = [];
+
+  pages.forEach((pageLines, pageIndex) => {
+    const streamLines = [
+      'BT',
+      '/F1 10 Tf',
+      '14 TL',
+      '50 780 Td',
+      ...pageLines.map(line => `(${pdfEscape(line)}) Tj T*`),
+      'ET'
+    ];
+    const stream = streamLines.join('\n');
+    const contentId = addObject(`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`);
+    const pageId = addObject(`<< /Type /Page /Parent ${pagesId} 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 ${fontId} 0 R >> >> /Contents ${contentId} 0 R >>`);
+    pageIds.push(pageId);
+    if (pageIndex === 0) {
+      // Keep the catalog id referenced so minifiers do not treat it as unused.
+      void catalogId;
+    }
+  });
+
+  objects[pagesId - 1] = `<< /Type /Pages /Kids [${pageIds.map(id => `${id} 0 R`).join(' ')}] /Count ${pageIds.length} >>`;
+
+  let pdf = '%PDF-1.4\n';
+  const offsets = [0];
+  objects.forEach((object, index) => {
+    offsets.push(pdf.length);
+    pdf += `${index + 1} 0 obj\n${object}\nendobj\n`;
+  });
+  const xrefOffset = pdf.length;
+  pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+  offsets.slice(1).forEach(offset => {
+    pdf += `${String(offset).padStart(10, '0')} 00000 n \n`;
+  });
+  pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
+  return new Blob([pdf], { type: 'application/pdf' });
+}
+
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = filename;
+  document.body.append(anchor);
+  anchor.click();
+  anchor.remove();
+  URL.revokeObjectURL(url);
+}
+
+function openBlob(blob) {
+  const url = URL.createObjectURL(blob);
+  window.open(url, '_blank', 'noopener,noreferrer');
+  window.setTimeout(() => URL.revokeObjectURL(url), 30000);
+}
+
+function downloadTextPdf(filename = 'refzone-course-file', title = 'RefZone University Course File', content = '') {
+  downloadBlob(textToPdfBlob(title, content), `${courseFileSlug(filename)}.pdf`);
+}
+
+function downloadManualPdf(markdown = '', brandName = 'RefZone University') {
+  downloadTextPdf(MANUAL_PDF_FILENAME, `${brandName} Training Manual`, markdown || `${brandName} training manual.`);
 }
 
 function markdownList(items = []) {
@@ -738,19 +888,19 @@ function lessonMaterialMarkdown({ track = {}, week = {}, day = {}, material = {}
   ].join('\n');
 }
 
-function openCourseFile(file = {}) {
+async function openCourseFile(file = {}) {
   if (file.href && !String(file.href).includes('refzone-course-file.php')) {
     window.open(file.href, '_blank', 'noopener,noreferrer');
     return;
   }
-  const content = file.content || `${file.title}\n\n${file.description || ''}`;
-  const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  window.open(url, '_blank', 'noopener,noreferrer');
-  window.setTimeout(() => URL.revokeObjectURL(url), 30000);
+  let content = file.content || `${file.title}\n\n${file.description || ''}`;
+  if (!file.content && file.href) {
+    content = await fetch(file.href).then(response => response.ok ? response.text() : content).catch(() => content);
+  }
+  openBlob(textToPdfBlob(file.title || 'RefZone University Course File', content));
 }
 
-function downloadCourseFile(file = {}) {
+async function downloadCourseFile(file = {}) {
   if (file.href && !String(file.href).includes('refzone-course-file.php')) {
     const anchor = document.createElement('a');
     anchor.href = file.href;
@@ -761,16 +911,11 @@ function downloadCourseFile(file = {}) {
     anchor.remove();
     return;
   }
-  const content = file.content || `${file.title}\n\n${file.description || ''}`;
-  const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement('a');
-  anchor.href = url;
-  anchor.download = `${courseFileSlug(file.filename || file.title)}.md`;
-  document.body.append(anchor);
-  anchor.click();
-  anchor.remove();
-  URL.revokeObjectURL(url);
+  let content = file.content || `${file.title}\n\n${file.description || ''}`;
+  if (!file.content && file.href) {
+    content = await fetch(file.href).then(response => response.ok ? response.text() : content).catch(() => content);
+  }
+  downloadTextPdf(file.filename || file.title, file.title || 'RefZone University Course File', content);
 }
 
 function courseVideoJobForLesson(jobs = [], track = {}, week = {}, day = {}) {
@@ -803,7 +948,8 @@ function courseNarrationScript(track = {}, week = {}, day = {}, material = {}, v
 }
 
 function coursePublishedVideoSource(day = {}, material = {}, videoJob = null) {
-  const explicit = day.videoUrl || day.video_url || day.videoSrc || day.video_src || day.video || material.videoUrl || material.video || '';
+  const attachedVideo = courseVideoAssetsForLesson(day)[0]?.url || '';
+  const explicit = day.videoUrl || day.video_url || day.videoSrc || day.video_src || day.video || attachedVideo || material.videoUrl || material.video || '';
   if (explicit) return mediaSourceFor(explicit);
   if (videoJob?.published && videoJob.videoPath) {
     const source = mediaSourceFor(videoJob.videoPath);
@@ -816,6 +962,14 @@ function coursePublishedVideoSource(day = {}, material = {}, videoJob = null) {
 function courseVoiceoverSource(videoJob = null) {
   if (videoJob?.voiceoverReady && videoJob.voiceoverPath) return mediaSourceFor(videoJob.voiceoverPath);
   return '';
+}
+
+function courseVideoMimeType(source = '') {
+  const value = String(source || '').toLowerCase();
+  if (/\.webm(?:\?|$)/.test(value)) return 'video/webm';
+  if (/\.(mov|qt)(?:\?|$)/.test(value)) return 'video/quicktime';
+  if (/\.m4v(?:\?|$)/.test(value)) return 'video/x-m4v';
+  return 'video/mp4';
 }
 
 function courseAudioMimeType(source = '') {
@@ -1018,6 +1172,15 @@ function courseLessonFiles(track = {}, week = {}, day = {}, material = {}, visua
     filename: `${track.id || 'refzone'}-${day.id || 'lesson'}-assessment`,
     content: lessonMaterialMarkdown({ track, week, day, material, type: 'assessment' })
   });
+  courseVideoAssetsForLesson(day).forEach((video, index) => {
+    files.push({
+      id: `course-video-${video.id || index + 1}`,
+      kind: 'Course Video',
+      title: video.title || `Course Video ${index + 1}`,
+      description: [video.sectionTitle, video.duration].filter(Boolean).join(' / '),
+      href: video.url
+    });
+  });
   courseLessonVisuals(track, week, day, visual, videoJob).forEach(item => {
     files.push({
       id: `visual-${item.id}`,
@@ -1090,6 +1253,8 @@ function managedCourseToTrack(course = {}, index = 0) {
         visual: day.visual || '',
         screenshot: day.screenshot || '',
         presentation: day.presentation || '',
+        videoUrl: day.videoUrl || day.video_url || day.video || '',
+        videos: normalizeCourseVideoAssets(day.videos || []),
         college: day.college || null,
         test: day.test || null,
         content: [day.presentation && `Presentation: ${day.presentation}`, day.screenshot && `Screenshot packet: ${day.screenshot}`].filter(Boolean),
@@ -1102,6 +1267,7 @@ function managedCourseToTrack(course = {}, index = 0) {
           screenshot: section.screenshot || '',
           presentation: section.presentation || '',
           collegeRole: section.collegeRole || section.college_role || '',
+          videos: normalizeCourseVideoAssets(section.videos || []),
           content: [section.summary].filter(Boolean)
         }))
       }))
@@ -1496,6 +1662,7 @@ function CourseMaterialPacket({ track = {}, week = {}, day = {} }) {
       <div className="rtbo-academy-line-item-grid">
         {sections.map((section, index) => {
           const sectionVisuals = sectionVisualsFor(section, day, index);
+          const sectionVideos = normalizeCourseVideoAssets(section.videos || []);
           return (
           <article key={section.id || section.title}>
             <span>{section.collegeRole || section.materialType || 'Course Material'}</span>
@@ -1503,6 +1670,17 @@ function CourseMaterialPacket({ track = {}, week = {}, day = {} }) {
               {sectionVisuals.visual && <img src={sectionVisuals.visual} alt={`${section.title} visual aid`} loading="lazy" decoding="async" />}
               {sectionVisuals.screenshot && <img src={sectionVisuals.screenshot} alt={`${section.title} screenshot packet`} loading="lazy" decoding="async" />}
             </div>
+            {sectionVideos.length > 0 && (
+              <div className="rtbo-academy-section-video-list">
+                {sectionVideos.map(video => (
+                  <a href={video.url} target="_blank" rel="noreferrer" key={`${section.id}-${video.id}`}>
+                    {video.thumbnail && <img src={video.thumbnail} alt="" loading="lazy" decoding="async" />}
+                    <span>{video.title}</span>
+                    {video.duration && <small>{video.duration}</small>}
+                  </a>
+                ))}
+              </div>
+            )}
             <strong>{section.title}</strong>
             {section.presentation && <small>{section.presentation}</small>}
             <MarkdownBlock text={section.summary || section.content?.join('\n') || ''} />
@@ -2026,7 +2204,7 @@ function CourseVideoPlayer({
               else onStatus('Published course video was not reachable, so the generated lesson video is active.');
             }}
           >
-            <source src={publishedVideoSource} type="video/mp4" />
+            <source src={publishedVideoSource} type={courseVideoMimeType(publishedVideoSource)} />
             {videoJob?.captionsPath && <track src={mediaSourceFor(videoJob.captionsPath)} kind="captions" srcLang="en" label="English" />}
             Your browser does not support this course video.
           </video>
@@ -2836,7 +3014,7 @@ function RTBOAcademy({
         </div>
         <div className="rtbo-form-toolbar">
           <button className="btn secondary dark-btn" type="button" onClick={() => window.print()}>Print View</button>
-          <a className="btn secondary dark-btn" href={MANUAL_URL} download>Download Manual</a>
+          <button className="btn secondary dark-btn" type="button" onClick={() => downloadManualPdf(markdown, brandName)}>Download Manual PDF</button>
           {selectedTrack && <button className="btn secondary dark-btn" type="button" onClick={() => resetCourseProgress(selectedTrack)}>Reset Test Progress</button>}
         </div>
       </div>}
