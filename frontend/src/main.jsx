@@ -10449,6 +10449,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     'notifications',
     'payments',
     'shopInventory',
+    'siteContent',
     'taxCenter',
     'education',
     'profile',
