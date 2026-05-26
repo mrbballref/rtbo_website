@@ -10673,7 +10673,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
       .catch((error) => {
         if (error.status === 401) {
           setStatus('Your admin session expired. Please sign in again.');
-          onLogout();
+          onLogout({ sessionExpired: true });
           return;
         }
         setCompletedFormsError(error.message || 'Completed forms could not be loaded.');
@@ -10790,7 +10790,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         if (!active) return;
         if (error.status === 401) {
           setStatus('Your admin session expired. Please sign in again.');
-          onLogout();
+          onLogout({ sessionExpired: true });
           return;
         }
         setStatus('Dashboard data could not be loaded. Confirm your database connection and admin session before launch.');
@@ -10853,7 +10853,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         if (!active) return;
         if (error.status === 401) {
           setStatus('Please sign in again to view your official profile.');
-          onLogout();
+          onLogout({ sessionExpired: true });
           return;
         }
         setStatus(error.message || 'Official profile data could not be loaded.');
@@ -14207,7 +14207,8 @@ function App() {
     });
   }
 
-  async function logout() {
+  async function logout(options = {}) {
+    const sessionExpired = Boolean(options?.sessionExpired);
     try {
       await apiPostJson('/auth-logout.php', {});
     } catch {
@@ -14217,6 +14218,11 @@ function App() {
     localStorage.removeItem(RTBO_DASHBOARD_OPEN_KEY);
     setAuthUser(null);
     setDashboardOpen(false);
+    if (sessionExpired && isDashboardRouteHash(window.location.hash)) {
+      setPostLoginTarget('dashboard');
+      setAccountModal('login');
+      return;
+    }
     goTo('home');
   }
 
@@ -14303,7 +14309,7 @@ function App() {
 
   if (dashboardOpen && authUser) {
     return (
-      <React.Suspense fallback={null}>
+      <React.Suspense fallback={<main className="rtbo-dashboard-shell"><section className="rtbo-dashboard-card"><p className="rtbo-empty-state">Loading Command Center...</p></section></main>}>
         <AdminDashboard user={authUser} onLogout={logout} onHome={() => goTo('home')} />
       </React.Suspense>
     );
