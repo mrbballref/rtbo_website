@@ -82,6 +82,18 @@ function getResumeEventMark(eventName) {
   return words.slice(0, 3).map(word => word[0]).join('').toUpperCase() || 'RTBO';
 }
 
+function getResumeEventKind(eventName) {
+  const normalized = String(eventName || '').toUpperCase();
+  if (normalized.includes('BIG MILLER')) return 'Featured Tournament';
+  if (normalized.includes('HOP STEP')) return 'Tournament Partner';
+  if (normalized.includes('WOMEN')) return "Women's Camp Coverage";
+  if (normalized.includes('MEN')) return "Men's Camp Coverage";
+  if (normalized.includes('UCA') || normalized.includes('UALR') || normalized.includes('UAPB') || normalized.includes('LYON')) {
+    return 'College Camp Experience';
+  }
+  return 'Event Experience';
+}
+
 export default function RTBOResumePage() {
   const [resume, setResume] = useState(readStoredRtboResume);
   const [loading, setLoading] = useState(true);
@@ -256,9 +268,10 @@ export default function RTBOResumePage() {
                   <span className="rtob-resume-event-mark" aria-hidden="true">{getResumeEventMark(eventItem.event)}</span>
                 </div>
                 <div className="rtob-resume-event-card-body">
+                  <span className="rtob-resume-event-kind">{getResumeEventKind(eventItem.event)}</span>
                   <h4>{eventItem.event}</h4>
                 </div>
-                <p className="rtob-resume-event-location">{eventItem.location}</p>
+                <p className="rtob-resume-event-location"><span>{eventItem.location}</span></p>
               </article>
             ))}
           </div>

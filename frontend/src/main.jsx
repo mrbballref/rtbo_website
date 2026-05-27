@@ -1308,7 +1308,8 @@ function ServicesClientSlider() {
     ['clients/ualr_client_image_slider.png', 'University of Arkansas Little Rock women basketball client spotlight'],
     ['clients/uapb_client_image_slider.png', 'University of Arkansas at Pine Bluff women basketball client spotlight'],
     ['clients/uapb_client_men_image_slider.png', 'University of Arkansas at Pine Bluff men basketball client spotlight'],
-    ['clients/uca_client_image_slider.png', 'University of Central Arkansas basketball client spotlight']
+    ['clients/uca_client_image_slider.png', 'University of Central Arkansas basketball client spotlight'],
+    ['clients/hop_step_sporting_events_client_image_slider.png', 'Hop Step Sporting Events basketball client spotlight']
   ];
 
   return (
@@ -13914,6 +13915,26 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
 }
 
 function Footer({ setActive, navLinks = navItems }) {
+  const navMap = new Map(navLinks);
+  const usedFooterLinks = new Set();
+  const footerNavGroups = [
+    ['Explore', ['home', 'about', 'events', 'guests', 'reviews']],
+    ['Services', ['services', 'resume', 'livestream', 'refroom', 'podcast']],
+    ['Training', ['trainers', 'education', 'shop']]
+  ].map(([title, ids]) => {
+    const links = ids
+      .filter((id) => navMap.has(id))
+      .map((id) => {
+        usedFooterLinks.add(id);
+        return [id, navMap.get(id)];
+      });
+    return { title, links };
+  }).filter((group) => group.links.length > 0);
+  const remainingFooterLinks = navLinks.filter(([id]) => !usedFooterLinks.has(id));
+  if (remainingFooterLinks.length > 0) {
+    footerNavGroups.push({ title: 'More', links: remainingFooterLinks });
+  }
+
   return (
     <footer className="site-footer rtbo-footer original-footer">
       <div className="footer-inner">
@@ -13922,26 +13943,45 @@ function Footer({ setActive, navLinks = navItems }) {
             <img className="footer-logo" src={image('logo.png')} alt="RTBO logo" />
             <p className="footer-eyebrow">Raising The Bar Officiating</p>
             <p className="footer-desc">We Will Serve, And Will Be Of Service To The Game!</p>
+            <div className="footer-brand-line" aria-label="RTBO service focus">
+              <span>Training</span>
+              <span>Assigning</span>
+              <span>Development</span>
+            </div>
           </section>
           <nav className="footer-nav-panel" aria-label="Footer navigation">
-            <p className="footer-title">Navigation</p>
-            <ul className="footer-links grid">
-              {navLinks.map(([id, label]) => (
-                <li key={id}>
-                  <button className="footer-link" type="button" onClick={() => setActive(id)}>{label}</button>
-                </li>
+            <div className="footer-section-head">
+              <p className="footer-title">Navigation</p>
+              <p>Move through RTBO’s public site, training programs, media, services, and store.</p>
+            </div>
+            <div className="footer-link-columns">
+              {footerNavGroups.map((group) => (
+                <div className="footer-link-column" key={group.title}>
+                  <h4>{group.title}</h4>
+                  <ul className="footer-links">
+                    {group.links.map(([id, label]) => (
+                      <li key={id}>
+                        <button className="footer-link" type="button" onClick={() => setActive(id)}>{label}</button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
-            </ul>
+            </div>
           </nav>
           <section className="footer-events-panel" aria-label="School and event dates">
-            <p className="footer-title">School & Events</p>
-            <ul className="footer-timings grid">
-              <li className="footer-timing"><span>UAPB</span> June 9-10, 2026</li>
+            <div className="footer-section-head">
+              <p className="footer-title">School & Events</p>
+              <p>Upcoming RTBO training school dates and event locations.</p>
+            </div>
+            <ul className="footer-timings">
+              <li className="footer-timing"><span>UAPB</span><strong>June 9-10, 2026</strong><small>Pine Bluff, AR</small></li>
               <li className="footer-ruler"></li>
-              <li className="footer-timing"><span>UCA</span> June 19, 2026</li>
+              <li className="footer-timing"><span>UCA</span><strong>June 19, 2026</strong><small>Conway, AR</small></li>
               <li className="footer-ruler"></li>
-              <li className="footer-timing"><span>UALR</span> July 21-22, 2026</li>
+              <li className="footer-timing"><span>UALR</span><strong>July 21-22, 2026</strong><small>Little Rock, AR</small></li>
             </ul>
+            <button className="footer-schedule-link" type="button" onClick={() => setActive('events')}>View Schools & Events</button>
           </section>
         </div>
         <div className="footer-bottom">

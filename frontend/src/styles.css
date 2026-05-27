@@ -7,6 +7,10 @@
   --rtbo-gold: #d4af37;
   --rtbo-gold-muted: #b8922f;
   --rtbo-gold-soft: rgba(212, 175, 55, .18);
+  --rtbo-gold-strong: #f3d675;
+  --rtbo-gold-hover-border: rgba(212, 175, 55, .78);
+  --rtbo-gold-hover-soft: rgba(212, 175, 55, .18);
+  --rtbo-gold-hover-glow: rgba(212, 175, 55, .3);
   --rtbo-crimson: var(--rtbo-scarlet);
   --rtbo-crimson-dark: var(--rtbo-scarlet-dark);
   --rtbo-crimson-soft: var(--rtbo-scarlet-soft);
@@ -16,7 +20,7 @@
   --orange-dark: var(--rtbo-crimson-dark);
   --rtbo-orange: var(--rtbo-crimson);
   --rtbo-button-bg: var(--rtbo-burnt-orange);
-  --rtbo-button-bg-hover: var(--rtbo-burnt-orange-dark);
+  --rtbo-button-bg-hover: var(--rtbo-gold-muted);
   --rtbo-video-chrome-metal: linear-gradient(135deg,
     #ffffff 0%,
     #d9dee6 5%,
@@ -52,7 +56,7 @@
   --rtbo-video-crimson-muted: rgba(193, 18, 31, .44);
   --rtbo-video-crimson-soft: rgba(193, 18, 31, .12);
   --rtbo-video-burnt-orange: var(--rtbo-burnt-orange);
-  --rtbo-video-burnt-orange-hover: #b85a1e;
+  --rtbo-video-burnt-orange-hover: var(--rtbo-gold-muted);
   --rtbo-video-chrome-accent: rgba(193, 18, 31, .44);
 }
 
@@ -16118,12 +16122,13 @@ html.light .rtbo-public .page-hero {
 
 :where(.rtbo-public, .rtbo-dashboard-main, .app-shell) :is(.btn:not(.secondary):not(.danger), button.btn:not(.secondary):not(.danger), a.btn:not(.secondary):not(.danger)):is(:hover, :focus-visible),
 :where(.rtbo-public, .rtbo-dashboard-main, .app-shell) input[type="file"]:hover::file-selector-button {
-  border-color: rgba(169, 71, 24, .78) !important;
+  border-color: var(--rtbo-gold-hover-border, rgba(212, 175, 55, .78)) !important;
+  color: #050608 !important;
   background:
-    linear-gradient(180deg, rgba(179, 82, 33, .98), rgba(116, 51, 19, .96)),
+    linear-gradient(180deg, var(--rtbo-gold-strong, #f3d675), var(--rtbo-gold, #d4af37)),
     var(--rtbo-button-bg-hover) !important;
   box-shadow:
-    0 12px 26px rgba(0, 0, 0, .22),
+    0 12px 28px var(--rtbo-gold-hover-glow, rgba(212, 175, 55, .3)),
     inset 0 1px 0 rgba(255, 255, 255, .18) !important;
 }
 
@@ -16346,8 +16351,383 @@ html.dark .site-footer.original-footer {
 
 :root[data-theme="light"] .site-footer.original-footer .footer-link:hover,
 :root[data-theme="light"] .site-footer.original-footer .footer-link:focus-visible {
-  border-color: rgba(193, 18, 31, .36);
-  background: linear-gradient(135deg, rgba(193, 18, 31, .08), rgba(212, 175, 55, .14));
+  border-color: rgba(212, 175, 55, .64);
+  background: linear-gradient(135deg, rgba(212, 175, 55, .18), rgba(255, 255, 255, .74));
+}
+
+/* Mandatory site-wide gold hover language. */
+:where(
+  body,
+  #root,
+  .site-header,
+  .rtbo-header,
+  .site-nav,
+  .rtbo-public,
+  .rtbo-dashboard-shell,
+  .rtbo-dashboard-main,
+  .app-shell,
+  .rtbo-course-public,
+  .rtob-resume-page,
+  .site-footer,
+  .rtbo-mail-page,
+  .rtbo-refroom-page,
+  .rtbo-shop-page,
+  .rtbo-shop-store,
+  .jammed-page
+) :is(
+  a,
+  button,
+  .btn,
+  [role="button"],
+  summary,
+  select,
+  .footer-link,
+  .nav-chrome-btn,
+  .table-action,
+  [class*="button"],
+  [class*="tab"],
+  [class*="toggle"],
+  [class*="option"]
+):is(:hover, :focus-visible) {
+  border-color: var(--rtbo-gold-hover-border, rgba(212, 175, 55, .78)) !important;
+  box-shadow:
+    0 12px 30px var(--rtbo-gold-hover-glow, rgba(212, 175, 55, .3)),
+    inset 0 1px 0 rgba(255, 255, 255, .16) !important;
+}
+
+:where(
+  body,
+  #root,
+  .site-header,
+  .rtbo-header,
+  .site-nav,
+  .rtbo-public,
+  .rtbo-dashboard-shell,
+  .rtbo-dashboard-main,
+  .app-shell,
+  .rtbo-course-public,
+  .rtob-resume-page,
+  .site-footer,
+  .rtbo-mail-page,
+  .rtbo-refroom-page,
+  .rtbo-shop-page,
+  .rtbo-shop-store,
+  .jammed-page
+) :is(
+  .btn:not(.secondary):not(.danger),
+  button.btn:not(.secondary):not(.danger),
+  a.btn:not(.secondary):not(.danger),
+  .nav-chrome-btn,
+  .pricing-btn,
+  .school-card-btn,
+  [class*="primary-button"],
+  [data-button-tone="primary"]
+):is(:hover, :focus-visible) {
+  color: #050608 !important;
+  -webkit-text-fill-color: #050608 !important;
+  border-color: var(--rtbo-gold-hover-border, rgba(212, 175, 55, .78)) !important;
+  background:
+    linear-gradient(180deg, var(--rtbo-gold-strong, #f3d675), var(--rtbo-gold, #d4af37)) !important;
+  text-shadow: none !important;
+}
+
+:where(
+  body,
+  #root,
+  .site-header,
+  .rtbo-header,
+  .site-nav,
+  .rtbo-public,
+  .rtbo-dashboard-shell,
+  .rtbo-dashboard-main,
+  .app-shell,
+  .rtbo-course-public,
+  .rtob-resume-page,
+  .site-footer,
+  .rtbo-mail-page,
+  .rtbo-refroom-page,
+  .rtbo-shop-page,
+  .rtbo-shop-store,
+  .jammed-page
+) :is(
+  .summary-card,
+  .rtbo-summary-card,
+  [class*="summary-card"],
+  [class*="card"],
+  [class*="widget"],
+  [class*="tile"],
+  [class*="panel"],
+  [class*="item"]
+):is(:hover, :focus-visible, :focus-within) {
+  border-color: var(--rtbo-gold-hover-border, rgba(212, 175, 55, .78)) !important;
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, .28),
+    0 0 0 1px var(--rtbo-gold-hover-soft, rgba(212, 175, 55, .18)),
+    0 0 32px rgba(212, 175, 55, .12) !important;
+}
+
+:where(
+  body,
+  #root,
+  .site-header,
+  .rtbo-header,
+  .site-nav,
+  .rtbo-public,
+  .rtbo-dashboard-shell,
+  .rtbo-dashboard-main,
+  .app-shell,
+  .rtbo-course-public,
+  .rtob-resume-page,
+  .site-footer,
+  .rtbo-mail-page,
+  .rtbo-refroom-page,
+  .rtbo-shop-page,
+  .rtbo-shop-store,
+  .jammed-page
+) input[type="file"]:hover::file-selector-button {
+  color: #050608 !important;
+  border-color: var(--rtbo-gold-hover-border, rgba(212, 175, 55, .78)) !important;
+  background: linear-gradient(180deg, var(--rtbo-gold-strong, #f3d675), var(--rtbo-gold, #d4af37)) !important;
+  box-shadow: 0 10px 22px var(--rtbo-gold-hover-glow, rgba(212, 175, 55, .3)) !important;
+}
+
+:where(
+  body,
+  #root,
+  .site-header,
+  .rtbo-header,
+  .site-nav,
+  .rtbo-public,
+  .rtbo-dashboard-shell,
+  .rtbo-dashboard-main,
+  .app-shell,
+  .rtbo-course-public,
+  .rtob-resume-page,
+  .site-footer,
+  .rtbo-mail-page,
+  .rtbo-refroom-page,
+  .rtbo-shop-page,
+  .rtbo-shop-store,
+  .jammed-page
+) :is(input, select, textarea):is(:hover, :focus-visible, :focus) {
+  border-color: var(--rtbo-gold-hover-border, rgba(212, 175, 55, .78)) !important;
+  outline-color: var(--rtbo-gold-hover-soft, rgba(212, 175, 55, .18)) !important;
+  box-shadow: 0 0 0 3px var(--rtbo-gold-hover-soft, rgba(212, 175, 55, .18)) !important;
+}
+
+/* Professional footer refinement: structured columns instead of loose button chips. */
+.site-footer.original-footer {
+  padding: clamp(46px, 5vw, 78px) clamp(20px, 5vw, 72px) 34px !important;
+}
+
+.site-footer.original-footer .footer-inner {
+  border-radius: 10px !important;
+  padding: clamp(28px, 3.2vw, 46px) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .018)),
+    rgba(8, 10, 14, .94) !important;
+}
+
+.site-footer.original-footer .footer-main-grid {
+  grid-template-columns: minmax(250px, .78fr) minmax(460px, 1.55fr) minmax(300px, .82fr) !important;
+  gap: clamp(30px, 4.5vw, 72px) !important;
+}
+
+.site-footer.original-footer .footer-brand-panel {
+  display: grid !important;
+  gap: 14px !important;
+}
+
+.site-footer.original-footer .footer-brand-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.site-footer.original-footer .footer-brand-line span {
+  border: 1px solid rgba(212, 175, 55, .22);
+  border-radius: 999px;
+  padding: 6px 9px;
+  color: rgba(248, 250, 252, .82);
+  background: rgba(255, 255, 255, .035);
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.site-footer.original-footer .footer-section-head {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.site-footer.original-footer .footer-section-head p:not(.footer-title) {
+  max-width: 460px;
+  margin: 0;
+  color: rgba(226, 232, 240, .76);
+  font-size: .92rem;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.site-footer.original-footer .footer-link-columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 2.4vw, 34px);
+}
+
+.site-footer.original-footer .footer-link-column {
+  min-width: 0;
+}
+
+.site-footer.original-footer .footer-link-column h4 {
+  margin: 0 0 12px;
+  color: var(--rtbo-gold, #d4af37);
+  font-size: .76rem;
+  font-weight: 1000;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.site-footer.original-footer .footer-links {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 4px !important;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-footer.original-footer .footer-link {
+  position: relative;
+  min-height: 34px;
+  justify-content: flex-start;
+  border: 0 !important;
+  border-left: 2px solid transparent !important;
+  border-radius: 0;
+  padding: 6px 0 6px 12px;
+  color: rgba(248, 250, 252, .86);
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: .93rem;
+  font-weight: 850;
+  letter-spacing: 0;
+  text-align: left;
+}
+
+.site-footer.original-footer .footer-link:hover,
+.site-footer.original-footer .footer-link:focus-visible {
+  border-left-color: var(--rtbo-gold, #d4af37) !important;
+  color: var(--rtbo-gold-strong, #f3d675) !important;
+  background: linear-gradient(90deg, rgba(212, 175, 55, .12), transparent 82%) !important;
+  box-shadow: none !important;
+  transform: translateX(2px);
+}
+
+.site-footer.original-footer .footer-events-panel {
+  border: 1px solid rgba(212, 175, 55, .18);
+  border-radius: 10px;
+  padding: clamp(18px, 2vw, 24px);
+  background:
+    linear-gradient(145deg, rgba(212, 175, 55, .08), rgba(255, 255, 255, .025)),
+    rgba(255, 255, 255, .026);
+}
+
+.site-footer.original-footer .footer-timings {
+  display: grid !important;
+  gap: 10px !important;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-footer.original-footer .footer-timing {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 3px 12px;
+  align-items: baseline;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 0;
+  padding: 0 0 11px;
+  color: #d1d5db;
+  background: transparent;
+  box-shadow: none;
+}
+
+.site-footer.original-footer .footer-timing span {
+  grid-row: span 2;
+  min-width: 54px;
+  color: var(--rtbo-gold, #d4af37);
+}
+
+.site-footer.original-footer .footer-timing strong {
+  color: #fff;
+  font-size: .98rem;
+  line-height: 1.25;
+}
+
+.site-footer.original-footer .footer-timing small {
+  color: rgba(203, 213, 225, .76);
+  font-size: .82rem;
+  font-weight: 800;
+}
+
+.site-footer.original-footer .footer-schedule-link {
+  width: 100%;
+  min-height: 42px;
+  margin-top: 18px;
+  border: 1px solid rgba(212, 175, 55, .46);
+  border-radius: 8px;
+  color: #050608;
+  background: linear-gradient(180deg, var(--rtbo-gold-strong, #f3d675), var(--rtbo-gold, #d4af37));
+  font-size: .82rem;
+  font-weight: 1000;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.site-footer.original-footer .footer-bottom {
+  margin-top: clamp(24px, 3vw, 38px);
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-section-head p:not(.footer-title) {
+  color: #475569;
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-brand-line span {
+  color: #475569;
+  border-color: rgba(193, 18, 31, .14);
+  background: rgba(255, 255, 255, .72);
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-link {
+  color: #334155 !important;
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-link:hover,
+:root[data-theme="light"] .site-footer.original-footer .footer-link:focus-visible {
+  color: #7a5a08 !important;
+  background: linear-gradient(90deg, rgba(212, 175, 55, .18), transparent 82%) !important;
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-events-panel {
+  border-color: rgba(212, 175, 55, .28);
+  background: rgba(255, 255, 255, .78);
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-timing {
+  border-bottom-color: rgba(15, 23, 42, .1);
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-timing strong {
+  color: #111827;
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-timing small {
+  color: #64748b;
 }
 
 @media (max-width: 980px) {
@@ -16368,9 +16748,14 @@ html.dark .site-footer.original-footer {
     padding-right: 0;
     padding-bottom: 20px;
   }
+
+  .site-footer.original-footer .footer-link-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 640px) {
+  .site-footer.original-footer .footer-link-columns,
   .site-footer.original-footer .footer-links {
     grid-template-columns: 1fr !important;
   }
@@ -16379,4 +16764,45 @@ html.dark .site-footer.original-footer {
     grid-template-columns: 1fr;
     justify-items: start;
   }
+}
+
+/* Mandatory button hover color: gold across every non-danger button surface. */
+:where(
+  body,
+  #root,
+  .site-header,
+  .rtbo-header,
+  .site-nav,
+  .rtbo-public,
+  .rtbo-dashboard-shell,
+  .rtbo-dashboard-main,
+  .app-shell,
+  .rtbo-course-public,
+  .rtob-resume-page,
+  .site-footer,
+  .rtbo-mail-page,
+  .rtbo-refroom-page,
+  .rtbo-shop-page,
+  .rtbo-shop-store,
+  .jammed-page
+) :is(
+  button:not(:disabled):not(.danger),
+  .btn:not(.danger),
+  a.btn:not(.danger),
+  [role="button"]:not(.danger),
+  .footer-schedule-link,
+  .footer-link,
+  .nav-chrome-btn,
+  .nav-dropdown-trigger,
+  .table-action:not(.danger)
+):is(:hover, :focus-visible) {
+  color: #050608 !important;
+  -webkit-text-fill-color: #050608 !important;
+  border-color: var(--rtbo-gold-hover-border, rgba(212, 175, 55, .78)) !important;
+  background:
+    linear-gradient(180deg, var(--rtbo-gold-strong, #f3d675), var(--rtbo-gold, #d4af37)) !important;
+  box-shadow:
+    0 12px 28px var(--rtbo-gold-hover-glow, rgba(212, 175, 55, .3)),
+    inset 0 1px 0 rgba(255, 255, 255, .32) !important;
+  text-shadow: none !important;
 }
