@@ -157,7 +157,7 @@ main,
   transition: transform .2s ease;
 }
 
-.nav-dropdown:is(:hover, :focus-within, .is-open) .nav-dropdown-caret {
+.nav-dropdown.is-open .nav-dropdown-caret {
   transform: rotate(180deg);
 }
 
@@ -183,7 +183,7 @@ main,
   visibility: hidden;
 }
 
-.nav-dropdown:is(:hover, :focus-within, .is-open) .nav-dropdown-menu {
+.nav-dropdown.is-open .nav-dropdown-menu {
   opacity: 1;
   pointer-events: auto;
   transform: translate(-50%, 0);
@@ -15056,7 +15056,7 @@ html.light .theme-toggle-track {
 html.light .theme-toggle-thumb {
   background:
     radial-gradient(circle at 30% 24%, #fff 0 14%, #f8fafc 15% 30%, transparent 31%),
-    linear-gradient(145deg, #fff, #d7dce4 42%, #b45309) !important;
+    linear-gradient(145deg, #fff, #d7dce4 42%, #ea580c) !important;
   box-shadow:
     inset 0 2px 1px rgba(255,255,255,.92),
     inset 0 -3px 5px rgba(249, 115, 22,.24),
