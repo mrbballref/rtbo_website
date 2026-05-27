@@ -1,5 +1,40 @@
 @import url('/assets/css/app.css');
 
+:root {
+  --rtbo-video-chrome-metal: linear-gradient(135deg,
+    #ffffff 0%,
+    #d9dee6 5%,
+    #7b838e 10%,
+    #212832 16%,
+    #f9fafb 24%,
+    #c0c7d0 31%,
+    #505967 38%,
+    #f1f5f9 47%,
+    #171d26 56%,
+    #aeb6c1 64%,
+    #ffffff 73%,
+    #68727e 82%,
+    #f8fafc 91%,
+    #343b46 100%);
+  --rtbo-video-chrome-surface:
+    radial-gradient(circle at 18% 9%, rgba(255, 255, 255, .9), transparent 11%),
+    radial-gradient(circle at 88% 72%, rgba(255, 255, 255, .48), transparent 16%),
+    linear-gradient(105deg, rgba(255, 255, 255, .44), transparent 17%, transparent 82%, rgba(255, 255, 255, .28)),
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, .2) 0 2px, rgba(0, 0, 0, .2) 2px 5px),
+    var(--rtbo-video-chrome-metal);
+  --rtbo-video-chrome-shadow:
+    0 24px 66px rgba(0, 0, 0, .52),
+    0 0 0 2px rgba(0, 0, 0, .78),
+    0 0 0 3px rgba(255, 255, 255, .2),
+    inset 0 2px 0 rgba(255, 255, 255, .76),
+    inset 0 -14px 24px rgba(0, 0, 0, .38),
+    inset 0 0 0 1px rgba(255, 255, 255, .3);
+  --rtbo-video-chrome-inner-highlight:
+    linear-gradient(118deg, rgba(255, 255, 255, .34), transparent 18%, transparent 68%, rgba(255, 255, 255, .22)),
+    linear-gradient(180deg, rgba(255, 255, 255, .22), transparent 26%, transparent 78%, rgba(0, 0, 0, .22));
+  --rtbo-video-chrome-accent: #f58220;
+}
+
 html,
 body,
 #root,
@@ -13479,37 +13514,34 @@ button.hero-scroll-link {
 }
 
 .livestream-player-shell {
-  border: 3px solid rgba(255, 126, 28, .92);
-  border-radius: clamp(18px, 2vw, 32px);
-  padding: clamp(12px, 1.45vw, 22px);
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, .13), transparent 9%, transparent 91%, rgba(255, 255, 255, .12)),
-    radial-gradient(circle at 16% 2%, rgba(255, 122, 22, .32), transparent 24%),
-    linear-gradient(135deg, rgba(38, 40, 45, .99), rgba(2, 3, 5, .99) 46%, rgba(21, 12, 8, .99));
-  box-shadow:
-    inset 0 0 0 2px rgba(255, 255, 255, .18),
-    inset 0 0 0 8px rgba(0, 0, 0, .62),
-    inset 0 0 36px rgba(255, 122, 22, .22),
-    0 0 0 1px rgba(255, 255, 255, .16),
-    0 28px 76px rgba(0, 0, 0, .54),
-    0 0 0 5px rgba(249, 115, 22, .14),
-    0 0 42px rgba(249, 115, 22, .32);
+  border: 2px solid rgba(255, 255, 255, .86);
+  border-radius: clamp(22px, 2.3vw, 36px);
+  padding: clamp(24px, 3vw, 42px);
+  background: var(--rtbo-video-chrome-surface);
+  box-shadow: var(--rtbo-video-chrome-shadow);
 }
 
 .livestream-player-shell::before {
-  inset: 8px;
-  border: 2px solid rgba(255, 126, 28, .86);
+  inset: clamp(10px, 1.1vw, 16px);
+  z-index: 1;
+  border: 2px solid rgba(255, 126, 28, .9);
+  border-radius: clamp(16px, 1.7vw, 27px);
   box-shadow:
-    inset 0 0 18px rgba(255, 122, 22, .38),
-    0 0 22px rgba(255, 122, 22, .22);
+    inset 0 0 18px rgba(255, 122, 22, .18),
+    0 0 20px rgba(255, 122, 22, .36);
 }
 
 .livestream-player-shell::after {
-  inset: 18px;
-  border-color: rgba(255, 255, 255, .2);
+  inset: 5px;
+  z-index: 1;
+  border: 2px solid rgba(255, 255, 255, .36);
+  border-radius: clamp(18px, 2vw, 31px);
+  background: var(--rtbo-video-chrome-inner-highlight);
+  mix-blend-mode: screen;
 }
 
 .livestream-coded-frame {
+  z-index: 2;
   min-height: clamp(760px, 63vw, 1040px);
   border: 1px solid rgba(255, 126, 28, .5);
   box-shadow:
@@ -15425,6 +15457,16 @@ body,
 .rtbo-public {
   max-width: 100%;
   overflow-x: clip !important;
+}
+
+.rtbo-course-public {
+  min-height: 100vh;
+  padding: 0;
+  overflow: hidden !important;
+}
+
+.rtbo-course-public .rtbo-academy-page {
+  min-height: 100vh;
 }
 
 .rtbo-public :is(.rtbo-hero, .hero-carousel, .page-hero, .rtbo-section, .rtbo-band, .rtbo-offer) {

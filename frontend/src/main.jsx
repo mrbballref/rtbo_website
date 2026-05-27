@@ -46,6 +46,8 @@ const SiteContentManager = React.lazy(() => import('./SiteContentManager.jsx'));
 const ManagedSiteContent = React.lazy(() => import('./ManagedSiteContent.jsx'));
 const RTBOResumePage = React.lazy(() => import('./RTBOResumePage.jsx'));
 const ResumeManager = React.lazy(() => import('./ResumeManager.jsx'));
+const JammedUpPodcastPage = React.lazy(() => import('./JammedUpPodcastPage.jsx'));
+const PodcastBuilder = React.lazy(() => import('./PodcastBuilder.jsx'));
 const StateSelect = React.lazy(() => import('./StateSelect.jsx'));
 const CountrySelect = React.lazy(() => import('./CountrySelect.jsx'));
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
@@ -617,10 +619,10 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
   const [trainingOpen, setTrainingOpen] = useState(false);
   const [liveStreamOpen, setLiveStreamOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
-  const liveStreamNavLinks = navLinks.filter(([id]) => id === 'livestream' || id === 'refroom');
+  const liveStreamNavLinks = navLinks.filter(([id]) => id === 'livestream' || id === 'refroom' || id === 'podcast');
   const servicesNavLinks = navLinks.filter(([id]) => id === 'services' || id === 'resume');
   const trainingNavLinks = navLinks.filter(([id]) => id === 'trainers' || id === 'education');
-  const primaryNavLinks = navLinks.filter(([id]) => id !== 'refroom' && id !== 'education' && id !== 'resume');
+  const primaryNavLinks = navLinks.filter(([id]) => id !== 'refroom' && id !== 'podcast' && id !== 'education' && id !== 'resume');
   const liveStreamActive = liveStreamNavLinks.some(([id]) => id === active);
   const servicesActive = servicesNavLinks.some(([id]) => id === active);
   const trainingActive = trainingNavLinks.some(([id]) => id === active);
@@ -10513,6 +10515,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     'rtbomail',
     'newsletterCenter',
     'refroom',
+    'podcastBuilder',
     'notifications',
     'payments',
     'shopInventory',
@@ -10945,6 +10948,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['rtbomail', 'Rtbomail'],
     ['newsletterCenter', 'Newsletter'],
     ['refroom', 'RefRoom'],
+    ['podcastBuilder', 'Podcast Builder'],
     ['notifications', 'Notifications'],
     ['payments', 'Payments'],
     ['shopInventory', 'Inventory'],
@@ -10970,7 +10974,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['evaluation', 'Evaluations'],
     ['education', 'Education']
   ];
-  const allowedDashboardSidebarIds = new Set(['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'notifications', 'payments', 'shopInventory', 'siteContent', 'taxCenter', 'education', 'profile', 'reports', 'reviews', 'organizations']);
+  const allowedDashboardSidebarIds = new Set(['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'podcastBuilder', 'notifications', 'payments', 'shopInventory', 'siteContent', 'taxCenter', 'education', 'profile', 'reports', 'reviews', 'organizations']);
   const visibleAdminSections = adminSections.filter(([id]) => allowedDashboardSidebarIds.has(id) && !hiddenSections.includes(id));
   const visibleAddMemberSections = addMemberSections.filter(item => !hiddenMemberItems.includes(item.id));
   const visibleScheduleSetupSections = scheduleSetupSections.filter(item => !hiddenScheduleItems.includes(item.id));
@@ -10990,7 +10994,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         ? uniqueFormSubSections([...visibleOfficialFormsSubSections, ...officialFormsSubSections])
         : [];
   const completedFormsSectionIds = completedFormsWidgets.map(widget => widget.section);
-  const primaryAdminOrder = ['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'notifications', 'payments', 'shopInventory', 'siteContent', 'taxCenter', 'education'];
+  const primaryAdminOrder = ['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'podcastBuilder', 'notifications', 'payments', 'shopInventory', 'siteContent', 'taxCenter', 'education'];
   const secondaryAdminOrder = ['reports', 'reviews', 'organizations'];
   const sections = canUseAdminDashboard
     ? [
@@ -11042,7 +11046,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   const dashboardControlColumns = [
     ['overview', 'payments', 'shopInventory', 'siteContent', 'taxCenter', 'education'],
     ['members', 'reports', 'reviews', 'rtbomail', 'newsletterCenter'],
-    ['schedules', 'organizations', 'notifications', 'refroom']
+    ['schedules', 'organizations', 'notifications', 'refroom', 'podcastBuilder']
   ].map(column => column.map(id => settingsMenuItems.find(item => item.id === id)).filter(Boolean));
   const settingsWorkflowById = new Map(settingsWorkflowSections.map(item => [item.id, item]));
 
@@ -13522,6 +13526,12 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
 
         {canUseAdminDashboard && activeSection === 'refroom' && refRoomPage}
 
+        {canUseAdminDashboard && activeSection === 'podcastBuilder' && (
+          <React.Suspense fallback={<section className="rtbo-dashboard-card rtbo-focused-page-card"><p className="rtbo-empty-state">Loading Podcast Builder...</p></section>}>
+            <PodcastBuilder onStatus={setStatus} />
+          </React.Suspense>
+        )}
+
         {canUseAdminDashboard && activeSection === 'notifications' && (
           <NotificationCenter
             notifications={activeStandardNotifications}
@@ -14332,6 +14342,17 @@ function App() {
         </>
       );
     }
+    if (active === 'podcast') {
+      return (
+        <>
+          <PageHero page="podcast" eyebrow="The Jammed Up Bar" title="The Jammed Up Bar! Podcast">A dynamic Raising The Bar Officiating podcast platform for real video episodes, official stories, and pressure-tested basketball conversations.</PageHero>
+          <React.Suspense fallback={<section className="rtbo-section"><p className="rtbo-empty-state">Loading podcast player...</p></section>}>
+            <JammedUpPodcastPage />
+          </React.Suspense>
+          {managedSections('podcast')}
+        </>
+      );
+    }
     if (active === 'services') return <><PageHero page="services" eyebrow="Services" title="Complete Officiating Solutions">Event assigning, development, mentorship, evaluations, and leadership standards for the game.</PageHero><Services />{managedSections('services')}</>;
     if (active === 'resume') {
       return (
@@ -14409,13 +14430,31 @@ function App() {
     );
   }
 
+  const educationCourseRouteActive = active === 'education' && currentRoute.startsWith('education/course/');
+  const educationRouteCourseId = educationCourseIdFromRoute(currentRoute);
+  const fullScreenCourse = educationCourseRouteActive && (
+    isLocalRefZoneBrowserPassEnabled()
+    || isSuperAdminUser(authUser)
+    || (
+      authUser
+      && !refZoneAccess.loading
+      && Array.isArray(refZoneAccess.courseIds)
+      && refZoneAccess.courseIds.includes(educationRouteCourseId)
+    )
+  );
   const fullScreenRegistration = active === 'register' && authUser;
+  const suppressPublicChrome = fullScreenRegistration || fullScreenCourse;
+  const publicMainClassName = [
+    'rtbo-public',
+    fullScreenRegistration ? 'rtbo-registration-public' : '',
+    fullScreenCourse ? 'rtbo-course-public' : ''
+  ].filter(Boolean).join(' ');
 
   return (
     <React.Suspense fallback={null}>
-      {!fullScreenRegistration && <Header active={active} setActive={goTo} authUser={authUser} onOpenLogin={openLogin} onOpenDashboard={openDashboard} onOpenRegister={openRegister} navLinks={publicNavItems} />}
-      <main className={`rtbo-public ${fullScreenRegistration ? 'rtbo-registration-public' : ''}`.trim()}>{content}</main>
-      {!fullScreenRegistration && <Footer setActive={goTo} navLinks={publicNavItems} />}
+      {!suppressPublicChrome && <Header active={active} setActive={goTo} authUser={authUser} onOpenLogin={openLogin} onOpenDashboard={openDashboard} onOpenRegister={openRegister} navLinks={publicNavItems} />}
+      <main className={publicMainClassName}>{content}</main>
+      {!suppressPublicChrome && <Footer setActive={goTo} navLinks={publicNavItems} />}
       {accountModal && <AccountModal mode={accountModal} resetToken={passwordResetToken} onClose={closeAccountModal} onLogin={login} onResetTokenHandled={clearPasswordResetToken} />}
     </React.Suspense>
   );

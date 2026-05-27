@@ -37,6 +37,37 @@ function commandExists(command) {
   return result.status === 0;
 }
 
+function executableExists(command) {
+  if (!command) return false;
+  if (!path.isAbsolute(command)) return commandExists(command);
+
+  try {
+    return fs.existsSync(command) && fs.statSync(command).isFile();
+  } catch {
+    return false;
+  }
+}
+
+function mampPhpCandidates() {
+  const mampPhpRoot = '/Applications/MAMP/bin/php';
+  if (!fs.existsSync(mampPhpRoot)) return [];
+
+  return fs.readdirSync(mampPhpRoot, { withFileTypes: true })
+    .filter(entry => entry.isDirectory() && /^php\d/i.test(entry.name))
+    .map(entry => path.join(mampPhpRoot, entry.name, 'bin', 'php'))
+    .sort((left, right) => right.localeCompare(left, undefined, { numeric: true }));
+}
+
+function resolvePhpCommand() {
+  const candidates = [
+    process.env.RTBO_PHP_BIN,
+    ...mampPhpCandidates(),
+    'php'
+  ].filter(Boolean);
+
+  return candidates.find(executableExists) || '';
+}
+
 function walkFiles(directory) {
   if (!fs.existsSync(directory)) return [];
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
@@ -51,8 +82,9 @@ function maybeInstallFrontendDependencies() {
 }
 
 function lintPhpIfAvailable() {
-  if (!commandExists('php')) {
-    const message = 'PHP is not installed on this machine, so PHP syntax lint was skipped. Install PHP or run with RTBO_REQUIRE_PHP_LINT=true in a PHP-enabled environment to make this mandatory.';
+  const phpCommand = resolvePhpCommand();
+  if (!phpCommand) {
+    const message = 'PHP is not installed on this machine, so PHP syntax lint was skipped. Install PHP, install MAMP, or run with RTBO_REQUIRE_PHP_LINT=true in a PHP-enabled environment to make this mandatory.';
     if (phpLintRequired) {
       console.error(message);
       process.exit(1);
@@ -66,7 +98,7 @@ function lintPhpIfAvailable() {
     .map(filePath => path.relative(repoRoot, filePath));
 
   phpFiles.forEach(filePath => {
-    run(`PHP syntax lint: ${filePath}`, 'php', ['-l', filePath]);
+    run(`PHP syntax lint: ${filePath}`, phpCommand, ['-l', filePath]);
   });
 }
 

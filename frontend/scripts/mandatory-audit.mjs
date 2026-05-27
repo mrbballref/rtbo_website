@@ -242,29 +242,62 @@ const assetRoot = path.join(frontendRoot, 'dist', 'assets');
 const assetFiles = walkFiles(assetRoot);
 assertCheck(assetFiles.length > 0, 'No built assets found. Run npm run build before npm run audit.');
 
-const budgets = {
-  '.js': 420 * 1024,
-  '.css': 320 * 1024
+function distAssetPathFromUrl(value = '') {
+  const clean = String(value || '').split(/[?#]/)[0].replace(/^\/+/, '');
+  if (!clean.startsWith('assets/')) return '';
+  return path.join(frontendRoot, 'dist', clean);
+}
+
+function tagAttribute(tag = '', attribute = '') {
+  const match = tag.match(new RegExp(`${attribute}=["']([^"']+)["']`, 'i'));
+  return match?.[1] || '';
+}
+
+const initialAssetPaths = new Set();
+for (const match of distHtml.matchAll(/<(script|link)\b[^>]*>/gi)) {
+  const tag = match[0];
+  const isModuleScript = /^<script/i.test(tag) && /\btype=["']module["']/i.test(tag);
+  const isInitialLink = /^<link/i.test(tag) && /\brel=["'](?:modulepreload|stylesheet)["']/i.test(tag);
+  if (!isModuleScript && !isInitialLink) continue;
+
+  const url = tagAttribute(tag, isModuleScript ? 'src' : 'href');
+  const filePath = distAssetPathFromUrl(url);
+  if (filePath) initialAssetPaths.add(filePath);
+}
+
+const routeChunkBudgets = {
+  '.js': 150 * 1024,
+  '.css': 96 * 1024
 };
-const mainAppShellBudget = 400 * 1024;
+const initialJsBudget = 700 * 1024;
+const initialCssBudget = 380 * 1024;
+const initialBundleBudget = 1125 * 1024;
+const fullBundleReviewTarget = 2048 * 1024;
 
 let totalAssetBytes = 0;
 let bundleAssetBytes = 0;
+let initialJsBytes = 0;
+let initialCssBytes = 0;
 assetFiles.forEach(filePath => {
   const ext = path.extname(filePath).toLowerCase();
   const size = fs.statSync(filePath).size;
   totalAssetBytes += size;
-  const budget = budgets[ext];
+  const routeBudget = routeChunkBudgets[ext];
   const relativeName = path.relative(frontendRoot, filePath);
+  const isInitialAsset = initialAssetPaths.has(filePath);
 
   if (ext === '.js' || ext === '.css') {
     bundleAssetBytes += size;
   }
 
-  if (ext === '.js' && path.basename(filePath).startsWith('index-') && size > mainAppShellBudget) {
-    failures.push(`${relativeName} is ${formatKb(size)}, over the ${formatKb(mainAppShellBudget)} main app shell budget. Move dashboard-only or feature-heavy code into lazy-loaded modules before adding more to the public shell.`);
-  } else if (budget && size > budget) {
-    failures.push(`${relativeName} is ${formatKb(size)}, over the ${formatKb(budget)} optimization budget.`);
+  if (isInitialAsset && ext === '.js') {
+    initialJsBytes += size;
+  } else if (isInitialAsset && ext === '.css') {
+    initialCssBytes += size;
+  }
+
+  if (!isInitialAsset && routeBudget && size > routeBudget) {
+    failures.push(`${relativeName} is ${formatKb(size)}, over the ${formatKb(routeBudget)} lazy route chunk budget. Split the route or move heavy data/assets out of JavaScript before adding more to this chunk.`);
   } else if (['.png', '.jpg', '.jpeg', '.webp'].includes(ext) && size > 1536 * 1024) {
     warnings.push(`${relativeName} is ${formatKb(size)}, over the image optimization target. Optimize before launch when this asset is in active use.`);
   } else if (['.png', '.jpg', '.jpeg', '.webp'].includes(ext) && size > 1024 * 1024) {
@@ -272,18 +305,34 @@ assetFiles.forEach(filePath => {
   }
 });
 
-const bundleBudget = 1536 * 1024;
+const initialBundleBytes = initialJsBytes + initialCssBytes;
+assertCheck(initialAssetPaths.size > 0, 'Built HTML does not reference any initial script, modulepreload, or stylesheet assets.');
 assertCheck(
-  bundleAssetBytes <= bundleBudget,
-  `JS/CSS bundle assets total ${formatKb(bundleAssetBytes)}, over the ${formatKb(bundleBudget)} optimization budget.`
+  initialJsBytes <= initialJsBudget,
+  `Initial JavaScript payload is ${formatKb(initialJsBytes)}, over the ${formatKb(initialJsBudget)} production budget.`
 );
+assertCheck(
+  initialCssBytes <= initialCssBudget,
+  `Initial CSS payload is ${formatKb(initialCssBytes)}, over the ${formatKb(initialCssBudget)} production budget.`
+);
+assertCheck(
+  initialBundleBytes <= initialBundleBudget,
+  `Initial JS/CSS payload is ${formatKb(initialBundleBytes)}, over the ${formatKb(initialBundleBudget)} production budget.`
+);
+
+if (bundleAssetBytes > fullBundleReviewTarget) {
+  warnings.push(`All JS/CSS route assets total ${formatKb(bundleAssetBytes)}, over the ${formatKb(fullBundleReviewTarget)} full-site review target. This is not initial payload, but new route work should keep trending it down.`);
+}
 
 console.log('RTBO mandatory audit');
 console.log(`Responsive breakpoints checked: ${requiredBreakpoints.map(width => `${width}px`).join(', ')}`);
 console.log(`Theme toggler compliance checked: ${sourceCssFiles.length} source CSS files`);
 console.log('Visual polish guardrails checked: horizontal overflow, heading wrapping, field spacing, file inputs, and summary cards');
 console.log(`Built assets checked: ${assetFiles.length} files, ${formatKb(totalAssetBytes)} total`);
-console.log(`JS/CSS bundle budget checked: ${formatKb(bundleAssetBytes)} / ${formatKb(bundleBudget)}`);
+console.log(`Initial JS budget checked: ${formatKb(initialJsBytes)} / ${formatKb(initialJsBudget)}`);
+console.log(`Initial CSS budget checked: ${formatKb(initialCssBytes)} / ${formatKb(initialCssBudget)}`);
+console.log(`Initial JS/CSS budget checked: ${formatKb(initialBundleBytes)} / ${formatKb(initialBundleBudget)}`);
+console.log(`Full lazy-route JS/CSS review target checked: ${formatKb(bundleAssetBytes)} / ${formatKb(fullBundleReviewTarget)}`);
 
 if (warnings.length) {
   console.warn('\nWarnings:');

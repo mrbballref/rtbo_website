@@ -6,6 +6,7 @@ export const siteContentPages = [
   ['about', 'About'],
   ['events', 'Schools & Events'],
   ['livestream', 'Live Stream'],
+  ['podcast', 'The Jammed Up Bar! Podcast'],
   ['services', 'Services'],
   ['resume', 'Resume'],
   ['trainers', 'Training'],

@@ -2069,22 +2069,46 @@
 }
 
 .rtbo-course-video-player {
+  position: relative;
   display: grid;
   gap: 14px;
   overflow: hidden;
-  border: 1px solid rgba(245, 130, 32, .82);
-  border-radius: 14px;
-  padding: 18px;
-  background:
-    linear-gradient(145deg, rgba(245, 130, 32, .16), rgba(245, 130, 32, .02) 26%, rgba(0, 0, 0, .94)),
-    #050505;
+  border: 1px solid rgba(255, 255, 255, .78);
+  border-radius: 24px;
+  padding: clamp(14px, 1.8vw, 26px);
+  background: var(--rtbo-video-chrome-surface, linear-gradient(135deg, #fff, #7f8791, #242a33, #f9fafb, #565f6b, #fff, #343a44));
+  box-shadow: var(--rtbo-video-chrome-shadow, 0 34px 96px rgba(0, 0, 0, .6));
+}
+
+.rtbo-course-video-player::before,
+.rtbo-course-video-player::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.rtbo-course-video-player::before {
+  inset: clamp(7px, .85vw, 12px);
+  z-index: 1;
+  border: 1px solid rgba(245, 130, 32, .9);
+  border-radius: 17px;
   box-shadow:
-    0 0 0 2px rgba(245, 130, 32, .24),
-    0 0 0 6px rgba(0, 0, 0, .88),
-    0 0 0 8px rgba(245, 130, 32, .62),
-    0 18px 40px rgba(0, 0, 0, .58),
-    inset 0 0 0 1px rgba(255, 255, 255, .08),
-    inset 0 0 32px rgba(245, 130, 32, .18);
+    inset 0 0 18px rgba(245, 130, 32, .18),
+    0 0 20px rgba(245, 130, 32, .36);
+}
+
+.rtbo-course-video-player::after {
+  inset: 3px;
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, .34);
+  border-radius: 21px;
+  background: var(--rtbo-video-chrome-inner-highlight, linear-gradient(118deg, rgba(255, 255, 255, .34), transparent 18%, transparent 68%, rgba(255, 255, 255, .22)));
+  mix-blend-mode: screen;
+}
+
+.rtbo-course-video-player > :is(.rtbo-course-video-topbar, .rtbo-course-video-viewport, .rtbo-course-video-controls) {
+  position: relative;
+  z-index: 2;
 }
 
 .rtbo-course-video-player.is-theater-mode {
@@ -2216,7 +2240,7 @@
   position: relative;
   display: grid;
   min-height: clamp(520px, 62vh, 760px);
-  border: 1px solid rgba(245, 130, 32, .72);
+  border: 1px solid rgba(255, 255, 255, .18);
   border-radius: 10px;
   overflow: hidden;
   background:

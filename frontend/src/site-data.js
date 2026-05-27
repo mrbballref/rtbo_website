@@ -4,6 +4,7 @@ export const navItems = [
   ['events', 'Schools & Events'],
   ['livestream', 'Live Stream'],
   ['refroom', 'RefRoom'],
+  ['podcast', 'The Jammed Up Bar! Podcast'],
   ['services', 'Services'],
   ['resume', 'Resume'],
   ['education', 'RefZone University'],
@@ -142,6 +143,10 @@ export const seoMeta = {
   refroom: [
     'RefRoom | RTBO Public Video Player & Production Studio',
     'Watch the RTBO RefRoom public video player for virtual officiating meetings, film rooms, training broadcasts, and production-studio sessions.'
+  ],
+  podcast: [
+    'The Jammed Up Bar! Podcast | Basketball Officiating Video Podcast',
+    'Watch The Jammed Up Bar! Podcast, a Raising The Bar Officiating video podcast platform for basketball officials, pressure moments, interviews, and real development stories.'
   ],
   services: [
     'Basketball Referee Assigning & Official Development Services | RTBO',
