@@ -2287,6 +2287,7 @@ function CourseToolPanel({
       return rows;
     }, []);
   const visibleFiles = files.slice(0, 24);
+  const [notesListOpen, setNotesListOpen] = useState(false);
 
   return (
     <aside className="rtbo-coursera-tool-panel" aria-label="Course resource panel">
@@ -2315,7 +2316,15 @@ function CourseToolPanel({
         <section>
           <p className="eyebrow">Notes</p>
           <h4>Student Notes</h4>
-          <button className="rtbo-coursera-view-notes" type="button">View all notes</button>
+          <button className="rtbo-coursera-view-notes" type="button" onClick={() => setNotesListOpen(current => !current)}>
+            {notesListOpen ? 'Hide all notes' : 'View all notes'}
+          </button>
+          {notesListOpen && (
+            <div className="rtbo-coursera-notes-list" aria-live="polite">
+              <strong>{day.title || 'Current lesson'}</strong>
+              <p>{notesValue || 'No notes have been saved for this lesson yet.'}</p>
+            </div>
+          )}
           {notesValue ? (
             <textarea
               value={notesValue}
@@ -2494,6 +2503,7 @@ function RTBOAcademy({
   const [courseToolPanel, setCourseToolPanel] = useState('');
   const [courseToolPanelOpen, setCourseToolPanelOpen] = useState(false);
   const [coursePromptResponse, setCoursePromptResponse] = useState('');
+  const [coursePromptCardOpen, setCoursePromptCardOpen] = useState(true);
   const [proUpgradeOpen, setProUpgradeOpen] = useState(false);
 
   useEffect(() => {
@@ -3236,15 +3246,21 @@ function RTBOAcademy({
                       <div className="rtbo-coursera-ai-card-head">
                         <span aria-hidden="true">*</span>
                         <strong>Dive deeper on this topic</strong>
-                        <button type="button" aria-label="Collapse topic prompts">^</button>
+                        <button type="button" aria-expanded={coursePromptCardOpen} aria-label={coursePromptCardOpen ? 'Collapse topic prompts' : 'Expand topic prompts'} onClick={() => setCoursePromptCardOpen(current => !current)}>
+                          {coursePromptCardOpen ? '^' : '+'}
+                        </button>
                       </div>
-                      <div className="rtbo-coursera-ai-actions">
-                        <button type="button" onClick={() => runCoursePrompt('questions')}>Give me practice questions</button>
-                        <button type="button" onClick={() => runCoursePrompt('simple')}>Explain this topic in simple terms</button>
-                        <button type="button" onClick={() => runCoursePrompt('summary')}>Give me a summary</button>
-                        <button type="button" onClick={() => runCoursePrompt('examples')}>Give me real-life examples</button>
-                      </div>
-                      {coursePromptResponse && <p className="rtbo-coursera-ai-response">{coursePromptResponse}</p>}
+                      {coursePromptCardOpen && (
+                        <>
+                          <div className="rtbo-coursera-ai-actions">
+                            <button type="button" onClick={() => runCoursePrompt('questions')}>Give me practice questions</button>
+                            <button type="button" onClick={() => runCoursePrompt('simple')}>Explain this topic in simple terms</button>
+                            <button type="button" onClick={() => runCoursePrompt('summary')}>Give me a summary</button>
+                            <button type="button" onClick={() => runCoursePrompt('examples')}>Give me real-life examples</button>
+                          </div>
+                          {coursePromptResponse && <p className="rtbo-coursera-ai-response">{coursePromptResponse}</p>}
+                        </>
+                      )}
                     </article>
 
                     <section className="rtbo-coursera-assessment-card">

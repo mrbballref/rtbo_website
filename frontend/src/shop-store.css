@@ -177,7 +177,7 @@
 }
 
 .rtbo-shop-store :is(input, select, textarea):focus {
-  border-color: var(--rtbo-orange, #ff6a00);
+  border-color: var(--rtbo-orange, #c1121f);
   box-shadow: 0 0 0 3px rgba(255, 106, 0, 0.18);
 }
 
@@ -272,7 +272,7 @@
 }
 
 .rtbo-shop-favorites-open:is(:hover, :focus-visible, .is-active) {
-  border-color: #ff8a1d;
+  border-color: #c44d59;
   box-shadow: 0 0 0 2px rgba(255, 106, 0, 0.16);
 }
 
@@ -629,8 +629,8 @@ button.rtbo-shop-list-option {
 }
 
 .rtbo-shop-create-submit {
-  border: 1px solid #ffd814;
-  background: #ffd814;
+  border: 1px solid #a94718;
+  background: #a94718;
   color: #111827;
 }
 
@@ -662,8 +662,8 @@ button.rtbo-shop-list-option {
 }
 
 .rtbo-shop-category-list button.is-active {
-  background: linear-gradient(135deg, #ff7a18, #ef4f05);
-  border-color: #ff8a1d;
+  background: linear-gradient(135deg, #a94718, #743313);
+  border-color: #c44d59;
   color: #ffffff;
 }
 
@@ -740,8 +740,8 @@ button.rtbo-shop-list-option {
 
 .rtbo-shop-wishlist:is(:hover, :focus-visible),
 .rtbo-shop-wishlist.is-favorite {
-  border-color: #ff8a1d;
-  background: linear-gradient(135deg, #ff7a18, #ef4f05);
+  border-color: #c44d59;
+  background: linear-gradient(135deg, #a94718, #743313);
   transform: translateY(-1px);
 }
 
@@ -776,7 +776,7 @@ button.rtbo-shop-list-option {
 }
 
 .rtbo-shop-product-body span {
-  color: var(--rtbo-orange, #ff6a00);
+  color: var(--rtbo-orange, #c1121f);
   font-size: 0.72rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -803,7 +803,7 @@ button.rtbo-shop-list-option {
 }
 
 .rtbo-shop-product-title:hover {
-  color: var(--rtbo-orange, #ff6a00);
+  color: var(--rtbo-orange, #c1121f);
 }
 
 .rtbo-shop-product-body p,
@@ -819,7 +819,7 @@ button.rtbo-shop-list-option {
 .rtbo-shop-empty-products {
   grid-column: 1 / -1;
   padding: 22px;
-  border: 1px solid color-mix(in srgb, var(--rtbo-orange, #ff6a00) 42%, transparent);
+  border: 1px solid color-mix(in srgb, var(--rtbo-orange, #c1121f) 42%, transparent);
   border-radius: 14px;
   background: color-mix(in srgb, var(--app-surface, #111827) 88%, transparent);
   color: var(--rtbo-muted, var(--app-muted, #cbd5e1));
@@ -836,7 +836,7 @@ button.rtbo-shop-list-option {
   flex-wrap: wrap;
   gap: 6px;
   align-items: center;
-  color: #fbbf24;
+  color: #a41623;
   font-size: 0.88rem;
   font-weight: 900;
 }
@@ -845,12 +845,11 @@ button.rtbo-shop-list-option {
   color: var(--rtbo-text, var(--app-text, #ffffff));
 }
 
-.rtbo-shop-rating button {
+.rtbo-shop-rating-count {
   border: 0;
   padding: 0;
   background: transparent;
   color: #93c5fd;
-  cursor: pointer;
   font-size: 0.82rem;
   font-weight: 800;
 }
@@ -1000,7 +999,7 @@ button.rtbo-shop-list-option {
 }
 
 .rtbo-shop-gallery-thumbs button:is(:hover, :focus-visible, .is-active) {
-  border-color: var(--rtbo-orange, #ff6a00);
+  border-color: var(--rtbo-orange, #c1121f);
   box-shadow: 0 0 0 2px rgba(255, 106, 0, 0.22);
   transform: translateY(-1px);
 }
@@ -1225,6 +1224,18 @@ button.rtbo-shop-list-option {
   justify-content: space-between;
 }
 
+.rtbo-shop-wishlist-status,
+.rtbo-shop-wishlist-note {
+  margin: 0;
+  border: 1px solid rgba(203, 161, 53, .42);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: #111827;
+  background: rgba(203, 161, 53, .12);
+  font-size: .86rem;
+  font-weight: 850;
+}
+
 .rtbo-shop-wishlist-titlebar h3 {
   display: flex;
   align-items: center;
@@ -1306,7 +1317,7 @@ button.rtbo-shop-list-option {
 }
 
 .rtbo-shop-wishlist-view-toggle .is-active {
-  border-bottom: 2px solid #ff6a00;
+  border-bottom: 2px solid #c1121f;
 }
 
 .rtbo-shop-wishlist-tools label {
@@ -1426,7 +1437,7 @@ button.rtbo-shop-list-option {
   color: #111827;
 }
 
-.rtbo-shop-wishlist-item .rtbo-shop-rating button {
+.rtbo-shop-wishlist-item .rtbo-shop-rating-count {
   color: #0066c0;
 }
 
@@ -1459,7 +1470,7 @@ button.rtbo-shop-list-option {
 .rtbo-shop-wishlist-item-side .btn {
   min-height: 34px;
   border-radius: 999px;
-  background: #ffd814;
+  background: #a94718;
   color: #111827;
   padding: 6px 18px;
 }
@@ -1689,7 +1700,7 @@ button.rtbo-shop-list-option {
 
 .rtbo-shop-cart-page-actions .rtbo-shop-qty {
   margin-right: 10px;
-  border: 2px solid #ffd814;
+  border: 2px solid #a94718;
   color: #111827;
 }
 
@@ -1780,7 +1791,7 @@ button.rtbo-shop-list-option {
 .rtbo-shop-secure-placebar .btn {
   min-height: 34px;
   border-radius: 999px;
-  background: #ffd814;
+  background: #a94718;
   color: #111827;
 }
 
@@ -1832,7 +1843,7 @@ button.rtbo-shop-list-option {
 .rtbo-shop-cart-rec-list article > div > button:last-child {
   justify-self: start;
   border-radius: 999px;
-  background: #ffd814;
+  background: #a94718;
   color: #111827;
   padding: 5px 14px;
 }
@@ -1913,7 +1924,7 @@ button.rtbo-shop-list-option {
 
 .rtbo-shop-secure-delivery .rtbo-shop-qty {
   justify-self: start;
-  border: 2px solid #ffd814;
+  border: 2px solid #a94718;
 }
 
 .rtbo-shop-secure-options label {
@@ -2479,13 +2490,13 @@ button.rtbo-shop-list-option {
 }
 
 .rtbo-shop-cart-buy-now {
-  background: #ffa41c;
+  background: #a94718;
   color: #111827;
 }
 
 .rtbo-shop-cart-add-more,
 .rtbo-shop-cart-similar-grid .btn {
-  background: #ffd814;
+  background: #a94718;
   color: #111827;
 }
 
@@ -2540,7 +2551,7 @@ button.rtbo-shop-list-option {
   color: #111827;
 }
 
-.rtbo-shop-cart-amazon .rtbo-shop-rating button {
+.rtbo-shop-cart-amazon .rtbo-shop-rating-count {
   color: #0066c0;
 }
 
@@ -2578,7 +2589,7 @@ button.rtbo-shop-list-option {
   justify-self: center;
   grid-template-columns: 28px minmax(24px, 1fr) 28px;
   place-items: center;
-  border: 2px solid #ffd814;
+  border: 2px solid #a94718;
   border-radius: 999px;
   background: #ffffff;
 }
@@ -2736,7 +2747,7 @@ button.rtbo-shop-list-option {
 }
 
 .rtbo-shop-status.is-pending {
-  color: #fbbf24;
+  color: #a41623;
   background: rgba(245, 158, 11, 0.14);
 }
 
@@ -2848,12 +2859,12 @@ button.rtbo-shop-list-option {
 :root:not([data-theme="light"]) .rtbo-shop-create-submit,
 :root:not([data-theme="light"]) .rtbo-shop-cart-add-more,
 :root:not([data-theme="light"]) .rtbo-shop-cart-similar-grid .btn {
-  background: #ffd814;
+  background: #a94718;
   color: #111827;
 }
 
 :root:not([data-theme="light"]) .rtbo-shop-cart-buy-now {
-  background: #ffa41c;
+  background: #a94718;
   color: #111827;
 }
 
@@ -2989,8 +3000,8 @@ button.rtbo-shop-list-option {
   --rtbo-cart-text: var(--rtbo-text, var(--app-text, #f8fafc));
   --rtbo-cart-muted: #cbd5e1;
   --rtbo-cart-border: rgba(255, 106, 0, 0.42);
-  --rtbo-cart-price: #ff8a2a;
-  --rtbo-cart-accent: #ff6a00;
+  --rtbo-cart-price: #a41623;
+  --rtbo-cart-accent: #c1121f;
   --rtbo-cart-accent-soft: rgba(255, 106, 0, 0.18);
   --rtbo-cart-accent-text: #111827;
   --rtbo-cart-overlay: rgba(0, 0, 0, 0.64);

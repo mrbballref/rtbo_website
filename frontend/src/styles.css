@@ -5,6 +5,8 @@
   --rtbo-scarlet-dark: #7f0d16;
   --rtbo-scarlet-soft: rgba(193, 18, 31, .16);
   --rtbo-gold: #d4af37;
+  --rtbo-gold-strong: #f3d675;
+  --rtbo-gold-dark: #9f7600;
   --rtbo-gold-muted: #b8922f;
   --rtbo-gold-soft: rgba(212, 175, 55, .18);
   --rtbo-gold-strong: #f3d675;
@@ -434,6 +436,7 @@ main,
   transition: transform .2s ease;
 }
 
+.nav-dropdown:is(:hover, :focus-within) .nav-dropdown-caret,
 .nav-dropdown.is-open .nav-dropdown-caret {
   transform: rotate(180deg);
 }
@@ -460,6 +463,7 @@ main,
   visibility: hidden;
 }
 
+.nav-dropdown:is(:hover, :focus-within) .nav-dropdown-menu,
 .nav-dropdown.is-open .nav-dropdown-menu {
   opacity: 1;
   pointer-events: auto;
@@ -2129,7 +2133,7 @@ button.hero-scroll-link {
 
 .services-client-carousel.hero-carousel {
   --slide-gap: 75px;
-  --slide-width: clamp(280px, calc((min(100vw, var(--rtbo-site-max-width, 1920px)) - 150px - clamp(40px, 7vw, 144px)) / 3), 560px);
+  --slide-width: clamp(188px, calc(16vw + 20px), 280px);
   --carousel-visible-width: calc((var(--slide-width) * 3) + (var(--slide-gap) * 2));
   position: relative;
   inset: auto;
@@ -2141,7 +2145,7 @@ button.hero-scroll-link {
   width: min(100%, var(--rtbo-site-max-width, 1920px));
   max-width: min(100%, var(--rtbo-site-max-width, 1920px));
   margin: 0 auto;
-  padding: clamp(12px, 1.4vw, 18px) 0;
+  padding: calc(clamp(12px, 1.4vw, 18px) + 14px) 0;
   border-block: 1px solid rgba(212, 175, 55, .42);
   background:
     linear-gradient(90deg, rgba(212, 175, 55, .1), transparent 18%, transparent 82%, rgba(212, 175, 55, .1)),
@@ -8142,12 +8146,17 @@ button.hero-scroll-link {
   grid-template-columns: 1fr;
   gap: 12px;
   align-items: start;
+  container-type: inline-size;
   min-width: 0;
   margin: 0;
   border: 1px solid rgba(193, 18, 31, .22);
   border-radius: 14px;
   padding: 14px;
   background: rgba(255, 255, 255, .035);
+}
+
+.rtbo-invoice-fee-row.has-selected-items {
+  grid-column: 1 / -1;
 }
 
 .rtbo-invoice-fee-row summary {
@@ -8251,9 +8260,10 @@ button.hero-scroll-link {
 
 .rtbo-invoice-selected-fee-row {
   display: grid;
-  grid-template-columns: minmax(180px, 1.15fr) minmax(78px, .4fr) minmax(110px, .54fr) minmax(120px, .56fr);
+  grid-template-columns: minmax(0, 1.2fr) minmax(72px, .36fr) minmax(96px, .46fr) minmax(118px, .54fr);
   gap: 12px;
   align-items: end;
+  min-width: 0;
   border: 1px solid rgba(255, 255, 255, .1);
   border-radius: 12px;
   padding: 12px;
@@ -8262,10 +8272,17 @@ button.hero-scroll-link {
 
 .rtbo-invoice-selected-fee-name {
   align-self: center;
+  min-width: 0;
   color: #fff;
   font-size: .9rem;
   font-weight: 1000;
   line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.rtbo-invoice-selected-fee-row label,
+.rtbo-invoice-selected-fee-row input {
+  min-width: 0;
 }
 
 .rtbo-invoice-line-total {
@@ -8290,6 +8307,17 @@ button.hero-scroll-link {
   color: #fff;
   font-size: .98rem;
   line-height: 1.1;
+}
+
+@container (max-width: 520px) {
+  .rtbo-invoice-selected-fee-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .rtbo-invoice-selected-fee-name,
+  .rtbo-invoice-line-total {
+    grid-column: 1 / -1;
+  }
 }
 
 .rtbo-invoice-mini-total {
@@ -10619,6 +10647,20 @@ button.hero-scroll-link {
 :root[data-theme="light"] .rtbo-invoice-line-total {
   border-color: rgba(193, 18, 31, .26);
   background: rgba(255, 255, 255, .72);
+}
+
+:root[data-theme="light"] .rtbo-invoice-fee-row summary,
+:root[data-theme="light"] .rtbo-invoice-fee-option {
+  color: #111827;
+}
+
+:root[data-theme="light"] .rtbo-invoice-fee-row summary small {
+  color: #6b7280;
+}
+
+:root[data-theme="light"] .rtbo-invoice-fee-menu {
+  border-color: rgba(193, 18, 31, .18);
+  background: rgba(248, 250, 252, .92);
 }
 
 :root[data-theme="light"] .rtbo-test-summary small,
@@ -16619,10 +16661,12 @@ html.dark .site-footer.original-footer {
 
 .site-footer.original-footer .footer-link:hover,
 .site-footer.original-footer .footer-link:focus-visible {
-  border-left-color: var(--rtbo-gold, #d4af37) !important;
-  color: var(--rtbo-gold-strong, #f3d675) !important;
-  background: linear-gradient(90deg, rgba(212, 175, 55, .12), transparent 82%) !important;
+  border-left-color: var(--rtbo-scarlet, #c1121f) !important;
+  color: var(--rtbo-scarlet, #c1121f) !important;
+  -webkit-text-fill-color: var(--rtbo-scarlet, #c1121f) !important;
+  background: linear-gradient(90deg, rgba(193, 18, 31, .16), transparent 82%) !important;
   box-shadow: none !important;
+  text-shadow: 0 0 18px rgba(193, 18, 31, .24) !important;
   transform: translateX(2px);
 }
 
@@ -16709,8 +16753,9 @@ html.dark .site-footer.original-footer {
 
 :root[data-theme="light"] .site-footer.original-footer .footer-link:hover,
 :root[data-theme="light"] .site-footer.original-footer .footer-link:focus-visible {
-  color: #7a5a08 !important;
-  background: linear-gradient(90deg, rgba(212, 175, 55, .18), transparent 82%) !important;
+  color: var(--rtbo-scarlet, #c1121f) !important;
+  -webkit-text-fill-color: var(--rtbo-scarlet, #c1121f) !important;
+  background: linear-gradient(90deg, rgba(193, 18, 31, .12), transparent 82%) !important;
 }
 
 :root[data-theme="light"] .site-footer.original-footer .footer-events-panel {
@@ -16733,7 +16778,7 @@ html.dark .site-footer.original-footer {
 @media (max-width: 980px) {
   .rtbo-public .services-client-carousel.hero-carousel {
     --slide-gap: clamp(16px, 5vw, 34px);
-    --slide-width: clamp(280px, 84vw, 560px);
+    --slide-width: clamp(300px, calc(84vw + 20px), 580px);
     width: 100% !important;
     max-width: 100% !important;
   }
@@ -16805,4 +16850,214 @@ html.dark .site-footer.original-footer {
     0 12px 28px var(--rtbo-gold-hover-glow, rgba(212, 175, 55, .3)),
     inset 0 1px 0 rgba(255, 255, 255, .32) !important;
   text-shadow: none !important;
+}
+
+/* Header polish: keep the theme switcher clean while giving nav hover states a larger, softer hit area. */
+.site-header.rtbo-header .nav-link-group > button:not(.btn),
+.site-header.rtbo-header .nav-dropdown-trigger {
+  min-height: 38px !important;
+  border: 1px solid transparent !important;
+  border-radius: 10px !important;
+  padding: 10px 16px !important;
+  line-height: 1.05 !important;
+}
+
+.site-header.rtbo-header .nav-dropdown-menu button {
+  min-height: 40px !important;
+  border-radius: 10px !important;
+  padding: 9px 14px !important;
+}
+
+.site-header.rtbo-header .nav-link-group > button:not(.btn):is(:hover, :focus-visible, .active),
+.site-header.rtbo-header .nav-dropdown-trigger:is(:hover, :focus-visible, .active),
+.site-header.rtbo-header .nav-dropdown-menu button:is(:hover, :focus-visible, .active) {
+  border-radius: 10px !important;
+}
+
+.theme-toggle:is(:hover, :focus-visible) {
+  border-color: transparent !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.theme-toggle:is(:hover, :focus-visible) .theme-toggle-track,
+.theme-toggle-track:is(:hover, :focus-visible) {
+  border-color: rgba(221, 226, 232, .88) !important;
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,.52),
+    inset 0 -4px 10px rgba(0,0,0,.32),
+    0 5px 13px rgba(0,0,0,.22),
+    0 0 0 1px rgba(5,6,8,.42) !important;
+}
+
+:root[data-theme="light"] .theme-toggle:is(:hover, :focus-visible),
+html.light .theme-toggle:is(:hover, :focus-visible) {
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+  background: transparent !important;
+}
+
+:root[data-theme="light"] .theme-toggle:is(:hover, :focus-visible) .theme-toggle-track,
+:root[data-theme="light"] .theme-toggle-track:is(:hover, :focus-visible),
+html.light .theme-toggle:is(:hover, :focus-visible) .theme-toggle-track,
+html.light .theme-toggle-track:is(:hover, :focus-visible) {
+  border-color: rgba(238, 242, 247, .96) !important;
+}
+
+/* Header hover correction: nav text turns scarlet only, and the theme switcher keeps no square hover fill. */
+.site-header.rtbo-header .nav-link-group > button:not(.btn):is(:hover, :focus-visible),
+.site-header.rtbo-header .nav-dropdown-trigger:is(:hover, :focus-visible),
+.site-header.rtbo-header .nav-dropdown.is-open > .nav-dropdown-trigger {
+  color: var(--rtbo-scarlet, #c1121f) !important;
+  -webkit-text-fill-color: var(--rtbo-scarlet, #c1121f) !important;
+  border-color: transparent !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+.site-header.rtbo-header .nav-dropdown-menu button:is(:hover, :focus-visible) {
+  color: var(--rtbo-scarlet, #c1121f) !important;
+  -webkit-text-fill-color: var(--rtbo-scarlet, #c1121f) !important;
+  border-color: transparent !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.site-header.rtbo-header .theme-toggle,
+.site-header.rtbo-header .theme-toggle:is(:hover, :focus, :focus-visible, :active),
+.site-header.rtbo-header .theme-toggle.nav-theme-toggle:is(:hover, :focus, :focus-visible, :active) {
+  border-color: transparent !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  outline-color: transparent !important;
+}
+
+.theme-toggle:is(:hover, :focus, :focus-visible, :active),
+.theme-toggle.nav-theme-toggle:is(:hover, :focus, :focus-visible, :active),
+.site-header.rtbo-header .theme-toggle:is(:hover, :focus, :focus-visible, :active) {
+  border-color: transparent !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.site-header.rtbo-header .theme-toggle:is(:hover, :focus, :focus-visible, :active) .theme-toggle-track {
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.58), rgba(255,255,255,.08) 24%, rgba(0,0,0,.28) 78%, rgba(255,255,255,.2)),
+    linear-gradient(90deg, #050608, #1f2937 48%, #c1121f) !important;
+}
+
+.site-header.rtbo-header .theme-toggle :is(.theme-toggle-icon, .theme-toggle-text):is(:hover, :focus, :focus-visible, :active) {
+  border-color: transparent !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  outline-color: transparent !important;
+}
+
+:root[data-theme="light"] .site-header.rtbo-header .theme-toggle:is(:hover, :focus, :focus-visible, :active) .theme-toggle-track,
+html.light .site-header.rtbo-header .theme-toggle:is(:hover, :focus, :focus-visible, :active) .theme-toggle-track {
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.7), rgba(255,255,255,.08) 24%, rgba(193, 18, 31,.18) 78%, rgba(255,255,255,.22)),
+    linear-gradient(90deg, #f8fafc, #cbd5e1 52%, #c1121f) !important;
+}
+
+.site-header.rtbo-header .nav-action-group > .btn:is(:hover, :focus-visible) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: var(--rtbo-gold, #d4af37) !important;
+  background:
+    linear-gradient(135deg, #a41623, #7f0d16 52%, #c1121f),
+    var(--rtbo-button-bg, #a94718) !important;
+  box-shadow:
+    0 0 0 1px rgba(212, 175, 55, .86),
+    0 13px 28px rgba(212, 175, 55, .16),
+    inset 0 1px 0 rgba(255, 255, 255, .48) !important;
+  text-shadow: none !important;
+}
+
+.site-header.rtbo-header .nav-action-group > .btn.secondary:is(:hover, :focus-visible) {
+  background:
+    linear-gradient(135deg, rgba(164, 22, 35, .92), rgba(5, 6, 8, .92) 56%, rgba(127, 13, 22, .86)),
+    rgba(5, 6, 8, .92) !important;
+}
+
+.site-header.rtbo-header .theme-toggle:is(:hover, :focus, :focus-visible, :active) .theme-toggle-track,
+.site-header.rtbo-header .theme-toggle-track:is(:hover, :focus, :focus-visible, :active) {
+  border-color: var(--rtbo-gold, #d4af37) !important;
+  box-shadow:
+    0 0 0 1px rgba(212, 175, 55, .86),
+    0 9px 20px rgba(212, 175, 55, .16),
+    inset 0 2px 0 rgba(255,255,255,.52),
+    inset 0 -4px 10px rgba(0,0,0,.32) !important;
+}
+
+.site-header.rtbo-header .brand-mark,
+.site-header.rtbo-header .brand-mark:is(:hover, :focus, :focus-visible, :active) {
+  border-color: transparent !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  outline-color: transparent !important;
+}
+
+.site-header.rtbo-header .brand-mark:is(:hover, :focus, :focus-visible, :active) img {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Final interaction guards: these sit after the site-wide gold hover layer. */
+.site-footer.original-footer .footer-link:is(:hover, :focus-visible) {
+  border-color: rgba(193, 18, 31, .44) !important;
+  border-left-color: var(--rtbo-scarlet, #c1121f) !important;
+  color: var(--rtbo-scarlet, #c1121f) !important;
+  -webkit-text-fill-color: var(--rtbo-scarlet, #c1121f) !important;
+  background:
+    linear-gradient(90deg, rgba(193, 18, 31, .16), transparent 84%) !important;
+  box-shadow: none !important;
+  text-shadow: 0 0 18px rgba(193, 18, 31, .24) !important;
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-link:is(:hover, :focus-visible),
+html.light .site-footer.original-footer .footer-link:is(:hover, :focus-visible) {
+  color: var(--rtbo-scarlet, #c1121f) !important;
+  -webkit-text-fill-color: var(--rtbo-scarlet, #c1121f) !important;
+  background:
+    linear-gradient(90deg, rgba(193, 18, 31, .12), rgba(255, 255, 255, .76) 88%) !important;
+}
+
+.theme-toggle:is(:hover, :focus, :focus-visible, :active),
+.theme-toggle.nav-theme-toggle:is(:hover, :focus, :focus-visible, :active),
+.site-header.rtbo-header .theme-toggle:is(:hover, :focus, :focus-visible, :active) {
+  border-color: transparent !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  outline-color: transparent !important;
+}
+
+.rtbo-public .services-client-carousel.hero-carousel {
+  --slide-gap: 75px !important;
+  --slide-width: clamp(188px, calc(16vw + 20px), 280px) !important;
+  --carousel-visible-width: calc((var(--slide-width) * 3) + (var(--slide-gap) * 2)) !important;
+  padding-top: calc(clamp(12px, 1.4vw, 18px) + 14px) !important;
+  padding-bottom: calc(clamp(12px, 1.4vw, 18px) + 14px) !important;
+}
+
+@media (max-width: 980px) {
+  .rtbo-public .services-client-carousel.hero-carousel {
+    --slide-gap: clamp(16px, 5vw, 34px) !important;
+    --slide-width: clamp(300px, calc(84vw + 20px), 580px) !important;
+  }
 }

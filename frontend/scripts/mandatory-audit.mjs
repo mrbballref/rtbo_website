@@ -42,6 +42,7 @@ const publicAppCss = readText('public/assets/css/app.css');
 const mainSource = readText('src/main.jsx');
 const shopStoreSource = readText('src/ShopStore.jsx');
 const sourceCssFiles = walkFiles(path.join(frontendRoot, 'src')).filter(filePath => filePath.endsWith('.css'));
+const sourceComponentFiles = walkFiles(path.join(frontendRoot, 'src')).filter(filePath => /\.(?:js|jsx)$/i.test(filePath));
 const cssPaletteCorpus = [publicAppCss, styles, ...sourceCssFiles.map(filePath => fs.readFileSync(filePath, 'utf8'))].join('\n');
 const carbonFiberDeclaration = publicAppCss.match(/--rtbo-carbon-fiber\s*:[\s\S]*?--rtbo-carbon-fiber-size/)?.[0] ?? '';
 
@@ -51,6 +52,68 @@ const contractGeneratorCss = readText('src/contract-generator.css');
 
 function hasRequiredBreakpoint(css, width) {
   return new RegExp(`@media\\s*[^{}]*\\(\\s*max-width\\s*:\\s*${width}px\\s*\\)`, 'i').test(css);
+}
+
+function jsxOpeningTags(source, tagName) {
+  const tags = [];
+  const matcher = new RegExp(`<${tagName}\\b`, 'gi');
+  let match;
+  while ((match = matcher.exec(source)) !== null) {
+    let quote = '';
+    let braceDepth = 0;
+    let index = matcher.lastIndex;
+    while (index < source.length) {
+      const char = source[index];
+      if (quote) {
+        if (char === '\\') {
+          index += 2;
+          continue;
+        }
+        if (char === quote) quote = '';
+        index += 1;
+        continue;
+      }
+      if (char === '"' || char === "'" || char === '`') {
+        quote = char;
+        index += 1;
+        continue;
+      }
+      if (char === '{') {
+        braceDepth += 1;
+        index += 1;
+        continue;
+      }
+      if (char === '}') {
+        braceDepth = Math.max(0, braceDepth - 1);
+        index += 1;
+        continue;
+      }
+      if (char === '>' && braceDepth === 0) {
+        tags.push({ index: match.index, tag: source.slice(match.index, index + 1) });
+        matcher.lastIndex = index + 1;
+        break;
+      }
+      index += 1;
+    }
+  }
+  return tags;
+}
+
+function lineNumber(source, index) {
+  return source.slice(0, index).split(/\r?\n/).length;
+}
+
+function hasLiteralType(tag, type) {
+  return new RegExp(`\\btype\\s*=\\s*(?:"${type}"|'${type}'|\\{\\s*(?:"${type}"|'${type}')\\s*\\})`, 'i').test(tag);
+}
+
+function isActionableButton(tag) {
+  return /\bonClick\s*=/.test(tag)
+    || /\bonPointer(?:Down|Up)\s*=/.test(tag)
+    || /\bonMouse(?:Down|Up)\s*=/.test(tag)
+    || /\bformAction\s*=/.test(tag)
+    || hasLiteralType(tag, 'submit')
+    || hasLiteralType(tag, 'reset');
 }
 
 assertCheck(
@@ -94,6 +157,45 @@ assertCheck(
 ].forEach(([label, passed]) => {
   assertCheck(passed, `Mandatory visual polish audit failed: missing ${label}.`);
 });
+
+sourceComponentFiles.forEach(filePath => {
+  const source = fs.readFileSync(filePath, 'utf8');
+  const relativeName = path.relative(frontendRoot, filePath);
+  jsxOpeningTags(source, 'button').forEach(({ index, tag }) => {
+    if (/\bdata-audit-static-ok\b/.test(tag)) return;
+    if (!isActionableButton(tag)) {
+      failures.push(`${relativeName}:${lineNumber(source, index)} has a button without a click handler, form action, submit type, or reset type. Every button must perform a production action or be explicitly audited.`);
+    }
+  });
+  jsxOpeningTags(source, 'a').forEach(({ index, tag }) => {
+    if (!/\bclassName\s*=/.test(tag) || !/\bbtn\b/.test(tag)) return;
+    if (/\bdata-audit-static-ok\b/.test(tag)) return;
+    const hasDestination = /\bhref\s*=\s*(?:"(?!#")[^"]+"|'(?!#')[^']+'|\{[^}]+\})/.test(tag);
+    if (!hasDestination && !/\bonClick\s*=/.test(tag)) {
+      failures.push(`${relativeName}:${lineNumber(source, index)} has a button-styled link without a destination or click handler.`);
+    }
+  });
+});
+
+const saveInvoiceBody = mainSource.match(/async function saveInvoice\([\s\S]*?\n  async function saveInvoicePdf/)?.[0] || '';
+const emailInvoiceBody = mainSource.match(/async function emailInvoice\([\s\S]*?\n  async function deleteInvoice/)?.[0] || '';
+const printPreparedInvoiceBody = mainSource.match(/async function printPreparedInvoice\([\s\S]*?\n  function editCurrentInvoice/)?.[0] || '';
+assertCheck(
+  saveInvoiceBody !== '' && !/requestInvoicePdfSaveTarget/.test(saveInvoiceBody) && /persistInvoiceRecord/.test(saveInvoiceBody),
+  'Invoice Save Invoice action must save the invoice record directly and must not be blocked by a local PDF picker.'
+);
+assertCheck(
+  emailInvoiceBody !== '' && !/requestInvoicePdfSaveTarget/.test(emailInvoiceBody) && /action:\s*'email'/.test(emailInvoiceBody),
+  'Invoice Email Invoice action must send through the API directly and must not be blocked by a local PDF picker.'
+);
+assertCheck(
+  printPreparedInvoiceBody !== '' && !/requestInvoicePdfSaveTarget|action:\s*'pdf'/.test(printPreparedInvoiceBody) && /window\.print/.test(printPreparedInvoiceBody),
+  'Invoice Print Invoice action must open the system print dialog directly from the preview.'
+);
+assertCheck(
+  /invoiceFeeSelection/.test(mainSource) && /Add at least one billable invoice fee/.test(mainSource),
+  'Invoice generator must validate that at least one billable fee line exists before save, PDF, email, or print actions.'
+);
 
 assertCheck(
   /\.rtbo-dashboard-shell\s*\{[\s\S]*background-image\s*:\s*var\(--rtbo-carbon-fiber\)/.test(styles)

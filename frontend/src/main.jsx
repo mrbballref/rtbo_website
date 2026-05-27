@@ -627,6 +627,45 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
   const servicesActive = servicesNavLinks.some(([id]) => id === active);
   const trainingActive = trainingNavLinks.some(([id]) => id === active);
 
+  function closeNavDropdowns() {
+    setTrainingOpen(false);
+    setLiveStreamOpen(false);
+    setServicesOpen(false);
+  }
+
+  function openNavDropdown(id) {
+    setLiveStreamOpen(id === 'livestream');
+    setServicesOpen(id === 'services');
+    setTrainingOpen(id === 'trainers');
+  }
+
+  function closeDropdownOnBlur(event) {
+    if (event.currentTarget.contains(event.relatedTarget)) return;
+    closeNavDropdowns();
+  }
+
+  useEffect(() => {
+    function handleDocumentOutsidePress(event) {
+      if (event.target instanceof Element && event.target.closest('.site-header.rtbo-header .nav-dropdown')) return;
+      closeNavDropdowns();
+    }
+
+    function handleDocumentKeyDown(event) {
+      if (event.key === 'Escape') closeNavDropdowns();
+    }
+
+    document.addEventListener('pointerdown', handleDocumentOutsidePress, true);
+    document.addEventListener('mousedown', handleDocumentOutsidePress, true);
+    document.addEventListener('click', handleDocumentOutsidePress, true);
+    document.addEventListener('keydown', handleDocumentKeyDown);
+    return () => {
+      document.removeEventListener('pointerdown', handleDocumentOutsidePress, true);
+      document.removeEventListener('mousedown', handleDocumentOutsidePress, true);
+      document.removeEventListener('click', handleDocumentOutsidePress, true);
+      document.removeEventListener('keydown', handleDocumentKeyDown);
+    };
+  }, []);
+
   function openNavPage(id) {
     setActive(id);
     setOpen(false);
@@ -668,17 +707,13 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
       <nav className={`site-nav ${open ? 'is-open' : ''}`}>
         <div className="nav-link-group">
           {primaryNavLinks.map(([id, label]) => id === 'livestream' ? (
-            <div className={`nav-dropdown ${liveStreamOpen ? 'is-open' : ''}`} key={id}>
+            <div className={`nav-dropdown ${liveStreamOpen ? 'is-open' : ''}`} key={id} onMouseEnter={() => openNavDropdown('livestream')} onMouseLeave={closeNavDropdowns} onPointerEnter={() => openNavDropdown('livestream')} onPointerLeave={closeNavDropdowns} onFocus={() => openNavDropdown('livestream')} onBlur={closeDropdownOnBlur}>
               <button
                 className={`nav-dropdown-trigger ${liveStreamActive ? 'active' : ''}`}
                 type="button"
                 aria-expanded={liveStreamOpen}
                 aria-haspopup="true"
-                onClick={() => {
-                  setLiveStreamOpen(current => !current);
-                  setTrainingOpen(false);
-                  setServicesOpen(false);
-                }}
+                onClick={() => openNavDropdown('livestream')}
               >
                 {label}<span className="nav-dropdown-caret" aria-hidden="true"></span>
               </button>
@@ -689,17 +724,13 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
               </div>
             </div>
           ) : id === 'services' ? (
-            <div className={`nav-dropdown ${servicesOpen ? 'is-open' : ''}`} key={id}>
+            <div className={`nav-dropdown ${servicesOpen ? 'is-open' : ''}`} key={id} onMouseEnter={() => openNavDropdown('services')} onMouseLeave={closeNavDropdowns} onPointerEnter={() => openNavDropdown('services')} onPointerLeave={closeNavDropdowns} onFocus={() => openNavDropdown('services')} onBlur={closeDropdownOnBlur}>
               <button
                 className={`nav-dropdown-trigger ${servicesActive ? 'active' : ''}`}
                 type="button"
                 aria-expanded={servicesOpen}
                 aria-haspopup="true"
-                onClick={() => {
-                  setServicesOpen(current => !current);
-                  setLiveStreamOpen(false);
-                  setTrainingOpen(false);
-                }}
+                onClick={() => openNavDropdown('services')}
               >
                 {label}<span className="nav-dropdown-caret" aria-hidden="true"></span>
               </button>
@@ -710,17 +741,13 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
               </div>
             </div>
           ) : id === 'trainers' ? (
-            <div className={`nav-dropdown ${trainingOpen ? 'is-open' : ''}`} key={id}>
+            <div className={`nav-dropdown ${trainingOpen ? 'is-open' : ''}`} key={id} onMouseEnter={() => openNavDropdown('trainers')} onMouseLeave={closeNavDropdowns} onPointerEnter={() => openNavDropdown('trainers')} onPointerLeave={closeNavDropdowns} onFocus={() => openNavDropdown('trainers')} onBlur={closeDropdownOnBlur}>
               <button
                 className={`nav-dropdown-trigger ${trainingActive ? 'active' : ''}`}
                 type="button"
                 aria-expanded={trainingOpen}
                 aria-haspopup="true"
-                onClick={() => {
-                  setTrainingOpen(current => !current);
-                  setLiveStreamOpen(false);
-                  setServicesOpen(false);
-                }}
+                onClick={() => openNavDropdown('trainers')}
               >
                 {label}<span className="nav-dropdown-caret" aria-hidden="true"></span>
               </button>
@@ -1309,7 +1336,8 @@ function ServicesClientSlider() {
     ['clients/uapb_client_image_slider.png', 'University of Arkansas at Pine Bluff women basketball client spotlight'],
     ['clients/uapb_client_men_image_slider.png', 'University of Arkansas at Pine Bluff men basketball client spotlight'],
     ['clients/uca_client_image_slider.png', 'University of Central Arkansas basketball client spotlight'],
-    ['clients/hop_step_sporting_events_client_image_slider.png', 'Hop Step Sporting Events basketball client spotlight']
+    ['clients/hop_step_sporting_events_client_image_slider.png', 'Hop Step Sporting Events basketball client spotlight'],
+    ['clients/big_miller_events_client_image_slider.png', 'Big Miller Events team camps client spotlight']
   ];
 
   return (
@@ -1321,7 +1349,7 @@ function ServicesClientSlider() {
       <div className="hero-carousel services-client-carousel" aria-label="RTBO client image slider">
         <div className="hero-carousel-track carousel-content">
           {[...clientSlides, ...clientSlides].map(([src, alt], index) => (
-            <img key={`${src}-${index}`} src={image(src)} alt={alt} loading="lazy" decoding="async" />
+            <img key={`${src}-${index}`} src={image(src)} alt={alt} loading={index < clientSlides.length ? 'eager' : 'lazy'} decoding="async" />
           ))}
         </div>
       </div>
@@ -3425,6 +3453,22 @@ function RegistrationForm({ user, active = 'register', setActive = () => {}, onO
     });
   }
 
+  function selectExpressWallet(wallet) {
+    setPaymentProvider('stripe');
+    setStatus(`${wallet} selected. Continue to Payment to complete checkout through the secure Stripe wallet flow.`);
+  }
+
+  function applyRegistrationPromoCode() {
+    const promoInput = registrationFormRef.current?.querySelector('input[name="promo_code"]');
+    const promoCode = String(promoInput?.value || '').trim();
+    if (!promoCode) {
+      setStatus('Enter a promo code before applying it.');
+      promoInput?.focus();
+      return;
+    }
+    setStatus(`Promo code ${promoCode.toUpperCase()} added. It will be verified during secure checkout.`);
+  }
+
   async function submit(event) {
     event.preventDefault();
     if (!selectedSessions.length) {
@@ -3598,8 +3642,8 @@ function RegistrationForm({ user, active = 'register', setActive = () => {}, onO
               <PaymentLogo brand="discover" />
             </div>
             <div className="rtbo-registration-wallets" aria-label="Express checkout options">
-              <button type="button" aria-label="Apple Pay"><PaymentLogo brand="apple-pay" /></button>
-              <button type="button" aria-label="Google Pay"><PaymentLogo brand="google-pay" /></button>
+              <button type="button" aria-label="Apple Pay" onClick={() => selectExpressWallet('Apple Pay')}><PaymentLogo brand="apple-pay" /></button>
+              <button type="button" aria-label="Google Pay" onClick={() => selectExpressWallet('Google Pay')}><PaymentLogo brand="google-pay" /></button>
             </div>
             <div className="rtbo-registration-card-divider"><span>Or pay with card</span></div>
             <div className="rtbo-registration-card-fields">
@@ -3608,7 +3652,7 @@ function RegistrationForm({ user, active = 'register', setActive = () => {}, onO
               <label>Name on Card<input type="text" autoComplete="cc-name" placeholder="Enter name on card" /></label>
               <label>Country<select defaultValue="United States"><option>United States</option><option>Canada</option><option>Mexico</option></select></label>
               <label>Zip Code<input type="text" inputMode="numeric" autoComplete="postal-code" placeholder="12345" /></label>
-              <div className="rtbo-registration-promo-row"><label>Promo Code<input type="text" placeholder="Enter promo code" /></label><button type="button">Apply Code</button></div>
+              <div className="rtbo-registration-promo-row"><label>Promo Code<input type="text" name="promo_code" placeholder="Enter promo code" /></label><button type="button" onClick={applyRegistrationPromoCode}>Apply Code</button></div>
             </div>
             <button className="btn registration-payment-button" type="submit">Continue to Payment</button>
             <p className="rtbo-registration-payment-note">You will be redirected to our secure payment processor.</p>
@@ -5451,22 +5495,12 @@ function AdminInvoiceCreator({ user, onStatus = () => {} }) {
     }
 
     const invoicePayload = invoiceWithComputedTotals(invoiceForm);
-    setInvoiceStatus('Choose where to save the invoice PDF on this computer.');
-    const localSaveTarget = await requestInvoicePdfSaveTarget(invoicePayload);
     setSaving(true);
-    setInvoiceStatus('Saving invoice and creating PDF...');
+    setInvoiceStatus('Saving invoice to the invoice library...');
     try {
       const { saved, message: savedMessage } = await persistInvoiceRecord(invoicePayload);
       setPrintPreviewOpen(false);
-      let message = savedMessage;
-      try {
-        const pdfData = await apiPostJson('/admin-invoices.php', { action: 'pdf', invoice: saved });
-        const localResult = await saveInvoicePdfToComputer(pdfData.pdf, localSaveTarget);
-        message += ` ${invoicePdfSaveMessage(localResult)}`;
-      } catch (localError) {
-        message += ` PDF could not be saved: ${localError.message || 'browser file access was unavailable.'}`;
-      }
-      setInvoiceStatus(message);
+      setInvoiceStatus(`${savedMessage} Invoice ${saved.invoiceNumber} is saved in the invoice library.`);
       onStatus(`Invoice ${saved.invoiceNumber} saved.`);
     } catch (error) {
       setInvoiceStatus(error.message || 'Invoice could not be saved.');
@@ -5483,6 +5517,10 @@ function AdminInvoiceCreator({ user, onStatus = () => {} }) {
     const invoicePayload = invoiceWithComputedTotals(invoiceForm);
     setInvoiceStatus('Choose where to save the invoice PDF on this computer.');
     const localSaveTarget = await requestInvoicePdfSaveTarget(invoicePayload);
+    if (localSaveTarget?.type === 'canceled') {
+      setInvoiceStatus('PDF save was canceled. The invoice was not changed.');
+      return;
+    }
     setSaving(true);
     setInvoiceStatus('Creating invoice PDF...');
     try {
@@ -5503,12 +5541,6 @@ function AdminInvoiceCreator({ user, onStatus = () => {} }) {
     }
 
     const invoicePayload = invoiceWithComputedTotals(invoiceForm);
-    setInvoiceStatus('Choose where to save the emailed invoice PDF on this computer.');
-    const localSaveTarget = await requestInvoicePdfSaveTarget(invoicePayload);
-    if (localSaveTarget?.type === 'canceled') {
-      setInvoiceStatus('PDF save was canceled. The invoice was not emailed.');
-      return;
-    }
     setSaving(true);
     setInvoiceStatus('Saving invoice and emailing PDF...');
     try {
@@ -5520,10 +5552,13 @@ function AdminInvoiceCreator({ user, onStatus = () => {} }) {
       });
       let message = data.message || `Invoice PDF emailed to ${saved.email}.`;
       try {
-        const localResult = await saveInvoicePdfToComputer(data.pdf, localSaveTarget);
+        const localResult = await saveInvoicePdfToComputer(data.pdf, {
+          type: 'download',
+          suggestedName: invoicePdfFileName(saved)
+        });
         message += ` ${invoicePdfSaveMessage(localResult)}`;
       } catch (localError) {
-        message += ` PDF could not be saved locally: ${localError.message || 'browser file access was unavailable.'}`;
+        message += ` Local PDF copy could not be downloaded: ${localError.message || 'browser file access was unavailable.'}`;
       }
       setPrintPreviewOpen(false);
       setInvoiceStatus(message);
@@ -5575,21 +5610,9 @@ function AdminInvoiceCreator({ user, onStatus = () => {} }) {
     }
 
     const invoicePayload = invoiceWithComputedTotals(invoiceForm);
-    setInvoiceStatus('Choose where to save the invoice PDF before printing.');
-    const localSaveTarget = await requestInvoicePdfSaveTarget(invoicePayload);
-    if (localSaveTarget?.type === 'canceled') {
-      setInvoiceStatus('PDF save was canceled. Printing was not started.');
-      return;
-    }
     setSaving(true);
-    setInvoiceStatus('Creating and saving PDF before print...');
+    setInvoiceStatus('Opening system print dialog...');
     try {
-      const data = await apiPostJson('/admin-invoices.php', { action: 'pdf', invoice: invoicePayload });
-      const localResult = await saveInvoicePdfToComputer(data.pdf, localSaveTarget);
-      if (localResult.canceled) {
-        setInvoiceStatus('PDF save was canceled. Printing was not started.');
-        return;
-      }
       if (typeof window.print !== 'function') {
         throw new Error('Printing is not available in this browser.');
       }
@@ -5602,11 +5625,11 @@ function AdminInvoiceCreator({ user, onStatus = () => {} }) {
         window.removeEventListener('afterprint', finishPrintMode);
         finishPrintMode();
       }, 1500);
-      setInvoiceStatus(`System print dialog opened. Choose the printer and confirm to finish printing. ${invoicePdfSaveMessage(localResult)}`);
+      setInvoiceStatus('System print dialog opened. Choose the printer or Save as PDF to finish printing.');
       onStatus(`Invoice ${invoicePayload.invoiceNumber} is ready to print.`);
     } catch (error) {
       document.body.classList.remove('rtbo-printing-invoice');
-      setInvoiceStatus(error.message || 'Invoice PDF could not be saved before printing.');
+      setInvoiceStatus(error.message || 'Invoice could not be printed.');
     } finally {
       setSaving(false);
     }
@@ -5757,6 +5780,7 @@ function AdminInvoiceCreator({ user, onStatus = () => {} }) {
                 );
               })}
             </div>
+            <InvoiceFieldError errors={invoiceErrors} name="invoiceFeeSelection" />
             {invoiceLineItems(invoiceForm).length > 0 && (
               <div className="rtbo-invoice-mini-total">
                 <span>Live Total</span>
@@ -7055,6 +7079,23 @@ function validateInvoiceForm(invoice = {}) {
   if (String(invoice.email || '').trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(invoice.email).trim())) {
     errors.email = 'Enter a valid email address.';
   }
+
+  const selectedLineItems = invoiceFeeRows.flatMap(row => (
+    invoiceCategoryItems(invoice, row).map(item => ({ ...item, row }))
+  ));
+  const completeLineItems = selectedLineItems.filter(isInvoiceLineItemComplete);
+  if (completeLineItems.length === 0) {
+    errors.invoiceFeeSelection = 'Add at least one billable invoice fee with quantity and fee.';
+  }
+  selectedLineItems.forEach(item => {
+    if (!String(item.description || '').trim()) return;
+    if (invoiceNumberValue(item.qty) <= 0) {
+      errors[invoiceItemErrorName(item.row, item.description, 'qty')] = 'Qty must be greater than 0.';
+    }
+    if (invoiceNumberValue(item.rate) <= 0) {
+      errors[invoiceItemErrorName(item.row, item.description, 'rate')] = 'Fee must be greater than 0.';
+    }
+  });
 
   return errors;
 }

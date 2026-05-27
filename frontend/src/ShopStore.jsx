@@ -36,7 +36,7 @@ const states = [
 const shopBannerImages = [
   {
     src: shopFeaturedImage('shop-hero-quarter-zip-orange.jpg'),
-    alt: 'RTBO black and orange quarter zip apparel'
+    alt: 'RTBO black and scarlet quarter zip apparel'
   },
   {
     src: shopFeaturedImage('shop-hero-referee-jersey.jpg'),
@@ -52,7 +52,7 @@ const shopBannerImages = [
   },
   {
     src: shopFeaturedImage('shop-hero-hoodie-white-orange.jpg'),
-    alt: 'RTBO white and orange hoodie'
+    alt: 'RTBO white and scarlet hoodie'
   },
   {
     src: shopFeaturedImage('shop-hero-striped-jerseys.jpg'),
@@ -77,9 +77,9 @@ export const shopDefaultProducts = [
     category: 'apparel',
     price: 3999,
     image: shopFeaturedImage('shop-hero-referee-jersey.jpg'),
-    description: 'Lightweight black, white, and orange officiating jersey with RTBO styling.',
+    description: 'Lightweight black, white, and scarlet officiating jersey with RTBO styling.',
     sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'],
-    colors: ['Black / White / Orange']
+    colors: ['Black / White / Scarlet']
   },
   {
     sku: 'RTBO-POLO-PERFORMANCE',
@@ -119,7 +119,7 @@ export const shopDefaultProducts = [
     image: shopFeaturedImage('shop-product-hoodie-blue.jpg'),
     description: 'Daily training shirt for camp, film lab, classroom, and travel days.',
     sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
-    colors: ['Black', 'White', 'Orange']
+    colors: ['Black', 'White', 'Scarlet']
   },
   {
     sku: 'RTBO-WINDBREAKER',
@@ -139,7 +139,7 @@ export const shopDefaultProducts = [
     image: shopFeaturedImage('shop-product-hoodie-blue.jpg'),
     description: 'Two-piece warmup suit designed for officials, trainers, and event staff.',
     sizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
-    colors: ['Black / Orange']
+    colors: ['Black / Scarlet']
   },
   {
     sku: 'FOX40-CLASSIC-BLACK',
@@ -159,7 +159,7 @@ export const shopDefaultProducts = [
     image: shopFeaturedImage('shop-product-whistle-gold.jpg'),
     description: 'Durable lanyard for officials who need whistle access without distraction.',
     sizes: [],
-    colors: ['Black / Orange']
+    colors: ['Black / Scarlet']
   },
   {
     sku: 'RTBO-CLIPBOARD',
@@ -199,7 +199,7 @@ export const shopDefaultProducts = [
     image: shopFeaturedImage('shop-hero-striped-jerseys.jpg'),
     description: 'Team-style RTBO scarf for fans, staff, and cold-weather arrivals.',
     sizes: ['One Size'],
-    colors: ['Black / Orange']
+    colors: ['Black / Scarlet']
   },
   {
     sku: 'RTBO-BACKPACK',
@@ -609,7 +609,7 @@ function RatingSummary({ product }) {
     <div className="rtbo-shop-rating" aria-label={`${productRating(product)} out of 5 stars from ${productReviewCount(product)} reviews`}>
       <span aria-hidden="true">★★★★★</span>
       <strong>{productRating(product)}</strong>
-      <button type="button">{productReviewCount(product)} ratings</button>
+      <span className="rtbo-shop-rating-count">{productReviewCount(product)} ratings</span>
     </div>
   );
 }
@@ -998,19 +998,66 @@ function WishlistPage({
     .join(' ')
     .toLowerCase()
     .includes(needle));
+  const [activeListId, setActiveListId] = useState('wishlist');
+  const [wishlistNotice, setWishlistNotice] = useState('');
+  const [wishlistNotes, setWishlistNotes] = useState({});
+  const searchInputRef = useRef(null);
+  const listProducts = activeListId === 'wishlist' ? visibleProducts : [];
+
+  function chooseList(id, label) {
+    setActiveListId(id);
+    setWishlistNotice(id === 'wishlist' ? `${label} opened.` : `${label} is empty. Add items from product pages to begin using this list.`);
+  }
+
+  function addWishlistItem() {
+    setActiveListId('wishlist');
+    setWishlistNotice('Search this list or open a product card to add another item.');
+    window.requestAnimationFrame(() => searchInputRef.current?.focus());
+  }
+
+  async function shareWishlist(product = null) {
+    const title = product ? product.name : (listName || 'RTBO wish list');
+    const url = product
+      ? `${window.location.origin}${window.location.pathname}${shopProductHash(product)}`
+      : `${window.location.origin}${window.location.pathname}${shopWishlistHash()}`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title, url });
+        setWishlistNotice(product ? `${product.name} share sheet opened.` : 'Wish list share sheet opened.');
+        return;
+      }
+      await navigator.clipboard?.writeText(url);
+      setWishlistNotice(product ? `${product.name} share link copied.` : 'Wish list share link copied.');
+    } catch {
+      setWishlistNotice(`Share link ready: ${url}`);
+    }
+  }
+
+  function addWishlistNote(product) {
+    const note = window.prompt(`Add a note for ${product.name}`, wishlistNotes[product.sku] || '');
+    if (note === null) return;
+    setWishlistNotes(current => ({ ...current, [product.sku]: note.trim() }));
+    setWishlistNotice(note.trim() ? `Note saved for ${product.name}.` : `Note cleared for ${product.name}.`);
+  }
+
+  function moveWishlistProduct(product) {
+    const nextList = window.prompt(`Move ${product.name} to which list?`, listName || 'Wish list');
+    if (!nextList) return;
+    setWishlistNotice(`${product.name} is marked for ${nextList.trim()}.`);
+  }
 
   return (
     <section className="rtbo-shop-wishlist-page" aria-label={`${listName || 'Wish list'} page`}>
       <aside className="rtbo-shop-wishlist-page-nav" aria-label="Saved lists">
-        <button type="button">
+        <button className={activeListId === 'shopping' ? 'is-active' : ''} type="button" onClick={() => chooseList('shopping', 'Shopping List')}>
           <span>Shopping List</span>
           <small>Default List</small>
         </button>
-        <button type="button">
+        <button className={activeListId === 'alexa' ? 'is-active' : ''} type="button" onClick={() => chooseList('alexa', 'Alexa List')}>
           <span>Alexa List</span>
           <small>Private</small>
         </button>
-        <button className="is-active" type="button">
+        <button className={activeListId === 'wishlist' ? 'is-active' : ''} type="button" onClick={() => chooseList('wishlist', listName || 'Wish list')}>
           <span>{listName || 'Wish list'}</span>
           <small>Private</small>
         </button>
@@ -1022,15 +1069,16 @@ function WishlistPage({
             <h3>{listName || 'Wish list'} <span>Private</span></h3>
             <div className="rtbo-shop-wishlist-invite">
               <span aria-hidden="true">RT</span>
-              <button type="button">+ Invite</button>
+              <button type="button" onClick={() => shareWishlist()}>+ Invite</button>
             </div>
           </div>
           <div className="rtbo-shop-wishlist-actions">
-            <button type="button">Add item</button>
-            <button type="button" aria-label="Share list">⇧</button>
-            <button type="button" aria-label="More wish list options">•••</button>
+            <button type="button" onClick={addWishlistItem}>Add item</button>
+            <button type="button" aria-label="Share list" onClick={() => shareWishlist()}>⇧</button>
+            <button type="button" aria-label="More wish list options" onClick={() => setWishlistNotice(`${listName || 'Wish list'} is private and editable from this page.`)}>•••</button>
           </div>
         </header>
+        {wishlistNotice && <p className="rtbo-shop-wishlist-status">{wishlistNotice}</p>}
 
         <div className="rtbo-shop-wishlist-tools">
           <div className="rtbo-shop-wishlist-view-toggle" aria-hidden="true">
@@ -1039,7 +1087,7 @@ function WishlistPage({
           </div>
           <label>
             <span>Search this list</span>
-            <input value={wishlistSearch} onChange={event => setWishlistSearch(event.target.value)} placeholder="Search this list" />
+            <input ref={searchInputRef} value={wishlistSearch} onChange={event => setWishlistSearch(event.target.value)} placeholder="Search this list" />
           </label>
           <select aria-label="Show wish list items" defaultValue="unpurchased">
             <option value="unpurchased">Show: Unpurchased</option>
@@ -1053,7 +1101,7 @@ function WishlistPage({
         </div>
 
         <div className="rtbo-shop-wishlist-items">
-          {visibleProducts.length ? visibleProducts.map(product => (
+          {listProducts.length ? listProducts.map(product => (
             <article className="rtbo-shop-wishlist-item" key={product.sku}>
               <button className="rtbo-shop-wishlist-item-image" type="button" onClick={() => onOpenProduct(product)}>
                 <img src={product.image} alt={product.name} loading="lazy" decoding="async" />
@@ -1063,11 +1111,12 @@ function WishlistPage({
                 <span>by Raising The Bar Officiating</span>
                 <RatingSummary product={product} />
                 <p>Item added May 23, 2026</p>
+                {wishlistNotes[product.sku] && <p className="rtbo-shop-wishlist-note">{wishlistNotes[product.sku]}</p>}
                 <div className="rtbo-shop-wishlist-item-actions">
                   <button type="button" onClick={() => onOpenProduct(product)}>See all buying options</button>
-                  <button type="button">Add a note</button>
-                  <button type="button">Move⌄</button>
-                  <button type="button" aria-label={`Share ${product.name}`}>⇧</button>
+                  <button type="button" onClick={() => addWishlistNote(product)}>Add a note</button>
+                  <button type="button" onClick={() => moveWishlistProduct(product)}>Move⌄</button>
+                  <button type="button" aria-label={`Share ${product.name}`} onClick={() => shareWishlist(product)}>⇧</button>
                   <button type="button" onClick={() => onRemove(product.sku)} aria-label={`Remove ${product.name} from wish list`}>
                     <TrashIcon />
                   </button>
@@ -1081,7 +1130,7 @@ function WishlistPage({
           )) : (
             <div className="rtbo-shop-wishlist-empty">
               <strong>End of list</strong>
-              <p>{favoriteProducts.length ? 'No saved items match that search.' : 'Create a list and add products from the shop.'}</p>
+              <p>{activeListId === 'wishlist' ? (favoriteProducts.length ? 'No saved items match that search.' : 'Create a list and add products from the shop.') : 'This saved list does not have any products yet.'}</p>
             </div>
           )}
           <div className="rtbo-shop-wishlist-end"><span>End of list</span></div>
@@ -1116,6 +1165,8 @@ function CartPage({
   onProceed
 }) {
   const suggestions = productList.filter(product => !cartLines.some(item => item.sku === product.sku)).slice(0, 5);
+  const [activeSavedTab, setActiveSavedTab] = useState('saved');
+  const savedTabProducts = activeSavedTab === 'saved' ? favoriteProducts.slice(0, 3) : productList.slice(0, 3);
 
   return (
     <section className="rtbo-shop-cart-page" aria-label="Shopping Cart">
@@ -1171,9 +1222,12 @@ function CartPage({
 
           <section className="rtbo-shop-cart-saved" aria-label="Your saved items">
             <h3>Your Items</h3>
-            <div className="rtbo-shop-cart-tabs"><button className="is-active" type="button">Saved for later ({favoriteProducts.length} item)</button><button type="button">Buy it again</button></div>
+            <div className="rtbo-shop-cart-tabs">
+              <button className={activeSavedTab === 'saved' ? 'is-active' : ''} type="button" onClick={() => setActiveSavedTab('saved')}>Saved for later ({favoriteProducts.length} item)</button>
+              <button className={activeSavedTab === 'again' ? 'is-active' : ''} type="button" onClick={() => setActiveSavedTab('again')}>Buy it again</button>
+            </div>
             <div className="rtbo-shop-cart-saved-grid">
-              {favoriteProducts.slice(0, 3).map(product => (
+              {savedTabProducts.map(product => (
                 <button key={product.sku} type="button" onClick={() => onOpenProduct(product)}>
                   <img src={product.image} alt={product.name} loading="lazy" decoding="async" />
                   <span>{product.name}</span>
@@ -1227,6 +1281,24 @@ function SecureCheckoutPage({
 }) {
   const deliveryName = [checkout.firstName, checkout.lastName].filter(Boolean).join(' ') || 'Montrel Simmons';
   const deliveryAddress = [checkout.address, checkout.city, checkout.state, checkout.zip].filter(Boolean).join(', ') || 'Add delivery address';
+  const [secureNotice, setSecureNotice] = useState('');
+  const [moreDeliverySlotsOpen, setMoreDeliverySlotsOpen] = useState(false);
+
+  function addDeliveryInstructions() {
+    const instructions = window.prompt('Add delivery instructions for this order', '');
+    if (instructions === null) return;
+    setSecureNotice(instructions.trim() ? 'Delivery instructions added for checkout review.' : 'Delivery instructions cleared.');
+  }
+
+  function applyGiftCardOrPromo() {
+    const code = window.prompt('Enter gift card, voucher, or promo code', '');
+    if (code === null) return;
+    setSecureNotice(code.trim() ? `Code ${code.trim().toUpperCase()} added for secure checkout verification.` : 'No code was entered.');
+  }
+
+  function selectDeliveryOption(label) {
+    setSecureNotice(`${label} selected for this order.`);
+  }
 
   return (
     <section className="rtbo-shop-secure-page" aria-label="Secure checkout">
@@ -1237,21 +1309,22 @@ function SecureCheckoutPage({
             <div>
               <h4>Delivering to {deliveryName}</h4>
               <p>{deliveryAddress}</p>
-              <button type="button">Add delivery instructions</button>
-              <button type="button">FREE pickup available nearby⌄</button>
+              <button type="button" onClick={addDeliveryInstructions}>Add delivery instructions</button>
+              <button type="button" onClick={() => selectDeliveryOption('FREE pickup nearby')}>FREE pickup available nearby⌄</button>
             </div>
-            <button type="button">Change</button>
+            <button type="button" onClick={onBackToCart}>Change</button>
           </section>
 
           <section className="rtbo-shop-secure-strip">
             <div>
               <h4>Paying with Visa 7664</h4>
               <p>{money(Math.max(0, 13033 - totals.total))} gift card balance</p>
-              <button type="button">Select a payment plan</button>
-              <button type="button">Use a gift card, voucher, or promo code</button>
+              <button type="button" onClick={() => setSecureNotice('Payment plan selected for Stripe checkout review.')}>Select a payment plan</button>
+              <button type="button" onClick={applyGiftCardOrPromo}>Use a gift card, voucher, or promo code</button>
             </div>
-            <button type="button">Change</button>
+            <button type="button" onClick={() => setSecureNotice('Payment method can be changed in the secure payment window before final payment.')}>Change</button>
           </section>
+          {secureNotice && <p className="rtbo-shop-status is-pending">{secureNotice}</p>}
 
           {cartLines.map((item, index) => (
             <section className="rtbo-shop-secure-delivery" key={item.key}>
@@ -1270,12 +1343,21 @@ function SecureCheckoutPage({
                     <span>{item.quantity}</span>
                     <button type="button" onClick={() => onIncrease(item.key)}>+</button>
                   </div>
-                  <button type="button">Add gift options</button>
+                  <button type="button" onClick={() => setSecureNotice(`Gift options opened for ${item.product.name}.`)}>Add gift options</button>
                 </article>
                 <div className="rtbo-shop-secure-options">
                   <label><input type="radio" name={`delivery-${item.key}`} defaultChecked /> <span>Fastest Today 5 PM - 10 PM</span><strong>FREE</strong></label>
-                  <div className="rtbo-shop-secure-slots"><button type="button">Today<br />5 PM - 10 PM</button><button type="button">Tomorrow<br />4 AM - 8 AM</button></div>
-                  <button type="button">See more delivery slots</button>
+                  <div className="rtbo-shop-secure-slots">
+                    <button type="button" onClick={() => selectDeliveryOption('Today 5 PM - 10 PM')}>Today<br />5 PM - 10 PM</button>
+                    <button type="button" onClick={() => selectDeliveryOption('Tomorrow 4 AM - 8 AM')}>Tomorrow<br />4 AM - 8 AM</button>
+                  </div>
+                  <button type="button" onClick={() => setMoreDeliverySlotsOpen(current => !current)}>{moreDeliverySlotsOpen ? 'Hide extra delivery slots' : 'See more delivery slots'}</button>
+                  {moreDeliverySlotsOpen && (
+                    <div className="rtbo-shop-secure-slots">
+                      <button type="button" onClick={() => selectDeliveryOption('Monday 8 AM - 12 PM')}>Monday<br />8 AM - 12 PM</button>
+                      <button type="button" onClick={() => selectDeliveryOption('Tuesday 12 PM - 4 PM')}>Tuesday<br />12 PM - 4 PM</button>
+                    </div>
+                  )}
                   <label><input type="radio" name={`delivery-${item.key}`} /> <span>Fewer trips Monday, May 25</span><strong>FREE</strong></label>
                   <label><input type="radio" name={`delivery-${item.key}`} /> <span>Amazon Day Tuesday, May 26</span><strong>FREE</strong></label>
                 </div>
