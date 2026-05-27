@@ -94,6 +94,23 @@ function getResumeEventKind(eventName) {
   return 'Event Experience';
 }
 
+function getResumeEventDateParts(date = '') {
+  const value = String(date || '').trim();
+  const match = value.match(/^([A-Za-z]+)\s+(.+)$/);
+  if (!match) {
+    return { month: value || 'Event', primary: 'RTBO', secondary: 'History' };
+  }
+  const [, month, rest] = match;
+  const yearMatch = rest.match(/(\d{4})$/);
+  const year = yearMatch ? yearMatch[1] : rest;
+  const dayRange = rest.replace(/,?\s*\d{4}$/, '').trim();
+  return {
+    month,
+    primary: dayRange && dayRange !== year ? dayRange : year,
+    secondary: dayRange && dayRange !== year ? year : 'Year'
+  };
+}
+
 export default function RTBOResumePage() {
   const [resume, setResume] = useState(readStoredRtboResume);
   const [loading, setLoading] = useState(true);
@@ -261,19 +278,28 @@ export default function RTBOResumePage() {
           <h3>Documented Dates and Event Experience</h3>
           <p>Event history provided for RTBO, organized by date, event partner or host, and location.</p>
           <div className="rtob-resume-event-card-grid">
-            {resume.events.map((eventItem, index) => (
-              <article className={`rtob-resume-event-card ${eventItem.highlight ? 'is-highlighted' : ''}`.trim()} key={`${eventItem.date}-${eventItem.event}-${index}`}>
-                <div className="rtob-resume-event-card-top">
-                  <span className="rtob-resume-event-date">{eventItem.date}</span>
-                  <span className="rtob-resume-event-mark" aria-hidden="true">{getResumeEventMark(eventItem.event)}</span>
-                </div>
-                <div className="rtob-resume-event-card-body">
-                  <span className="rtob-resume-event-kind">{getResumeEventKind(eventItem.event)}</span>
-                  <h4>{eventItem.event}</h4>
-                </div>
-                <p className="rtob-resume-event-location"><span>{eventItem.location}</span></p>
-              </article>
-            ))}
+            {resume.events.map((eventItem, index) => {
+              const dateParts = getResumeEventDateParts(eventItem.date);
+              return (
+                <article className={`rtob-resume-event-card ${eventItem.highlight ? 'is-highlighted' : ''}`.trim()} key={`${eventItem.date}-${eventItem.event}-${index}`}>
+                  <div className="rtob-resume-event-card-top">
+                    <div className="rtob-resume-event-date-lockup" aria-label={`Event date ${eventItem.date}`}>
+                      <span>{dateParts.month}</span>
+                      <strong>{dateParts.primary}</strong>
+                      <small>{dateParts.secondary}</small>
+                    </div>
+                    <div className="rtob-resume-event-meta">
+                      <span className="rtob-resume-event-kind">{getResumeEventKind(eventItem.event)}</span>
+                      <span className="rtob-resume-event-mark" aria-hidden="true">{getResumeEventMark(eventItem.event)}</span>
+                    </div>
+                  </div>
+                  <div className="rtob-resume-event-card-body">
+                    <h4>{eventItem.event}</h4>
+                  </div>
+                  <p className="rtob-resume-event-location"><span>{eventItem.location}</span></p>
+                </article>
+              );
+            })}
           </div>
         </section>
 
