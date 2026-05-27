@@ -7,16 +7,16 @@
   --resume-bg: #090b0f;
   --resume-panel: rgba(17, 20, 26, .94);
   --resume-panel-strong: rgba(26, 30, 38, .98);
-  --resume-line: rgba(249, 115, 22, .34);
+  --resume-line: rgba(143, 29, 44, .34);
   --resume-line-soft: rgba(255, 255, 255, .12);
   --resume-text: #f8fafc;
   --resume-muted: #cbd5e1;
-  --resume-orange: #f97316;
-  --resume-orange-dark: #c2410c;
+  --resume-orange: #8f1d2c;
+  --resume-orange-dark: #5f1420;
   width: 100%;
   padding: clamp(28px, 4vw, 58px) clamp(12px, 2vw, 24px);
   background:
-    radial-gradient(circle at 16% 0%, rgba(249, 115, 22, .18), transparent 34%),
+    radial-gradient(circle at 16% 0%, rgba(143, 29, 44, .18), transparent 34%),
     linear-gradient(180deg, rgba(5, 6, 8, .98), var(--resume-bg));
   color: var(--resume-text);
 }
@@ -56,7 +56,7 @@
   bottom: 0;
   left: 0;
   height: 5px;
-  background: linear-gradient(90deg, var(--resume-orange), #ffb020, var(--resume-orange));
+  background: linear-gradient(90deg, var(--resume-orange), #a23a49, var(--resume-orange));
 }
 
 .rtob-resume-logo-card {
@@ -206,9 +206,9 @@
 
 .rtob-resume-featured {
   overflow: hidden;
-  border-color: rgba(249, 115, 22, .54);
+  border-color: rgba(143, 29, 44, .54);
   background:
-    linear-gradient(135deg, rgba(249, 115, 22, .14), rgba(255, 255, 255, .04)),
+    linear-gradient(135deg, rgba(143, 29, 44, .14), rgba(255, 255, 255, .04)),
     var(--resume-panel);
 }
 
@@ -290,7 +290,7 @@
 }
 
 .rtob-resume-events-table th {
-  background: rgba(249, 115, 22, .18);
+  background: rgba(143, 29, 44, .18);
   color: #fff;
   font-size: .82rem;
   letter-spacing: .06em;
@@ -302,7 +302,7 @@
 }
 
 .rtob-resume-events-table tr.is-highlighted td {
-  background: rgba(249, 115, 22, .12);
+  background: rgba(143, 29, 44, .12);
   color: #fff;
   font-weight: 900;
 }
@@ -318,17 +318,23 @@
   position: relative;
   min-width: 0;
   overflow: hidden;
-  padding: 18px;
-  border: 1px solid rgba(255, 255, 255, .16);
+  padding: 30px 18px 18px;
+  border: 1px solid rgba(220, 20, 60, .38);
   border-radius: 8px;
   background-color: #050505;
-  background-image:
-    linear-gradient(145deg, rgba(255, 255, 255, .095), rgba(0, 0, 0, .58)),
-    repeating-linear-gradient(135deg, rgba(255, 255, 255, .18) 0 2px, rgba(255, 255, 255, .04) 2px 4px, transparent 4px 8px),
-    repeating-linear-gradient(45deg, rgba(255, 255, 255, .075) 0 2px, rgba(255, 255, 255, .015) 2px 4px, transparent 4px 8px);
-  background-size: auto, 16px 16px, 16px 16px;
-  box-shadow: 0 18px 36px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(255, 255, 255, .12);
+  background-image: none;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(220, 20, 60, .18);
   transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+
+.rtob-resume-event-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: linear-gradient(90deg, #6f1020, #dc143c 48%, #ff355d 52%, #6f1020);
+  box-shadow: 0 6px 18px rgba(220, 20, 60, .28);
 }
 
 .rtob-resume-event-card::after {
@@ -336,13 +342,13 @@
   position: absolute;
   inset: auto 0 0;
   height: 4px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, .08), rgba(248, 250, 252, .72), rgba(255, 255, 255, .08));
+  background: linear-gradient(90deg, rgba(220, 20, 60, .08), rgba(220, 20, 60, .9), rgba(220, 20, 60, .08));
   opacity: .86;
 }
 
 .rtob-resume-event-card:hover {
-  border-color: rgba(248, 250, 252, .46);
-  box-shadow: 0 22px 48px rgba(0, 0, 0, .42), inset 0 1px 0 rgba(255, 255, 255, .18);
+  border-color: rgba(220, 20, 60, .76);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, .42), 0 0 0 1px rgba(220, 20, 60, .16), inset 0 1px 0 rgba(220, 20, 60, .22);
   transform: translateY(-2px);
 }
 
@@ -350,15 +356,15 @@
   display: inline-flex;
   margin-bottom: 16px;
   padding: 7px 10px;
-  border: 1px solid rgba(248, 250, 252, .24);
+  border: 1px solid rgba(220, 20, 60, .52);
   border-radius: 999px;
-  background: rgba(0, 0, 0, .52);
+  background: rgba(220, 20, 60, .16);
   color: #f8fafc;
   font-size: .78rem;
   font-weight: 900;
   letter-spacing: .06em;
   text-transform: uppercase;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 8px 20px rgba(220, 20, 60, .18);
 }
 
 .rtob-resume-event-card h4 {
@@ -376,12 +382,12 @@
 }
 
 .rtob-resume-event-card.is-highlighted {
-  border-color: rgba(248, 250, 252, .54);
-  box-shadow: 0 22px 52px rgba(0, 0, 0, .46), inset 0 0 0 1px rgba(255, 255, 255, .1);
+  border-color: rgba(255, 53, 93, .78);
+  box-shadow: 0 22px 52px rgba(0, 0, 0, .46), 0 0 0 1px rgba(220, 20, 60, .24), inset 0 0 0 1px rgba(255, 255, 255, .08);
 }
 
 .rtob-resume-event-card.is-highlighted .rtob-resume-event-date {
-  background: linear-gradient(135deg, rgba(255, 255, 255, .18), rgba(0, 0, 0, .72));
+  background: linear-gradient(135deg, rgba(220, 20, 60, .38), rgba(80, 8, 22, .82));
   color: #fff;
 }
 
@@ -447,10 +453,10 @@
   max-height: min(92vh, 980px);
   overflow: auto;
   padding: clamp(18px, 3vw, 30px);
-  border: 1px solid rgba(249, 115, 22, .5);
+  border: 1px solid rgba(143, 29, 44, .5);
   border-radius: 12px;
   background:
-    linear-gradient(145deg, rgba(249, 115, 22, .12), rgba(255, 255, 255, .035)),
+    linear-gradient(145deg, rgba(143, 29, 44, .12), rgba(255, 255, 255, .035)),
     var(--resume-panel-strong);
   box-shadow: 0 30px 80px rgba(0, 0, 0, .5);
   color: var(--resume-text);
@@ -554,8 +560,8 @@
 }
 
 .rtob-official-request-field :is(input, select):focus {
-  border-color: rgba(249, 115, 22, .78);
-  box-shadow: 0 0 0 3px rgba(249, 115, 22, .18);
+  border-color: rgba(143, 29, 44, .78);
+  box-shadow: 0 0 0 3px rgba(143, 29, 44, .18);
 }
 
 .rtob-official-request-field input::placeholder {
@@ -606,7 +612,7 @@
   --resume-text: #111827;
   --resume-muted: #475569;
   background:
-    radial-gradient(circle at 14% 0%, rgba(249, 115, 22, .12), transparent 34%),
+    radial-gradient(circle at 14% 0%, rgba(143, 29, 44, .12), transparent 34%),
     linear-gradient(180deg, #fff, #f6f7fb);
 }
 
@@ -650,6 +656,7 @@
 
 :root[data-theme="light"] .rtob-resume-event-card {
   background-color: #050505;
+  background-image: none;
   box-shadow: 0 18px 34px rgba(15, 23, 42, .22), inset 0 1px 0 rgba(255, 255, 255, .12);
 }
 
@@ -669,7 +676,7 @@
 
 :root[data-theme="light"] .rtob-official-request-dialog {
   background:
-    linear-gradient(145deg, rgba(249, 115, 22, .12), rgba(255, 255, 255, .88)),
+    linear-gradient(145deg, rgba(143, 29, 44, .12), rgba(255, 255, 255, .88)),
     #fff;
   box-shadow: 0 30px 80px rgba(15, 23, 42, .24);
 }
