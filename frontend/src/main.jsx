@@ -1302,6 +1302,32 @@ function Services() {
   );
 }
 
+function ServicesClientSlider() {
+  const clientSlides = [
+    ['clients/lyon_college_client_image_slider.png', 'Lyon College basketball client spotlight'],
+    ['clients/ualr_client_image_slider.png', 'University of Arkansas Little Rock women basketball client spotlight'],
+    ['clients/uapb_client_image_slider.png', 'University of Arkansas at Pine Bluff women basketball client spotlight'],
+    ['clients/uapb_client_men_image_slider.png', 'University of Arkansas at Pine Bluff men basketball client spotlight'],
+    ['clients/uca_client_image_slider.png', 'University of Central Arkansas basketball client spotlight']
+  ];
+
+  return (
+    <section className="rtbo-band services-client-slider-section" aria-labelledby="services-client-slider-title">
+      <div className="services-client-slider-head">
+        <h2 id="services-client-slider-title">Client Spotlight</h2>
+        <p>These are the clients we have provided our services to and are currently providing services to.</p>
+      </div>
+      <div className="hero-carousel services-client-carousel" aria-label="RTBO client image slider">
+        <div className="hero-carousel-track carousel-content">
+          {[...clientSlides, ...clientSlides].map(([src, alt], index) => (
+            <img key={`${src}-${index}`} src={image(src)} alt={alt} loading="lazy" decoding="async" />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Trainers() {
   return (
     <section className="rtbo-section trainers-section">
@@ -2960,7 +2986,7 @@ function PaymentLogo({ brand, compact = false }) {
       <span className={logoClass} aria-label="Discover">
         <svg viewBox="0 0 108 34" role="img" aria-hidden="true" focusable="false">
           <rect width="108" height="34" rx="5" fill="#fff" />
-          <circle cx="70" cy="17" r="12" fill="#f58220" opacity=".9" />
+          <circle cx="70" cy="17" r="12" fill="#c1121f" opacity=".9" />
           <text x="54" y="22" textAnchor="middle" fill="#111827" fontFamily="Arial Black, Arial, Helvetica, sans-serif" fontSize="15" fontWeight="900">DISCOVER</text>
         </svg>
       </span>
@@ -6791,7 +6817,7 @@ function invoiceStandaloneDocument(invoice = {}) {
     .watermark { position: absolute; inset: 2.72in .4in 1.62in; z-index: 0; width: calc(100% - .8in); height: calc(100% - 4.34in); object-fit: contain; opacity: .15; pointer-events: none; user-select: none; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
     header, main, footer { position: relative; z-index: 1; }
     header { display: flex; align-items: flex-start; justify-content: space-between; gap: .24in; min-height: 1.18in; padding: .38in .44in .1in; background: #050505; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-    h1 { margin: 0; color: #f58220; font-family: Arial, Helvetica, sans-serif; font-size: 40px; line-height: .95; }
+    h1 { margin: 0; color: #c1121f; font-family: Arial, Helvetica, sans-serif; font-size: 40px; line-height: .95; }
     header img { width: .86in; height: .86in; object-fit: contain; }
     main { display: grid; grid-template-rows: auto auto 1fr auto auto; min-height: 8.78in; padding: .12in .44in .24in; }
     .meta { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(2.4in, .9fr); gap: .36in; }
@@ -6809,7 +6835,7 @@ function invoiceStandaloneDocument(invoice = {}) {
     .mail-to div { text-align: left; }
     table { width: 100%; margin-top: .36in; border-collapse: collapse; }
     th, td { border: 0; padding: 8px 6px; color: #000; font-size: 12px; text-align: left; vertical-align: top; }
-    th { border-right: 1px solid rgba(255, 255, 255, .25); color: #000; background: #f58220; font-weight: 900; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    th { border-right: 1px solid rgba(255, 255, 255, .25); color: #000; background: #c1121f; font-weight: 900; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
     th:last-child { border-right: 0; }
     th:nth-child(2), td:nth-child(2), th:nth-child(3), td:nth-child(3) { text-align: center; }
     th:last-child, td:last-child { text-align: right; }
@@ -13888,7 +13914,43 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
 }
 
 function Footer({ setActive, navLinks = navItems }) {
-  return <footer className="site-footer rtbo-footer original-footer"><div className="footer-inner"><div className="footer-container grid"><div className="footer-brand"><img className="footer-logo" src={image('logo.png')} alt="RTBO logo" /><p className="footer-desc">We Will Serve, And Will Be Of Service To The Game!</p></div><div><p className="footer-title">Navigation</p><ul className="footer-links grid">{navLinks.map(([id, label]) => <li key={id}><button className="footer-link" type="button" onClick={() => setActive(id)}>{label}</button></li>)}</ul></div><div><p className="footer-title">School & Events</p><ul className="footer-timings grid"><li className="footer-timing"><span>UAPB :</span> June 9-10, 2026</li><li className="footer-ruler"></li><li className="footer-timing"><span>UCA :</span> June 19, 2026</li><li className="footer-ruler"></li><li className="footer-timing"><span>UALR :</span> July 21-22, 2026</li></ul></div></div><div className="footer-bottom"><p className="footer-copy">&copy; 2026 <span>Raising The Bar Officiating Inc.</span> All rights reserved.</p><a href="#top" className="scroll-up"><span className="scroll-up-icon">↑</span> Back To Top</a></div></div></footer>;
+  return (
+    <footer className="site-footer rtbo-footer original-footer">
+      <div className="footer-inner">
+        <div className="footer-container footer-main-grid">
+          <section className="footer-brand footer-brand-panel" aria-label="Raising The Bar Officiating">
+            <img className="footer-logo" src={image('logo.png')} alt="RTBO logo" />
+            <p className="footer-eyebrow">Raising The Bar Officiating</p>
+            <p className="footer-desc">We Will Serve, And Will Be Of Service To The Game!</p>
+          </section>
+          <nav className="footer-nav-panel" aria-label="Footer navigation">
+            <p className="footer-title">Navigation</p>
+            <ul className="footer-links grid">
+              {navLinks.map(([id, label]) => (
+                <li key={id}>
+                  <button className="footer-link" type="button" onClick={() => setActive(id)}>{label}</button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <section className="footer-events-panel" aria-label="School and event dates">
+            <p className="footer-title">School & Events</p>
+            <ul className="footer-timings grid">
+              <li className="footer-timing"><span>UAPB</span> June 9-10, 2026</li>
+              <li className="footer-ruler"></li>
+              <li className="footer-timing"><span>UCA</span> June 19, 2026</li>
+              <li className="footer-ruler"></li>
+              <li className="footer-timing"><span>UALR</span> July 21-22, 2026</li>
+            </ul>
+          </section>
+        </div>
+        <div className="footer-bottom">
+          <p className="footer-copy">&copy; 2026 <span>Raising The Bar Officiating Inc.</span> All rights reserved.</p>
+          <a href="#top" className="scroll-up"><span className="scroll-up-icon">↑</span> Back To Top</a>
+        </div>
+      </div>
+    </footer>
+  );
 }
 
 function StandaloneLivestreamStudio() {
@@ -14353,7 +14415,7 @@ function App() {
         </>
       );
     }
-    if (active === 'services') return <><PageHero page="services" eyebrow="Services" title="Complete Officiating Solutions">Event assigning, development, mentorship, evaluations, and leadership standards for the game.</PageHero><Services />{managedSections('services')}</>;
+    if (active === 'services') return <><PageHero page="services" eyebrow="Services" title="Complete Officiating Solutions">Event assigning, development, mentorship, evaluations, and leadership standards for the game.</PageHero><Services />{managedSections('services')}<ServicesClientSlider /></>;
     if (active === 'resume') {
       return (
         <>

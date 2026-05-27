@@ -7,16 +7,16 @@
   --resume-bg: #090b0f;
   --resume-panel: rgba(17, 20, 26, .94);
   --resume-panel-strong: rgba(26, 30, 38, .98);
-  --resume-line: rgba(143, 29, 44, .34);
+  --resume-line: rgba(193, 18, 31, .34);
   --resume-line-soft: rgba(255, 255, 255, .12);
   --resume-text: #f8fafc;
   --resume-muted: #cbd5e1;
-  --resume-orange: #8f1d2c;
-  --resume-orange-dark: #5f1420;
+  --resume-orange: #c1121f;
+  --resume-orange-dark: #6f0b13;
   width: 100%;
   padding: clamp(28px, 4vw, 58px) clamp(12px, 2vw, 24px);
   background:
-    radial-gradient(circle at 16% 0%, rgba(143, 29, 44, .18), transparent 34%),
+    radial-gradient(circle at 16% 0%, rgba(193, 18, 31, .18), transparent 34%),
     linear-gradient(180deg, rgba(5, 6, 8, .98), var(--resume-bg));
   color: var(--resume-text);
 }
@@ -206,9 +206,9 @@
 
 .rtob-resume-featured {
   overflow: hidden;
-  border-color: rgba(143, 29, 44, .54);
+  border-color: rgba(193, 18, 31, .54);
   background:
-    linear-gradient(135deg, rgba(143, 29, 44, .14), rgba(255, 255, 255, .04)),
+    linear-gradient(135deg, rgba(193, 18, 31, .14), rgba(255, 255, 255, .04)),
     var(--resume-panel);
 }
 
@@ -227,7 +227,7 @@
 
 .rtob-resume-featured h3 {
   display: block;
-  color: #fdba74;
+  color: #d8a4ad;
   line-height: 1.2;
   letter-spacing: 0;
   text-transform: none;
@@ -290,7 +290,7 @@
 }
 
 .rtob-resume-events-table th {
-  background: rgba(143, 29, 44, .18);
+  background: rgba(193, 18, 31, .18);
   color: #fff;
   font-size: .82rem;
   letter-spacing: .06em;
@@ -302,28 +302,45 @@
 }
 
 .rtob-resume-events-table tr.is-highlighted td {
-  background: rgba(143, 29, 44, .12);
+  background: rgba(193, 18, 31, .12);
   color: #fff;
   font-weight: 900;
 }
 
 .rtob-resume-event-card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 14px;
-  margin-top: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: clamp(18px, 2vw, 28px);
+  margin-top: 28px;
+}
+
+.rtob-resume-events-card {
+  border-color: rgba(220, 20, 60, .34);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(255, 255, 255, .06);
+}
+
+.rtob-resume-events-card > p {
+  max-width: 860px;
 }
 
 .rtob-resume-event-card {
   position: relative;
+  display: grid;
+  min-height: 196px;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 16px;
   min-width: 0;
   overflow: hidden;
-  padding: 18px;
+  padding: 20px;
   border: 1px solid rgba(220, 20, 60, .72);
   border-radius: 8px;
   background-color: var(--resume-bg);
   background-image: none;
-  box-shadow: 0 18px 36px rgba(0, 0, 0, .26), inset 0 1px 0 rgba(255, 255, 255, .06);
+  outline: 1px solid rgba(255, 255, 255, .06);
+  outline-offset: -7px;
+  box-shadow:
+    0 18px 46px rgba(0, 0, 0, .32),
+    inset 0 1px 0 rgba(255, 255, 255, .08);
   transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
 }
 
@@ -334,42 +351,111 @@
 
 .rtob-resume-event-card:hover {
   border-color: rgba(255, 53, 93, .88);
-  box-shadow: 0 22px 48px rgba(0, 0, 0, .36), inset 0 1px 0 rgba(255, 255, 255, .08);
-  transform: translateY(-2px);
+  outline-color: rgba(255, 255, 255, .1);
+  box-shadow:
+    0 30px 68px rgba(0, 0, 0, .44),
+    inset 0 1px 0 rgba(255, 255, 255, .11);
+  transform: translateY(-3px);
+}
+
+.rtob-resume-event-card-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .rtob-resume-event-date {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
-  margin-bottom: 16px;
-  padding: 7px 10px;
+  width: fit-content;
+  align-items: center;
+  min-height: 32px;
+  padding: 6px 11px;
   border: 1px solid rgba(255, 255, 255, .18);
   border-radius: 999px;
   background: rgba(255, 255, 255, .055);
   color: #f8fafc;
-  font-size: .78rem;
+  font-size: .74rem;
   font-weight: 900;
-  letter-spacing: .06em;
+  letter-spacing: .07em;
   text-transform: uppercase;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);
 }
 
-.rtob-resume-event-card h4 {
-  margin: 0 0 8px;
-  color: #fff;
-  font-size: clamp(1.02rem, 1.3vw, 1.22rem);
-  line-height: 1.2;
+.rtob-resume-event-mark {
+  position: relative;
+  z-index: 1;
+  display: inline-grid;
+  place-items: center;
+  min-width: 52px;
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .045);
+  color: rgba(248, 250, 252, .88);
+  font-size: .72rem;
+  font-weight: 1000;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
 }
 
-.rtob-resume-event-card p {
+.rtob-resume-event-card-body {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-content: center;
+  min-height: 78px;
+  padding: 4px 0;
+}
+
+.rtob-resume-event-card h4 {
+  position: relative;
+  z-index: 1;
   margin: 0;
+  color: #fff;
+  font-size: clamp(1.2rem, 1.38vw, 1.5rem);
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.rtob-resume-event-location {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  justify-self: start;
+  max-width: 100%;
+  margin: 0;
+  border: 1px solid rgba(255, 255, 255, .11);
+  border-radius: 8px;
+  padding: 9px 11px;
+  background: rgba(255, 255, 255, .035);
   color: #cbd5e1;
-  font-size: .95rem;
+  font-size: .94rem;
   font-weight: 800;
+  line-height: 1.35;
+}
+
+.rtob-resume-event-location::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .5);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, .06);
 }
 
 .rtob-resume-event-card.is-highlighted {
   border-color: rgba(255, 53, 93, .92);
-  box-shadow: 0 22px 52px rgba(0, 0, 0, .38), inset 0 0 0 1px rgba(255, 255, 255, .08);
+  box-shadow: 0 28px 64px rgba(0, 0, 0, .42), inset 0 0 0 1px rgba(255, 255, 255, .09);
 }
 
 .rtob-resume-event-card.is-highlighted .rtob-resume-event-date {
@@ -439,10 +525,10 @@
   max-height: min(92vh, 980px);
   overflow: auto;
   padding: clamp(18px, 3vw, 30px);
-  border: 1px solid rgba(143, 29, 44, .5);
+  border: 1px solid rgba(193, 18, 31, .5);
   border-radius: 12px;
   background:
-    linear-gradient(145deg, rgba(143, 29, 44, .12), rgba(255, 255, 255, .035)),
+    linear-gradient(145deg, rgba(193, 18, 31, .12), rgba(255, 255, 255, .035)),
     var(--resume-panel-strong);
   box-shadow: 0 30px 80px rgba(0, 0, 0, .5);
   color: var(--resume-text);
@@ -546,8 +632,8 @@
 }
 
 .rtob-official-request-field :is(input, select):focus {
-  border-color: rgba(143, 29, 44, .78);
-  box-shadow: 0 0 0 3px rgba(143, 29, 44, .18);
+  border-color: rgba(193, 18, 31, .78);
+  box-shadow: 0 0 0 3px rgba(193, 18, 31, .18);
 }
 
 .rtob-official-request-field input::placeholder {
@@ -598,7 +684,7 @@
   --resume-text: #111827;
   --resume-muted: #475569;
   background:
-    radial-gradient(circle at 14% 0%, rgba(143, 29, 44, .12), transparent 34%),
+    radial-gradient(circle at 14% 0%, rgba(193, 18, 31, .12), transparent 34%),
     linear-gradient(180deg, #fff, #f6f7fb);
 }
 
@@ -611,6 +697,11 @@
 :root[data-theme="light"] .rtob-resume-card {
   background: #fff;
   box-shadow: 0 18px 45px rgba(15, 23, 42, .08);
+}
+
+:root[data-theme="light"] .rtob-resume-events-card {
+  border-color: rgba(220, 20, 60, .34);
+  box-shadow: 0 22px 56px rgba(15, 23, 42, .11), inset 0 1px 0 rgba(255, 255, 255, .82);
 }
 
 :root[data-theme="light"] .rtob-resume-card h3,
@@ -643,6 +734,7 @@
 :root[data-theme="light"] .rtob-resume-event-card {
   background-color: #f6f7fb;
   background-image: none;
+  outline-color: rgba(15, 23, 42, .08);
   box-shadow: 0 18px 34px rgba(15, 23, 42, .16), inset 0 1px 0 rgba(255, 255, 255, .72);
 }
 
@@ -650,8 +742,22 @@
   color: #111827;
 }
 
-:root[data-theme="light"] .rtob-resume-event-card p {
+:root[data-theme="light"] .rtob-resume-event-mark {
+  border-color: rgba(15, 23, 42, .1);
+  background: rgba(255, 255, 255, .62);
+  color: rgba(17, 24, 39, .8);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8);
+}
+
+:root[data-theme="light"] .rtob-resume-event-location {
+  border-color: rgba(15, 23, 42, .11);
+  background: rgba(255, 255, 255, .66);
   color: #475569;
+}
+
+:root[data-theme="light"] .rtob-resume-event-location::before {
+  background: rgba(15, 23, 42, .36);
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, .06);
 }
 
 :root[data-theme="light"] .rtob-resume-event-date {
@@ -668,7 +774,7 @@
 
 :root[data-theme="light"] .rtob-official-request-dialog {
   background:
-    linear-gradient(145deg, rgba(143, 29, 44, .12), rgba(255, 255, 255, .88)),
+    linear-gradient(145deg, rgba(193, 18, 31, .12), rgba(255, 255, 255, .88)),
     #fff;
   box-shadow: 0 30px 80px rgba(15, 23, 42, .24);
 }

@@ -69,6 +69,19 @@ function Field({ label, children, required = true, className = '' }) {
   );
 }
 
+function getResumeEventMark(eventName) {
+  const label = String(eventName || '').trim();
+  const normalized = label.toUpperCase();
+  if (normalized.includes('UAPB')) return 'UAPB';
+  if (normalized.includes('UALR')) return 'UALR';
+  if (normalized.includes('UCA')) return 'UCA';
+  if (normalized.includes('LYON')) return 'LYON';
+  if (normalized.includes('HOP STEP')) return 'HSE';
+  if (normalized.includes('BIG MILLER')) return 'BM';
+  const words = label.replace(/[^a-z0-9\s]/gi, ' ').split(/\s+/).filter(Boolean);
+  return words.slice(0, 3).map(word => word[0]).join('').toUpperCase() || 'RTBO';
+}
+
 export default function RTBOResumePage() {
   const [resume, setResume] = useState(readStoredRtboResume);
   const [loading, setLoading] = useState(true);
@@ -232,15 +245,20 @@ export default function RTBOResumePage() {
           </div>
         </section>
 
-        <section className="rtob-resume-card">
+        <section className="rtob-resume-card rtob-resume-events-card">
           <h3>Documented Dates and Event Experience</h3>
           <p>Event history provided for RTBO, organized by date, event partner or host, and location.</p>
           <div className="rtob-resume-event-card-grid">
             {resume.events.map((eventItem, index) => (
               <article className={`rtob-resume-event-card ${eventItem.highlight ? 'is-highlighted' : ''}`.trim()} key={`${eventItem.date}-${eventItem.event}-${index}`}>
-                <span className="rtob-resume-event-date">{eventItem.date}</span>
-                <h4>{eventItem.event}</h4>
-                <p>{eventItem.location}</p>
+                <div className="rtob-resume-event-card-top">
+                  <span className="rtob-resume-event-date">{eventItem.date}</span>
+                  <span className="rtob-resume-event-mark" aria-hidden="true">{getResumeEventMark(eventItem.event)}</span>
+                </div>
+                <div className="rtob-resume-event-card-body">
+                  <h4>{eventItem.event}</h4>
+                </div>
+                <p className="rtob-resume-event-location">{eventItem.location}</p>
               </article>
             ))}
           </div>

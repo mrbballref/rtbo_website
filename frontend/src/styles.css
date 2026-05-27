@@ -1,6 +1,22 @@
 @import url('/assets/css/app.css');
 
 :root {
+  --rtbo-scarlet: #c1121f;
+  --rtbo-scarlet-dark: #7f0d16;
+  --rtbo-scarlet-soft: rgba(193, 18, 31, .16);
+  --rtbo-gold: #d4af37;
+  --rtbo-gold-muted: #b8922f;
+  --rtbo-gold-soft: rgba(212, 175, 55, .18);
+  --rtbo-crimson: var(--rtbo-scarlet);
+  --rtbo-crimson-dark: var(--rtbo-scarlet-dark);
+  --rtbo-crimson-soft: var(--rtbo-scarlet-soft);
+  --rtbo-burnt-orange: #a94718;
+  --rtbo-burnt-orange-dark: #743313;
+  --orange: var(--rtbo-crimson);
+  --orange-dark: var(--rtbo-crimson-dark);
+  --rtbo-orange: var(--rtbo-crimson);
+  --rtbo-button-bg: var(--rtbo-burnt-orange);
+  --rtbo-button-bg-hover: var(--rtbo-burnt-orange-dark);
   --rtbo-video-chrome-metal: linear-gradient(135deg,
     #ffffff 0%,
     #d9dee6 5%,
@@ -23,16 +39,21 @@
     repeating-linear-gradient(135deg, rgba(255, 255, 255, .2) 0 2px, rgba(0, 0, 0, .2) 2px 5px),
     var(--rtbo-video-chrome-metal);
   --rtbo-video-chrome-shadow:
-    0 24px 66px rgba(0, 0, 0, .52),
-    0 0 0 2px rgba(0, 0, 0, .78),
-    0 0 0 3px rgba(255, 255, 255, .2),
+    0 18px 42px rgba(0, 0, 0, .46),
+    0 0 0 1px rgba(0, 0, 0, .78),
+    0 0 0 2px rgba(255, 255, 255, .18),
     inset 0 2px 0 rgba(255, 255, 255, .76),
-    inset 0 -14px 24px rgba(0, 0, 0, .38),
+    inset 0 -8px 14px rgba(0, 0, 0, .34),
     inset 0 0 0 1px rgba(255, 255, 255, .3);
   --rtbo-video-chrome-inner-highlight:
     linear-gradient(118deg, rgba(255, 255, 255, .34), transparent 18%, transparent 68%, rgba(255, 255, 255, .22)),
     linear-gradient(180deg, rgba(255, 255, 255, .22), transparent 26%, transparent 78%, rgba(0, 0, 0, .22));
-  --rtbo-video-chrome-accent: #f58220;
+  --rtbo-video-crimson: var(--rtbo-crimson);
+  --rtbo-video-crimson-muted: rgba(193, 18, 31, .44);
+  --rtbo-video-crimson-soft: rgba(193, 18, 31, .12);
+  --rtbo-video-burnt-orange: var(--rtbo-burnt-orange);
+  --rtbo-video-burnt-orange-hover: #b85a1e;
+  --rtbo-video-chrome-accent: rgba(193, 18, 31, .44);
 }
 
 html,
@@ -167,6 +188,223 @@ main,
   transition: color .3s ease;
 }
 
+/* Shared public footer polish: one refined footer system across every page. */
+.site-footer.original-footer {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-top: 1px solid rgba(193, 18, 31, .55) !important;
+  color: #f8fafc;
+  background-color: #06080c !important;
+  background-image:
+    radial-gradient(circle at 10% 8%, rgba(193, 18, 31, .28), transparent 26%),
+    radial-gradient(circle at 88% 28%, rgba(255, 255, 255, .08), transparent 24%),
+    linear-gradient(180deg, #090b10 0%, #030405 100%) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
+}
+
+.site-footer.original-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: -1;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, rgba(193, 18, 31, .95), rgba(255, 255, 255, .38), rgba(193, 18, 31, .95), transparent);
+  opacity: .88;
+}
+
+.site-footer.original-footer .footer-inner {
+  position: relative;
+  padding: clamp(22px, 3vw, 34px);
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 14px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .065), rgba(255, 255, 255, .018)),
+    rgba(9, 11, 15, .78);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, .38), inset 0 1px 0 rgba(255, 255, 255, .08);
+}
+
+.site-footer.original-footer .footer-brand {
+  gap: 16px !important;
+  padding-right: clamp(0px, 2vw, 22px);
+}
+
+.site-footer.original-footer .footer-logo {
+  width: min(168px, 48vw);
+  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, .48));
+}
+
+.site-footer.original-footer .footer-desc {
+  max-width: 310px;
+  color: #f8fafc;
+  font-size: clamp(.98rem, 1.1vw, 1.08rem);
+}
+
+.site-footer.original-footer .footer-title {
+  display: inline-flex;
+  gap: 9px;
+  align-items: center;
+  color: #fff;
+  font-size: .88rem;
+}
+
+.site-footer.original-footer .footer-title::before {
+  content: "";
+  width: 8px;
+  height: 22px;
+  border-radius: 999px;
+  background: #c1121f;
+  box-shadow: 0 0 18px rgba(193, 18, 31, .42);
+}
+
+.site-footer.original-footer .footer-links {
+  align-items: stretch !important;
+}
+
+.site-footer.original-footer .footer-links li {
+  min-width: 0;
+}
+
+.site-footer.original-footer .footer-link {
+  display: inline-flex;
+  width: 100%;
+  min-height: 42px;
+  align-items: center;
+  justify-content: flex-start;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 9px;
+  padding: 8px 12px;
+  color: #e5e7eb;
+  background: rgba(255, 255, 255, .035);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .055);
+  transition: color .2s ease, background .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.site-footer.original-footer .footer-link:hover,
+.site-footer.original-footer .footer-link:focus-visible {
+  border-color: rgba(193, 18, 31, .62);
+  color: #fff;
+  background: rgba(193, 18, 31, .16);
+  transform: translateY(-1px);
+}
+
+.site-footer.original-footer .footer-timings {
+  gap: 12px !important;
+}
+
+.site-footer.original-footer .footer-timing {
+  display: grid;
+  gap: 3px;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-left-color: rgba(193, 18, 31, .88);
+  border-left-width: 3px;
+  border-radius: 9px;
+  padding: 12px 14px;
+  color: #d1d5db;
+  background: rgba(255, 255, 255, .035);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .055);
+}
+
+.site-footer.original-footer .footer-timing span {
+  display: block;
+  color: #fff;
+  letter-spacing: .02em;
+}
+
+.site-footer.original-footer .footer-timings .footer-ruler {
+  display: none !important;
+}
+
+.site-footer.original-footer .footer-bottom {
+  border-top-color: rgba(255, 255, 255, .12) !important;
+}
+
+.site-footer.original-footer .footer-copy {
+  color: #d1d5db;
+}
+
+.site-footer.original-footer .scroll-up {
+  min-height: 44px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 999px;
+  padding: 6px 14px 6px 8px;
+  color: #f8fafc;
+  background: rgba(255, 255, 255, .045);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+}
+
+.site-footer.original-footer .scroll-up:hover,
+.site-footer.original-footer .scroll-up:focus-visible {
+  border-color: rgba(193, 18, 31, .68);
+  color: #fff;
+  background: rgba(193, 18, 31, .14);
+}
+
+.site-footer.original-footer .scroll-up-icon {
+  background: linear-gradient(180deg, #b1263a, #7f1726);
+  box-shadow: 0 10px 24px rgba(193, 18, 31, .34);
+}
+
+:root[data-theme="dark"] .site-footer.original-footer {
+  background-color: #06080c !important;
+  background-image:
+    radial-gradient(circle at 10% 8%, rgba(193, 18, 31, .28), transparent 26%),
+    radial-gradient(circle at 88% 28%, rgba(255, 255, 255, .08), transparent 24%),
+    linear-gradient(180deg, #090b10 0%, #030405 100%) !important;
+  background-size: auto !important;
+  background-attachment: scroll !important;
+}
+
+:root[data-theme="light"] .site-footer.original-footer {
+  background-color: #f6f7fb !important;
+  background-image:
+    radial-gradient(circle at 10% 8%, rgba(193, 18, 31, .12), transparent 26%),
+    linear-gradient(180deg, #fff 0%, #f6f7fb 100%) !important;
+  color: #111827 !important;
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-inner {
+  border-color: rgba(15, 23, 42, .1);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .96), rgba(248, 250, 252, .86)),
+    #fff;
+  box-shadow: 0 26px 70px rgba(15, 23, 42, .12), inset 0 1px 0 rgba(255, 255, 255, .9);
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-desc,
+:root[data-theme="light"] .site-footer.original-footer .footer-copy,
+:root[data-theme="light"] .site-footer.original-footer .footer-timing,
+:root[data-theme="light"] .site-footer.original-footer .footer-link,
+:root[data-theme="light"] .site-footer.original-footer .scroll-up {
+  color: #475569 !important;
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-title,
+:root[data-theme="light"] .site-footer.original-footer .footer-timing span,
+:root[data-theme="light"] .site-footer.original-footer .footer-copy span {
+  color: #111827 !important;
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-link,
+:root[data-theme="light"] .site-footer.original-footer .footer-timing,
+:root[data-theme="light"] .site-footer.original-footer .scroll-up {
+  border-color: rgba(15, 23, 42, .1);
+  background: rgba(255, 255, 255, .72);
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-timing {
+  border-left-color: rgba(193, 18, 31, .82);
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-link:hover,
+:root[data-theme="light"] .site-footer.original-footer .footer-link:focus-visible,
+:root[data-theme="light"] .site-footer.original-footer .scroll-up:hover,
+:root[data-theme="light"] .site-footer.original-footer .scroll-up:focus-visible {
+  border-color: rgba(193, 18, 31, .5);
+  color: #111827 !important;
+  background: rgba(193, 18, 31, .08);
+}
+
 .site-nav button.active {
   color: var(--rtbo-orange);
 }
@@ -205,7 +443,7 @@ main,
   min-width: 210px;
   gap: 6px;
   padding: 8px;
-  border: 1px solid rgba(249, 115, 22, .34);
+  border: 1px solid rgba(193, 18, 31, .34);
   border-radius: 8px;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .025)),
@@ -235,8 +473,8 @@ main,
 
 .nav-dropdown-menu button:is(:hover, :focus-visible, .active) {
   color: #fff;
-  border-color: rgba(249, 115, 22, .5);
-  background: rgba(249, 115, 22, .18);
+  border-color: rgba(193, 18, 31, .5);
+  background: rgba(193, 18, 31, .18);
   outline: none;
 }
 
@@ -304,7 +542,7 @@ button.hero-scroll-link {
 .home-refzone-media,
 .refzone-university-hero-media {
   overflow: hidden;
-  border: 1px solid rgba(249, 115, 22, .34);
+  border: 1px solid rgba(193, 18, 31, .34);
   border-radius: 8px;
   background: #070a0e;
 }
@@ -392,8 +630,8 @@ button.hero-scroll-link {
 }
 
 .home-refzone-membership-grid article.featured {
-  border-color: rgba(249, 115, 22, .68);
-  box-shadow: 0 18px 44px rgba(249, 115, 22, .12);
+  border-color: rgba(193, 18, 31, .68);
+  box-shadow: 0 18px 44px rgba(193, 18, 31, .12);
 }
 
 .home-refzone-membership-grid h3 {
@@ -568,8 +806,8 @@ button.hero-scroll-link {
 }
 
 .refzone-membership-grid article.featured {
-  border-color: rgba(249, 115, 22, .68);
-  box-shadow: 0 18px 44px rgba(249, 115, 22, .12);
+  border-color: rgba(193, 18, 31, .68);
+  box-shadow: 0 18px 44px rgba(193, 18, 31, .12);
 }
 
 .refzone-package-badge {
@@ -657,10 +895,10 @@ button.hero-scroll-link {
   gap: 14px;
   width: min(760px, 100%);
   margin: 0 auto;
-  border: 1px solid rgba(249, 115, 22, .42);
+  border: 1px solid rgba(193, 18, 31, .42);
   border-radius: 8px;
   padding: clamp(20px, 3vw, 30px);
-  background: linear-gradient(145deg, rgba(249, 115, 22, .16), rgba(8, 11, 15, .84));
+  background: linear-gradient(145deg, rgba(193, 18, 31, .16), rgba(8, 11, 15, .84));
   box-shadow: 0 18px 44px rgba(0, 0, 0, .22);
 }
 
@@ -730,13 +968,13 @@ button.hero-scroll-link {
 }
 
 .refzone-summary-radio-card:hover {
-  border-color: rgba(249, 115, 22, .58);
+  border-color: rgba(193, 18, 31, .58);
   transform: translateY(-1px);
 }
 
 .refzone-summary-radio-card.selected {
-  border-color: rgba(249, 115, 22, .72);
-  background: rgba(249, 115, 22, .12);
+  border-color: rgba(193, 18, 31, .72);
+  background: rgba(193, 18, 31, .12);
 }
 
 .refzone-summary-radio-card input[type="radio"] {
@@ -1189,7 +1427,7 @@ button.hero-scroll-link {
   column-gap: 16px;
   align-items: start;
   padding: clamp(16px, 2vw, 22px);
-  border: 1px solid rgba(249, 115, 22, .3);
+  border: 1px solid rgba(193, 18, 31, .3);
   border-left: 4px solid var(--orange);
   border-radius: 8px;
   background:
@@ -1221,10 +1459,10 @@ button.hero-scroll-link {
 
 .trainer-top-image {
   overflow: hidden;
-  border: 1px solid rgba(249, 115, 22, .4);
+  border: 1px solid rgba(193, 18, 31, .4);
   border-radius: 8px;
   background:
-    radial-gradient(circle at 50% 50%, rgba(249, 115, 22, .18), transparent 44%),
+    radial-gradient(circle at 50% 50%, rgba(193, 18, 31, .18), transparent 44%),
     #050608;
   box-shadow: 0 22px 54px rgba(0, 0, 0, .28);
 }
@@ -1246,11 +1484,11 @@ button.hero-scroll-link {
 
 .guest-top-image {
   overflow: hidden;
-  border: 1px solid rgba(249, 115, 22, .4);
+  border: 1px solid rgba(193, 18, 31, .4);
   border-radius: 8px;
   padding: clamp(12px, 1.6vw, 24px);
   background:
-    radial-gradient(circle at 50% 50%, rgba(249, 115, 22, .16), transparent 48%),
+    radial-gradient(circle at 50% 50%, rgba(193, 18, 31, .16), transparent 48%),
     #050608;
   box-shadow: 0 22px 54px rgba(0, 0, 0, .28);
 }
@@ -1289,7 +1527,7 @@ button.hero-scroll-link {
   column-gap: 16px;
   align-items: start;
   padding: clamp(16px, 2vw, 22px);
-  border: 1px solid rgba(249, 115, 22, .3);
+  border: 1px solid rgba(193, 18, 31, .3);
   border-left: 4px solid var(--orange);
   border-radius: 8px;
   background:
@@ -1487,7 +1725,7 @@ button.hero-scroll-link {
   font-size: clamp(1rem, 1.4vw, 1.32rem);
   line-height: 1.1;
   text-transform: uppercase;
-  text-shadow: 2px 2px 0 rgba(249, 115, 22, .7);
+  text-shadow: 2px 2px 0 rgba(193, 18, 31, .7);
 }
 
 .member-story-footer p {
@@ -1525,7 +1763,7 @@ button.hero-scroll-link {
 
 .results-top-points article {
   padding: clamp(16px, 2vw, 22px);
-  border: 1px solid rgba(249, 115, 22, .3);
+  border: 1px solid rgba(193, 18, 31, .3);
   border-left: 4px solid var(--orange);
   border-radius: 8px;
   background:
@@ -1564,7 +1802,7 @@ button.hero-scroll-link {
 .results-top-cards figure {
   overflow: hidden;
   margin: 0;
-  border: 1px solid rgba(249, 115, 22, .4);
+  border: 1px solid rgba(193, 18, 31, .4);
   border-radius: 8px;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .035)),
@@ -1633,7 +1871,7 @@ button.hero-scroll-link {
   max-width: 900px;
   margin: 0 0 22px;
   padding: clamp(16px, 2vw, 22px);
-  border: 1px solid rgba(249, 115, 22, .32);
+  border: 1px solid rgba(193, 18, 31, .32);
   border-left: 4px solid var(--orange);
   border-radius: 8px;
   background:
@@ -1690,7 +1928,7 @@ button.hero-scroll-link {
   column-gap: 16px;
   align-items: start;
   padding: clamp(16px, 2vw, 22px);
-  border: 1px solid rgba(249, 115, 22, .3);
+  border: 1px solid rgba(193, 18, 31, .3);
   border-left: 4px solid var(--orange);
   border-radius: 8px;
   background:
@@ -1732,13 +1970,13 @@ button.hero-scroll-link {
   min-height: clamp(300px, 25vw, 390px);
   margin-top: clamp(46px, 5.4vw, 92px);
   overflow: hidden;
-  border: 1px solid rgba(249, 115, 22, .32);
+  border: 1px solid rgba(193, 18, 31, .32);
   border-radius: 8px;
   padding: clamp(14px, 2vw, 26px);
   color: inherit;
   text-decoration: none;
   background:
-    radial-gradient(circle at 80% 20%, rgba(249, 115, 22, .24), transparent 42%),
+    radial-gradient(circle at 80% 20%, rgba(193, 18, 31, .24), transparent 42%),
     linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .02)),
     rgba(5, 8, 13, .86);
   box-shadow: 0 24px 70px rgba(0, 0, 0, .36);
@@ -1746,8 +1984,8 @@ button.hero-scroll-link {
 }
 
 .services-top-image:is(:hover, :focus-visible) {
-  border-color: rgba(249, 115, 22, .72);
-  box-shadow: 0 26px 76px rgba(249, 115, 22, .16);
+  border-color: rgba(193, 18, 31, .72);
+  box-shadow: 0 26px 76px rgba(193, 18, 31, .16);
   transform: translateY(-2px);
 }
 
@@ -1850,6 +2088,77 @@ button.hero-scroll-link {
   margin-top: 0;
 }
 
+.services-client-slider-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  justify-items: center;
+  gap: clamp(22px, 3vw, 40px);
+  padding-top: clamp(34px, 5vw, 72px);
+  padding-bottom: clamp(34px, 5vw, 72px);
+}
+
+.services-client-slider-head {
+  display: grid;
+  gap: 12px;
+  width: min(100%, var(--rtbo-site-max-width, 1920px));
+  max-width: min(100%, var(--rtbo-site-max-width, 1920px));
+}
+
+.services-client-slider-head h2 {
+  margin: 0;
+  max-width: min(100%, 1280px);
+  color: var(--ink);
+  font-size: clamp(2rem, 3.4vw, 4rem);
+  line-height: .98;
+  text-transform: uppercase;
+}
+
+.services-client-slider-head p {
+  max-width: 880px;
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.22vw, 1.2rem);
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.services-client-carousel.hero-carousel {
+  --slide-gap: 75px;
+  --slide-width: clamp(280px, calc((min(100vw, var(--rtbo-site-max-width, 1920px)) - 150px - clamp(40px, 7vw, 144px)) / 3), 560px);
+  --carousel-visible-width: calc((var(--slide-width) * 3) + (var(--slide-gap) * 2));
+  position: relative;
+  inset: auto;
+  grid-row: auto !important;
+  grid-column: auto !important;
+  align-self: start;
+  justify-self: center;
+  z-index: 1;
+  width: min(100%, var(--rtbo-site-max-width, 1920px));
+  max-width: min(100%, var(--rtbo-site-max-width, 1920px));
+  margin: 0 auto;
+  padding: clamp(12px, 1.4vw, 18px) 0;
+  border-block: 1px solid rgba(212, 175, 55, .42);
+  background:
+    linear-gradient(90deg, rgba(212, 175, 55, .1), transparent 18%, transparent 82%, rgba(212, 175, 55, .1)),
+    rgba(5, 6, 8, .36) !important;
+}
+
+.services-client-carousel.hero-carousel img {
+  flex-basis: var(--slide-width);
+  width: var(--slide-width);
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
+  border-color: rgba(212, 175, 55, .38);
+  background: #050608;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, .28);
+}
+
+.services-client-carousel.hero-carousel img:hover {
+  border-color: rgba(212, 175, 55, .68);
+}
+
 .trainer-grid article,
 .shop-preview {
   text-align: center;
@@ -1873,10 +2182,10 @@ button.hero-scroll-link {
   overflow: hidden;
   width: 100%;
   aspect-ratio: 1 / 1;
-  border: 1px solid rgba(249, 115, 22, .3);
+  border: 1px solid rgba(193, 18, 31, .3);
   border-radius: 8px;
   background:
-    radial-gradient(circle at 50% 12%, rgba(249, 115, 22, .18), transparent 38%),
+    radial-gradient(circle at 50% 12%, rgba(193, 18, 31, .18), transparent 38%),
     linear-gradient(145deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
     #050608;
   box-shadow: 0 18px 42px rgba(0, 0, 0, .22);
@@ -1960,7 +2269,7 @@ button.hero-scroll-link {
   align-items: start;
   min-height: 100%;
   padding: clamp(18px, 2.2vw, 26px);
-  border: 1px solid rgba(249, 115, 22, .3);
+  border: 1px solid rgba(193, 18, 31, .3);
   border-left: 4px solid var(--orange);
   border-radius: 8px;
   background:
@@ -2002,7 +2311,7 @@ button.hero-scroll-link {
   gap: clamp(18px, 3vw, 30px);
   align-items: center;
   padding: clamp(18px, 2.4vw, 28px);
-  border: 1px solid rgba(249, 115, 22, .34);
+  border: 1px solid rgba(193, 18, 31, .34);
   border-radius: 8px;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .035)),
@@ -2029,7 +2338,7 @@ button.hero-scroll-link {
   align-content: center;
   gap: 8px;
   padding: 14px;
-  border: 1px solid rgba(249, 115, 22, .25);
+  border: 1px solid rgba(193, 18, 31, .25);
   border-radius: 8px;
   background: rgba(255, 255, 255, .055);
 }
@@ -2261,11 +2570,11 @@ button.hero-scroll-link {
   grid-column: 1 / -1;
   margin-top: clamp(14px, 2vw, 22px);
   padding: clamp(18px, 2vw, 28px);
-  border: 1px solid rgba(249, 115, 22, .34);
+  border: 1px solid rgba(193, 18, 31, .34);
   border-left: 4px solid var(--orange);
   border-radius: 8px;
   background:
-    linear-gradient(135deg, rgba(249, 115, 22, .1), rgba(255, 255, 255, .035)),
+    linear-gradient(135deg, rgba(193, 18, 31, .1), rgba(255, 255, 255, .035)),
     rgba(11, 13, 18, .74);
   box-shadow: 0 22px 54px rgba(0, 0, 0, .26);
 }
@@ -2303,10 +2612,10 @@ button.hero-scroll-link {
   gap: clamp(18px, 3vw, 38px);
   align-items: center;
   padding: clamp(16px, 2.4vw, 28px);
-  border: 1px solid rgba(249, 115, 22, .36);
+  border: 1px solid rgba(193, 18, 31, .36);
   border-radius: 10px;
   background:
-    radial-gradient(circle at top right, rgba(249, 115, 22, .18), transparent 34%),
+    radial-gradient(circle at top right, rgba(193, 18, 31, .18), transparent 34%),
     linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .035)),
     rgba(8, 8, 8, .82);
   box-shadow: 0 24px 62px rgba(0, 0, 0, .28);
@@ -2317,7 +2626,7 @@ button.hero-scroll-link {
   max-width: 380px;
   margin: 0 auto;
   overflow: hidden;
-  border: 1px solid rgba(249, 115, 22, .32);
+  border: 1px solid rgba(193, 18, 31, .32);
   border-radius: 8px;
   background: #050608;
 }
@@ -2357,7 +2666,7 @@ button.hero-scroll-link {
 .paid-event-facts span {
   min-width: 0;
   padding: 10px 12px;
-  border: 1px solid rgba(249, 115, 22, .3);
+  border: 1px solid rgba(193, 18, 31, .3);
   border-radius: 8px;
   color: rgba(255, 255, 255, .9);
   background: rgba(255, 255, 255, .055);
@@ -2373,14 +2682,14 @@ button.hero-scroll-link {
   width: min(1040px, 100%);
   max-height: min(92vh, 860px);
   overflow-y: auto;
-  border: 1px solid rgba(249, 115, 22, .34);
+  border: 1px solid rgba(193, 18, 31, .34);
   border-radius: 18px;
   padding: clamp(20px, 3vw, 34px);
   background:
-    radial-gradient(circle at top right, rgba(249, 115, 22, .2), transparent 34%),
+    radial-gradient(circle at top right, rgba(193, 18, 31, .2), transparent 34%),
     linear-gradient(145deg, rgba(255,255,255,.1), rgba(255,255,255,.04)),
     #070707;
-  box-shadow: 0 32px 90px rgba(0, 0, 0, .58), 0 0 38px rgba(249, 115, 22, .14);
+  box-shadow: 0 32px 90px rgba(0, 0, 0, .58), 0 0 38px rgba(193, 18, 31, .14);
 }
 
 .paid-event-modal-layout {
@@ -2396,7 +2705,7 @@ button.hero-scroll-link {
   aspect-ratio: 2 / 3;
   object-fit: contain;
   object-position: center top;
-  border: 1px solid rgba(249, 115, 22, .32);
+  border: 1px solid rgba(193, 18, 31, .32);
   border-radius: 8px;
   background: #050608;
 }
@@ -2417,7 +2726,7 @@ button.hero-scroll-link {
 
 .paid-event-modal :is(input, textarea) {
   color: #fff;
-  border-color: rgba(245, 130, 32, .28);
+  border-color: rgba(193, 18, 31, .28);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .018)),
     #0a0a0a;
@@ -2425,9 +2734,9 @@ button.hero-scroll-link {
 }
 
 .paid-event-modal :is(input, textarea):focus {
-  border-color: rgba(245, 130, 32, .75);
+  border-color: rgba(193, 18, 31, .75);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(245, 130, 32, .16), inset 0 1px 0 rgba(255, 255, 255, .055);
+  box-shadow: 0 0 0 3px rgba(193, 18, 31, .16), inset 0 1px 0 rgba(255, 255, 255, .055);
 }
 
 .school-grid article {
@@ -2538,13 +2847,13 @@ button.hero-scroll-link {
   border: 1px solid rgba(255, 255, 255, .46);
   color: #fff;
   background:
-    linear-gradient(135deg, #ff7a1a, #f97316 48%, #ea580c),
+    linear-gradient(135deg, #a41623, #c1121f 48%, #7f0d16),
     var(--orange);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.55),
     inset 0 -1px 0 rgba(0,0,0,.28),
-    0 0 0 1px rgba(249, 115, 22, .28),
-    0 14px 28px rgba(249, 115, 22, .18);
+    0 0 0 1px rgba(193, 18, 31, .28),
+    0 14px 28px rgba(193, 18, 31, .18);
 }
 
 .nav-action-group .nav-chrome-btn:hover,
@@ -2553,12 +2862,12 @@ button.hero-scroll-link {
 .school-card-btn:hover {
   border-color: rgba(255,255,255,.72);
   background:
-    linear-gradient(135deg, #fb923c, #ea580c 52%, #f58220),
+    linear-gradient(135deg, #a41623, #7f0d16 52%, #c1121f),
     var(--orange-dark);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.7),
     inset 0 -1px 0 rgba(0,0,0,.32),
-    0 18px 38px rgba(249, 115, 22, .24);
+    0 18px 38px rgba(193, 18, 31, .24);
 }
 
 .pricing-plans {
@@ -2589,7 +2898,7 @@ button.hero-scroll-link {
   gap: 14px;
   align-items: center;
   padding: 16px 18px;
-  border: 1px solid rgba(249, 115, 22, .28);
+  border: 1px solid rgba(193, 18, 31, .28);
   border-left: 4px solid var(--orange);
   border-radius: 8px;
   background: rgba(255,255,255,.055);
@@ -2601,10 +2910,10 @@ button.hero-scroll-link {
   width: 42px;
   height: 42px;
   padding: 7px;
-  border: 1px solid rgba(249, 115, 22, .55);
+  border: 1px solid rgba(193, 18, 31, .55);
   border-radius: 8px;
   background:
-    linear-gradient(145deg, rgba(249, 115, 22, .24), rgba(255, 255, 255, .04)),
+    linear-gradient(145deg, rgba(193, 18, 31, .24), rgba(255, 255, 255, .04)),
     rgba(5, 6, 8, .72);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.14), 0 8px 18px rgba(0,0,0,.24);
 }
@@ -2617,7 +2926,7 @@ button.hero-scroll-link {
   stroke-width: 1.9;
   stroke-linecap: round;
   stroke-linejoin: round;
-  filter: drop-shadow(0 0 5px rgba(249, 115, 22, .35));
+  filter: drop-shadow(0 0 5px rgba(193, 18, 31, .35));
 }
 
 .contact-info-list span {
@@ -2654,11 +2963,11 @@ button.hero-scroll-link {
   min-height: 100%;
   overflow: hidden;
   padding: clamp(20px, 2.4vw, 34px);
-  border: 1px solid rgba(249, 115, 22, .22);
+  border: 1px solid rgba(193, 18, 31, .22);
   border-radius: 8px;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .035)),
-    radial-gradient(circle at 15% 0%, rgba(249, 115, 22, .2), transparent 32%),
+    radial-gradient(circle at 15% 0%, rgba(193, 18, 31, .2), transparent 32%),
     rgba(8, 8, 8, .86);
   box-shadow: 0 24px 58px rgba(0, 0, 0, .28);
 }
@@ -2668,7 +2977,7 @@ button.hero-scroll-link {
   position: absolute;
   inset: 0 0 auto;
   height: 4px;
-  background: linear-gradient(90deg, transparent, var(--orange), #fbbf24, transparent);
+  background: linear-gradient(90deg, transparent, var(--orange), #a41623, transparent);
 }
 
 .pricing-card-top {
@@ -2702,11 +3011,11 @@ button.hero-scroll-link {
 .pricing-badge {
   display: inline-flex;
   width: fit-content;
-  border: 1px solid rgba(249, 115, 22, .38);
+  border: 1px solid rgba(193, 18, 31, .38);
   border-radius: 999px;
   padding: 5px 10px;
-  color: #fbbf24;
-  background: rgba(249, 115, 22, .1);
+  color: #a41623;
+  background: rgba(193, 18, 31, .1);
   font-size: .72rem;
   font-weight: 950;
   text-transform: uppercase;
@@ -2801,7 +3110,7 @@ button.hero-scroll-link {
   grid-template-columns: 86px minmax(0, 1fr) auto;
   gap: 18px;
   align-items: center;
-  border: 1px solid rgba(249, 115, 22, .26);
+  border: 1px solid rgba(193, 18, 31, .26);
   border-radius: 8px;
   padding: clamp(18px, 2vw, 26px);
   background:
@@ -2856,7 +3165,7 @@ button.hero-scroll-link {
 
 .testimonial-grid article {
   overflow: hidden;
-  border: 1px solid rgba(249, 115, 22, .24);
+  border: 1px solid rgba(193, 18, 31, .24);
   border-radius: 8px;
   background:
     linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.035)),
@@ -2931,10 +3240,10 @@ button.hero-scroll-link {
   align-items: start;
   margin-top: clamp(34px, 5vw, 72px);
   padding: clamp(20px, 3vw, 34px);
-  border: 1px solid rgba(249, 115, 22, .32);
+  border: 1px solid rgba(193, 18, 31, .32);
   border-radius: 8px;
   background:
-    radial-gradient(circle at top right, rgba(249, 115, 22, .16), transparent 34%),
+    radial-gradient(circle at top right, rgba(193, 18, 31, .16), transparent 34%),
     linear-gradient(145deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .025)),
     rgba(8, 8, 8, .74);
 }
@@ -2966,10 +3275,10 @@ button.hero-scroll-link {
 
 .attendee-review-paths span {
   padding: 8px 10px;
-  border: 1px solid rgba(249, 115, 22, .38);
+  border: 1px solid rgba(193, 18, 31, .38);
   border-radius: 999px;
   color: #fff;
-  background: rgba(249, 115, 22, .12);
+  background: rgba(193, 18, 31, .12);
   font-size: .76rem;
   font-weight: 1000;
   letter-spacing: .06em;
@@ -3025,7 +3334,7 @@ button.hero-scroll-link {
 
 .attendee-review-rating-display i.active {
   color: var(--orange);
-  text-shadow: 0 0 12px rgba(249, 115, 22, .42);
+  text-shadow: 0 0 12px rgba(193, 18, 31, .42);
 }
 
 .attendee-review-submitted-list p {
@@ -3111,9 +3420,9 @@ button.hero-scroll-link {
 
 .attendee-review-star-options label.selected {
   color: var(--orange);
-  border-color: rgba(249, 115, 22, .82);
+  border-color: rgba(193, 18, 31, .82);
   background:
-    linear-gradient(145deg, rgba(249, 115, 22, .2), rgba(255, 255, 255, .04)),
+    linear-gradient(145deg, rgba(193, 18, 31, .2), rgba(255, 255, 255, .04)),
     rgba(0, 0, 0, .58);
 }
 
@@ -3129,7 +3438,7 @@ button.hero-scroll-link {
 }
 
 .attendee-review-star-options label:focus-within {
-  box-shadow: 0 0 0 3px rgba(249, 115, 22, .16);
+  box-shadow: 0 0 0 3px rgba(193, 18, 31, .16);
 }
 
 .attendee-review-rating p {
@@ -3156,9 +3465,9 @@ button.hero-scroll-link {
 }
 
 .attendee-review-form :is(input, select, textarea):focus-visible {
-  border-color: rgba(249, 115, 22, .82);
+  border-color: rgba(193, 18, 31, .82);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(249, 115, 22, .16);
+  box-shadow: 0 0 0 3px rgba(193, 18, 31, .16);
 }
 
 .attendee-review-photo-upload {
@@ -3181,7 +3490,7 @@ button.hero-scroll-link {
   place-items: center;
   min-height: 42px;
   padding: 0 14px;
-  border: 1px solid rgba(249, 115, 22, .7);
+  border: 1px solid rgba(193, 18, 31, .7);
   border-radius: 7px;
   color: #fff;
   background: var(--orange);
@@ -3219,8 +3528,8 @@ button.hero-scroll-link {
 }
 
 .attendee-review-photo-upload:focus-within {
-  border-color: rgba(249, 115, 22, .82);
-  box-shadow: 0 0 0 3px rgba(249, 115, 22, .16);
+  border-color: rgba(193, 18, 31, .82);
+  box-shadow: 0 0 0 3px rgba(193, 18, 31, .16);
 }
 
 .attendee-review-consent {
@@ -3253,7 +3562,7 @@ button.hero-scroll-link {
 
 .form input[type="file"] {
   min-height: 46px;
-  border: 1px solid rgba(249, 115, 22, .42);
+  border: 1px solid rgba(193, 18, 31, .42);
   padding: 6px;
   color: #e5e7eb;
   background: linear-gradient(180deg, rgba(15, 23, 30, .96), rgba(8, 13, 17, .98));
@@ -3267,8 +3576,8 @@ button.hero-scroll-link {
   padding: 0 13px;
   margin-right: 12px;
   color: #fff;
-  background: linear-gradient(180deg, #f97316, #ea580c);
-  box-shadow: 0 8px 18px rgba(249, 115, 22, .22);
+  background: linear-gradient(180deg, #c1121f, #7f0d16);
+  box-shadow: 0 8px 18px rgba(193, 18, 31, .22);
   font: inherit;
   font-size: .72rem;
   font-weight: 1000;
@@ -3277,7 +3586,7 @@ button.hero-scroll-link {
 }
 
 .form input[type="file"]:hover::file-selector-button {
-  background: linear-gradient(180deg, #fb923c, #f97316);
+  background: linear-gradient(180deg, #a41623, #c1121f);
   transform: translateY(-1px);
 }
 
@@ -3331,7 +3640,7 @@ button.hero-scroll-link {
   gap: 10px;
   min-width: 0;
   margin: 0;
-  border: 1px solid rgba(249, 115, 22, .34);
+  border: 1px solid rgba(193, 18, 31, .34);
   border-radius: 8px;
   padding: clamp(14px, 2vw, 18px);
   background: rgba(255, 255, 255, .04);
@@ -3378,7 +3687,7 @@ button.hero-scroll-link {
 
 :root[data-theme="light"] .registration-one-time-payment {
   background: rgba(255, 255, 255, .72);
-  border-color: rgba(249, 115, 22, .32);
+  border-color: rgba(193, 18, 31, .32);
 }
 
 :root[data-theme="dark"] .registration-one-time-option strong {
@@ -3453,7 +3762,7 @@ button.hero-scroll-link {
   right: 0;
   bottom: -14px;
   height: 2px;
-  background: #f97316;
+  background: #c1121f;
 }
 
 .rtbo-registration-nav-actions {
@@ -3475,8 +3784,8 @@ button.hero-scroll-link {
 }
 
 .rtbo-registration-account-action {
-  border-color: #f97316;
-  background: #f97316;
+  border-color: #c1121f;
+  background: #c1121f;
 }
 
 .rtbo-registration-hero,
@@ -3512,7 +3821,7 @@ button.hero-scroll-link {
 .rtbo-registration-hero h2 {
   max-width: 620px;
   margin: 12px 0 0;
-  color: #f97316;
+  color: #c1121f;
   font-size: clamp(1.05rem, 1.7vw, 1.65rem);
   line-height: 1.1;
   text-transform: uppercase;
@@ -3547,9 +3856,9 @@ button.hero-scroll-link {
   content: "";
   width: 28px;
   height: 28px;
-  border: 1px solid rgba(249,115,22,.65);
+  border: 1px solid rgba(193, 18, 31,.65);
   border-radius: 7px;
-  background: rgba(249,115,22,.12);
+  background: rgba(193, 18, 31,.12);
 }
 
 .rtbo-registration-hero-logo {
@@ -3595,7 +3904,7 @@ button.hero-scroll-link {
   min-height: 42px;
   border-radius: 8px;
   color: #fff;
-  background: #f97316;
+  background: #c1121f;
   font-size: .78rem;
   font-weight: 1000;
 }
@@ -3640,8 +3949,8 @@ button.hero-scroll-link {
 }
 
 .rtbo-registration-steps .active b {
-  border-color: #f97316;
-  background: #f97316;
+  border-color: #c1121f;
+  background: #c1121f;
 }
 
 .rtbo-registration-layout {
@@ -3678,7 +3987,7 @@ button.hero-scroll-link {
 .rtbo-registration-card h3,
 .rtbo-registration-summary h3 {
   margin: 0;
-  color: #f97316;
+  color: #c1121f;
   font-size: .82rem;
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -3736,12 +4045,12 @@ button.hero-scroll-link {
 .rtbo-registration-waiver-document-button {
   justify-self: start;
   min-height: 38px;
-  border: 1px solid rgba(249,115,22,.72);
+  border: 1px solid rgba(193, 18, 31,.72);
   border-radius: 7px;
   padding: 8px 14px;
   margin-top: 2px;
   color: #fff;
-  background: linear-gradient(180deg, #f97316, #ea580c);
+  background: linear-gradient(180deg, #c1121f, #7f0d16);
   font-size: .74rem;
   font-weight: 1000;
   cursor: pointer;
@@ -3776,8 +4085,8 @@ button.hero-scroll-link {
   border-radius: 6px;
   padding: 8px 12px;
   color: #fff;
-  background: linear-gradient(180deg, #f97316, #ea580c);
-  box-shadow: 0 10px 22px rgba(249,115,22,.24);
+  background: linear-gradient(180deg, #c1121f, #7f0d16);
+  box-shadow: 0 10px 22px rgba(193, 18, 31,.24);
   font-size: .72rem;
   font-weight: 1000;
   text-transform: uppercase;
@@ -3815,8 +4124,8 @@ button.hero-scroll-link {
 }
 
 .rtbo-registration-upload-field:focus-within .rtbo-registration-upload-control {
-  border-color: rgba(249,115,22,.8);
-  box-shadow: 0 0 0 3px rgba(249,115,22,.16);
+  border-color: rgba(193, 18, 31,.8);
+  box-shadow: 0 0 0 3px rgba(193, 18, 31,.16);
 }
 
 .rtbo-registration-waiver-modal {
@@ -3827,7 +4136,7 @@ button.hero-scroll-link {
   max-height: min(88vh, 760px);
   overflow: auto;
   overscroll-behavior: contain;
-  border: 1px solid rgba(249,115,22,.42);
+  border: 1px solid rgba(193, 18, 31,.42);
   border-radius: 14px;
   padding: clamp(20px, 3vw, 34px);
   color: #f8fafc;
@@ -3875,8 +4184,8 @@ button.hero-scroll-link {
 }
 
 .rtbo-registration-waiver-required-copy {
-  border-color: rgba(249,115,22,.35);
-  background: rgba(249,115,22,.1);
+  border-color: rgba(193, 18, 31,.35);
+  background: rgba(193, 18, 31,.1);
 }
 
 .rtbo-registration-waiver-document p,
@@ -3906,7 +4215,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-registration-waiver-name.is-filled {
-  color: #f97316;
+  color: #c1121f;
 }
 
 .rtbo-registration-waiver-modal-actions {
@@ -3972,7 +4281,7 @@ button.hero-scroll-link {
   width: 16px;
   min-height: 16px;
   height: 16px;
-  accent-color: #f97316;
+  accent-color: #c1121f;
 }
 
 .rtbo-registration-session-list {
@@ -3993,8 +4302,8 @@ button.hero-scroll-link {
 }
 
 .rtbo-registration-session-list label.selected {
-  border-color: rgba(249,115,22,.72);
-  background: rgba(249,115,22,.12);
+  border-color: rgba(193, 18, 31,.72);
+  background: rgba(193, 18, 31,.12);
 }
 
 .rtbo-registration-session-list img,
@@ -4023,7 +4332,7 @@ button.hero-scroll-link {
 .rtbo-registration-session-list b,
 .rtbo-registration-summary dd,
 .rtbo-registration-summary .total dd {
-  color: #f97316;
+  color: #c1121f;
 }
 
 .rtbo-registration-summary {
@@ -4069,15 +4378,15 @@ button.hero-scroll-link {
 }
 
 .rtbo-registration-secure-card {
-  border: 1px solid rgba(249,115,22,.62);
+  border: 1px solid rgba(193, 18, 31,.62);
   border-radius: 10px;
   padding: 12px;
-  background: rgba(249,115,22,.08);
+  background: rgba(193, 18, 31,.08);
 }
 
 .rtbo-registration-secure-card strong {
   display: block;
-  color: #f97316;
+  color: #c1121f;
 }
 
 .rtbo-registration-summary .registration-payment-button {
@@ -4159,7 +4468,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-registration-wallets button:hover {
-  background: rgba(249,115,22,.08);
+  background: rgba(193, 18, 31,.08);
   box-shadow: none;
 }
 
@@ -4187,11 +4496,11 @@ button.hero-scroll-link {
 
 .rtbo-registration-promo-row button {
   min-height: 40px;
-  border: 1px solid rgba(249,115,22,.65);
+  border: 1px solid rgba(193, 18, 31,.65);
   border-radius: 6px;
   padding: 0 12px;
   color: #fff;
-  background: linear-gradient(180deg, #f97316, #ea580c);
+  background: linear-gradient(180deg, #c1121f, #7f0d16);
   font-size: .74rem;
   font-weight: 900;
   white-space: nowrap;
@@ -4244,9 +4553,9 @@ button.hero-scroll-link {
   place-items: center;
   width: 30px;
   height: 30px;
-  border: 1px solid rgba(249,115,22,.72);
+  border: 1px solid rgba(193, 18, 31,.72);
   border-radius: 50%;
-  color: #f97316;
+  color: #c1121f;
 }
 
 .rtbo-registration-trust-row strong {
@@ -4297,7 +4606,7 @@ button.hero-scroll-link {
 :root[data-theme="light"] .rtbo-registration-waiver-modal {
   color: #111827;
   background: #fff;
-  border-color: rgba(249,115,22,.36);
+  border-color: rgba(193, 18, 31,.36);
   box-shadow: 0 28px 70px rgba(15,23,42,.18);
 }
 
@@ -4318,12 +4627,12 @@ button.hero-scroll-link {
 
 :root[data-theme="light"] .rtbo-registration-waiver-required-copy {
   background: #f8fafc;
-  border-color: rgba(249,115,22,.3);
+  border-color: rgba(193, 18, 31,.3);
 }
 
 :root[data-theme="light"] .rtbo-registration-waiver-required-copy p,
 :root[data-theme="light"] .rtbo-registration-waiver-name.is-filled {
-  color: #ea580c;
+  color: #7f0d16;
 }
 
 .rtbo-modal-scrim {
@@ -4470,9 +4779,9 @@ button.hero-scroll-link {
   place-items: center;
   width: 42px;
   height: 42px;
-  border: 1px solid rgba(249,115,22,.72);
+  border: 1px solid rgba(193, 18, 31,.72);
   border-radius: 12px;
-  color: #f97316;
+  color: #c1121f;
   font-weight: 1000;
 }
 
@@ -4548,8 +4857,8 @@ button.hero-scroll-link {
 
 .account-mode-tabs button.active {
   color: #111;
-  background: #f97316;
-  box-shadow: 0 10px 26px rgba(249, 115, 22, .24);
+  background: #c1121f;
+  box-shadow: 0 10px 26px rgba(193, 18, 31, .24);
 }
 
 .account-helper-actions {
@@ -4644,9 +4953,9 @@ button.hero-scroll-link {
   place-items: center;
   width: 28px;
   height: 28px;
-  border: 1px solid rgba(249,115,22,.72);
+  border: 1px solid rgba(193, 18, 31,.72);
   border-radius: 8px;
-  color: #f97316;
+  color: #c1121f;
   font-weight: 1000;
 }
 
@@ -4677,7 +4986,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-passkey-card b {
-  color: #f97316;
+  color: #c1121f;
   font-size: 1.25rem;
 }
 
@@ -4688,7 +4997,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-auth-recaptcha a {
-  color: #f97316;
+  color: #c1121f;
   font-weight: 900;
 }
 
@@ -4711,10 +5020,10 @@ button.hero-scroll-link {
 
 .rtbo-auth-resend-card button {
   min-height: 40px;
-  border: 1px solid rgba(249,115,22,.72);
+  border: 1px solid rgba(193, 18, 31,.72);
   border-radius: 8px;
   padding: 8px 12px;
-  color: #f97316;
+  color: #c1121f;
   background: transparent;
   font-weight: 1000;
   cursor: pointer;
@@ -4745,9 +5054,9 @@ button.hero-scroll-link {
 }
 
 .rtbo-auth-steps .active b {
-  border-color: #f97316;
+  border-color: #c1121f;
   color: #fff;
-  background: #f97316;
+  background: #c1121f;
 }
 
 .rtbo-auth-role-wrap {
@@ -4779,8 +5088,8 @@ button.hero-scroll-link {
 }
 
 .rtbo-auth-role-grid button.active {
-  border-color: #f97316;
-  box-shadow: inset 0 0 0 1px rgba(249,115,22,.55);
+  border-color: #c1121f;
+  box-shadow: inset 0 0 0 1px rgba(193, 18, 31,.55);
 }
 
 .rtbo-auth-role-grid small,
@@ -4833,7 +5142,7 @@ button.hero-scroll-link {
   height: 18px !important;
   min-height: 18px !important;
   padding: 0 !important;
-  accent-color: #f97316;
+  accent-color: #c1121f;
 }
 
 .rtbo-auth-switch-copy {
@@ -4915,7 +5224,7 @@ button.hero-scroll-link {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  border-right: 1px solid rgba(245, 130, 32, .32);
+  border-right: 1px solid rgba(193, 18, 31, .32);
   padding: 22px 18px;
   background-color: var(--rtbo-carbon-bg);
   background-image: var(--rtbo-carbon-fiber);
@@ -4991,8 +5300,8 @@ button.hero-scroll-link {
   border: 1px solid rgba(255, 255, 255, .34);
   border-radius: 999px;
   color: #080808;
-  background: linear-gradient(135deg, #f8fafc, #f58220 52%, #f97316);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45), 0 0 16px rgba(245, 130, 32, .26);
+  background: linear-gradient(135deg, #f8fafc, #c1121f 52%, #c1121f);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45), 0 0 16px rgba(193, 18, 31, .26);
   font-size: .72rem;
   font-weight: 1000;
   line-height: 1;
@@ -5006,36 +5315,36 @@ button.hero-scroll-link {
   top: 50%;
   width: 9px;
   height: 9px;
-  border: 1px solid rgba(245, 130, 32, .62);
+  border: 1px solid rgba(193, 18, 31, .62);
   border-radius: 50%;
-  background: rgba(245, 130, 32, .12);
+  background: rgba(193, 18, 31, .12);
   transform: translateY(-50%);
-  box-shadow: 0 0 0 rgba(245, 130, 32, 0);
+  box-shadow: 0 0 0 rgba(193, 18, 31, 0);
 }
 
 .rtbo-dashboard-sidebar button:hover,
 .rtbo-dashboard-sidebar button:focus-visible {
   color: #fff;
-  border-color: rgba(245, 130, 32, .55);
+  border-color: rgba(193, 18, 31, .55);
   background:
-    linear-gradient(145deg, rgba(245, 130, 32, .16), rgba(255, 255, 255, .03)),
+    linear-gradient(145deg, rgba(193, 18, 31, .16), rgba(255, 255, 255, .03)),
     rgba(14, 14, 14, .9);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, .26), 0 0 18px rgba(245, 130, 32, .08);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .26), 0 0 18px rgba(193, 18, 31, .08);
   transform: translateX(3px);
 }
 
 .rtbo-dashboard-sidebar button.active {
   color: #fff;
-  border-color: rgba(245, 130, 32, .86);
+  border-color: rgba(193, 18, 31, .86);
   background:
-    linear-gradient(135deg, rgba(245, 130, 32, .28), rgba(255, 255, 255, .045)),
+    linear-gradient(135deg, rgba(193, 18, 31, .28), rgba(255, 255, 255, .045)),
     rgba(22, 22, 22, .96);
-  box-shadow: inset 3px 0 0 var(--orange), 0 0 24px rgba(245, 130, 32, .16);
+  box-shadow: inset 3px 0 0 var(--orange), 0 0 24px rgba(193, 18, 31, .16);
 }
 
 .rtbo-dashboard-sidebar button.active::before {
-  background: linear-gradient(135deg, #f8fafc, #f58220 52%, #f97316);
-  box-shadow: 0 0 18px rgba(245, 130, 32, .42);
+  background: linear-gradient(135deg, #f8fafc, #c1121f 52%, #c1121f);
+  box-shadow: 0 0 18px rgba(193, 18, 31, .42);
 }
 
 .rtbo-dashboard-sidebar .btn.secondary {
@@ -5060,7 +5369,7 @@ button.hero-scroll-link {
   font-size: .78rem;
   border-radius: 9px;
   background:
-    linear-gradient(145deg, rgba(245, 130, 32, .075), rgba(255, 255, 255, .018)),
+    linear-gradient(145deg, rgba(193, 18, 31, .075), rgba(255, 255, 255, .018)),
     rgba(12, 12, 12, .64);
 }
 
@@ -5107,7 +5416,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-dashboard-actions .rtbo-back-overview-button {
-  border-color: rgba(245, 130, 32, .55);
+  border-color: rgba(193, 18, 31, .55);
   color: #fff;
   white-space: nowrap;
 }
@@ -5129,7 +5438,7 @@ button.hero-scroll-link {
   margin: 0 0 16px;
   padding: 12px 14px;
   color: #fff;
-  border-color: rgba(249, 115, 22, .34);
+  border-color: rgba(193, 18, 31, .34);
   background-color: var(--rtbo-carbon-bg);
   background-image: var(--rtbo-carbon-fiber);
   background-size: var(--rtbo-carbon-fiber-size);
@@ -5220,10 +5529,10 @@ button.hero-scroll-link {
   min-height: 250px;
   isolation: isolate;
   overflow: hidden;
-  border: 1px solid rgba(245, 130, 32, .3);
+  border: 1px solid rgba(193, 18, 31, .3);
   border-radius: 16px;
   background:
-    radial-gradient(circle at 50% 50%, rgba(245, 130, 32, .18), transparent 30%),
+    radial-gradient(circle at 50% 50%, rgba(193, 18, 31, .18), transparent 30%),
     linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.02)),
     #080a10;
 }
@@ -5256,7 +5565,7 @@ button.hero-scroll-link {
   content: "";
   pointer-events: none;
   background:
-    radial-gradient(circle at 50% 50%, rgba(245, 130, 32, .18), transparent 34%),
+    radial-gradient(circle at 50% 50%, rgba(193, 18, 31, .18), transparent 34%),
     linear-gradient(120deg, rgba(3, 5, 10, .18), rgba(3, 5, 10, .68));
 }
 
@@ -5328,7 +5637,7 @@ button.hero-scroll-link {
 
 .rtbo-overview-alert-group {
   min-width: 0;
-  border: 1px solid rgba(245, 130, 32, .24);
+  border: 1px solid rgba(193, 18, 31, .24);
   border-radius: 14px;
   padding: 14px;
   background-color: var(--rtbo-carbon-bg);
@@ -5354,10 +5663,10 @@ button.hero-scroll-link {
   place-items: center;
   min-width: 34px;
   height: 34px;
-  border: 1px solid rgba(245, 130, 32, .5);
+  border: 1px solid rgba(193, 18, 31, .5);
   border-radius: 999px;
   color: #fff;
-  background: rgba(245, 130, 32, .18);
+  background: rgba(193, 18, 31, .18);
   font-weight: 1000;
 }
 
@@ -5390,11 +5699,11 @@ button.hero-scroll-link {
   display: inline-grid;
   place-items: center;
   min-height: 30px;
-  border: 1px solid rgba(245, 130, 32, .46);
+  border: 1px solid rgba(193, 18, 31, .46);
   border-radius: 999px;
   padding: 6px 10px;
-  color: #f58220 !important;
-  background: rgba(245, 130, 32, .12);
+  color: #c1121f !important;
+  background: rgba(193, 18, 31, .12);
   font-size: .68rem;
   font-weight: 1000;
   text-transform: uppercase;
@@ -5404,7 +5713,7 @@ button.hero-scroll-link {
   display: grid;
   gap: 10px;
   margin: 0 0 16px;
-  border: 1px solid rgba(245, 130, 32, .28);
+  border: 1px solid rgba(193, 18, 31, .28);
   border-radius: 14px;
   padding: 14px;
   background: rgba(0, 0, 0, .18);
@@ -5438,9 +5747,9 @@ button.hero-scroll-link {
 }
 
 .rtbo-notification-item.unread {
-  border-color: rgba(245, 130, 32, .5);
+  border-color: rgba(193, 18, 31, .5);
   background:
-    linear-gradient(145deg, rgba(245, 130, 32, .16), rgba(255,255,255,.03)),
+    linear-gradient(145deg, rgba(193, 18, 31, .16), rgba(255,255,255,.03)),
     rgba(0, 0, 0, .18);
 }
 
@@ -5539,7 +5848,7 @@ button.hero-scroll-link {
 .rtbo-member-filters select,
 .rtbo-form-switcher select {
   min-height: 42px;
-  border: 1px solid rgba(245, 130, 32, .24);
+  border: 1px solid rgba(193, 18, 31, .24);
   border-radius: 10px;
   padding: 9px 12px;
   color: #fff;
@@ -5571,7 +5880,7 @@ button.hero-scroll-link {
   align-items: center;
   justify-content: center;
   transform: translateY(-50%);
-  border: 1px solid rgba(245, 130, 32, .34);
+  border: 1px solid rgba(193, 18, 31, .34);
   border-radius: 8px;
   color: #fff;
   background: rgba(255, 255, 255, .08);
@@ -5600,8 +5909,8 @@ button.hero-scroll-link {
 .rtbo-dashboard-shell :is(input, select, textarea):focus,
 .rtbo-account-modal :is(input, select, textarea):focus {
   outline: none;
-  border-color: rgba(245, 130, 32, .72);
-  box-shadow: 0 0 0 3px rgba(245, 130, 32, .16), inset 0 1px 0 rgba(255, 255, 255, .055);
+  border-color: rgba(193, 18, 31, .72);
+  box-shadow: 0 0 0 3px rgba(193, 18, 31, .16), inset 0 1px 0 rgba(255, 255, 255, .055);
 }
 
 .rtbo-dashboard-shell :is(input, select, textarea)::placeholder,
@@ -5627,7 +5936,7 @@ button.hero-scroll-link {
 .rtbo-account-modal input:-webkit-autofill:hover,
 .rtbo-account-modal input:-webkit-autofill:focus {
   -webkit-text-fill-color: #fff;
-  box-shadow: 0 0 0 1000px #0a0a0a inset, 0 0 0 3px rgba(245, 130, 32, .16);
+  box-shadow: 0 0 0 1000px #0a0a0a inset, 0 0 0 3px rgba(193, 18, 31, .16);
   transition: background-color 9999s ease-in-out 0s;
 }
 
@@ -5647,7 +5956,7 @@ button.hero-scroll-link {
   border-left: 3px solid var(--orange);
   padding: 10px 12px;
   color: var(--muted);
-  background: rgba(245, 130, 32, .08);
+  background: rgba(193, 18, 31, .08);
   font-weight: 800;
 }
 
@@ -5713,7 +6022,7 @@ button.hero-scroll-link {
   font-size: .78rem;
   font-weight: 1000;
   text-transform: uppercase;
-  background: rgba(249, 115, 22, .11);
+  background: rgba(193, 18, 31, .11);
 }
 
 .rtbo-members-row strong,
@@ -5739,9 +6048,9 @@ button.hero-scroll-link {
 }
 
 .rtbo-members-row mark.inactive-status {
-  color: #f58220;
-  border-color: rgba(245, 130, 32, .34);
-  background: rgba(245, 130, 32, .12);
+  color: #c1121f;
+  border-color: rgba(193, 18, 31, .34);
+  background: rgba(193, 18, 31, .12);
 }
 
 .rtbo-members-row mark.active-status {
@@ -5768,20 +6077,20 @@ button.hero-scroll-link {
 }
 
 .rtbo-member-avatar-button:focus-visible {
-  outline: 3px solid rgba(245, 130, 32, .55);
+  outline: 3px solid rgba(193, 18, 31, .55);
   outline-offset: 3px;
 }
 
 .rtbo-member-avatar-button:hover .rtbo-member-avatar {
   transform: translateY(-1px) scale(1.03);
-  box-shadow: 0 12px 24px rgba(245, 130, 32, .18);
+  box-shadow: 0 12px 24px rgba(193, 18, 31, .18);
 }
 
 .rtbo-member-identity .rtbo-member-avatar {
   width: 54px;
   height: 54px;
   flex: 0 0 54px;
-  border: 1px solid rgba(245, 130, 32, .45);
+  border: 1px solid rgba(193, 18, 31, .45);
   border-radius: 12px;
   background: #0b0b0b;
   transition: transform .18s ease, box-shadow .18s ease;
@@ -5798,10 +6107,10 @@ button.hero-scroll-link {
   width: 54px;
   height: 54px;
   flex: 0 0 54px;
-  border: 1px solid rgba(245, 130, 32, .45);
+  border: 1px solid rgba(193, 18, 31, .45);
   border-radius: 12px;
   background:
-    radial-gradient(circle at 50% 20%, rgba(245, 130, 32, .18), transparent 54%),
+    radial-gradient(circle at 50% 20%, rgba(193, 18, 31, .18), transparent 54%),
     rgba(0, 0, 0, .26);
   overflow: hidden;
   transition: transform .18s ease, box-shadow .18s ease;
@@ -5837,13 +6146,13 @@ button.hero-scroll-link {
 
 .rtbo-member-avatar-button:hover .rtbo-team-directory-logo {
   transform: translateY(-1px) scale(1.03);
-  box-shadow: 0 12px 24px rgba(245, 130, 32, .18);
+  box-shadow: 0 12px 24px rgba(193, 18, 31, .18);
 }
 
 .rtbo-directory-select {
   width: 100%;
   min-height: 38px;
-  border: 1px solid rgba(245, 130, 32, .26);
+  border: 1px solid rgba(193, 18, 31, .26);
   border-radius: 999px;
   padding: 8px 34px 8px 12px;
   color: #f8fafc;
@@ -5884,7 +6193,7 @@ button.hero-scroll-link {
 
 .rtbo-settings-widget {
   min-width: 0;
-  border: 1px solid rgba(245, 130, 32, .22);
+  border: 1px solid rgba(193, 18, 31, .22);
   border-radius: 14px;
   background:
     linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.018)),
@@ -5923,10 +6232,10 @@ button.hero-scroll-link {
   flex: 0 0 25px;
   width: 25px;
   height: 25px;
-  border: 1px solid rgba(245, 130, 32, .34);
+  border: 1px solid rgba(193, 18, 31, .34);
   border-radius: 999px;
   color: var(--orange);
-  background: rgba(245, 130, 32, .1);
+  background: rgba(193, 18, 31, .1);
 }
 
 .rtbo-settings-widget[open] > summary::after,
@@ -5979,7 +6288,7 @@ button.hero-scroll-link {
 .rtbo-settings-readiness-summary article,
 .rtbo-settings-readiness-card {
   min-width: 0;
-  border: 1px solid rgba(245, 130, 32, .22);
+  border: 1px solid rgba(193, 18, 31, .22);
   border-radius: 14px;
   background:
     linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.018)),
@@ -6032,7 +6341,7 @@ button.hero-scroll-link {
   border: 1px solid rgba(255, 255, 255, .16);
   border-radius: 999px;
   padding: 4px 8px;
-  color: #fbbf24;
+  color: #a41623;
   background: rgba(0, 0, 0, .24);
   font-size: .62rem;
   line-height: 1;
@@ -6084,7 +6393,7 @@ button.hero-scroll-link {
   padding: 9px 12px 9px 35px;
   border-radius: 10px;
   background:
-    linear-gradient(145deg, rgba(245, 130, 32, .075), rgba(255, 255, 255, .018)),
+    linear-gradient(145deg, rgba(193, 18, 31, .075), rgba(255, 255, 255, .018)),
     rgba(12, 12, 12, .64);
   font-size: .9rem;
   line-height: 1.2;
@@ -6100,7 +6409,7 @@ button.hero-scroll-link {
   height: 8px;
   border-radius: 999px;
   background:
-    radial-gradient(circle, rgba(245, 130, 32, .95), rgba(245, 130, 32, .18));
+    radial-gradient(circle, rgba(193, 18, 31, .95), rgba(193, 18, 31, .18));
   transform: translateY(-50%);
 }
 
@@ -6127,12 +6436,12 @@ button.hero-scroll-link {
 .rtbo-settings-workflow-select select {
   width: 100%;
   min-height: 41px;
-  border: 1px solid rgba(245, 130, 32, .26);
+  border: 1px solid rgba(193, 18, 31, .26);
   border-radius: 10px;
   padding: 9px 39px 9px 14px;
   color: #f8fafc;
   background:
-    linear-gradient(145deg, rgba(245, 130, 32, .075), rgba(255, 255, 255, .018)),
+    linear-gradient(145deg, rgba(193, 18, 31, .075), rgba(255, 255, 255, .018)),
     rgba(12, 12, 12, .72);
   font-size: .9rem;
   font-weight: 800;
@@ -6141,7 +6450,7 @@ button.hero-scroll-link {
 
 .rtbo-settings-workflow-select select:hover,
 .rtbo-settings-workflow-select select:focus-visible {
-  border-color: rgba(245, 130, 32, .78);
+  border-color: rgba(193, 18, 31, .78);
   outline: none;
 }
 
@@ -6174,7 +6483,7 @@ button.hero-scroll-link {
   padding: 18px;
   text-align: left;
   color: #fff;
-  border: 1px solid rgba(245, 130, 32, .24);
+  border: 1px solid rgba(193, 18, 31, .24);
   border-radius: 14px;
   background:
     linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.018)),
@@ -6185,7 +6494,7 @@ button.hero-scroll-link {
 
 .rtbo-completed-form-widget:hover,
 .rtbo-completed-form-widget:focus-visible {
-  border-color: rgba(245, 130, 32, .78);
+  border-color: rgba(193, 18, 31, .78);
   outline: none;
   transform: translateY(-1px);
 }
@@ -6225,7 +6534,7 @@ button.hero-scroll-link {
   gap: 14px;
   min-width: 0;
   padding: 16px;
-  border: 1px solid rgba(245, 130, 32, .22);
+  border: 1px solid rgba(193, 18, 31, .22);
   border-radius: 14px;
   background:
     linear-gradient(145deg, rgba(255,255,255,.052), rgba(255,255,255,.015)),
@@ -6322,9 +6631,9 @@ button.hero-scroll-link {
   gap: 10px;
   margin-bottom: 14px;
   padding: 12px 14px;
-  border: 1px solid rgba(245, 130, 32, .28);
+  border: 1px solid rgba(193, 18, 31, .28);
   border-radius: 12px;
-  background: rgba(245, 130, 32, .1);
+  background: rgba(193, 18, 31, .1);
 }
 
 .rtbo-payment-alert strong {
@@ -6357,7 +6666,7 @@ button.hero-scroll-link {
 .rtbo-payment-summary-grid article {
   min-width: 0;
   padding: 15px;
-  border: 1px solid rgba(245, 130, 32, .22);
+  border: 1px solid rgba(193, 18, 31, .22);
   border-radius: 14px;
   background:
     linear-gradient(145deg, rgba(255,255,255,.052), rgba(255,255,255,.015)),
@@ -6386,7 +6695,7 @@ button.hero-scroll-link {
 .rtbo-payment-record-panel {
   min-width: 0;
   padding: 16px;
-  border: 1px solid rgba(245, 130, 32, .22);
+  border: 1px solid rgba(193, 18, 31, .22);
   border-radius: 14px;
   background:
     linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.018)),
@@ -6422,7 +6731,7 @@ button.hero-scroll-link {
   align-items: center;
   gap: 10px;
   padding: 10px 11px;
-  border: 1px solid rgba(245, 130, 32, .22);
+  border: 1px solid rgba(193, 18, 31, .22);
   border-radius: 10px;
   background: rgba(0, 0, 0, .22);
 }
@@ -6505,11 +6814,11 @@ button.hero-scroll-link {
 
 .rtbo-payment-record-actions button {
   min-height: 31px;
-  border: 1px solid rgba(245, 130, 32, .32);
+  border: 1px solid rgba(193, 18, 31, .32);
   border-radius: 9px;
   padding: 6px 9px;
   color: #fff;
-  background: rgba(245, 130, 32, .12);
+  background: rgba(193, 18, 31, .12);
   font-size: .74rem;
   font-weight: 900;
   cursor: pointer;
@@ -6521,7 +6830,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-settings-menu-card {
-  border: 1px solid rgba(245, 130, 32, .22);
+  border: 1px solid rgba(193, 18, 31, .22);
   border-radius: 14px;
   background:
     linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.018)),
@@ -6541,10 +6850,10 @@ button.hero-scroll-link {
   min-width: 0;
   width: 39px;
   min-height: 39px;
-  border: 1px solid rgba(245, 130, 32, .42);
+  border: 1px solid rgba(193, 18, 31, .42);
   border-radius: 14px;
   color: #fff;
-  background: rgba(245, 130, 32, .14);
+  background: rgba(193, 18, 31, .14);
   font-weight: 900;
   cursor: pointer;
 }
@@ -6578,7 +6887,7 @@ button.hero-scroll-link {
 
 .rtbo-settings-categories button {
   min-height: 36px;
-  border: 1px solid rgba(245, 130, 32, .26);
+  border: 1px solid rgba(193, 18, 31, .26);
   border-radius: 999px;
   padding: 8px 13px;
   color: #fff;
@@ -6588,15 +6897,15 @@ button.hero-scroll-link {
 }
 
 .rtbo-settings-categories button.active {
-  border-color: rgba(245, 130, 32, .82);
-  background: linear-gradient(135deg, rgba(245, 130, 32, .32), rgba(255, 255, 255, .05));
+  border-color: rgba(193, 18, 31, .82);
+  background: linear-gradient(135deg, rgba(193, 18, 31, .32), rgba(255, 255, 255, .05));
 }
 
 .rtbo-settings-toggle {
   display: flex;
   align-items: center;
   gap: 10px;
-  border: 1px solid rgba(245, 130, 32, .24);
+  border: 1px solid rgba(193, 18, 31, .24);
   border-radius: 14px;
   padding: 12px;
   background:
@@ -6611,7 +6920,7 @@ button.hero-scroll-link {
 .rtbo-settings-toggle.child {
   border-color: rgba(255, 255, 255, .12);
   background:
-    linear-gradient(145deg, rgba(245, 130, 32, .08), rgba(255,255,255,.018)),
+    linear-gradient(145deg, rgba(193, 18, 31, .08), rgba(255,255,255,.018)),
     rgba(18, 18, 18, .68);
 }
 
@@ -6684,10 +6993,10 @@ button.hero-scroll-link {
   flex: 0 0 25px;
   width: 25px;
   min-height: 25px;
-  border: 1px solid rgba(245, 130, 32, .34);
+  border: 1px solid rgba(193, 18, 31, .34);
   border-radius: 999px;
   color: var(--orange);
-  background: rgba(245, 130, 32, .1);
+  background: rgba(193, 18, 31, .1);
 }
 
 .rtbo-dashboard-control-summary .rtbo-settings-expand.ghost {
@@ -6706,19 +7015,19 @@ button.hero-scroll-link {
   gap: 10px;
   width: 100%;
   min-height: 41px;
-  border: 1px solid rgba(245, 130, 32, .26);
+  border: 1px solid rgba(193, 18, 31, .26);
   border-radius: 10px;
   padding: 9px 14px;
   color: #f8fafc;
   background:
-    linear-gradient(145deg, rgba(245, 130, 32, .075), rgba(255, 255, 255, .018)),
+    linear-gradient(145deg, rgba(193, 18, 31, .075), rgba(255, 255, 255, .018)),
     rgba(12, 12, 12, .72);
 }
 
 .rtbo-dashboard-control-toggle.child {
   border-color: rgba(255, 255, 255, .12);
   background:
-    linear-gradient(145deg, rgba(245, 130, 32, .08), rgba(255,255,255,.018)),
+    linear-gradient(145deg, rgba(193, 18, 31, .08), rgba(255,255,255,.018)),
     rgba(18, 18, 18, .68);
 }
 
@@ -6783,7 +7092,7 @@ button.hero-scroll-link {
   justify-content: space-between;
   gap: 12px;
   align-items: center;
-  border: 1px solid rgba(245, 130, 32, .24);
+  border: 1px solid rgba(193, 18, 31, .24);
   border-radius: 14px;
   padding: 14px;
   background:
@@ -6812,11 +7121,11 @@ button.hero-scroll-link {
   display: grid;
   gap: 16px;
   margin-top: 18px;
-  border: 1px solid rgba(245, 130, 32, .28);
+  border: 1px solid rgba(193, 18, 31, .28);
   border-radius: 16px;
   padding: 16px;
   background:
-    linear-gradient(135deg, rgba(245, 130, 32, .12), rgba(255, 255, 255, .035)),
+    linear-gradient(135deg, rgba(193, 18, 31, .12), rgba(255, 255, 255, .035)),
     rgba(0, 0, 0, .2);
 }
 
@@ -6840,7 +7149,7 @@ button.hero-scroll-link {
 
 .rtbo-official-level-linker select {
   min-height: 42px;
-  border: 1px solid rgba(245, 130, 32, .24);
+  border: 1px solid rgba(193, 18, 31, .24);
   border-radius: 10px;
   padding: 9px 12px;
   color: #fff;
@@ -6884,7 +7193,7 @@ button.hero-scroll-link {
 .rtbo-classification-conference-select {
   width: 100%;
   min-height: 38px;
-  border: 1px solid rgba(245, 130, 32, .24);
+  border: 1px solid rgba(193, 18, 31, .24);
   border-radius: 10px;
   padding: 8px 12px;
   color: #fff;
@@ -6901,11 +7210,11 @@ button.hero-scroll-link {
 
 .rtbo-classification-checklist small,
 .rtbo-linked-tags span {
-  border: 1px solid rgba(245, 130, 32, .25);
+  border: 1px solid rgba(193, 18, 31, .25);
   border-radius: 999px;
   padding: 4px 8px;
-  color: #ffd1a1;
-  background: rgba(245, 130, 32, .08);
+  color: #d8a4ad;
+  background: rgba(193, 18, 31, .08);
   font-size: .72rem;
   font-weight: 1000;
   text-transform: uppercase;
@@ -6982,11 +7291,11 @@ button.hero-scroll-link {
 }
 
 .rtbo-table-actions button {
-  border: 1px solid rgba(249, 115, 22, .32);
+  border: 1px solid rgba(193, 18, 31, .32);
   border-radius: 999px;
   padding: 7px 10px;
   color: #fff;
-  background: rgba(249, 115, 22, .1);
+  background: rgba(193, 18, 31, .1);
   cursor: pointer;
 }
 
@@ -6998,7 +7307,7 @@ button.hero-scroll-link {
 
 :root[data-theme="light"] .rtbo-members-row.head {
   color: #111827;
-  border-color: rgba(249, 115, 22, .38);
+  border-color: rgba(193, 18, 31, .38);
   background: #f8fafc;
 }
 
@@ -7023,7 +7332,7 @@ button.hero-scroll-link {
 }
 
 :root[data-theme="light"] .rtbo-members-row mark.inactive-status {
-  color: #f58220;
+  color: #c1121f;
   border-color: rgba(15, 23, 42, .16);
   background: #f8fafc;
 }
@@ -7039,9 +7348,9 @@ button.hero-scroll-link {
 :root[data-theme="light"] .rtbo-table-actions button:hover,
 :root[data-theme="light"] .rtbo-table-actions button:focus-visible {
   color: #ffffff !important;
-  border-color: rgba(249, 115, 22, .82) !important;
+  border-color: rgba(193, 18, 31, .82) !important;
   background:
-    linear-gradient(145deg, rgba(249, 115, 22, .24), rgba(255, 255, 255, .04)),
+    linear-gradient(145deg, rgba(193, 18, 31, .24), rgba(255, 255, 255, .04)),
     #020617 !important;
 }
 
@@ -7050,14 +7359,14 @@ button.hero-scroll-link {
   width: min(980px, 100%);
   max-height: min(92vh, 860px);
   overflow-y: auto;
-  border: 1px solid rgba(249, 115, 22, .34);
+  border: 1px solid rgba(193, 18, 31, .34);
   border-radius: 20px;
   padding: clamp(20px, 4vw, 32px);
   background:
-    radial-gradient(circle at top right, rgba(249, 115, 22, .18), transparent 35%),
+    radial-gradient(circle at top right, rgba(193, 18, 31, .18), transparent 35%),
     linear-gradient(145deg, rgba(255,255,255,.1), rgba(255,255,255,.04)),
     #080808;
-  box-shadow: 0 32px 90px rgba(0, 0, 0, .58), 0 0 38px rgba(249, 115, 22, .14);
+  box-shadow: 0 32px 90px rgba(0, 0, 0, .58), 0 0 38px rgba(193, 18, 31, .14);
 }
 
 .rtbo-member-edit-modal .rtbo-member-form {
@@ -7088,7 +7397,7 @@ button.hero-scroll-link {
   height: 150px;
   overflow: hidden;
   isolation: isolate;
-  border: 2px solid rgba(249, 115, 22, .7);
+  border: 2px solid rgba(193, 18, 31, .7);
   border-radius: 16px;
   background: #050505;
 }
@@ -7141,7 +7450,7 @@ button.hero-scroll-link {
 .rtbo-profile-photo-button:hover .rtbo-framed-profile-photo,
 .rtbo-profile-photo-button:focus-visible .rtbo-framed-profile-photo {
   transform: scale(1.035);
-  box-shadow: 0 14px 30px rgba(0,0,0,.34), 0 0 22px rgba(249, 115, 22, .2);
+  box-shadow: 0 14px 30px rgba(0,0,0,.34), 0 0 22px rgba(193, 18, 31, .2);
 }
 
 .rtbo-profile-photo-stack {
@@ -7156,11 +7465,11 @@ button.hero-scroll-link {
   place-items: center;
   min-height: 36px;
   width: 100%;
-  border: 1px solid rgba(249, 115, 22, .58);
+  border: 1px solid rgba(193, 18, 31, .58);
   border-radius: 8px;
   padding: 8px 10px;
   color: #fff;
-  background: rgba(249, 115, 22, .18);
+  background: rgba(193, 18, 31, .18);
   font-size: .76rem;
   font-weight: 900;
   line-height: 1.1;
@@ -7171,8 +7480,8 @@ button.hero-scroll-link {
 
 .rtbo-profile-photo-upload:hover,
 .rtbo-profile-photo-upload:focus-within {
-  border-color: rgba(249, 115, 22, .9);
-  background: rgba(249, 115, 22, .28);
+  border-color: rgba(193, 18, 31, .9);
+  background: rgba(193, 18, 31, .28);
 }
 
 .rtbo-profile-photo-upload.is-saving {
@@ -7196,14 +7505,14 @@ button.hero-scroll-link {
   grid-template-columns: minmax(150px, 220px) minmax(0, 1fr);
   gap: clamp(18px, 4vw, 30px);
   width: min(760px, 100%);
-  border: 1px solid rgba(249, 115, 22, .32);
+  border: 1px solid rgba(193, 18, 31, .32);
   border-radius: 22px;
   padding: clamp(22px, 4vw, 34px);
   background:
-    radial-gradient(circle at top left, rgba(249, 115, 22, .22), transparent 34%),
+    radial-gradient(circle at top left, rgba(193, 18, 31, .22), transparent 34%),
     linear-gradient(145deg, rgba(255,255,255,.1), rgba(255,255,255,.04)),
     #070707;
-  box-shadow: 0 32px 90px rgba(0, 0, 0, .58), 0 0 38px rgba(249, 115, 22, .14);
+  box-shadow: 0 32px 90px rgba(0, 0, 0, .58), 0 0 38px rgba(193, 18, 31, .14);
 }
 
 .rtbo-official-profile-modal > .rtbo-profile-modal-photo {
@@ -7329,7 +7638,7 @@ button.hero-scroll-link {
   border-radius: 18px;
   padding: clamp(18px, 2.4vw, 28px);
   background:
-    radial-gradient(circle at 70% 20%, rgba(245, 130, 32, .12), transparent 34%),
+    radial-gradient(circle at 70% 20%, rgba(193, 18, 31, .12), transparent 34%),
     linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.025)),
     #1f1f1f;
 }
@@ -7418,11 +7727,11 @@ button.hero-scroll-link {
 
 .rtbo-official-badges span,
 .rtbo-official-schedule-card mark {
-  border: 1px solid rgba(245, 130, 32, .34);
+  border: 1px solid rgba(193, 18, 31, .34);
   border-radius: 999px;
   padding: 7px 11px;
-  color: #f58220;
-  background: rgba(245, 130, 32, .11);
+  color: #c1121f;
+  background: rgba(193, 18, 31, .11);
   font-size: .76rem;
   font-weight: 1000;
   text-transform: uppercase;
@@ -7440,7 +7749,7 @@ button.hero-scroll-link {
 
 .rtbo-official-info-card {
   min-height: 150px;
-  border: 1px solid rgba(245, 130, 32, .28);
+  border: 1px solid rgba(193, 18, 31, .28);
   border-radius: 16px;
   padding: 18px;
   background:
@@ -7529,14 +7838,14 @@ button.hero-scroll-link {
   display: grid;
   gap: 10px;
   min-height: 210px;
-  border: 1px solid rgba(245, 130, 32, .34);
+  border: 1px solid rgba(193, 18, 31, .34);
   border-radius: 16px;
   padding: 18px;
   color: #fff;
   font: inherit;
   text-align: left;
   background:
-    radial-gradient(circle at 84% 14%, rgba(245, 130, 32, .15), transparent 34%),
+    radial-gradient(circle at 84% 14%, rgba(193, 18, 31, .15), transparent 34%),
     linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.025)),
     rgba(13, 19, 30, .88);
   box-shadow: 0 18px 42px rgba(0,0,0,.24);
@@ -7546,8 +7855,8 @@ button.hero-scroll-link {
 
 .rtbo-official-profile-widget:hover,
 .rtbo-official-profile-widget:focus-visible {
-  border-color: rgba(245, 130, 32, .72);
-  box-shadow: 0 20px 48px rgba(245, 130, 32, .14);
+  border-color: rgba(193, 18, 31, .72);
+  box-shadow: 0 20px 48px rgba(193, 18, 31, .14);
   transform: translateY(-2px);
   outline: none;
 }
@@ -7577,11 +7886,11 @@ button.hero-scroll-link {
 }
 
 .rtbo-game-report-summary article {
-  border: 1px solid rgba(245, 130, 32, .28);
+  border: 1px solid rgba(193, 18, 31, .28);
   border-radius: 14px;
   padding: 16px;
   background:
-    linear-gradient(145deg, rgba(245, 130, 32, .11), rgba(255, 255, 255, .025)),
+    linear-gradient(145deg, rgba(193, 18, 31, .11), rgba(255, 255, 255, .025)),
     rgba(0, 0, 0, .24);
 }
 
@@ -7636,7 +7945,7 @@ button.hero-scroll-link {
 
 .rtbo-game-report-rule-buttons button {
   min-height: 40px;
-  border: 1px solid rgba(245, 130, 32, .34);
+  border: 1px solid rgba(193, 18, 31, .34);
   border-radius: 10px;
   padding: 9px 12px;
   color: rgba(255, 255, 255, .84);
@@ -7649,7 +7958,7 @@ button.hero-scroll-link {
 
 .rtbo-game-report-rule-buttons button.active {
   color: #111;
-  background: linear-gradient(135deg, #f58220, #f58220);
+  background: linear-gradient(135deg, #c1121f, #c1121f);
   border-color: rgba(255, 255, 255, .3);
 }
 
@@ -7661,7 +7970,7 @@ button.hero-scroll-link {
 .rtbo-game-report-incident {
   display: grid;
   gap: 12px;
-  border: 1px solid rgba(245, 130, 32, .2);
+  border: 1px solid rgba(193, 18, 31, .2);
   border-radius: 14px;
   padding: 14px;
   background: rgba(255, 255, 255, .035);
@@ -7671,10 +7980,10 @@ button.hero-scroll-link {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  border: 1px solid rgba(245, 130, 32, .28);
+  border: 1px solid rgba(193, 18, 31, .28);
   border-radius: 12px;
   padding: 12px;
-  background: rgba(245, 130, 32, .08);
+  background: rgba(193, 18, 31, .08);
 }
 
 .rtbo-observer-form .span-three {
@@ -7690,7 +7999,7 @@ button.hero-scroll-link {
 .rtbo-observer-score-card {
   display: grid;
   gap: 14px;
-  border: 1px solid rgba(245, 130, 32, .2);
+  border: 1px solid rgba(193, 18, 31, .2);
   border-radius: 14px;
   padding: 14px;
   background: rgba(255, 255, 255, .035);
@@ -7730,7 +8039,7 @@ button.hero-scroll-link {
 .rtbo-observer-result-grid article {
   display: grid;
   gap: 8px;
-  border: 1px solid rgba(245, 130, 32, .28);
+  border: 1px solid rgba(193, 18, 31, .28);
   border-radius: 14px;
   padding: 18px;
   background: rgba(0, 0, 0, .28);
@@ -7740,7 +8049,7 @@ button.hero-scroll-link {
 .rtbo-observer-result-grid article.highlight {
   color: #111;
   border-color: rgba(255, 255, 255, .26);
-  background: linear-gradient(135deg, #f58220, #f58220);
+  background: linear-gradient(135deg, #c1121f, #c1121f);
 }
 
 .rtbo-observer-result-grid article.highlight span,
@@ -7831,7 +8140,7 @@ button.hero-scroll-link {
   align-items: start;
   min-width: 0;
   margin: 0;
-  border: 1px solid rgba(245, 130, 32, .22);
+  border: 1px solid rgba(193, 18, 31, .22);
   border-radius: 14px;
   padding: 14px;
   background: rgba(255, 255, 255, .035);
@@ -7860,9 +8169,9 @@ button.hero-scroll-link {
   width: 24px;
   height: 24px;
   flex: 0 0 auto;
-  border: 1px solid rgba(245, 130, 32, .7);
+  border: 1px solid rgba(193, 18, 31, .7);
   border-radius: 999px;
-  color: #f58220;
+  color: #c1121f;
   font-size: .95rem;
   line-height: 1;
 }
@@ -7928,7 +8237,7 @@ button.hero-scroll-link {
 .rtbo-invoice-fee-option input {
   width: 16px;
   height: 16px;
-  accent-color: #f58220;
+  accent-color: #c1121f;
 }
 
 .rtbo-invoice-selected-fee-items {
@@ -7984,10 +8293,10 @@ button.hero-scroll-link {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  border: 1px solid rgba(245, 130, 32, .28);
+  border: 1px solid rgba(193, 18, 31, .28);
   border-radius: 12px;
   padding: 12px 14px;
-  background: rgba(245, 130, 32, .08);
+  background: rgba(193, 18, 31, .08);
 }
 
 .rtbo-invoice-mini-total span {
@@ -8006,11 +8315,11 @@ button.hero-scroll-link {
 }
 
 .rtbo-invoice-preview-banner {
-  border: 1px solid rgba(245, 130, 32, .38);
+  border: 1px solid rgba(193, 18, 31, .38);
   border-radius: 14px;
   padding: 12px 14px;
   color: #111827;
-  background: linear-gradient(135deg, #f58220, #f58220);
+  background: linear-gradient(135deg, #c1121f, #c1121f);
   font-size: .82rem;
   font-weight: 1000;
   text-align: center;
@@ -8023,7 +8332,7 @@ button.hero-scroll-link {
 
 .rtbo-invoice-preview-column.is-print-preview .rtbo-invoice-preview-banner {
   border-color: rgba(16, 185, 129, .48);
-  background: linear-gradient(135deg, #bbf7d0, #f58220);
+  background: linear-gradient(135deg, #bbf7d0, #c1121f);
 }
 
 .rtbo-invoice-preview-column.is-print-preview .rtbo-invoice-credit-card-toggle {
@@ -8073,7 +8382,7 @@ button.hero-scroll-link {
   padding: 26px;
   color: #fff;
   background: #050505;
-  border-bottom: 8px solid #f58220;
+  border-bottom: 8px solid #c1121f;
 }
 
 .rtbo-invoice-brand-lockup {
@@ -8106,7 +8415,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-invoice-brand-lockup p {
-  color: #f58220;
+  color: #c1121f;
   font-size: clamp(1.25rem, 2.4vw, 2rem);
   font-weight: 1000;
   line-height: 1.03;
@@ -8150,7 +8459,7 @@ button.hero-scroll-link {
   height: 20px;
   border-radius: 999px;
   color: #111827;
-  background: #f58220;
+  background: #c1121f;
   font-size: .76rem;
   line-height: 1;
 }
@@ -8169,7 +8478,7 @@ button.hero-scroll-link {
 
 .rtbo-invoice-preview h4 {
   margin: 0 0 10px;
-  color: #ea580c;
+  color: #7f0d16;
   font-size: 1rem;
   text-transform: uppercase;
 }
@@ -8297,7 +8606,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-invoice-total-box strong {
-  color: #ea580c;
+  color: #7f0d16;
   font-size: 1.8rem;
 }
 
@@ -8308,7 +8617,7 @@ button.hero-scroll-link {
 .rtbo-invoice-payment-options {
   display: grid;
   gap: 10px;
-  border: 1px solid #f58220;
+  border: 1px solid #c1121f;
   border-radius: 12px;
   padding: 16px;
   background: #ffffff;
@@ -8322,10 +8631,10 @@ button.hero-scroll-link {
 
 .rtbo-invoice-credit-card-toggle {
   width: fit-content;
-  border: 1px solid #ea580c;
+  border: 1px solid #7f0d16;
   border-radius: 999px;
   padding: 10px 14px;
-  color: #f58220;
+  color: #c1121f;
   background: #fff;
   font: inherit;
   font-size: .82rem;
@@ -8336,7 +8645,7 @@ button.hero-scroll-link {
 
 .rtbo-invoice-credit-card-toggle.active {
   color: #fff;
-  background: #ea580c;
+  background: #7f0d16;
 }
 
 .rtbo-invoice-footer {
@@ -8398,7 +8707,7 @@ button.hero-scroll-link {
   gap: 24px;
   border: 0;
   padding: 48px 56px 14px;
-  color: #f58220;
+  color: #c1121f;
   background: #050505;
   print-color-adjust: exact;
   -webkit-print-color-adjust: exact;
@@ -8406,7 +8715,7 @@ button.hero-scroll-link {
 
 .rtbo-invoice-preview-head h1 {
   margin: 0;
-  color: #f58220;
+  color: #c1121f;
   font-family: Arial, Helvetica, sans-serif;
   font-size: clamp(2.8rem, 6vw, 4.1rem);
   font-weight: 1000;
@@ -8544,7 +8853,7 @@ button.hero-scroll-link {
 .rtbo-invoice-table th {
   border-right: 1px solid rgba(255, 255, 255, .25);
   color: #000;
-  background: #f58220;
+  background: #c1121f;
   font-weight: 1000;
   text-transform: none;
   print-color-adjust: exact;
@@ -8649,7 +8958,7 @@ button.hero-scroll-link {
 .rtbo-invoice-payment-options .rtbo-invoice-credit-card-toggle {
   width: fit-content;
   margin-top: 10px;
-  border: 1px solid #f58220;
+  border: 1px solid #c1121f;
   border-radius: 0;
   padding: 7px 10px;
   color: #050505;
@@ -8660,7 +8969,7 @@ button.hero-scroll-link {
 .rtbo-invoice-payment-options .rtbo-invoice-credit-card-toggle.active,
 .rtbo-invoice-payment-options .rtbo-invoice-credit-card-toggle:hover:not(:disabled) {
   color: #fff;
-  background: #f58220;
+  background: #c1121f;
 }
 
 .rtbo-invoice-closing {
@@ -8752,7 +9061,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-invoice-preview .rtbo-invoice-preview-head h1 {
-  color: #f58220 !important;
+  color: #c1121f !important;
 }
 
 .rtbo-invoice-list {
@@ -8764,7 +9073,7 @@ button.hero-scroll-link {
 .rtbo-invoice-list article {
   display: grid;
   gap: 10px;
-  border: 1px solid rgba(245, 130, 32, .2);
+  border: 1px solid rgba(193, 18, 31, .2);
   border-radius: 14px;
   padding: 14px;
   background: rgba(255, 255, 255, .035);
@@ -8796,9 +9105,9 @@ button.hero-scroll-link {
   grid-template-columns: minmax(220px, .7fr) minmax(0, 1fr);
   gap: 16px;
   align-items: stretch;
-  border-color: rgba(245, 130, 32, .38);
+  border-color: rgba(193, 18, 31, .38);
   background:
-    radial-gradient(circle at 90% 12%, rgba(245, 130, 32, .16), transparent 32%),
+    radial-gradient(circle at 90% 12%, rgba(193, 18, 31, .16), transparent 32%),
     linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .025)),
     rgba(12, 17, 27, .92);
 }
@@ -8851,11 +9160,11 @@ button.hero-scroll-link {
 .rtbo-widget-meta {
   align-self: end;
   width: max-content;
-  border: 1px solid rgba(245, 130, 32, .32);
+  border: 1px solid rgba(193, 18, 31, .32);
   border-radius: 999px;
   padding: 7px 11px;
-  color: #f58220;
-  background: rgba(245, 130, 32, .1);
+  color: #c1121f;
+  background: rgba(193, 18, 31, .1);
   font-size: .75rem;
   font-weight: 1000;
   text-transform: uppercase;
@@ -8912,7 +9221,7 @@ button.hero-scroll-link {
   place-items: center;
   width: 34px;
   height: 34px;
-  border: 1px solid rgba(245, 130, 32, .35);
+  border: 1px solid rgba(193, 18, 31, .35);
   border-radius: 10px;
   background: rgba(0, 0, 0, .28);
   overflow: hidden;
@@ -8928,7 +9237,7 @@ button.hero-scroll-link {
 .rtbo-team-logo.uses-team-fallback,
 .rtbo-team-logo.logo-load-failed {
   background:
-    radial-gradient(circle at 50% 14%, rgba(245, 130, 32, .22), transparent 56%),
+    radial-gradient(circle at 50% 14%, rgba(193, 18, 31, .22), transparent 56%),
     linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .02)),
     #111827;
 }
@@ -8948,11 +9257,11 @@ button.hero-scroll-link {
   grid-template-columns: minmax(220px, .85fr) minmax(220px, .8fr) minmax(280px, 1fr);
   gap: 12px;
   align-items: center;
-  border: 1px solid rgba(245, 130, 32, .42);
+  border: 1px solid rgba(193, 18, 31, .42);
   border-radius: 14px;
   padding: 12px;
   background:
-    linear-gradient(135deg, rgba(245, 130, 32, .16), rgba(255, 255, 255, .035)),
+    linear-gradient(135deg, rgba(193, 18, 31, .16), rgba(255, 255, 255, .035)),
     rgba(0, 0, 0, .24);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
 }
@@ -8987,10 +9296,10 @@ button.hero-scroll-link {
 .rtbo-assignment-mileage,
 .rtbo-arrival-status,
 .rtbo-assignment-coach-card {
-  border: 1px solid rgba(245, 130, 32, .28);
+  border: 1px solid rgba(193, 18, 31, .28);
   border-radius: 12px;
   padding: 10px;
-  background: rgba(245, 130, 32, .08);
+  background: rgba(193, 18, 31, .08);
 }
 
 .rtbo-assignment-coach-contacts {
@@ -9042,7 +9351,7 @@ button.hero-scroll-link {
   grid-template-columns: 48px minmax(0, 1fr);
   gap: 9px;
   align-items: center;
-  border: 1px solid rgba(245, 130, 32, .2);
+  border: 1px solid rgba(193, 18, 31, .2);
   border-radius: 12px;
   padding: 8px;
   background: rgba(0, 0, 0, .2);
@@ -9067,7 +9376,7 @@ button.hero-scroll-link {
 .rtbo-crew-photo-button:hover .rtbo-crew-photo,
 .rtbo-crew-photo-button:focus-visible .rtbo-crew-photo {
   transform: scale(1.06);
-  box-shadow: 0 0 18px rgba(245, 130, 32, .38);
+  box-shadow: 0 0 18px rgba(193, 18, 31, .38);
 }
 
 .rtbo-crew-member span {
@@ -9081,7 +9390,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-crew-member small {
-  color: #f58220;
+  color: #c1121f;
   font-size: .66rem;
   font-weight: 1000;
   letter-spacing: .04em;
@@ -9101,11 +9410,11 @@ button.hero-scroll-link {
 
 .rtbo-schedule-vs {
   width: fit-content;
-  border: 1px solid rgba(245, 130, 32, .25);
+  border: 1px solid rgba(193, 18, 31, .25);
   border-radius: 999px;
   padding: 2px 8px;
-  color: #f58220 !important;
-  background: rgba(245, 130, 32, .08);
+  color: #c1121f !important;
+  background: rgba(193, 18, 31, .08);
   font-weight: 1000;
   text-transform: uppercase;
 }
@@ -9125,10 +9434,10 @@ button.hero-scroll-link {
 .rtbo-official-record-list article {
   display: grid;
   gap: 8px;
-  border: 1px solid rgba(245, 130, 32, .22);
+  border: 1px solid rgba(193, 18, 31, .22);
   border-radius: 14px;
   padding: 14px;
-  background: rgba(245, 130, 32, .08);
+  background: rgba(193, 18, 31, .08);
 }
 
 .rtbo-official-record-list article > div:first-child {
@@ -9148,7 +9457,7 @@ button.hero-scroll-link {
 
 .rtbo-official-record-list a {
   width: fit-content;
-  color: #f58220;
+  color: #c1121f;
   font-weight: 1000;
   text-transform: uppercase;
 }
@@ -9203,7 +9512,7 @@ button.hero-scroll-link {
   grid-template-columns: 52px minmax(0, 1fr);
   gap: 12px;
   align-items: center;
-  border: 1px solid rgba(245, 130, 32, .24);
+  border: 1px solid rgba(193, 18, 31, .24);
   border-radius: 13px;
   padding: 10px;
   background: rgba(255, 255, 255, .035);
@@ -9264,7 +9573,7 @@ button.hero-scroll-link {
   display: grid;
   gap: 12px;
   margin-top: 10px;
-  border-top: 1px solid rgba(245, 130, 32, .24);
+  border-top: 1px solid rgba(193, 18, 31, .24);
   padding-top: 12px;
 }
 
@@ -9320,11 +9629,11 @@ button.hero-scroll-link {
   display: flex;
   min-height: 42px;
   align-items: center;
-  border: 1px solid rgba(245, 130, 32, .34);
+  border: 1px solid rgba(193, 18, 31, .34);
   border-radius: 10px;
   padding: 0 13px;
-  color: #f58220;
-  background: rgba(245, 130, 32, .1);
+  color: #c1121f;
+  background: rgba(193, 18, 31, .1);
   font-size: .84rem;
   font-weight: 1000;
   text-transform: uppercase;
@@ -9337,11 +9646,11 @@ button.hero-scroll-link {
   gap: 10px !important;
   align-items: center;
   align-self: end;
-  border: 1px solid rgba(245, 130, 32, .24);
+  border: 1px solid rgba(193, 18, 31, .24);
   border-radius: 10px;
   padding: 9px 12px;
   color: #fff !important;
-  background: rgba(245, 130, 32, .08);
+  background: rgba(193, 18, 31, .08);
 }
 
 .rtbo-inline-toggle input {
@@ -9353,10 +9662,10 @@ button.hero-scroll-link {
 .rtbo-game-venue-preview {
   display: grid;
   gap: 4px;
-  border: 1px solid rgba(245, 130, 32, .28);
+  border: 1px solid rgba(193, 18, 31, .28);
   border-radius: 12px;
   padding: 11px 12px;
-  background: rgba(245, 130, 32, .08);
+  background: rgba(193, 18, 31, .08);
 }
 
 .rtbo-game-venue-preview strong {
@@ -9374,10 +9683,10 @@ button.hero-scroll-link {
 .rtbo-required-crew-panel {
   display: grid;
   gap: 10px;
-  border: 1px solid rgba(245, 130, 32, .28);
+  border: 1px solid rgba(193, 18, 31, .28);
   border-radius: 14px;
   padding: 12px;
-  background: rgba(245, 130, 32, .07);
+  background: rgba(193, 18, 31, .07);
 }
 
 .rtbo-required-crew-panel label {
@@ -9391,10 +9700,10 @@ button.hero-scroll-link {
 }
 
 .rtbo-required-crew-list span {
-  border: 1px solid rgba(245, 130, 32, .35);
+  border: 1px solid rgba(193, 18, 31, .35);
   border-radius: 999px;
   padding: 6px 10px;
-  color: #f58220;
+  color: #c1121f;
   background: rgba(0, 0, 0, .2);
   font-size: .7rem;
   font-weight: 1000;
@@ -9418,10 +9727,10 @@ button.hero-scroll-link {
   flex-wrap: wrap;
   gap: 10px 14px;
   align-items: center;
-  border: 1px solid rgba(245, 130, 32, .24);
+  border: 1px solid rgba(193, 18, 31, .24);
   border-radius: 14px;
   padding: 12px 14px;
-  background: rgba(245, 130, 32, .075);
+  background: rgba(193, 18, 31, .075);
 }
 
 .rtbo-tba-summary strong {
@@ -9455,7 +9764,7 @@ button.hero-scroll-link {
   grid-template-columns: minmax(220px, .9fr) minmax(220px, .9fr) minmax(260px, 1fr) auto;
   gap: 14px;
   align-items: center;
-  border: 1px solid rgba(245, 130, 32, .24);
+  border: 1px solid rgba(193, 18, 31, .24);
   border-radius: 14px;
   padding: 13px;
   background: rgba(255, 255, 255, .035);
@@ -9520,8 +9829,8 @@ button.hero-scroll-link {
 }
 
 .rtbo-game-crew-member.missing {
-  border-color: rgba(245, 130, 32, .22);
-  background: rgba(245, 130, 32, .08);
+  border-color: rgba(193, 18, 31, .22);
+  background: rgba(193, 18, 31, .08);
 }
 
 .rtbo-game-crew-photo {
@@ -9533,9 +9842,9 @@ button.hero-scroll-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px dashed rgba(245, 130, 32, .45);
+  border: 1px dashed rgba(193, 18, 31, .45);
   border-radius: 999px;
-  color: #f58220;
+  color: #c1121f;
   background: rgba(0, 0, 0, .35);
   font-size: .62rem;
   font-weight: 1000;
@@ -9556,7 +9865,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-game-crew-member span {
-  color: #f58220;
+  color: #c1121f;
   font-size: .68rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -9581,7 +9890,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-publish-helper {
-  color: #f58220;
+  color: #c1121f;
   font-size: .68rem;
   line-height: 1.35;
 }
@@ -9590,19 +9899,19 @@ button.hero-scroll-link {
   grid-column: 1 / -1;
   display: grid;
   gap: 12px;
-  border: 1px solid rgba(245, 130, 32, .26);
+  border: 1px solid rgba(193, 18, 31, .26);
   border-radius: 14px;
   padding: 12px;
-  background: rgba(245, 130, 32, .07);
+  background: rgba(193, 18, 31, .07);
 }
 
 .rtbo-assign-by-official-panel {
   display: grid;
   gap: 12px;
-  border: 1px solid rgba(245, 130, 32, .26);
+  border: 1px solid rgba(193, 18, 31, .26);
   border-radius: 14px;
   padding: 12px;
-  background: rgba(245, 130, 32, .07);
+  background: rgba(193, 18, 31, .07);
 }
 
 .rtbo-assign-panel-head {
@@ -9657,25 +9966,25 @@ button.hero-scroll-link {
 }
 
 .rtbo-crew-completion.warning {
-  color: #f58220;
-  background: rgba(245, 130, 32, .12);
+  color: #c1121f;
+  background: rgba(193, 18, 31, .12);
 }
 
 .rtbo-status-pill.tba {
-  border-color: rgba(245, 130, 32, .45);
-  color: #f58220;
-  background: rgba(245, 130, 32, .16);
+  border-color: rgba(193, 18, 31, .45);
+  color: #c1121f;
+  background: rgba(193, 18, 31, .16);
 }
 
 .rtbo-tba-request-count {
-  color: #f58220 !important;
+  color: #c1121f !important;
   font-weight: 900;
 }
 
 .rtbo-tba-panel {
   display: grid;
   gap: 10px;
-  border: 1px solid rgba(245, 130, 32, .22);
+  border: 1px solid rgba(193, 18, 31, .22);
   border-radius: 16px;
   padding: 14px;
   background: rgba(255, 255, 255, .03);
@@ -9735,8 +10044,8 @@ button.hero-scroll-link {
 }
 
 .form-message.warning {
-  border-color: rgba(245, 130, 32, .35);
-  color: #f58220;
+  border-color: rgba(193, 18, 31, .35);
+  color: #c1121f;
   background-color: var(--rtbo-carbon-bg);
   background-image: var(--rtbo-carbon-fiber);
   background-size: var(--rtbo-carbon-fiber-size);
@@ -9745,11 +10054,11 @@ button.hero-scroll-link {
 .rtbo-status-pill {
   display: inline-flex;
   width: fit-content;
-  border: 1px solid rgba(245, 130, 32, .36);
+  border: 1px solid rgba(193, 18, 31, .36);
   border-radius: 999px;
   padding: 3px 8px;
-  color: #f58220;
-  background: rgba(245, 130, 32, .08);
+  color: #c1121f;
+  background: rgba(193, 18, 31, .08);
   font-size: .62rem;
   font-weight: 1000;
   letter-spacing: .05em;
@@ -9815,10 +10124,10 @@ button.hero-scroll-link {
   min-height: 430px;
   isolation: isolate;
   overflow: hidden;
-  border: 1px solid rgba(245, 130, 32, .34);
+  border: 1px solid rgba(193, 18, 31, .34);
   border-radius: 18px;
   background:
-    radial-gradient(circle at 50% 50%, rgba(245, 130, 32, .18), transparent 28%),
+    radial-gradient(circle at 50% 50%, rgba(193, 18, 31, .18), transparent 28%),
     linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
     #07090e;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 24px 60px rgba(0,0,0,.34);
@@ -9855,7 +10164,7 @@ button.hero-scroll-link {
   color: #fff;
   text-align: center;
   background:
-    radial-gradient(circle at 50% 50%, rgba(245, 130, 32, .2), transparent 34%),
+    radial-gradient(circle at 50% 50%, rgba(193, 18, 31, .2), transparent 34%),
     linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.02)),
     #07090e;
 }
@@ -9877,7 +10186,7 @@ button.hero-scroll-link {
   right: 12px;
   bottom: 12px;
   z-index: 2;
-  border: 1px solid rgba(245, 130, 32, .42);
+  border: 1px solid rgba(193, 18, 31, .42);
   border-radius: 999px;
   padding: 5px 9px;
   color: #fff;
@@ -9925,12 +10234,12 @@ button.hero-scroll-link {
   place-items: center;
   width: 132px;
   height: 132px;
-  border: 2px solid rgba(245, 130, 32, .82);
+  border: 2px solid rgba(193, 18, 31, .82);
   border-radius: 999px;
   color: #fff;
   text-align: center;
-  background: rgba(245, 130, 32, .18);
-  box-shadow: 0 0 35px rgba(245, 130, 32, .32);
+  background: rgba(193, 18, 31, .18);
+  box-shadow: 0 0 35px rgba(193, 18, 31, .32);
 }
 
 .rtbo-map-target span,
@@ -9941,7 +10250,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-map-target span {
-  color: #f58220;
+  color: #c1121f;
   font-weight: 1000;
   text-transform: uppercase;
 }
@@ -9966,7 +10275,7 @@ button.hero-scroll-link {
   place-items: center;
   width: 58px;
   height: 58px;
-  border: 2px solid rgba(245, 130, 32, .64);
+  border: 2px solid rgba(193, 18, 31, .64);
   border-radius: 18px;
   overflow: hidden;
   background: rgba(0, 0, 0, .72);
@@ -9988,7 +10297,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-geo-tracking-marker.is-female {
-  border-color: rgba(245, 130, 32, .82);
+  border-color: rgba(193, 18, 31, .82);
 }
 
 .rtbo-geo-tracking-marker.is-male {
@@ -9996,12 +10305,12 @@ button.hero-scroll-link {
 }
 
 .rtbo-geo-tracking-marker.is-neutral {
-  border-color: rgba(245, 130, 32, .46);
+  border-color: rgba(193, 18, 31, .46);
 }
 
 .rtbo-map-official span {
   max-width: 110px;
-  border: 1px solid rgba(245, 130, 32, .32);
+  border: 1px solid rgba(193, 18, 31, .32);
   border-radius: 999px;
   padding: 3px 7px;
   color: #fff;
@@ -10031,7 +10340,7 @@ button.hero-scroll-link {
 
 .rtbo-live-geo-summary article,
 .rtbo-live-official-row {
-  border: 1px solid rgba(245, 130, 32, .24);
+  border: 1px solid rgba(193, 18, 31, .24);
   border-radius: 14px;
   padding: 14px;
   background: rgba(255,255,255,.045);
@@ -10090,10 +10399,10 @@ button.hero-scroll-link {
 }
 
 .rtbo-empty-state {
-  border-left: 3px solid rgba(245, 130, 32, .66);
+  border-left: 3px solid rgba(193, 18, 31, .66);
   padding: 10px 12px;
   color: var(--muted);
-  background: rgba(245, 130, 32, .08);
+  background: rgba(193, 18, 31, .08);
   font-weight: 800;
 }
 
@@ -10110,7 +10419,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-test-summary article {
-  border: 1px solid rgba(245, 130, 32, .24);
+  border: 1px solid rgba(193, 18, 31, .24);
   border-radius: 14px;
   padding: 14px;
   background:
@@ -10151,20 +10460,20 @@ button.hero-scroll-link {
   display: grid;
   align-content: start;
   gap: 7px;
-  border: 1px solid rgba(249, 115, 22, .26);
+  border: 1px solid rgba(193, 18, 31, .26);
   border-radius: 12px;
   padding: 12px;
-  background: rgba(249, 115, 22, .08);
+  background: rgba(193, 18, 31, .08);
 }
 
 .rtbo-test-grid article.status-passed {
   border-color: rgba(34, 197, 94, .38);
-  background: linear-gradient(145deg, rgba(34, 197, 94, .11), rgba(249, 115, 22, .04));
+  background: linear-gradient(145deg, rgba(34, 197, 94, .11), rgba(193, 18, 31, .04));
 }
 
 .rtbo-test-grid article.status-review {
   border-color: rgba(250, 204, 21, .48);
-  background: linear-gradient(145deg, rgba(250, 204, 21, .12), rgba(249, 115, 22, .05));
+  background: linear-gradient(145deg, rgba(250, 204, 21, .12), rgba(193, 18, 31, .05));
 }
 
 .rtbo-test-card-head {
@@ -10186,7 +10495,7 @@ button.hero-scroll-link {
   border: 1px solid rgba(255, 255, 255, .16);
   border-radius: 999px;
   padding: 4px 8px;
-  color: #fbbf24;
+  color: #a41623;
   background: rgba(0, 0, 0, .24);
   font-size: .68rem;
   line-height: 1;
@@ -10300,17 +10609,17 @@ button.hero-scroll-link {
 :root[data-theme="light"] .rtbo-payment-record-card span,
 :root[data-theme="light"] .rtbo-payment-record-card p,
 :root[data-theme="light"] .rtbo-payment-record-card small {
-  color: #f58220;
+  color: #c1121f;
 }
 
 :root[data-theme="light"] .rtbo-invoice-line-total {
-  border-color: rgba(245, 130, 32, .26);
+  border-color: rgba(193, 18, 31, .26);
   background: rgba(255, 255, 255, .72);
 }
 
 :root[data-theme="light"] .rtbo-test-summary small,
 :root[data-theme="light"] .rtbo-test-card-head span {
-  color: #f58220;
+  color: #c1121f;
 }
 
 :root[data-theme="light"] .rtbo-crud-form input,
@@ -10339,7 +10648,7 @@ button.hero-scroll-link {
   background:
     linear-gradient(145deg, rgba(255,255,255,.94), rgba(255, 255, 255, .86)),
     #fff;
-  border-color: rgba(249, 115, 22, .28);
+  border-color: rgba(193, 18, 31, .28);
 }
 
 :root[data-theme="light"] .pricing-school,
@@ -10361,7 +10670,7 @@ button.hero-scroll-link {
   background:
     linear-gradient(145deg, rgba(255,255,255,.94), rgba(255, 255, 255, .86)),
     #fff;
-  border-color: rgba(249, 115, 22, .28);
+  border-color: rgba(193, 18, 31, .28);
 }
 
 :root[data-theme="light"] .attendee-review-copy h3,
@@ -10388,10 +10697,10 @@ button.hero-scroll-link {
 }
 
 :root[data-theme="light"] .attendee-review-star-options label.selected {
-  color: #ea580c;
-  border-color: rgba(249, 115, 22, .76);
+  color: #7f0d16;
+  border-color: rgba(193, 18, 31, .76);
   background:
-    linear-gradient(145deg, rgba(249, 115, 22, .18), rgba(255, 255, 255, .78)),
+    linear-gradient(145deg, rgba(193, 18, 31, .18), rgba(255, 255, 255, .78)),
     #fff;
 }
 
@@ -10412,10 +10721,10 @@ button.hero-scroll-link {
 :root[data-theme="light"] .paid-event-modal {
   color: #111827;
   background:
-    radial-gradient(circle at top right, rgba(249, 115, 22, .12), transparent 34%),
+    radial-gradient(circle at top right, rgba(193, 18, 31, .12), transparent 34%),
     linear-gradient(145deg, rgba(255,255,255,.94), rgba(255, 255, 255, .86)),
     #fff;
-  border-color: rgba(249, 115, 22, .3);
+  border-color: rgba(193, 18, 31, .3);
 }
 
 :root[data-theme="light"] .paid-event-copy strong,
@@ -10433,7 +10742,7 @@ button.hero-scroll-link {
 :root[data-theme="light"] .paid-event-facts span {
   color: #1f2937;
   background: rgba(255, 255, 255, .72);
-  border-color: rgba(249, 115, 22, .28);
+  border-color: rgba(193, 18, 31, .28);
 }
 
 :root[data-theme="light"] .paid-event-modal :is(input, textarea) {
@@ -10456,7 +10765,7 @@ button.hero-scroll-link {
     min-height: 42px;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(249, 115, 22, 0.24);
+    border: 1px solid rgba(193, 18, 31, 0.24);
     border-radius: 8px;
     padding: 0 10px;
     text-align: center;
@@ -10465,7 +10774,7 @@ button.hero-scroll-link {
 
   :root[data-theme="light"] .nav-link-group button:not(.btn) {
     background: #ffffff;
-    border-color: #f58220;
+    border-color: #c1121f;
   }
 
   .rtbo-header.nav-open .nav-link-group button,
@@ -10780,7 +11089,7 @@ button.hero-scroll-link {
 .rtbo-dashboard-shell :is(input, select, textarea),
 .rtbo-account-modal :is(input, select, textarea) {
   color: #fff !important;
-  border-color: rgba(245, 130, 32, .28) !important;
+  border-color: rgba(193, 18, 31, .28) !important;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .018)),
     #0a0a0a !important;
@@ -10790,16 +11099,16 @@ button.hero-scroll-link {
 
 .rtbo-dashboard-shell :is(input, select, textarea):focus,
 .rtbo-account-modal :is(input, select, textarea):focus {
-  border-color: rgba(245, 130, 32, .75) !important;
+  border-color: rgba(193, 18, 31, .75) !important;
   outline: none !important;
-  box-shadow: 0 0 0 3px rgba(245, 130, 32, .16), inset 0 1px 0 rgba(255, 255, 255, .055) !important;
+  box-shadow: 0 0 0 3px rgba(193, 18, 31, .16), inset 0 1px 0 rgba(255, 255, 255, .055) !important;
 }
 
 .rtbo-dashboard-shell :is(input, select, textarea):disabled,
 .rtbo-account-modal :is(input, select, textarea):disabled {
   color: rgba(255, 255, 255, .78) !important;
   background:
-    linear-gradient(180deg, rgba(245, 130, 32, .12), rgba(255, 255, 255, .02)),
+    linear-gradient(180deg, rgba(193, 18, 31, .12), rgba(255, 255, 255, .02)),
     #101010 !important;
 }
 
@@ -10822,7 +11131,7 @@ button.hero-scroll-link {
 .rtbo-account-modal input:-webkit-autofill:hover,
 .rtbo-account-modal input:-webkit-autofill:focus {
   -webkit-text-fill-color: #fff !important;
-  box-shadow: 0 0 0 1000px #0a0a0a inset, 0 0 0 3px rgba(245, 130, 32, .16) !important;
+  box-shadow: 0 0 0 1000px #0a0a0a inset, 0 0 0 3px rgba(193, 18, 31, .16) !important;
 }
 
 :root[data-theme="light"] .rtbo-member-edit-modal {
@@ -10839,7 +11148,7 @@ button.hero-scroll-link {
 }
 
 :root[data-theme="light"] .rtbo-member-edit-modal .eyebrow {
-  color: #fb923c !important;
+  color: #a41623 !important;
 }
 
 :root[data-theme="light"] .rtbo-member-edit-modal .rtbo-modal-close {
@@ -10853,12 +11162,12 @@ button.hero-scroll-link {
   --rtbo-light-action-bg: #111827;
   --rtbo-light-action-bg-hover: #020617;
   --rtbo-light-action-text: #f8fafc;
-  --rtbo-light-action-border: #f97316;
+  --rtbo-light-action-border: #c1121f;
   --rtbo-light-action-shadow: 0 12px 28px rgba(15, 23, 42, .18);
 }
 
 :root[data-theme="light"] button {
-  border: 1px solid #f97316 !important;
+  border: 1px solid #c1121f !important;
 }
 
 :root[data-theme="light"] :is(.rtbo-public, .rtbo-dashboard-shell, .rtbo-account-modal, .site-footer, .app-shell) :is(
@@ -10919,9 +11228,9 @@ button.hero-scroll-link {
 ):is(:hover, :focus-visible, .active) {
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
-  border-color: rgba(249, 115, 22, .82) !important;
+  border-color: rgba(193, 18, 31, .82) !important;
   background:
-    linear-gradient(145deg, rgba(249, 115, 22, .24), rgba(255, 255, 255, .04)),
+    linear-gradient(145deg, rgba(193, 18, 31, .24), rgba(255, 255, 255, .04)),
     var(--rtbo-light-action-bg-hover) !important;
 }
 
@@ -10932,7 +11241,7 @@ button.hero-scroll-link {
 .rtbo-public .hero-carousel img {
   background:
     linear-gradient(110deg, rgba(5, 6, 8, .92) 0%, rgba(5, 6, 8, .8) 47%, rgba(8, 8, 8, .66) 100%),
-    radial-gradient(circle at 78% 18%, rgba(249, 115, 22, .38), transparent 30%),
+    radial-gradient(circle at 78% 18%, rgba(193, 18, 31, .38), transparent 30%),
     url("/assets/images/banner_1.jpg") center center / cover no-repeat,
     #080a0f !important;
 }
@@ -10940,7 +11249,7 @@ button.hero-scroll-link {
 :root[data-theme="light"] .rtbo-public .hero-carousel img {
   background:
     linear-gradient(110deg, rgba(5, 6, 8, .74) 0%, rgba(5, 6, 8, .6) 47%, rgba(8, 8, 8, .46) 100%),
-    radial-gradient(circle at 78% 18%, rgba(249, 115, 22, .34), transparent 30%),
+    radial-gradient(circle at 78% 18%, rgba(193, 18, 31, .34), transparent 30%),
     url("/assets/images/banner_1.jpg") center center / cover no-repeat,
     #080a0f !important;
 }
@@ -10949,7 +11258,7 @@ button.hero-scroll-link {
   color: #f8fafc !important;
   background:
     linear-gradient(110deg, rgba(5, 6, 8, .9) 0%, rgba(5, 6, 8, .7) 47%, rgba(8, 8, 8, .58) 100%),
-    radial-gradient(circle at 78% 18%, rgba(249, 115, 22, .32), transparent 30%),
+    radial-gradient(circle at 78% 18%, rgba(193, 18, 31, .32), transparent 30%),
     url("/assets/images/banner_2.jpg") center bottom / contain no-repeat,
     #080a0f !important;
 }
@@ -10989,7 +11298,7 @@ button.hero-scroll-link {
   .platform-flow-panel
 ) {
   color: #f8fafc;
-  border-color: rgba(249, 115, 22, .48);
+  border-color: rgba(193, 18, 31, .48);
   border-left-color: var(--orange);
   background:
     linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .035)),
@@ -11035,25 +11344,25 @@ button.hero-scroll-link {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .08)),
     #111827 !important;
-  border-bottom-color: rgba(249, 115, 22, .28);
+  border-bottom-color: rgba(193, 18, 31, .28);
 }
 
 :root[data-theme="light"] .rtbo-public .testimonial-grid .testimonial-title {
-  color: #fb923c !important;
+  color: #a41623 !important;
 }
 
 :root[data-theme="light"] .rtbo-public :is(.platform-section, .services-platform-section) .platform-flow-grid article {
-  border-color: rgba(249, 115, 22, .34);
+  border-color: rgba(193, 18, 31, .34);
   background: rgba(255, 255, 255, .07) !important;
 }
 
 :root[data-theme="light"] .rtbo-public :is(.platform-section, .services-platform-section) .platform-flow-grid span {
-  color: #fb923c !important;
+  color: #a41623 !important;
 }
 
 :root[data-theme="light"] .rtbo-public :is(.home-results-section, .results-top-section) .results-top-points article {
   color: #111827;
-  border-color: rgba(249, 115, 22, .32);
+  border-color: rgba(193, 18, 31, .32);
   border-left-color: var(--orange);
   background:
     linear-gradient(145deg, rgba(255, 255, 255, .96), rgba(255, 255, 255, .86)),
@@ -11122,7 +11431,7 @@ button.hero-scroll-link {
 .livestream-channel-grid article,
 .livestream-run-card,
 .livestream-schedule-grid article {
-  border: 1px solid rgba(249, 115, 22, .28);
+  border: 1px solid rgba(193, 18, 31, .28);
   border-radius: 8px;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .025)),
@@ -11172,7 +11481,7 @@ button.hero-scroll-link {
 
 .livestream-studio-settings-button:is(:hover, :focus-visible) .livestream-status-icon {
   transform: translateY(-3px) scale(1.02);
-  filter: drop-shadow(0 20px 38px rgba(249, 115, 22, .34));
+  filter: drop-shadow(0 20px 38px rgba(193, 18, 31, .34));
 }
 
 .livestream-studio-settings-label {
@@ -11189,8 +11498,8 @@ button.hero-scroll-link {
 .livestream-channel-grid article > span {
   width: max-content;
   color: #fff;
-  background: rgba(249, 115, 22, .24);
-  border: 1px solid rgba(249, 115, 22, .44);
+  background: rgba(193, 18, 31, .24);
+  border: 1px solid rgba(193, 18, 31, .44);
   padding: 7px 10px;
   font-size: .75rem;
   font-weight: 1000;
@@ -11208,7 +11517,7 @@ button.hero-scroll-link {
   font-size: clamp(1.05rem, 1.4vw, 1.45rem);
   line-height: 1.1;
   text-transform: uppercase;
-  text-shadow: 2px 2px 0 rgba(249, 115, 22, .72);
+  text-shadow: 2px 2px 0 rgba(193, 18, 31, .72);
 }
 
 .livestream-status-panel p,
@@ -11262,8 +11571,8 @@ button.hero-scroll-link {
 
 .livestream-tabs button:is(:hover, :focus-visible, .active),
 .livestream-channel-grid button:is(:hover, :focus-visible) {
-  border-color: rgba(249, 115, 22, .86);
-  background: rgba(249, 115, 22, .2);
+  border-color: rgba(193, 18, 31, .86);
+  background: rgba(193, 18, 31, .2);
 }
 
 .livestream-player-shell {
@@ -11271,7 +11580,7 @@ button.hero-scroll-link {
   width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  border: 1px solid rgba(249, 115, 22, .34);
+  border: 1px solid rgba(193, 18, 31, .34);
   border-radius: 10px;
   background: #020304;
   box-shadow: 0 24px 70px rgba(0, 0, 0, .34);
@@ -11307,7 +11616,7 @@ button.hero-scroll-link {
   border: 1px solid rgba(255, 255, 255, .16);
   border-radius: clamp(8px, .8vw, 15px);
   background: linear-gradient(180deg, rgba(15, 15, 16, .92), rgba(5, 5, 6, .74));
-  box-shadow: inset 0 0 0 1px rgba(249, 115, 22, .24), 0 10px 28px rgba(0, 0, 0, .28);
+  box-shadow: inset 0 0 0 1px rgba(193, 18, 31, .24), 0 10px 28px rgba(0, 0, 0, .28);
   color: #fff;
   font-size: clamp(.58rem, .8vw, .88rem);
   font-weight: 900;
@@ -11349,7 +11658,7 @@ button.hero-scroll-link {
   border: 1px solid rgba(255, 255, 255, .14);
   border-radius: clamp(8px, .8vw, 15px);
   background: linear-gradient(180deg, rgba(15, 15, 16, .9), rgba(5, 5, 6, .72));
-  box-shadow: inset 0 0 0 1px rgba(249, 115, 22, .18);
+  box-shadow: inset 0 0 0 1px rgba(193, 18, 31, .18);
 }
 
 .livestream-follow-links span {
@@ -11376,8 +11685,8 @@ button.hero-scroll-link {
 }
 
 .livestream-follow-links a:is(:hover, :focus-visible) {
-  border-color: rgba(249, 115, 22, .82);
-  background: rgba(249, 115, 22, .2);
+  border-color: rgba(193, 18, 31, .82);
+  background: rgba(193, 18, 31, .2);
   outline: none;
 }
 
@@ -11396,7 +11705,7 @@ button.hero-scroll-link {
     linear-gradient(135deg, rgba(5, 6, 8, .9), rgba(5, 6, 8, .74)),
     url("/assets/images/banner_3.jpg") center center / cover no-repeat,
     #050608;
-  box-shadow: inset 0 0 0 1px rgba(249, 115, 22, .2);
+  box-shadow: inset 0 0 0 1px rgba(193, 18, 31, .2);
 }
 
 .livestream-caption-strip {
@@ -11472,7 +11781,7 @@ button.hero-scroll-link {
 .livestream-card-mark {
   display: grid;
   place-items: center;
-  border: 1px solid rgba(249, 115, 22, .58);
+  border: 1px solid rgba(193, 18, 31, .58);
   color: var(--orange);
   font-weight: 1000;
   letter-spacing: .08em;
@@ -11482,7 +11791,7 @@ button.hero-scroll-link {
   width: clamp(44px, 5vw, 72px);
   height: clamp(44px, 5vw, 72px);
   border-radius: 999px;
-  background: rgba(249, 115, 22, .16);
+  background: rgba(193, 18, 31, .16);
   font-size: clamp(.82rem, 1vw, 1.05rem);
 }
 
@@ -11510,7 +11819,7 @@ button.hero-scroll-link {
   width: 22.2%;
   height: 53.8%;
   overflow: hidden;
-  border: 1px solid rgba(249, 115, 22, .42);
+  border: 1px solid rgba(193, 18, 31, .42);
   border-radius: clamp(8px, .9vw, 16px);
   background: linear-gradient(180deg, rgba(13, 14, 16, .9), rgba(5, 5, 6, .74));
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06), 0 18px 42px rgba(0, 0, 0, .32);
@@ -11540,7 +11849,7 @@ button.hero-scroll-link {
 }
 
 .livestream-live-panel-tabs button:is(:hover, :focus-visible, .active) {
-  background: rgba(249, 115, 22, .2);
+  background: rgba(193, 18, 31, .2);
   color: #fff;
   outline: none;
 }
@@ -11580,9 +11889,9 @@ button.hero-scroll-link {
   place-items: center;
   width: clamp(22px, 2.1vw, 34px);
   height: clamp(22px, 2.1vw, 34px);
-  border: 1px solid rgba(249, 115, 22, .62);
+  border: 1px solid rgba(193, 18, 31, .62);
   border-radius: 999px;
-  background: rgba(249, 115, 22, .14);
+  background: rgba(193, 18, 31, .14);
   color: #fff;
   font-size: clamp(.44rem, .55vw, .62rem);
   font-weight: 1000;
@@ -11625,16 +11934,16 @@ button.hero-scroll-link {
 }
 
 .livestream-chat-form input:focus-visible {
-  border-color: rgba(249, 115, 22, .8);
+  border-color: rgba(193, 18, 31, .8);
   outline: none;
 }
 
 .livestream-chat-form button,
 .livestream-poll-options button,
 .livestream-settings-menu button {
-  border: 1px solid rgba(249, 115, 22, .5);
+  border: 1px solid rgba(193, 18, 31, .5);
   border-radius: 7px;
-  background: rgba(249, 115, 22, .14);
+  background: rgba(193, 18, 31, .14);
   color: #fff;
   font-size: clamp(.54rem, .68vw, .78rem);
   font-weight: 900;
@@ -11698,8 +12007,8 @@ button.hero-scroll-link {
 .livestream-poll-options button:is(:hover, :focus-visible, .active),
 .livestream-settings-menu button:is(:hover, :focus-visible),
 .livestream-chat-form button:is(:hover, :focus-visible) {
-  border-color: rgba(249, 115, 22, .9);
-  background: rgba(249, 115, 22, .28);
+  border-color: rgba(193, 18, 31, .9);
+  background: rgba(193, 18, 31, .28);
   outline: none;
 }
 
@@ -11713,7 +12022,7 @@ button.hero-scroll-link {
   border: 1px solid rgba(255, 255, 255, .1);
   border-radius: clamp(9px, .9vw, 16px);
   background: linear-gradient(180deg, rgba(10, 10, 11, .9), rgba(3, 3, 4, .72));
-  box-shadow: inset 0 0 0 1px rgba(249, 115, 22, .18), 0 16px 40px rgba(0, 0, 0, .34);
+  box-shadow: inset 0 0 0 1px rgba(193, 18, 31, .18), 0 16px 40px rgba(0, 0, 0, .34);
 }
 
 .livestream-progress-row,
@@ -11784,14 +12093,14 @@ button.hero-scroll-link {
 }
 
 .livestream-control-row button:is(:hover, :focus-visible, .active) {
-  border-color: rgba(249, 115, 22, .85);
-  background: rgba(249, 115, 22, .22);
+  border-color: rgba(193, 18, 31, .85);
+  background: rgba(193, 18, 31, .22);
   outline: none;
 }
 
 .livestream-primary-control {
-  background: rgba(249, 115, 22, .28) !important;
-  border-color: rgba(249, 115, 22, .88) !important;
+  background: rgba(193, 18, 31, .28) !important;
+  border-color: rgba(193, 18, 31, .88) !important;
 }
 
 .livestream-volume {
@@ -11808,7 +12117,7 @@ button.hero-scroll-link {
   gap: 9px;
   width: min(320px, 70%);
   padding: 12px;
-  border: 1px solid rgba(249, 115, 22, .44);
+  border: 1px solid rgba(193, 18, 31, .44);
   border-radius: 10px;
   background: rgba(8, 8, 9, .96);
   box-shadow: 0 18px 42px rgba(0, 0, 0, .38);
@@ -11851,7 +12160,7 @@ button.hero-scroll-link {
   place-items: center;
   width: clamp(44px, 6.5vw, 86px);
   height: clamp(44px, 6.5vw, 86px);
-  border: 1px solid rgba(249, 115, 22, .52);
+  border: 1px solid rgba(193, 18, 31, .52);
   border-radius: 999px;
   background: rgba(0, 0, 0, .54);
   box-shadow: 0 12px 32px rgba(0, 0, 0, .36);
@@ -11908,10 +12217,10 @@ button.hero-scroll-link {
   gap: 3px;
   width: min(440px, 72%);
   padding: clamp(9px, 1.1vw, 15px) clamp(13px, 1.5vw, 20px);
-  border: 1px solid rgba(249, 115, 22, .55);
+  border: 1px solid rgba(193, 18, 31, .55);
   border-radius: 10px;
   background:
-    linear-gradient(90deg, rgba(249, 115, 22, .9) 0 5px, transparent 5px),
+    linear-gradient(90deg, rgba(193, 18, 31, .9) 0 5px, transparent 5px),
     linear-gradient(135deg, rgba(2, 6, 23, .88), rgba(15, 23, 42, .72));
   box-shadow: 0 16px 40px rgba(0, 0, 0, .38);
 }
@@ -11987,7 +12296,7 @@ button.hero-scroll-link {
   display: grid;
   gap: clamp(20px, 3vw, 32px);
   padding: clamp(20px, 3vw, 34px);
-  border: 1px solid rgba(249, 115, 22, .26);
+  border: 1px solid rgba(193, 18, 31, .26);
   border-radius: 8px;
   background:
     linear-gradient(135deg, rgba(15, 23, 42, .76), rgba(3, 7, 18, .9)),
@@ -12047,8 +12356,8 @@ button.hero-scroll-link {
 
 .livestream-studio button:is(:hover, :focus-visible, .active),
 .livestream-studio select:focus-visible {
-  border-color: rgba(249, 115, 22, .82);
-  background: rgba(249, 115, 22, .2);
+  border-color: rgba(193, 18, 31, .82);
+  background: rgba(193, 18, 31, .2);
   outline: none;
 }
 
@@ -12230,7 +12539,7 @@ button.hero-scroll-link {
 
 .livestream-lower-third-editor input:focus-visible,
 .livestream-countdown-editor input:focus-visible {
-  border-color: rgba(249, 115, 22, .82);
+  border-color: rgba(193, 18, 31, .82);
   outline: none;
 }
 
@@ -12341,7 +12650,7 @@ button.hero-scroll-link {
   height: 10px;
   margin-top: .45em;
   border: 2px solid var(--orange);
-  background: rgba(249, 115, 22, .2);
+  background: rgba(193, 18, 31, .2);
 }
 
 .livestream-platform-section,
@@ -12379,7 +12688,7 @@ button.hero-scroll-link {
 
 .livestream-channel-grid article:is(:hover, :focus-within) .livestream-card-icon {
   transform: translateY(-3px) scale(1.02);
-  filter: drop-shadow(0 18px 30px rgba(249, 115, 22, .24));
+  filter: drop-shadow(0 18px 30px rgba(193, 18, 31, .24));
 }
 
 .livestream-card-mark {
@@ -12456,7 +12765,7 @@ button.hero-scroll-link {
   background:
     linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .035)),
     #111827 !important;
-  border-color: rgba(249, 115, 22, .48);
+  border-color: rgba(193, 18, 31, .48);
 }
 
 :root[data-theme="light"] .rtbo-public :is(.livestream-intro-copy, .livestream-production-grid) p:not(.eyebrow) {
@@ -12709,17 +13018,17 @@ button.hero-scroll-link {
   aspect-ratio: auto !important;
   overflow: visible !important;
   padding: clamp(10px, 1.35vw, 18px);
-  border: 2px solid rgba(255, 122, 22, .78);
+  border: 2px solid rgba(193, 18, 31, .78);
   border-radius: clamp(14px, 1.8vw, 26px);
   background:
-    radial-gradient(circle at 18% 4%, rgba(255, 122, 22, .26), transparent 24%),
+    radial-gradient(circle at 18% 4%, rgba(193, 18, 31, .26), transparent 24%),
     linear-gradient(135deg, rgba(28, 30, 34, .98), rgba(2, 3, 5, .98) 46%, rgba(16, 10, 7, .98));
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, .16),
     inset 0 0 0 5px rgba(0, 0, 0, .64),
     0 0 0 1px rgba(255, 255, 255, .08),
     0 24px 72px rgba(0, 0, 0, .48),
-    0 0 42px rgba(249, 115, 22, .18);
+    0 0 42px rgba(193, 18, 31, .18);
 }
 
 .livestream-player-shell::before,
@@ -12731,11 +13040,11 @@ button.hero-scroll-link {
 
 .livestream-player-shell::before {
   inset: 8px;
-  border: 1px solid rgba(255, 122, 22, .76);
+  border: 1px solid rgba(193, 18, 31, .76);
   border-radius: clamp(10px, 1.4vw, 22px);
   box-shadow:
-    inset 0 0 16px rgba(255, 122, 22, .28),
-    0 0 20px rgba(255, 122, 22, .18);
+    inset 0 0 16px rgba(193, 18, 31, .28),
+    0 0 20px rgba(193, 18, 31, .18);
 }
 
 .livestream-player-shell::after {
@@ -12758,7 +13067,7 @@ button.hero-scroll-link {
   padding: clamp(10px, 1.2vw, 18px);
   border-radius: clamp(10px, 1.2vw, 20px);
   background:
-    linear-gradient(90deg, rgba(255, 122, 22, .16), transparent 16%, transparent 84%, rgba(255, 122, 22, .16)),
+    linear-gradient(90deg, rgba(193, 18, 31, .16), transparent 16%, transparent 84%, rgba(193, 18, 31, .16)),
     linear-gradient(180deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .015)),
     #07090d;
 }
@@ -12770,15 +13079,15 @@ button.hero-scroll-link {
   align-items: center;
   min-height: clamp(84px, 7vw, 122px);
   padding: clamp(10px, 1.1vw, 16px) clamp(12px, 1.5vw, 24px);
-  border: 1px solid rgba(255, 122, 22, .48);
+  border: 1px solid rgba(193, 18, 31, .48);
   border-radius: clamp(10px, 1.1vw, 18px);
   background:
-    linear-gradient(90deg, rgba(255, 122, 22, .18), transparent 24%, transparent 70%, rgba(255, 122, 22, .14)),
+    linear-gradient(90deg, rgba(193, 18, 31, .18), transparent 24%, transparent 70%, rgba(193, 18, 31, .14)),
     repeating-linear-gradient(135deg, rgba(255, 255, 255, .035) 0 2px, transparent 2px 9px),
     linear-gradient(180deg, rgba(20, 22, 26, .95), rgba(6, 7, 9, .92));
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, .08),
-    inset 0 -3px 0 rgba(249, 115, 22, .48);
+    inset 0 -3px 0 rgba(193, 18, 31, .48);
 }
 
 .livestream-player-brand {
@@ -12886,7 +13195,7 @@ button.hero-scroll-link {
   height: auto !important;
   min-height: clamp(360px, 36vw, 620px);
   aspect-ratio: 16 / 9;
-  border: 2px solid rgba(255, 122, 22, .58);
+  border: 2px solid rgba(193, 18, 31, .58);
   border-radius: clamp(10px, 1vw, 18px);
   background:
     linear-gradient(135deg, rgba(3, 5, 8, .46), rgba(3, 5, 8, .24)),
@@ -12894,7 +13203,7 @@ button.hero-scroll-link {
     #050608;
   box-shadow:
     inset 0 0 0 2px rgba(0, 0, 0, .72),
-    inset 0 0 32px rgba(249, 115, 22, .18),
+    inset 0 0 32px rgba(193, 18, 31, .18),
     0 14px 36px rgba(0, 0, 0, .4);
 }
 
@@ -12928,10 +13237,10 @@ button.hero-scroll-link {
   width: auto !important;
   height: auto !important;
   min-height: 372px;
-  border-color: rgba(255, 122, 22, .72);
+  border-color: rgba(193, 18, 31, .72);
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, .08),
-    inset 0 0 24px rgba(249, 115, 22, .13),
+    inset 0 0 24px rgba(193, 18, 31, .13),
     0 14px 34px rgba(0, 0, 0, .34);
 }
 
@@ -12944,10 +13253,10 @@ button.hero-scroll-link {
   overflow: hidden;
   min-height: 142px;
   padding: clamp(12px, 1.1vw, 16px);
-  border: 1px solid rgba(255, 122, 22, .58);
+  border: 1px solid rgba(193, 18, 31, .58);
   border-radius: clamp(10px, 1vw, 16px);
   background:
-    linear-gradient(135deg, rgba(255, 122, 22, .08), transparent 38%),
+    linear-gradient(135deg, rgba(193, 18, 31, .08), transparent 38%),
     linear-gradient(180deg, rgba(24, 26, 31, .94), rgba(6, 7, 10, .92));
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, .06),
@@ -13032,14 +13341,14 @@ button.hero-scroll-link {
   place-items: center;
   width: clamp(62px, 6vw, 92px);
   aspect-ratio: 1;
-  border: 2px solid rgba(255, 122, 22, .72);
+  border: 2px solid rgba(193, 18, 31, .72);
   border-radius: 18px;
   background:
-    radial-gradient(circle, rgba(255, 122, 22, .7), rgba(8, 8, 8, .86) 50%, rgba(7, 9, 12, .92) 52%),
+    radial-gradient(circle, rgba(193, 18, 31, .7), rgba(8, 8, 8, .86) 50%, rgba(7, 9, 12, .92) 52%),
     #111317;
   box-shadow:
     inset 0 0 0 4px rgba(0, 0, 0, .72),
-    0 0 18px rgba(249, 115, 22, .26);
+    0 0 18px rgba(193, 18, 31, .26);
 }
 
 .livestream-score-icon span {
@@ -13070,7 +13379,7 @@ button.hero-scroll-link {
     #0b0d10;
   box-shadow:
     inset 0 2px 0 rgba(255, 255, 255, .12),
-    inset 0 -3px 0 rgba(255, 122, 22, .34);
+    inset 0 -3px 0 rgba(193, 18, 31, .34);
 }
 
 .livestream-score-team {
@@ -13149,10 +13458,10 @@ button.hero-scroll-link {
   grid-template-columns: minmax(0, 1fr) minmax(128px, .7fr) minmax(0, 1fr);
   align-items: stretch;
   overflow: hidden;
-  border: 1px solid rgba(255, 122, 22, .7);
+  border: 1px solid rgba(193, 18, 31, .7);
   border-radius: 10px;
   background:
-    linear-gradient(90deg, rgba(255, 122, 22, .92), rgba(255, 122, 22, .42) 4px, transparent 4px),
+    linear-gradient(90deg, rgba(193, 18, 31, .92), rgba(193, 18, 31, .42) 4px, transparent 4px),
     linear-gradient(135deg, rgba(4, 6, 10, .92), rgba(19, 21, 27, .84));
   box-shadow:
     0 18px 42px rgba(0, 0, 0, .5),
@@ -13248,7 +13557,7 @@ button.hero-scroll-link {
 
 .livestream-possession-dots i.active {
   background: var(--orange);
-  box-shadow: 0 0 10px rgba(249, 115, 22, .8);
+  box-shadow: 0 0 10px rgba(193, 18, 31, .8);
 }
 
 .livestream-control-layer {
@@ -13256,14 +13565,14 @@ button.hero-scroll-link {
   gap: 10px;
   width: auto !important;
   padding: clamp(10px, 1vw, 14px);
-  border-color: rgba(255, 122, 22, .58);
+  border-color: rgba(193, 18, 31, .58);
   border-radius: clamp(10px, 1vw, 18px);
   background:
-    linear-gradient(90deg, rgba(255, 122, 22, .14), transparent 16%, transparent 84%, rgba(255, 122, 22, .14)),
+    linear-gradient(90deg, rgba(193, 18, 31, .14), transparent 16%, transparent 84%, rgba(193, 18, 31, .14)),
     linear-gradient(180deg, rgba(26, 27, 31, .96), rgba(4, 5, 7, .94));
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, .08),
-    inset 0 0 24px rgba(255, 122, 22, .12),
+    inset 0 0 24px rgba(193, 18, 31, .12),
     0 16px 40px rgba(0, 0, 0, .36);
 }
 
@@ -13292,9 +13601,9 @@ button.hero-scroll-link {
 }
 
 .livestream-control-row button:is(:hover, :focus-visible, .active) {
-  border-color: rgba(255, 122, 22, .92);
+  border-color: rgba(193, 18, 31, .92);
   background:
-    linear-gradient(180deg, rgba(249, 115, 22, .34), rgba(249, 115, 22, .14)),
+    linear-gradient(180deg, rgba(193, 18, 31, .34), rgba(193, 18, 31, .14)),
     #17191d;
 }
 
@@ -13307,8 +13616,8 @@ button.hero-scroll-link {
   text-transform: uppercase;
   box-shadow:
     inset 0 0 0 4px rgba(0, 0, 0, .54),
-    inset 0 0 18px rgba(249, 115, 22, .4),
-    0 0 18px rgba(249, 115, 22, .28) !important;
+    inset 0 0 18px rgba(193, 18, 31, .4),
+    0 0 18px rgba(193, 18, 31, .28) !important;
 }
 
 .livestream-volume {
@@ -13514,28 +13823,28 @@ button.hero-scroll-link {
 }
 
 .livestream-player-shell {
-  border: 2px solid rgba(255, 255, 255, .86);
-  border-radius: clamp(22px, 2.3vw, 36px);
-  padding: clamp(24px, 3vw, 42px);
+  border: 1px solid rgba(255, 255, 255, .78);
+  border-radius: clamp(14px, 1.4vw, 20px);
+  padding: clamp(6px, .75vw, 12px);
   background: var(--rtbo-video-chrome-surface);
   box-shadow: var(--rtbo-video-chrome-shadow);
 }
 
 .livestream-player-shell::before {
-  inset: clamp(10px, 1.1vw, 16px);
+  inset: clamp(3px, .4vw, 6px);
   z-index: 1;
-  border: 2px solid rgba(255, 126, 28, .9);
-  border-radius: clamp(16px, 1.7vw, 27px);
+  border: 1px solid rgba(255, 126, 28, .9);
+  border-radius: clamp(10px, 1.1vw, 16px);
   box-shadow:
-    inset 0 0 18px rgba(255, 122, 22, .18),
-    0 0 20px rgba(255, 122, 22, .36);
+    inset 0 0 18px rgba(193, 18, 31, .18),
+    0 0 20px rgba(193, 18, 31, .36);
 }
 
 .livestream-player-shell::after {
-  inset: 5px;
+  inset: 2px;
   z-index: 1;
-  border: 2px solid rgba(255, 255, 255, .36);
-  border-radius: clamp(18px, 2vw, 31px);
+  border: 1px solid rgba(255, 255, 255, .34);
+  border-radius: clamp(12px, 1.25vw, 18px);
   background: var(--rtbo-video-chrome-inner-highlight);
   mix-blend-mode: screen;
 }
@@ -13546,7 +13855,7 @@ button.hero-scroll-link {
   border: 1px solid rgba(255, 126, 28, .5);
   box-shadow:
     inset 0 0 0 2px rgba(0, 0, 0, .72),
-    inset 0 0 0 4px rgba(255, 122, 22, .1);
+    inset 0 0 0 4px rgba(193, 18, 31, .1);
 }
 
 .livestream-coded-frame::before {
@@ -13554,7 +13863,7 @@ button.hero-scroll-link {
   position: absolute;
   inset: 6px;
   pointer-events: none;
-  border: 1px solid rgba(255, 122, 22, .36);
+  border: 1px solid rgba(193, 18, 31, .36);
   border-radius: clamp(8px, 1vw, 16px);
 }
 
@@ -13633,7 +13942,7 @@ button.hero-scroll-link {
   min-height: 100vh;
   padding: clamp(18px, 2.2vw, 36px);
   background:
-    radial-gradient(circle at 18% 0, rgba(249, 115, 22, .2), transparent 28%),
+    radial-gradient(circle at 18% 0, rgba(193, 18, 31, .2), transparent 28%),
     #05070b;
 }
 
@@ -13846,7 +14155,7 @@ button.hero-scroll-link {
 .rtbo-profile-editor-panel {
   margin-top: 16px;
   padding-top: 16px;
-  border-top: 1px solid rgba(245, 130, 32, .28);
+  border-top: 1px solid rgba(193, 18, 31, .28);
 }
 
 .rtbo-official-calendar-page {
@@ -13858,7 +14167,7 @@ button.hero-scroll-link {
   display: grid;
   gap: 14px;
   padding: 16px;
-  border: 1px solid rgba(245, 130, 32, .24);
+  border: 1px solid rgba(193, 18, 31, .24);
   border-radius: 16px;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, .045), rgba(255, 255, 255, .015)),
@@ -13950,7 +14259,7 @@ button.hero-scroll-link {
 
 .rtbo-calendar-day:hover,
 .rtbo-calendar-day:focus-visible {
-  border-color: rgba(245, 130, 32, .66);
+  border-color: rgba(193, 18, 31, .66);
   box-shadow: 0 12px 26px rgba(0, 0, 0, .22);
   transform: translateY(-1px);
 }
@@ -13963,8 +14272,8 @@ button.hero-scroll-link {
 }
 
 .rtbo-calendar-day.selected {
-  border-color: rgba(245, 130, 32, .9);
-  box-shadow: inset 0 0 0 1px rgba(245, 130, 32, .42), 0 0 22px rgba(245, 130, 32, .12);
+  border-color: rgba(193, 18, 31, .9);
+  box-shadow: inset 0 0 0 1px rgba(193, 18, 31, .42), 0 0 22px rgba(193, 18, 31, .12);
 }
 
 .rtbo-calendar-day.available {
@@ -13984,7 +14293,7 @@ button.hero-scroll-link {
 
 .rtbo-calendar-day.contact-required {
   border-color: rgba(250, 204, 21, .58);
-  background: linear-gradient(145deg, rgba(250, 204, 21, .16), rgba(245, 130, 32, .055));
+  background: linear-gradient(145deg, rgba(250, 204, 21, .16), rgba(193, 18, 31, .055));
 }
 
 .rtbo-calendar-day strong,
@@ -14138,14 +14447,14 @@ button.hero-scroll-link {
   width: min(720px, 100%);
   max-height: min(90vh, 860px);
   overflow-y: auto;
-  border: 1px solid rgba(245, 130, 32, .38);
+  border: 1px solid rgba(193, 18, 31, .38);
   border-radius: 18px;
   padding: clamp(22px, 4vw, 34px);
   background:
-    radial-gradient(circle at top right, rgba(245, 130, 32, .18), transparent 35%),
+    radial-gradient(circle at top right, rgba(193, 18, 31, .18), transparent 35%),
     linear-gradient(145deg, rgba(255, 255, 255, .09), rgba(255, 255, 255, .035)),
     #101010;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, .62), 0 0 30px rgba(245, 130, 32, .12);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .62), 0 0 30px rgba(193, 18, 31, .12);
 }
 
 .rtbo-availability-modal h3 {
@@ -14163,7 +14472,7 @@ button.hero-scroll-link {
 
 :root[data-theme="light"] .rtbo-availability-modal {
   background:
-    radial-gradient(circle at top right, rgba(245, 130, 32, .16), transparent 36%),
+    radial-gradient(circle at top right, rgba(193, 18, 31, .16), transparent 36%),
     linear-gradient(145deg, rgba(255, 255, 255, .96), rgba(245, 245, 245, .88));
   color: #111827;
 }
@@ -14180,7 +14489,7 @@ button.hero-scroll-link {
   display: grid;
   gap: 18px;
   background:
-    radial-gradient(circle at 88% 8%, rgba(245, 130, 32, .16), transparent 28%),
+    radial-gradient(circle at 88% 8%, rgba(193, 18, 31, .16), transparent 28%),
     linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .025)),
     #171717;
 }
@@ -14192,11 +14501,11 @@ button.hero-scroll-link {
 
 .rtbo-eval-score-card {
   min-width: 170px;
-  border: 1px solid rgba(245, 130, 32, .42);
+  border: 1px solid rgba(193, 18, 31, .42);
   border-radius: 16px;
   padding: 14px 18px;
   background:
-    linear-gradient(145deg, rgba(245, 130, 32, .15), rgba(255, 255, 255, .04)),
+    linear-gradient(145deg, rgba(193, 18, 31, .15), rgba(255, 255, 255, .04)),
     rgba(0, 0, 0, .35);
   text-align: center;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .05), 0 18px 40px rgba(0, 0, 0, .28);
@@ -14242,7 +14551,7 @@ button.hero-scroll-link {
 }
 
 .rtbo-eval-category {
-  border: 1px solid rgba(245, 130, 32, .34);
+  border: 1px solid rgba(193, 18, 31, .34);
   border-radius: 18px;
   padding: 16px;
   background:
@@ -14271,10 +14580,10 @@ button.hero-scroll-link {
   place-items: center;
   min-width: 58px;
   min-height: 42px;
-  border: 1px solid rgba(245, 130, 32, .5);
+  border: 1px solid rgba(193, 18, 31, .5);
   border-radius: 12px;
   color: #fff;
-  background: rgba(245, 130, 32, .14);
+  background: rgba(193, 18, 31, .14);
 }
 
 .rtbo-eval-score-list {
@@ -14325,11 +14634,11 @@ button.hero-scroll-link {
   grid-template-columns: minmax(220px, .8fr) minmax(0, 1.6fr);
   gap: 16px;
   align-items: stretch;
-  border: 1px solid rgba(245, 130, 32, .44);
+  border: 1px solid rgba(193, 18, 31, .44);
   border-radius: 18px;
   padding: 16px;
   background:
-    radial-gradient(circle at 12% 12%, rgba(245, 130, 32, .18), transparent 34%),
+    radial-gradient(circle at 12% 12%, rgba(193, 18, 31, .18), transparent 34%),
     rgba(0, 0, 0, .32);
 }
 
@@ -14359,7 +14668,7 @@ button.hero-scroll-link {
 .rtbo-eval-scale-grid b {
   display: block;
   margin-bottom: 4px;
-  color: #fb923c;
+  color: #a41623;
 }
 
 .rtbo-eval-actions {
@@ -14462,12 +14771,12 @@ button.hero-scroll-link {
 
 .rtbo-invoice-preview-column.is-print-preview .rtbo-invoice-preview-head {
   flex-direction: row;
-  color: #f58220;
+  color: #c1121f;
   background: #050505;
 }
 
 .rtbo-invoice-preview-column.is-print-preview .rtbo-invoice-preview-head h1 {
-  color: #f58220;
+  color: #c1121f;
 }
 
 .rtbo-invoice-preview-column.is-print-preview .rtbo-invoice-preview-meta {
@@ -14538,14 +14847,14 @@ button.hero-scroll-link {
     min-height: 1.18in;
     padding: 36px 44px 10px;
     border: 0;
-    color: #f58220 !important;
+    color: #c1121f !important;
     background: #050505 !important;
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
   }
 
   body.rtbo-printing-invoice .rtbo-invoice-preview-head h1 {
-    color: #f58220 !important;
+    color: #c1121f !important;
     font-size: 40px;
   }
 
@@ -14613,7 +14922,7 @@ button.hero-scroll-link {
 
   body.rtbo-printing-invoice .rtbo-invoice-table th {
     color: #000 !important;
-    background: #f58220 !important;
+    background: #c1121f !important;
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
   }
@@ -15000,7 +15309,7 @@ body.rtbo-printing-invoice .rtbo-invoice-footer span,
   color: #dbeafe !important;
   background:
     linear-gradient(145deg, rgba(255,255,255,.58), rgba(255,255,255,.08) 24%, rgba(0,0,0,.28) 78%, rgba(255,255,255,.2)),
-    linear-gradient(90deg, #050608, #1f2937 48%, #f97316) !important;
+    linear-gradient(90deg, #050608, #1f2937 48%, #c1121f) !important;
   box-shadow:
     inset 0 2px 0 rgba(255,255,255,.52),
     inset 0 -4px 10px rgba(0,0,0,.32),
@@ -15078,21 +15387,21 @@ html.light .theme-toggle {
 html.light .theme-toggle-track {
   padding: 0 38px 0 10px !important;
   border-color: rgba(238,242,247,.96) !important;
-  color: #ea580c !important;
+  color: #7f0d16 !important;
   background:
-    linear-gradient(145deg, rgba(255,255,255,.7), rgba(255,255,255,.08) 24%, rgba(249, 115, 22,.18) 78%, rgba(255,255,255,.22)),
-    linear-gradient(90deg, #f8fafc, #cbd5e1 52%, #f97316) !important;
+    linear-gradient(145deg, rgba(255,255,255,.7), rgba(255,255,255,.08) 24%, rgba(193, 18, 31,.18) 78%, rgba(255,255,255,.22)),
+    linear-gradient(90deg, #f8fafc, #cbd5e1 52%, #c1121f) !important;
 }
 
 :root[data-theme="light"] .theme-toggle-thumb,
 html.light .theme-toggle-thumb {
   background:
     radial-gradient(circle at 30% 24%, #fff 0 14%, #f8fafc 15% 30%, transparent 31%),
-    linear-gradient(145deg, #fff, #d7dce4 42%, #ea580c) !important;
+    linear-gradient(145deg, #fff, #d7dce4 42%, #7f0d16) !important;
   box-shadow:
     inset 0 2px 1px rgba(255,255,255,.92),
-    inset 0 -3px 5px rgba(249, 115, 22,.24),
-    0 4px 9px rgba(249, 115, 22,.26) !important;
+    inset 0 -3px 5px rgba(193, 18, 31,.24),
+    0 4px 9px rgba(193, 18, 31,.26) !important;
   transform: translate(68px, -50%) !important;
 }
 
@@ -15189,10 +15498,10 @@ html.light .rtbo-dashboard-sidebar {
   background-image: var(--rtbo-carbon-fiber) !important;
   background-size: var(--rtbo-carbon-fiber-size) !important;
   box-shadow:
-    inset -1px 0 0 rgba(249,115,22,.22),
+    inset -1px 0 0 rgba(193, 18, 31,.22),
     18px 0 42px rgba(0,0,0,.48) !important;
   scrollbar-width: thin;
-  scrollbar-color: rgba(249,115,22,.62) rgba(255,255,255,.08);
+  scrollbar-color: rgba(193, 18, 31,.62) rgba(255,255,255,.08);
 }
 
 .rtbo-dashboard-sidebar::before {
@@ -15295,18 +15604,18 @@ html.dark :is(.rtbo-dashboard-card, .rtbo-dashboard-topbar, .rtbo-dashboard-stat
 .rtbo-dashboard-sidebar button:hover,
 .rtbo-dashboard-sidebar button:focus-visible {
   color: #fff !important;
-  border-color: rgba(249,115,22,.32) !important;
-  background: rgba(249,115,22,.11) !important;
+  border-color: rgba(193, 18, 31,.32) !important;
+  background: rgba(193, 18, 31,.11) !important;
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.04) !important;
 }
 
 .rtbo-dashboard-sidebar button.active {
   color: #fff !important;
-  border-color: rgba(249,115,22,.72) !important;
+  border-color: rgba(193, 18, 31,.72) !important;
   background:
-    linear-gradient(90deg, #f97316 0%, #b84607 100%) !important;
+    linear-gradient(90deg, #c1121f 0%, #7f0d16 100%) !important;
   box-shadow:
-    0 12px 24px rgba(249,115,22,.18),
+    0 12px 24px rgba(193, 18, 31,.18),
     inset 0 1px 0 rgba(255,255,255,.18) !important;
 }
 
@@ -15318,8 +15627,8 @@ html.dark :is(.rtbo-dashboard-card, .rtbo-dashboard-topbar, .rtbo-dashboard-stat
   width: 3px;
   height: calc(100% - 20px);
   border-radius: 999px;
-  background: #f97316;
-  box-shadow: 0 0 14px rgba(249,115,22,.72);
+  background: #c1121f;
+  box-shadow: 0 0 14px rgba(193, 18, 31,.72);
 }
 
 .rtbo-dashboard-sidebar button.active .rtbo-sidebar-icon {
@@ -15331,7 +15640,7 @@ html.dark :is(.rtbo-dashboard-card, .rtbo-dashboard-topbar, .rtbo-dashboard-stat
   height: 20px !important;
   color: #fff !important;
   border-color: rgba(255,255,255,.28) !important;
-  background: #ea580c !important;
+  background: #7f0d16 !important;
 }
 
 .rtbo-sidebar-submenu {
@@ -15372,9 +15681,9 @@ html.dark :is(.rtbo-dashboard-card, .rtbo-dashboard-topbar, .rtbo-dashboard-stat
   width: 38px;
   height: 38px;
   place-items: center;
-  border: 2px solid #f97316;
+  border: 2px solid #c1121f;
   border-radius: 999px;
-  color: #f97316;
+  color: #c1121f;
   font-size: 1.2rem;
   font-weight: 1000;
 }
@@ -15400,9 +15709,9 @@ html.dark :is(.rtbo-dashboard-card, .rtbo-dashboard-topbar, .rtbo-dashboard-stat
   min-height: 38px !important;
   margin-top: 6px !important;
   color: #fff !important;
-  border-color: rgba(249,115,22,.9) !important;
-  background: linear-gradient(180deg, #f97316, #ea580c) !important;
-  box-shadow: 0 10px 18px rgba(249,115,22,.18) !important;
+  border-color: rgba(193, 18, 31,.9) !important;
+  background: linear-gradient(180deg, #c1121f, #7f0d16) !important;
+  box-shadow: 0 10px 18px rgba(193, 18, 31,.18) !important;
   text-align: center !important;
 }
 
@@ -15539,7 +15848,7 @@ body,
 
 :where(.rtbo-public, .rtbo-dashboard-main) input[type="file"] {
   min-height: 46px;
-  border: 1px solid rgba(249, 115, 22, .42);
+  border: 1px solid rgba(193, 18, 31, .42);
   border-radius: 8px;
   padding: 6px;
   color: #e5e7eb;
@@ -15552,12 +15861,12 @@ body,
 :where(.rtbo-public, .rtbo-dashboard-main) input[type="file"]::file-selector-button {
   min-height: 34px;
   margin-right: 12px;
-  border: 1px solid rgba(249, 115, 22, .72);
+  border: 1px solid rgba(193, 18, 31, .72);
   border-radius: 8px;
   padding: 0 14px;
   color: #ffffff;
-  background: linear-gradient(180deg, #f97316, #ea580c);
-  box-shadow: 0 8px 18px rgba(249, 115, 22, .22);
+  background: linear-gradient(180deg, #c1121f, #7f0d16);
+  box-shadow: 0 8px 18px rgba(193, 18, 31, .22);
   font: inherit;
   font-size: .72rem;
   font-weight: 1000;
@@ -15567,21 +15876,21 @@ body,
 }
 
 :where(.rtbo-public, .rtbo-dashboard-main) input[type="file"]:hover::file-selector-button {
-  background: linear-gradient(180deg, #fb923c, #f97316);
-  box-shadow: 0 10px 22px rgba(249, 115, 22, .28);
+  background: linear-gradient(180deg, #a41623, #c1121f);
+  box-shadow: 0 10px 22px rgba(193, 18, 31, .28);
   transform: translateY(-1px);
 }
 
 :root[data-theme="light"] :where(.rtbo-public, .rtbo-dashboard-main) input[type="file"] {
   color: #111827;
-  border-color: rgba(249, 115, 22, .34);
+  border-color: rgba(193, 18, 31, .34);
   background: #f8fafc;
 }
 
 .rtbo-summary-card,
 :where(.rtbo-public, .rtbo-dashboard-main) :is(.summary-card, [class*="summary-card"]) {
   min-width: 0;
-  border: 1px solid rgba(249, 115, 22, .3);
+  border: 1px solid rgba(193, 18, 31, .3);
   border-radius: 8px;
   padding: clamp(12px, 1.8vw, 18px);
   background:
@@ -15791,5 +16100,271 @@ html.light .rtbo-public .page-hero {
 
   .rtbo-public .page-hero h1 {
     font-size: clamp(2rem, 10vw, 3.05rem) !important;
+  }
+}
+
+/* Mandatory scarlet palette and burnt-orange action layer. */
+:where(.rtbo-public, .rtbo-dashboard-main, .app-shell) :is(.btn:not(.secondary):not(.danger), button.btn:not(.secondary):not(.danger), a.btn:not(.secondary):not(.danger)),
+:where(.rtbo-public, .rtbo-dashboard-main, .app-shell) input[type="file"]::file-selector-button {
+  border-color: rgba(169, 71, 24, .68) !important;
+  color: #ffffff !important;
+  background:
+    linear-gradient(180deg, rgba(169, 71, 24, .96), rgba(116, 51, 19, .94)),
+    var(--rtbo-button-bg) !important;
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, .18),
+    inset 0 1px 0 rgba(255, 255, 255, .16) !important;
+}
+
+:where(.rtbo-public, .rtbo-dashboard-main, .app-shell) :is(.btn:not(.secondary):not(.danger), button.btn:not(.secondary):not(.danger), a.btn:not(.secondary):not(.danger)):is(:hover, :focus-visible),
+:where(.rtbo-public, .rtbo-dashboard-main, .app-shell) input[type="file"]:hover::file-selector-button {
+  border-color: rgba(169, 71, 24, .78) !important;
+  background:
+    linear-gradient(180deg, rgba(179, 82, 33, .98), rgba(116, 51, 19, .96)),
+    var(--rtbo-button-bg-hover) !important;
+  box-shadow:
+    0 12px 26px rgba(0, 0, 0, .22),
+    inset 0 1px 0 rgba(255, 255, 255, .18) !important;
+}
+
+:where(.rtbo-public, .rtbo-dashboard-main) :is(input, select, textarea):focus {
+  border-color: rgba(193, 18, 31, .72) !important;
+  outline-color: rgba(193, 18, 31, .16) !important;
+}
+
+/* Design audit layer: premium scarlet, gold, and chrome-inspired footer system. */
+.site-footer.original-footer {
+  border-top: 1px solid rgba(212, 175, 55, .35) !important;
+  padding: clamp(42px, 5vw, 78px) clamp(20px, 5vw, 72px) 30px !important;
+  color: #f8fafc;
+  background-color: #050608 !important;
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, .045), transparent 16%),
+    radial-gradient(circle at 8% 0%, rgba(193, 18, 31, .24), transparent 26%),
+    radial-gradient(circle at 84% 18%, rgba(212, 175, 55, .14), transparent 24%),
+    linear-gradient(135deg, #0d1016 0%, #050608 58%, #030405 100%) !important;
+}
+
+.site-footer.original-footer::before {
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(193, 18, 31, .88), rgba(212, 175, 55, .84), rgba(193, 18, 31, .88), transparent);
+}
+
+.site-footer.original-footer .footer-inner {
+  width: min(100%, var(--rtbo-site-max-width, 1920px)) !important;
+  max-width: var(--rtbo-site-max-width, 1920px) !important;
+  gap: clamp(22px, 3vw, 34px) !important;
+  border: 1px solid rgba(255, 255, 255, .12) !important;
+  border-radius: 18px !important;
+  padding: clamp(22px, 3vw, 38px) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .072), rgba(255, 255, 255, .02)),
+    rgba(8, 10, 14, .88) !important;
+  box-shadow:
+    0 28px 90px rgba(0, 0, 0, .42),
+    inset 0 1px 0 rgba(255, 255, 255, .09) !important;
+}
+
+.site-footer.original-footer .footer-main-grid {
+  display: grid !important;
+  grid-template-columns: minmax(250px, .85fr) minmax(0, 1.65fr) minmax(260px, .85fr) !important;
+  gap: clamp(24px, 4vw, 64px) !important;
+  align-items: start !important;
+}
+
+.site-footer.original-footer .footer-brand-panel,
+.site-footer.original-footer .footer-nav-panel,
+.site-footer.original-footer .footer-events-panel {
+  min-width: 0;
+}
+
+.site-footer.original-footer .footer-brand-panel {
+  align-content: start;
+  gap: 12px !important;
+  padding-right: clamp(12px, 2vw, 28px);
+  border-right: 1px solid rgba(212, 175, 55, .22);
+}
+
+.site-footer.original-footer .footer-logo {
+  width: min(150px, 44vw);
+}
+
+.site-footer.original-footer .footer-eyebrow {
+  margin: 0;
+  color: var(--rtbo-gold, #d4af37);
+  font-size: .78rem;
+  font-weight: 1000;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.site-footer.original-footer .footer-desc {
+  max-width: 340px;
+  color: #f8fafc;
+  font-size: clamp(1rem, 1.05vw, 1.12rem);
+  line-height: 1.55;
+}
+
+.site-footer.original-footer .footer-title {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+  color: #fff;
+  font-size: .84rem;
+  font-weight: 1000;
+  letter-spacing: .14em;
+}
+
+.site-footer.original-footer .footer-title::before {
+  width: 7px;
+  height: 24px;
+  background: linear-gradient(180deg, var(--rtbo-scarlet, #c1121f), var(--rtbo-gold, #d4af37));
+  box-shadow: 0 0 20px rgba(212, 175, 55, .25);
+}
+
+.site-footer.original-footer .footer-links {
+  display: grid !important;
+  grid-auto-flow: row !important;
+  grid-auto-columns: auto !important;
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr)) !important;
+  grid-template-rows: none !important;
+  gap: 10px 14px !important;
+  width: 100%;
+}
+
+.site-footer.original-footer .footer-link {
+  min-height: 38px;
+  justify-content: flex-start;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 999px;
+  padding: 8px 13px;
+  color: #e5e7eb;
+  background: rgba(255, 255, 255, .035);
+  font-size: .92rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.site-footer.original-footer .footer-link:hover,
+.site-footer.original-footer .footer-link:focus-visible {
+  border-color: rgba(212, 175, 55, .5);
+  color: #fff;
+  background: linear-gradient(135deg, rgba(193, 18, 31, .2), rgba(212, 175, 55, .11));
+  transform: translateY(-1px);
+}
+
+.site-footer.original-footer .footer-timings {
+  gap: 10px !important;
+}
+
+.site-footer.original-footer .footer-timing {
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-left: 3px solid var(--rtbo-gold, #d4af37);
+  border-radius: 12px;
+  padding: 11px 13px;
+  color: #d1d5db;
+  background: rgba(255, 255, 255, .035);
+}
+
+.site-footer.original-footer .footer-timing span {
+  color: #fff;
+  font-size: .78rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.site-footer.original-footer .footer-bottom {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid rgba(212, 175, 55, .2) !important;
+}
+
+.site-footer.original-footer .scroll-up {
+  border-color: rgba(212, 175, 55, .28);
+  color: #f8fafc;
+  background: rgba(255, 255, 255, .04);
+}
+
+.site-footer.original-footer .scroll-up-icon {
+  color: #050608 !important;
+  background: linear-gradient(180deg, #f3d675, var(--rtbo-gold, #d4af37));
+  box-shadow: 0 10px 24px rgba(212, 175, 55, .2);
+}
+
+:root[data-theme="light"] .site-footer.original-footer {
+  background-color: #f8fafc !important;
+  background-image:
+    radial-gradient(circle at 8% 0%, rgba(193, 18, 31, .1), transparent 26%),
+    radial-gradient(circle at 84% 18%, rgba(212, 175, 55, .16), transparent 24%),
+    linear-gradient(180deg, #fff 0%, #f6f7fb 100%) !important;
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-inner {
+  border-color: rgba(15, 23, 42, .1) !important;
+  background: rgba(255, 255, 255, .9) !important;
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-brand-panel {
+  border-right-color: rgba(193, 18, 31, .16);
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-desc,
+:root[data-theme="light"] .site-footer.original-footer .footer-copy,
+:root[data-theme="light"] .site-footer.original-footer .footer-link,
+:root[data-theme="light"] .site-footer.original-footer .footer-timing {
+  color: #334155 !important;
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-title,
+:root[data-theme="light"] .site-footer.original-footer .footer-timing span,
+:root[data-theme="light"] .site-footer.original-footer .footer-copy span {
+  color: #111827 !important;
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-link,
+:root[data-theme="light"] .site-footer.original-footer .footer-timing,
+:root[data-theme="light"] .site-footer.original-footer .scroll-up {
+  border-color: rgba(15, 23, 42, .11);
+  background: rgba(255, 255, 255, .74);
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-link:hover,
+:root[data-theme="light"] .site-footer.original-footer .footer-link:focus-visible {
+  border-color: rgba(193, 18, 31, .36);
+  background: linear-gradient(135deg, rgba(193, 18, 31, .08), rgba(212, 175, 55, .14));
+}
+
+@media (max-width: 980px) {
+  .rtbo-public .services-client-carousel.hero-carousel {
+    --slide-gap: clamp(16px, 5vw, 34px);
+    --slide-width: clamp(280px, 84vw, 560px);
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .site-footer.original-footer .footer-main-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .site-footer.original-footer .footer-brand-panel {
+    border-right: 0;
+    border-bottom: 1px solid rgba(212, 175, 55, .22);
+    padding-right: 0;
+    padding-bottom: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-footer.original-footer .footer-links {
+    grid-template-columns: 1fr !important;
+  }
+
+  .site-footer.original-footer .footer-bottom {
+    grid-template-columns: 1fr;
+    justify-items: start;
   }
 }
