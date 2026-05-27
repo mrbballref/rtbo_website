@@ -7,6 +7,7 @@ export const siteContentPages = [
   ['events', 'Schools & Events'],
   ['livestream', 'Live Stream'],
   ['services', 'Services'],
+  ['resume', 'Resume'],
   ['trainers', 'Training'],
   ['guests', 'Guests'],
   ['reviews', 'Reviews'],

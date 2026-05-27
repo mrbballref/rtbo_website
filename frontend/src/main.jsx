@@ -44,6 +44,8 @@ const ShopStore = React.lazy(() => import('./ShopStore.jsx'));
 const ShopInventoryManager = React.lazy(() => import('./ShopInventoryManager.jsx'));
 const SiteContentManager = React.lazy(() => import('./SiteContentManager.jsx'));
 const ManagedSiteContent = React.lazy(() => import('./ManagedSiteContent.jsx'));
+const RTBOResumePage = React.lazy(() => import('./RTBOResumePage.jsx'));
+const ResumeManager = React.lazy(() => import('./ResumeManager.jsx'));
 const StateSelect = React.lazy(() => import('./StateSelect.jsx'));
 const CountrySelect = React.lazy(() => import('./CountrySelect.jsx'));
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
@@ -614,10 +616,13 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
   const [open, setOpen] = useState(false);
   const [trainingOpen, setTrainingOpen] = useState(false);
   const [liveStreamOpen, setLiveStreamOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
   const liveStreamNavLinks = navLinks.filter(([id]) => id === 'livestream' || id === 'refroom');
+  const servicesNavLinks = navLinks.filter(([id]) => id === 'services' || id === 'resume');
   const trainingNavLinks = navLinks.filter(([id]) => id === 'trainers' || id === 'education');
-  const primaryNavLinks = navLinks.filter(([id]) => id !== 'refroom' && id !== 'education');
+  const primaryNavLinks = navLinks.filter(([id]) => id !== 'refroom' && id !== 'education' && id !== 'resume');
   const liveStreamActive = liveStreamNavLinks.some(([id]) => id === active);
+  const servicesActive = servicesNavLinks.some(([id]) => id === active);
   const trainingActive = trainingNavLinks.some(([id]) => id === active);
 
   function openNavPage(id) {
@@ -625,6 +630,7 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
     setOpen(false);
     setTrainingOpen(false);
     setLiveStreamOpen(false);
+    setServicesOpen(false);
   }
 
   return (
@@ -649,13 +655,14 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
           if (current) {
             setTrainingOpen(false);
             setLiveStreamOpen(false);
+            setServicesOpen(false);
           }
           return !current;
         })}
       >
         <span className="nav-menu-icon" aria-hidden="true"></span><span>Menu</span>
       </button>
-      <button className={`nav-flyout-scrim ${open ? 'is-open' : ''}`} type="button" aria-label="Close navigation menu" onClick={() => { setOpen(false); setTrainingOpen(false); setLiveStreamOpen(false); }}></button>
+      <button className={`nav-flyout-scrim ${open ? 'is-open' : ''}`} type="button" aria-label="Close navigation menu" onClick={() => { setOpen(false); setTrainingOpen(false); setLiveStreamOpen(false); setServicesOpen(false); }}></button>
       <nav className={`site-nav ${open ? 'is-open' : ''}`}>
         <div className="nav-link-group">
           {primaryNavLinks.map(([id, label]) => id === 'livestream' ? (
@@ -668,12 +675,34 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
                 onClick={() => {
                   setLiveStreamOpen(current => !current);
                   setTrainingOpen(false);
+                  setServicesOpen(false);
                 }}
               >
                 {label}<span className="nav-dropdown-caret" aria-hidden="true"></span>
               </button>
               <div className="nav-dropdown-menu" aria-label="Live stream navigation">
                 {liveStreamNavLinks.map(([childId, childLabel]) => (
+                  <button className={active === childId ? 'active' : ''} key={childId} type="button" onClick={() => openNavPage(childId)}>{childLabel}</button>
+                ))}
+              </div>
+            </div>
+          ) : id === 'services' ? (
+            <div className={`nav-dropdown ${servicesOpen ? 'is-open' : ''}`} key={id}>
+              <button
+                className={`nav-dropdown-trigger ${servicesActive ? 'active' : ''}`}
+                type="button"
+                aria-expanded={servicesOpen}
+                aria-haspopup="true"
+                onClick={() => {
+                  setServicesOpen(current => !current);
+                  setLiveStreamOpen(false);
+                  setTrainingOpen(false);
+                }}
+              >
+                {label}<span className="nav-dropdown-caret" aria-hidden="true"></span>
+              </button>
+              <div className="nav-dropdown-menu" aria-label="Services navigation">
+                {servicesNavLinks.map(([childId, childLabel]) => (
                   <button className={active === childId ? 'active' : ''} key={childId} type="button" onClick={() => openNavPage(childId)}>{childLabel}</button>
                 ))}
               </div>
@@ -688,6 +717,7 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
                 onClick={() => {
                   setTrainingOpen(current => !current);
                   setLiveStreamOpen(false);
+                  setServicesOpen(false);
                 }}
               >
                 {label}<span className="nav-dropdown-caret" aria-hidden="true"></span>
@@ -702,8 +732,8 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
         </div>
         <div className="nav-action-group">
           <button className="btn secondary dark-btn nav-chrome-btn" type="button" onClick={() => openNavPage('contact')}>Let's Talk</button>
-          <button className="btn nav-chrome-btn" type="button" onClick={() => { onOpenRegister(); setOpen(false); setTrainingOpen(false); setLiveStreamOpen(false); }}>Register</button>
-          <button className="btn secondary dark-btn" type="button" onClick={() => { authUser ? onOpenDashboard() : onOpenLogin(); setOpen(false); setTrainingOpen(false); setLiveStreamOpen(false); }}>{authUser ? 'Dashboard' : 'Sign In'}</button>
+          <button className="btn nav-chrome-btn" type="button" onClick={() => { onOpenRegister(); setOpen(false); setTrainingOpen(false); setLiveStreamOpen(false); setServicesOpen(false); }}>Register</button>
+          <button className="btn secondary dark-btn" type="button" onClick={() => { authUser ? onOpenDashboard() : onOpenLogin(); setOpen(false); setTrainingOpen(false); setLiveStreamOpen(false); setServicesOpen(false); }}>{authUser ? 'Dashboard' : 'Sign In'}</button>
           <ThemeToggle className="nav-theme-toggle" />
         </div>
       </nav>
@@ -6280,7 +6310,9 @@ const educationSubSections = [
 
 const formsSubSections = [
   { id: 'evaluationForm', label: 'Evaluation Form', title: 'Evaluation Form', source: 'forms' },
-  { id: 'contractGenerator', label: 'Contract Generator', title: 'Contract Generator', source: 'forms' }
+  { id: 'contractGenerator', label: 'Contract Generator', title: 'Contract Generator', source: 'forms' },
+  { id: 'celebrityFundraisingContract', label: 'Celebrity / Fundraising Contract', title: 'Celebrity Game, Fundraising & Sponsorship Contract', source: 'forms' },
+  { id: 'resumeManager', label: 'Resume Builder', title: 'Resume Builder', source: 'forms' }
 ];
 
 const officialFormsSubSections = [
@@ -10568,7 +10600,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   });
   const [hiddenFormsItems, setHiddenFormsItems] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem('rtbo-hidden-forms-menu-items') || '[]');
+      return JSON.parse(localStorage.getItem('rtbo-hidden-forms-menu-items') || '[]').filter(item => item !== 'resumeManager');
     } catch {
       return [];
     }
@@ -13342,9 +13374,12 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
                 ))}
               </div>
             )}
-            {id === 'reports' && (formsMenuOpen || !canUseAdminDashboard) && activeFormsSubSections.length > 0 && (
+            {id === 'reports' && (formsMenuOpen || !canUseAdminDashboard || allFormsSubSections.some(item => item.id === activeSection)) && (activeFormsSubSections.length > 0 || allFormsSubSections.some(item => item.id === activeSection)) && (
               <div className="rtbo-sidebar-submenu open" aria-label="Forms submenu">
-                {activeFormsSubSections.map(item => (
+                {uniqueFormSubSections([
+                  ...activeFormsSubSections,
+                  ...allFormsSubSections.filter(item => item.id === activeSection)
+                ]).map(item => (
                   <button
                     className={activeSection === item.id ? 'active' : ''}
                     type="button"
@@ -13666,6 +13701,24 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         {canUseAdminDashboard && activeSection === 'contractGenerator' && (
           <React.Suspense fallback={<section className="rtbo-dashboard-card rtbo-focused-page-card"><p className="rtbo-empty-state">Loading contract generator...</p></section>}>
             <RTBOBasketballAssigningContractGenerator user={user} onStatus={setStatus} />
+          </React.Suspense>
+        )}
+
+        {canUseAdminDashboard && activeSection === 'celebrityFundraisingContract' && (
+          <React.Suspense fallback={<section className="rtbo-dashboard-card rtbo-focused-page-card"><p className="rtbo-empty-state">Loading celebrity game contract...</p></section>}>
+            <RTBOBasketballAssigningContractGenerator
+              key="celebrity-fundraising-sponsorship-contract"
+              user={user}
+              onStatus={setStatus}
+              initialTemplateId="celebrity-fundraising-sponsorship"
+              initialView="editor"
+            />
+          </React.Suspense>
+        )}
+
+        {canUseAdminDashboard && activeSection === 'resumeManager' && (
+          <React.Suspense fallback={<section className="rtbo-dashboard-card rtbo-focused-page-card"><p className="rtbo-empty-state">Loading resume manager...</p></section>}>
+            <ResumeManager onStatus={setStatus} />
           </React.Suspense>
         )}
 
@@ -14280,6 +14333,17 @@ function App() {
       );
     }
     if (active === 'services') return <><PageHero page="services" eyebrow="Services" title="Complete Officiating Solutions">Event assigning, development, mentorship, evaluations, and leadership standards for the game.</PageHero><Services />{managedSections('services')}</>;
+    if (active === 'resume') {
+      return (
+        <>
+          <PageHero page="resume" eyebrow="Services / Resume" title="RTBO Digital Resume">A professional basketball officiating profile for event staffing, tournament coverage, assigning support, and service partnerships.</PageHero>
+          <React.Suspense fallback={<section className="rtbo-section"><p className="rtbo-empty-state">Loading RTBO resume...</p></section>}>
+            <RTBOResumePage />
+          </React.Suspense>
+          {managedSections('resume')}
+        </>
+      );
+    }
     if (active === 'education') {
       const educationCourseId = educationCourseIdFromRoute(currentRoute);
       const accessibleCourseIds = Array.isArray(refZoneAccess.courseIds) ? refZoneAccess.courseIds : [];

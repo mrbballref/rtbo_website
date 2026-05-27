@@ -5,6 +5,7 @@ export const navItems = [
   ['livestream', 'Live Stream'],
   ['refroom', 'RefRoom'],
   ['services', 'Services'],
+  ['resume', 'Resume'],
   ['education', 'RefZone University'],
   ['trainers', 'Training'],
   ['guests', 'Guests'],
@@ -145,6 +146,10 @@ export const seoMeta = {
   services: [
     'Basketball Referee Assigning & Official Development Services | RTBO',
     'RTBO provides event assigning, official development, evaluation, technology-driven tools, and leadership standards for basketball officials and organizations.'
+  ],
+  resume: [
+    'Raising The Bar Officiating Resume | Basketball Event Coverage Profile',
+    'View and download the Raising The Bar Officiating digital resume for basketball tournament coverage, event assigning, officiating services, and professional references.'
   ],
   education: [
     'RefZone University | RTBO Online Basketball Officiating Courses',

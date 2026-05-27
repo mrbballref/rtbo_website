@@ -5,6 +5,7 @@ const STORAGE_KEY = 'rtbo-basketball-assigning-contracts';
 const LOGO_SRC = '/assets/images/logo.png';
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
 const CONTRACT_BCC_EMAIL = 'mrbballref1775@yahoo.com';
+const CELEBRITY_FUNDRAISING_TEMPLATE_ID = 'celebrity-fundraising-sponsorship';
 
 const stateOptions = [
   ['', 'Select state'],
@@ -25,19 +26,22 @@ const categories = [
   'Community Center', 'Boys & Girls Club', 'Recreation League', 'Event Center', 'Showcase Tournament',
   'Travel Basketball Tournament', 'AAU / Grassroots Event', 'Nike Event', 'Adidas Event', 'Under Armor Event',
   'New Balance Event', 'Reebok Event', 'Private Sporting Event', 'League Contract', 'School / Clinic',
-  'One-Day Event', 'Multi-Day Event', 'Conference Assigning', 'Independent Contractor Agreement', 'Other Sporting Event'
+  'One-Day Event', 'Multi-Day Event', 'Conference Assigning', 'Celebrity Game / Fundraising / Sponsorship',
+  'Independent Contractor Agreement', 'Other Sporting Event'
 ];
 
 const organizationTypes = [
   'School District', 'High School', 'College / University', 'Athletic Conference', 'Tournament Company',
   'Event Center', 'Community Center', 'Boys & Girls Club', 'Shoe Company / Brand Event',
-  'Recreation Department', 'Private Organization', 'Nonprofit Organization', 'Official / Contractor', 'Other'
+  'Recreation Department', 'Private Organization', 'Nonprofit Organization', 'Charity / Fundraising Organization',
+  'Celebrity Game Organizer', 'Sponsor / Donor Organization', 'Official / Contractor', 'Other'
 ];
 
 const eventTypes = [
   'Regular Season Games', 'Tournament', 'Showcase', 'Camp', 'League Play', 'Playoffs', 'Championship Event',
   'Scrimmage', 'Jamboree', 'All-Star Event', 'Brand-Sponsored Event', 'Classic', 'Conference Tournament',
-  'Community Event', 'Other Sporting Event', 'Other'
+  'Community Event', 'Celebrity Basketball Game', 'Fundraising Basketball Event', 'Sponsorship Activation',
+  'Charity Basketball Event', 'Other Sporting Event', 'Other'
 ];
 
 const ruleSets = [
@@ -61,6 +65,7 @@ const templates = [
   ['community-center', 'Community Center Contract', 'Community Center', 'Community Center', 'Community Event', 'House Rules', 'Youth / Grassroots', 'Community center, recreation, and youth basketball assigning agreement.'],
   ['boys-girls-club', 'Boys & Girls Club Contract', 'Boys & Girls Club', 'Boys & Girls Club', 'League Play', 'House Rules', 'Youth / Grassroots', 'Youth development, recreation league, and club basketball assigning agreement.'],
   ['tournament', 'Tournament Contract', 'Showcase Tournament', 'Tournament Company', 'Tournament', 'Tournament-Specific Rules', 'Mixed Levels', 'Single-site or multi-site tournament assigning agreement.'],
+  [CELEBRITY_FUNDRAISING_TEMPLATE_ID, 'Celebrity Game / Fundraising / Sponsorship Contract', 'Celebrity Game / Fundraising / Sponsorship', 'Charity / Fundraising Organization', 'Celebrity Basketball Game', 'Modified Rules', 'Celebrity / Fundraising / Sponsor Activation', 'Celebrity basketball game, fundraiser, sponsor activation, media, donation, and event coverage agreement.'],
   ['nike-showcase', 'Nike Basketball Contract', 'Nike Event', 'Shoe Company / Brand Event', 'Brand-Sponsored Event', 'Tournament-Specific Rules', 'Elite Showcase', 'Nike, EYBL-style, showcase, media, and elite event assigning agreement.'],
   ['adidas-showcase', 'Adidas Basketball Contract', 'Adidas Event', 'Shoe Company / Brand Event', 'Brand-Sponsored Event', 'Tournament-Specific Rules', 'Elite Showcase', 'Adidas, 3SSB-style, showcase, media, and elite event assigning agreement.'],
   ['under-armor-showcase', 'Under Armor Basketball Contract', 'Under Armor Event', 'Shoe Company / Brand Event', 'Brand-Sponsored Event', 'Tournament-Specific Rules', 'Elite Showcase', 'Under Armor / Under Armour-style showcase, media, and elite event assigning agreement.'],
@@ -79,7 +84,8 @@ const brandNames = {
   'under-armor-showcase': 'Under Armor',
   'new-balance-showcase': 'New Balance',
   'reebok-showcase': 'Reebok',
-  'brand-showcase': 'Brand / Sponsor'
+  'brand-showcase': 'Brand / Sponsor',
+  [CELEBRITY_FUNDRAISING_TEMPLATE_ID]: 'Celebrity / Sponsor / Fundraising Partner'
 };
 
 const defaultExecutiveSummary = 'Raising The Bar Officiating Inc. will provide organized, dependable, transparent basketball officials assigning services built on communication, training, evaluation, accountability, and service to the game. This agreement establishes the operational structure for assignments, schedules, confirmations, game coverage, evaluations, payment expectations, safety standards, and professional communication between RTBO and the Client.';
@@ -112,11 +118,35 @@ const independentContractorExpectations = 'The Contractor shall perform accepted
 
 const independentContractorClosingStatement = 'By signing this Agreement, the Organization and Contractor acknowledge that they have reviewed the agreement, understand the independent contractor relationship, and agree to follow the professional standards required for RTBO basketball officiating services.';
 
+const celebrityFundraisingExecutiveSummary = 'Raising The Bar Officiating Inc. will provide professional basketball officials assigning services for a celebrity game, fundraising event, charity basketball event, or sponsorship activation. This agreement documents event coverage, official staffing, sponsor and media requirements, donation and ticketing responsibilities, celebrity participant expectations, safety standards, payment expectations, and professional communication between RTBO and the Client.';
+
+const celebrityFundraisingAssigningCriteria = 'Assignments may be based on official availability, experience with special events, professionalism, media readiness, celebrity game environment, crowd size, sponsor requirements, conflict avoidance, location, travel needs, security expectations, schedule reliability, and RTBO discretion.';
+
+const celebrityFundraisingTechnologyPlatform = 'RTBO may use its website, assignment platform, email, text messaging, phone communication, event briefings, production notes, sponsor requirement sheets, digital signature tools, payment records, invoices, reports, and media coordination notes to manage the celebrity game, fundraiser, sponsor activation, officials, event contacts, schedules, confirmations, and post-event review.';
+
+const celebrityFundraisingAssignorDuties = 'RTBO will coordinate officials assignments, communicate event-specific instructions to officials, review schedule and venue details, support sponsor or media requirements that directly affect officiating, communicate with event leadership, coordinate emergency replacements when possible, and use commercially reasonable efforts to provide qualified officials for the covered celebrity game, fundraiser, or sponsorship event.';
+
+const celebrityFundraisingOfficialExpectations = 'Officials are expected to arrive prepared and on time, wear the approved uniform unless a special event uniform is approved, communicate professionally with celebrity participants, coaches, sponsors, media personnel, administrators, and event leadership, enforce the selected rule set or house rules, protect game flow and participant safety, and represent RTBO with discretion, professionalism, consistency, and service.';
+
+const celebrityFundraisingAdministrationExpectations = 'Client will provide accurate event schedules, celebrity participant expectations, sponsor requirements, venue details, credential rules, admission or ticketing plans, beneficiary information, media and livestream requirements, dressing areas when available, security or escort plans when needed, safe working conditions, timely schedule changes, and timely payment according to the approved fee schedule.';
+
+const celebrityFundraisingCoachExpectations = 'Celebrity game coaches, team captains, event hosts, sponsors, and event leadership should communicate respectfully with officials, follow the agreed sportsmanship and bench decorum expectations, avoid public criticism of officials, follow the agreed concern process, and prioritize participant safety, charity purpose, sponsor obligations, and positive event presentation.';
+
+const celebrityFundraisingTrainingModel = 'RTBO may provide pre-event official briefing notes, event rules review, house rules review, sportsmanship expectations, sponsor or media requirements that affect officials, film or livestream review when available, and post-event feedback to improve future celebrity games, fundraising events, and sponsor activations.';
+
+const celebrityFundraisingComplaintProcess = 'Concerns should be submitted through the agreed event contact or RTBO representative and supported by film, livestream clips, reports, or written detail when available. RTBO may review the issue, request additional context, communicate with event leadership, and provide appropriate feedback while protecting the fundraising purpose, sponsor relationships, participant safety, and official professionalism.';
+
+const celebrityFundraisingTimeline = 'Pre-Event: confirm event date, venue, beneficiary or cause, sponsor requirements, celebrity participant expectations, rules, security plan, media plan, and payment terms.\nEvent Week: finalize schedule, officials, site contacts, uniforms, credentials, arrival time, and emergency communication plan.\nEvent Day: officials arrive, meet with event leadership, confirm rules and safety expectations, and provide game coverage.\nPost-Event: complete invoices, reports, film review if available, sponsor or event recap notes, and any follow-up items.';
+
+const celebrityFundraisingClosingStatement = 'This agreement is submitted to support a professional celebrity game, fundraising event, or sponsorship activation that protects the event mission, participating celebrities and athletes, sponsors, beneficiaries, spectators, officials, administrators, and the game of basketball.';
+
+const celebrityFundraisingSpecialTerms = 'Client is solely responsible for fundraising compliance, donation collection, charitable solicitation rules, sponsor inventory, ticket sales, admissions, tax receipts, prize or auction approvals, celebrity appearance agreements, celebrity travel or hospitality, sponsorship fulfillment, and public statements unless a separate written agreement states otherwise. RTBO is responsible only for the officiating assigning services and related officiating support described in this agreement.';
+
 const fields = {
   'Contract Details': [
     ['Contract Category', 'contractCategory', 'select', categories], ['Agreement Number', 'agreementNumber'],
     ['Date Prepared', 'datePrepared', 'date'], ['Effective Date', 'effectiveDate', 'date'], ['Expiration Date', 'expirationDate', 'date'],
-    ['Proposal / Agreement Type', 'proposalType', 'select', ['Basketball Officials Assigning Services', 'Conference Basketball Officials Assigning Services', 'Tournament Basketball Officials Assigning Services', 'Brand / Showcase Basketball Officials Assigning Services', 'Independent Contractor Basketball Officiating Agreement', 'Other Sporting Event Officials Assigning Services']],
+    ['Proposal / Agreement Type', 'proposalType', 'select', ['Basketball Officials Assigning Services', 'Conference Basketball Officials Assigning Services', 'Tournament Basketball Officials Assigning Services', 'Brand / Showcase Basketball Officials Assigning Services', 'Celebrity Game, Fundraising, and Sponsorship Basketball Officials Assigning Services', 'Independent Contractor Basketball Officiating Agreement', 'Other Sporting Event Officials Assigning Services']],
     ['Recommended Service Cycle', 'serviceCycleLength', 'select', ['Single Event', 'Seasonal Agreement', 'Two-Year Cycle', 'Three-Year Cycle', 'Minimum Four-Year Cycle', 'Event-by-Event']],
     ['Renewal Option', 'renewalOption', 'select', ['No Renewal', 'Automatic Renewal', 'Renewal by Written Agreement', 'Seasonal Renewal', 'Event-by-Event Renewal']],
     ['Contract Status', 'contractStatus', 'select', ['Draft', 'Pending Review', 'Sent for Signature', 'Client Signed', 'Fully Executed', 'Signed', 'Active', 'Expired', 'Terminated']],
@@ -157,7 +187,7 @@ const fields = {
     ['Travel Fee', 'travelFee', 'number'], ['Mileage Rate', 'mileageRate', 'number'], ['Hotel Reimbursement Policy', 'hotelPolicy'],
     ['Meal Per Diem', 'mealPerDiem', 'number'], ['Late Schedule Change Fee', 'lateScheduleFee', 'number'],
     ['Cancellation Fee', 'cancellationFee', 'number'], ['Emergency Replacement Fee', 'replacementFee', 'number'],
-    ['Administrative Processing Fee', 'adminFee', 'number'], ['Payment Made By', 'paymentMadeBy', 'select', ['School', 'District', 'College', 'Organization', 'Tournament Director', 'Event Sponsor', 'Brand Sponsor', 'League Office', 'Athletic Department', 'Raising The Bar Officiating Inc.', 'Other']],
+    ['Administrative Processing Fee', 'adminFee', 'number'], ['Payment Made By', 'paymentMadeBy', 'select', ['School', 'District', 'College', 'Organization', 'Tournament Director', 'Fundraising Host', 'Charity Event Organizer', 'Event Sponsor', 'Brand Sponsor', 'Sponsorship Partner', 'Title Sponsor', 'League Office', 'Athletic Department', 'Raising The Bar Officiating Inc.', 'Other']],
     ['Payment Made To', 'paymentMadeTo', 'select', ['Raising The Bar Officiating Inc.', 'Officials Directly', 'Contractor / Official', 'Combination of RTBO and Officials', 'Other']],
     ['Payment Due Date', 'paymentDueDate', 'date'], ['Late Fee Amount', 'lateFeeAmount', 'number'], ['Late Fee Begins After Days', 'lateFeeAfterDays', 'number'],
     ['Schedule Due Date', 'scheduleDueDate', 'date'], ['Final Schedule Lock Date', 'scheduleLockDate', 'date'],
@@ -190,7 +220,14 @@ const fields = {
     ['Brand Contact Phone', 'brandPhone', 'tel'], ['Officials Must Wear Special Uniform', 'specialUniform', 'select', ['Yes', 'No']],
     ['Special Uniform Description', 'specialUniformDescription', 'textarea', null, true], ['Event Will Be Livestreamed', 'livestreamed', 'select', ['Yes', 'No']],
     ['Livestream Platform', 'livestreamPlatform'], ['Game Film Available to RTBO', 'filmAvailable', 'select', ['Yes', 'No']],
-    ['Film May Be Used for Training', 'filmTrainingUse', 'select', ['Yes', 'No']], ['Media Contact Name', 'mediaContact'], ['Media Contact Phone / Email', 'mediaContactInfo']
+    ['Film May Be Used for Training', 'filmTrainingUse', 'select', ['Yes', 'No']], ['Media Contact Name', 'mediaContact'], ['Media Contact Phone / Email', 'mediaContactInfo'],
+    ['Beneficiary / Cause', 'fundraisingBeneficiary'], ['Fundraising Goal', 'fundraisingGoal'],
+    ['Sponsorship Package / Level', 'sponsorshipPackage'], ['Sponsor Deliverables', 'sponsorshipDeliverables', 'textarea', null, true],
+    ['Celebrity Participant Requirements', 'celebrityParticipantRequirements', 'textarea', null, true],
+    ['Sponsor Recognition Plan', 'sponsorRecognition', 'textarea', null, true],
+    ['Donation / Revenue Handling', 'donationHandling', 'textarea', null, true],
+    ['Ticketing / Admission Plan', 'ticketingPlan', 'textarea', null, true],
+    ['Public Relations Approval', 'publicRelationsApproval', 'textarea', null, true]
   ],
   'Legal Terms': [
     ['Confidentiality Clause Included', 'confidentiality', 'select', ['Yes', 'No']],
@@ -259,6 +296,11 @@ function isIndependentContractorContract(contract = {}) {
   return contract.templateId === 'official-independent-contractor' || contract.contractCategory === 'Independent Contractor Agreement';
 }
 
+function isCelebrityFundraisingContract(contract = {}) {
+  return contract.templateId === CELEBRITY_FUNDRAISING_TEMPLATE_ID
+    || contract.contractCategory === 'Celebrity Game / Fundraising / Sponsorship';
+}
+
 function fieldDisplayLabel(contract = {}, label = '') {
   if (!isIndependentContractorContract(contract)) return label;
   const labels = {
@@ -295,6 +337,7 @@ function createContract(templateId = 'high-school', user = {}) {
   const isBrand = Boolean(brandNames[template.id]);
   const isConference = ['conference', 'league-season'].includes(template.id);
   const isOfficialAgreement = template.id === 'official-independent-contractor';
+  const isCelebrityFundraising = template.id === CELEBRITY_FUNDRAISING_TEMPLATE_ID;
   return {
     id: '',
     templateId: template.id,
@@ -303,9 +346,9 @@ function createContract(templateId = 'high-school', user = {}) {
     datePrepared: new Date().toISOString().slice(0, 10),
     effectiveDate: '',
     expirationDate: '',
-    proposalType: isOfficialAgreement ? 'Independent Contractor Basketball Officiating Agreement' : (isConference ? 'Conference Basketball Officials Assigning Services' : (isBrand ? 'Brand / Showcase Basketball Officials Assigning Services' : 'Basketball Officials Assigning Services')),
+    proposalType: isOfficialAgreement ? 'Independent Contractor Basketball Officiating Agreement' : (isCelebrityFundraising ? 'Celebrity Game, Fundraising, and Sponsorship Basketball Officials Assigning Services' : (isConference ? 'Conference Basketball Officials Assigning Services' : (isBrand ? 'Brand / Showcase Basketball Officials Assigning Services' : 'Basketball Officials Assigning Services'))),
     serviceCycleLength: isOfficialAgreement ? 'Seasonal Agreement' : (isConference ? 'Minimum Four-Year Cycle' : (template.id === 'tournament' || isBrand ? 'Single Event' : 'Seasonal Agreement')),
-    renewalOption: isConference || template.id === 'league-season' ? 'Seasonal Renewal' : 'Renewal by Written Agreement',
+    renewalOption: isConference || template.id === 'league-season' ? 'Seasonal Renewal' : (isCelebrityFundraising ? 'Event-by-Event Renewal' : 'Renewal by Written Agreement'),
     contractStatus: 'Draft',
     rtboRepresentative: 'Montrel Simmons',
     rtboTitle: 'President / Director / Founder',
@@ -313,7 +356,7 @@ function createContract(templateId = 'high-school', user = {}) {
     rtboPhone: '(501) 240-4961',
     rtboWebsite: 'https://rtbofficiating.com',
     rtboAddress: '815 Technology Dr., Box 241445, Little Rock, AR 72223',
-    executiveSummary: isOfficialAgreement ? independentContractorExecutiveSummary : defaultExecutiveSummary,
+    executiveSummary: isOfficialAgreement ? independentContractorExecutiveSummary : (isCelebrityFundraising ? celebrityFundraisingExecutiveSummary : defaultExecutiveSummary),
     clientName: '',
     organizationType: template.organizationType,
     memberSchools: '',
@@ -323,15 +366,15 @@ function createContract(templateId = 'high-school', user = {}) {
     contactPhone: '',
     billingAddress: '',
     venueAddress: '',
-    eventName: isOfficialAgreement ? 'Basketball Officiating Services' : '',
+    eventName: isOfficialAgreement ? 'Basketball Officiating Services' : (isCelebrityFundraising ? 'Celebrity Fundraising Basketball Game' : ''),
     eventType: template.eventType,
     startDate: '',
     endDate: '',
     startTime: '',
     endTime: '',
-    numberOfCourts: '',
-    numberOfGyms: '',
-    estimatedGames: '',
+    numberOfCourts: isCelebrityFundraising ? '1' : '',
+    numberOfGyms: isCelebrityFundraising ? '1' : '',
+    estimatedGames: isCelebrityFundraising ? '1' : '',
     scheduleSubmittedBy: '',
     scheduleSubmissionDeadline: '',
     levelOfPlay: template.levelOfPlay,
@@ -341,8 +384,8 @@ function createContract(templateId = 'high-school', user = {}) {
     totalOfficialsEvent: '',
     ruleSet: template.ruleSet,
     assignmentPlatform: 'RTBO Platform',
-    assigningCriteria: isOfficialAgreement ? independentContractorAssigningCriteria : defaultAssigningCriteria,
-    technologyPlatform: isOfficialAgreement ? independentContractorTechnologyPlatform : defaultTechnologyPlatform,
+    assigningCriteria: isOfficialAgreement ? independentContractorAssigningCriteria : (isCelebrityFundraising ? celebrityFundraisingAssigningCriteria : defaultAssigningCriteria),
+    technologyPlatform: isOfficialAgreement ? independentContractorTechnologyPlatform : (isCelebrityFundraising ? celebrityFundraisingTechnologyPlatform : defaultTechnologyPlatform),
     modifiedRules: '',
     assigningFee: '',
     assigningFeeType: isOfficialAgreement ? 'Per Game' : (template.id === 'league-season' ? 'Per Season' : 'Per Event'),
@@ -365,7 +408,7 @@ function createContract(templateId = 'high-school', user = {}) {
     cancellationFee: '',
     replacementFee: '',
     adminFee: '',
-    paymentMadeBy: isOfficialAgreement ? 'Raising The Bar Officiating Inc.' : 'School',
+    paymentMadeBy: isOfficialAgreement ? 'Raising The Bar Officiating Inc.' : (isCelebrityFundraising ? 'Fundraising Host' : 'School'),
     paymentMadeTo: isOfficialAgreement ? 'Contractor / Official' : 'Raising The Bar Officiating Inc.',
     paymentDueDate: '',
     lateFeeAmount: '',
@@ -382,36 +425,45 @@ function createContract(templateId = 'high-school', user = {}) {
     gameAdminPhone: '',
     securityContact: '',
     securityPhone: '',
-    assignorDuties: defaultAssignorDuties,
-    officialExpectations: isOfficialAgreement ? independentContractorExpectations : defaultOfficialExpectations,
-    administrationExpectations: isOfficialAgreement ? 'RTBO will communicate accepted assignments, provide applicable policies or rules, manage assignment changes, maintain agreement records, and process payments through the selected payment system according to the payment schedule established by RTBO.' : defaultAdministrationExpectations,
-    coachExpectations: defaultCoachExpectations,
+    assignorDuties: isCelebrityFundraising ? celebrityFundraisingAssignorDuties : defaultAssignorDuties,
+    officialExpectations: isOfficialAgreement ? independentContractorExpectations : (isCelebrityFundraising ? celebrityFundraisingOfficialExpectations : defaultOfficialExpectations),
+    administrationExpectations: isOfficialAgreement ? 'RTBO will communicate accepted assignments, provide applicable policies or rules, manage assignment changes, maintain agreement records, and process payments through the selected payment system according to the payment schedule established by RTBO.' : (isCelebrityFundraising ? celebrityFundraisingAdministrationExpectations : defaultAdministrationExpectations),
+    coachExpectations: isCelebrityFundraising ? celebrityFundraisingCoachExpectations : defaultCoachExpectations,
     observerProgramIncluded: 'If Available',
     filmReviewIncluded: 'If Available',
     preseasonMeetingRequired: isConference ? 'Yes' : 'By Written Agreement',
     postseasonReviewRequired: isConference ? 'Yes' : 'By Written Agreement',
-    trainingEvaluationModel: isOfficialAgreement ? 'Contractor must attend required clinics, meetings, seminars, schools, trainings, and qualifying tests or examinations required by RTBO before or during the Term. Continued eligibility may depend on completed training, rules knowledge, mechanics, conduct, evaluations, and availability.' : defaultTrainingModel,
-    complaintFilmReviewProcess: isOfficialAgreement ? 'RTBO may review reports, game film, observer feedback, administrator concerns, conduct issues, missed assignments, late cancellations, or policy concerns. RTBO may suspend, remove, or terminate assignment eligibility when the Organization determines that action is appropriate.' : defaultComplaintProcess,
-    operationalTimeline: isOfficialAgreement ? 'Agreement Start: effective date entered by RTBO.\nSeason Term: one basketball season unless otherwise renewed, extended, or terminated.\nAssignments: may include preseason, in-season, postseason, scrimmage, exhibition, regular-season, tournament, clinic, school, or related basketball activities.\nAssignment Changes: all assignments remain subject to change or cancellation by RTBO.\nPostseason / Closeout: complete reports, payment documentation, evaluations, and any required agreement closeout steps.' : 'Spring / Early Summer: confirm intent, collect preliminary schedules, and begin recruiting and training planning.\nSummer: collect availability, host or support training, review schedules, and prepare preseason communication.\nPreseason: finalize schedules, begin assignments, and meet with administrators or coaches when requested.\nRegular Season / Event Window: manage assignments, evaluate officials, review film, and address schedule changes.\nTournament / Postseason: select officials based on performance, availability, professionalism, and evaluation feedback.\nPostseason Review: review assignments, evaluations, feedback, and recommendations for the next agreement period.',
+    trainingEvaluationModel: isOfficialAgreement ? 'Contractor must attend required clinics, meetings, seminars, schools, trainings, and qualifying tests or examinations required by RTBO before or during the Term. Continued eligibility may depend on completed training, rules knowledge, mechanics, conduct, evaluations, and availability.' : (isCelebrityFundraising ? celebrityFundraisingTrainingModel : defaultTrainingModel),
+    complaintFilmReviewProcess: isOfficialAgreement ? 'RTBO may review reports, game film, observer feedback, administrator concerns, conduct issues, missed assignments, late cancellations, or policy concerns. RTBO may suspend, remove, or terminate assignment eligibility when the Organization determines that action is appropriate.' : (isCelebrityFundraising ? celebrityFundraisingComplaintProcess : defaultComplaintProcess),
+    operationalTimeline: isOfficialAgreement ? 'Agreement Start: effective date entered by RTBO.\nSeason Term: one basketball season unless otherwise renewed, extended, or terminated.\nAssignments: may include preseason, in-season, postseason, scrimmage, exhibition, regular-season, tournament, clinic, school, or related basketball activities.\nAssignment Changes: all assignments remain subject to change or cancellation by RTBO.\nPostseason / Closeout: complete reports, payment documentation, evaluations, and any required agreement closeout steps.' : (isCelebrityFundraising ? celebrityFundraisingTimeline : 'Spring / Early Summer: confirm intent, collect preliminary schedules, and begin recruiting and training planning.\nSummer: collect availability, host or support training, review schedules, and prepare preseason communication.\nPreseason: finalize schedules, begin assignments, and meet with administrators or coaches when requested.\nRegular Season / Event Window: manage assignments, evaluate officials, review film, and address schedule changes.\nTournament / Postseason: select officials based on performance, availability, professionalism, and evaluation feedback.\nPostseason Review: review assignments, evaluations, feedback, and recommendations for the next agreement period.'),
     brandName: brandNames[template.id] || '',
     brandRepresentative: '',
     brandEmail: '',
     brandPhone: '',
-    specialUniform: 'No',
-    specialUniformDescription: '',
-    livestreamed: isBrand ? 'Yes' : 'No',
+    specialUniform: isCelebrityFundraising ? 'Yes' : 'No',
+    specialUniformDescription: isCelebrityFundraising ? 'Event-approved officials uniform unless RTBO and Client agree to special sponsor or fundraiser apparel in writing.' : '',
+    livestreamed: isBrand || isCelebrityFundraising ? 'Yes' : 'No',
     livestreamPlatform: '',
-    filmAvailable: isBrand ? 'Yes' : 'No',
-    filmTrainingUse: isBrand ? 'Yes' : 'No',
+    filmAvailable: isBrand || isCelebrityFundraising ? 'Yes' : 'No',
+    filmTrainingUse: isBrand || isCelebrityFundraising ? 'Yes' : 'No',
     mediaContact: '',
     mediaContactInfo: '',
+    fundraisingBeneficiary: '',
+    fundraisingGoal: '',
+    sponsorshipPackage: '',
+    sponsorshipDeliverables: 'Sponsor recognition, event signage, announcements, social media mentions, livestream recognition, logo placement, hospitality, or other sponsor inventory are the responsibility of Client unless RTBO agrees in writing to support a specific item.',
+    celebrityParticipantRequirements: 'Client is responsible for celebrity appearance agreements, player guest lists, VIP credentials, travel or hospitality, security needs, image or likeness approvals, and participant communication.',
+    sponsorRecognition: 'Client will provide sponsor recognition requirements before assignments are finalized. RTBO will consider only those sponsor requirements that affect officiating uniforms, credentials, court access, media timing, or game administration.',
+    donationHandling: 'Client is responsible for donation processing, ticket revenue, charitable solicitation compliance, tax receipts, beneficiary payments, prize or auction rules, and sponsor funds unless a separate written agreement states otherwise.',
+    ticketingPlan: 'Client will manage ticketing, admissions, guest lists, VIP access, comp tickets, security screening, and spectator entry unless a separate written agreement states otherwise.',
+    publicRelationsApproval: 'Client is responsible for approving public statements, sponsor messages, celebrity announcements, media releases, livestream copy, charity descriptions, and promotional materials connected to the event.',
     confidentiality: 'Yes',
     nondiscrimination: 'Yes',
     disputeResolution: 'Good Faith Meeting',
     governingState: 'AR',
     terminationNotice: isOfficialAgreement ? '48 Hours' : '30 Days',
-    closingStatement: isOfficialAgreement ? independentContractorClosingStatement : defaultClosingStatement,
-    specialTerms: '',
+    closingStatement: isOfficialAgreement ? independentContractorClosingStatement : (isCelebrityFundraising ? celebrityFundraisingClosingStatement : defaultClosingStatement),
+    specialTerms: isCelebrityFundraising ? celebrityFundraisingSpecialTerms : '',
     rtboSigner: 'Montrel Simmons',
     rtboSignerTitle: isOfficialAgreement ? 'Director' : 'President / Director / Founder',
     clientSigner: '',
@@ -457,6 +509,9 @@ function contractPaperTitle(contract) {
   if (isIndependentContractorContract(contract)) {
     return 'Independent Contractor Officiating Agreement | Basketball';
   }
+  if (isCelebrityFundraisingContract(contract)) {
+    return 'Celebrity Game, Fundraising, and Sponsorship Basketball Officials Assigning Agreement';
+  }
   const category = String(contract.contractCategory || 'Basketball').replace(/\s+Contract$/i, '');
   return `${category} Basketball Officials Assigning Agreement`;
 }
@@ -494,6 +549,7 @@ function contractServiceFocus(contract) {
     'community-center': 'community program coverage, recreation-league rules, youth safety, site communication, and consistent assignment coverage',
     'boys-girls-club': 'youth development event coverage, club safety standards, sportsmanship, recreation-league rules, and reliable official assignments',
     tournament: 'single-site or multi-site tournament coverage, bracket changes, court rotation, crew depth, emergency replacements, and high-volume event communication',
+    [CELEBRITY_FUNDRAISING_TEMPLATE_ID]: 'celebrity game coverage, fundraising event operations, sponsor activation support, media coordination, donation and ticketing boundaries, safety planning, and positive event presentation',
     'nike-showcase': 'Nike-branded showcase coverage, elite matchup assignments, media considerations, uniform requirements, schedule movement, and event production support',
     'adidas-showcase': 'Adidas-branded showcase coverage, elite matchup assignments, media considerations, uniform requirements, schedule movement, and event production support',
     'under-armor-showcase': 'Under Armor-branded showcase coverage, elite matchup assignments, media considerations, uniform requirements, schedule movement, and event production support',
@@ -510,6 +566,9 @@ function contractServiceFocus(contract) {
 function professionalExecutiveSummary(contract) {
   if (isIndependentContractorContract(contract)) {
     return `${contract.executiveSummary}\nThis ${contractPaperTitle(contract)} is structured for officials who will accept basketball officiating assignments as independent contractors through RTBO. It preserves RTBO assignment discretion, confirms the Contractor's tax and insurance responsibilities, and documents the standards required before and after assignments are accepted.`;
+  }
+  if (isCelebrityFundraisingContract(contract)) {
+    return `${contract.executiveSummary}\nThis ${contractPaperTitle(contract)} is specifically structured for celebrity basketball games, fundraising events, charitable causes, sponsor activations, livestreamed events, media presentation, participant safety, event revenue boundaries, and professional officiating coverage. RTBO's responsibility is limited to the officiating assigning services and related support stated in this agreement unless the parties execute a separate written addendum.`;
   }
   return `${contract.executiveSummary}\nThis ${contractPaperTitle(contract)} is specifically structured for ${contractServiceFocus(contract)}. The agreement is intended to give RTBO, the Client, participating schools or teams, officials, coaches, administrators, and event leadership a clear operating document before assignments begin.`;
 }
@@ -570,6 +629,13 @@ function clauses(contract, total) {
   }
 
   const client = blank(contract.clientName, 'the Client / Organization');
+  const celebrityFundraising = isCelebrityFundraisingContract(contract)
+    ? [
+        ['CELEBRITY GAME, FUNDRAISING, AND SPONSORSHIP TERMS', `Beneficiary / cause: ${blank(contract.fundraisingBeneficiary, 'to be completed by Client')}. Fundraising goal: ${blank(contract.fundraisingGoal, 'to be completed if applicable')}. Sponsorship package / level: ${blank(contract.sponsorshipPackage, 'to be completed if applicable')}.\nClient is responsible for celebrity appearance agreements, VIP or guest lists, travel or hospitality for celebrity participants, sponsor inventory, promotional copy, fundraising compliance, donation handling, ticketing, admissions, tax receipts, beneficiary payment instructions, prize or auction rules, and public statements unless RTBO agrees otherwise in a separate written addendum.\nRTBO is responsible only for basketball officials assigning services, officials communication, and related officiating support described in this Agreement.`],
+        ['SPONSOR DELIVERABLES, RECOGNITION, AND EVENT PRESENTATION', `${blank(contract.sponsorshipDeliverables, 'Sponsor deliverables must be completed by Client or sponsor unless RTBO accepts a specific written responsibility.')}\nSponsor recognition plan: ${blank(contract.sponsorRecognition, 'to be completed by Client')}\nCelebrity participant requirements: ${blank(contract.celebrityParticipantRequirements, 'to be completed by Client')}\nPublic relations approval: ${blank(contract.publicRelationsApproval, 'Client controls promotional, sponsor, beneficiary, celebrity, and media approvals unless otherwise agreed in writing.')}`],
+        ['DONATION, REVENUE, TICKETING, AND BENEFICIARY HANDLING', `Donation / revenue handling: ${blank(contract.donationHandling, 'Client is responsible for donation processing, ticket revenue, sponsor funds, beneficiary payments, and charitable solicitation compliance.')}\nTicketing / admission plan: ${blank(contract.ticketingPlan, 'Client is responsible for ticketing, admission, credentials, guest lists, and VIP access unless otherwise agreed in writing.')}\nRTBO does not provide tax, fundraising, charitable solicitation, sponsorship, celebrity appearance, securities, or accounting advice. Client should obtain appropriate legal, tax, accounting, insurance, and sponsorship review for the fundraising and sponsorship portions of the event.`]
+      ]
+    : [];
   const media = contract.brandName || contract.livestreamed === 'Yes' || contract.filmAvailable === 'Yes'
     ? [['Brand, Media, Livestream, and Event Content', `If the event includes ${blank(contract.brandName, 'a brand or sponsor')}, livestream, media credential, broadcast, social content, or recorded content requirements, Client shall disclose those requirements before assignments are finalized. RTBO may consider uniform requirements, credential rules, media access, livestream logistics, film availability, production needs, and training permissions when assigning officials. Film use for RTBO training is ${contract.filmTrainingUse}.`]]
     : [];
@@ -587,6 +653,7 @@ function clauses(contract, total) {
     ['TRAINING AND EVALUATION MODEL', `Observer program included: ${contract.observerProgramIncluded}. Film review included: ${contract.filmReviewIncluded}. Preseason meeting required: ${contract.preseasonMeetingRequired}. Postseason review required: ${contract.postseasonReviewRequired}.\n${contract.trainingEvaluationModel}`],
     ['COMPLAINT AND FILM REVIEW PROCESS', contract.complaintFilmReviewProcess],
     ['PROPOSED OPERATIONAL TIMELINE', contract.operationalTimeline],
+    ...celebrityFundraising,
     ['IDENTIFICATION OF PARTIES', `Coordinator of Officials: ${blank(contract.rtboRepresentative, 'Montrel Simmons')} / Raising The Bar Officiating Inc.\nClient / Organization: ${client}.\nMember schools, teams, facilities, or participating groups: ${blank(contract.memberSchools, 'to be completed if applicable')}.`],
     ['AGREEMENT TERM', `The Agreement begins on ${dateLabel(contract.effectiveDate)} and expires on ${dateLabel(contract.expirationDate)}, unless extended, renewed, or terminated under this Agreement. The selected service cycle is ${contract.serviceCycleLength}. Renewal option: ${contract.renewalOption}.`],
     ['SERVICES AND RESPONSIBILITIES OF THE COORDINATOR OF OFFICIALS', `Client engages RTBO to coordinate, assign, communicate with, and administer basketball officials for ${blank(contract.eventName, 'the covered schedule, season, tournament, showcase, organization, facility, or event')}. RTBO shall use commercially reasonable efforts to provide qualified officials based on event level, availability, geography, rule set, facility requirements, assignment criteria, and information provided by Client.`],
@@ -733,6 +800,14 @@ function feeDisplay(value) {
 }
 
 function proposalFeeRows(contract) {
+  if (isCelebrityFundraisingContract(contract)) {
+    return [
+      ['Celebrity Game / Fundraiser', contract.assigningFee || contract.perGameAssigningFee, contract.specialEventFee || contract.varsityFee, contract.specialEventFee || contract.showcaseFee, 'Final rate should reflect celebrity participants, sponsor requirements, media needs, crowd size, and security expectations.'],
+      ['Sponsor Activation / Media Event', contract.assigningFee || contract.adminFee, contract.showcaseFee || contract.specialEventFee, contract.specialEventFee, 'Applies when sponsor inventory, livestream timing, special uniforms, credentials, or media windows affect officiating operations.'],
+      ['Fundraising Tournament / Multi-Game Event', contract.tournamentFee || contract.assigningFee, contract.showcaseFee || contract.tournamentFee, contract.tournamentFee || contract.specialEventFee, 'May apply when the fundraiser includes multiple teams, brackets, courts, or schedule blocks.'],
+      ['Travel / Administration', contract.adminFee, contract.travelFee, contract.mealPerDiem, 'Travel, meals, lodging, emergency replacements, sponsor briefings, or administrative costs may apply when approved.']
+    ];
+  }
   return [
     ['Varsity', contract.assigningFee || contract.perGameAssigningFee, contract.varsityFee, contract.specialEventFee, 'Final rate to be approved by the client authority.'],
     ['Junior Varsity', contract.assigningFee || contract.perGameAssigningFee, contract.juniorVarsityFee, contract.specialEventFee, 'May be paired with varsity doubleheaders when appropriate.'],
@@ -990,10 +1065,16 @@ function ContractPreview({ contract }) {
   );
 }
 
-export default function RTBOBasketballAssigningContractGenerator({ user = {}, onStatus = () => {} }) {
-  const [view, setView] = useState('home');
+export default function RTBOBasketballAssigningContractGenerator({
+  user = {},
+  onStatus = () => {},
+  initialTemplateId = 'high-school',
+  initialView = 'home'
+}) {
+  const startingTemplateId = templates.some(item => item.id === initialTemplateId) ? initialTemplateId : 'high-school';
+  const [view, setView] = useState(initialView === 'editor' ? 'editor' : 'home');
   const [activeTab, setActiveTab] = useState(tabs[0]);
-  const [contract, setContract] = useState(() => createContract('high-school', user));
+  const [contract, setContract] = useState(() => createContract(startingTemplateId, user));
   const [message, setMessage] = useState('');
   const [printPreviewOpen, setPrintPreviewOpen] = useState(false);
   const [saving, setSaving] = useState(false);

@@ -854,10 +854,20 @@ function rtbo_contract_pdf_is_official_agreement(array $contract): bool
         || (string) ($contract['contractCategory'] ?? '') === 'Independent Contractor Agreement';
 }
 
+function rtbo_contract_pdf_is_celebrity_fundraising_agreement(array $contract): bool
+{
+    return (string) ($contract['templateId'] ?? '') === 'celebrity-fundraising-sponsorship'
+        || (string) ($contract['contractCategory'] ?? '') === 'Celebrity Game / Fundraising / Sponsorship';
+}
+
 function rtbo_contract_pdf_title(array $contract): string
 {
     if (rtbo_contract_pdf_is_official_agreement($contract)) {
         return 'Independent Contractor Officiating Agreement | Basketball';
+    }
+
+    if (rtbo_contract_pdf_is_celebrity_fundraising_agreement($contract)) {
+        return 'Celebrity Game, Fundraising, and Sponsorship Basketball Officials Assigning Agreement';
     }
 
     return rtbo_contract_pdf_text($contract, 'contractCategory', 'Basketball') . ' Basketball Officials Assigning Agreement';
@@ -905,6 +915,15 @@ function rtbo_contract_pdf_official_sections(array $contract, float $total, stri
     ];
 }
 
+function rtbo_contract_pdf_celebrity_sections(array $contract): array
+{
+    return [
+        ['Celebrity Game, Fundraising, and Sponsorship Terms', 'Beneficiary / cause: ' . rtbo_contract_pdf_text($contract, 'fundraisingBeneficiary', 'To be completed by Client') . '. Fundraising goal: ' . rtbo_contract_pdf_text($contract, 'fundraisingGoal', 'To be completed if applicable') . '. Sponsorship package / level: ' . rtbo_contract_pdf_text($contract, 'sponsorshipPackage', 'To be completed if applicable') . ".\nClient is responsible for celebrity appearance agreements, VIP or guest lists, travel or hospitality for celebrity participants, sponsor inventory, promotional copy, fundraising compliance, donation handling, ticketing, admissions, tax receipts, beneficiary payment instructions, prize or auction rules, and public statements unless RTBO agrees otherwise in a separate written addendum.\nRTBO is responsible only for basketball officials assigning services, officials communication, and related officiating support described in this Agreement."],
+        ['Sponsor Deliverables, Recognition, and Event Presentation', rtbo_contract_pdf_text($contract, 'sponsorshipDeliverables', 'Sponsor deliverables must be completed by Client or sponsor unless RTBO accepts a specific written responsibility.') . "\nSponsor recognition plan: " . rtbo_contract_pdf_text($contract, 'sponsorRecognition', 'To be completed by Client') . "\nCelebrity participant requirements: " . rtbo_contract_pdf_text($contract, 'celebrityParticipantRequirements', 'To be completed by Client') . "\nPublic relations approval: " . rtbo_contract_pdf_text($contract, 'publicRelationsApproval', 'Client controls promotional, sponsor, beneficiary, celebrity, and media approvals unless otherwise agreed in writing.')],
+        ['Donation, Revenue, Ticketing, and Beneficiary Handling', 'Donation / revenue handling: ' . rtbo_contract_pdf_text($contract, 'donationHandling', 'Client is responsible for donation processing, ticket revenue, sponsor funds, beneficiary payments, and charitable solicitation compliance.') . "\nTicketing / admission plan: " . rtbo_contract_pdf_text($contract, 'ticketingPlan', 'Client is responsible for ticketing, admission, credentials, guest lists, and VIP access unless otherwise agreed in writing.') . "\nRTBO does not provide tax, fundraising, charitable solicitation, sponsorship, celebrity appearance, securities, or accounting advice. Client should obtain appropriate legal, tax, accounting, insurance, and sponsorship review for the fundraising and sponsorship portions of the event."],
+    ];
+}
+
 function build_contract_pdf(array $contract): string
 {
     ensure_dir(PDF_DIR);
@@ -934,6 +953,9 @@ function build_contract_pdf(array $contract): string
         ['Training and Review', rtbo_contract_pdf_text($contract, 'trainingEvaluationModel', '') . "\nComplaint / Film Review: " . rtbo_contract_pdf_text($contract, 'complaintFilmReviewProcess', '')],
         ['Legal Terms', 'Confidentiality: ' . rtbo_contract_pdf_text($contract, 'confidentiality', 'Yes') . "\nNon-Discrimination: " . rtbo_contract_pdf_text($contract, 'nondiscrimination', 'Yes') . "\nDispute Resolution: " . rtbo_contract_pdf_text($contract, 'disputeResolution', 'Good Faith Meeting') . "\nGoverning State: " . rtbo_contract_pdf_text($contract, 'governingState', 'AR') . "\nTermination Notice: " . rtbo_contract_pdf_text($contract, 'terminationNotice', '30 Days') . "\n" . rtbo_contract_pdf_text($contract, 'closingStatement', '')],
     ];
+    if (!$isOfficialAgreement && rtbo_contract_pdf_is_celebrity_fundraising_agreement($contract)) {
+        array_splice($sections, 8, 0, rtbo_contract_pdf_celebrity_sections($contract));
+    }
     if (rtbo_contract_pdf_text($contract, 'specialTerms') !== '') {
         $sections[] = ['Special Terms', rtbo_contract_pdf_text($contract, 'specialTerms')];
     }

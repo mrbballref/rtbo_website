@@ -1,0 +1,305 @@
+.rtbo-resume-manager-page {
+  display: grid;
+  gap: 18px;
+}
+
+.rtbo-resume-manager-page .rtbo-dashboard-card-head {
+  align-items: start;
+  gap: 16px;
+}
+
+.rtbo-resume-manager-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.rtbo-resume-manager-summary-card {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(249, 115, 22, .34);
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .018)),
+    rgba(255, 255, 255, .035);
+}
+
+.rtbo-resume-manager-summary-card span,
+.rtbo-resume-manager-summary-card small {
+  display: block;
+  color: #cbd5e1;
+}
+
+.rtbo-resume-manager-summary-card span {
+  color: var(--rtbo-orange);
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.rtbo-resume-manager-summary-card strong {
+  display: block;
+  margin-top: 6px;
+  color: #fff;
+  font-size: 1.45rem;
+}
+
+.rtbo-resume-manager-form,
+.rtbo-resume-manager-panel,
+.rtbo-resume-manager-list {
+  display: grid;
+  gap: 16px;
+}
+
+.rtbo-resume-manager-panel {
+  padding: clamp(16px, 2vw, 22px);
+  border: 1px solid rgba(249, 115, 22, .26);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .028);
+}
+
+.rtbo-resume-manager-panel-head {
+  display: flex;
+  gap: 14px;
+  align-items: start;
+  justify-content: space-between;
+}
+
+.rtbo-resume-manager-panel-head h4 {
+  margin: 0;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.rtbo-resume-manager-panel-head p {
+  margin: 6px 0 0;
+  color: #cbd5e1;
+}
+
+.rtbo-resume-manager-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.rtbo-resume-manager-field-grid.three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.rtbo-resume-manager-field-grid .span-two {
+  grid-column: 1 / -1;
+}
+
+.rtbo-resume-manager-form label {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  color: #e5e7eb;
+  font-weight: 900;
+}
+
+.rtbo-resume-manager-form :is(input, textarea) {
+  width: 100%;
+  border: 1px solid rgba(249, 115, 22, .42);
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .045), rgba(255, 255, 255, .01)),
+    #0b0f14;
+  color: #fff;
+  font: inherit;
+}
+
+.rtbo-resume-manager-form input {
+  min-height: 42px;
+  padding: 0 12px;
+}
+
+.rtbo-resume-manager-form textarea {
+  min-height: 92px;
+  padding: 12px;
+  resize: vertical;
+}
+
+.rtbo-resume-manager-form :is(input, textarea):focus {
+  border-color: #22d3ee;
+  outline: 2px solid rgba(34, 211, 238, .22);
+}
+
+.rtbo-resume-manager-list.compact {
+  gap: 12px;
+}
+
+.rtbo-resume-manager-list-item {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .032);
+}
+
+.rtbo-resume-manager-row-actions,
+.rtbo-resume-manager-submit-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  align-items: center;
+}
+
+.rtbo-resume-manager-row-actions .btn,
+.rtbo-resume-manager-submit-row .btn {
+  min-height: 38px;
+  padding: 9px 14px;
+}
+
+.rtbo-resume-manager-row-actions .btn.danger {
+  border-color: rgba(248, 113, 113, .7);
+  color: #fecaca;
+}
+
+.rtbo-resume-manager-toggle {
+  display: flex !important;
+  grid-template-columns: none !important;
+  flex-direction: row;
+  gap: 10px !important;
+  align-items: center;
+  color: #dbeafe;
+}
+
+.rtbo-resume-manager-toggle input {
+  width: 18px;
+  min-height: 18px;
+  accent-color: #f97316;
+}
+
+.rtbo-resume-manager-submit-row {
+  position: sticky;
+  bottom: 12px;
+  z-index: 4;
+  justify-content: flex-end;
+  padding: 14px;
+  border: 1px solid rgba(249, 115, 22, .3);
+  border-radius: 10px;
+  background: rgba(5, 8, 12, .94);
+  backdrop-filter: blur(14px);
+}
+
+:root[data-theme="light"] .rtbo-resume-manager-summary-card,
+:root[data-theme="light"] .rtbo-resume-manager-panel,
+:root[data-theme="light"] .rtbo-resume-manager-list-item,
+:root[data-theme="light"] .rtbo-resume-manager-submit-row {
+  background: #fff;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, .07);
+}
+
+:root[data-theme="light"] .rtbo-resume-manager-summary-card strong,
+:root[data-theme="light"] .rtbo-resume-manager-panel-head h4 {
+  color: #111827;
+}
+
+:root[data-theme="light"] .rtbo-resume-manager-summary-card span,
+:root[data-theme="light"] .rtbo-resume-manager-summary-card small,
+:root[data-theme="light"] .rtbo-resume-manager-panel-head p {
+  color: #475569;
+}
+
+:root[data-theme="light"] .rtbo-resume-manager-summary-card span {
+  color: #ea580c;
+}
+
+:root[data-theme="light"] .rtbo-resume-manager-form label {
+  color: #111827;
+}
+
+:root[data-theme="light"] .rtbo-resume-manager-form :is(input, textarea) {
+  background: #fff;
+  color: #111827;
+}
+
+:root[data-theme="light"] .rtbo-resume-manager-toggle {
+  color: #111827;
+}
+
+@media (max-width: 1100px) {
+  .rtbo-resume-manager-summary-grid,
+  .rtbo-resume-manager-field-grid.three {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1536px) {
+  .rtbo-resume-manager-page {
+    gap: 18px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .rtbo-resume-manager-panel {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .rtbo-resume-manager-summary-grid,
+  .rtbo-resume-manager-field-grid.three {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .rtbo-resume-manager-summary-grid,
+  .rtbo-resume-manager-field-grid,
+  .rtbo-resume-manager-field-grid.three {
+    grid-template-columns: 1fr;
+  }
+
+  .rtbo-resume-manager-panel-head,
+  .rtbo-resume-manager-submit-row {
+    display: grid;
+    justify-content: stretch;
+  }
+
+  .rtbo-resume-manager-row-actions .btn,
+  .rtbo-resume-manager-submit-row .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .rtbo-resume-manager-summary-grid,
+  .rtbo-resume-manager-field-grid,
+  .rtbo-resume-manager-field-grid.three {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 648px) {
+  .rtbo-resume-manager-page .rtbo-dashboard-card-head,
+  .rtbo-resume-manager-panel-head,
+  .rtbo-resume-manager-submit-row {
+    display: grid;
+    justify-content: stretch;
+  }
+}
+
+@media (max-width: 550px) {
+  .rtbo-resume-manager-row-actions .btn,
+  .rtbo-resume-manager-submit-row .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .rtbo-resume-manager-panel,
+  .rtbo-resume-manager-list-item,
+  .rtbo-resume-manager-submit-row {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 368px) {
+  .rtbo-resume-manager-summary-card strong {
+    font-size: 1.25rem;
+  }
+}
