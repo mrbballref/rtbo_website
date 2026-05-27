@@ -16295,6 +16295,18 @@ html.light .rtbo-public .page-hero {
   box-shadow: 0 10px 24px rgba(212, 175, 55, .2);
 }
 
+:root[data-theme="dark"] .site-footer.original-footer,
+html.dark .site-footer.original-footer {
+  background-color: #050608 !important;
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, .045), transparent 16%),
+    radial-gradient(circle at 8% 0%, rgba(193, 18, 31, .24), transparent 26%),
+    radial-gradient(circle at 84% 18%, rgba(212, 175, 55, .14), transparent 24%),
+    linear-gradient(135deg, #0d1016 0%, #050608 58%, #030405 100%) !important;
+  background-size: auto !important;
+  background-attachment: scroll !important;
+}
+
 :root[data-theme="light"] .site-footer.original-footer {
   background-color: #f8fafc !important;
   background-image:
