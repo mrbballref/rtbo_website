@@ -9,8 +9,8 @@
       <stop offset="1" stop-color="#151515"/>
     </linearGradient>
     <linearGradient id="orangeGlow" x1="0" x2="1">
-      <stop offset="0" stop-color="#ff6a00"/>
-      <stop offset="1" stop-color="#ff8a1d"/>
+      <stop offset="0" stop-color="#c1121f"/>
+      <stop offset="1" stop-color="#c44d59"/>
     </linearGradient>
     <pattern id="carbon" width="28" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
       <rect width="28" height="28" fill="#050505"/>
@@ -23,8 +23,8 @@
   </defs>
   <rect width="1200" height="900" fill="url(#bg)"/>
   <rect width="1200" height="900" fill="url(#carbon)" opacity=".34"/>
-  <path d="M0 820C245 710 402 845 605 760c189-78 270-230 595-150v290H0z" fill="#ff6a00" opacity=".12"/>
-  <rect x="44" y="44" width="1112" height="812" rx="34" fill="#0b0d10" opacity=".72" stroke="#ff6a00" stroke-opacity=".55" stroke-width="3"/>
+  <path d="M0 820C245 710 402 845 605 760c189-78 270-230 595-150v290H0z" fill="#c1121f" opacity=".12"/>
+  <rect x="44" y="44" width="1112" height="812" rx="34" fill="#0b0d10" opacity=".72" stroke="#c1121f" stroke-opacity=".55" stroke-width="3"/>
   
   <g filter="url(#shadow)">
     <path d="M338 198 454 132h292l116 66 118 145-126 97-62-82v328H408V358l-62 82-126-97z" fill="#f3f4f6" stroke="#d6dde6" stroke-width="6"/>
@@ -34,18 +34,18 @@
     <path d="M408 632h384v54H408z" fill="url(#orangeGlow)"/>
     <path d="M408 686h384v42H408z" fill="#111"/>
     <path d="M220 343 139 520l102 48 105-128zM980 343l81 177-102 48-105-128z" fill="#111" stroke="#d6dde6" stroke-width="6"/>
-    <path d="M600 218v178" stroke="#d6dde6" stroke-width="7"/><rect x="587" y="300" width="26" height="58" rx="5" fill="#ff6a00"/>
+    <path d="M600 218v178" stroke="#d6dde6" stroke-width="7"/><rect x="587" y="300" width="26" height="58" rx="5" fill="#c1121f"/>
     <path d="M652 374h96v78c-26 17-66 17-96 0z" fill="none" stroke="#111" stroke-width="6"/>
     
   <g transform="translate(528 318) scale(0.74)">
     <path d="M0 14 60 0l60 14v78c0 28-27 54-60 68C27 146 0 120 0 92z" fill="#111" stroke="#d6dde6" stroke-width="5"/>
-    <path d="M13 25h94v42H13z" fill="#ff6a00" opacity=".9"/>
+    <path d="M13 25h94v42H13z" fill="#c1121f" opacity=".9"/>
     <text x="60" y="54" text-anchor="middle" fill="#f8fafc" font-family="Arial Black, Impact, sans-serif" font-size="27">RTBO</text>
     <path d="M18 85h84" stroke="#d6dde6" stroke-width="5"/>
-    <circle cx="60" cy="106" r="25" fill="#ff6a00" stroke="#111" stroke-width="5"/>
+    <circle cx="60" cy="106" r="25" fill="#c1121f" stroke="#111" stroke-width="5"/>
     <path d="M35 106h50M60 81v50M43 88c18 13 18 24 0 36M77 88c-18 13-18 24 0 36" stroke="#111" stroke-width="4" fill="none"/>
   </g>
   </g>
-  <text x="70" y="802" fill="#ff8a1d" font-family="Arial Black, Impact, sans-serif" font-size="34" letter-spacing="3">QUARTER ZIP LONG SLEEVE</text>
+  <text x="70" y="802" fill="#c44d59" font-family="Arial Black, Impact, sans-serif" font-size="34" letter-spacing="3">QUARTER ZIP LONG SLEEVE</text>
   <text x="70" y="842" fill="#d6dde6" font-family="Arial, sans-serif" font-size="22">Long sleeve quarter zip with pocket</text>
 </svg>

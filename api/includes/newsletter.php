@@ -1291,29 +1291,29 @@ function build_magazine_newsletter_html(array $issue): string
     $sectionHtml = '';
     foreach ($sections as $section) {
         $sectionHtml .= '<tr><td style="padding:22px 28px;border-bottom:1px solid #fed7aa;">'
-            . '<p style="margin:0 0 8px;color:#ea580c;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;">' . e((string) ($section['section'] ?? 'Officiating News')) . '</p>'
+            . '<p style="margin:0 0 8px;color:#7f0d16;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;">' . e((string) ($section['section'] ?? 'Officiating News')) . '</p>'
             . '<h2 style="margin:0 0 10px;color:#111827;font-size:24px;line-height:1.14;">' . e((string) ($section['headline'] ?? '')) . '</h2>'
             . '<p style="margin:0 0 12px;color:#1f2937;font-size:15px;line-height:1.65;">' . e((string) ($section['text'] ?? '')) . '</p>'
-            . (((string) ($section['link'] ?? '')) !== '' ? '<a href="' . e((string) $section['link']) . '" style="color:#c2410c;font-weight:900;text-decoration:none;">Read at source</a>' : '')
+            . (((string) ($section['link'] ?? '')) !== '' ? '<a href="' . e((string) $section['link']) . '" style="color:#6f0b13;font-weight:900;text-decoration:none;">Read at source</a>' : '')
             . '</td></tr>';
     }
 
     return '<!doctype html><html><body style="margin:0;padding:0;background:#f5f5f4;font-family:Arial,Helvetica,sans-serif;">'
         . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f5f5f4;padding:26px 12px;"><tr><td align="center">'
         . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:760px;background:#ffffff;border:1px solid #fed7aa;border-radius:8px;overflow:hidden;">'
-        . '<tr><td style="padding:28px;background:#050505;border-bottom:8px solid #f97316;">'
+        . '<tr><td style="padding:28px;background:#050505;border-bottom:8px solid #c1121f;">'
         . '<img src="' . e(RTBO_BASE_URL) . '/assets/images/logo.png" alt="Raising The Bar Officiating" style="width:112px;height:auto;display:block;margin:0 0 18px;">'
-        . '<p style="margin:0 0 10px;color:#f97316;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.22em;">Raising The Bar Officiating Magazine</p>'
+        . '<p style="margin:0 0 10px;color:#c1121f;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.22em;">Raising The Bar Officiating Magazine</p>'
         . '<h1 style="margin:0;color:#ffffff;font-size:38px;line-height:1.05;">' . e((string) ($issue['title'] ?? 'Weekly Whistle')) . '</h1>'
         . '<p style="margin:12px 0 0;color:#e5e7eb;font-size:16px;line-height:1.5;">' . e((string) ($issue['subtitle'] ?? '')) . '</p>'
         . '</td></tr>'
         . '<tr><td style="padding:28px;background:#fff7ed;">'
-        . '<p style="margin:0 0 8px;color:#c2410c;font-weight:900;text-transform:uppercase;">Cover Story</p>'
+        . '<p style="margin:0 0 8px;color:#6f0b13;font-weight:900;text-transform:uppercase;">Cover Story</p>'
         . '<h2 style="margin:0 0 12px;color:#111827;font-size:30px;line-height:1.1;">' . e((string) ($issue['cover_headline'] ?? '')) . '</h2>'
         . '<p style="margin:0;color:#1f2937;font-size:16px;line-height:1.65;">' . e((string) ($issue['intro_text'] ?? '')) . '</p>'
         . '</td></tr>'
         . $sectionHtml
-        . '<tr><td style="padding:22px 28px;background:#050505;color:#f8fafc;font-size:14px;line-height:1.6;">We Will Serve, And Will Be Of Service To The Game.<br>Questions? Contact <a href="mailto:' . e(RTBO_ADMIN_EMAIL) . '" style="color:#f97316;">' . e(RTBO_ADMIN_EMAIL) . '</a>.</td></tr>'
+        . '<tr><td style="padding:22px 28px;background:#050505;color:#f8fafc;font-size:14px;line-height:1.6;">We Will Serve, And Will Be Of Service To The Game.<br>Questions? Contact <a href="mailto:' . e(RTBO_ADMIN_EMAIL) . '" style="color:#c1121f;">' . e(RTBO_ADMIN_EMAIL) . '</a>.</td></tr>'
         . '</table></td></tr></table></body></html>';
 }
 
@@ -1483,12 +1483,12 @@ function build_newsletter_html(string $subject, string $preheader, string $messa
         . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:680px;background:#ffffff;border:1px solid #fed7aa;border-radius:8px;overflow:hidden;">'
         . '<tr><td style="padding:24px;background:#080a0f;text-align:center;"><img src="' . e(RTBO_BASE_URL) . '/assets/images/logo.png" alt="Raising The Bar Officiating" style="width:132px;height:auto;margin:auto;display:block;"></td></tr>'
         . '<tr><td style="padding:30px;">'
-        . '<p style="margin:0 0 8px;color:#c2410c;font-size:12px;font-weight:bold;letter-spacing:.12em;text-transform:uppercase;">Raising The Bar Officiating</p>'
+        . '<p style="margin:0 0 8px;color:#6f0b13;font-size:12px;font-weight:bold;letter-spacing:.12em;text-transform:uppercase;">Raising The Bar Officiating</p>'
         . '<h1 style="margin:0 0 18px;color:#111827;font-size:30px;line-height:1.1;text-transform:uppercase;">' . e($subject) . '</h1>'
         . $body
         . '<p style="margin:24px 0 0;color:#475569;font-size:14px;line-height:1.6;">We Will Serve, And Will Be Of Service To The Game.</p>'
         . '</td></tr>'
-        . '<tr><td style="padding:18px 30px;background:#fff7ed;color:#475569;font-size:13px;line-height:1.5;">You are receiving this because you subscribed to RTBO updates. Questions? Contact <a href="mailto:' . e(RTBO_ADMIN_EMAIL) . '" style="color:#c2410c;">' . e(RTBO_ADMIN_EMAIL) . '</a>.</td></tr>'
+        . '<tr><td style="padding:18px 30px;background:#fff7ed;color:#475569;font-size:13px;line-height:1.5;">You are receiving this because you subscribed to RTBO updates. Questions? Contact <a href="mailto:' . e(RTBO_ADMIN_EMAIL) . '" style="color:#6f0b13;">' . e(RTBO_ADMIN_EMAIL) . '</a>.</td></tr>'
         . '</table></td></tr></table></body></html>';
 }
 

@@ -51,27 +51,28 @@ export const defaultRtboResume = {
     }
   ],
   events: [
-    { date: 'June 2017', event: 'UCA', location: 'Conway, AR' },
-    { date: 'June 2018', event: 'UCA', location: 'Conway, AR' },
-    { date: 'June 2018', event: 'UALR', location: 'Little Rock, AR' },
-    { date: 'July 2018', event: 'UALR', location: 'Little Rock, AR' },
-    { date: 'June 2019', event: 'UALR', location: 'Little Rock, AR' },
-    { date: 'July 2019', event: 'UALR', location: 'Little Rock, AR' },
-    { date: 'June 2021', event: 'Lyon College', location: 'Batesville, AR' },
-    { date: 'July 2021', event: 'UALR', location: 'Little Rock, AR' },
-    { date: 'June 2022', event: 'UAPB Men', location: 'Pine Bluff, AR' },
-    { date: 'July 2022', event: 'UALR', location: 'Little Rock, AR' },
-    { date: 'June 2023', event: 'UAPB Women', location: 'Pine Bluff, AR' },
-    { date: 'July 2023', event: 'UALR', location: 'Little Rock, AR' },
-    { date: 'June 2024', event: 'UAPB Men', location: 'Pine Bluff, AR' },
-    { date: 'July 2024', event: 'UALR', location: 'Little Rock, AR' },
-    { date: 'July 2025', event: 'UALR', location: 'Little Rock, AR' },
-    { date: 'April 2026', event: 'Hop Step Sporting Events', location: 'Benton, AR' },
-    { date: 'May 2026', event: 'Hop Step Sporting Events', location: 'Benton, AR' },
-    { date: 'June 2026', event: 'UAPB Men', location: 'Pine Bluff, AR' },
-    { date: 'June 2026', event: 'UAPB Women', location: 'Pine Bluff, AR' },
-    { date: 'June 8-9, 2026', event: 'Big Miller / RTBO Official-Sponsored Elite Girls Tournament', location: 'Little Rock, AR', highlight: true },
-    { date: 'July 2026', event: 'UALR', location: 'Little Rock, AR' }
+    { date: 'June 1, 2026', event: 'UAPB Men', location: 'Pine Bluff, AR', imageUrl: '/assets/images/resume-cards/uapb_men_resume_card.png' },
+    { date: 'April 2026', event: 'Hop Step Sporting Events', location: 'Little Rock, AR', imageUrl: '/assets/images/resume-cards/hop_step_resume_card1aa.png' },
+    { date: 'July 2023', event: 'UAPB Event Experience', location: 'Pine Bluff, AR', imageUrl: '/assets/images/resume-cards/uapb__resume_card2023.png' },
+    { date: 'June 18-19, 2026', event: 'Hop Step Sporting Events', location: 'Little Rock, AR', imageUrl: '/assets/images/resume-cards/hop_step_resume_card.png' },
+    { date: 'June 8-9, 2026', event: 'Big Miller Events', location: 'Little Rock, AR', imageUrl: '/assets/images/resume-cards/big_miller_events_resume_card.png', highlight: true },
+    { date: 'June 2023', event: 'Lyon College', location: 'Batesville, AR', imageUrl: '/assets/images/resume-cards/lyon_college_resume_card.png' },
+    { date: 'July 21-22, 2026', event: 'Hop Step Sporting Events', location: 'Little Rock, AR', imageUrl: '/assets/images/resume-cards/hop_step_resume_card2.png' },
+    { date: 'May 2026', event: 'Hop Step Sporting Events', location: 'Little Rock, AR', imageUrl: '/assets/images/resume-cards/hop_step_resume_card1a.png' },
+    { date: 'March 2026', event: 'Hop Step Sporting Events', location: 'Little Rock, AR', imageUrl: '/assets/images/resume-cards/hop__resume_card1aaa.png' },
+    { date: 'June 20, 2026', event: 'Hop Step Sporting Events', location: 'Little Rock, AR', imageUrl: '/assets/images/resume-cards/hop_step_resume_card1.png' },
+    { date: 'July 2018', event: 'UALR', location: 'Little Rock, AR', imageUrl: '/assets/images/resume-cards/ualr_resume_card2018.png' },
+    { date: 'July 2019', event: 'UALR', location: 'Little Rock, AR', imageUrl: '/assets/images/resume-cards/ualr_resume_card2019.png' },
+    { date: 'June 8-9, 2026', event: 'UAPB Women', location: 'Pine Bluff, AR', imageUrl: '/assets/images/resume-cards/uapb_women_resume_card.png' },
+    { date: 'July 2021', event: 'UALR', location: 'Little Rock, AR', imageUrl: '/assets/images/resume-cards/ualr_resume_card2021.png' },
+    { date: 'July 2022', event: 'UALR', location: 'Little Rock, AR', imageUrl: '/assets/images/resume-cards/ualr_resume_card2022.png' },
+    { date: 'July 2023', event: 'UALR', location: 'Little Rock, AR', imageUrl: '/assets/images/resume-cards/ualr_resume_card2023.png' },
+    { date: 'June 2018', event: 'UALR', location: 'Little Rock, AR', imageUrl: '/assets/images/resume-cards/ualr_resume_card12018.png' },
+    { date: 'June 2019', event: 'UALR', location: 'Little Rock, AR', imageUrl: '/assets/images/resume-cards/ualr_resume_card12019.png' },
+    { date: 'June 2021', event: 'UALR', location: 'Little Rock, AR', imageUrl: '/assets/images/resume-cards/ualr_resume_card12021.png' },
+    { date: 'June 2022', event: 'UALR', location: 'Little Rock, AR', imageUrl: '/assets/images/resume-cards/ualr_resume_card12022.png' },
+    { date: 'June 2018', event: 'UCA', location: 'Conway, AR', imageUrl: '/assets/images/resume-cards/uca_resume_card2018.png' },
+    { date: 'June 2019', event: 'UCA', location: 'Conway, AR', imageUrl: '/assets/images/resume-cards/uca_resume_card2019.png' }
   ],
   standards: [
     {
@@ -133,6 +134,7 @@ function normalizeEvents(value = []) {
     date: textValue(item?.date),
     event: textValue(item?.event || item?.title),
     location: textValue(item?.location),
+    imageUrl: textValue(item?.imageUrl || item?.image_url),
     highlight: Boolean(item?.highlight)
   })).filter(item => item.date || item.event || item.location);
 }

@@ -3,19 +3,19 @@
   <desc id="desc">Screenshot-style RefZone University learner screen showing reading, lecture, assignment, assessment, and visual aid areas.</desc>
   <rect width="1440" height="900" fill="#f5f7fb"/>
   <rect x="0" y="0" width="1440" height="72" fill="#101820"/>
-  <text x="46" y="46" fill="#f58220" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="900">REFZONE UNIVERSITY</text>
+  <text x="46" y="46" fill="#c1121f" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="900">REFZONE UNIVERSITY</text>
   <text x="1120" y="45" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Course Browser</text>
   <rect x="32" y="104" width="304" height="736" rx="18" fill="#ffffff" stroke="#d6dee8"/>
   <text x="60" y="152" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="900">NBA</text>
-  <rect x="60" y="186" width="226" height="42" rx="9" fill="#f58220" opacity=".18"/>
+  <rect x="60" y="186" width="226" height="42" rx="9" fill="#c1121f" opacity=".18"/>
   <rect x="60" y="252" width="226" height="18" rx="5" fill="#cbd5e1"/>
   <rect x="60" y="294" width="196" height="18" rx="5" fill="#cbd5e1"/>
   <rect x="60" y="336" width="236" height="18" rx="5" fill="#cbd5e1"/>
   <rect x="370" y="104" width="1018" height="736" rx="18" fill="#ffffff" stroke="#d6dee8"/>
-  <text x="410" y="158" fill="#f58220" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="900">COURT VISUAL AID</text>
+  <text x="410" y="158" fill="#c1121f" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="900">COURT VISUAL AID</text>
   <text x="410" y="210" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="900">Court Mechanics Lab</text>
   <rect x="410" y="250" width="420" height="250" rx="18" fill="#0b0f14"/>
-  <path d="M470 438h284M470 392h210M470 346h284M470 300h240" stroke="#f58220" stroke-width="13" stroke-linecap="round"/>
+  <path d="M470 438h284M470 392h210M470 346h284M470 300h240" stroke="#c1121f" stroke-width="13" stroke-linecap="round"/>
   <circle cx="758" cy="372" r="62" fill="none" stroke="#ffffff" stroke-width="7" opacity=".75"/>
   <rect x="872" y="252" width="436" height="64" rx="12" fill="#e0f2fe"/>
   <text x="902" y="292" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="900">Required Reading</text>
@@ -25,7 +25,7 @@
   <text x="902" y="464" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="900">Lab Assignment</text>
   <rect x="410" y="548" width="898" height="80" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
   <text x="440" y="598" fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="900">Assessment: quiz, video test, practical, or portfolio evidence before advancement</text>
-  <rect x="410" y="660" width="248" height="62" rx="31" fill="#f58220"/>
+  <rect x="410" y="660" width="248" height="62" rx="31" fill="#c1121f"/>
   <text x="455" y="700" fill="#07111f" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="900">Take Test</text>
   <rect x="688" y="660" width="248" height="62" rx="31" fill="#101820"/>
   <text x="733" y="700" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="900">Submit Work</text>

@@ -11,7 +11,7 @@
 
 .rtbo-inventory-summary article,
 .rtbo-inventory-item {
-  border: 1px solid rgba(245, 130, 32, .24);
+  border: 1px solid rgba(193, 18, 31, .24);
   border-radius: 14px;
   background:
     linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.02)),
@@ -81,7 +81,7 @@
 .rtbo-inventory-toolbar :is(input, select) {
   min-height: 42px;
   width: 100%;
-  border: 1px solid rgba(245, 130, 32, .24);
+  border: 1px solid rgba(193, 18, 31, .24);
   border-radius: 10px;
   padding: 9px 12px;
   color: #fff;
@@ -185,7 +185,7 @@
 :root[data-theme="light"] .rtbo-inventory-item small,
 :root[data-theme="light"] .rtbo-inventory-form label span,
 :root[data-theme="light"] .rtbo-inventory-toolbar label span {
-  color: #f58220;
+  color: #c1121f;
 }
 
 :root[data-theme="light"] .rtbo-inventory-form :is(input, select, textarea),

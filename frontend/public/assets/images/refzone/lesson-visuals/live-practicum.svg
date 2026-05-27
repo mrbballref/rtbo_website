@@ -2,14 +2,14 @@
   <title id="title">Live Practicum visual</title>
   <desc id="desc">Game-flow screenshot, observer checklist, live-performance evidence panel</desc>
   <rect width="1280" height="720" fill="#0b0f14"/>
-  <rect x="54" y="46" width="1172" height="628" rx="30" fill="#101820" stroke="#f58220" stroke-width="4"/>
-  <text x="88" y="120" fill="#f58220" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="900">LIVE</text>
+  <rect x="54" y="46" width="1172" height="628" rx="30" fill="#101820" stroke="#c1121f" stroke-width="4"/>
+  <text x="88" y="120" fill="#c1121f" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="900">LIVE</text>
   <text x="88" y="190" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="900">Live Practicum</text>
   <text x="88" y="242" fill="#dbeafe" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700">Game-flow screenshot, observer checklist, live-performance evidence panel</text>
-  <path d="M690 132h420v456H690zM690 360h420M900 132v456M792 224h216v272H792z" fill="none" stroke="#f58220" stroke-width="8" opacity=".9"/><circle cx="900" cy="360" r="72" fill="none" stroke="#ffffff" stroke-width="5" opacity=".7"/><path d="M810 520c60-70 160-80 240-28" fill="none" stroke="#22c55e" stroke-width="10" stroke-linecap="round"/>
+  <path d="M690 132h420v456H690zM690 360h420M900 132v456M792 224h216v272H792z" fill="none" stroke="#c1121f" stroke-width="8" opacity=".9"/><circle cx="900" cy="360" r="72" fill="none" stroke="#ffffff" stroke-width="5" opacity=".7"/><path d="M810 520c60-70 160-80 240-28" fill="none" stroke="#22c55e" stroke-width="10" stroke-linecap="round"/>
   
   
   <rect x="88" y="444" width="448" height="56" rx="10" fill="#ffffff" opacity=".08"/>
   <rect x="88" y="520" width="368" height="56" rx="10" fill="#ffffff" opacity=".08"/>
-  <rect x="88" y="596" width="512" height="28" rx="8" fill="#f58220" opacity=".82"/>
+  <rect x="88" y="596" width="512" height="28" rx="8" fill="#c1121f" opacity=".82"/>
 </svg>

@@ -163,8 +163,8 @@
 }
 
 .podcast-builder-page :is(input, select, textarea):focus {
-  border-color: #f97316;
-  outline: 2px solid rgba(249, 115, 22, .2);
+  border-color: #c1121f;
+  outline: 2px solid rgba(193, 18, 31, .2);
 }
 
 .podcast-builder-filters,

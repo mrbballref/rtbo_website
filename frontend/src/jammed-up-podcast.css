@@ -143,9 +143,9 @@
 
 .jammed-player-frame {
   position: relative;
-  padding: clamp(14px, 1.8vw, 26px);
+  padding: clamp(6px, .75vw, 12px);
   border: 1px solid rgba(255, 255, 255, .78);
-  border-radius: 24px;
+  border-radius: 16px;
   background: var(--rtbo-video-chrome-surface, var(--jammed-chrome));
   box-shadow: var(--rtbo-video-chrome-shadow, 0 34px 96px rgba(0, 0, 0, .6));
 }
@@ -153,12 +153,12 @@
 .jammed-player-frame::before {
   content: "";
   position: absolute;
-  inset: clamp(7px, .85vw, 12px);
-  border: 1px solid rgba(249, 115, 22, .88);
-  border-radius: 17px;
+  inset: clamp(3px, .4vw, 6px);
+  border: 1px solid rgba(193, 18, 31, .88);
+  border-radius: 12px;
   background: transparent;
   box-shadow:
-    inset 0 0 18px rgba(249, 115, 22, .18),
+    inset 0 0 18px rgba(193, 18, 31, .18),
     0 0 20px rgba(181, 18, 43, .38);
   pointer-events: none;
 }
@@ -166,8 +166,8 @@
 .jammed-player-frame::after {
   content: "";
   position: absolute;
-  inset: 3px;
-  border-radius: 21px;
+  inset: 2px;
+  border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, .34);
   background: var(--rtbo-video-chrome-inner-highlight, linear-gradient(118deg, rgba(255, 255, 255, .34), transparent 18%, transparent 68%, rgba(255, 255, 255, .22)));
   mix-blend-mode: screen;
@@ -385,7 +385,7 @@
 
 .jammed-control-row .jammed-primary-control {
   border-color: rgba(255, 255, 255, .35);
-  background: linear-gradient(135deg, var(--jammed-red), #f97316);
+  background: linear-gradient(135deg, var(--jammed-red), #c1121f);
 }
 
 .jammed-volume {
@@ -576,4 +576,28 @@
   .jammed-brand-meaning h2 {
     font-size: 1.55rem;
   }
+}
+
+.jammed-player-frame::before {
+  border-color: rgba(226, 232, 240, .74);
+  box-shadow:
+    inset 0 0 14px rgba(226, 232, 240, .14),
+    0 0 14px rgba(226, 232, 240, .2);
+}
+
+.jammed-progress-row input,
+.jammed-volume {
+  accent-color: #cbd5e1;
+}
+
+.jammed-control-row button:is(:hover, :focus-visible) {
+  border-color: rgba(226, 232, 240, .82);
+  background: rgba(226, 232, 240, .12);
+}
+
+.jammed-control-row .jammed-primary-control {
+  border-color: rgba(226, 232, 240, .72);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, .045)),
+    #171a20;
 }

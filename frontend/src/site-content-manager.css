@@ -125,7 +125,7 @@
 
 .rtbo-site-manager-form :is(input, select, textarea):focus,
 .rtbo-site-manager-toolbar :is(input, select):focus {
-  border-color: #ff6a00;
+  border-color: #c1121f;
   box-shadow: 0 0 0 3px rgba(255, 106, 0, 0.18);
 }
 
@@ -173,7 +173,7 @@
 .rtbo-site-manager-placeholder {
   display: grid;
   place-items: center;
-  color: #ff8a1d;
+  color: #c44d59;
   font-size: 2rem;
   font-weight: 900;
 }

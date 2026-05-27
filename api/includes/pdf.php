@@ -226,14 +226,14 @@ function build_registration_pdf(array $registration): string
     $amount = pdf_money((int) ($registration['amount_cents'] ?? 0));
 
     if ($profilePhoto !== null) {
-        $page[] = pdf_rect(54, 546, 118, 118, '1 0.969 0.922', '0.976 0.451 0.086');
+        $page[] = pdf_rect(54, 546, 118, 118, '0.973 0.933 0.945', '0.976 0.451 0.086');
         $page[] = pdf_image_command('ProfilePhoto', 62, 554, 102, 102);
     } else {
-        $page[] = pdf_rect(54, 546, 118, 118, '1 0.969 0.922', '0.976 0.451 0.086');
+        $page[] = pdf_rect(54, 546, 118, 118, '0.973 0.933 0.945', '0.976 0.451 0.086');
         $page[] = pdf_text('Profile picture', 72, 612, 10, 'F2', '0.55 0.20 0.05');
         $page[] = pdf_text('not available', 78, 596, 9, 'F1', '0.23 0.25 0.30');
     }
-    $page[] = pdf_rect(188, 584, 370, 80, '1 0.969 0.922', '0.976 0.451 0.086');
+    $page[] = pdf_rect(188, 584, 370, 80, '0.973 0.933 0.945', '0.976 0.451 0.086');
     $page[] = pdf_text($name, 206, 630, 20, 'F2', '0.07 0.08 0.10');
     $page[] = pdf_text(pdf_value($registration['email'] ?? '') . '  |  ' . pdf_value(rtbo_format_phone_number((string) ($registration['phone'] ?? ''))), 206, 610, 10, 'F1', '0.23 0.25 0.30');
     $page[] = pdf_text('Status: ' . $status . '   |   Provider: ' . $provider . '   |   Amount: ' . $amount, 206, 594, 10, 'F2', '0.55 0.20 0.05');
@@ -424,7 +424,7 @@ function build_contact_pdf(array $message): string
     $submittedAt = pdf_date((string) ($message['submitted_at'] ?? date('c')));
     $contactId = pdf_value($message['contact_id'] ?? $message['id'] ?? '');
 
-    $page[] = pdf_rect(54, 552, 504, 112, '1 0.969 0.922', '0.976 0.451 0.086');
+    $page[] = pdf_rect(54, 552, 504, 112, '0.973 0.933 0.945', '0.976 0.451 0.086');
     $page[] = pdf_text($name, 76, 628, 20, 'F2', '0.07 0.08 0.10');
     $page[] = pdf_text($email . '  |  ' . $phone, 76, 606, 10, 'F1', '0.23 0.25 0.30');
     $page[] = pdf_text('Submitted: ' . $submittedAt . '   |   Contact ID: ' . $contactId, 76, 586, 10, 'F2', '0.55 0.20 0.05');
@@ -631,7 +631,7 @@ function build_invoice_pdf(array $invoice): string
     $eventName = rtbo_invoice_pdf_text($invoice, 'eventName', 'event_name');
     $gameLevel = rtbo_invoice_pdf_text($invoice, 'gameLevel', 'game_level');
     $reference = pdf_value(rtbo_invoice_pdf_text($invoice, 'referenceNumber', 'reference') ?: $invoiceNumber);
-    $orange = '0.961 0.510 0.125';
+    $orange = '0.561 0.114 0.173';
 
     $page = [];
     $page[] = pdf_rect(0, 0, 612, 792, '1 1 1');
@@ -930,7 +930,7 @@ function build_contract_pdf(array $contract): string
 
     $logoPath = dirname(__DIR__, 2) . '/frontend/public/assets/images/logo.png';
     $logoImage = pdf_image_data_as_jpeg($logoPath);
-    $orange = '0.961 0.510 0.125';
+    $orange = '0.561 0.114 0.173';
     $black = '0.02 0.02 0.02';
     $isOfficialAgreement = rtbo_contract_pdf_is_official_agreement($contract);
     $title = pdf_value(rtbo_contract_pdf_title($contract));
@@ -1018,7 +1018,7 @@ function build_contract_pdf(array $contract): string
     };
 
     $addHeader();
-    $page[] = pdf_rect(48, 594, 516, 68, '1 0.969 0.922', $orange);
+    $page[] = pdf_rect(48, 594, 516, 68, '0.973 0.933 0.945', $orange);
     $page[] = pdf_text($counterpartyLabel, 66, 646, 8, 'F2', '0 0 0');
     $page[] = pdf_text($clientName, 66, 628, 16, 'F2', '0 0 0');
     $page[] = pdf_text($eventLabel . ': ' . $eventName, 66, 612, 10, 'F1', '0 0 0');

@@ -905,7 +905,7 @@ body{position:relative;margin:0;color:#111;background:#fff;font-family:Arial,Hel
 .watermark{position:fixed;left:50%;top:56%;z-index:-1;width:360px;max-width:56%;opacity:.045;transform:translate(-50%,-50%)}
 .running-header{display:flex;align-items:center;justify-content:center;gap:8px;border-bottom:1px solid #d7d7d7;color:#111;font-size:8.7px;padding:0 0 7px;margin-bottom:18px;letter-spacing:.01em;text-align:center}
 .running-logo{width:22px;height:22px;object-fit:contain;flex:0 0 auto}
-.cover{position:relative;margin-bottom:18px;border:1px solid #d9d9d9;border-top:8px solid #f58220;background:linear-gradient(180deg,#fff 0%,#fafafa 100%);box-shadow:0 8px 20px rgba(0,0,0,.06)}
+.cover{position:relative;margin-bottom:18px;border:1px solid #d9d9d9;border-top:8px solid #c1121f;background:linear-gradient(180deg,#fff 0%,#fafafa 100%);box-shadow:0 8px 20px rgba(0,0,0,.06)}
 .cover-band{display:grid;grid-template-columns:92px minmax(0,1fr);gap:18px;align-items:center;padding:22px 24px 18px;border-bottom:5px solid #111}
 .cover-logo{display:block;width:92px;height:92px;object-fit:contain}
 .cover h1{margin:0;color:#111;font-size:20px;letter-spacing:.09em}
@@ -916,24 +916,24 @@ body{position:relative;margin:0;color:#111;background:#fff;font-family:Arial,Hel
 .cover th{width:32%;color:#111;text-align:left;background:#f6f6f6}
 .cover th,.cover td{border-bottom:1px solid #ededed;padding:6px 8px}
 .motto{margin:12px 0 0;color:#111;font-weight:700;text-align:center}
-.snapshot{break-inside:avoid;margin:0 0 16px;padding:14px;border:1px solid #d8d8d8;border-left:6px solid #f58220;background:#fcfcfc}
+.snapshot{break-inside:avoid;margin:0 0 16px;padding:14px;border:1px solid #d8d8d8;border-left:6px solid #c1121f;background:#fcfcfc}
 .snapshot h2{margin:0 0 10px;color:#111;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
 .snapshot-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
 .snapshot-grid div{min-height:52px;padding:8px;border:1px solid #e2e2e2;background:#fff}
 .snapshot-grid span{display:block;margin-bottom:4px;color:#555;font-size:8.4px;font-weight:700;text-transform:uppercase;letter-spacing:.08em}
 .snapshot-grid strong{display:block;color:#111;font-size:10.2px;line-height:1.25}
 .paper-section{display:grid;grid-template-columns:74px minmax(0,1fr);gap:16px;break-inside:avoid;margin:0 0 14px;padding-bottom:11px;border-bottom:1px solid #ededed}
-.section-kicker{color:#f58220;font-size:9px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.section-kicker{color:#c1121f;font-size:9px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
 .paper-section h2{margin:0 0 7px;color:#111;font-size:12.5px;line-height:1.2;text-transform:uppercase;letter-spacing:.025em}
 .paper-section p{margin:0 0 6px;color:#111}
 .fee-section{break-inside:avoid;margin:2px 0 16px;padding:13px;border:1px solid #d8d8d8;background:#fff}
-.fee-head{border-left:5px solid #f58220;padding-left:10px;margin-bottom:10px}
-.fee-head span,.signature-intro span{display:block;color:#f58220;font-size:8.5px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+.fee-head{border-left:5px solid #c1121f;padding-left:10px;margin-bottom:10px}
+.fee-head span,.signature-intro span{display:block;color:#c1121f;font-size:8.5px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
 .fee-head h2,.signature-intro h2{margin:2px 0 6px;color:#111;font-size:12.5px;text-transform:uppercase;letter-spacing:.025em}
 .fee-head p,.fee-note{margin:0 0 7px;color:#111}
 .fee-table{width:100%;border-collapse:collapse;margin:8px 0 9px}
 .fee-table th{background:#111;color:#fff;text-align:left}
-.fee-table th:first-child{background:#f58220;color:#111}
+.fee-table th:first-child{background:#c1121f;color:#111}
 .fee-table th,.fee-table td{border:1px solid #cfcfcf;padding:6px;vertical-align:top}
 .fee-table .total td{font-weight:700;text-align:right;background:#f7f7f7}
 .signature-page{break-before:page;border:1px solid #d8d8d8;border-top:8px solid #111;padding:18px}

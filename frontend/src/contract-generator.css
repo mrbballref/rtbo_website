@@ -18,7 +18,7 @@
 .rtbo-contract-saved-widget,
 .rtbo-contract-summary-grid article {
   min-width: 0;
-  border: 1px solid rgba(245, 130, 32, .3);
+  border: 1px solid rgba(193, 18, 31, .3);
   border-radius: 8px;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .015)),
@@ -43,7 +43,7 @@
 .rtbo-contract-widget:focus-visible,
 .rtbo-contract-saved-widget:hover,
 .rtbo-contract-saved-widget:focus-visible {
-  border-color: rgba(245, 130, 32, .78);
+  border-color: rgba(193, 18, 31, .78);
   outline: none;
   transform: translateY(-1px);
   box-shadow: 0 18px 38px rgba(0, 0, 0, .22);
@@ -138,11 +138,11 @@
 }
 
 .rtbo-contract-preview-banner {
-  border: 1px solid rgba(245, 130, 32, .38);
+  border: 1px solid rgba(193, 18, 31, .38);
   border-radius: 8px;
   padding: 10px 12px;
   color: #111827;
-  background: linear-gradient(135deg, #f58220, var(--orange));
+  background: linear-gradient(135deg, #c1121f, var(--orange));
   font-size: .76rem;
   font-weight: 1000;
   text-align: center;
@@ -178,7 +178,7 @@
 .rtbo-contract-field-panel,
 .rtbo-contract-preview {
   min-width: 0;
-  border: 1px solid rgba(245, 130, 32, .22);
+  border: 1px solid rgba(193, 18, 31, .22);
   border-radius: 8px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, .045), rgba(255, 255, 255, .012)),
@@ -275,7 +275,7 @@
 .rtbo-contract-field-grid select:focus,
 .rtbo-contract-field-grid textarea:focus {
   border-color: var(--orange);
-  box-shadow: 0 0 0 3px rgba(245, 130, 32, .16);
+  box-shadow: 0 0 0 3px rgba(193, 18, 31, .16);
   background: rgba(0, 0, 0, .48);
 }
 
@@ -310,7 +310,7 @@
 }
 
 .rtbo-contract-preview::-webkit-scrollbar-thumb:hover {
-  background: #f58220;
+  background: #c1121f;
 }
 
 .rtbo-contract-paper {
@@ -627,7 +627,7 @@
 :root[data-theme="light"] .rtbo-contract-form-panel,
 :root[data-theme="light"] .rtbo-contract-field-panel {
   background: #fff;
-  border-color: rgba(245, 130, 32, .3);
+  border-color: rgba(193, 18, 31, .3);
 }
 
 :root[data-theme="light"] .rtbo-contract-widget strong,

@@ -1,7 +1,7 @@
 .rtbo-education-landing-page,
 .rtbo-education-workflow,
 .rtbo-academy-test-center-panel {
-  --education-surface: linear-gradient(135deg, rgba(245, 130, 32, .14), rgba(255, 255, 255, .04)), rgba(12, 12, 12, .62);
+  --education-surface: linear-gradient(135deg, rgba(193, 18, 31, .14), rgba(255, 255, 255, .04)), rgba(12, 12, 12, .62);
   --education-panel: linear-gradient(145deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .018)), rgba(12, 12, 12, .62);
   --education-heading: #f8fafc;
   --education-text: #e5e7eb;
@@ -48,7 +48,7 @@
   grid-template-columns: minmax(0, 1.35fr) minmax(250px, .65fr);
   gap: 16px;
   align-items: stretch;
-  border: 1px solid rgba(245, 130, 32, .26);
+  border: 1px solid rgba(193, 18, 31, .26);
   border-radius: 8px;
   padding: 18px;
   background: var(--education-surface);
@@ -77,7 +77,7 @@
 .rtbo-education-flow-grid article,
 .rtbo-academy-test-widget {
   min-width: 0;
-  border: 1px solid rgba(245, 130, 32, .24);
+  border: 1px solid rgba(193, 18, 31, .24);
   border-radius: 8px;
   background: var(--education-panel);
 }
@@ -141,7 +141,7 @@
 
 .rtbo-education-widget:hover,
 .rtbo-education-widget:focus-visible {
-  border-color: rgba(245, 130, 32, .72);
+  border-color: rgba(193, 18, 31, .72);
   outline: none;
   transform: translateY(-1px);
 }
@@ -173,7 +173,7 @@
   grid-template-rows: auto auto 1fr auto;
   gap: 10px;
   min-height: 186px;
-  border: 1px solid rgba(245, 130, 32, .26);
+  border: 1px solid rgba(193, 18, 31, .26);
   border-radius: 8px;
   padding: 14px;
   background: var(--education-panel);
@@ -181,8 +181,8 @@
 }
 
 .rtbo-test-workflow-card.active {
-  border-color: rgba(245, 130, 32, .72);
-  background: linear-gradient(145deg, rgba(245, 130, 32, .14), rgba(255, 255, 255, .024)), rgba(12, 12, 12, .72);
+  border-color: rgba(193, 18, 31, .72);
+  background: linear-gradient(145deg, rgba(193, 18, 31, .14), rgba(255, 255, 255, .024)), rgba(12, 12, 12, .72);
 }
 
 .rtbo-test-workflow-card div:first-child {
@@ -237,11 +237,11 @@
   .rtbo-education-flow-grid article,
   .rtbo-academy-test-widget
 ) {
-  border-color: rgba(245, 130, 32, .3);
+  border-color: rgba(193, 18, 31, .3);
 }
 
 :root[data-theme="light"] .rtbo-test-workflow-card.active {
-  background: rgba(245, 130, 32, .1);
+  background: rgba(193, 18, 31, .1);
 }
 
 @media (max-width: 1536px) {

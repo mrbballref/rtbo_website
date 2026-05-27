@@ -9,7 +9,7 @@
 .rtbo-newsletter-stat,
 .rtbo-newsletter-magazine,
 .rtbo-newsletter-tabs {
-  border: 1px solid rgba(249, 115, 22, .34);
+  border: 1px solid rgba(193, 18, 31, .34);
   border-radius: 8px;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .02)),
@@ -90,9 +90,9 @@
 .rtbo-newsletter-tabs button.active,
 .rtbo-newsletter-tabs button:hover,
 .rtbo-newsletter-tabs button:focus-visible {
-  border-color: rgba(249, 115, 22, .88);
+  border-color: rgba(193, 18, 31, .88);
   color: #111827;
-  background: #f97316;
+  background: #c1121f;
 }
 
 .rtbo-newsletter-status {
@@ -159,14 +159,14 @@
   padding: clamp(24px, 4vw, 42px);
   color: #fff;
   background:
-    radial-gradient(circle at 50% 20%, rgba(249, 115, 22, .34), transparent 34%),
+    radial-gradient(circle at 50% 20%, rgba(193, 18, 31, .34), transparent 34%),
     linear-gradient(145deg, rgba(0, 0, 0, .42), rgba(0, 0, 0, .92)),
     url('/assets/images/three-person-crew.jpg') center/cover;
 }
 
 .rtbo-newsletter-magazine-cover h3 {
   max-width: 9ch;
-  color: #f97316;
+  color: #c1121f;
   font-size: clamp(2.4rem, 7vw, 6.4rem);
   text-transform: uppercase;
 }
@@ -208,13 +208,13 @@
 }
 
 .rtbo-newsletter-section-list article {
-  border-top: 1px solid rgba(249, 115, 22, .28);
+  border-top: 1px solid rgba(193, 18, 31, .28);
   padding-top: 14px;
 }
 
 .rtbo-newsletter-section-list span,
 .rtbo-newsletter-section-list a {
-  color: #ea580c;
+  color: #7f0d16;
   font-weight: 1000;
   text-transform: uppercase;
 }
@@ -310,7 +310,7 @@
   display: inline-block;
   max-width: 100%;
   overflow-wrap: anywhere;
-  color: #fb923c;
+  color: #a41623;
   font-weight: 900;
 }
 
@@ -339,7 +339,7 @@
 
 .rtbo-newsletter-pill.is-orange {
   color: #111827;
-  background: #f97316;
+  background: #c1121f;
 }
 
 .rtbo-newsletter-article-grid {
@@ -380,7 +380,7 @@
 .rtbo-newsletter-checkbox-card input {
   width: 20px;
   height: 20px;
-  accent-color: #f97316;
+  accent-color: #c1121f;
 }
 
 .rtbo-newsletter-checkbox-card small {
@@ -391,10 +391,10 @@
 
 .rtbo-newsletter-empty {
   grid-column: 1 / -1;
-  border: 1px dashed rgba(249, 115, 22, .48);
+  border: 1px dashed rgba(193, 18, 31, .48);
   border-radius: 8px;
   padding: 18px;
-  background: rgba(249, 115, 22, .08);
+  background: rgba(193, 18, 31, .08);
 }
 
 .rtbo-newsletter-empty strong {
@@ -428,7 +428,7 @@
   flex: 0 0 auto;
   margin-top: 6px;
   border-radius: 50%;
-  background: #f97316;
+  background: #c1121f;
 }
 
 :root[data-theme="light"] .rtbo-newsletter-hero,
@@ -467,7 +467,7 @@
 :root[data-theme="light"] .rtbo-newsletter-checkbox-card,
 :root[data-theme="light"] .rtbo-newsletter-article,
 :root[data-theme="light"] .rtbo-newsletter-compliance-grid article {
-  border-color: rgba(249, 115, 22, .34);
+  border-color: rgba(193, 18, 31, .34);
   color: #111827;
   background: rgba(255, 255, 255, .76);
 }
@@ -475,7 +475,7 @@
 :root[data-theme="light"] .rtbo-newsletter-center input,
 :root[data-theme="light"] .rtbo-newsletter-center select,
 :root[data-theme="light"] .rtbo-newsletter-center textarea {
-  border-color: rgba(249, 115, 22, .42);
+  border-color: rgba(193, 18, 31, .42);
   color: #111827;
   background: #fff;
 }

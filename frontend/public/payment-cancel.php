@@ -31,10 +31,10 @@ if ($type === 'refzone' && $enrollmentId !== '') {
   <title>Payment Canceled | Raising The Bar Officiating</title>
   <style>
     body { margin: 0; min-height: 100vh; display: grid; place-items: center; font-family: Inter, Arial, sans-serif; color: #fff; background: #080808; }
-    main { width: min(680px, calc(100% - 32px)); border: 1px solid rgba(245,130,32,.35); border-radius: 24px; padding: 34px; background: linear-gradient(145deg, rgba(255,255,255,.1), rgba(255,255,255,.035)); box-shadow: 0 24px 80px rgba(0,0,0,.45); }
+    main { width: min(680px, calc(100% - 32px)); border: 1px solid rgba(193, 18, 31,.35); border-radius: 24px; padding: 34px; background: linear-gradient(145deg, rgba(255,255,255,.1), rgba(255,255,255,.035)); box-shadow: 0 24px 80px rgba(0,0,0,.45); }
     img { width: 116px; height: auto; display: block; margin-bottom: 18px; }
     p { color: rgba(255,255,255,.74); line-height: 1.6; }
-    a { display: inline-flex; margin-top: 18px; border-radius: 999px; padding: 12px 18px; color: #111; background: linear-gradient(145deg, #f58220, #ffd18f); font-weight: 900; text-decoration: none; }
+    a { display: inline-flex; margin-top: 18px; border-radius: 999px; padding: 12px 18px; color: #111; background: linear-gradient(145deg, #c1121f, #c68a92); font-weight: 900; text-decoration: none; }
   </style>
 </head>
 <body>

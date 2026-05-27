@@ -9,8 +9,8 @@
       <stop offset="1" stop-color="#151515"/>
     </linearGradient>
     <linearGradient id="orangeGlow" x1="0" x2="1">
-      <stop offset="0" stop-color="#ff6a00"/>
-      <stop offset="1" stop-color="#ff8a1d"/>
+      <stop offset="0" stop-color="#c1121f"/>
+      <stop offset="1" stop-color="#c44d59"/>
     </linearGradient>
     <pattern id="carbon" width="28" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
       <rect width="28" height="28" fill="#050505"/>
@@ -23,19 +23,19 @@
   </defs>
   <rect width="1200" height="900" fill="url(#bg)"/>
   <rect width="1200" height="900" fill="url(#carbon)" opacity=".34"/>
-  <path d="M0 820C245 710 402 845 605 760c189-78 270-230 595-150v290H0z" fill="#ff6a00" opacity=".12"/>
-  <rect x="44" y="44" width="1112" height="812" rx="34" fill="#0b0d10" opacity=".72" stroke="#ff6a00" stroke-opacity=".55" stroke-width="3"/>
+  <path d="M0 820C245 710 402 845 605 760c189-78 270-230 595-150v290H0z" fill="#c1121f" opacity=".12"/>
+  <rect x="44" y="44" width="1112" height="812" rx="34" fill="#0b0d10" opacity=".72" stroke="#c1121f" stroke-opacity=".55" stroke-width="3"/>
   
   <g filter="url(#shadow)" transform="translate(105 70) rotate(-12 500 350)">
     <path d="M276 390c0-108 88-196 196-196h242c92 0 166 74 166 166s-74 166-166 166H472c-108 0-196-28-196-136z" fill="#111" stroke="#d6dde6" stroke-width="12"/>
     <circle cx="714" cy="360" r="104" fill="#050505" stroke="#d6dde6" stroke-width="14"/>
     <circle cx="714" cy="360" r="54" fill="#0b0d10" stroke="#334155" stroke-width="8"/>
     <path d="M302 458 162 526l140 80h306l36-80H366z" fill="#111" stroke="#d6dde6" stroke-width="10"/>
-    <rect x="372" y="248" width="244" height="90" rx="14" fill="#ff6a00"/>
+    <rect x="372" y="248" width="244" height="90" rx="14" fill="#c1121f"/>
     <text x="494" y="308" text-anchor="middle" fill="#f8fafc" font-family="Arial Black, Impact, sans-serif" font-size="42">FOX 40</text>
     <path d="M822 202c24-70 104-92 158-44" fill="none" stroke="#d6dde6" stroke-width="22" stroke-linecap="round"/>
-    <path d="M162 526h280" stroke="#ff6a00" stroke-width="12"/>
+    <path d="M162 526h280" stroke="#c1121f" stroke-width="12"/>
   </g>
-  <text x="70" y="802" fill="#ff8a1d" font-family="Arial Black, Impact, sans-serif" font-size="34" letter-spacing="3">FOX 40 CLASSIC WHISTLE</text>
+  <text x="70" y="802" fill="#c44d59" font-family="Arial Black, Impact, sans-serif" font-size="34" letter-spacing="3">FOX 40 CLASSIC WHISTLE</text>
   <text x="70" y="842" fill="#d6dde6" font-family="Arial, sans-serif" font-size="22">Black official whistle</text>
 </svg>

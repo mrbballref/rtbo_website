@@ -11,9 +11,9 @@
       <stop offset="1" stop-color="#2b2b2b"/>
     </linearGradient>
     <linearGradient id="orange" x1="0" x2="1">
-      <stop offset="0" stop-color="#f36c13"/>
-      <stop offset=".48" stop-color="#ffb32a"/>
-      <stop offset="1" stop-color="#d94d05"/>
+      <stop offset="0" stop-color="#c1121f"/>
+      <stop offset=".48" stop-color="#c44d59"/>
+      <stop offset="1" stop-color="#7f0d16"/>
     </linearGradient>
     <linearGradient id="body" x1="0" x2="0" y1="0" y2="1">
       <stop offset="0" stop-color="#747a80"/>

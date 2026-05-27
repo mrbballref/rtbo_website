@@ -17,7 +17,7 @@
 .rtbo-resume-manager-summary-card {
   min-width: 0;
   padding: 14px;
-  border: 1px solid rgba(249, 115, 22, .34);
+  border: 1px solid rgba(193, 18, 31, .34);
   border-radius: 8px;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .018)),
@@ -54,7 +54,7 @@
 
 .rtbo-resume-manager-panel {
   padding: clamp(16px, 2vw, 22px);
-  border: 1px solid rgba(249, 115, 22, .26);
+  border: 1px solid rgba(193, 18, 31, .26);
   border-radius: 10px;
   background: rgba(255, 255, 255, .028);
 }
@@ -101,7 +101,7 @@
 
 .rtbo-resume-manager-form :is(input, textarea) {
   width: 100%;
-  border: 1px solid rgba(249, 115, 22, .42);
+  border: 1px solid rgba(193, 18, 31, .42);
   border-radius: 8px;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, .045), rgba(255, 255, 255, .01)),
@@ -170,7 +170,7 @@
 .rtbo-resume-manager-toggle input {
   width: 18px;
   min-height: 18px;
-  accent-color: #f97316;
+  accent-color: #c1121f;
 }
 
 .rtbo-resume-manager-submit-row {
@@ -179,7 +179,7 @@
   z-index: 4;
   justify-content: flex-end;
   padding: 14px;
-  border: 1px solid rgba(249, 115, 22, .3);
+  border: 1px solid rgba(193, 18, 31, .3);
   border-radius: 10px;
   background: rgba(5, 8, 12, .94);
   backdrop-filter: blur(14px);
@@ -205,7 +205,7 @@
 }
 
 :root[data-theme="light"] .rtbo-resume-manager-summary-card span {
-  color: #ea580c;
+  color: #7f0d16;
 }
 
 :root[data-theme="light"] .rtbo-resume-manager-form label {

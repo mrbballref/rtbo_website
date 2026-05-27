@@ -10,7 +10,7 @@
   gap: 18px;
   width: min(1120px, 100%);
   margin: 0 auto;
-  border: 1px solid rgba(245, 130, 32, .3);
+  border: 1px solid rgba(193, 18, 31, .3);
   border-radius: 8px;
   padding: clamp(16px, 3vw, 28px);
   background: var(--card-bg);
@@ -55,7 +55,7 @@
 .rtbo-contract-sign-summary,
 .rtbo-contract-sign-form {
   min-width: 0;
-  border: 1px solid rgba(245, 130, 32, .24);
+  border: 1px solid rgba(193, 18, 31, .24);
   border-radius: 8px;
   padding: 16px;
   background: rgba(255, 255, 255, .04);

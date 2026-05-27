@@ -458,7 +458,7 @@ export default function ShopInventoryManager({ onStatus = () => {} }) {
         </label>
         <label>
           <span>Colors</span>
-          <input name="colors" value={form.colors} onChange={updateForm} placeholder="Black, White, Orange" />
+          <input name="colors" value={form.colors} onChange={updateForm} placeholder="Black, White, Scarlet" />
         </label>
         <label className="wide full">
           <span>Description *</span>
