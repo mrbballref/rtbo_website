@@ -619,6 +619,7 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
   const [trainingOpen, setTrainingOpen] = useState(false);
   const [liveStreamOpen, setLiveStreamOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [dismissedDropdown, setDismissedDropdown] = useState('');
   const liveStreamNavLinks = navLinks.filter(([id]) => id === 'livestream' || id === 'refroom' || id === 'podcast');
   const servicesNavLinks = navLinks.filter(([id]) => id === 'services' || id === 'resume');
   const trainingNavLinks = navLinks.filter(([id]) => id === 'trainers' || id === 'education');
@@ -627,16 +628,22 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
   const servicesActive = servicesNavLinks.some(([id]) => id === active);
   const trainingActive = trainingNavLinks.some(([id]) => id === active);
 
-  function closeNavDropdowns() {
+  function closeNavDropdowns(nextDismissedDropdown = '') {
     setTrainingOpen(false);
     setLiveStreamOpen(false);
     setServicesOpen(false);
+    setDismissedDropdown(nextDismissedDropdown);
   }
 
   function openNavDropdown(id) {
+    setDismissedDropdown('');
     setLiveStreamOpen(id === 'livestream');
     setServicesOpen(id === 'services');
     setTrainingOpen(id === 'trainers');
+  }
+
+  function resetDismissedDropdown() {
+    setDismissedDropdown('');
   }
 
   function closeDropdownOnBlur(event) {
@@ -669,9 +676,13 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
   function openNavPage(id) {
     setActive(id);
     setOpen(false);
-    setTrainingOpen(false);
-    setLiveStreamOpen(false);
-    setServicesOpen(false);
+    closeNavDropdowns('');
+  }
+
+  function openNavDropdownPage(id, dropdownId) {
+    setActive(id);
+    setOpen(false);
+    closeNavDropdowns(dropdownId);
   }
 
   return (
@@ -697,17 +708,18 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
             setTrainingOpen(false);
             setLiveStreamOpen(false);
             setServicesOpen(false);
+            setDismissedDropdown('');
           }
           return !current;
         })}
       >
         <span className="nav-menu-icon" aria-hidden="true"></span><span>Menu</span>
       </button>
-      <button className={`nav-flyout-scrim ${open ? 'is-open' : ''}`} type="button" aria-label="Close navigation menu" onClick={() => { setOpen(false); setTrainingOpen(false); setLiveStreamOpen(false); setServicesOpen(false); }}></button>
+      <button className={`nav-flyout-scrim ${open ? 'is-open' : ''}`} type="button" aria-label="Close navigation menu" onClick={() => { setOpen(false); closeNavDropdowns(''); }}></button>
       <nav className={`site-nav ${open ? 'is-open' : ''}`}>
         <div className="nav-link-group">
           {primaryNavLinks.map(([id, label]) => id === 'livestream' ? (
-            <div className={`nav-dropdown ${liveStreamOpen ? 'is-open' : ''}`} key={id} onMouseEnter={() => openNavDropdown('livestream')} onMouseLeave={closeNavDropdowns} onPointerEnter={() => openNavDropdown('livestream')} onPointerLeave={closeNavDropdowns} onFocus={() => openNavDropdown('livestream')} onBlur={closeDropdownOnBlur}>
+            <div className={`nav-dropdown ${liveStreamOpen ? 'is-open' : ''} ${dismissedDropdown === 'livestream' ? 'is-click-dismissed' : ''}`.trim()} key={id} onMouseEnter={() => openNavDropdown('livestream')} onMouseLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onPointerEnter={() => openNavDropdown('livestream')} onPointerLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onFocus={() => openNavDropdown('livestream')} onBlur={closeDropdownOnBlur}>
               <button
                 className={`nav-dropdown-trigger ${liveStreamActive ? 'active' : ''}`}
                 type="button"
@@ -719,12 +731,12 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
               </button>
               <div className="nav-dropdown-menu" aria-label="Live stream navigation">
                 {liveStreamNavLinks.map(([childId, childLabel]) => (
-                  <button className={active === childId ? 'active' : ''} key={childId} type="button" onClick={() => openNavPage(childId)}>{childLabel}</button>
+                  <button className={active === childId ? 'active' : ''} key={childId} type="button" onClick={() => openNavDropdownPage(childId, 'livestream')}>{childLabel}</button>
                 ))}
               </div>
             </div>
           ) : id === 'services' ? (
-            <div className={`nav-dropdown ${servicesOpen ? 'is-open' : ''}`} key={id} onMouseEnter={() => openNavDropdown('services')} onMouseLeave={closeNavDropdowns} onPointerEnter={() => openNavDropdown('services')} onPointerLeave={closeNavDropdowns} onFocus={() => openNavDropdown('services')} onBlur={closeDropdownOnBlur}>
+            <div className={`nav-dropdown ${servicesOpen ? 'is-open' : ''} ${dismissedDropdown === 'services' ? 'is-click-dismissed' : ''}`.trim()} key={id} onMouseEnter={() => openNavDropdown('services')} onMouseLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onPointerEnter={() => openNavDropdown('services')} onPointerLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onFocus={() => openNavDropdown('services')} onBlur={closeDropdownOnBlur}>
               <button
                 className={`nav-dropdown-trigger ${servicesActive ? 'active' : ''}`}
                 type="button"
@@ -736,12 +748,12 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
               </button>
               <div className="nav-dropdown-menu" aria-label="Services navigation">
                 {servicesNavLinks.map(([childId, childLabel]) => (
-                  <button className={active === childId ? 'active' : ''} key={childId} type="button" onClick={() => openNavPage(childId)}>{childLabel}</button>
+                  <button className={active === childId ? 'active' : ''} key={childId} type="button" onClick={() => openNavDropdownPage(childId, 'services')}>{childLabel}</button>
                 ))}
               </div>
             </div>
           ) : id === 'trainers' ? (
-            <div className={`nav-dropdown ${trainingOpen ? 'is-open' : ''}`} key={id} onMouseEnter={() => openNavDropdown('trainers')} onMouseLeave={closeNavDropdowns} onPointerEnter={() => openNavDropdown('trainers')} onPointerLeave={closeNavDropdowns} onFocus={() => openNavDropdown('trainers')} onBlur={closeDropdownOnBlur}>
+            <div className={`nav-dropdown ${trainingOpen ? 'is-open' : ''} ${dismissedDropdown === 'trainers' ? 'is-click-dismissed' : ''}`.trim()} key={id} onMouseEnter={() => openNavDropdown('trainers')} onMouseLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onPointerEnter={() => openNavDropdown('trainers')} onPointerLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onFocus={() => openNavDropdown('trainers')} onBlur={closeDropdownOnBlur}>
               <button
                 className={`nav-dropdown-trigger ${trainingActive ? 'active' : ''}`}
                 type="button"
@@ -753,7 +765,7 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
               </button>
               <div className="nav-dropdown-menu" aria-label="Training navigation">
                 {trainingNavLinks.map(([childId, childLabel]) => (
-                  <button className={active === childId ? 'active' : ''} key={childId} type="button" onClick={() => openNavPage(childId)}>{childLabel}</button>
+                  <button className={active === childId ? 'active' : ''} key={childId} type="button" onClick={() => openNavDropdownPage(childId, 'trainers')}>{childLabel}</button>
                 ))}
               </div>
             </div>
@@ -761,8 +773,8 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
         </div>
         <div className="nav-action-group">
           <button className="btn secondary dark-btn nav-chrome-btn" type="button" onClick={() => openNavPage('contact')}>Let's Talk</button>
-          <button className="btn nav-chrome-btn" type="button" onClick={() => { onOpenRegister(); setOpen(false); setTrainingOpen(false); setLiveStreamOpen(false); setServicesOpen(false); }}>Register</button>
-          <button className="btn secondary dark-btn" type="button" onClick={() => { authUser ? onOpenDashboard() : onOpenLogin(); setOpen(false); setTrainingOpen(false); setLiveStreamOpen(false); setServicesOpen(false); }}>{authUser ? 'Dashboard' : 'Sign In'}</button>
+          <button className="btn nav-chrome-btn" type="button" onClick={() => { onOpenRegister(); setOpen(false); closeNavDropdowns(''); }}>Register</button>
+          <button className="btn secondary dark-btn" type="button" onClick={() => { authUser ? onOpenDashboard() : onOpenLogin(); setOpen(false); closeNavDropdowns(''); }}>{authUser ? 'Dashboard' : 'Sign In'}</button>
           <ThemeToggle className="nav-theme-toggle" />
         </div>
       </nav>
