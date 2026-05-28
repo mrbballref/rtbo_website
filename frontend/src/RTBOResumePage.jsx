@@ -75,7 +75,9 @@ function getResumeEventMark(eventName) {
   if (normalized.includes('UAPB')) return 'UAPB';
   if (normalized.includes('UALR')) return 'UALR';
   if (normalized.includes('UCA')) return 'UCA';
+  if (normalized.includes('ARKANSAS BAPTIST') || normalized.includes('ABC')) return 'ABC';
   if (normalized.includes('LYON')) return 'LYON';
+  if (normalized.includes('SHE GOT GAME')) return 'SGG';
   if (normalized.includes('HOP STEP')) return 'HSE';
   if (normalized.includes('BIG MILLER')) return 'BM';
   const words = label.replace(/[^a-z0-9\s]/gi, ' ').split(/\s+/).filter(Boolean);
@@ -85,10 +87,11 @@ function getResumeEventMark(eventName) {
 function getResumeEventKind(eventName) {
   const normalized = String(eventName || '').toUpperCase();
   if (normalized.includes('BIG MILLER')) return 'Featured Tournament';
+  if (normalized.includes('SHE GOT GAME')) return 'Girls Basketball League';
   if (normalized.includes('HOP STEP')) return 'Tournament Partner';
   if (normalized.includes('WOMEN')) return "Women's Camp Coverage";
   if (normalized.includes('MEN')) return "Men's Camp Coverage";
-  if (normalized.includes('UCA') || normalized.includes('UALR') || normalized.includes('UAPB') || normalized.includes('LYON')) {
+  if (normalized.includes('UCA') || normalized.includes('UALR') || normalized.includes('UAPB') || normalized.includes('LYON') || normalized.includes('ARKANSAS BAPTIST')) {
     return 'College Camp Experience';
   }
   return 'Event Experience';
@@ -280,23 +283,36 @@ export default function RTBOResumePage() {
           <div className="rtob-resume-event-card-grid">
             {resume.events.map((eventItem, index) => {
               const dateParts = getResumeEventDateParts(eventItem.date);
+              const imageUrl = String(eventItem.imageUrl || '').trim();
               return (
-                <article className={`rtob-resume-event-card ${eventItem.highlight ? 'is-highlighted' : ''}`.trim()} key={`${eventItem.date}-${eventItem.event}-${index}`}>
-                  <div className="rtob-resume-event-card-top">
-                    <div className="rtob-resume-event-date-lockup" aria-label={`Event date ${eventItem.date}`}>
-                      <span>{dateParts.month}</span>
-                      <strong>{dateParts.primary}</strong>
-                      <small>{dateParts.secondary}</small>
+                <article className={`rtob-resume-event-card ${imageUrl ? 'has-art' : 'no-art'} ${eventItem.highlight ? 'is-highlighted' : ''}`.trim()} key={`${eventItem.date}-${eventItem.event}-${index}`}>
+                  {imageUrl && (
+                    <figure className="rtob-resume-event-art">
+                      <img
+                        src={imageUrl}
+                        alt={`${eventItem.event} ${eventItem.date} event artwork`}
+                        loading={index < 4 ? 'eager' : 'lazy'}
+                        decoding="async"
+                      />
+                    </figure>
+                  )}
+                  <div className="rtob-resume-event-summary">
+                    <div className="rtob-resume-event-card-top">
+                      <div className="rtob-resume-event-date-lockup" aria-label={`Event date ${eventItem.date}`}>
+                        <span>{dateParts.month}</span>
+                        <strong>{dateParts.primary}</strong>
+                        <small>{dateParts.secondary}</small>
+                      </div>
+                      <div className="rtob-resume-event-meta">
+                        <span className="rtob-resume-event-kind">{getResumeEventKind(eventItem.event)}</span>
+                        <span className="rtob-resume-event-mark" aria-hidden="true">{getResumeEventMark(eventItem.event)}</span>
+                      </div>
                     </div>
-                    <div className="rtob-resume-event-meta">
-                      <span className="rtob-resume-event-kind">{getResumeEventKind(eventItem.event)}</span>
-                      <span className="rtob-resume-event-mark" aria-hidden="true">{getResumeEventMark(eventItem.event)}</span>
+                    <div className="rtob-resume-event-card-body">
+                      <h4>{eventItem.event}</h4>
                     </div>
+                    <p className="rtob-resume-event-location"><span>{eventItem.location}</span></p>
                   </div>
-                  <div className="rtob-resume-event-card-body">
-                    <h4>{eventItem.event}</h4>
-                  </div>
-                  <p className="rtob-resume-event-location"><span>{eventItem.location}</span></p>
                 </article>
               );
             })}

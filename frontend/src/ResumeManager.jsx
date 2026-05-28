@@ -49,7 +49,7 @@ function valueToTextList(value = '') {
 
 const blankItems = {
   services: { title: 'New Service', body: 'Describe this service.' },
-  events: { date: '', event: 'New Event', location: '', highlight: false },
+  events: { date: '', event: 'New Event', location: '', imageUrl: '', highlight: false },
   standards: { title: 'New Standard', items: ['Add one standard or workflow expectation.'] },
   adminInfo: { label: 'New Field', value: 'Add resume information.' }
 };
@@ -378,6 +378,10 @@ export default function ResumeManager({ onStatus = () => {} }) {
                 <label className="rtbo-resume-manager-toggle">
                   <input type="checkbox" checked={eventItem.highlight} onChange={(event) => updateCollection('events', index, 'highlight', event.target.checked)} />
                   Highlight this event on the public resume
+                </label>
+                <label>
+                  Event Card Image URL
+                  <input value={eventItem.imageUrl || ''} onChange={(event) => updateCollection('events', index, 'imageUrl', event.target.value)} placeholder="/assets/images/example_resume_card.png" />
                 </label>
                 {renderCollectionControls('events', index, resume.events.length)}
               </article>

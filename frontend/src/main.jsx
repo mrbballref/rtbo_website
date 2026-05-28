@@ -1336,6 +1336,8 @@ function ServicesClientSlider() {
     ['clients/uapb_client_image_slider.png', 'University of Arkansas at Pine Bluff women basketball client spotlight'],
     ['clients/uapb_client_men_image_slider.png', 'University of Arkansas at Pine Bluff men basketball client spotlight'],
     ['clients/uca_client_image_slider.png', 'University of Central Arkansas basketball client spotlight'],
+    ['clients/abc_client_image_slider.png', 'Arkansas Baptist College women basketball client spotlight'],
+    ['clients/shegotgame_client_image_slider.png', 'She Got Game League Little Rock women basketball client spotlight'],
     ['clients/hop_step_sporting_events_client_image_slider.png', 'Hop Step Sporting Events basketball client spotlight'],
     ['clients/big_miller_events_client_image_slider.png', 'Big Miller Events team camps client spotlight']
   ];
