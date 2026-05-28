@@ -29,6 +29,7 @@ import {
   testimonials,
   trainers
 } from './site-data.js';
+import RTBIPadVideoPlayer from './RTBIPadVideoPlayer.jsx';
 import './styles.css';
 
 const RTBOBasketballAssigningContractGenerator = React.lazy(() => import('./ContractGenerator.jsx'));
@@ -2331,61 +2332,143 @@ function LivestreamPlayer({ channel, studio, activationKey, recording = false, o
     onFullscreen: toggleFullscreen
   };
 
-  if (channel.embedHtml) {
-    return (
-      <LivestreamPlayerShell channel={channel} controls={controls} studio={studio}>
-        <div
-          className={`livestream-player livestream-player-${channel.aspect}`}
-          dangerouslySetInnerHTML={{ __html: channel.embedHtml }}
-        />
-      </LivestreamPlayerShell>
-    );
-  }
-
-  if (embedUrl) {
-    return (
-      <LivestreamPlayerShell channel={channel} controls={controls} studio={studio}>
-        <div className={`livestream-player livestream-player-${channel.aspect}`}>
-          <iframe
-            src={embedUrl}
-            title={channel.title}
-            loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          ></iframe>
-        </div>
-      </LivestreamPlayerShell>
-    );
-  }
-
-  if (channel.id === 'website' && channel.streamUrl) {
-    return (
-      <LivestreamPlayerShell channel={channel} controls={controls} studio={studio}>
-        <div className={`livestream-player livestream-player-${channel.aspect}`}>
-          <video
-            ref={videoRef}
-            playsInline
-            preload="metadata"
-            poster={image('banner_3.jpg')}
-            onLoadedMetadata={(event) => updateVideoProgress(event.currentTarget)}
-            onTimeUpdate={(event) => updateVideoProgress(event.currentTarget)}
-            onPlay={() => setPlaying(true)}
-            onPause={() => setPlaying(false)}
-          >
-            <source src={channel.streamUrl} />
-            Your browser does not support this livestream player.
-          </video>
-        </div>
-      </LivestreamPlayerShell>
-    );
-  }
+  const hasPlayableSource = Boolean(channel.streamUrl || channel.embedUrl || channel.embedHtml);
+  const controlsDisabled = Boolean(
+    channel.playerOptions?.disableMediaControls ||
+    (channel.playerOptions?.disableMediaControlsWithoutSource && !hasPlayableSource)
+  );
+  const fallbackChannel = {
+    ...channel,
+    playerOptions: {
+      ...channel.playerOptions,
+      showFallbackActions: false
+    }
+  };
+  const mediaContent = channel.embedHtml ? (
+    <div
+      className={`livestream-player livestream-player-${channel.aspect}`}
+      dangerouslySetInnerHTML={{ __html: channel.embedHtml }}
+    />
+  ) : embedUrl ? (
+    <div className={`livestream-player livestream-player-${channel.aspect}`}>
+      <iframe
+        src={embedUrl}
+        title={channel.title}
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowFullScreen
+      ></iframe>
+    </div>
+  ) : channel.id === 'website' && channel.streamUrl ? (
+    <div className={`livestream-player livestream-player-${channel.aspect}`}>
+      <video
+        ref={videoRef}
+        playsInline
+        preload="metadata"
+        poster={image('banner_3.jpg')}
+        onLoadedMetadata={(event) => updateVideoProgress(event.currentTarget)}
+        onTimeUpdate={(event) => updateVideoProgress(event.currentTarget)}
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+      >
+        <source src={channel.streamUrl} />
+        Your browser does not support this livestream player.
+      </video>
+    </div>
+  ) : (
+    <div className={`livestream-player livestream-player-${channel.aspect}`}>
+      <LivestreamFallback channel={fallbackChannel} playing={playing} onStart={startPlayer} onOpenExternal={openExternal} />
+    </div>
+  );
+  const overlayContent = (
+    <>
+      {channel.playerOptions?.showOverlays !== false && <LivestreamBroadcastOverlays studio={studio} channel={channel} />}
+      {channel.playerOptions?.showScoreLowerThird && <LivestreamScoreLowerThird score={channel.playerOptions.scoreLowerThird} />}
+    </>
+  );
+  const captionContent = captionsOn ? (
+    <div className="livestream-caption-strip" aria-live="polite">
+      {channel.playerOptions?.captionText || `${channel.label} captions are enabled for this viewing session.`}
+    </div>
+  ) : null;
+  const extraControls = [
+    channel.playerOptions?.showStudioButton !== false ? {
+      id: 'studio',
+      label: 'Studio',
+      icon: 'studio',
+      variant: 'studio',
+      onClick: onOpenStudioPanel,
+      disabled: !onOpenStudioPanel,
+      settingsLabel: 'Open Production Studio'
+    } : null,
+    channel.playerOptions?.showPopOutButton !== false ? {
+      id: 'pop-out',
+      label: 'Pop Out',
+      icon: 'full',
+      onClick: openExternal,
+      settingsLabel: `Open ${channel.label}`
+    } : null,
+    channel.playerOptions?.showGoLiveButton !== false ? {
+      id: 'go-live',
+      label: 'Go Live',
+      icon: 'live',
+      variant: 'live',
+      onClick: goLive,
+      disabled: controlsDisabled,
+      settingsLabel: 'Jump to Live'
+    } : null
+  ].filter(Boolean);
 
   return (
-    <LivestreamPlayerShell channel={channel} controls={controls} studio={studio}>
-      <div className={`livestream-player livestream-player-${channel.aspect}`}>
-        <LivestreamFallback channel={channel} playing={playing} onStart={startPlayer} onOpenExternal={openExternal} />
-      </div>
-    </LivestreamPlayerShell>
+    <RTBIPadVideoPlayer
+      className={`livestream-ipad-player ${channel.playerOptions?.className || ''}`.trim()}
+      brand={channel.playerOptions?.brandTitle || channel.title || channel.label}
+      logoSrc={image(channel.icon || 'logo.png')}
+      status={channel.playerOptions?.statusLabel || (playing ? 'Live' : channel.status || 'Standby')}
+      live={playing || studio?.studioMode === 'Live'}
+      aspect={channel.aspect}
+      mediaContent={mediaContent}
+      overlayContent={overlayContent}
+      captionContent={captionContent}
+      controlled
+      disabledControls={controlsDisabled}
+      playing={playing}
+      currentSeconds={currentSeconds}
+      durationSeconds={durationSeconds}
+      progress={progress}
+      muted={muted}
+      volume={volume}
+      captionsOn={captionsOn}
+      speed={speed}
+      recording={recording}
+      theaterMode={theaterMode}
+      miniMode={miniMode}
+      settingsNote={channel.playerOptions?.controlNote || (canControlMedia
+        ? 'Controls are connected to the RTBO website stream.'
+        : `${channel.label} uses its own platform player. These controls keep the RTBO viewing shell active.`)}
+      showRecord={channel.playerOptions?.showRecordButton !== false}
+      onPlay={startPlayer}
+      onPause={pausePlayer}
+      onStop={stopPlayer}
+      onPrevious={previousMarker}
+      onNext={nextMarker}
+      onRewind={() => skipBy(-30)}
+      onFastForward={() => skipBy(30)}
+      onSkip={skipBy}
+      onSeek={seekTo}
+      onToggleMute={() => setMuted(current => !current)}
+      onVolume={changeVolume}
+      onToggleCaptions={() => setCaptionsOn(current => !current)}
+      onSpeed={changeSpeed}
+      onSpeedValue={setSpeed}
+      onToggleRecording={onToggleRecording}
+      onToggleTheater={() => setTheaterMode(current => !current)}
+      onToggleMini={toggleMiniPlayer}
+      onPictureInPicture={toggleMiniPlayer}
+      extraControls={extraControls}
+      emptyTitle={channel.playerOptions?.fallbackTitle || `No ${channel.label} stream connected`}
+      emptyMessage={channel.playerOptions?.fallbackDescription || channel.description}
+    />
   );
 }
 

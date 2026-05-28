@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import RTBIPadVideoPlayer from './RTBIPadVideoPlayer.jsx';
 import './rtbo-academy.css';
 
 const MANUAL_URL = '/course-manual.md';
@@ -2154,115 +2155,100 @@ function CourseVideoPlayer({
     </div>
   );
 
+  const mediaContent = (
+    <>
+      {showGeneratedStage && generatedStage}
+      {hasPublishedVideo && (
+        <video
+          key={publishedVideoSource}
+          className={videoFrameReady ? 'is-frame-ready' : 'is-frame-loading'}
+          ref={videoRef}
+          playsInline
+          preload="auto"
+          poster={activeVisual.src}
+          onLoadedMetadata={(event) => updateMediaProgress(event.currentTarget)}
+          onLoadedData={(event) => markPublishedVideoReady(event.currentTarget)}
+          onCanPlay={(event) => markPublishedVideoReady(event.currentTarget)}
+          onTimeUpdate={(event) => updateMediaProgress(event.currentTarget)}
+          onPlay={() => setPlaying(true)}
+          onPlaying={(event) => {
+            setPlaying(true);
+            markPublishedVideoReady(event.currentTarget);
+          }}
+          onWaiting={() => onStatus('Course video is buffering. Animated lesson visuals remain visible until video playback resumes.')}
+          onStalled={() => onStatus('Course video stalled while loading from the local server.')}
+          onPause={() => setPlaying(false)}
+          onEnded={() => setPlaying(false)}
+          onError={() => {
+            setVideoFrameReady(false);
+            setVideoFailed(true);
+            if (playing) startGeneratedFallback(currentSeconds, 'Published course video was not reachable, so the generated lesson video is active.');
+            else onStatus('Published course video was not reachable, so the generated lesson video is active.');
+          }}
+        >
+          <source src={publishedVideoSource} type={courseVideoMimeType(publishedVideoSource)} />
+          {videoJob?.captionsPath && <track src={mediaSourceFor(videoJob.captionsPath)} kind="captions" srcLang="en" label="English" />}
+          Your browser does not support this course video.
+        </video>
+      )}
+    </>
+  );
+  const courseStatus = playing ? 'Playing' : hasPublishedVideo || hasVoiceoverAudio ? 'Ready' : 'Standby';
+  const settingsSummary = hasPublishedVideo
+    ? 'Playing the published Remotion MP4 course video asset.'
+    : hasVoiceoverAudio
+      ? 'Playing the ElevenLabs voiceover with synchronized lesson visuals while the final Remotion MP4 remains optional.'
+      : 'Playing spoken preview audio with synchronized lesson visuals. Render the ElevenLabs voiceover and Remotion MP4 to publish the complete course video.';
+
   return (
-    <section
-      className={`rtbo-course-video-player ${theaterMode ? 'is-theater-mode' : ''} ${miniMode ? 'is-mini-mode' : ''}`.trim()}
-      ref={shellRef}
-      aria-label={`${day.title || 'Course'} video player`}
-    >
-      <header className="rtbo-course-video-topbar">
-        <div className="rtbo-course-video-brand">
-          <img src="/assets/images/logo.png" alt="" aria-hidden="true" />
-          <div>
-            <strong>REFZONE</strong>
-            <span>RTBO COURSE VIDEO PLAYER</span>
-          </div>
+    <RTBIPadVideoPlayer
+      className="rtbo-course-ipad-player"
+      brand="REFZONE"
+      logoSrc="/assets/images/logo.png"
+      status={courseStatus}
+      aspect="wide"
+      mediaContent={mediaContent}
+      captionContent={captionsOn && (!hasPublishedVideo || !videoJob?.captionsPath) ? (
+        <div className="rtbo-course-caption-strip" aria-live="polite">
+          {captionText}
         </div>
-        <div className="rtbo-course-video-status">
-          <span>{playing ? 'Playing' : hasPublishedVideo || hasVoiceoverAudio ? 'Ready' : 'Standby'}</span>
-          <time>{formatCoursePlayerTime(currentSeconds)} / {formatCoursePlayerTime(effectiveDuration)}</time>
-        </div>
-      </header>
-
-      <div className="rtbo-course-video-viewport">
-        {showGeneratedStage && generatedStage}
-        {hasPublishedVideo && (
-          <video
-            key={publishedVideoSource}
-            className={videoFrameReady ? 'is-frame-ready' : 'is-frame-loading'}
-            ref={videoRef}
-            playsInline
-            preload="auto"
-            poster={activeVisual.src}
-            onLoadedMetadata={(event) => updateMediaProgress(event.currentTarget)}
-            onLoadedData={(event) => markPublishedVideoReady(event.currentTarget)}
-            onCanPlay={(event) => markPublishedVideoReady(event.currentTarget)}
-            onTimeUpdate={(event) => updateMediaProgress(event.currentTarget)}
-            onPlay={() => setPlaying(true)}
-            onPlaying={(event) => {
-              setPlaying(true);
-              markPublishedVideoReady(event.currentTarget);
-            }}
-            onWaiting={() => onStatus('Course video is buffering. Animated lesson visuals remain visible until video playback resumes.')}
-            onStalled={() => onStatus('Course video stalled while loading from the local server.')}
-            onPause={() => setPlaying(false)}
-            onEnded={() => setPlaying(false)}
-            onError={() => {
-              setVideoFrameReady(false);
-              setVideoFailed(true);
-              if (playing) startGeneratedFallback(currentSeconds, 'Published course video was not reachable, so the generated lesson video is active.');
-              else onStatus('Published course video was not reachable, so the generated lesson video is active.');
-            }}
-          >
-            <source src={publishedVideoSource} type={courseVideoMimeType(publishedVideoSource)} />
-            {videoJob?.captionsPath && <track src={mediaSourceFor(videoJob.captionsPath)} kind="captions" srcLang="en" label="English" />}
-            Your browser does not support this course video.
-          </video>
-        )}
-        {!playing && (
-          <button type="button" className="rtbo-course-video-play" onClick={togglePlayer} aria-label="Play course video">
-            <span aria-hidden="true">Play</span>
-          </button>
-        )}
-        {captionsOn && (!hasPublishedVideo || !videoJob?.captionsPath) && (
-          <div className="rtbo-course-caption-strip" aria-live="polite">
-            {captionText}
-          </div>
-        )}
-      </div>
-
-      <div className="rtbo-course-video-controls" aria-label="Course video controls">
-        <div className="rtbo-course-video-progress">
-          <span>{formatCoursePlayerTime(currentSeconds)}</span>
-          <input type="range" min="0" max="100" value={progress} onChange={(event) => seekTo(Number(event.target.value))} aria-label="Seek course video" />
-          <span>{formatCoursePlayerTime(effectiveDuration)}</span>
-        </div>
-        <div className="rtbo-course-video-control-row">
-          <button type="button" onClick={startPlayer}>Play</button>
-          <button type="button" onClick={pausePlayer}>Pause</button>
-          <button type="button" onClick={stopPlayer}>Stop</button>
-          <button type="button" onClick={previousMarker}>Prev</button>
-          <button type="button" onClick={() => skipBy(-30)}>Rewind</button>
-          <button type="button" onClick={() => skipBy(-10)}>-10</button>
-          <button type="button" onClick={() => skipBy(10)}>+10</button>
-          <button type="button" onClick={() => skipBy(30)}>Fast Fwd</button>
-          <button type="button" onClick={nextMarker}>Next</button>
-          <button type="button" onClick={() => setMuted(current => !current)}>{muted ? 'Muted' : 'Sound'}</button>
-          <input type="range" min="0" max="1" step="0.05" value={muted ? 0 : volume} onChange={(event) => changeVolume(Number(event.target.value))} aria-label="Course video volume" />
-          <button
-            className={captionsOn ? 'active' : ''}
-            type="button"
-            aria-pressed={captionsOn}
-            onClick={() => setCaptionsOn(current => !current)}
-          >
-            {captionsOn ? 'CC On' : 'CC'}
-          </button>
-          <button type="button" onClick={changeSpeed}>{speed.toFixed(1)}x</button>
-          <button className={settingsOpen ? 'active' : ''} type="button" onClick={() => setSettingsOpen(current => !current)}>Settings</button>
-          <button className={theaterMode ? 'active' : ''} type="button" onClick={() => setTheaterMode(current => !current)}>Theater</button>
-          <button className={miniMode ? 'active' : ''} type="button" onClick={toggleMiniPlayer}>Mini</button>
-          <button type="button" onClick={toggleFullscreen}>Full</button>
-          <button type="button" onClick={onOpenTest}>Open Test</button>
-        </div>
-        {settingsOpen && (
-          <div className="rtbo-course-video-settings">
-            <p>{hasPublishedVideo ? 'Playing the published Remotion MP4 course video asset.' : hasVoiceoverAudio ? 'Playing the ElevenLabs voiceover with synchronized lesson visuals while the final Remotion MP4 remains optional.' : 'Playing spoken preview audio with synchronized lesson visuals. Render the ElevenLabs voiceover and Remotion MP4 to publish the complete course video.'}</p>
-            {videoJob?.videoPath && <span>Production output: {videoJob.videoPath}</span>}
-            {videoJob?.renderer && <span>Renderer: {videoJob.renderer} / Voiceover: {videoJob.voiceover}</span>}
-          </div>
-        )}
-      </div>
-    </section>
+      ) : null}
+      controlled
+      playing={playing}
+      currentSeconds={currentSeconds}
+      durationSeconds={effectiveDuration}
+      progress={progress}
+      muted={muted}
+      volume={volume}
+      captionsOn={captionsOn}
+      speed={speed}
+      theaterMode={theaterMode}
+      miniMode={miniMode}
+      settingsNote={`${settingsSummary}${videoJob?.videoPath ? ` Production output: ${videoJob.videoPath}.` : ''}${videoJob?.renderer ? ` Renderer: ${videoJob.renderer} / Voiceover: ${videoJob.voiceover}.` : ''}`}
+      onPlay={startPlayer}
+      onPause={pausePlayer}
+      onStop={stopPlayer}
+      onPrevious={previousMarker}
+      onNext={nextMarker}
+      onSkip={skipBy}
+      onSeek={seekTo}
+      onToggleMute={() => setMuted(current => !current)}
+      onVolume={changeVolume}
+      onToggleCaptions={() => setCaptionsOn(current => !current)}
+      onSpeed={changeSpeed}
+      onSpeedValue={setSpeed}
+      onToggleTheater={() => setTheaterMode(current => !current)}
+      onToggleMini={toggleMiniPlayer}
+      onPictureInPicture={toggleMiniPlayer}
+      extraControls={[{
+        id: 'open-test',
+        label: 'Open Test',
+        icon: 'test',
+        variant: 'test',
+        onClick: onOpenTest,
+        settingsLabel: 'Open Required Test'
+      }]}
+    />
   );
 }
 
