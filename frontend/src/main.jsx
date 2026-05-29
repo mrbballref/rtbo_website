@@ -29,6 +29,13 @@ import {
   testimonials,
   trainers
 } from './site-data.js';
+import {
+  CLIENT_SPOTLIGHT_UPDATED_EVENT,
+  defaultClientSpotlightShow,
+  publishClientSpotlightLibrary,
+  readStoredClientSpotlightLibrary,
+  visibleClientSpotlightVideos
+} from './client-spotlight-data.js';
 import RTBIPadVideoPlayer from './RTBIPadVideoPlayer.jsx';
 import './styles.css';
 
@@ -48,7 +55,7 @@ const ManagedSiteContent = React.lazy(() => import('./ManagedSiteContent.jsx'));
 const RTBOResumePage = React.lazy(() => import('./RTBOResumePage.jsx'));
 const ResumeManager = React.lazy(() => import('./ResumeManager.jsx'));
 const JammedUpPodcastPage = React.lazy(() => import('./JammedUpPodcastPage.jsx'));
-const PodcastBuilder = React.lazy(() => import('./PodcastBuilder.jsx'));
+const ClientSpotlightStudio = React.lazy(() => import('./ClientSpotlightStudio.jsx'));
 const StateSelect = React.lazy(() => import('./StateSelect.jsx'));
 const CountrySelect = React.lazy(() => import('./CountrySelect.jsx'));
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
@@ -58,6 +65,8 @@ const RTBO_THEME_KEY = 'rtbo-theme';
 const RTBO_REVIEW_STORAGE_KEY = 'rtbo-attendee-reviews';
 const SITE_CONTENT_KEY = 'rtbo-site-content-records';
 const SITE_CONTENT_UPDATED_EVENT = 'rtbo-site-content-updated';
+const HOME_CLIENT_SPOTLIGHT_CSS_ID = 'home-client-spotlight-css';
+const HOME_CLIENT_SPOTLIGHT_CSS_HREF = '/assets/css/home-client-spotlight.css?v=20260528';
 
 function safeLocalStorageGet(key) {
   try {
@@ -816,6 +825,7 @@ function Home({ setActive, onOpenRegister }) {
         </button>
       </section>
       <AboutSummary setActive={setActive} />
+      <HomeClientSpotlight />
       <HomeRefZoneUniversity setActive={setActive} />
       <HomeRefZoneMemberships setActive={setActive} />
       <HomeResultsFeature setActive={setActive} />
@@ -844,6 +854,127 @@ function AboutSummary({ setActive }) {
             {aboutCards.map(([icon, title, text]) => <article key={title}><img className="card-icon" src={image(icon)} alt="" /><h3>{title}</h3><p>{text}</p></article>)}
           </div>
         </div>
+      </div>
+    </section>
+  );
+}
+
+function HomeClientSpotlight() {
+  const [library, setLibrary] = useState(readStoredClientSpotlightLibrary);
+  const [selectedId, setSelectedId] = useState('');
+  const publishedVideos = useMemo(() => visibleClientSpotlightVideos(library.videos), [library.videos]);
+  const playlist = useMemo(() => publishedVideos.map(video => ({
+    id: video.id,
+    title: video.title,
+    poster: video.posterUrl || library.show.logoCard || defaultClientSpotlightShow.logoCard,
+    sources: [{ src: video.videoUrl }],
+    transcript: video.transcript
+  })), [library.show.logoCard, publishedVideos]);
+  const selectedVideo = publishedVideos.find(video => video.id === selectedId) || publishedVideos[0] || null;
+
+  useEffect(() => {
+    if (typeof document === 'undefined' || document.getElementById(HOME_CLIENT_SPOTLIGHT_CSS_ID)) return;
+    const link = document.createElement('link');
+    link.id = HOME_CLIENT_SPOTLIGHT_CSS_ID;
+    link.rel = 'stylesheet';
+    link.href = HOME_CLIENT_SPOTLIGHT_CSS_HREF;
+    document.head.appendChild(link);
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    async function loadClientSpotlight() {
+      try {
+        const response = await fetch(`${API_URL}/client-spotlight.php`, { credentials: 'include' });
+        const data = await response.json().catch(() => ({}));
+        if (!active || !response.ok || data.success === false) return;
+        setLibrary(publishClientSpotlightLibrary({ show: data.show, videos: data.videos, updatedAt: data.updated_at }));
+      } catch {
+        if (active) setLibrary(readStoredClientSpotlightLibrary());
+      }
+    }
+
+    function handleClientSpotlightUpdate(event) {
+      if (event.detail?.library) {
+        setLibrary(event.detail.library);
+      }
+    }
+
+    loadClientSpotlight();
+    window.addEventListener(CLIENT_SPOTLIGHT_UPDATED_EVENT, handleClientSpotlightUpdate);
+    return () => {
+      active = false;
+      window.removeEventListener(CLIENT_SPOTLIGHT_UPDATED_EVENT, handleClientSpotlightUpdate);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!playlist.length) {
+      setSelectedId('');
+      return;
+    }
+    if (!playlist.some(item => item.id === selectedId)) {
+      setSelectedId(playlist[0].id);
+    }
+  }, [playlist, selectedId]);
+
+  return (
+    <section className="rtbo-section home-client-spotlight-section" aria-labelledby="home-client-spotlight-title">
+      <div className="home-client-spotlight-head">
+        <p className="eyebrow">Client Spotlight</p>
+        <h2 id="home-client-spotlight-title">{library.show.name || defaultClientSpotlightShow.name}</h2>
+        <p>{library.show.tagline || defaultClientSpotlightShow.tagline}</p>
+      </div>
+
+      <div className="home-client-spotlight-layout">
+        <div className="home-client-spotlight-player" aria-label="Client Spotlight video player">
+          <RTBIPadVideoPlayer
+            className="home-client-spotlight-ipad"
+            brand={library.show.shortName || defaultClientSpotlightShow.shortName}
+            title={library.show.name || defaultClientSpotlightShow.name}
+            logoSrc={library.show.logoMark || library.show.logo || defaultClientSpotlightShow.logo}
+            status={playlist.length ? 'Client Spotlight' : 'Standby'}
+            playlist={playlist}
+            selectedId={selectedId}
+            onSelect={setSelectedId}
+            emptyTitle="No Client Spotlight videos published yet"
+            emptyMessage="Published videos from the Client Spotlight Studio will appear here automatically."
+            settingsNote="Client Spotlight loads published Command Center videos only."
+          />
+        </div>
+
+        <aside className="home-client-spotlight-copy" aria-label="Client Spotlight details">
+          <span>{library.show.brandLine || defaultClientSpotlightShow.brandLine}</span>
+          <h3>{selectedVideo ? selectedVideo.title : 'Production-ready stories from the RTBO community.'}</h3>
+          <p>{selectedVideo?.description || library.show.mission || defaultClientSpotlightShow.mission}</p>
+          {selectedVideo ? (
+            <dl>
+              {selectedVideo.category && <><dt>Category</dt><dd>{selectedVideo.category}</dd></>}
+              {selectedVideo.featuredPerson && <><dt>Featured</dt><dd>{[selectedVideo.featuredPerson, selectedVideo.role, selectedVideo.affiliation].filter(Boolean).join(' / ')}</dd></>}
+              {selectedVideo.eventName && <><dt>Event</dt><dd>{[selectedVideo.eventName, selectedVideo.eventDate].filter(Boolean).join(' / ')}</dd></>}
+            </dl>
+          ) : (
+            <p className="home-client-spotlight-empty-note">Add and publish real videos in the Command Center Client Spotlight Studio to activate the public playlist.</p>
+          )}
+          {publishedVideos.length > 0 && (
+            <div className="home-client-spotlight-playlist" aria-label="Published Client Spotlight videos">
+              {publishedVideos.slice(0, 4).map(video => (
+                <button
+                  key={video.id}
+                  className={video.id === selectedVideo?.id ? 'active' : ''}
+                  type="button"
+                  onClick={() => setSelectedId(video.id)}
+                >
+                  <img src={video.posterUrl || library.show.logoCard || defaultClientSpotlightShow.logoCard} alt="" loading="lazy" decoding="async" />
+                  <span>
+                    <strong>{video.title}</strong>
+                    <small>{[video.category, video.runtime].filter(Boolean).join(' / ') || 'Client Spotlight video'}</small>
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
+        </aside>
       </div>
     </section>
   );
@@ -10680,6 +10811,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     'rtbomail',
     'newsletterCenter',
     'refroom',
+    'clientSpotlightStudio',
     'podcastBuilder',
     'notifications',
     'payments',
@@ -10724,6 +10856,27 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     canUseAdminDashboard ? adminStoredSectionIds : portalStoredSectionIds,
     canUseAdminDashboard ? 'overview' : 'profile'
   ));
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    const allowedSections = canUseAdminDashboard ? adminStoredSectionIds : portalStoredSectionIds;
+    const syncDashboardHashSection = () => {
+      if (!isDashboardRouteHash(window.location.hash)) return;
+      const hashSection = readDashboardHashSection();
+      if (allowedSections.includes(hashSection)) {
+        setActiveSection(current => (current === hashSection ? current : hashSection));
+      }
+    };
+
+    syncDashboardHashSection();
+    window.addEventListener('hashchange', syncDashboardHashSection);
+    window.addEventListener('popstate', syncDashboardHashSection);
+    return () => {
+      window.removeEventListener('hashchange', syncDashboardHashSection);
+      window.removeEventListener('popstate', syncDashboardHashSection);
+    };
+  }, [activeSection, canUseAdminDashboard, user, canUseTaxCenter]);
+
   const [membersMenuOpen, setMembersMenuOpen] = useState(false);
   const [schedulesMenuOpen, setSchedulesMenuOpen] = useState(false);
   const [organizationsMenuOpen, setOrganizationsMenuOpen] = useState(false);
@@ -11113,7 +11266,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['rtbomail', 'Rtbomail'],
     ['newsletterCenter', 'Newsletter'],
     ['refroom', 'RefRoom'],
-    ['podcastBuilder', 'Podcast Builder'],
+    ['clientSpotlightStudio', 'Client Spotlight'],
     ['notifications', 'Notifications'],
     ['payments', 'Payments'],
     ['shopInventory', 'Inventory'],
@@ -11139,7 +11292,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['evaluation', 'Evaluations'],
     ['education', 'Education']
   ];
-  const allowedDashboardSidebarIds = new Set(['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'podcastBuilder', 'notifications', 'payments', 'shopInventory', 'siteContent', 'taxCenter', 'education', 'profile', 'reports', 'reviews', 'organizations']);
+  const allowedDashboardSidebarIds = new Set(['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'clientSpotlightStudio', 'notifications', 'payments', 'shopInventory', 'siteContent', 'taxCenter', 'education', 'profile', 'reports', 'reviews', 'organizations']);
   const visibleAdminSections = adminSections.filter(([id]) => allowedDashboardSidebarIds.has(id) && !hiddenSections.includes(id));
   const visibleAddMemberSections = addMemberSections.filter(item => !hiddenMemberItems.includes(item.id));
   const visibleScheduleSetupSections = scheduleSetupSections.filter(item => !hiddenScheduleItems.includes(item.id));
@@ -11159,7 +11312,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         ? uniqueFormSubSections([...visibleOfficialFormsSubSections, ...officialFormsSubSections])
         : [];
   const completedFormsSectionIds = completedFormsWidgets.map(widget => widget.section);
-  const primaryAdminOrder = ['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'podcastBuilder', 'notifications', 'payments', 'shopInventory', 'siteContent', 'taxCenter', 'education'];
+  const primaryAdminOrder = ['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'clientSpotlightStudio', 'notifications', 'payments', 'shopInventory', 'siteContent', 'taxCenter', 'education'];
   const secondaryAdminOrder = ['reports', 'reviews', 'organizations'];
   const sections = canUseAdminDashboard
     ? [
@@ -11181,6 +11334,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['completedOfficialForms', 'Completed Official Game Reports'],
     ['completedEvaluatorForms', 'Completed Evaluator Evaluations'],
     ['completedObserverForms', 'Completed Observer Forms'],
+    ['podcastBuilder', 'Client Spotlight'],
     ...addMemberSections.map(item => [item.id, item.title]),
     ...settingsWorkflowSections.map(item => [item.id, item.title]),
     ...scheduleSetupSections.map(item => [item.id, item.title]),
@@ -11211,7 +11365,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   const dashboardControlColumns = [
     ['overview', 'payments', 'shopInventory', 'siteContent', 'taxCenter', 'education'],
     ['members', 'reports', 'reviews', 'rtbomail', 'newsletterCenter'],
-    ['schedules', 'organizations', 'notifications', 'refroom', 'podcastBuilder']
+    ['schedules', 'organizations', 'notifications', 'refroom', 'clientSpotlightStudio']
   ].map(column => column.map(id => settingsMenuItems.find(item => item.id === id)).filter(Boolean));
   const settingsWorkflowById = new Map(settingsWorkflowSections.map(item => [item.id, item]));
 
@@ -13691,9 +13845,9 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
 
         {canUseAdminDashboard && activeSection === 'refroom' && refRoomPage}
 
-        {canUseAdminDashboard && activeSection === 'podcastBuilder' && (
-          <React.Suspense fallback={<section className="rtbo-dashboard-card rtbo-focused-page-card"><p className="rtbo-empty-state">Loading Podcast Builder...</p></section>}>
-            <PodcastBuilder onStatus={setStatus} />
+        {canUseAdminDashboard && ['clientSpotlightStudio', 'podcastBuilder'].includes(activeSection) && (
+          <React.Suspense fallback={<section className="rtbo-dashboard-card rtbo-focused-page-card"><p className="rtbo-empty-state">Loading Client Spotlight Studio...</p></section>}>
+            <ClientSpotlightStudio onStatus={setStatus} />
           </React.Suspense>
         )}
 

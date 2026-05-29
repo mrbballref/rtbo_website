@@ -252,6 +252,67 @@
   color: #fecaca;
 }
 
+.client-spotlight-summary-card {
+  border-color: rgba(244, 199, 91, .44);
+}
+
+.client-spotlight-preview-panel {
+  display: grid;
+  grid-template-columns: minmax(220px, .36fr) minmax(0, 1fr);
+  gap: clamp(18px, 2.5vw, 30px);
+  align-items: center;
+  padding: clamp(16px, 2vw, 22px);
+  border: 1px solid rgba(244, 199, 91, .28);
+  border-radius: 8px;
+  background: linear-gradient(145deg, rgba(244, 199, 91, .07), rgba(193, 18, 31, .045)), rgba(255, 255, 255, .025);
+}
+
+.client-spotlight-preview-panel h4 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.25rem, 2vw, 1.95rem);
+  line-height: 1.05;
+}
+
+.client-spotlight-preview-panel p:not(.eyebrow) {
+  margin: 10px 0 0;
+  color: #cbd5e1;
+  line-height: 1.55;
+}
+
+.client-spotlight-studio-player .rtb-ipad-shell {
+  min-height: clamp(470px, 48vw, 720px);
+}
+
+.client-spotlight-field-label {
+  display: block;
+  color: #e5e7eb;
+  font-weight: 900;
+}
+
+.client-spotlight-upload-control {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.client-spotlight-upload-control .client-spotlight-hidden-file {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.client-spotlight-upload-control > label.btn {
+  min-height: 42px;
+  align-content: center;
+  justify-content: center;
+  margin: 0;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
 :root[data-theme="light"] .podcast-builder-summary-card,
 :root[data-theme="light"] .podcast-builder-panel,
 :root[data-theme="light"] .podcast-builder-table article {
@@ -294,10 +355,28 @@
   color: #475569;
 }
 
+:root[data-theme="light"] .client-spotlight-preview-panel {
+  background: #fff;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, .07);
+}
+
+:root[data-theme="light"] .client-spotlight-preview-panel h4,
+:root[data-theme="light"] .client-spotlight-field-label {
+  color: #111827;
+}
+
+:root[data-theme="light"] .client-spotlight-preview-panel p:not(.eyebrow) {
+  color: #475569;
+}
+
 @media (max-width: 1100px) {
   .podcast-builder-summary-grid,
   .podcast-builder-field-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .client-spotlight-preview-panel {
+    grid-template-columns: 1fr;
   }
 
   .podcast-builder-table article {
@@ -359,6 +438,18 @@
 
   .podcast-builder-upload-control {
     grid-template-columns: 1fr;
+  }
+
+  .client-spotlight-upload-control {
+    grid-template-columns: 1fr;
+  }
+
+  .client-spotlight-upload-control > label.btn {
+    width: 100%;
+  }
+
+  .client-spotlight-studio-player .rtb-ipad-shell {
+    min-height: clamp(390px, 118vw, 600px);
   }
 }
 
