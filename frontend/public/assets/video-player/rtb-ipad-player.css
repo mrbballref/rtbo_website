@@ -393,7 +393,6 @@
   cursor: pointer;
 }
 
-.rtb-timeline::-webkit-slider-runnable-track,
 .rtb-volume-wrap input[type="range"]::-webkit-slider-runnable-track,
 .rtb-setting-line input[type="range"]::-webkit-slider-runnable-track {
   height: 5px;
@@ -401,11 +400,30 @@
   background: linear-gradient(90deg, var(--rtb-ipad-blue) 0 var(--value), rgba(255,255,255,.18) var(--value) 100%);
 }
 
-.rtb-timeline::-moz-range-track,
 .rtb-volume-wrap input[type="range"]::-moz-range-track,
 .rtb-setting-line input[type="range"]::-moz-range-track {
   height: 5px;
   border-radius: 999px;
+  background: linear-gradient(90deg, var(--rtb-ipad-blue) 0 var(--value), rgba(255,255,255,.18) var(--value) 100%);
+}
+
+.rtb-timeline::-webkit-slider-runnable-track {
+  height: 5px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255,255,255,.72) 0 var(--value), rgba(255,255,255,.18) var(--value) 100%);
+}
+
+.rtb-is-playing .rtb-timeline::-webkit-slider-runnable-track {
+  background: linear-gradient(90deg, var(--rtb-ipad-blue) 0 var(--value), rgba(255,255,255,.18) var(--value) 100%);
+}
+
+.rtb-timeline::-moz-range-track {
+  height: 5px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255,255,255,.72) 0 var(--value), rgba(255,255,255,.18) var(--value) 100%);
+}
+
+.rtb-is-playing .rtb-timeline::-moz-range-track {
   background: linear-gradient(90deg, var(--rtb-ipad-blue) 0 var(--value), rgba(255,255,255,.18) var(--value) 100%);
 }
 
@@ -432,6 +450,14 @@
   border-radius: 50%;
   background: white;
   box-shadow: 0 0 0 4px rgba(24,140,255,.22), 0 3px 10px rgba(0,0,0,.42);
+}
+
+.rtb-is-playing .rtb-timeline::-webkit-slider-thumb {
+  background: var(--rtb-ipad-blue);
+}
+
+.rtb-is-playing .rtb-timeline::-moz-range-thumb {
+  background: var(--rtb-ipad-blue);
 }
 
 .rtb-volume-wrap {
@@ -468,13 +494,16 @@
 .rtb-control-btn:hover,
 .rtb-control-btn:focus-visible {
   outline: none;
-  border-color: rgba(255,255,255,.35);
-  color: var(--rtb-ipad-gold);
+  border-color: rgba(255,255,255,.18);
   box-shadow:
-    0 1px 0 rgba(255,255,255,.24) inset,
-    0 0 0 1px rgba(255,255,255,.08) inset,
-    0 0 24px rgba(255,179,71,.22),
+    0 1px 0 rgba(255,255,255,.18) inset,
+    0 -1px 0 rgba(0,0,0,.8) inset,
     0 8px 20px rgba(0,0,0,.28);
+}
+
+.rtb-control-btn:focus-visible {
+  outline: 2px solid rgba(255,255,255,.58);
+  outline-offset: 3px;
 }
 
 .rtb-control-btn:active {
@@ -489,7 +518,13 @@
 .rtb-btn-icon {
   display: grid;
   place-items: center;
+  width: 30px;
   height: 24px;
+  border-radius: 10px;
+  color: rgba(255,255,255,.9);
+  background: linear-gradient(145deg, rgba(255,255,255,.12), rgba(255,255,255,.035));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14), inset 0 -1px 0 rgba(0,0,0,.42);
+  transition: background .16s ease, box-shadow .16s ease, color .16s ease, transform .12s ease;
 }
 
 .rtb-btn-icon svg {
@@ -508,45 +543,64 @@
   text-transform: uppercase;
 }
 
-.rtb-play-button.rtb-active {
-  color: var(--rtb-ipad-green);
-  border-color: rgba(41,240,119,.58);
-  box-shadow: 0 0 0 1px rgba(41,240,119,.18) inset, 0 0 28px rgba(41,240,119,.22);
+.rtb-play-button:not(:disabled):is(:hover, :focus-visible, :active, .rtb-active) .rtb-btn-icon {
+  color: #02130a;
+  background: linear-gradient(145deg, #78ffad, var(--rtb-ipad-green));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.58), 0 0 18px rgba(41,240,119,.28);
 }
 
-.rtb-goldable-button.rtb-active,
-.rtb-goldable-button:hover {
-  color: var(--rtb-ipad-gold);
-  border-color: rgba(255,179,71,.62);
-  box-shadow: 0 0 0 1px rgba(255,179,71,.18) inset, 0 0 30px rgba(255,179,71,.24);
+.rtb-seek-button:not(:disabled):is(:hover, :focus-visible, :active, .rtb-active) .rtb-btn-icon,
+.rtb-goldable-button:not(:disabled):is(:hover, :focus-visible, :active, .rtb-active) .rtb-btn-icon {
+  color: #170e00;
+  background: linear-gradient(145deg, #ffe1a0, var(--rtb-ipad-gold));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.62), 0 0 18px rgba(255,179,71,.26);
 }
 
-.rtb-record-button.rtb-active,
-.rtb-live-button.rtb-active {
-  color: var(--rtb-ipad-red);
-  border-color: rgba(255,48,48,.72);
-  box-shadow: 0 0 0 1px rgba(255,48,48,.2) inset, 0 0 34px rgba(255,48,48,.35);
+.rtb-record-button:not(:disabled):is(:hover, :focus-visible, :active, .rtb-active) .rtb-btn-icon,
+.rtb-live-button:not(:disabled):is(:hover, :focus-visible, :active, .rtb-active) .rtb-btn-icon {
+  color: #fff;
+  background: linear-gradient(145deg, #ff6b6b, var(--rtb-ipad-red));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.44), 0 0 18px rgba(255,48,48,.28);
 }
 
-.rtb-record-button.rtb-active::after {
-  content: "";
-  position: absolute;
-  inset: -5px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,48,48,.55);
-  animation: rtbIpadPulse 1.15s ease-in-out infinite;
+.rtb-skip-button:not(:disabled):is(:active, .rtb-pulse-active) .rtb-btn-icon {
+  color: #170e00;
+  background: linear-gradient(145deg, #ffe1a0, var(--rtb-ipad-gold));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.62), 0 0 18px rgba(255,179,71,.24);
 }
 
-.rtb-studio-button.rtb-active,
-.rtb-test-button.rtb-active,
-.rtb-settings-button.rtb-active {
-  color: var(--rtb-ipad-orange);
-  border-color: rgba(255,122,0,.66);
+.rtb-pause-button:not(:disabled):active .rtb-btn-icon,
+.rtb-pause-button:not(:disabled).rtb-pulse-active .rtb-btn-icon {
+  animation: rtbIpadPauseFlash .72s ease-in-out;
+}
+
+.rtb-caption-button.rtb-active .rtb-btn-icon {
+  color: #06182b;
+  background: linear-gradient(145deg, #78c2ff, var(--rtb-ipad-blue));
+}
+
+.rtb-studio-button.rtb-active .rtb-btn-icon,
+.rtb-test-button.rtb-active .rtb-btn-icon,
+.rtb-settings-button.rtb-active .rtb-btn-icon {
+  color: #1d0d00;
+  background: linear-gradient(145deg, #ffb37a, var(--rtb-ipad-orange));
 }
 
 @keyframes rtbIpadPulse {
   0%, 100% { transform: scale(.96); opacity: .35; }
   50% { transform: scale(1.04); opacity: 1; }
+}
+
+@keyframes rtbIpadPauseFlash {
+  0%, 100% {
+    color: rgba(255,255,255,.9);
+    background: linear-gradient(145deg, rgba(255,255,255,.12), rgba(255,255,255,.035));
+  }
+  35%, 65% {
+    color: #02130a;
+    background: linear-gradient(145deg, #78ffad, var(--rtb-ipad-green));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.58), 0 0 20px rgba(41,240,119,.32);
+  }
 }
 
 .rtb-settings-flyout {

@@ -66,7 +66,7 @@ const RTBO_REVIEW_STORAGE_KEY = 'rtbo-attendee-reviews';
 const SITE_CONTENT_KEY = 'rtbo-site-content-records';
 const SITE_CONTENT_UPDATED_EVENT = 'rtbo-site-content-updated';
 const HOME_CLIENT_SPOTLIGHT_CSS_ID = 'home-client-spotlight-css';
-const HOME_CLIENT_SPOTLIGHT_CSS_HREF = '/assets/css/home-client-spotlight.css?v=20260528';
+const HOME_CLIENT_SPOTLIGHT_CSS_HREF = '/assets/css/home-client-spotlight.css?v=20260529-layout';
 
 function safeLocalStorageGet(key) {
   try {
@@ -873,7 +873,14 @@ function HomeClientSpotlight() {
   const selectedVideo = publishedVideos.find(video => video.id === selectedId) || publishedVideos[0] || null;
 
   useEffect(() => {
-    if (typeof document === 'undefined' || document.getElementById(HOME_CLIENT_SPOTLIGHT_CSS_ID)) return;
+    if (typeof document === 'undefined') return;
+    const existing = document.getElementById(HOME_CLIENT_SPOTLIGHT_CSS_ID);
+    if (existing) {
+      if (existing.getAttribute('href') !== HOME_CLIENT_SPOTLIGHT_CSS_HREF) {
+        existing.setAttribute('href', HOME_CLIENT_SPOTLIGHT_CSS_HREF);
+      }
+      return;
+    }
     const link = document.createElement('link');
     link.id = HOME_CLIENT_SPOTLIGHT_CSS_ID;
     link.rel = 'stylesheet';
@@ -923,7 +930,21 @@ function HomeClientSpotlight() {
       <div className="home-client-spotlight-head">
         <p className="eyebrow">Client Spotlight</p>
         <h2 id="home-client-spotlight-title">{library.show.name || defaultClientSpotlightShow.name}</h2>
-        <p>{library.show.tagline || defaultClientSpotlightShow.tagline}</p>
+        <h3 className="home-client-spotlight-subtitle">Production-ready stories from the RTBO community.</h3>
+        <div className="home-client-spotlight-copy" aria-label="Client Spotlight details">
+          <p>{selectedVideo?.description || library.show.mission || defaultClientSpotlightShow.mission}</p>
+          <p className="home-client-spotlight-tagline">{library.show.tagline || defaultClientSpotlightShow.tagline}</p>
+          {selectedVideo?.title && <p className="home-client-spotlight-now-playing"><strong>Now playing:</strong> {selectedVideo.title}</p>}
+          {selectedVideo ? (
+            <dl className="home-client-spotlight-meta">
+              {selectedVideo.category && <div><dt>Category</dt><dd>{selectedVideo.category}</dd></div>}
+              {selectedVideo.featuredPerson && <div><dt>Featured</dt><dd>{[selectedVideo.featuredPerson, selectedVideo.role, selectedVideo.affiliation].filter(Boolean).join(' / ')}</dd></div>}
+              {selectedVideo.eventName && <div><dt>Event</dt><dd>{[selectedVideo.eventName, selectedVideo.eventDate].filter(Boolean).join(' / ')}</dd></div>}
+            </dl>
+          ) : (
+            <p className="home-client-spotlight-empty-note">Add and publish real videos in the Command Center Client Spotlight Studio to activate the public playlist.</p>
+          )}
+        </div>
       </div>
 
       <div className="home-client-spotlight-layout">
@@ -943,19 +964,7 @@ function HomeClientSpotlight() {
           />
         </div>
 
-        <aside className="home-client-spotlight-copy" aria-label="Client Spotlight details">
-          <span>{library.show.brandLine || defaultClientSpotlightShow.brandLine}</span>
-          <h3>{selectedVideo ? selectedVideo.title : 'Production-ready stories from the RTBO community.'}</h3>
-          <p>{selectedVideo?.description || library.show.mission || defaultClientSpotlightShow.mission}</p>
-          {selectedVideo ? (
-            <dl>
-              {selectedVideo.category && <><dt>Category</dt><dd>{selectedVideo.category}</dd></>}
-              {selectedVideo.featuredPerson && <><dt>Featured</dt><dd>{[selectedVideo.featuredPerson, selectedVideo.role, selectedVideo.affiliation].filter(Boolean).join(' / ')}</dd></>}
-              {selectedVideo.eventName && <><dt>Event</dt><dd>{[selectedVideo.eventName, selectedVideo.eventDate].filter(Boolean).join(' / ')}</dd></>}
-            </dl>
-          ) : (
-            <p className="home-client-spotlight-empty-note">Add and publish real videos in the Command Center Client Spotlight Studio to activate the public playlist.</p>
-          )}
+        <aside className="home-client-spotlight-sidebar" aria-label="Client Spotlight playlist">
           {publishedVideos.length > 0 && (
             <div className="home-client-spotlight-playlist" aria-label="Published Client Spotlight videos">
               {publishedVideos.slice(0, 4).map(video => (

@@ -1,27 +1,31 @@
 .home-client-spotlight-section{display:grid;gap:clamp(24px,3vw,42px);padding-top:clamp(42px,5vw,72px);padding-bottom:clamp(42px,5vw,72px)}
-.home-client-spotlight-head{display:grid;gap:10px;max-width:min(100%,920px)}
+.home-client-spotlight-head{display:grid;gap:12px;max-width:min(100%,980px)}
 .home-client-spotlight-head h2{margin:0;color:#fff;font-size:clamp(2rem,4vw,4.2rem);line-height:.96;text-wrap:balance}
-.home-client-spotlight-head p:not(.eyebrow){max-width:760px;margin:0;color:var(--muted);font-size:clamp(1rem,1.35vw,1.22rem);line-height:1.65}
-.home-client-spotlight-layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);gap:clamp(22px,3.5vw,54px);align-items:center}
-.home-client-spotlight-player{min-width:0;background:transparent}
+.rtbo-public .home-client-spotlight-subtitle{max-width:100%;margin:0;color:#fff;font-size:clamp(.72rem,2.25vw,2.25rem);line-height:1.08;overflow-wrap:normal!important;text-wrap:nowrap!important;white-space:nowrap!important;word-break:normal!important}
+.home-client-spotlight-head p:not(.eyebrow){max-width:820px;margin:0;color:var(--muted);font-size:clamp(1rem,1.22vw,1.16rem);line-height:1.65}
+.home-client-spotlight-layout{display:grid;grid-template-columns:1fr;gap:clamp(24px,3.4vw,46px);align-items:start}
+.home-client-spotlight-player{width:min(100%,1180px);min-width:0;justify-self:center;background:transparent}
 .home-client-spotlight-ipad .rtb-ipad-shell{min-height:clamp(520px,52vw,820px)}
-.home-client-spotlight-copy{display:grid;gap:16px;align-content:center;min-width:0;border:1px solid rgba(212,175,55,.28);border-radius:8px;padding:clamp(18px,2.4vw,30px);background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.012)),rgba(255,255,255,.03)}
-.home-client-spotlight-copy>span{width:fit-content;border:1px solid rgba(212,175,55,.38);border-radius:999px;padding:7px 11px;color:var(--rtbo-gold-strong);font-size:.74rem;font-weight:1000;letter-spacing:.08em;text-transform:uppercase}
-.home-client-spotlight-copy h3{margin:0;color:#fff;font-size:clamp(1.45rem,2.2vw,2.35rem);line-height:1.02;text-wrap:balance}
+.home-client-spotlight-copy{display:grid;gap:12px;width:min(100%,900px);min-width:0}
 .home-client-spotlight-copy p{margin:0;color:var(--muted);line-height:1.65}
-.home-client-spotlight-copy dl{display:grid;gap:10px;margin:0}
+.home-client-spotlight-tagline{font-weight:800}
+.home-client-spotlight-now-playing{color:#fff!important}
+.home-client-spotlight-now-playing strong{color:var(--rtbo-gold-strong)}
+.home-client-spotlight-copy dl{display:grid;gap:8px;margin:0}
+.home-client-spotlight-meta div{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
 .home-client-spotlight-copy dt{color:var(--rtbo-gold-strong);font-size:.72rem;font-weight:1000;letter-spacing:.08em;text-transform:uppercase}
-.home-client-spotlight-copy dd{margin:-6px 0 0;color:#fff;font-weight:850}
+.home-client-spotlight-copy dd{margin:0;color:#fff;font-weight:850}
 .home-client-spotlight-empty-note{border-left:3px solid var(--rtbo-gold);padding-left:12px}
-.home-client-spotlight-playlist{display:grid;gap:10px;margin-top:4px}
+.home-client-spotlight-sidebar:empty{display:none}
+.home-client-spotlight-playlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;width:min(100%,1180px);justify-self:center;margin-top:-10px}
 .home-client-spotlight-playlist button{display:grid;grid-template-columns:92px minmax(0,1fr);gap:12px;align-items:center;min-width:0;border:1px solid rgba(148,163,184,.24);border-radius:8px;padding:8px;color:inherit;text-align:left;background:rgba(3,7,18,.54);cursor:pointer;transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
 .home-client-spotlight-playlist button:is(:hover,:focus-visible),.home-client-spotlight-playlist button.active{border-color:var(--rtbo-gold-hover-border);box-shadow:0 14px 34px rgba(212,175,55,.12);transform:translateY(-1px)}
 .home-client-spotlight-playlist img{width:92px;aspect-ratio:16/9;border-radius:6px;object-fit:cover;background:#050505}
 .home-client-spotlight-playlist span,.home-client-spotlight-playlist strong,.home-client-spotlight-playlist small{display:block;min-width:0}
 .home-client-spotlight-playlist strong{color:#fff;line-height:1.18}
 .home-client-spotlight-playlist small{margin-top:4px;color:var(--muted);font-size:.78rem}
-:root[data-theme=light] .home-client-spotlight-head h2,:root[data-theme=light] .home-client-spotlight-copy h3,:root[data-theme=light] .home-client-spotlight-copy dd,:root[data-theme=light] .home-client-spotlight-playlist strong{color:#111827}
+:root[data-theme=light] .home-client-spotlight-head h2,:root[data-theme=light] .home-client-spotlight-subtitle,:root[data-theme=light] .home-client-spotlight-copy dd,:root[data-theme=light] .home-client-spotlight-now-playing,:root[data-theme=light] .home-client-spotlight-playlist strong{color:#111827!important}
 :root[data-theme=light] .home-client-spotlight-head p:not(.eyebrow),:root[data-theme=light] .home-client-spotlight-copy p,:root[data-theme=light] .home-client-spotlight-playlist small{color:#475569}
-:root[data-theme=light] .home-client-spotlight-copy,:root[data-theme=light] .home-client-spotlight-playlist button{background:#fff;box-shadow:0 18px 44px rgba(15,23,42,.08)}
-@media(max-width:880px){.home-client-spotlight-layout{grid-template-columns:1fr}.home-client-spotlight-ipad .rtb-ipad-shell{min-height:clamp(430px,118vw,680px)}}
+:root[data-theme=light] .home-client-spotlight-playlist button{background:#fff;box-shadow:0 18px 44px rgba(15,23,42,.08)}
+@media(max-width:880px){.home-client-spotlight-ipad .rtb-ipad-shell{min-height:clamp(430px,112vw,680px)}}
 @media(max-width:480px){.home-client-spotlight-playlist button{grid-template-columns:1fr}.home-client-spotlight-playlist img{width:100%}}

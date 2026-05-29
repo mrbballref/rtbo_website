@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 const CSS_ID = 'rtb-ipad-video-player-css';
-const CSS_HREF = '/assets/video-player/rtb-ipad-player.css?v=20260528-ipad-shell';
+const CSS_HREF = '/assets/video-player/rtb-ipad-player.css?v=20260529-control-states';
 const SPEEDS = [0.75, 1, 1.25, 1.5, 2];
 
 const icons = {
@@ -26,7 +26,14 @@ const icons = {
 
 function useIPadPlayerCss() {
   useEffect(() => {
-    if (typeof document === 'undefined' || document.getElementById(CSS_ID)) return;
+    if (typeof document === 'undefined') return;
+    const existing = document.getElementById(CSS_ID);
+    if (existing) {
+      if (existing.getAttribute('href') !== CSS_HREF) {
+        existing.setAttribute('href', CSS_HREF);
+      }
+      return;
+    }
     const link = document.createElement('link');
     link.id = CSS_ID;
     link.rel = 'stylesheet';
@@ -65,11 +72,12 @@ function PlayerButton({
   active = false,
   variant = 'silver',
   className = '',
-  ariaPressed
+  ariaPressed,
+  pulse = false
 }) {
   return (
     <button
-      className={`rtb-control-btn rtb-${variant}-button ${active ? 'rtb-active' : ''} ${className}`.trim()}
+      className={`rtb-control-btn rtb-${variant}-button ${active ? 'rtb-active' : ''} ${pulse ? 'rtb-pulse-active' : ''} ${className}`.trim()}
       type="button"
       onClick={onClick}
       disabled={disabled}
@@ -150,6 +158,10 @@ export default function RTBIPadVideoPlayer({
   const [nativeSpeed, setNativeSpeed] = useState(1);
   const [nativeTheater, setNativeTheater] = useState(false);
   const [nativeMini, setNativeMini] = useState(false);
+  const [pauseFlash, setPauseFlash] = useState(false);
+  const [adjacentFlash, setAdjacentFlash] = useState('');
+  const pauseFlashTimerRef = useRef(null);
+  const adjacentFlashTimerRef = useRef(null);
 
   const selectedItem = useMemo(() => (
     playlist.find(item => item.id === selectedId) || playlist[0] || null
@@ -193,6 +205,29 @@ export default function RTBIPadVideoPlayer({
       track.mode = captionsOn ? 'showing' : 'disabled';
     });
   }, [captionsOn, selectedItem?.id]);
+
+  useEffect(() => () => {
+    window.clearTimeout(pauseFlashTimerRef.current);
+    window.clearTimeout(adjacentFlashTimerRef.current);
+  }, []);
+
+  function flashPauseButton() {
+    window.clearTimeout(pauseFlashTimerRef.current);
+    setPauseFlash(false);
+    window.requestAnimationFrame(() => {
+      setPauseFlash(true);
+      pauseFlashTimerRef.current = window.setTimeout(() => setPauseFlash(false), 780);
+    });
+  }
+
+  function flashAdjacentButton(direction) {
+    window.clearTimeout(adjacentFlashTimerRef.current);
+    setAdjacentFlash('');
+    window.requestAnimationFrame(() => {
+      setAdjacentFlash(direction);
+      adjacentFlashTimerRef.current = window.setTimeout(() => setAdjacentFlash(''), 520);
+    });
+  }
 
   async function nativePlay() {
     const video = videoRef.current;
@@ -268,6 +303,7 @@ export default function RTBIPadVideoPlayer({
   }
 
   function handlePause() {
+    flashPauseButton();
     if (controlled) onPause?.();
     else nativePause();
   }
@@ -278,11 +314,13 @@ export default function RTBIPadVideoPlayer({
   }
 
   function handlePrevious() {
+    flashAdjacentButton('previous');
     if (controlled) onPrevious?.();
     else nativeAdjacent(-1);
   }
 
   function handleNext() {
+    flashAdjacentButton('next');
     if (controlled) onNext?.();
     else nativeAdjacent(1);
   }
@@ -446,14 +484,14 @@ export default function RTBIPadVideoPlayer({
               </div>
               <div className="rtb-control-row rtb-main-buttons" role="group" aria-label="Video controls">
                 <PlayerButton icon="play" label="Play" variant="play" active={playing} onClick={handlePlay} disabled={disabled} />
-                <PlayerButton icon="pause" label="Pause" onClick={handlePause} disabled={disabled} />
+                <PlayerButton icon="pause" label="Pause" variant="pause" pulse={pauseFlash} onClick={handlePause} disabled={disabled} />
                 <PlayerButton icon="stop" label="Stop" onClick={handleStop} disabled={disabled} />
-                <PlayerButton icon="prev" label="Prev" onClick={handlePrevious} disabled={disabled || (!controlled && playlist.length < 2)} />
-                <PlayerButton icon="rewind" label="Rewind" variant="goldable" onClick={() => handleSkip(-30)} disabled={disabled} />
-                <PlayerButton icon="rewind" label="-10" variant="goldable" onClick={() => handleSkip(-10)} disabled={disabled} />
-                <PlayerButton icon="forward" label="+10" variant="goldable" onClick={() => handleSkip(10)} disabled={disabled} />
-                <PlayerButton icon="forward" label="Fast Fwd" variant="goldable" onClick={() => handleSkip(30)} disabled={disabled} />
-                <PlayerButton icon="next" label="Next" onClick={handleNext} disabled={disabled || (!controlled && playlist.length < 2)} />
+                <PlayerButton icon="prev" label="Prev" variant="skip" pulse={adjacentFlash === 'previous'} onClick={handlePrevious} disabled={disabled || (!controlled && playlist.length < 2)} />
+                <PlayerButton icon="rewind" label="Rewind" variant="seek" onClick={() => handleSkip(-30)} disabled={disabled} />
+                <PlayerButton icon="rewind" label="-10" variant="seek" onClick={() => handleSkip(-10)} disabled={disabled} />
+                <PlayerButton icon="forward" label="+10" variant="seek" onClick={() => handleSkip(10)} disabled={disabled} />
+                <PlayerButton icon="forward" label="Fast Fwd" variant="seek" onClick={() => handleSkip(30)} disabled={disabled} />
+                <PlayerButton icon="next" label="Next" variant="skip" pulse={adjacentFlash === 'next'} onClick={handleNext} disabled={disabled || (!controlled && playlist.length < 2)} />
                 {showRecord && (
                   <PlayerButton icon="record" label="Record" variant="record" active={recording} onClick={onToggleRecording} disabled={disabled || !onToggleRecording} ariaPressed={recording} />
                 )}
@@ -472,8 +510,8 @@ export default function RTBIPadVideoPlayer({
                     aria-label="Video volume"
                   />
                 </label>
-                <PlayerButton icon="cc" label={captionsOn ? 'CC On' : 'CC'} variant="goldable" active={captionsOn} onClick={handleCaptions} disabled={disabled} ariaPressed={captionsOn} />
-                <PlayerButton icon="cog" label={`${Number(speed || 1).toFixed(1)}x`} variant="goldable" onClick={cycleSpeed} disabled={disabled} />
+                <PlayerButton icon="cc" label={captionsOn ? 'CC On' : 'CC'} variant="caption" active={captionsOn} onClick={handleCaptions} disabled={disabled} ariaPressed={captionsOn} />
+                <PlayerButton icon="cog" label={`${Number(speed || 1).toFixed(1)}x`} variant="speed" onClick={cycleSpeed} disabled={disabled} />
                 <PlayerButton icon="cog" label="Settings" variant="settings" active={settingsOpen} onClick={() => setSettingsOpen(currentOpen => !currentOpen)} />
                 {extraControls.map(control => (
                   <PlayerButton
