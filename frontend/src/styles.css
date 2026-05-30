@@ -2382,36 +2382,32 @@ button.hero-scroll-link {
 }
 
 .rtbo-public .about-rtbo-section {
-  display: grid !important;
-  grid-template-columns: 1fr !important;
-  gap: clamp(20px, 3vw, 34px);
-  align-items: start;
-}
-
-.rtbo-public .about-rtbo-section > div:first-child {
-  max-width: min(100%, 860px);
-}
-
-.rtbo-public .about-rtbo-section > div:first-child h2 {
-  white-space: normal !important;
-  text-wrap: balance !important;
-  overflow-wrap: anywhere !important;
+  display: block !important;
 }
 
 .rtbo-public .about-rtbo-layout {
   display: grid !important;
-  grid-template-columns: minmax(320px, 0.72fr) minmax(0, 1.28fr) !important;
-  gap: clamp(24px, 3.5vw, 54px);
-  align-items: center;
-  width: 100%;
+  grid-template-columns: minmax(340px, .9fr) minmax(0, 1.1fr) !important;
+  gap: clamp(30px, 4vw, 64px);
+  align-items: start;
+}
+
+.rtbo-public .about-rtbo-heading h2 {
+  margin: 0;
+  white-space: normal !important;
+  text-wrap: balance !important;
+  font-size: clamp(3rem, 5vw, 5.8rem);
+  line-height: .94;
+}
+
+.rtbo-public .about-rtbo-visual-column {
+  display: grid;
+  gap: clamp(24px, 3vw, 44px);
 }
 
 .rtbo-public .about-rtbo-image-frame {
-  grid-column: 1 !important;
-  grid-row: 1 !important;
-  align-self: center;
   justify-self: center;
-  width: min(100%, 560px);
+  width: min(100%, 620px);
   margin-top: 0 !important;
   transform: none !important;
 }
@@ -2423,15 +2419,12 @@ button.hero-scroll-link {
 }
 
 .rtbo-public .about-rtbo-content {
-  grid-column: 2 !important;
-  grid-row: 1 !important;
-  align-self: center;
-  width: 100%;
-  padding-top: 0 !important;
+  align-self: start;
+  padding-top: clamp(24px, 3.6vw, 68px) !important;
 }
 
 .rtbo-public .about-rtbo-content .long-copy {
-  margin-bottom: clamp(18px, 2.5vw, 30px);
+  margin-bottom: 0;
 }
 
 .rtbo-public .about-rtbo-content .long-copy h3 {
@@ -2453,9 +2446,10 @@ button.hero-scroll-link {
 }
 
 .rtbo-public .about-rtbo-section .about-icon-grid {
+  grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: 14px;
+  gap: 16px;
 }
 
 .rtbo-public .about-rtbo-section .about-icon-grid article {

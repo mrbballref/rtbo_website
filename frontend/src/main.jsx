@@ -856,9 +856,11 @@ function Home({ setActive, onOpenRegister }) {
 function AboutSummary({ setActive }) {
   return (
     <section className="rtbo-band about-rtbo-section home-about-rtbo-section" id="about">
-      <div><p className="eyebrow">About RTBO</p><h2>Service. Development. Innovation.</h2></div>
       <div className="about-rtbo-layout">
-        <div className="image-frame compact about-rtbo-image-frame"><img src={image('polo_blk_white.png')} alt="RTBO officiating apparel and brand mark" /></div>
+        <div className="about-rtbo-visual-column">
+          <div className="about-rtbo-heading"><p className="eyebrow">About RTBO</p><h2>Service. Development. Innovation.</h2></div>
+          <div className="image-frame compact about-rtbo-image-frame"><img src={image('polo_blk_white.png')} alt="RTBO officiating apparel and brand mark" /></div>
+        </div>
         <div className="about-rtbo-content">
           <div className="long-copy">
             <h3>Who We Are</h3>
@@ -867,9 +869,9 @@ function AboutSummary({ setActive }) {
             <p><strong>Core Philosophy:</strong><br />We Will Serve, And Will Be Of Service To The Game.</p>
             {setActive && <button className="btn about-learn-more-button" type="button" onClick={() => setActive('about')}>Learn More</button>}
           </div>
-          <div className="about-icon-grid">
-            {aboutCards.map(([icon, title, text]) => <article key={title}><img className="card-icon" src={image(icon)} alt="" /><h3>{title}</h3><p>{text}</p></article>)}
-          </div>
+        </div>
+        <div className="about-icon-grid">
+          {aboutCards.map(([icon, title, text]) => <article key={title}><img className="card-icon" src={image(icon)} alt="" /><h3>{title}</h3><p>{text}</p></article>)}
         </div>
       </div>
     </section>
