@@ -1097,25 +1097,23 @@ function HomeResultsFeature({ setActive }) {
 function AboutDifference() {
   return (
     <section className="rtbo-section about-difference-section">
+      <div className="rtbo-section-head about-difference-head">
+        <p className="eyebrow">The Difference</p>
+        <h2>Why Choose Us!</h2>
+      </div>
       <div className="about-difference-image">
         <img src={image('about_trng_1.png')} alt="Raising The Bar Officiating changes lives through mentorship and training" />
       </div>
-      <div className="about-difference-content">
-        <div className="rtbo-section-head">
-          <p className="eyebrow">The Difference</p>
-          <h2>Why Choose Us!</h2>
-        </div>
-        <div className="about-difference-grid">
-          {aboutDifferenceCards.map(([icon, title, text]) => (
-            <article key={`${title}-${icon}`}>
-              <img src={image(icon)} alt="" />
-              <div>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </div>
-            </article>
-          ))}
-        </div>
+      <div className="about-difference-grid">
+        {aboutDifferenceCards.map(([icon, title, text]) => (
+          <article key={`${title}-${icon}`}>
+            <img src={image(icon)} alt="" />
+            <div>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );
