@@ -628,20 +628,20 @@ function SidebarIcon({ id }) {
 
 function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onOpenRegister, navLinks = navItems }) {
   const [open, setOpen] = useState(false);
-  const [trainingOpen, setTrainingOpen] = useState(false);
+  const [schoolsEventsOpen, setSchoolsEventsOpen] = useState(false);
   const [liveStreamOpen, setLiveStreamOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [dismissedDropdown, setDismissedDropdown] = useState('');
+  const schoolsEventsNavLinks = navLinks.filter(([id]) => id === 'events' || id === 'trainers' || id === 'education');
   const liveStreamNavLinks = navLinks.filter(([id]) => id === 'livestream' || id === 'refroom' || id === 'podcast');
   const servicesNavLinks = navLinks.filter(([id]) => id === 'services' || id === 'resume');
-  const trainingNavLinks = navLinks.filter(([id]) => id === 'trainers' || id === 'education');
-  const primaryNavLinks = navLinks.filter(([id]) => id !== 'refroom' && id !== 'podcast' && id !== 'education' && id !== 'resume');
+  const primaryNavLinks = navLinks.filter(([id]) => id !== 'refroom' && id !== 'podcast' && id !== 'education' && id !== 'trainers' && id !== 'resume');
+  const schoolsEventsActive = schoolsEventsNavLinks.some(([id]) => id === active);
   const liveStreamActive = liveStreamNavLinks.some(([id]) => id === active);
   const servicesActive = servicesNavLinks.some(([id]) => id === active);
-  const trainingActive = trainingNavLinks.some(([id]) => id === active);
 
   function closeNavDropdowns(nextDismissedDropdown = '') {
-    setTrainingOpen(false);
+    setSchoolsEventsOpen(false);
     setLiveStreamOpen(false);
     setServicesOpen(false);
     setDismissedDropdown(nextDismissedDropdown);
@@ -649,9 +649,9 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
 
   function openNavDropdown(id) {
     setDismissedDropdown('');
+    setSchoolsEventsOpen(id === 'events');
     setLiveStreamOpen(id === 'livestream');
     setServicesOpen(id === 'services');
-    setTrainingOpen(id === 'trainers');
   }
 
   function resetDismissedDropdown() {
@@ -717,7 +717,7 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
         aria-expanded={open}
         onClick={() => setOpen((current) => {
           if (current) {
-            setTrainingOpen(false);
+            setSchoolsEventsOpen(false);
             setLiveStreamOpen(false);
             setServicesOpen(false);
             setDismissedDropdown('');
@@ -730,7 +730,24 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
       <button className={`nav-flyout-scrim ${open ? 'is-open' : ''}`} type="button" aria-label="Close navigation menu" onClick={() => { setOpen(false); closeNavDropdowns(''); }}></button>
       <nav className={`site-nav ${open ? 'is-open' : ''}`}>
         <div className="nav-link-group">
-          {primaryNavLinks.map(([id, label]) => id === 'livestream' ? (
+          {primaryNavLinks.map(([id, label]) => id === 'events' ? (
+            <div className={`nav-dropdown ${schoolsEventsOpen ? 'is-open' : ''} ${dismissedDropdown === 'events' ? 'is-click-dismissed' : ''}`.trim()} key={id} onMouseEnter={() => openNavDropdown('events')} onMouseLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onPointerEnter={() => openNavDropdown('events')} onPointerLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onFocus={() => openNavDropdown('events')} onBlur={closeDropdownOnBlur}>
+              <button
+                className={`nav-dropdown-trigger ${schoolsEventsActive ? 'active' : ''}`}
+                type="button"
+                aria-expanded={schoolsEventsOpen}
+                aria-haspopup="true"
+                onClick={() => openNavDropdown('events')}
+              >
+                {label}<span className="nav-dropdown-caret" aria-hidden="true"></span>
+              </button>
+              <div className="nav-dropdown-menu" aria-label="Schools & Events navigation">
+                {schoolsEventsNavLinks.map(([childId, childLabel]) => (
+                  <button className={active === childId ? 'active' : ''} key={childId} type="button" onClick={() => openNavDropdownPage(childId, 'events')}>{childLabel}</button>
+                ))}
+              </div>
+            </div>
+          ) : id === 'livestream' ? (
             <div className={`nav-dropdown ${liveStreamOpen ? 'is-open' : ''} ${dismissedDropdown === 'livestream' ? 'is-click-dismissed' : ''}`.trim()} key={id} onMouseEnter={() => openNavDropdown('livestream')} onMouseLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onPointerEnter={() => openNavDropdown('livestream')} onPointerLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onFocus={() => openNavDropdown('livestream')} onBlur={closeDropdownOnBlur}>
               <button
                 className={`nav-dropdown-trigger ${liveStreamActive ? 'active' : ''}`}
@@ -761,23 +778,6 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
               <div className="nav-dropdown-menu" aria-label="Services navigation">
                 {servicesNavLinks.map(([childId, childLabel]) => (
                   <button className={active === childId ? 'active' : ''} key={childId} type="button" onClick={() => openNavDropdownPage(childId, 'services')}>{childLabel}</button>
-                ))}
-              </div>
-            </div>
-          ) : id === 'trainers' ? (
-            <div className={`nav-dropdown ${trainingOpen ? 'is-open' : ''} ${dismissedDropdown === 'trainers' ? 'is-click-dismissed' : ''}`.trim()} key={id} onMouseEnter={() => openNavDropdown('trainers')} onMouseLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onPointerEnter={() => openNavDropdown('trainers')} onPointerLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onFocus={() => openNavDropdown('trainers')} onBlur={closeDropdownOnBlur}>
-              <button
-                className={`nav-dropdown-trigger ${trainingActive ? 'active' : ''}`}
-                type="button"
-                aria-expanded={trainingOpen}
-                aria-haspopup="true"
-                onClick={() => openNavDropdown('trainers')}
-              >
-                {label}<span className="nav-dropdown-caret" aria-hidden="true"></span>
-              </button>
-              <div className="nav-dropdown-menu" aria-label="Training navigation">
-                {trainingNavLinks.map(([childId, childLabel]) => (
-                  <button className={active === childId ? 'active' : ''} key={childId} type="button" onClick={() => openNavDropdownPage(childId, 'trainers')}>{childLabel}</button>
                 ))}
               </div>
             </div>
