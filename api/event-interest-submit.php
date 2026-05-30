@@ -28,17 +28,31 @@ if ($first === '' || $last === '' || $email === '' || $phone === '' || $availabi
     exit;
 }
 
-$eventName = 'Big Miller Event Team Camp';
-$eventDate = 'June 8-9, 2026';
-$eventAddress = '1500 Christy Lane. Alexander, AR 72002';
-$venue = 'Summer Wood Sports Complex';
+function rtbo_event_interest_text(array $input, string $key, string $fallback, int $maxLength = 160): string
+{
+    $value = trim((string) ($input[$key] ?? ''));
+    $value = preg_replace('/[\r\n\t]+/', ' ', $value) ?? '';
+    $value = trim($value);
+    if ($value === '') {
+        return $fallback;
+    }
+    return substr($value, 0, $maxLength);
+}
+
+$eventName = rtbo_event_interest_text($_POST, 'event_name', 'Big Miller Event Team Camp', 120);
+$eventDate = rtbo_event_interest_text($_POST, 'event_date', 'June 8-9, 2026', 80);
+$eventAddress = rtbo_event_interest_text($_POST, 'event_address', '1500 Christy Lane. Alexander, AR 72002', 180);
+$venue = rtbo_event_interest_text($_POST, 'event_venue', 'Summer Wood Sports Complex', 120);
+$courts = rtbo_event_interest_text($_POST, 'event_courts', 'Three courts', 80);
+$crews = rtbo_event_interest_text($_POST, 'event_crews', '3-man crews', 80);
+$gameFee = rtbo_event_interest_text($_POST, 'event_game_fee', '$30.00 per game per referee', 100);
 $eventSummary = "Event: {$eventName}\n";
 $eventSummary .= "Date: {$eventDate}\n";
 $eventSummary .= "Venue: {$venue}\n";
 $eventSummary .= "Address: {$eventAddress}\n";
-$eventSummary .= "Courts: Three courts\n";
-$eventSummary .= "Crew System: 3-man crews\n";
-$eventSummary .= "Game Fee: \$30.00 per game per referee\n\n";
+$eventSummary .= "Courts: {$courts}\n";
+$eventSummary .= "Crew System: {$crews}\n";
+$eventSummary .= "Game Fee: {$gameFee}\n\n";
 $eventSummary .= "Availability:\n{$availability}";
 
 $name = preg_replace('/[\r\n]+/', ' ', $first . ' ' . $last);
@@ -58,10 +72,10 @@ $eventInterest = [
     'event_address' => $eventAddress,
     'pdf_title' => 'Paid Event Interest Submission',
     'pdf_note' => 'Generated for Super Admin review, crew planning, and RTBO records.',
-    'source_label' => 'RTBO Big Miller Event Team Camp interest form',
+    'source_label' => "RTBO {$eventName} interest form",
     'message_section_title' => 'Event Availability',
     'message_field_label' => 'Availability and Event Details',
-    'recommended_next_step' => 'Review the official availability and follow up with crew assignments for the Big Miller Event Team Camp.',
+    'recommended_next_step' => "Review the official availability and follow up with crew assignments for {$eventName}.",
     'pdf_file_prefix' => 'event_interest',
 ];
 

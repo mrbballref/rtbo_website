@@ -4,6 +4,7 @@ export const navItems = [
   ['events', 'Schools & Events'],
   ['livestream', 'Live Stream'],
   ['refroom', 'RefRoom'],
+  ['lockerroom', 'The Locker Room'],
   ['podcast', 'The Jammed Up Bar! Podcast'],
   ['services', 'Services'],
   ['resume', 'Resume'],
@@ -21,22 +22,62 @@ export const sessions = [
 ];
 
 export const schoolCardSessions = [
-  ['uapb_team_camp_card.png', 'uapb_icon.png', 'University of Arkansas at Pine Bluff', 'H.O. Clemmons Arena', 'June 9-10, 2026 • 1542 L.A. Prexy Davis Dr., Pine Bluff, AR 71601'],
   ['uca_team_camp_card.png', 'uca_icon.png', 'University of Central Arkansas', 'June 19, 2026', 'Bruce St. Conway, AR'],
   ['ualr_team_camp_card.png', 'ualr_icon.png', 'University of Arkansas at Little Rock', 'Jack Stephens Event Center', 'July 21-22, 2026 • 2801 S. University Ave. Little Rock, AR 72204']
 ];
 
-export const paidEventCard = {
-  image: 'big_miller_event_team_card.png',
-  title: 'Big Miller Event Team Camp',
-  date: 'June 8-9, 2026',
-  address: '1500 Christy Lane. Alexander, AR 72002',
-  venue: 'Summer Wood Sports Complex',
-  city: 'Alexander, AR',
-  courts: 'Three courts',
-  crews: '3-man crews',
-  gameFee: '$30.00 per game per referee'
-};
+export const paidEventCards = [
+  {
+    id: 'big-miller-event-team-camp',
+    image: 'big_miller_event_team_card.png',
+    title: 'Big Miller Event Team Camp',
+    date: 'June 8-9, 2026',
+    address: '1500 Christy Lane. Alexander, AR 72002',
+    venue: 'Summer Wood Sports Complex',
+    city: 'Alexander, AR',
+    courts: 'Three courts',
+    crews: '3-man crews',
+    gameFee: '$30.00 per game per referee'
+  },
+  {
+    id: 'uapb-team-camp-june-9',
+    image: 'uapb_team_camp_card.png',
+    title: 'UAPB Team Camp',
+    date: 'June 9-10, 2026',
+    address: '1542 L.A. Prexy Davis Dr., Pine Bluff, AR 71601',
+    venue: 'H.O. Clemmons Arena',
+    city: 'Pine Bluff, AR',
+    courts: 'Three courts',
+    crews: '2-man crews',
+    gameFee: '$30.00 per game per referee'
+  },
+  {
+    id: 'uapb-men-team-camp-june-1',
+    image: 'uapb_men_resume_card.png',
+    imageLayout: 'wide',
+    title: 'UAPB Men Team Camp',
+    date: 'June 1, 2026',
+    address: '1542 L.A. Prexy Davis Dr., Pine Bluff, AR 71601',
+    venue: 'H.O. Clemmons Arena',
+    city: 'Pine Bluff, AR',
+    courts: '1 court',
+    crews: '2-man crews',
+    gameFee: '$30.00 per game per referee'
+  },
+  {
+    id: 'uapb-men-team-camp-june-8',
+    image: 'uapb_men_resume_card.png',
+    imageLayout: 'wide',
+    title: 'UAPB Men Team Camp',
+    date: 'June 8, 2026',
+    address: '1542 L.A. Prexy Davis Dr., Pine Bluff, AR 71601',
+    venue: 'H.O. Clemmons Arena',
+    city: 'Pine Bluff, AR',
+    courts: 'Three courts',
+    crews: '2-man crews',
+    gameFee: '$30.00 per game per referee'
+  }
+];
 
 export const pricingPlans = [
   {
@@ -143,6 +184,10 @@ export const seoMeta = {
   refroom: [
     'RefRoom | RTBO Public Video Player & Production Studio',
     'Watch the RTBO RefRoom public video player for virtual officiating meetings, film rooms, training broadcasts, and production-studio sessions.'
+  ],
+  lockerroom: [
+    'The Locker Room | Secure RTBO Game Film Platform',
+    'Use The Locker Room to upload, stream, review, and securely download real RTBO game film with account-based team room access.'
   ],
   podcast: [
     'The Jammed Up Bar! Podcast | Basketball Officiating Video Podcast',

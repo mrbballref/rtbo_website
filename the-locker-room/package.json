@@ -1,0 +1,40 @@
+{
+  "name": "the-locker-room",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The Locker Room - Raising The Bar Officiating game film player, download exchange, and native app shell.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "native:sync": "npx cap sync",
+    "native:add:ios": "npx cap add ios",
+    "native:add:android": "npx cap add android",
+    "native:ios": "npx cap open ios",
+    "native:android": "npx cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "latest",
+    "@capacitor/cli": "latest",
+    "@capacitor/core": "latest",
+    "@capacitor/ios": "latest",
+    "@supabase/ssr": "latest",
+    "@supabase/supabase-js": "latest",
+    "next": "^14.2.15",
+    "nodemailer": "latest",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/nodemailer": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "^14.2.15",
+    "typescript": "latest"
+  }
+}

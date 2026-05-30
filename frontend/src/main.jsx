@@ -17,7 +17,7 @@ import {
   aboutDifferenceCards,
   guests,
   navItems,
-  paidEventCard,
+  paidEventCards,
   platformCards,
   platformFlow,
   pricingFeatures,
@@ -55,6 +55,7 @@ const ManagedSiteContent = React.lazy(() => import('./ManagedSiteContent.jsx'));
 const RTBOResumePage = React.lazy(() => import('./RTBOResumePage.jsx'));
 const ResumeManager = React.lazy(() => import('./ResumeManager.jsx'));
 const JammedUpPodcastPage = React.lazy(() => import('./JammedUpPodcastPage.jsx'));
+const LockerRoomPage = React.lazy(() => import('./LockerRoomPage.jsx'));
 const ClientSpotlightStudio = React.lazy(() => import('./ClientSpotlightStudio.jsx'));
 const StateSelect = React.lazy(() => import('./StateSelect.jsx'));
 const CountrySelect = React.lazy(() => import('./CountrySelect.jsx'));
@@ -628,33 +629,48 @@ function SidebarIcon({ id }) {
 
 function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onOpenRegister, navLinks = navItems }) {
   const [open, setOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const [schoolsEventsOpen, setSchoolsEventsOpen] = useState(false);
   const [liveStreamOpen, setLiveStreamOpen] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
   const [dismissedDropdown, setDismissedDropdown] = useState('');
-  const schoolsEventsNavLinks = navLinks.filter(([id]) => id === 'events' || id === 'trainers' || id === 'education');
-  const liveStreamNavLinks = navLinks.filter(([id]) => id === 'livestream' || id === 'refroom' || id === 'podcast');
-  const servicesNavLinks = navLinks.filter(([id]) => id === 'services' || id === 'resume');
-  const primaryNavLinks = navLinks.filter(([id]) => id !== 'refroom' && id !== 'podcast' && id !== 'education' && id !== 'trainers' && id !== 'resume');
+  const dismissedDropdownRef = useRef('');
+  const navLinkMap = new Map(navLinks);
+  const navLinksById = (ids) => ids.filter((id) => navLinkMap.has(id)).map((id) => [id, navLinkMap.get(id)]);
+  const aboutNavLinks = navLinksById(['about', 'resume', 'guests', 'reviews']);
+  const schoolsEventsNavLinks = navLinksById(['events', 'trainers', 'education']);
+  const liveStreamNavLinks = navLinksById(['livestream', 'refroom', 'lockerroom', 'podcast']);
+  const primaryNavLinks = navLinks.filter(([id]) => !['refroom', 'lockerroom', 'podcast', 'resume', 'education', 'trainers', 'guests', 'reviews'].includes(id));
+  const aboutActive = aboutNavLinks.some(([id]) => id === active);
   const schoolsEventsActive = schoolsEventsNavLinks.some(([id]) => id === active);
   const liveStreamActive = liveStreamNavLinks.some(([id]) => id === active);
-  const servicesActive = servicesNavLinks.some(([id]) => id === active);
 
   function closeNavDropdowns(nextDismissedDropdown = '') {
+    dismissedDropdownRef.current = nextDismissedDropdown;
+    setAboutOpen(false);
     setSchoolsEventsOpen(false);
     setLiveStreamOpen(false);
-    setServicesOpen(false);
     setDismissedDropdown(nextDismissedDropdown);
   }
 
   function openNavDropdown(id) {
+    if (dismissedDropdownRef.current === id) return;
     setDismissedDropdown('');
+    dismissedDropdownRef.current = '';
+    setAboutOpen(id === 'about');
     setSchoolsEventsOpen(id === 'events');
     setLiveStreamOpen(id === 'livestream');
-    setServicesOpen(id === 'services');
+  }
+
+  function openClickedNavDropdown(id) {
+    setDismissedDropdown('');
+    dismissedDropdownRef.current = '';
+    setAboutOpen(id === 'about');
+    setSchoolsEventsOpen(id === 'events');
+    setLiveStreamOpen(id === 'livestream');
   }
 
   function resetDismissedDropdown() {
+    dismissedDropdownRef.current = '';
     setDismissedDropdown('');
   }
 
@@ -717,9 +733,9 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
         aria-expanded={open}
         onClick={() => setOpen((current) => {
           if (current) {
+            setAboutOpen(false);
             setSchoolsEventsOpen(false);
             setLiveStreamOpen(false);
-            setServicesOpen(false);
             setDismissedDropdown('');
           }
           return !current;
@@ -730,14 +746,31 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
       <button className={`nav-flyout-scrim ${open ? 'is-open' : ''}`} type="button" aria-label="Close navigation menu" onClick={() => { setOpen(false); closeNavDropdowns(''); }}></button>
       <nav className={`site-nav ${open ? 'is-open' : ''}`}>
         <div className="nav-link-group">
-          {primaryNavLinks.map(([id, label]) => id === 'events' ? (
-            <div className={`nav-dropdown ${schoolsEventsOpen ? 'is-open' : ''} ${dismissedDropdown === 'events' ? 'is-click-dismissed' : ''}`.trim()} key={id} onMouseEnter={() => openNavDropdown('events')} onMouseLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onPointerEnter={() => openNavDropdown('events')} onPointerLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onFocus={() => openNavDropdown('events')} onBlur={closeDropdownOnBlur}>
+          {primaryNavLinks.map(([id, label]) => id === 'about' ? (
+            <div className={`nav-dropdown ${aboutOpen ? 'is-open' : ''} ${dismissedDropdown === 'about' && !aboutOpen ? 'is-click-dismissed' : ''}`.trim()} key={id} onMouseEnter={() => openNavDropdown('about')} onMouseLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onPointerEnter={() => openNavDropdown('about')} onPointerLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onFocus={() => openNavDropdown('about')} onBlur={closeDropdownOnBlur}>
+              <button
+                className={`nav-dropdown-trigger ${aboutActive ? 'active' : ''}`}
+                type="button"
+                aria-expanded={aboutOpen}
+                aria-haspopup="true"
+                onClick={() => openClickedNavDropdown('about')}
+              >
+                {label}<span className="nav-dropdown-caret" aria-hidden="true"></span>
+              </button>
+              <div className="nav-dropdown-menu" aria-label="About navigation">
+                {aboutNavLinks.map(([childId, childLabel]) => (
+                  <button className={active === childId ? 'active' : ''} key={childId} type="button" onClick={() => openNavDropdownPage(childId, 'about')}>{childLabel}</button>
+                ))}
+              </div>
+            </div>
+          ) : id === 'events' ? (
+            <div className={`nav-dropdown ${schoolsEventsOpen ? 'is-open' : ''} ${dismissedDropdown === 'events' && !schoolsEventsOpen ? 'is-click-dismissed' : ''}`.trim()} key={id} onMouseEnter={() => openNavDropdown('events')} onMouseLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onPointerEnter={() => openNavDropdown('events')} onPointerLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onFocus={() => openNavDropdown('events')} onBlur={closeDropdownOnBlur}>
               <button
                 className={`nav-dropdown-trigger ${schoolsEventsActive ? 'active' : ''}`}
                 type="button"
                 aria-expanded={schoolsEventsOpen}
                 aria-haspopup="true"
-                onClick={() => openNavDropdown('events')}
+                onClick={() => openClickedNavDropdown('events')}
               >
                 {label}<span className="nav-dropdown-caret" aria-hidden="true"></span>
               </button>
@@ -748,36 +781,19 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
               </div>
             </div>
           ) : id === 'livestream' ? (
-            <div className={`nav-dropdown ${liveStreamOpen ? 'is-open' : ''} ${dismissedDropdown === 'livestream' ? 'is-click-dismissed' : ''}`.trim()} key={id} onMouseEnter={() => openNavDropdown('livestream')} onMouseLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onPointerEnter={() => openNavDropdown('livestream')} onPointerLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onFocus={() => openNavDropdown('livestream')} onBlur={closeDropdownOnBlur}>
+            <div className={`nav-dropdown ${liveStreamOpen ? 'is-open' : ''} ${dismissedDropdown === 'livestream' && !liveStreamOpen ? 'is-click-dismissed' : ''}`.trim()} key={id} onMouseEnter={() => openNavDropdown('livestream')} onMouseLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onPointerEnter={() => openNavDropdown('livestream')} onPointerLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onFocus={() => openNavDropdown('livestream')} onBlur={closeDropdownOnBlur}>
               <button
                 className={`nav-dropdown-trigger ${liveStreamActive ? 'active' : ''}`}
                 type="button"
                 aria-expanded={liveStreamOpen}
                 aria-haspopup="true"
-                onClick={() => openNavDropdown('livestream')}
+                onClick={() => openClickedNavDropdown('livestream')}
               >
                 The Lab<span className="nav-dropdown-caret" aria-hidden="true"></span>
               </button>
               <div className="nav-dropdown-menu" aria-label="The Lab navigation">
                 {liveStreamNavLinks.map(([childId, childLabel]) => (
                   <button className={active === childId ? 'active' : ''} key={childId} type="button" onClick={() => openNavDropdownPage(childId, 'livestream')}>{childLabel}</button>
-                ))}
-              </div>
-            </div>
-          ) : id === 'services' ? (
-            <div className={`nav-dropdown ${servicesOpen ? 'is-open' : ''} ${dismissedDropdown === 'services' ? 'is-click-dismissed' : ''}`.trim()} key={id} onMouseEnter={() => openNavDropdown('services')} onMouseLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onPointerEnter={() => openNavDropdown('services')} onPointerLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onFocus={() => openNavDropdown('services')} onBlur={closeDropdownOnBlur}>
-              <button
-                className={`nav-dropdown-trigger ${servicesActive ? 'active' : ''}`}
-                type="button"
-                aria-expanded={servicesOpen}
-                aria-haspopup="true"
-                onClick={() => openNavDropdown('services')}
-              >
-                {label}<span className="nav-dropdown-caret" aria-hidden="true"></span>
-              </button>
-              <div className="nav-dropdown-menu" aria-label="Services navigation">
-                {servicesNavLinks.map(([childId, childLabel]) => (
-                  <button className={active === childId ? 'active' : ''} key={childId} type="button" onClick={() => openNavDropdownPage(childId, 'services')}>{childLabel}</button>
                 ))}
               </div>
             </div>
@@ -1187,6 +1203,7 @@ function EventsSummary({ onOpenRegister }) {
 
 function PaidEventInterestSection() {
   const [modalOpen, setModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(paidEventCards[0]);
   const [status, setStatus] = useState('');
 
   async function submit(event) {
@@ -1201,49 +1218,61 @@ function PaidEventInterestSection() {
     }
   }
 
-  function openModal() {
+  function openModal(eventCard) {
+    setSelectedEvent(eventCard);
     setStatus('');
     setModalOpen(true);
   }
 
+  const activeEvent = selectedEvent || paidEventCards[0];
+
   return (
     <section className="paid-event-section" aria-labelledby="paid-event-title">
       <div className="rtbo-section-head">
-        <p className="eyebrow">Paid Officiating Event</p>
-        <h2 id="paid-event-title">Big Miller Event Team Camp.</h2>
-        <p>Officials interested in working this paid team camp can review the event details and submit availability for Super Admin review.</p>
+        <p className="eyebrow">Paid Officiating Events</p>
+        <h2 id="paid-event-title">Team camp event opportunities.</h2>
+        <p>Officials interested in working paid team camp events can review the event details and submit availability for Super Admin review.</p>
       </div>
-      <article className="paid-event-card">
-        <div className="paid-event-image-wrap">
-          <img src={image(paidEventCard.image)} alt={`${paidEventCard.title} card`} />
-        </div>
-        <div className="paid-event-copy">
-          <p className="eyebrow">{paidEventCard.title}</p>
-          <h3>{paidEventCard.date}</h3>
-          <p><strong>{paidEventCard.address}</strong></p>
-          <div className="paid-event-facts" aria-label="Big Miller event details">
-            <span>{paidEventCard.venue}</span>
-            <span>{paidEventCard.courts}</span>
-            <span>{paidEventCard.crews}</span>
-            <span>{paidEventCard.gameFee}</span>
-          </div>
-          <button className="btn school-card-btn paid-event-learn-btn" type="button" onClick={openModal}>Learn More</button>
-        </div>
-      </article>
+      <div className="paid-event-grid">
+        {paidEventCards.map((eventCard) => (
+          <article className={`paid-event-card ${eventCard.imageLayout === 'wide' ? 'is-wide-image' : ''}`.trim()} key={eventCard.id}>
+            <div className="paid-event-image-wrap">
+              <img src={image(eventCard.image)} alt={`${eventCard.title} card`} />
+            </div>
+            <div className="paid-event-copy">
+              <p className="eyebrow">{eventCard.title}</p>
+              <h3>{eventCard.date}</h3>
+              <p><strong>{eventCard.address}</strong></p>
+              <div className="paid-event-facts" aria-label={`${eventCard.title} event details`}>
+                <span>{eventCard.venue}</span>
+                <span>{eventCard.courts}</span>
+                <span>{eventCard.crews}</span>
+                <span>{eventCard.gameFee}</span>
+              </div>
+              <button className="btn school-card-btn paid-event-learn-btn" type="button" onClick={() => openModal(eventCard)}>Learn More</button>
+            </div>
+          </article>
+        ))}
+      </div>
       {modalOpen && (
         <div className="rtbo-modal-scrim" onMouseDown={() => setModalOpen(false)}>
           <section className="paid-event-modal" role="dialog" aria-modal="true" aria-labelledby="paid-event-modal-title" onMouseDown={(event) => event.stopPropagation()}>
             <button className="rtbo-modal-close" type="button" aria-label="Close event interest form" onClick={() => setModalOpen(false)}>×</button>
             <div className="paid-event-modal-layout">
-              <img className="paid-event-modal-image" src={image(paidEventCard.image)} alt={`${paidEventCard.title} card`} />
+              <img className={`paid-event-modal-image ${activeEvent.imageLayout === 'wide' ? 'is-wide-image' : ''}`.trim()} src={image(activeEvent.image)} alt={`${activeEvent.title} card`} />
               <div className="paid-event-modal-content">
                 <p className="eyebrow">Official Availability</p>
-                <h2 id="paid-event-modal-title">{paidEventCard.title}</h2>
-                <p>This event will be held at the Summer Wood Sports Complex in Alexander, AR. There will be three courts, and RTBO will utilize 3-man crews. The game fee is $30.00 per game per referee.</p>
+                <h2 id="paid-event-modal-title">{activeEvent.title}</h2>
+                <p>This event will be held at {activeEvent.venue} in {activeEvent.city}. There will be {activeEvent.courts.toLowerCase()}, and RTBO will utilize {activeEvent.crews}. The game fee is {activeEvent.gameFee}.</p>
                 <form className="form paid-event-interest-form" onSubmit={submit}>
-                  <input type="hidden" name="event_name" defaultValue={paidEventCard.title} />
-                  <input type="hidden" name="event_date" defaultValue={paidEventCard.date} />
-                  <input type="hidden" name="event_address" defaultValue={paidEventCard.address} />
+                  <input type="hidden" name="event_name" value={activeEvent.title} readOnly />
+                  <input type="hidden" name="event_date" value={activeEvent.date} readOnly />
+                  <input type="hidden" name="event_address" value={activeEvent.address} readOnly />
+                  <input type="hidden" name="event_venue" value={activeEvent.venue} readOnly />
+                  <input type="hidden" name="event_city" value={activeEvent.city} readOnly />
+                  <input type="hidden" name="event_courts" value={activeEvent.courts} readOnly />
+                  <input type="hidden" name="event_crews" value={activeEvent.crews} readOnly />
+                  <input type="hidden" name="event_game_fee" value={activeEvent.gameFee} readOnly />
                   <div className="grid two">
                     <label>First Name<input name="first_name" autoComplete="given-name" required /></label>
                     <label>Last Name<input name="last_name" autoComplete="family-name" required /></label>
@@ -1252,7 +1281,7 @@ function PaidEventInterestSection() {
                     <label>Email<input type="email" name="email" autoComplete="email" required /></label>
                     <label>Phone Number<input type="tel" name="phone" onInput={formatPhoneFieldInput} inputMode="tel" autoComplete="tel" maxLength="14" required /></label>
                   </div>
-                  <label>Availability<textarea name="availability" rows="5" placeholder="Share the dates, times, and any constraints for June 8-9, 2026." required /></label>
+                  <label>Availability<textarea name="availability" rows="5" placeholder={`Share your availability and any constraints for ${activeEvent.date}.`} required /></label>
                   <button className="btn" type="submit">Submit Availability</button>
                   {status && <p className="form-message">{status}</p>}
                 </form>
@@ -14285,7 +14314,7 @@ function Footer({ setActive, navLinks = navItems }) {
   const usedFooterLinks = new Set();
   const footerNavGroups = [
     ['Explore', ['home', 'about', 'events', 'guests', 'reviews']],
-    ['Services', ['services', 'resume', 'livestream', 'refroom', 'podcast']],
+    ['Services', ['services', 'resume', 'livestream', 'refroom', 'lockerroom', 'podcast']],
     ['Training', ['trainers', 'education', 'shop']]
   ].map(([title, ids]) => {
     const links = ids
@@ -14818,6 +14847,17 @@ function App() {
             <RefRoom user={authUser || { name: 'Guest Viewer', role: 'viewer' }} mode="player" meetingToolsOnly />
           </React.Suspense>
           {managedSections('refroom')}
+        </>
+      );
+    }
+    if (active === 'lockerroom') {
+      return (
+        <>
+          <PageHero page="lockerroom" eyebrow="The Lab" title="The Locker Room">Secure team film rooms for real game uploads, private playback, download tracking, and RTBO account-based access.</PageHero>
+          <React.Suspense fallback={<section className="rtbo-section"><p className="rtbo-empty-state">Loading The Locker Room...</p></section>}>
+            <LockerRoomPage user={authUser} onCreateAccount={openRegister} onSignIn={openLogin} />
+          </React.Suspense>
+          {managedSections('lockerroom')}
         </>
       );
     }

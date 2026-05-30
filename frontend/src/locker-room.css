@@ -1,0 +1,499 @@
+.locker-room-page {
+  --locker-bg: rgba(7, 10, 14, .78);
+  --locker-panel: rgba(14, 18, 24, .9);
+  --locker-card: rgba(8, 11, 16, .94);
+  --locker-line: rgba(221, 226, 232, .16);
+  --locker-text: #f7f8fb;
+  --locker-muted: #b7c0cc;
+  --locker-accent: var(--rtbo-scarlet, #c1121f);
+  --locker-good: #39d353;
+  color: var(--locker-text);
+}
+
+:root[data-theme="light"] .locker-room-page,
+html.light .locker-room-page {
+  --locker-bg: rgba(246, 248, 252, .88);
+  --locker-panel: rgba(255, 255, 255, .94);
+  --locker-card: #ffffff;
+  --locker-line: rgba(15, 23, 42, .16);
+  --locker-text: #111827;
+  --locker-muted: #4b5563;
+  color: var(--locker-text);
+}
+
+.locker-room-shell {
+  display: grid;
+  gap: 22px;
+  width: min(100%, 1680px);
+  margin: 0 auto;
+}
+
+.locker-room-heading,
+.locker-room-toolbar,
+.locker-room-auth-panel,
+.locker-room-empty-card,
+.locker-room-library-panel,
+.locker-room-upload-card {
+  border: 1px solid var(--locker-line);
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.018)),
+    var(--locker-panel);
+  box-shadow: 0 22px 54px rgba(0, 0, 0, .2);
+}
+
+.locker-room-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 520px);
+  gap: 22px;
+  align-items: end;
+  padding: clamp(20px, 3vw, 32px);
+}
+
+.locker-room-heading h2,
+.locker-room-heading p,
+.locker-room-card-head h3,
+.locker-room-card-head p,
+.locker-room-empty-card h3,
+.locker-room-empty-card p,
+.locker-room-auth-panel h2,
+.locker-room-auth-panel p {
+  margin: 0;
+}
+
+.locker-room-heading h2 {
+  margin-top: 6px;
+  font-size: clamp(2.25rem, 5vw, 4.6rem);
+  line-height: .92;
+}
+
+.locker-room-heading > div > p:not(.eyebrow),
+.locker-room-card-head p,
+.locker-room-empty-card p,
+.locker-room-auth-panel p,
+.locker-room-note {
+  color: var(--locker-muted);
+  line-height: 1.55;
+}
+
+.locker-room-create-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: end;
+}
+
+.locker-room-create-form label,
+.locker-room-toolbar label,
+.locker-room-field-grid label,
+.locker-room-file-picker {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.locker-room-create-form span,
+.locker-room-toolbar label span,
+.locker-room-field-grid label span,
+.locker-room-file-picker > span {
+  color: var(--locker-muted);
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.locker-room-page input,
+.locker-room-page select {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid var(--locker-line);
+  border-radius: 8px;
+  padding: 0 14px;
+  color: var(--locker-text);
+  background: rgba(0, 0, 0, .28);
+  outline: none;
+}
+
+:root[data-theme="light"] .locker-room-page input,
+:root[data-theme="light"] .locker-room-page select,
+html.light .locker-room-page input,
+html.light .locker-room-page select {
+  color: #111827;
+  background: #fff;
+}
+
+.locker-room-page input:focus,
+.locker-room-page select:focus {
+  border-color: rgba(193, 18, 31, .7);
+  box-shadow: 0 0 0 3px rgba(193, 18, 31, .14);
+}
+
+.locker-room-toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: end;
+  padding: 16px;
+}
+
+.locker-room-toolbar label {
+  width: min(100%, 520px);
+}
+
+.locker-room-user-chip {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  color: var(--locker-muted);
+  text-align: right;
+}
+
+.locker-room-user-chip strong {
+  color: var(--locker-text);
+  text-transform: capitalize;
+}
+
+.locker-room-grid {
+  display: grid;
+  grid-template-columns: minmax(300px, 380px) minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.locker-room-library-panel,
+.locker-room-upload-card {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+}
+
+.locker-room-library-panel {
+  position: sticky;
+  top: 96px;
+  max-height: calc(100vh - 120px);
+  overflow: hidden;
+}
+
+.locker-room-card-head {
+  display: grid;
+  gap: 6px;
+}
+
+.locker-room-card-head h3 {
+  font-size: 1.25rem;
+  line-height: 1.08;
+}
+
+.locker-room-film-list {
+  display: grid;
+  gap: 12px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.locker-room-film-card {
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--locker-line);
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--locker-card);
+  transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+
+.locker-room-film-card:hover,
+.locker-room-film-card.is-selected {
+  border-color: rgba(193, 18, 31, .86);
+  transform: translateY(-1px);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, .2);
+}
+
+.locker-room-film-card button {
+  display: grid;
+  gap: 5px;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  text-align: left;
+}
+
+.locker-room-film-card button span {
+  color: var(--locker-accent);
+  font-size: .7rem;
+  font-weight: 900;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.locker-room-film-card button strong {
+  font-size: 1rem;
+  line-height: 1.14;
+}
+
+.locker-room-film-card button small {
+  color: var(--locker-muted);
+  line-height: 1.35;
+}
+
+.locker-room-film-card dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.locker-room-film-card dt {
+  color: var(--locker-muted);
+  font-size: .62rem;
+  font-weight: 900;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.locker-room-film-card dd {
+  margin: 2px 0 0;
+  color: var(--locker-text);
+  font-weight: 900;
+}
+
+.locker-room-download-link {
+  justify-self: start;
+  border: 1px solid rgba(193, 18, 31, .62);
+  border-radius: 999px;
+  padding: 8px 12px;
+  color: var(--locker-text);
+  font-size: .78rem;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.locker-room-player-panel {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+
+.locker-room-ipad-player {
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+}
+
+.locker-room-upload-card {
+  background:
+    linear-gradient(145deg, rgba(193, 18, 31, .12), rgba(255,255,255,.018)),
+    var(--locker-panel);
+}
+
+.locker-room-field-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.locker-room-file-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: end;
+}
+
+.locker-room-file-picker {
+  position: relative;
+}
+
+.locker-room-file-picker input {
+  position: absolute;
+  inset: auto 0 0;
+  width: 100%;
+  height: 46px;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.locker-room-file-picker strong {
+  display: flex;
+  align-items: center;
+  min-height: 46px;
+  border: 1px solid var(--locker-line);
+  border-radius: 8px;
+  padding: 0 14px;
+  color: var(--locker-text);
+  background: rgba(0, 0, 0, .26);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+:root[data-theme="light"] .locker-room-file-picker strong,
+html.light .locker-room-file-picker strong {
+  background: #fff;
+}
+
+.locker-room-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  border: 1px solid var(--locker-line);
+  border-radius: 8px;
+  padding: 0 14px;
+  color: var(--locker-text);
+  background: rgba(0, 0, 0, .2);
+}
+
+.locker-room-check input {
+  width: 18px;
+  min-height: 18px;
+  accent-color: var(--locker-good);
+}
+
+.locker-room-empty-card,
+.locker-room-auth-panel {
+  padding: clamp(22px, 4vw, 40px);
+}
+
+.locker-room-auth-panel {
+  display: grid;
+  gap: 14px;
+  width: min(100%, 760px);
+  margin: 0 auto;
+}
+
+.locker-room-auth-panel h2 {
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: .95;
+}
+
+.locker-room-auth-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.locker-room-message {
+  margin: 0;
+  border-left: 4px solid var(--locker-accent);
+  padding: 10px 12px;
+  color: var(--locker-text);
+  background: rgba(193, 18, 31, .1);
+  line-height: 1.45;
+}
+
+.locker-room-global-message {
+  justify-self: start;
+}
+
+@media (max-width: 1536px) {
+  .locker-room-shell {
+    width: min(100%, 1480px);
+  }
+}
+
+@media (max-width: 1280px) {
+  .locker-room-heading {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 440px);
+  }
+
+  .locker-room-field-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .locker-room-heading,
+  .locker-room-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .locker-room-library-panel {
+    position: static;
+    max-height: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .locker-room-shell {
+    gap: 18px;
+  }
+
+  .locker-room-grid,
+  .locker-room-player-panel {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 648px) {
+  .locker-room-heading,
+  .locker-room-toolbar {
+    align-items: stretch;
+  }
+
+  .locker-room-heading,
+  .locker-room-create-form,
+  .locker-room-toolbar,
+  .locker-room-file-row {
+    grid-template-columns: 1fr;
+  }
+
+  .locker-room-toolbar {
+    display: grid;
+  }
+
+  .locker-room-user-chip {
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .locker-room-field-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 550px) {
+  .locker-room-heading,
+  .locker-room-toolbar,
+  .locker-room-library-panel,
+  .locker-room-upload-card {
+    padding: 16px;
+  }
+
+  .locker-room-heading h2,
+  .locker-room-auth-panel h2 {
+    font-size: clamp(2rem, 12vw, 3rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .locker-room-page {
+    padding-inline: 0;
+  }
+
+  .locker-room-film-card dl {
+    grid-template-columns: 1fr;
+  }
+
+  .locker-room-auth-actions {
+    display: grid;
+  }
+}
+
+@media (max-width: 368px) {
+  .locker-room-create-form .btn,
+  .locker-room-upload-card .btn,
+  .locker-room-auth-actions .btn {
+    width: 100%;
+    min-width: 0;
+    white-space: normal;
+  }
+
+  .locker-room-file-picker strong {
+    white-space: normal;
+    min-height: 54px;
+  }
+}

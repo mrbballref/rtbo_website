@@ -2631,6 +2631,12 @@ button.hero-scroll-link {
   max-width: 1040px;
 }
 
+.paid-event-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(18px, 2.6vw, 32px);
+}
+
 .paid-event-card {
   display: grid;
   grid-template-columns: minmax(220px, 380px) minmax(0, 1fr);
@@ -2664,6 +2670,12 @@ button.hero-scroll-link {
   object-position: center top;
 }
 
+.paid-event-card.is-wide-image .paid-event-image-wrap img,
+.paid-event-modal-image.is-wide-image {
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
 .paid-event-copy h3 {
   margin: 0 0 10px;
   font-size: clamp(1.9rem, 3vw, 3.4rem);
@@ -2689,17 +2701,12 @@ button.hero-scroll-link {
 }
 
 .paid-event-facts span {
-  min-width: 0;
   padding: 10px 12px;
   border: 1px solid rgba(193, 18, 31, .3);
   border-radius: 8px;
   color: rgba(255, 255, 255, .9);
   background: rgba(255, 255, 255, .055);
   font-weight: 800;
-}
-
-.paid-event-learn-btn {
-  width: auto;
 }
 
 .paid-event-modal {
@@ -2745,10 +2752,6 @@ button.hero-scroll-link {
   line-height: 1.62;
 }
 
-.paid-event-interest-form {
-  margin-top: 18px;
-}
-
 .paid-event-modal :is(input, textarea) {
   color: #fff;
   border-color: rgba(193, 18, 31, .28);
@@ -2764,7 +2767,15 @@ button.hero-scroll-link {
   box-shadow: 0 0 0 3px rgba(193, 18, 31, .16), inset 0 1px 0 rgba(255, 255, 255, .055);
 }
 
+.school-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(18px, 2.6vw, 34px);
+}
+
 .school-grid article {
+  flex: 0 1 420px;
   display: flex;
   flex-direction: column;
 }
@@ -2784,20 +2795,6 @@ button.hero-scroll-link {
   text-wrap: balance !important;
   font-size: clamp(2rem, 3.1vw, 4rem) !important;
   line-height: 1.02 !important;
-}
-
-.school-session-card {
-  min-height: 100%;
-}
-
-.school-session-card > img {
-  width: 100%;
-  height: clamp(420px, 48vw, 660px);
-  max-height: 660px;
-  aspect-ratio: 2 / 3;
-  object-fit: contain;
-  object-position: center top;
-  background: #050608;
 }
 
 .school-session-content {
@@ -2850,12 +2847,6 @@ button.hero-scroll-link {
 
 .school-card-meta p {
   margin: 0;
-}
-
-.school-card-price {
-  font-weight: 900;
-  color: var(--orange);
-  white-space: nowrap;
 }
 
 .school-card-btn {
@@ -15175,8 +15166,8 @@ body.rtbo-printing-invoice .rtbo-invoice-footer span,
 }
 
 .paid-event-card {
-  width: min(1120px, 100%);
-  margin-inline: auto;
+  width: 100%;
+  margin-inline: 0;
   grid-template-columns: minmax(180px, 300px) minmax(0, 1fr);
   gap: clamp(16px, 2.4vw, 28px);
   padding: clamp(14px, 2vw, 22px);
@@ -15254,6 +15245,7 @@ body.rtbo-printing-invoice .rtbo-invoice-footer span,
 
 @media (max-width: 1024px) {
   .platform-workflow-layout,
+  .paid-event-grid,
   .paid-event-card {
     grid-template-columns: 1fr;
   }

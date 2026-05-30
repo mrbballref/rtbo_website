@@ -536,5 +536,79 @@ CREATE TABLE IF NOT EXISTS dashboard_audit_log (
   INDEX dashboard_audit_actor_idx (actor_id)
 );
 
+CREATE TABLE IF NOT EXISTS locker_room_teams (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(190) NOT NULL,
+  slug VARCHAR(190) NOT NULL,
+  created_by INT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NULL,
+  UNIQUE KEY uniq_locker_room_team_slug (slug),
+  INDEX idx_locker_room_team_created_by (created_by)
+);
+
+CREATE TABLE IF NOT EXISTS locker_room_team_members (
+  team_id INT NOT NULL,
+  user_id INT NOT NULL,
+  role VARCHAR(40) NOT NULL DEFAULT 'viewer',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (team_id, user_id),
+  INDEX idx_locker_room_member_user (user_id),
+  INDEX idx_locker_room_member_role (role)
+);
+
+CREATE TABLE IF NOT EXISTS locker_room_films (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  team_id INT NOT NULL,
+  title VARCHAR(220) NOT NULL,
+  opponent VARCHAR(190) NULL,
+  game_date DATE NULL,
+  venue VARCHAR(190) NULL,
+  competition_level VARCHAR(160) NULL,
+  storage_path VARCHAR(255) NOT NULL,
+  caption_path VARCHAR(255) NULL,
+  original_filename VARCHAR(255) NOT NULL,
+  mime_type VARCHAR(120) NULL,
+  size_bytes BIGINT NOT NULL DEFAULT 0,
+  duration_seconds DECIMAL(12,2) NULL,
+  status VARCHAR(40) NOT NULL DEFAULT 'ready',
+  download_enabled TINYINT(1) NOT NULL DEFAULT 1,
+  view_count BIGINT NOT NULL DEFAULT 0,
+  download_count BIGINT NOT NULL DEFAULT 0,
+  uploaded_by INT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NULL,
+  last_viewed_at DATETIME NULL,
+  INDEX idx_locker_room_films_team (team_id, status, created_at),
+  INDEX idx_locker_room_films_uploaded_by (uploaded_by)
+);
+
+CREATE TABLE IF NOT EXISTS locker_room_events (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  film_id INT NULL,
+  team_id INT NULL,
+  actor_id INT NULL,
+  event_type VARCHAR(40) NOT NULL,
+  metadata LONGTEXT NULL,
+  ip_address VARCHAR(80) NULL,
+  user_agent VARCHAR(255) NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_locker_room_events_film (film_id, event_type, created_at),
+  INDEX idx_locker_room_events_team (team_id, event_type, created_at)
+);
+
+CREATE TABLE IF NOT EXISTS locker_room_notification_recipients (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  team_id INT NOT NULL,
+  email VARCHAR(190) NOT NULL,
+  events VARCHAR(255) NOT NULL DEFAULT 'upload,view,download',
+  enabled TINYINT(1) NOT NULL DEFAULT 1,
+  created_by INT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NULL,
+  UNIQUE KEY uniq_locker_room_recipient (team_id, email),
+  INDEX idx_locker_room_recipient_team (team_id, enabled)
+);
+
 -- Create the Super Admin account through /api/setup-super-admin.php after deployment.
 -- Do not ship a permanent default password in production.

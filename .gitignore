@@ -12,6 +12,7 @@ frontend/.env.*
 frontend/.env.local
 frontend/.env.*.local
 !frontend/.env.example
+*.tsbuildinfo
 
 # Frontend dependencies and build output
 node_modules/

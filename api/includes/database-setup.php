@@ -27,6 +27,7 @@ require_once __DIR__ . '/resume.php';
 require_once __DIR__ . '/schedule-review.php';
 require_once __DIR__ . '/session-tracking.php';
 require_once __DIR__ . '/store-orders.php';
+require_once __DIR__ . '/locker-room.php';
 
 function rtbo_database_setup_exec(string $sql): void
 {
@@ -434,6 +435,7 @@ function rtbo_ensure_database_schema(): array
     rtbo_store_orders_ensure_table();
     rtbo_ensure_calendar_sharing_table();
     rtbo_password_resets_db_available();
+    rtbo_locker_room_ensure_tables();
 
     $tables = array_merge([
         'users',
@@ -465,6 +467,11 @@ function rtbo_ensure_database_schema(): array
         'store_orders',
         'official_calendar_shares',
         'password_resets',
+        'locker_room_teams',
+        'locker_room_team_members',
+        'locker_room_films',
+        'locker_room_events',
+        'locker_room_notification_recipients',
     ], rtbo_ensure_endpoint_tables());
 
     rtbo_client_spotlight_load();
