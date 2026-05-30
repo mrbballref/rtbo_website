@@ -1577,9 +1577,7 @@
 
 .rtbo-course-video-controls {
   border-color: rgba(226, 232, 240, .32);
-  background:
-    linear-gradient(135deg, rgba(226, 232, 240, .12), rgba(226, 232, 240, .03)),
-    rgba(10, 12, 15, .88);
+  background: transparent;
 }
 
 .rtbo-course-video-progress input,
@@ -1591,9 +1589,7 @@
 .rtbo-course-video-control-row button:hover,
 .rtbo-course-video-control-row button:focus-visible {
   border-color: rgba(226, 232, 240, .8) !important;
-  background:
-    linear-gradient(180deg, rgba(226, 232, 240, .22), rgba(226, 232, 240, .1)),
-    #171a20 !important;
+  background: rgba(226, 232, 240, .12) !important;
 }
 
 @media (max-width: 648px) {
@@ -2542,9 +2538,7 @@
   border: 1px solid rgba(193, 18, 31, .72);
   border-radius: 10px;
   padding: 12px;
-  background:
-    linear-gradient(135deg, rgba(193, 18, 31, .18), rgba(193, 18, 31, .04)),
-    rgba(15, 10, 7, .88);
+  background: transparent;
 }
 
 .rtbo-course-video-progress {
@@ -2592,8 +2586,8 @@
 .rtbo-course-video-control-row button:focus-visible {
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
-  border-color: var(--orange) !important;
-  background: var(--orange) !important;
+  border-color: rgba(226, 232, 240, .72) !important;
+  background: rgba(226, 232, 240, .12) !important;
   outline: none;
 }
 

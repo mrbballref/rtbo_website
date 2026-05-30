@@ -145,3 +145,28 @@ function recent_attendee_reviews(int $limit = 50): array
         return array_slice(rtbo_review_file_load()['reviews'], 0, $limit);
     }
 }
+
+function approved_attendee_reviews(int $limit = 20): array
+{
+    try {
+        ensure_attendee_review_tables();
+        $stmt = db()->prepare(
+            "SELECT *
+             FROM attendee_reviews
+             WHERE public_consent = 1
+               AND status IN ('approved', 'published')
+             ORDER BY created_at DESC
+             LIMIT ?"
+        );
+        $stmt->bindValue(1, max(1, $limit), PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    } catch (Throwable $error) {
+        error_log('RTBO approved attendee reviews using file fallback: ' . $error->getMessage());
+        return array_slice(array_values(array_filter(
+            rtbo_review_file_load()['reviews'],
+            static fn (array $review): bool => !empty($review['public_consent'])
+                && in_array((string) ($review['status'] ?? 'pending'), ['approved', 'published'], true)
+        )), 0, $limit);
+    }
+}

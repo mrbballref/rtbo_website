@@ -21,6 +21,7 @@ RTBO is ready for Hostinger deployment as the public website, registration syste
 - Dashboard authentication.
 - Profile update, photo upload, password change, and logout wiring.
 - Registration PDF and email workflow.
+- Site-wide notification, SMS dispatch, email, and professional PDF attachment rules.
 
 ## Corrected During Assessment
 
@@ -33,6 +34,7 @@ RTBO is ready for Hostinger deployment as the public website, registration syste
 - Moved generated package staging into `.build-artifacts/` so the workspace root no longer contains a second deployable RTBO folder.
 - Added `tools/audit-rtbo-source-integrity.mjs` and `tools/run-rtbo-production-audits.mjs` so source integrity, PHP lint, React build, and enterprise gate checks run repeatably.
 - Corrected UCA / Session 2 pricing to `$125.00` in the active React pricing cards and backend checkout calculation.
+- Added a mandatory notification rules audit covering registrations, member additions, profile completion, RefZone enrollment, assignment acceptance/decline, accepted schedule review, document signatures, W-9 returns, evaluator/observer forms, moderated reviews, newsletter signups, shop purchases, login/logout sessions, SMS dispatch, and professional PDF email attachments.
 
 ## Final Test Results
 

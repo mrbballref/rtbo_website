@@ -5,6 +5,7 @@ require_once __DIR__ . '/includes/bootstrap.php';
 require_once __DIR__ . '/includes/users.php';
 require_once __DIR__ . '/includes/admin-members.php';
 require_once __DIR__ . '/includes/notifications.php';
+require_once __DIR__ . '/includes/email.php';
 
 header('Content-Type: application/json');
 
@@ -74,6 +75,13 @@ function rtbo_profile_update_notify(array $currentUser, array $previousUser, str
         ]);
 
         if ($role !== 'super_admin' && $oldStatus !== 'active' && $newStatus === 'active') {
+            send_super_admin_profile_completed_email($currentUser, $currentUser);
+            try {
+                ensure_users_table();
+                db()->prepare('UPDATE users SET profile_completion_notified_at = NOW(), updated_at = NOW() WHERE id = ? AND profile_completion_notified_at IS NULL')->execute([$memberId]);
+            } catch (Throwable $emailMarkerError) {
+                error_log('RTBO profile completion marker failed: ' . $emailMarkerError->getMessage());
+            }
             rtbo_notify_admins([
                 'type' => 'member_activated',
                 'title' => 'Member activated',
@@ -208,6 +216,7 @@ try {
                     'experience' => $experience,
                     'profile_photo' => $profilePhotoPath,
                     'status' => ((string) ($member['role'] ?? '') !== 'super_admin') ? 'active' : (string) ($member['status'] ?? 'active'),
+                    'profile_completed_at' => ((string) ($member['role'] ?? '') !== 'super_admin') ? date('c') : (string) ($member['profile_completed_at'] ?? ''),
                 ];
                 admin_member_write_file($members);
                 $_SESSION['user'] = public_auth_user($members[$index]);
@@ -239,7 +248,9 @@ try {
              conferences = ?,
              experience = ?,
              profile_photo = ?,
-             status = CASE WHEN role <> 'super_admin' THEN 'active' ELSE status END
+             status = CASE WHEN role <> 'super_admin' THEN 'active' ELSE status END,
+             profile_completed_at = CASE WHEN role <> 'super_admin' AND profile_completed_at IS NULL THEN NOW() ELSE profile_completed_at END,
+             updated_at = NOW()
          WHERE id = ?"
     );
     $stmt->execute([

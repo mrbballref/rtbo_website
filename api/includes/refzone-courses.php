@@ -1,6 +1,10 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/feature-store.php';
+
+const RTBO_REFZONE_COURSES_STORE_TABLE = 'refzone_courses_store';
+
 function rtbo_refzone_courses_path(): string
 {
     ensure_dir(STORAGE_DIR);
@@ -18,6 +22,26 @@ function rtbo_refzone_courses_empty(): array
 }
 
 function rtbo_refzone_courses_load(): array
+{
+    $data = rtbo_feature_store_load(RTBO_REFZONE_COURSES_STORE_TABLE);
+    if (!is_array($data)) {
+        $data = rtbo_refzone_courses_load_file();
+        if (!is_array($data['courses'] ?? null) || $data['courses'] === []) {
+            $data['courses'] = rtbo_refzone_starter_courses();
+            $data['updated_at'] = gmdate('c');
+        }
+        rtbo_refzone_courses_save_data($data);
+    }
+
+    $empty = rtbo_refzone_courses_empty();
+    $data['courses'] = is_array($data['courses'] ?? null) ? $data['courses'] : $empty['courses'];
+    $data['audit'] = is_array($data['audit'] ?? null) ? $data['audit'] : $empty['audit'];
+    $data['updated_at'] = $data['updated_at'] ?? null;
+
+    return $data;
+}
+
+function rtbo_refzone_courses_load_file(): array
 {
     $path = rtbo_refzone_courses_path();
     if (!is_file($path)) {
@@ -54,11 +78,7 @@ function rtbo_refzone_starter_courses(): array
 
 function rtbo_refzone_courses_save_data(array $data): void
 {
-    file_put_contents(
-        rtbo_refzone_courses_path(),
-        json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
-        LOCK_EX
-    );
+    rtbo_feature_store_save(RTBO_REFZONE_COURSES_STORE_TABLE, $data);
 }
 
 function rtbo_refzone_text(mixed $value, int $maxLength = 1000): string

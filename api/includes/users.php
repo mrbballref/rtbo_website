@@ -26,9 +26,18 @@ function ensure_users_table(): void
             official_rank INT NULL,
             official_classification VARCHAR(80) NULL,
             password_hash VARCHAR(255) NOT NULL,
+            password_is_temporary TINYINT(1) NOT NULL DEFAULT 0,
+            temporary_password_created_at DATETIME NULL,
+            password_changed_at DATETIME NULL,
+            last_login_at DATETIME NULL,
+            registered_at DATETIME NULL,
+            registration_confirmation_sent_at DATETIME NULL,
+            profile_completed_at DATETIME NULL,
+            profile_completion_notified_at DATETIME NULL,
             profile_photo VARCHAR(255),
             status VARCHAR(50) NOT NULL DEFAULT 'active',
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME NULL
         )"
     );
 
@@ -47,6 +56,16 @@ function ensure_users_table(): void
         'experience' => "ALTER TABLE users ADD COLUMN experience TEXT NULL AFTER conferences",
         'official_rank' => "ALTER TABLE users ADD COLUMN official_rank INT NULL AFTER experience",
         'official_classification' => "ALTER TABLE users ADD COLUMN official_classification VARCHAR(80) NULL AFTER official_rank",
+        'password_is_temporary' => "ALTER TABLE users ADD COLUMN password_is_temporary TINYINT(1) NOT NULL DEFAULT 0 AFTER password_hash",
+        'temporary_password_created_at' => "ALTER TABLE users ADD COLUMN temporary_password_created_at DATETIME NULL AFTER password_is_temporary",
+        'password_changed_at' => "ALTER TABLE users ADD COLUMN password_changed_at DATETIME NULL AFTER temporary_password_created_at",
+        'last_login_at' => "ALTER TABLE users ADD COLUMN last_login_at DATETIME NULL AFTER password_changed_at",
+        'registered_at' => "ALTER TABLE users ADD COLUMN registered_at DATETIME NULL AFTER last_login_at",
+        'registration_confirmation_sent_at' => "ALTER TABLE users ADD COLUMN registration_confirmation_sent_at DATETIME NULL AFTER registered_at",
+        'profile_completed_at' => "ALTER TABLE users ADD COLUMN profile_completed_at DATETIME NULL AFTER registration_confirmation_sent_at",
+        'profile_completion_notified_at' => "ALTER TABLE users ADD COLUMN profile_completion_notified_at DATETIME NULL AFTER profile_completed_at",
+        'profile_photo' => "ALTER TABLE users ADD COLUMN profile_photo VARCHAR(255) NULL AFTER password_hash",
+        'updated_at' => "ALTER TABLE users ADD COLUMN updated_at DATETIME NULL AFTER created_at",
     ] as $column => $sql) {
         $stmt = db()->prepare(
             "SELECT COUNT(*)
@@ -94,6 +113,8 @@ function public_auth_user(array $user): array
         'official_classification' => (string) ($user['official_classification'] ?? ''),
         'photo' => $photo,
         'status' => (string) ($user['status'] ?? 'active'),
+        'mustChangePassword' => (int) ($user['password_is_temporary'] ?? 0) === 1,
+        'password_is_temporary' => (int) ($user['password_is_temporary'] ?? 0) === 1,
     ];
 }
 

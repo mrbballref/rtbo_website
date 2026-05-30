@@ -4,6 +4,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/includes/bootstrap.php';
 require_once __DIR__ . '/includes/users.php';
 require_once __DIR__ . '/includes/admin-members.php';
+require_once __DIR__ . '/includes/session-tracking.php';
 
 header('Content-Type: application/json');
 
@@ -29,9 +30,23 @@ function rtbo_is_local_auth_host(): bool
     $host = strtolower((string) ($_SERVER['HTTP_HOST'] ?? ''));
     $serverName = strtolower((string) ($_SERVER['SERVER_NAME'] ?? ''));
     $hostName = strtolower((string) (parse_url('http://' . $host, PHP_URL_HOST) ?: $host));
+    $localHosts = ['127.0.0.1', 'localhost', '::1', '0.0.0.0', '::ffff:127.0.0.1'];
 
-    return in_array($hostName, ['127.0.0.1', 'localhost', '::1'], true)
-        || in_array($serverName, ['127.0.0.1', 'localhost', '::1'], true);
+    return in_array($hostName, $localHosts, true)
+        || in_array($serverName, $localHosts, true);
+}
+
+function rtbo_is_local_database_host(): bool
+{
+    $host = strtolower(trim((string) DB_HOST));
+    if ($host === '') {
+        return false;
+    }
+
+    $hostName = strtolower((string) (parse_url('mysql://' . $host, PHP_URL_HOST) ?: $host));
+    $hostName = trim($hostName, '[]');
+
+    return in_array($hostName, ['127.0.0.1', 'localhost', '::1', '0.0.0.0', '::ffff:127.0.0.1'], true);
 }
 
 function rtbo_local_auth_enabled(): bool
@@ -114,24 +129,29 @@ function rtbo_local_test_password_matches(string $password): bool
     return $candidate !== '' && hash_equals($candidate, $password);
 }
 
-function rtbo_local_super_admin_login(string $email, string $password): ?array
+function rtbo_local_super_admin_emails(): array
 {
-    $allowedEmails = array_map('strtolower', array_filter([
+    return array_values(array_unique(array_map('strtolower', array_filter([
         RTBO_SUPER_ADMIN_EMAIL,
         RTBO_ADMIN_EMAIL,
+        rtbo_super_admin_database_email(),
+        rtbo_super_admin_file_email(),
         'admin@rtbofficiating.com',
         'admin@rtboofficiating.com',
         'admin@rtbofficating.com',
         'montrel.simmons@rtboofficiating.com',
         'montrel.simmons@rtbofficiating.com',
         'mrbballref1775@yahoo.com',
-    ]));
+    ]))));
+}
 
+function rtbo_local_super_admin_login(string $email, string $password): ?array
+{
     if (!rtbo_local_auth_enabled()) {
         return null;
     }
 
-    if (!in_array($email, $allowedEmails, true) || !rtbo_local_test_password_matches($password)) {
+    if (!rtbo_local_test_password_matches($password) || !in_array($email, rtbo_local_super_admin_emails(), true)) {
         return null;
     }
 
@@ -154,6 +174,70 @@ function rtbo_local_super_admin_login(string $email, string $password): ?array
         'photo' => '/assets/images/montrel_simmons_trainer_card.jpg',
         'status' => 'active',
     ];
+}
+
+function rtbo_repair_local_super_admin_account(array $localUser, string $password): ?array
+{
+    if (!rtbo_is_local_auth_host() || !rtbo_is_local_database_host()) {
+        return null;
+    }
+
+    if (strtolower(env_value('RTBO_LOCAL_AUTH_REPAIR_SUPER_ADMIN', 'true')) !== 'true') {
+        return null;
+    }
+
+    try {
+        ensure_users_table();
+        $stmt = db()->prepare(
+            "INSERT INTO users(role, first_name, last_name, email, phone, address_line1, address_line2, city, state, zip, conferences, experience, password_hash, profile_photo, status)
+             VALUES('super_admin', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active')
+             ON DUPLICATE KEY UPDATE
+                role = 'super_admin',
+                first_name = VALUES(first_name),
+                last_name = VALUES(last_name),
+                phone = VALUES(phone),
+                address_line1 = VALUES(address_line1),
+                address_line2 = VALUES(address_line2),
+                city = VALUES(city),
+                state = VALUES(state),
+                zip = VALUES(zip),
+                conferences = VALUES(conferences),
+                experience = VALUES(experience),
+                password_hash = VALUES(password_hash),
+                profile_photo = VALUES(profile_photo),
+                status = 'active'"
+        );
+        $stmt->execute([
+            (string) ($localUser['first_name'] ?? 'Montrel'),
+            (string) ($localUser['last_name'] ?? 'Simmons'),
+            (string) ($localUser['email'] ?? RTBO_SUPER_ADMIN_EMAIL),
+            (string) ($localUser['phone'] ?? ''),
+            (string) ($localUser['address_line1'] ?? ''),
+            (string) ($localUser['address_line2'] ?? ''),
+            (string) ($localUser['city'] ?? ''),
+            (string) ($localUser['state'] ?? ''),
+            (string) ($localUser['zip'] ?? ''),
+            (string) ($localUser['conferences'] ?? ''),
+            (string) ($localUser['experience'] ?? 'Super Admin'),
+            password_hash($password, PASSWORD_DEFAULT),
+            (string) ($localUser['photo'] ?? ''),
+        ]);
+
+        $lookup = db()->prepare('SELECT * FROM users WHERE LOWER(email) = ? LIMIT 1');
+        $lookup->execute([strtolower((string) ($localUser['email'] ?? ''))]);
+        $databaseUser = $lookup->fetch();
+
+        return $databaseUser ?: null;
+    } catch (Throwable $error) {
+        error_log('RTBO local super admin repair skipped: ' . $error->getMessage());
+        return null;
+    }
+}
+
+function rtbo_local_super_admin_session_user(array $localUser, string $password): array
+{
+    $databaseUser = rtbo_repair_local_super_admin_account($localUser, $password);
+    return $databaseUser ? public_auth_user($databaseUser) : $localUser;
 }
 
 function rtbo_file_member_login(string $email, string $password): ?array
@@ -191,48 +275,42 @@ if (rtbo_local_auth_enabled() && rtbo_local_admin_password() === '') {
 }
 
 try {
-    $localUser = rtbo_local_super_admin_login($email, $password);
-    if ($localUser) {
-        session_regenerate_id(true);
-        $_SESSION['user'] = $localUser;
-        echo json_encode(['success' => true, 'user' => $_SESSION['user']], JSON_UNESCAPED_SLASHES);
-        exit;
-    }
-
-    $fileUser = rtbo_file_member_login($email, $password);
-    if ($fileUser) {
-        session_regenerate_id(true);
-        $_SESSION['user'] = $fileUser;
-        echo json_encode(['success' => true, 'user' => $_SESSION['user']], JSON_UNESCAPED_SLASHES);
-        exit;
-    }
-
     ensure_users_table();
     $statement = db()->prepare('SELECT * FROM users WHERE LOWER(email) = ? LIMIT 1');
     $statement->execute([$email]);
     $user = $statement->fetch();
 
-    if (!$user || !password_verify($password, (string) $user['password_hash'])) {
-        http_response_code(401);
-        echo json_encode(['success' => false, 'message' => 'Invalid email or password.']);
+    if ($user) {
+        if (!password_verify($password, (string) $user['password_hash'])) {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'message' => 'Invalid email or password.']);
+            exit;
+        }
+
+        if (($user['status'] ?? 'active') === 'deleted') {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'message' => 'This account is not available.']);
+            exit;
+        }
+
+        db()->prepare('UPDATE users SET last_login_at = NOW(), updated_at = NOW() WHERE id = ?')->execute([(int) $user['id']]);
+        $fresh = db()->prepare('SELECT * FROM users WHERE id = ? LIMIT 1');
+        $fresh->execute([(int) $user['id']]);
+        $user = $fresh->fetch() ?: $user;
+
+        session_regenerate_id(true);
+        $_SESSION['user'] = public_auth_user($user);
+        rtbo_login_session_start($_SESSION['user']);
+
+        echo json_encode(['success' => true, 'user' => $_SESSION['user']], JSON_UNESCAPED_SLASHES);
         exit;
     }
 
-    if (($user['status'] ?? 'active') === 'deleted') {
-        http_response_code(403);
-        echo json_encode(['success' => false, 'message' => 'This account is not available.']);
-        exit;
-    }
-
-    session_regenerate_id(true);
-    $_SESSION['user'] = public_auth_user($user);
-
-    echo json_encode(['success' => true, 'user' => $_SESSION['user']], JSON_UNESCAPED_SLASHES);
-} catch (Throwable $error) {
     $localUser = rtbo_local_super_admin_login($email, $password);
     if ($localUser) {
         session_regenerate_id(true);
-        $_SESSION['user'] = $localUser;
+        $_SESSION['user'] = rtbo_local_super_admin_session_user($localUser, $password);
+        rtbo_login_session_start($_SESSION['user']);
         echo json_encode(['success' => true, 'user' => $_SESSION['user']], JSON_UNESCAPED_SLASHES);
         exit;
     }
@@ -241,6 +319,28 @@ try {
     if ($fileUser) {
         session_regenerate_id(true);
         $_SESSION['user'] = $fileUser;
+        rtbo_login_session_start($_SESSION['user']);
+        echo json_encode(['success' => true, 'user' => $_SESSION['user']], JSON_UNESCAPED_SLASHES);
+        exit;
+    }
+
+    http_response_code(401);
+    echo json_encode(['success' => false, 'message' => 'Invalid email or password.']);
+} catch (Throwable $error) {
+    $localUser = rtbo_local_super_admin_login($email, $password);
+    if ($localUser) {
+        session_regenerate_id(true);
+        $_SESSION['user'] = rtbo_local_super_admin_session_user($localUser, $password);
+        rtbo_login_session_start($_SESSION['user']);
+        echo json_encode(['success' => true, 'user' => $_SESSION['user']], JSON_UNESCAPED_SLASHES);
+        exit;
+    }
+
+    $fileUser = rtbo_file_member_login($email, $password);
+    if ($fileUser) {
+        session_regenerate_id(true);
+        $_SESSION['user'] = $fileUser;
+        rtbo_login_session_start($_SESSION['user']);
         echo json_encode(['success' => true, 'user' => $_SESSION['user']], JSON_UNESCAPED_SLASHES);
         exit;
     }

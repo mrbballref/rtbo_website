@@ -353,7 +353,7 @@
 
 .jammed-progress-row input {
   flex: 1 1 auto;
-  accent-color: var(--jammed-gold);
+  accent-color: #cbd5e1;
 }
 
 .jammed-control-row {
@@ -362,7 +362,7 @@
 
 .jammed-control-row button {
   min-height: 38px;
-  border: 1px solid rgba(217, 156, 46, .4);
+  border: 1px solid rgba(226, 232, 240, .32);
   border-radius: 8px;
   padding: 8px 12px;
   background: rgba(255, 255, 255, .06);
@@ -373,8 +373,8 @@
 }
 
 .jammed-control-row button:is(:hover, :focus-visible) {
-  border-color: var(--jammed-gold);
-  background: rgba(217, 156, 46, .16);
+  border-color: rgba(226, 232, 240, .82);
+  background: rgba(226, 232, 240, .12);
   outline: none;
 }
 
@@ -390,7 +390,7 @@
 
 .jammed-volume {
   width: 120px;
-  accent-color: var(--jammed-gold);
+  accent-color: #cbd5e1;
 }
 
 .jammed-podcast-library,
@@ -432,8 +432,8 @@
 
 .jammed-episode-grid article.active button,
 .jammed-episode-grid article button:is(:hover, :focus-visible) {
-  border-color: var(--jammed-gold);
-  background: rgba(217, 156, 46, .12);
+  border-color: rgba(226, 232, 240, .82);
+  background: rgba(226, 232, 240, .12);
   outline: none;
 }
 
@@ -597,7 +597,5 @@
 
 .jammed-control-row .jammed-primary-control {
   border-color: rgba(226, 232, 240, .72);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, .045)),
-    #171a20;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, .045));
 }

@@ -6,6 +6,8 @@ require_once __DIR__ . '/includes/payments.php';
 require_once __DIR__ . '/includes/registration-store.php';
 require_once __DIR__ . '/includes/refzone-enrollments.php';
 require_once __DIR__ . '/includes/email.php';
+require_once __DIR__ . '/includes/notifications.php';
+require_once __DIR__ . '/includes/store-orders.php';
 
 header('Content-Type: application/json');
 
@@ -34,6 +36,71 @@ if (!is_array($event)) {
 $type = (string) ($event['type'] ?? '');
 $object = $event['data']['object'] ?? [];
 $metadata = is_array($object['metadata'] ?? null) ? $object['metadata'] : [];
+
+function rtbo_stripe_webhook_ensure_table(): void
+{
+    db()->exec(
+        "CREATE TABLE IF NOT EXISTS stripe_webhook_events (
+            id VARCHAR(190) PRIMARY KEY,
+            event_type VARCHAR(120) NOT NULL,
+            livemode TINYINT(1) NOT NULL DEFAULT 0,
+            payload LONGTEXT NOT NULL,
+            processed_at DATETIME NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            INDEX idx_stripe_webhook_type (event_type),
+            INDEX idx_stripe_webhook_created (created_at)
+        )"
+    );
+}
+
+function rtbo_stripe_webhook_store_event(array $event, string $payload): bool
+{
+    $eventId = trim((string) ($event['id'] ?? ''));
+    if ($eventId === '') {
+        return true;
+    }
+
+    try {
+        rtbo_stripe_webhook_ensure_table();
+        $stmt = db()->prepare(
+            "INSERT IGNORE INTO stripe_webhook_events(id, event_type, livemode, payload)
+             VALUES(?, ?, ?, ?)"
+        );
+        $stmt->execute([
+            $eventId,
+            (string) ($event['type'] ?? ''),
+            !empty($event['livemode']) ? 1 : 0,
+            $payload,
+        ]);
+
+        if ($stmt->rowCount() > 0) {
+            return true;
+        }
+
+        $lookup = db()->prepare('SELECT processed_at FROM stripe_webhook_events WHERE id = ? LIMIT 1');
+        $lookup->execute([$eventId]);
+        return trim((string) ($lookup->fetchColumn() ?: '')) === '';
+    } catch (Throwable $error) {
+        error_log('RTBO Stripe webhook event log unavailable: ' . $error->getMessage());
+        return true;
+    }
+}
+
+function rtbo_stripe_webhook_mark_processed(array $event): void
+{
+    $eventId = trim((string) ($event['id'] ?? ''));
+    if ($eventId === '') {
+        return;
+    }
+
+    try {
+        rtbo_stripe_webhook_ensure_table();
+        $stmt = db()->prepare('UPDATE stripe_webhook_events SET processed_at = NOW() WHERE id = ?');
+        $stmt->execute([$eventId]);
+    } catch (Throwable $error) {
+        error_log('RTBO Stripe webhook event processed marker failed: ' . $error->getMessage());
+    }
+}
 
 function rtbo_webhook_update_incoming_payment_file(string $paymentId, string $status, string $sessionId): void
 {
@@ -83,7 +150,28 @@ function rtbo_webhook_update_incoming_payment(string $paymentId, string $status,
 }
 
 try {
+    if (!rtbo_stripe_webhook_store_event($event, $payload)) {
+        echo json_encode(['success' => true, 'message' => 'Webhook event already processed.']);
+        exit;
+    }
+
     if ($type === 'checkout.session.completed') {
+        if (($metadata['type'] ?? '') === 'store') {
+            $orderId = (string) ($metadata['order_id'] ?? $object['client_reference_id'] ?? '');
+            $paymentStatus = (string) ($object['payment_status'] ?? '');
+            if ($orderId !== '' && $paymentStatus === 'paid') {
+                $order = rtbo_store_order_update_record($orderId, [
+                    'status' => 'paid',
+                    'payment_status' => 'paid',
+                    'stripe_checkout_session_id' => (string) ($object['id'] ?? ''),
+                    'paid_at' => gmdate('c'),
+                ]);
+                if ($order) {
+                    rtbo_store_order_notify_purchase_completed($order);
+                }
+            }
+        }
+
         if (($metadata['type'] ?? '') === 'accounts_receivable') {
             $paymentStatus = (string) ($object['payment_status'] ?? '');
             if ($paymentStatus === 'paid') {
@@ -120,6 +208,21 @@ try {
                     'stripe_checkout_session_id' => (string) ($object['id'] ?? ''),
                     'stripe_subscription_id' => (string) ($object['subscription'] ?? ''),
                 ]);
+                $enrollment = find_refzone_enrollment($enrollmentId);
+                if ($enrollment) {
+                    rtbo_notify_admins([
+                        'type' => 'refzone_enrollment_paid',
+                        'title' => 'RefZone membership payment confirmed',
+                        'body' => (string) ($enrollment['full_name'] ?? 'A RefZone member') . ' completed payment for ' . (string) ($enrollment['package_name'] ?? 'RefZone University') . '.',
+                        'related_type' => 'refzone_enrollment',
+                        'metadata' => [
+                            'enrollment_id' => $enrollmentId,
+                            'email' => (string) ($enrollment['email'] ?? ''),
+                            'package_name' => (string) ($enrollment['package_name'] ?? ''),
+                            'payment_provider' => 'stripe',
+                        ],
+                    ]);
+                }
             }
         }
     }
@@ -154,6 +257,7 @@ try {
         error_log('RTBO Stripe billing event received: ' . $type . ' ' . (string) ($object['id'] ?? ''));
     }
 
+    rtbo_stripe_webhook_mark_processed($event);
     echo json_encode(['success' => true]);
 } catch (Throwable $error) {
     error_log('RTBO Stripe webhook handling failed: ' . $error->getMessage());

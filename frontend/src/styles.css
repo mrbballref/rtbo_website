@@ -1854,7 +1854,36 @@ button.hero-scroll-link {
 .services-page-section {
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(40px, 5vw, 76px);
+  gap: clamp(26px, 3.2vw, 46px);
+}
+
+.services-unified-head {
+  display: grid;
+  gap: 12px;
+  max-width: min(100%, 1180px);
+}
+
+.services-unified-head h2 {
+  margin: 0;
+  max-width: min(100%, 1060px);
+  font-size: clamp(2rem, 3.25vw, 4.15rem);
+  line-height: 1;
+}
+
+.services-unified-head p:not(.eyebrow) {
+  max-width: 1020px;
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.12vw, 1.18rem);
+  font-weight: 750;
+  line-height: 1.6;
+}
+
+.services-unified-overview {
+  display: grid;
+  grid-template-columns: minmax(300px, .46fr) minmax(0, 1fr);
+  gap: clamp(22px, 3vw, 42px);
+  align-items: stretch;
 }
 
 .services-top-section {
@@ -1881,7 +1910,7 @@ button.hero-scroll-link {
 }
 
 .services-referee-copy {
-  max-width: 900px;
+  max-width: none;
   margin: 0 0 22px;
   padding: clamp(16px, 2vw, 22px);
   border: 1px solid rgba(193, 18, 31, .32);
@@ -1977,11 +2006,11 @@ button.hero-scroll-link {
   display: grid;
   place-items: center;
   align-self: start;
-  justify-self: end;
-  width: min(100%, 520px);
+  justify-self: stretch;
+  width: min(100%, 560px);
   min-width: 0;
   min-height: clamp(300px, 25vw, 390px);
-  margin-top: clamp(46px, 5.4vw, 92px);
+  margin-top: 0;
   overflow: hidden;
   border: 1px solid rgba(193, 18, 31, .32);
   border-radius: 8px;
@@ -1994,6 +2023,14 @@ button.hero-scroll-link {
     rgba(5, 8, 13, .86);
   box-shadow: 0 24px 70px rgba(0, 0, 0, .36);
   transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+.services-unified-platform-cards {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.services-unified-platform-cards article {
+  min-height: 0;
 }
 
 .services-top-image:is(:hover, :focus-visible) {
@@ -2070,31 +2107,6 @@ button.hero-scroll-link {
 .services-features-section .solution-card-copy h3,
 .services-features-section .solution-card-copy p {
   margin: 0;
-}
-
-.services-platform-section {
-  display: grid;
-  gap: clamp(28px, 4.5vw, 58px);
-  margin-top: clamp(52px, 7vw, 110px);
-}
-
-.services-platform-head h2 {
-  max-width: min(100%, 960px);
-  font-size: clamp(1.85rem, 3vw, 3.65rem);
-  line-height: 1.02;
-}
-
-.services-workflow-layout {
-  align-items: center;
-}
-
-.services-workflow-image img {
-  width: 100%;
-  height: clamp(340px, 35vw, 590px);
-  min-height: 0;
-  object-fit: contain;
-  object-position: center;
-  padding: clamp(18px, 3vw, 46px);
 }
 
 .services-flow-panel {
@@ -4682,6 +4694,14 @@ button.hero-scroll-link {
     linear-gradient(90deg, rgba(0,0,0,.2), rgba(0,0,0,.2)),
     url("/assets/images/banner_2.jpg") center / cover no-repeat;
   box-shadow: 0 32px 90px rgba(0,0,0,.68), inset 0 0 0 1px rgba(255,255,255,.05);
+}
+
+.rtbo-temp-password-scrim {
+  z-index: 10000;
+}
+
+.rtbo-temp-password-modal {
+  box-shadow: 0 36px 100px rgba(0,0,0,.76), 0 0 0 1px rgba(255,122,24,.28), inset 0 0 0 1px rgba(255,255,255,.05);
 }
 
 .rtbo-account-modal.signin-view,
@@ -10857,8 +10877,10 @@ button.hero-scroll-link {
   .results-top-section,
   .home-results-section,
   .results-top-points,
+  .services-unified-overview,
   .services-top-section,
   .services-top-points,
+  .services-unified-platform-cards,
   .services-features-section .solution-grid {
     grid-template-columns: 1fr;
   }
@@ -11370,7 +11392,7 @@ button.hero-scroll-link {
   .platform-feature-grid article,
   .platform-flow-panel
 ) :is(h3, h4, strong),
-:root[data-theme="light"] .rtbo-public :is(.platform-section, .services-platform-section) .platform-flow-grid strong {
+:root[data-theme="light"] .rtbo-public .platform-section .platform-flow-grid strong {
   color: #ffffff !important;
   text-shadow: none !important;
 }
@@ -11402,12 +11424,12 @@ button.hero-scroll-link {
   color: #a41623 !important;
 }
 
-:root[data-theme="light"] .rtbo-public :is(.platform-section, .services-platform-section) .platform-flow-grid article {
+:root[data-theme="light"] .rtbo-public .platform-section .platform-flow-grid article {
   border-color: rgba(193, 18, 31, .34);
   background: rgba(255, 255, 255, .07) !important;
 }
 
-:root[data-theme="light"] .rtbo-public :is(.platform-section, .services-platform-section) .platform-flow-grid span {
+:root[data-theme="light"] .rtbo-public .platform-section .platform-flow-grid span {
   color: #a41623 !important;
 }
 
@@ -13943,9 +13965,7 @@ button.hero-scroll-link {
 
 .livestream-control-row .livestream-studio-control-button {
   border-color: rgba(34, 197, 94, .72);
-  background:
-    linear-gradient(180deg, rgba(34, 197, 94, .24), rgba(34, 197, 94, .1)),
-    #14181c;
+  background: linear-gradient(180deg, rgba(34, 197, 94, .24), rgba(34, 197, 94, .1));
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, .16),
     0 0 18px rgba(34, 197, 94, .16);
@@ -13953,16 +13973,12 @@ button.hero-scroll-link {
 
 .livestream-control-row .livestream-studio-control-button:is(:hover, :focus-visible) {
   border-color: rgba(34, 197, 94, .96);
-  background:
-    linear-gradient(180deg, rgba(34, 197, 94, .34), rgba(34, 197, 94, .16)),
-    #14181c;
+  background: linear-gradient(180deg, rgba(34, 197, 94, .34), rgba(34, 197, 94, .16));
 }
 
 .livestream-control-row .livestream-record-control {
   border-color: rgba(239, 68, 68, .72);
-  background:
-    linear-gradient(180deg, rgba(239, 68, 68, .22), rgba(239, 68, 68, .08)),
-    #171417;
+  background: linear-gradient(180deg, rgba(239, 68, 68, .22), rgba(239, 68, 68, .08));
   color: #fff;
 }
 
@@ -13978,9 +13994,7 @@ button.hero-scroll-link {
 
 .livestream-control-row .livestream-record-control.active {
   border-color: rgba(239, 68, 68, .98);
-  background:
-    linear-gradient(180deg, rgba(239, 68, 68, .42), rgba(239, 68, 68, .18)),
-    #1a1010;
+  background: linear-gradient(180deg, rgba(239, 68, 68, .42), rgba(239, 68, 68, .18));
 }
 
 .livestream-control-row .livestream-volume {
@@ -15152,19 +15166,12 @@ body.rtbo-printing-invoice .rtbo-invoice-footer span,
 .services-top-image {
   width: min(100%, 420px);
   min-height: clamp(220px, 20vw, 310px);
-  margin-top: clamp(28px, 4vw, 62px);
+  margin-top: 0;
   padding: clamp(10px, 1.5vw, 18px);
 }
 
 .services-top-image img {
   height: clamp(205px, 18vw, 285px);
-}
-
-.services-workflow-image img {
-  height: auto;
-  min-height: 0;
-  max-height: clamp(250px, 27vw, 410px);
-  object-fit: contain;
 }
 
 .paid-event-card {
@@ -17050,6 +17057,29 @@ html.light .site-footer.original-footer .footer-link:is(:hover, :focus-visible) 
   background-image: none !important;
   box-shadow: none !important;
   outline-color: transparent !important;
+}
+
+:where(
+  .livestream-control-layer,
+  .jammed-page .jammed-player-controls,
+  .rtbo-course-video-controls
+) {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+:where(
+  .livestream-control-layer,
+  .jammed-page .jammed-control-row,
+  .rtbo-course-video-control-row
+) button:not(:disabled):not(.danger):is(:hover, :focus-visible) {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  border-color: rgba(226, 232, 240, .6) !important;
+  background: rgba(255, 255, 255, .08) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16) !important;
 }
 
 .rtbo-public .services-client-carousel.hero-carousel {

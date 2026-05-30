@@ -255,7 +255,10 @@ try {
              conferences = ?,
              experience = ?,
              profile_photo = ?,
-             status = 'active'
+             status = 'active',
+             profile_completed_at = CASE WHEN profile_completed_at IS NULL THEN NOW() ELSE profile_completed_at END,
+             profile_completion_notified_at = CASE WHEN profile_completion_notified_at IS NULL THEN NOW() ELSE profile_completion_notified_at END,
+             updated_at = NOW()
          WHERE id = ?"
     );
     $profile->execute([
@@ -275,6 +278,30 @@ try {
         $registration['profile_photo_path'],
         (int) $accountUser['id'],
     ]);
+    if (strtolower((string) ($accountUser['status'] ?? '')) !== 'active') {
+        $profileUser = [
+            ...$accountUser,
+            'first_name' => $registration['first_name'],
+            'last_name' => $registration['last_name'],
+            'email' => $registration['email'],
+            'role' => 'official',
+            'status' => 'active',
+            'profile_completed_at' => date('c'),
+        ];
+        send_super_admin_profile_completed_email($profileUser, public_auth_user($accountUser));
+        rtbo_notify_admins([
+            'type' => 'member_profile_completed',
+            'title' => 'Member profile completed',
+            'body' => $registration['full_name'] . ' completed their profile through school registration.',
+            'related_type' => 'member',
+            'related_id' => (int) $accountUser['id'],
+            'metadata' => [
+                'registration_id' => $registration['id'],
+                'email' => $registration['email'],
+            ],
+            'actor' => public_auth_user($accountUser),
+        ]);
+    }
 } catch (Throwable $error) {
     error_log('RTBO registration user profile sync failed: ' . $error->getMessage());
 }

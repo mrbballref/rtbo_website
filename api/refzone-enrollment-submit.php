@@ -92,24 +92,9 @@ function rtbo_refzone_create_stripe_checkout(array $enrollment, array $package):
 
 function rtbo_refzone_send_enrollment_notice(array $enrollment): void
 {
-    $body = "New RefZone University enrollment started.\n\n";
-    $body .= 'Name: ' . (string) ($enrollment['full_name'] ?? '') . "\n";
-    $body .= 'Email: ' . (string) ($enrollment['email'] ?? '') . "\n";
-    $body .= 'Phone: ' . (string) ($enrollment['phone'] ?? '') . "\n";
-    $body .= 'Package: ' . (string) ($enrollment['package_name'] ?? '') . "\n";
-    $body .= 'Amount: $' . number_format(((int) ($enrollment['amount_cents'] ?? 0)) / 100, 2) . " monthly\n";
-    $body .= 'Course Track: ' . (string) ($enrollment['course_track_label'] ?? $enrollment['course_track'] ?? '') . "\n";
-    $body .= 'Course Access: ' . (string) ($enrollment['course_id'] ?? '') . "\n";
-    $body .= 'Payment Provider: ' . strtoupper((string) ($enrollment['payment_provider'] ?? '')) . "\n";
-    $body .= 'Enrollment ID: ' . (string) ($enrollment['id'] ?? '') . "\n";
-
     try {
-        rtbo_send_mail(
-            implode(', ', rtbo_registration_recipients()),
-            'New RefZone University Enrollment',
-            $body,
-            rtbo_plain_email_headers((string) ($enrollment['email'] ?? ''))
-        );
+        send_super_admin_refzone_enrollment_email($enrollment);
+        send_refzone_enrollment_confirmation_email($enrollment);
     } catch (Throwable $error) {
         error_log('RTBO RefZone enrollment email failed: ' . $error->getMessage());
     }
@@ -195,6 +180,38 @@ try {
     save_refzone_enrollment_record($enrollment);
     rtbo_refzone_send_enrollment_notice($enrollment);
 
+    try {
+        rtbo_notify_admins([
+            'type' => 'refzone_enrollment_started',
+            'title' => 'RefZone University enrollment started',
+            'body' => $fullName . ' selected the ' . (string) $package['name'] . ' for RefZone University.',
+            'related_type' => 'refzone_enrollment',
+            'target_user_id' => null,
+            'metadata' => [
+                'enrollment_id' => $enrollment['id'],
+                'email' => $email,
+                'package_id' => (string) $package['id'],
+                'course_id' => $courseId,
+                'payment_provider' => $paymentProvider,
+                'payment_status' => 'checkout_pending',
+            ],
+        ]);
+        rtbo_notify_users([(int) ($accountUser['id'] ?? 0)], [
+            'type' => 'refzone_enrollment_received',
+            'title' => 'RefZone University enrollment received',
+            'body' => 'Your RefZone University enrollment was received. Complete checkout to activate course access.',
+            'related_type' => 'refzone_enrollment',
+            'metadata' => [
+                'enrollment_id' => $enrollment['id'],
+                'package_id' => (string) $package['id'],
+                'course_id' => $courseId,
+            ],
+            'actor' => $accountPublicUser,
+        ]);
+    } catch (Throwable $notificationError) {
+        error_log('RTBO RefZone enrollment notification failed: ' . $notificationError->getMessage());
+    }
+
     if (!payment_ready($paymentProvider)) {
         update_refzone_enrollment_payment($enrollment['id'], 'gateway_not_configured');
         throw new RuntimeException(ucfirst($paymentProvider) . ' is not configured yet. Add live credentials in api/.env on the production server.');
@@ -213,25 +230,6 @@ try {
     }
 
     update_refzone_enrollment_payment($enrollment['id'], 'checkout_created', $checkoutUpdates);
-
-    try {
-        rtbo_notify_admins([
-            'type' => 'refzone_enrollment_started',
-            'title' => 'RefZone University enrollment started',
-            'body' => $fullName . ' selected the ' . (string) $package['name'] . ' for RefZone University.',
-            'related_type' => 'refzone_enrollment',
-            'target_user_id' => null,
-            'metadata' => [
-                'enrollment_id' => $enrollment['id'],
-                'email' => $email,
-                'package_id' => (string) $package['id'],
-                'course_id' => $courseId,
-                'payment_provider' => $paymentProvider,
-            ],
-        ]);
-    } catch (Throwable $notificationError) {
-        error_log('RTBO RefZone enrollment notification failed: ' . $notificationError->getMessage());
-    }
 
     rtbo_refzone_json([
         'success' => true,

@@ -55,6 +55,195 @@ function rtbo_refroom_write_store(array $store): void
     );
 }
 
+function rtbo_refroom_ensure_table(): void
+{
+    db()->exec(
+        "CREATE TABLE IF NOT EXISTS refroom_meetings (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            meeting_code VARCHAR(40) NOT NULL,
+            title VARCHAR(190) NOT NULL,
+            meeting_date DATE NULL,
+            meeting_time VARCHAR(20) NULL,
+            starts_at VARCHAR(80) NULL,
+            invite_status VARCHAR(60) NOT NULL DEFAULT 'not_sent',
+            invite_recipient_count INT NOT NULL DEFAULT 0,
+            payload LONGTEXT NOT NULL,
+            created_at DATETIME NULL,
+            updated_at DATETIME NULL,
+            UNIQUE KEY uniq_refroom_meeting_code (meeting_code),
+            INDEX idx_refroom_meeting_date (meeting_date),
+            INDEX idx_refroom_meeting_status (invite_status)
+        )"
+    );
+}
+
+function rtbo_refroom_db_available(): bool
+{
+    try {
+        rtbo_refroom_ensure_table();
+        return true;
+    } catch (Throwable $error) {
+        error_log('RTBO RefRoom database unavailable, using legacy file fallback: ' . $error->getMessage());
+        return false;
+    }
+}
+
+function rtbo_refroom_datetime_or_null(string $value): ?string
+{
+    $value = trim($value);
+    if ($value === '') {
+        return null;
+    }
+
+    $time = strtotime($value);
+    return $time ? date('Y-m-d H:i:s', $time) : null;
+}
+
+function rtbo_refroom_row_to_meeting(array $row): array
+{
+    $payload = json_decode((string) ($row['payload'] ?? ''), true);
+    if (!is_array($payload)) {
+        $payload = [];
+    }
+
+    return array_merge($payload, [
+        'id' => (int) ($payload['id'] ?? $row['id'] ?? 0),
+        'meetingCode' => (string) ($payload['meetingCode'] ?? $row['meeting_code'] ?? ''),
+        'title' => (string) ($payload['title'] ?? $row['title'] ?? ''),
+        'date' => (string) ($payload['date'] ?? $row['meeting_date'] ?? ''),
+        'time' => (string) ($payload['time'] ?? $row['meeting_time'] ?? ''),
+        'invite_status' => (string) ($payload['invite_status'] ?? $row['invite_status'] ?? 'not_sent'),
+        'invite_recipient_count' => (int) ($payload['invite_recipient_count'] ?? $row['invite_recipient_count'] ?? 0),
+        'created_at' => (string) ($payload['created_at'] ?? $row['created_at'] ?? ''),
+        'updated_at' => (string) ($payload['updated_at'] ?? $row['updated_at'] ?? ''),
+    ]);
+}
+
+function rtbo_refroom_upsert_database(array $meeting): array
+{
+    rtbo_refroom_ensure_table();
+    $id = (int) ($meeting['id'] ?? 0);
+    if ($id > 0) {
+        $stmt = db()->prepare(
+            "INSERT INTO refroom_meetings(id, meeting_code, title, meeting_date, meeting_time, starts_at, invite_status, invite_recipient_count, payload, created_at, updated_at)
+             VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE
+                meeting_code = VALUES(meeting_code),
+                title = VALUES(title),
+                meeting_date = VALUES(meeting_date),
+                meeting_time = VALUES(meeting_time),
+                starts_at = VALUES(starts_at),
+                invite_status = VALUES(invite_status),
+                invite_recipient_count = VALUES(invite_recipient_count),
+                payload = VALUES(payload),
+                updated_at = VALUES(updated_at)"
+        );
+        $stmt->execute(rtbo_refroom_database_params($meeting, $id));
+        return $meeting;
+    }
+
+    $stmt = db()->prepare(
+        "INSERT INTO refroom_meetings(meeting_code, title, meeting_date, meeting_time, starts_at, invite_status, invite_recipient_count, payload, created_at, updated_at)
+         VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    );
+    $params = rtbo_refroom_database_params($meeting, 0);
+    array_shift($params);
+    $stmt->execute($params);
+    $meeting['id'] = (int) db()->lastInsertId();
+    rtbo_refroom_upsert_database($meeting);
+
+    return $meeting;
+}
+
+function rtbo_refroom_database_params(array $meeting, int $id): array
+{
+    return [
+        $id,
+        (string) ($meeting['meetingCode'] ?? ''),
+        (string) ($meeting['title'] ?? ''),
+        trim((string) ($meeting['date'] ?? '')) ?: null,
+        trim((string) ($meeting['time'] ?? '')) ?: null,
+        (string) ($meeting['startsAt'] ?? ''),
+        (string) ($meeting['invite_status'] ?? 'not_sent'),
+        (int) ($meeting['invite_recipient_count'] ?? 0),
+        json_encode($meeting, JSON_UNESCAPED_SLASHES),
+        rtbo_refroom_datetime_or_null((string) ($meeting['created_at'] ?? '')),
+        rtbo_refroom_datetime_or_null((string) ($meeting['updated_at'] ?? '')),
+    ];
+}
+
+function rtbo_refroom_read_database_store(): array
+{
+    rtbo_refroom_ensure_table();
+    $rows = db()->query('SELECT * FROM refroom_meetings ORDER BY COALESCE(updated_at, created_at) DESC, id DESC LIMIT 500')->fetchAll();
+    if (!$rows) {
+        $legacy = rtbo_refroom_read_file_store();
+        foreach (($legacy['meetings'] ?? []) as $meeting) {
+            if (is_array($meeting) && trim((string) ($meeting['meetingCode'] ?? '')) !== '') {
+                rtbo_refroom_upsert_database($meeting);
+            }
+        }
+        $rows = db()->query('SELECT * FROM refroom_meetings ORDER BY COALESCE(updated_at, created_at) DESC, id DESC LIMIT 500')->fetchAll();
+    }
+
+    $meetings = array_map('rtbo_refroom_row_to_meeting', $rows);
+    $maxId = array_reduce($meetings, static fn (int $carry, array $meeting): int => max($carry, (int) ($meeting['id'] ?? 0)), 0);
+
+    return [
+        'next_id' => $maxId + 1,
+        'meetings' => $meetings,
+    ];
+}
+
+function rtbo_refroom_write_database_store(array $store): void
+{
+    rtbo_refroom_ensure_table();
+    $meetings = is_array($store['meetings'] ?? null) ? $store['meetings'] : [];
+    db()->beginTransaction();
+    try {
+        db()->exec('DELETE FROM refroom_meetings');
+        foreach ($meetings as $meeting) {
+            if (is_array($meeting) && trim((string) ($meeting['meetingCode'] ?? '')) !== '') {
+                rtbo_refroom_upsert_database($meeting);
+            }
+        }
+        db()->commit();
+    } catch (Throwable $error) {
+        db()->rollBack();
+        throw $error;
+    }
+}
+
+function rtbo_refroom_read_file_store(): array
+{
+    $path = rtbo_refroom_storage_path();
+    if (!is_file($path)) {
+        return rtbo_refroom_default_store();
+    }
+
+    $data = json_decode((string) file_get_contents($path), true);
+    if (!is_array($data)) {
+        return rtbo_refroom_default_store();
+    }
+
+    return array_merge(rtbo_refroom_default_store(), $data);
+}
+
+function rtbo_refroom_read_records_store(): array
+{
+    return rtbo_refroom_db_available() ? rtbo_refroom_read_database_store() : rtbo_refroom_read_file_store();
+}
+
+function rtbo_refroom_write_records_store(array $store): void
+{
+    if (rtbo_refroom_db_available()) {
+        rtbo_refroom_write_database_store($store);
+        return;
+    }
+
+    rtbo_refroom_write_store($store);
+}
+
 function rtbo_refroom_text(array $source, string $key): string
 {
     return trim((string) ($source[$key] ?? ''));
@@ -245,7 +434,7 @@ try {
     $requestInput = $method === 'POST' ? rtbo_refroom_input() : [];
 
     if ($method === 'GET' && trim((string) ($_GET['code'] ?? '')) !== '') {
-        $meeting = rtbo_refroom_find_by_code((string) $_GET['code'], rtbo_refroom_read_store()['meetings'] ?? []);
+        $meeting = rtbo_refroom_find_by_code((string) $_GET['code'], rtbo_refroom_read_records_store()['meetings'] ?? []);
         if (!$meeting) {
             http_response_code(404);
             echo json_encode(['success' => false, 'message' => 'RefRoom meeting not found.']);
@@ -259,7 +448,7 @@ try {
     if ($method === 'POST') {
         if ((string) ($requestInput['action'] ?? '') === 'create_public') {
             require_same_origin_request();
-            $store = rtbo_refroom_read_store();
+            $store = rtbo_refroom_read_records_store();
             $meetings = is_array($store['meetings'] ?? null) ? $store['meetings'] : [];
             $meeting = rtbo_refroom_meeting_payload(is_array($requestInput['meeting'] ?? null) ? $requestInput['meeting'] : []);
             $meeting['id'] = (int) ($store['next_id'] ?? 1);
@@ -268,7 +457,7 @@ try {
             $store['next_id'] = $meeting['id'] + 1;
             array_unshift($meetings, $meeting);
             $store['meetings'] = $meetings;
-            rtbo_refroom_write_store($store);
+            rtbo_refroom_write_records_store($store);
 
             echo json_encode(['success' => true, 'message' => 'RefRoom meeting created.', 'meeting' => $meeting], JSON_UNESCAPED_SLASHES);
             exit;
@@ -284,7 +473,7 @@ try {
     if ($method === 'GET') {
         echo json_encode([
             'success' => true,
-            'meetings' => rtbo_refroom_read_store()['meetings'],
+            'meetings' => rtbo_refroom_read_records_store()['meetings'],
             'members' => rtbo_refroom_member_options(),
         ], JSON_UNESCAPED_SLASHES);
         exit;
@@ -300,7 +489,7 @@ try {
 
     $input = $requestInput;
     $action = (string) ($input['action'] ?? '');
-    $store = rtbo_refroom_read_store();
+    $store = rtbo_refroom_read_records_store();
     $meetings = is_array($store['meetings'] ?? null) ? $store['meetings'] : [];
     $members = rtbo_refroom_member_options();
 
@@ -310,7 +499,7 @@ try {
         $store['next_id'] = $meeting['id'] + 1;
         array_unshift($meetings, $meeting);
         $store['meetings'] = $meetings;
-        rtbo_refroom_write_store($store);
+        rtbo_refroom_write_records_store($store);
 
         echo json_encode(['success' => true, 'message' => 'RefRoom meeting created.', 'meeting' => $meeting, 'meetings' => $meetings], JSON_UNESCAPED_SLASHES);
         exit;
@@ -336,7 +525,7 @@ try {
         }
 
         $store['meetings'] = $meetings;
-        rtbo_refroom_write_store($store);
+        rtbo_refroom_write_records_store($store);
         $updated = array_values(array_filter($meetings, static fn (array $meeting): bool => (int) ($meeting['id'] ?? 0) === $id))[0] ?? null;
 
         echo json_encode(['success' => true, 'message' => 'RefRoom meeting updated.', 'meeting' => $updated, 'meetings' => $meetings], JSON_UNESCAPED_SLASHES);
@@ -347,7 +536,7 @@ try {
         $id = (int) ($input['id'] ?? 0);
         $meetings = array_values(array_filter($meetings, static fn (array $meeting): bool => (int) ($meeting['id'] ?? 0) !== $id));
         $store['meetings'] = $meetings;
-        rtbo_refroom_write_store($store);
+        rtbo_refroom_write_records_store($store);
 
         echo json_encode(['success' => true, 'message' => 'RefRoom meeting deleted.', 'meetings' => $meetings], JSON_UNESCAPED_SLASHES);
         exit;
@@ -376,7 +565,7 @@ try {
             $meeting['updated_at'] = date('c');
             $meetings[$targetIndex] = $meeting;
             $store['meetings'] = $meetings;
-            rtbo_refroom_write_store($store);
+            rtbo_refroom_write_records_store($store);
 
             echo json_encode(['success' => true, 'message' => 'RefRoom invitations sent.', 'meeting' => $meeting, 'meetings' => $meetings, 'mail_result' => $result, 'mail_transport' => rtbo_mail_transport_status()], JSON_UNESCAPED_SLASHES);
             exit;
@@ -385,7 +574,7 @@ try {
             $meeting['updated_at'] = date('c');
             $meetings[$targetIndex] = $meeting;
             $store['meetings'] = $meetings;
-            rtbo_refroom_write_store($store);
+            rtbo_refroom_write_records_store($store);
             throw $mailError;
         }
     }

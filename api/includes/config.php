@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-function rtbo_load_local_env(string $path): void
+function rtbo_load_local_env(string $path, bool $override = false): void
 {
     if (!is_file($path) || !is_readable($path)) {
         return;
@@ -16,7 +16,7 @@ function rtbo_load_local_env(string $path): void
         [$key, $value] = array_map('trim', explode('=', $line, 2));
         $value = trim($value, "\"'");
 
-        if ($key !== '' && getenv($key) === false) {
+        if ($key !== '' && ($override || getenv($key) === false)) {
             putenv($key . '=' . $value);
             $_ENV[$key] = $value;
         }
@@ -24,11 +24,36 @@ function rtbo_load_local_env(string $path): void
 }
 
 rtbo_load_local_env(__DIR__ . '/../.env');
+rtbo_load_local_env(__DIR__ . '/../.env.local', true);
 
 function env_value(string $key, string $default = ''): string
 {
     $value = getenv($key);
     return $value === false || $value === '' ? $default : (string) $value;
+}
+
+function rtbo_config_value_is_configured(string $value): bool
+{
+    $value = trim($value);
+    if ($value === '') {
+        return false;
+    }
+
+    $lower = strtolower($value);
+    foreach ([
+        'replace_with',
+        'your_',
+        'placeholder',
+        'example',
+        'changeme',
+        'todo',
+    ] as $marker) {
+        if (str_contains($lower, $marker)) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 const RTBO_COMPANY_NAME = 'Raising The Bar Officiating Inc.';
@@ -75,10 +100,13 @@ define('PAYPAL_REFZONE_ELITE_PLAN_ID', env_value('PAYPAL_REFZONE_ELITE_PLAN_ID')
 define('TWILIO_ACCOUNT_SID', env_value('TWILIO_ACCOUNT_SID'));
 define('TWILIO_AUTH_TOKEN', env_value('TWILIO_AUTH_TOKEN'));
 define('TWILIO_FROM_NUMBER', env_value('TWILIO_FROM_NUMBER'));
+$rtboTwilioConfigured = rtbo_config_value_is_configured(TWILIO_ACCOUNT_SID)
+    && rtbo_config_value_is_configured(TWILIO_AUTH_TOKEN)
+    && rtbo_config_value_is_configured(TWILIO_FROM_NUMBER);
 define('RTBO_SMS_ENABLED', strtolower(env_value(
     'RTBO_SMS_ENABLED',
-    TWILIO_ACCOUNT_SID !== '' && TWILIO_AUTH_TOKEN !== '' && TWILIO_FROM_NUMBER !== '' ? 'true' : 'false'
-)) === 'true');
+    $rtboTwilioConfigured ? 'true' : 'false'
+)) === 'true' && $rtboTwilioConfigured);
 define('RTBO_SMS_DRY_RUN', strtolower(env_value('RTBO_SMS_DRY_RUN', 'false')) === 'true');
 define('RTBO_SMS_DEFAULT_COUNTRY_CODE', env_value('RTBO_SMS_DEFAULT_COUNTRY_CODE', '1'));
 
@@ -185,8 +213,55 @@ function db(): PDO
         return $pdo;
     }
 
-    $pdo = new PDO(
-        'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4',
+    $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ];
+
+    try {
+        $pdo = new PDO(
+            'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4',
+            DB_USER,
+            DB_PASS,
+            $options
+        );
+    } catch (PDOException $error) {
+        $message = $error->getMessage();
+        if (!str_contains($message, 'Unknown database') && !str_contains($message, '1049')) {
+            throw $error;
+        }
+
+        rtbo_create_database_if_missing();
+        $pdo = new PDO(
+            'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4',
+            DB_USER,
+            DB_PASS,
+            $options
+        );
+    }
+
+    return $pdo;
+}
+
+function rtbo_database_identifier(string $name): string
+{
+    if (!preg_match('/^[A-Za-z0-9_]+$/', $name)) {
+        throw new InvalidArgumentException('Invalid database identifier.');
+    }
+
+    return '`' . str_replace('`', '``', $name) . '`';
+}
+
+function rtbo_create_database_if_missing(): void
+{
+    static $checked = false;
+
+    if ($checked) {
+        return;
+    }
+
+    $server = new PDO(
+        'mysql:host=' . DB_HOST . ';charset=utf8mb4',
         DB_USER,
         DB_PASS,
         [
@@ -194,8 +269,12 @@ function db(): PDO
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         ]
     );
-
-    return $pdo;
+    $server->exec(
+        'CREATE DATABASE IF NOT EXISTS '
+        . rtbo_database_identifier(DB_NAME)
+        . ' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci'
+    );
+    $checked = true;
 }
 
 function e(string $value): string

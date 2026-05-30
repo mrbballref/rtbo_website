@@ -2,12 +2,15 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/includes/bootstrap.php';
+require_once __DIR__ . '/includes/session-tracking.php';
 
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_same_origin_request();
 }
+
+rtbo_login_session_finish(is_array($_SESSION['user'] ?? null) ? $_SESSION['user'] : null);
 
 $_SESSION = [];
 if (ini_get('session.use_cookies')) {

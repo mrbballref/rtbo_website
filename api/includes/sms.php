@@ -160,7 +160,10 @@ function rtbo_sms_send_twilio(string $to, string $message): array
         return ['status' => 'dry_run', 'provider_message_id' => '', 'error' => 'SMS dry run is enabled.'];
     }
 
-    if (TWILIO_ACCOUNT_SID === '' || TWILIO_AUTH_TOKEN === '' || TWILIO_FROM_NUMBER === '') {
+    if (!rtbo_config_value_is_configured(TWILIO_ACCOUNT_SID)
+        || !rtbo_config_value_is_configured(TWILIO_AUTH_TOKEN)
+        || !rtbo_config_value_is_configured(TWILIO_FROM_NUMBER)
+    ) {
         return ['status' => 'not_configured', 'provider_message_id' => '', 'error' => 'Twilio credentials are not configured.'];
     }
 

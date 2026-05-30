@@ -4,6 +4,8 @@ declare(strict_types=1);
 require_once __DIR__ . '/includes/bootstrap.php';
 require_once __DIR__ . '/includes/users.php';
 require_once __DIR__ . '/includes/pdf.php';
+require_once __DIR__ . '/includes/email.php';
+require_once __DIR__ . '/includes/notifications.php';
 
 header('Content-Type: application/json');
 require_same_origin_request();
@@ -64,6 +66,176 @@ function rtbo_tax_read_file(): array
 function rtbo_tax_write_file(array $records): void
 {
     file_put_contents(rtbo_tax_storage_path(), json_encode(array_values($records), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES), LOCK_EX);
+}
+
+function rtbo_tax_ensure_table(): void
+{
+    db()->exec(
+        "CREATE TABLE IF NOT EXISTS admin_tax_forms (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            form_number VARCHAR(120) NOT NULL,
+            record_name VARCHAR(190) NULL,
+            requester_type VARCHAR(120) NULL,
+            requester_name VARCHAR(190) NULL,
+            requester_email VARCHAR(190) NULL,
+            available_for_download TINYINT(1) NOT NULL DEFAULT 1,
+            taxpayer_name VARCHAR(190) NULL,
+            business_name VARCHAR(190) NULL,
+            tax_classification VARCHAR(120) NULL,
+            tin_masked VARCHAR(40) NULL,
+            status VARCHAR(60) NOT NULL DEFAULT 'ready',
+            created_by INT NULL,
+            payload LONGTEXT NOT NULL,
+            created_at DATETIME NULL,
+            updated_at DATETIME NULL,
+            UNIQUE KEY uniq_admin_tax_form_number (form_number),
+            INDEX idx_admin_tax_forms_requester (requester_email),
+            INDEX idx_admin_tax_forms_status (status)
+        )"
+    );
+}
+
+function rtbo_tax_db_available(): bool
+{
+    try {
+        rtbo_tax_ensure_table();
+        return true;
+    } catch (Throwable $error) {
+        error_log('RTBO Tax Center database unavailable, using legacy file fallback: ' . $error->getMessage());
+        return false;
+    }
+}
+
+function rtbo_tax_datetime_or_null(string $value): ?string
+{
+    $value = trim($value);
+    if ($value === '') {
+        return null;
+    }
+
+    $time = strtotime($value);
+    return $time ? date('Y-m-d H:i:s', $time) : null;
+}
+
+function rtbo_tax_row_to_record(array $row): array
+{
+    $payload = json_decode((string) ($row['payload'] ?? ''), true);
+    if (!is_array($payload)) {
+        $payload = [];
+    }
+
+    return array_merge($payload, [
+        'id' => (int) ($payload['id'] ?? $row['id'] ?? 0),
+        'formNumber' => (string) ($payload['formNumber'] ?? $row['form_number'] ?? ''),
+        'recordName' => (string) ($payload['recordName'] ?? $row['record_name'] ?? ''),
+        'status' => (string) ($payload['status'] ?? $row['status'] ?? 'ready'),
+        'createdAt' => (string) ($payload['createdAt'] ?? $row['created_at'] ?? ''),
+        'updatedAt' => (string) ($payload['updatedAt'] ?? $row['updated_at'] ?? ''),
+    ]);
+}
+
+function rtbo_tax_upsert_database(array $record): array
+{
+    rtbo_tax_ensure_table();
+    $id = (int) ($record['id'] ?? 0);
+    if ($id > 0) {
+        $stmt = db()->prepare(
+            "INSERT INTO admin_tax_forms(id, form_number, record_name, requester_type, requester_name, requester_email, available_for_download, taxpayer_name, business_name, tax_classification, tin_masked, status, created_by, payload, created_at, updated_at)
+             VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE
+                form_number = VALUES(form_number),
+                record_name = VALUES(record_name),
+                requester_type = VALUES(requester_type),
+                requester_name = VALUES(requester_name),
+                requester_email = VALUES(requester_email),
+                available_for_download = VALUES(available_for_download),
+                taxpayer_name = VALUES(taxpayer_name),
+                business_name = VALUES(business_name),
+                tax_classification = VALUES(tax_classification),
+                tin_masked = VALUES(tin_masked),
+                status = VALUES(status),
+                created_by = VALUES(created_by),
+                payload = VALUES(payload),
+                updated_at = VALUES(updated_at)"
+        );
+        $stmt->execute(rtbo_tax_database_params($record, $id));
+        return $record;
+    }
+
+    $stmt = db()->prepare(
+        "INSERT INTO admin_tax_forms(form_number, record_name, requester_type, requester_name, requester_email, available_for_download, taxpayer_name, business_name, tax_classification, tin_masked, status, created_by, payload, created_at, updated_at)
+         VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    );
+    $params = rtbo_tax_database_params($record, 0);
+    array_shift($params);
+    $stmt->execute($params);
+    $record['id'] = (int) db()->lastInsertId();
+    rtbo_tax_upsert_database($record);
+
+    return $record;
+}
+
+function rtbo_tax_database_params(array $record, int $id): array
+{
+    return [
+        $id,
+        (string) ($record['formNumber'] ?? ''),
+        (string) ($record['recordName'] ?? ''),
+        (string) ($record['requesterType'] ?? ''),
+        (string) ($record['requesterName'] ?? ''),
+        strtolower(trim((string) ($record['requesterEmail'] ?? ''))),
+        !empty($record['availableForDownload']) ? 1 : 0,
+        (string) ($record['name'] ?? ''),
+        (string) ($record['businessName'] ?? ''),
+        (string) ($record['taxClassification'] ?? ''),
+        rtbo_tax_mask_tin((string) ($record['tin'] ?? '')),
+        (string) ($record['status'] ?? 'ready'),
+        (int) ($record['createdBy'] ?? 0) ?: null,
+        json_encode($record, JSON_UNESCAPED_SLASHES),
+        rtbo_tax_datetime_or_null((string) ($record['createdAt'] ?? '')),
+        rtbo_tax_datetime_or_null((string) ($record['updatedAt'] ?? '')),
+    ];
+}
+
+function rtbo_tax_read_records(): array
+{
+    if (!rtbo_tax_db_available()) {
+        return rtbo_tax_read_file();
+    }
+
+    $rows = db()->query('SELECT * FROM admin_tax_forms ORDER BY COALESCE(updated_at, created_at) DESC, id DESC LIMIT 500')->fetchAll();
+    if (!$rows) {
+        foreach (rtbo_tax_read_file() as $record) {
+            if (is_array($record) && trim((string) ($record['formNumber'] ?? '')) !== '') {
+                rtbo_tax_upsert_database($record);
+            }
+        }
+        $rows = db()->query('SELECT * FROM admin_tax_forms ORDER BY COALESCE(updated_at, created_at) DESC, id DESC LIMIT 500')->fetchAll();
+    }
+
+    return array_map('rtbo_tax_row_to_record', $rows);
+}
+
+function rtbo_tax_write_records(array $records): void
+{
+    if (!rtbo_tax_db_available()) {
+        rtbo_tax_write_file($records);
+        return;
+    }
+
+    db()->beginTransaction();
+    try {
+        db()->exec('DELETE FROM admin_tax_forms');
+        foreach (array_values($records) as $record) {
+            if (is_array($record) && trim((string) ($record['formNumber'] ?? '')) !== '') {
+                rtbo_tax_upsert_database($record);
+            }
+        }
+        db()->commit();
+    } catch (Throwable $error) {
+        db()->rollBack();
+        throw $error;
+    }
 }
 
 function rtbo_tax_clean_value(mixed $value): mixed
@@ -246,7 +418,7 @@ try {
         exit;
     }
 
-    $records = rtbo_tax_read_file();
+    $records = rtbo_tax_read_records();
 
     if ($method === 'GET' || $action === 'list') {
         $visible = $canManage
@@ -276,7 +448,47 @@ try {
         } else {
             array_unshift($records, $record);
         }
-        rtbo_tax_write_file($records);
+        rtbo_tax_write_records($records);
+
+        $signatureReturned = trim((string) ($record['signatureName'] ?? '')) !== ''
+            && trim((string) ($record['signatureDate'] ?? '')) !== '';
+        $signatureChanged = trim((string) ($existing['signatureName'] ?? '')) !== trim((string) ($record['signatureName'] ?? ''))
+            || trim((string) ($existing['signatureDate'] ?? '')) !== trim((string) ($record['signatureDate'] ?? ''));
+        if ($signatureReturned && ($index < 0 || $signatureChanged)) {
+            try {
+                $pdfPath = build_w9_pdf($record);
+                $body = "A W-9 has been digitally signed and returned for execution.\n\n";
+                $body .= 'Form: ' . (string) ($record['formNumber'] ?? '') . "\n";
+                $body .= 'Record: ' . (string) ($record['recordName'] ?? '') . "\n";
+                $body .= 'Signer: ' . (string) ($record['signatureName'] ?? '') . "\n";
+                $body .= 'Signed Date: ' . (string) ($record['signatureDate'] ?? '') . "\n\n";
+                $body .= "The professional W-9 PDF is attached.";
+                rtbo_mail_with_pdf(
+                    rtbo_super_admin_recipients(),
+                    'Signed W-9 returned - ' . (string) ($record['recordName'] ?? $record['formNumber'] ?? 'RTBO W-9'),
+                    $body,
+                    $pdfPath,
+                    (string) ($record['requesterEmail'] ?? '')
+                );
+                rtbo_notify_admins([
+                    'type' => 'w9_signed_returned',
+                    'title' => 'W-9 signed and returned',
+                    'body' => (string) ($record['recordName'] ?? 'A W-9') . ' was digitally signed and returned.',
+                    'related_type' => 'tax_form',
+                    'related_id' => (int) ($record['id'] ?? 0),
+                    'metadata' => [
+                        'form_number' => (string) ($record['formNumber'] ?? ''),
+                        'record_name' => (string) ($record['recordName'] ?? ''),
+                        'signer' => (string) ($record['signatureName'] ?? ''),
+                        'signature_date' => (string) ($record['signatureDate'] ?? ''),
+                        'professional_pdf_attached' => true,
+                    ],
+                    'actor' => $user ?? null,
+                ]);
+            } catch (Throwable $notificationError) {
+                error_log('RTBO W-9 signed return notification failed: ' . $notificationError->getMessage());
+            }
+        }
 
         echo json_encode(['success' => true, 'message' => 'W-9 saved and available in Tax Center.', 'record' => rtbo_tax_public($record)], JSON_UNESCAPED_SLASHES);
         exit;
@@ -316,7 +528,7 @@ try {
         if (count($next) === count($records)) {
             throw new RuntimeException('W-9 record could not be found.');
         }
-        rtbo_tax_write_file($next);
+        rtbo_tax_write_records($next);
         echo json_encode(['success' => true, 'message' => 'W-9 record deleted.'], JSON_UNESCAPED_SLASHES);
         exit;
     }

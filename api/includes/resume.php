@@ -1,6 +1,10 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/feature-store.php';
+
+const RTBO_RESUME_STORE_TABLE = 'resume_store';
+
 function rtbo_resume_path(): string
 {
     ensure_dir(STORAGE_DIR);
@@ -292,6 +296,22 @@ function rtbo_resume_normalize(array $resume): array
 
 function rtbo_resume_load(): array
 {
+    $data = rtbo_feature_store_load(RTBO_RESUME_STORE_TABLE);
+    if (!is_array($data)) {
+        $data = rtbo_resume_load_file();
+        rtbo_resume_save_data($data);
+    }
+
+    $resume = is_array($data['resume'] ?? null) ? $data['resume'] : $data;
+    $data['resume'] = rtbo_resume_normalize($resume);
+    $data['audit'] = is_array($data['audit'] ?? null) ? $data['audit'] : [];
+    $data['updated_at'] = $data['updated_at'] ?? ($data['resume']['updatedAt'] ?: null);
+
+    return $data;
+}
+
+function rtbo_resume_load_file(): array
+{
     $path = rtbo_resume_path();
     if (!is_file($path)) {
         return rtbo_resume_empty_data();
@@ -312,11 +332,7 @@ function rtbo_resume_load(): array
 
 function rtbo_resume_save_data(array $data): void
 {
-    file_put_contents(
-        rtbo_resume_path(),
-        json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
-        LOCK_EX
-    );
+    rtbo_feature_store_save(RTBO_RESUME_STORE_TABLE, $data);
 }
 
 function rtbo_resume_audit(?array $user, string $action): array

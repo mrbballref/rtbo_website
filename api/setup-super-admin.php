@@ -58,13 +58,17 @@ try {
     ensure_users_table();
 
     $stmt = db()->prepare(
-        "INSERT INTO users(role, first_name, last_name, email, password_hash, status)
-         VALUES('super_admin', ?, ?, ?, ?, 'active')
+        "INSERT INTO users(role, first_name, last_name, email, password_hash, password_is_temporary, temporary_password_created_at, status, updated_at)
+         VALUES('super_admin', ?, ?, ?, ?, 1, NOW(), 'active', NOW())
          ON DUPLICATE KEY UPDATE
             role = 'super_admin',
             first_name = VALUES(first_name),
             last_name = VALUES(last_name),
             password_hash = VALUES(password_hash),
+            password_is_temporary = 1,
+            temporary_password_created_at = NOW(),
+            password_changed_at = NULL,
+            updated_at = NOW(),
             status = 'active'"
     );
     $stmt->execute([

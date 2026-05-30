@@ -4,8 +4,8 @@ declare(strict_types=1);
 function payment_ready(string $provider): bool
 {
     return $provider === 'stripe'
-        ? STRIPE_SECRET_KEY !== ''
-        : ($provider === 'paypal' && PAYPAL_CLIENT_ID !== '' && PAYPAL_CLIENT_SECRET !== '');
+        ? rtbo_config_value_is_configured(STRIPE_SECRET_KEY)
+        : ($provider === 'paypal' && rtbo_config_value_is_configured(PAYPAL_CLIENT_ID) && rtbo_config_value_is_configured(PAYPAL_CLIENT_SECRET));
 }
 
 function http_json(string $url, string $method, array $headers, ?string $body = null): array
@@ -71,7 +71,7 @@ function create_stripe_checkout(array $registration): string
 
 function stripe_api_request(string $path, string $method = 'GET', array $params = []): array
 {
-    if (STRIPE_SECRET_KEY === '') {
+    if (!rtbo_config_value_is_configured(STRIPE_SECRET_KEY)) {
         throw new RuntimeException('Stripe is not configured yet. Add STRIPE_SECRET_KEY in api/.env on the live server.');
     }
 
@@ -335,6 +335,10 @@ function paypal_base_url(): string
 
 function paypal_access_token(): string
 {
+    if (!rtbo_config_value_is_configured(PAYPAL_CLIENT_ID) || !rtbo_config_value_is_configured(PAYPAL_CLIENT_SECRET)) {
+        throw new RuntimeException('PayPal is not configured yet. Add PAYPAL_CLIENT_ID and PAYPAL_CLIENT_SECRET in api/.env on the live server.');
+    }
+
     $response = http_json(paypal_base_url() . '/v1/oauth2/token', 'POST', [
         'Authorization: Basic ' . base64_encode(PAYPAL_CLIENT_ID . ':' . PAYPAL_CLIENT_SECRET),
         'Content-Type: application/x-www-form-urlencoded',
@@ -404,7 +408,27 @@ function paypal_subscription_plan_cache_path(): string
     return STORAGE_DIR . '/paypal-subscription-plans.json';
 }
 
-function paypal_subscription_plan_cache(): array
+function paypal_subscription_plan_cache_ensure_table(): void
+{
+    db()->exec(
+        "CREATE TABLE IF NOT EXISTS paypal_subscription_plans (
+            cache_key CHAR(64) PRIMARY KEY,
+            plan_id VARCHAR(120) NOT NULL,
+            product_id VARCHAR(120) NULL,
+            package_id VARCHAR(80) NULL,
+            amount_cents INT NOT NULL DEFAULT 0,
+            currency VARCHAR(12) NOT NULL DEFAULT 'USD',
+            mode VARCHAR(20) NOT NULL DEFAULT 'live',
+            payload LONGTEXT NULL,
+            created_at DATETIME NULL,
+            updated_at DATETIME NULL,
+            UNIQUE KEY uniq_paypal_plan_id (plan_id),
+            INDEX idx_paypal_plan_package (package_id)
+        )"
+    );
+}
+
+function paypal_subscription_plan_cache_file(): array
 {
     $path = paypal_subscription_plan_cache_path();
     if (!is_file($path)) {
@@ -416,13 +440,90 @@ function paypal_subscription_plan_cache(): array
     return is_array($plans) ? $plans : [];
 }
 
-function paypal_subscription_plan_cache_save(array $plans): void
+function paypal_subscription_plan_cache(): array
+{
+    try {
+        paypal_subscription_plan_cache_ensure_table();
+        $rows = db()->query('SELECT cache_key, payload FROM paypal_subscription_plans ORDER BY COALESCE(updated_at, created_at) DESC')->fetchAll();
+        if (!$rows) {
+            $legacy = paypal_subscription_plan_cache_file();
+            if ($legacy) {
+                paypal_subscription_plan_cache_save($legacy);
+                $rows = db()->query('SELECT cache_key, payload FROM paypal_subscription_plans ORDER BY COALESCE(updated_at, created_at) DESC')->fetchAll();
+            }
+        }
+
+        $records = [];
+        foreach ($rows as $row) {
+            $payload = json_decode((string) ($row['payload'] ?? ''), true);
+            if (is_array($payload)) {
+                $records[(string) $row['cache_key']] = $payload;
+            }
+        }
+
+        return $records;
+    } catch (Throwable $error) {
+        error_log('RTBO PayPal plan cache database unavailable, using legacy file fallback: ' . $error->getMessage());
+        return paypal_subscription_plan_cache_file();
+    }
+}
+
+function paypal_subscription_plan_cache_save_file(array $plans): void
 {
     file_put_contents(
         paypal_subscription_plan_cache_path(),
         json_encode($plans, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
         LOCK_EX
     );
+}
+
+function paypal_subscription_plan_cache_save(array $plans): void
+{
+    $pdo = null;
+    try {
+        paypal_subscription_plan_cache_ensure_table();
+        $pdo = db();
+        $pdo->beginTransaction();
+        $pdo->exec('DELETE FROM paypal_subscription_plans');
+        $stmt = $pdo->prepare(
+            "INSERT INTO paypal_subscription_plans(cache_key, plan_id, product_id, package_id, amount_cents, currency, mode, payload, created_at, updated_at)
+             VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())"
+        );
+        foreach ($plans as $cacheKey => $plan) {
+            if (!is_array($plan) || trim((string) ($plan['plan_id'] ?? '')) === '') {
+                continue;
+            }
+            $stmt->execute([
+                (string) $cacheKey,
+                (string) ($plan['plan_id'] ?? ''),
+                (string) ($plan['product_id'] ?? ''),
+                (string) ($plan['package_id'] ?? ''),
+                (int) ($plan['amount_cents'] ?? 0),
+                strtoupper((string) ($plan['currency'] ?? 'USD')),
+                (string) ($plan['mode'] ?? PAYPAL_MODE),
+                json_encode($plan, JSON_UNESCAPED_SLASHES),
+                rtbo_paypal_cache_datetime_or_null((string) ($plan['created_at'] ?? '')),
+            ]);
+        }
+        $pdo->commit();
+    } catch (Throwable $error) {
+        if ($pdo instanceof PDO && $pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        error_log('RTBO PayPal plan cache database save failed, using legacy file fallback: ' . $error->getMessage());
+        paypal_subscription_plan_cache_save_file($plans);
+    }
+}
+
+function rtbo_paypal_cache_datetime_or_null(string $value): ?string
+{
+    $value = trim($value);
+    if ($value === '') {
+        return null;
+    }
+
+    $time = strtotime($value);
+    return $time ? date('Y-m-d H:i:s', $time) : null;
 }
 
 function paypal_subscription_plan_cache_key(array $package): string

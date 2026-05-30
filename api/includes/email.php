@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/pdf.php';
+
 const RTBO_INVOICE_BLIND_COPY_EMAIL = 'mrbballref1775@yahoo.com';
 const RTBO_CONTRACT_BLIND_COPY_EMAIL = 'mrbballref1775@yahoo.com';
 
@@ -268,11 +270,14 @@ function rtbo_smtp_send(string $to, string $subject, string $message, array|stri
 function rtbo_send_mail(string $to, string $subject, string $message, array|string $headers): bool
 {
     rtbo_mail_set_last_error('');
+    $headerLines = rtbo_mail_header_lines($headers);
+    [$message, $headerLines] = rtbo_mail_prepare_professional_notice($subject, $message, $headerLines);
+
     if (RTBO_SMTP_HOST !== '') {
-        return rtbo_smtp_send($to, $subject, $message, $headers);
+        return rtbo_smtp_send($to, $subject, $message, $headerLines);
     }
 
-    $headerText = is_array($headers) ? implode("\r\n", $headers) : $headers;
+    $headerText = implode("\r\n", $headerLines);
     $sent = @mail($to, rtbo_safe_email_subject($subject), $message, $headerText);
     if (!$sent) {
         rtbo_mail_set_last_error('PHP mail() returned false. Configure SMTP in api/.env for production delivery.');
@@ -288,6 +293,325 @@ function rtbo_mail_transport_status(): array
         'smtp_configured' => RTBO_SMTP_HOST !== '',
         'last_error' => rtbo_mail_last_error(),
     ];
+}
+
+function rtbo_mail_should_attach_professional_notice(array $headers): bool
+{
+    $contentType = strtolower(rtbo_mail_header_value($headers, 'Content-Type'));
+    if (str_contains($contentType, 'multipart/')) {
+        return false;
+    }
+
+    return strtolower(rtbo_mail_header_value($headers, 'X-RTBO-No-Notice-PDF')) !== '1';
+}
+
+function rtbo_mail_prepare_professional_notice(string $subject, string $message, array $headers): array
+{
+    if (!rtbo_mail_should_attach_professional_notice($headers)) {
+        return [$message, $headers];
+    }
+
+    try {
+        $pdfPath = build_email_notice_pdf($subject, $message, [
+            'delivery_context' => 'A professional PDF record is attached by the site-wide RTBO email rule.',
+        ]);
+        if (!is_file($pdfPath)) {
+            throw new RuntimeException('Professional email notice PDF could not be generated.');
+        }
+
+        $boundary = 'rtbo_notice_' . bin2hex(random_bytes(10));
+        $preparedHeaders = rtbo_mail_strip_headers($headers, ['Content-Type', 'MIME-Version', 'X-RTBO-No-Notice-PDF']);
+        $preparedHeaders[] = 'MIME-Version: 1.0';
+        $preparedHeaders[] = 'Content-Type: multipart/mixed; boundary="' . $boundary . '"';
+        $preparedMessage = rtbo_mail_mixed_body($message, [[
+            'name' => basename($pdfPath),
+            'type' => 'application/pdf',
+            'bytes' => (string) file_get_contents($pdfPath),
+        ]], $boundary);
+
+        return [$preparedMessage, $preparedHeaders];
+    } catch (Throwable $error) {
+        error_log('RTBO professional email PDF rule could not attach a notice PDF: ' . $error->getMessage());
+
+        return [$message, $headers];
+    }
+}
+
+function rtbo_site_login_url(): string
+{
+    $siteUrl = env_value('RTBO_SITE_URL', RTBO_BASE_URL);
+    $siteUrl = trim($siteUrl) !== '' ? $siteUrl : 'https://rtbofficiating.com';
+
+    return rtrim($siteUrl, '/') . '/';
+}
+
+function rtbo_account_display_name(array $account, string $fallback = 'RTBO member'): string
+{
+    $name = trim((string) ($account['name'] ?? ''));
+    if ($name !== '') {
+        return $name;
+    }
+
+    $name = trim((string) ($account['first_name'] ?? '') . ' ' . (string) ($account['last_name'] ?? ''));
+    if ($name !== '') {
+        return $name;
+    }
+
+    $email = trim((string) ($account['email'] ?? ''));
+    return $email !== '' ? $email : $fallback;
+}
+
+function rtbo_account_role_label(array $account): string
+{
+    $role = trim((string) ($account['role_label'] ?? ''));
+    if ($role !== '') {
+        return $role;
+    }
+
+    $role = trim((string) ($account['role'] ?? 'member'));
+    return ucwords(str_replace('_', ' ', $role));
+}
+
+function send_account_registration_confirmation_email(array $account): bool
+{
+    $email = rtbo_safe_header_email((string) ($account['email'] ?? ''));
+    if ($email === '') {
+        return false;
+    }
+
+    $name = rtbo_account_display_name($account);
+    $body = "Hello {$name},\n\n";
+    $body .= "Your Raising The Bar Officiating account registration was received.\n\n";
+    $body .= "Username: {$email}\n";
+    $body .= "Account Status: " . (string) ($account['status'] ?? 'inactive') . "\n";
+    $body .= "Sign in here: " . rtbo_site_login_url() . "\n\n";
+    $body .= "Before you can access all website features, complete your profile and save it from your RTBO account. ";
+    $body .= "You will be prompted to update a temporary password if one was assigned to your account.\n\n";
+    $body .= "Raising The Bar Officiating Inc.\n";
+
+    return rtbo_send_mail(
+        $email,
+        'Complete your RTBO profile',
+        $body,
+        rtbo_plain_email_headers(RTBO_ADMIN_EMAIL)
+    );
+}
+
+function send_super_admin_user_registered_email(array $account, string $source = 'Website registration'): bool
+{
+    $recipients = rtbo_super_admin_recipients();
+    if ($recipients === []) {
+        return false;
+    }
+
+    $name = rtbo_account_display_name($account);
+    $email = rtbo_safe_header_email((string) ($account['email'] ?? ''));
+    $body = "A new user registered on the RTBO website.\n\n";
+    $body .= "Name: {$name}\n";
+    $body .= "Email / Username: " . ($email !== '' ? $email : 'Not provided') . "\n";
+    $body .= "Role: " . rtbo_account_role_label($account) . "\n";
+    $body .= "Status: " . (string) ($account['status'] ?? 'inactive') . "\n";
+    $body .= "Source: {$source}\n";
+    $body .= "Registered: " . (string) ($account['registered_at'] ?? $account['created_at'] ?? date('c')) . "\n\n";
+    $body .= "Review the account in the Command Center if admin action is required.";
+
+    return rtbo_send_mail(
+        implode(', ', $recipients),
+        'New RTBO user registered - ' . $name,
+        $body,
+        rtbo_plain_email_headers($email)
+    );
+}
+
+function send_super_admin_member_added_email(array $member, ?array $actor = null): bool
+{
+    $recipients = rtbo_super_admin_recipients();
+    if ($recipients === []) {
+        return false;
+    }
+
+    $name = rtbo_account_display_name($member, 'A member');
+    $actorName = $actor ? rtbo_account_display_name($actor, 'System') : 'System';
+    $email = rtbo_safe_header_email((string) ($member['email'] ?? ''));
+    $body = "A member was added to the RTBO website.\n\n";
+    $body .= "Name: {$name}\n";
+    $body .= "Email / Username: " . ($email !== '' ? $email : 'Not provided') . "\n";
+    $body .= "Role: " . rtbo_account_role_label($member) . "\n";
+    $body .= "Status: " . (string) ($member['status'] ?? 'inactive') . "\n";
+    $body .= "Added By: {$actorName}\n";
+    $body .= "Added: " . date('c') . "\n\n";
+    $body .= "The user should receive an invitation email with their username and temporary password.";
+
+    return rtbo_send_mail(
+        implode(', ', $recipients),
+        'RTBO member added - ' . $name,
+        $body,
+        rtbo_plain_email_headers($email)
+    );
+}
+
+function send_super_admin_profile_completed_email(array $account, ?array $actor = null): bool
+{
+    $recipients = rtbo_super_admin_recipients();
+    if ($recipients === []) {
+        return false;
+    }
+
+    $name = rtbo_account_display_name($account);
+    $email = rtbo_safe_header_email((string) ($account['email'] ?? ''));
+    $actorName = $actor ? rtbo_account_display_name($actor, $name) : $name;
+    $body = "A user completed their RTBO profile.\n\n";
+    $body .= "Name: {$name}\n";
+    $body .= "Email / Username: " . ($email !== '' ? $email : 'Not provided') . "\n";
+    $body .= "Role: " . rtbo_account_role_label($account) . "\n";
+    $body .= "Status: " . (string) ($account['status'] ?? 'active') . "\n";
+    $body .= "Completed By: {$actorName}\n";
+    $body .= "Completed: " . (string) ($account['profile_completed_at'] ?? date('c')) . "\n\n";
+    $body .= "Review the profile in the Command Center if any additional approval is required.";
+
+    return rtbo_send_mail(
+        implode(', ', $recipients),
+        'RTBO profile completed - ' . $name,
+        $body,
+        rtbo_plain_email_headers($email)
+    );
+}
+
+function send_refzone_enrollment_confirmation_email(array $enrollment): bool
+{
+    $email = rtbo_safe_header_email((string) ($enrollment['email'] ?? ''));
+    if ($email === '') {
+        return false;
+    }
+
+    $name = trim((string) ($enrollment['full_name'] ?? 'RefZone University member'));
+    $package = trim((string) ($enrollment['package_name'] ?? 'RefZone University membership'));
+    $amount = number_format(((int) ($enrollment['amount_cents'] ?? 0)) / 100, 2);
+    $body = "Hello {$name},\n\n";
+    $body .= "Your RefZone University enrollment was received.\n\n";
+    $body .= "Username: {$email}\n";
+    $body .= "Package: {$package}\n";
+    $body .= "Monthly Membership Fee: \${$amount}\n";
+    $body .= "Course Track: " . (string) ($enrollment['course_track_label'] ?? $enrollment['course_track'] ?? '') . "\n";
+    $body .= "Enrollment ID: " . (string) ($enrollment['id'] ?? '') . "\n\n";
+    $body .= "Complete checkout and make sure your RTBO profile is complete before accessing the course materials tied to this membership.\n\n";
+    $body .= "Raising The Bar Officiating Inc.\n";
+
+    return rtbo_send_mail(
+        $email,
+        'RefZone University enrollment received',
+        $body,
+        rtbo_plain_email_headers(RTBO_ADMIN_EMAIL)
+    );
+}
+
+function send_super_admin_refzone_enrollment_email(array $enrollment): bool
+{
+    $recipients = rtbo_super_admin_recipients();
+    if ($recipients === []) {
+        return false;
+    }
+
+    $name = trim((string) ($enrollment['full_name'] ?? 'RefZone University member'));
+    $email = rtbo_safe_header_email((string) ($enrollment['email'] ?? ''));
+    $amount = number_format(((int) ($enrollment['amount_cents'] ?? 0)) / 100, 2);
+    $body = "A RefZone University enrollment was submitted.\n\n";
+    $body .= "Name: {$name}\n";
+    $body .= "Email / Username: " . ($email !== '' ? $email : 'Not provided') . "\n";
+    $body .= "Package: " . (string) ($enrollment['package_name'] ?? '') . "\n";
+    $body .= "Amount: \${$amount} monthly\n";
+    $body .= "Course Track: " . (string) ($enrollment['course_track_label'] ?? $enrollment['course_track'] ?? '') . "\n";
+    $body .= "Course ID: " . (string) ($enrollment['course_id'] ?? '') . "\n";
+    $body .= "Payment Provider: " . strtoupper((string) ($enrollment['payment_provider'] ?? '')) . "\n";
+    $body .= "Payment Status: " . (string) ($enrollment['payment_status'] ?? '') . "\n";
+    $body .= "Enrollment ID: " . (string) ($enrollment['id'] ?? '') . "\n";
+    $body .= "Submitted: " . (string) ($enrollment['submitted_at'] ?? date('c')) . "\n";
+
+    return rtbo_send_mail(
+        implode(', ', $recipients),
+        'New RefZone University enrollment - ' . $name,
+        $body,
+        rtbo_plain_email_headers($email)
+    );
+}
+
+function send_super_admin_document_returned_email(string $documentType, array $document): bool
+{
+    $recipients = rtbo_super_admin_recipients();
+    if ($recipients === []) {
+        return false;
+    }
+
+    $documentType = trim($documentType) !== '' ? trim($documentType) : 'Document';
+    $name = trim((string) ($document['clientName'] ?? $document['recordName'] ?? $document['name'] ?? $document['agreementNumber'] ?? 'Document signer'));
+    $signer = trim((string) ($document['clientSigner'] ?? $document['signatureName'] ?? $document['name'] ?? $name));
+    $email = rtbo_safe_header_email((string) ($document['contactEmail'] ?? $document['requesterEmail'] ?? ''));
+    $identifier = trim((string) ($document['agreementNumber'] ?? $document['formNumber'] ?? $document['id'] ?? ''));
+    $signedAt = trim((string) ($document['clientSignedAt'] ?? $document['signatureDate'] ?? $document['updatedAt'] ?? date('c')));
+
+    $body = "{$documentType} has been digitally signed and returned for execution.\n\n";
+    $body .= "Document: " . ($identifier !== '' ? $identifier : 'Not provided') . "\n";
+    $body .= "Name: {$name}\n";
+    $body .= "Signer: {$signer}\n";
+    $body .= "Email: " . ($email !== '' ? $email : 'Not provided') . "\n";
+    $body .= "Signed / Returned: {$signedAt}\n\n";
+    $body .= "Review the returned document in the Command Center.";
+
+    return rtbo_send_mail(
+        implode(', ', $recipients),
+        "{$documentType} signed and returned - {$name}",
+        $body,
+        rtbo_plain_email_headers($email)
+    );
+}
+
+function send_super_admin_store_purchase_email(array $order, string $pdfPath = ''): bool
+{
+    $recipients = rtbo_super_admin_recipients();
+    if ($recipients === []) {
+        return false;
+    }
+
+    $customer = is_array($order['customer'] ?? null) ? $order['customer'] : [];
+    $customerName = trim((string) ($customer['first_name'] ?? '') . ' ' . (string) ($customer['last_name'] ?? ''));
+    $customerName = $customerName !== '' ? $customerName : 'Store customer';
+    $customerEmail = rtbo_safe_header_email((string) ($customer['email'] ?? $order['customer_email'] ?? ''));
+    $items = is_array($order['items'] ?? null) ? $order['items'] : [];
+    $itemLines = [];
+    foreach ($items as $item) {
+        if (!is_array($item)) {
+            continue;
+        }
+        $lineTotal = number_format(((int) ($item['line_total_cents'] ?? 0)) / 100, 2);
+        $itemLines[] = '- ' . (int) ($item['quantity'] ?? 1) . ' x ' . (string) ($item['name'] ?? $item['sku'] ?? 'Item') . " (\${$lineTotal})";
+    }
+    $total = number_format(((int) ($order['total_cents'] ?? 0)) / 100, 2);
+
+    $body = "A purchase was made in the RTBO e-commerce shop.\n\n";
+    $body .= "Order ID: " . (string) ($order['id'] ?? '') . "\n";
+    $body .= "Customer: {$customerName}\n";
+    $body .= "Email: " . ($customerEmail !== '' ? $customerEmail : 'Not provided') . "\n";
+    $body .= "Total: \${$total}\n";
+    $body .= "Payment Provider: " . strtoupper((string) ($order['payment_provider'] ?? $order['gateway_provider'] ?? '')) . "\n";
+    $body .= "Status: " . (string) ($order['status'] ?? 'paid') . "\n\n";
+    $body .= "Items Purchased:\n" . ($itemLines !== [] ? implode("\n", $itemLines) : 'No item details were available.') . "\n";
+
+    if ($pdfPath !== '' && is_file($pdfPath)) {
+        return rtbo_mail_with_pdf(
+            $recipients,
+            'RTBO shop purchase - ' . (string) ($order['id'] ?? 'Order'),
+            $body,
+            $pdfPath,
+            $customerEmail
+        );
+    }
+
+    return rtbo_send_mail(
+        implode(', ', $recipients),
+        'RTBO shop purchase - ' . (string) ($order['id'] ?? 'Order'),
+        $body,
+        rtbo_plain_email_headers($customerEmail)
+    );
 }
 
 function rtbo_mail_attachment_payloads(array $attachments): array
@@ -713,15 +1037,14 @@ function send_member_invitation_email(array $member, string $temporaryPassword =
 
     $name = trim((string) ($member['name'] ?? (($member['first_name'] ?? '') . ' ' . ($member['last_name'] ?? ''))));
     $name = $name !== '' ? $name : 'Official';
-    $loginUrl = env_value('RTBO_SITE_URL', 'https://rtbofficiating.com');
-    $loginUrl = rtrim($loginUrl, '/') . '/';
+    $loginUrl = rtbo_site_login_url();
 
     $body = "Hello {$name},\n\n";
     $body .= "You have been added to the Raising The Bar Officiating site.\n\n";
     $body .= "Your account is currently inactive until you sign in, update your password, and complete your profile. ";
     $body .= "Once your profile is saved with the required information, your status will change to active and you will be ready to receive game assignments.\n\n";
     $body .= "Sign in here: {$loginUrl}\n";
-    $body .= "Email: {$email}\n";
+    $body .= "Username: {$email}\n";
     if ($temporaryPassword !== '') {
         $body .= "Temporary Password: {$temporaryPassword}\n";
     }

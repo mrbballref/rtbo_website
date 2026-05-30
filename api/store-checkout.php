@@ -71,7 +71,32 @@ function rtbo_store_storage_path(): string
     return STORAGE_DIR . '/store-orders.json';
 }
 
-function rtbo_store_read_orders(): array
+function rtbo_store_ensure_orders_table(): void
+{
+    db()->exec(
+        "CREATE TABLE IF NOT EXISTS store_orders (
+            id VARCHAR(120) PRIMARY KEY,
+            customer_email VARCHAR(190) NULL,
+            status VARCHAR(60) NOT NULL DEFAULT 'pending',
+            total_cents INT NOT NULL DEFAULT 0,
+            payload LONGTEXT NOT NULL,
+            created_at DATETIME NOT NULL,
+            updated_at DATETIME NULL,
+            INDEX idx_store_orders_customer (customer_email),
+            INDEX idx_store_orders_status (status),
+            INDEX idx_store_orders_created (created_at)
+        )"
+    );
+}
+
+function rtbo_store_order_from_row(array $row): array
+{
+    $payload = json_decode((string) ($row['payload'] ?? ''), true);
+
+    return is_array($payload) ? $payload : [];
+}
+
+function rtbo_store_read_file_orders(): array
 {
     $path = rtbo_store_storage_path();
     if (!is_file($path)) {
@@ -83,13 +108,50 @@ function rtbo_store_read_orders(): array
     return is_array($orders) ? $orders : [];
 }
 
+function rtbo_store_read_orders(): array
+{
+    rtbo_store_ensure_orders_table();
+    $stmt = db()->query('SELECT payload FROM store_orders ORDER BY created_at DESC');
+    $orders = array_values(array_filter(array_map('rtbo_store_order_from_row', $stmt->fetchAll())));
+
+    if ($orders === []) {
+        $legacyOrders = rtbo_store_read_file_orders();
+        if ($legacyOrders !== []) {
+            rtbo_store_write_orders($legacyOrders);
+            return $legacyOrders;
+        }
+    }
+
+    return $orders;
+}
+
 function rtbo_store_write_orders(array $orders): void
 {
-    file_put_contents(
-        rtbo_store_storage_path(),
-        json_encode(array_values($orders), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
-        LOCK_EX
-    );
+    rtbo_store_ensure_orders_table();
+    foreach (array_values($orders) as $order) {
+        if (!is_array($order) || (string) ($order['id'] ?? '') === '') {
+            continue;
+        }
+        $stmt = db()->prepare(
+            "INSERT INTO store_orders(id, customer_email, status, total_cents, payload, created_at, updated_at)
+             VALUES(?, ?, ?, ?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE
+                customer_email = VALUES(customer_email),
+                status = VALUES(status),
+                total_cents = VALUES(total_cents),
+                payload = VALUES(payload),
+                updated_at = VALUES(updated_at)"
+        );
+        $stmt->execute([
+            (string) $order['id'],
+            strtolower((string) ($order['customer']['email'] ?? $order['email'] ?? '')),
+            (string) ($order['status'] ?? 'pending'),
+            (int) ($order['total_cents'] ?? $order['totalCents'] ?? 0),
+            json_encode($order, JSON_UNESCAPED_SLASHES),
+            date('Y-m-d H:i:s', strtotime((string) ($order['created_at'] ?? 'now')) ?: time()),
+            isset($order['updated_at']) ? date('Y-m-d H:i:s', strtotime((string) $order['updated_at']) ?: time()) : null,
+        ]);
+    }
 }
 
 function rtbo_store_save_order(array $order): void
@@ -102,13 +164,18 @@ function rtbo_store_save_order(array $order): void
 function rtbo_store_update_order(string $orderId, array $updates): void
 {
     $orders = rtbo_store_read_orders();
+    $updated = false;
     foreach ($orders as &$order) {
         if (($order['id'] ?? '') === $orderId) {
             $order = array_merge($order, $updates, ['updated_at' => gmdate('c')]);
+            $updated = true;
             break;
         }
     }
     unset($order);
+    if (!$updated) {
+        return;
+    }
     rtbo_store_write_orders($orders);
 }
 

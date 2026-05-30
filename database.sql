@@ -21,10 +21,20 @@ CREATE TABLE IF NOT EXISTS users (
   conferences TEXT,
   experience TEXT,
   official_rank INT NULL,
+  official_classification VARCHAR(80) NULL,
   password_hash VARCHAR(255) NOT NULL,
+  password_is_temporary TINYINT(1) NOT NULL DEFAULT 0,
+  temporary_password_created_at DATETIME NULL,
+  password_changed_at DATETIME NULL,
+  last_login_at DATETIME NULL,
+  registered_at DATETIME NULL,
+  registration_confirmation_sent_at DATETIME NULL,
+  profile_completed_at DATETIME NULL,
+  profile_completion_notified_at DATETIME NULL,
   profile_photo VARCHAR(255),
   status VARCHAR(50) NOT NULL DEFAULT 'active',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NULL
 );
 
 CREATE TABLE IF NOT EXISTS password_resets (
@@ -134,6 +144,21 @@ CREATE TABLE IF NOT EXISTS assignments (
   INDEX idx_assignments_position (position_id)
 );
 
+CREATE TABLE IF NOT EXISTS assignment_schedule_reviews (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  official_id INT NOT NULL,
+  official_name VARCHAR(190) NULL,
+  assignment_count INT NOT NULL DEFAULT 0,
+  accepted_assignment_count INT NOT NULL DEFAULT 0,
+  reviewed_at DATETIME NOT NULL,
+  ip_address VARCHAR(80) NULL,
+  user_agent VARCHAR(500) NULL,
+  metadata JSON NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_schedule_reviews_official (official_id),
+  INDEX idx_schedule_reviews_reviewed (reviewed_at)
+);
+
 CREATE TABLE IF NOT EXISTS tba_requests (
   id INT AUTO_INCREMENT PRIMARY KEY,
   game_id INT NOT NULL,
@@ -192,6 +217,26 @@ CREATE TABLE IF NOT EXISTS sms_notifications (
   INDEX idx_sms_notifications_user (target_user_id),
   INDEX idx_sms_notifications_status (status),
   INDEX idx_sms_notifications_created (created_at)
+);
+
+CREATE TABLE IF NOT EXISTS user_login_sessions (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  user_email VARCHAR(190) NULL,
+  user_name VARCHAR(190) NULL,
+  session_token_hash CHAR(64) NULL,
+  login_at DATETIME NOT NULL,
+  logout_at DATETIME NULL,
+  duration_seconds INT NULL,
+  ip_address VARCHAR(80) NULL,
+  user_agent VARCHAR(500) NULL,
+  status VARCHAR(40) NOT NULL DEFAULT 'active',
+  metadata JSON NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NULL,
+  INDEX idx_login_sessions_user (user_id),
+  INDEX idx_login_sessions_status (status),
+  INDEX idx_login_sessions_login (login_at)
 );
 
 CREATE TABLE IF NOT EXISTS member_geo_locations (
@@ -449,6 +494,19 @@ CREATE TABLE IF NOT EXISTS refzone_enrollments (
   INDEX idx_refzone_enrollments_course (course_id),
   INDEX idx_refzone_enrollments_status (payment_status),
   INDEX idx_refzone_enrollments_submitted (submitted_at)
+);
+
+CREATE TABLE IF NOT EXISTS store_orders (
+  id VARCHAR(120) PRIMARY KEY,
+  customer_email VARCHAR(190) NULL,
+  status VARCHAR(60) NOT NULL DEFAULT 'pending',
+  total_cents INT NOT NULL DEFAULT 0,
+  payload LONGTEXT NOT NULL,
+  created_at DATETIME NOT NULL,
+  updated_at DATETIME NULL,
+  INDEX idx_store_orders_customer (customer_email),
+  INDEX idx_store_orders_status (status),
+  INDEX idx_store_orders_created (created_at)
 );
 
 CREATE TABLE IF NOT EXISTS dashboard_records (

@@ -253,8 +253,11 @@ function admin_member_create(array $member): array
         }
         $normalized['id'] = (int) (max(array_map(static fn ($row) => (int) ($row['id'] ?? 0), $members ?: [['id' => 0]])) + 1);
         $normalized['created_at'] = date('c');
+        $normalized['registered_at'] = date('c');
         $stored = $normalized;
         $stored['password_hash'] = password_hash($password, PASSWORD_DEFAULT);
+        $stored['password_is_temporary'] = true;
+        $stored['temporary_password_created_at'] = date('c');
         $members[] = $stored;
         admin_member_write_file($members);
         try {
@@ -266,8 +269,8 @@ function admin_member_create(array $member): array
     }
 
     $stmt = db()->prepare(
-        "INSERT INTO users(role, member_title, first_name, last_name, email, phone, sex, race, organization, school_id, address_line1, address_line2, city, state, zip, conferences, experience, official_rank, official_classification, password_hash, status)
-         VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        "INSERT INTO users(role, member_title, first_name, last_name, email, phone, sex, race, organization, school_id, address_line1, address_line2, city, state, zip, conferences, experience, official_rank, official_classification, password_hash, password_is_temporary, temporary_password_created_at, status, registered_at, updated_at)
+         VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, NOW(), ?, NOW(), NOW())"
     );
     $stmt->execute([
         $normalized['role'],
@@ -293,11 +296,14 @@ function admin_member_create(array $member): array
         $normalized['status'],
     ]);
 
+    $newId = (int) db()->lastInsertId();
     $fresh = db()->prepare('SELECT * FROM users WHERE id = ? LIMIT 1');
-    $fresh->execute([(int) db()->lastInsertId()]);
+    $fresh->execute([$newId]);
     $created = admin_member_normalize($fresh->fetch() ?: []);
     try {
-        send_member_invitation_email($created, $password);
+        if (send_member_invitation_email($created, $password)) {
+            db()->prepare('UPDATE users SET registration_confirmation_sent_at = NOW(), updated_at = NOW() WHERE id = ?')->execute([$newId]);
+        }
     } catch (Throwable $error) {
         error_log('RTBO member invitation email failed: ' . $error->getMessage());
     }
@@ -318,6 +324,9 @@ function admin_member_update(int $id, array $member): array
                 $members[$index] = [...$existing, ...$normalized, 'id' => $id];
                 if (trim((string) ($member['password'] ?? '')) !== '') {
                     $members[$index]['password_hash'] = password_hash((string) $member['password'], PASSWORD_DEFAULT);
+                    $members[$index]['password_is_temporary'] = true;
+                    $members[$index]['temporary_password_created_at'] = date('c');
+                    $members[$index]['password_changed_at'] = '';
                 }
                 admin_member_write_file($members);
                 return admin_member_normalize($members[$index]);
@@ -358,14 +367,14 @@ function admin_member_update(int $id, array $member): array
     ];
     $passwordSql = '';
     if (trim((string) ($member['password'] ?? '')) !== '') {
-        $passwordSql = ', password_hash = ?';
+        $passwordSql = ', password_hash = ?, password_is_temporary = 1, temporary_password_created_at = NOW(), password_changed_at = NULL';
         $params[] = password_hash((string) $member['password'], PASSWORD_DEFAULT);
     }
     $params[] = $id;
 
     $stmt = db()->prepare(
         "UPDATE users
-         SET role = ?, member_title = ?, first_name = ?, last_name = ?, email = ?, phone = ?, sex = ?, race = ?, organization = ?, school_id = ?, address_line1 = ?, address_line2 = ?, city = ?, state = ?, zip = ?, conferences = ?, experience = ?, official_rank = ?, official_classification = ?, status = ?{$passwordSql}
+         SET role = ?, member_title = ?, first_name = ?, last_name = ?, email = ?, phone = ?, sex = ?, race = ?, organization = ?, school_id = ?, address_line1 = ?, address_line2 = ?, city = ?, state = ?, zip = ?, conferences = ?, experience = ?, official_rank = ?, official_classification = ?, status = ?, updated_at = NOW(){$passwordSql}
          WHERE id = ?"
     );
     $stmt->execute($params);

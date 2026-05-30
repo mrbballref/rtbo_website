@@ -78,6 +78,10 @@ Every page and dashboard section must preserve its current URL route on browser 
 
 Every RefZone University course, week, and day must expose a test-bank record with 25 questions, a declared 85% passing score, and 25 answer-key entries linked to the command-center answer-key documents. This rule is enforced by `npm run audit:refzone-tests`, `npm run audit:source`, and CI.
 
+## Mandatory Notification And PDF Rule
+
+Every production feature that creates, updates, signs, submits, purchases, logs in, logs out, or reviews protected information must write to its database table and create the required Super Admin notification. Admin notifications dispatch SMS through the shared notification pipeline when Twilio is configured. Plain operational emails automatically attach a professional RTBO notice PDF, and document/form/payment emails must attach their specific professional PDF artifact, such as registration profiles, invoices, contracts, W-9 forms, contact/request forms, and store order receipts. This rule is enforced by `npm run audit:source` and `npm run audit:production`.
+
 ## Production Deployment
 
 1. Build the React site:

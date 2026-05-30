@@ -1,6 +1,10 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/feature-store.php';
+
+const RTBO_SHOP_INVENTORY_STORE_TABLE = 'shop_inventory_store';
+
 function rtbo_shop_inventory_path(): string
 {
     ensure_dir(STORAGE_DIR);
@@ -18,6 +22,22 @@ function rtbo_shop_inventory_empty(): array
 }
 
 function rtbo_shop_inventory_load(): array
+{
+    $data = rtbo_feature_store_load(RTBO_SHOP_INVENTORY_STORE_TABLE);
+    if (!is_array($data)) {
+        $data = rtbo_shop_inventory_load_file();
+        rtbo_shop_inventory_save_data($data);
+    }
+
+    $empty = rtbo_shop_inventory_empty();
+    $data['products'] = is_array($data['products'] ?? null) ? $data['products'] : $empty['products'];
+    $data['audit'] = is_array($data['audit'] ?? null) ? $data['audit'] : $empty['audit'];
+    $data['updated_at'] = $data['updated_at'] ?? null;
+
+    return $data;
+}
+
+function rtbo_shop_inventory_load_file(): array
 {
     $path = rtbo_shop_inventory_path();
     if (!is_file($path)) {
@@ -39,11 +59,7 @@ function rtbo_shop_inventory_load(): array
 
 function rtbo_shop_inventory_save_data(array $data): void
 {
-    file_put_contents(
-        rtbo_shop_inventory_path(),
-        json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
-        LOCK_EX
-    );
+    rtbo_feature_store_save(RTBO_SHOP_INVENTORY_STORE_TABLE, $data);
 }
 
 function rtbo_shop_inventory_text(mixed $value, int $maxLength = 500): string

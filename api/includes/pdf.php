@@ -157,6 +157,284 @@ function pdf_wrap(string $text, int $characters = 78): array
     return explode("\n", wordwrap($text, $characters, "\n", true));
 }
 
+function rtbo_pdf_sanitize_file_part(string $value, string $fallback = 'rtbo-document'): string
+{
+    $value = strtolower(trim((string) preg_replace('/[^A-Za-z0-9._-]+/', '-', $value), '-._'));
+
+    return $value !== '' ? substr($value, 0, 80) : $fallback;
+}
+
+function rtbo_pdf_write_pages(array $pages, string $path, array $images = []): string
+{
+    ensure_dir(dirname($path));
+    if ($pages === []) {
+        $pages = [pdf_rect(0, 0, 612, 792, '1 1 1')];
+    }
+
+    $objects = [
+        "1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj",
+        "3 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj",
+        "4 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>\nendobj",
+        "5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /ZapfChancery-MediumItalic >>\nendobj",
+    ];
+
+    $nextObject = 6;
+    $xObjects = [];
+    foreach ($images as $name => $image) {
+        if (!is_array($image) || empty($image['data']) || empty($image['width']) || empty($image['height'])) {
+            continue;
+        }
+        $safeName = preg_replace('/[^A-Za-z0-9]+/', '', (string) $name) ?: 'Image';
+        $imageObject = $nextObject++;
+        $xObjects[] = "/{$safeName} {$imageObject} 0 R";
+        $objects[] = "{$imageObject} 0 obj\n<< /Type /XObject /Subtype /Image /Width " . (int) $image['width'] . " /Height " . (int) $image['height'] . " /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length " . strlen((string) $image['data']) . " >>\nstream\n" . (string) $image['data'] . "\nendstream\nendobj";
+    }
+    $xObjectResources = $xObjects !== [] ? " /XObject << " . implode(' ', $xObjects) . " >>" : '';
+
+    $pageRefs = [];
+    foreach ($pages as $content) {
+        $pageObject = $nextObject++;
+        $contentObject = $nextObject++;
+        $pageRefs[] = "{$pageObject} 0 R";
+        $objects[] = "{$pageObject} 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >>{$xObjectResources} >> /Contents {$contentObject} 0 R >>\nendobj";
+        $objects[] = "{$contentObject} 0 obj\n<< /Length " . strlen((string) $content) . " >>\nstream\n{$content}\nendstream\nendobj";
+    }
+
+    array_splice(
+        $objects,
+        1,
+        0,
+        "2 0 obj\n<< /Type /Pages /Kids [" . implode(' ', $pageRefs) . "] /Count " . count($pages) . " >>\nendobj"
+    );
+
+    usort($objects, static function (string $a, string $b): int {
+        preg_match('/^(\d+)/', $a, $left);
+        preg_match('/^(\d+)/', $b, $right);
+        return ((int) ($left[1] ?? 0)) <=> ((int) ($right[1] ?? 0));
+    });
+
+    $pdf = "%PDF-1.4\n";
+    $offsets = [0];
+    foreach ($objects as $object) {
+        preg_match('/^(\d+)/', $object, $match);
+        $offsets[(int) $match[1]] = strlen($pdf);
+        $pdf .= $object . "\n";
+    }
+
+    $maxObject = max(array_keys($offsets));
+    $xref = strlen($pdf);
+    $pdf .= "xref\n0 " . ($maxObject + 1) . "\n0000000000 65535 f \n";
+    for ($i = 1; $i <= $maxObject; $i++) {
+        $pdf .= str_pad((string) ($offsets[$i] ?? 0), 10, '0', STR_PAD_LEFT) . " 00000 n \n";
+    }
+    $pdf .= "trailer\n<< /Size " . ($maxObject + 1) . " /Root 1 0 R >>\nstartxref\n{$xref}\n%%EOF";
+
+    file_put_contents($path, $pdf, LOCK_EX);
+
+    return $path;
+}
+
+function build_email_notice_pdf(string $subject, string $message, array $context = []): string
+{
+    ensure_dir(PDF_DIR);
+
+    $logoPath = dirname(__DIR__, 2) . '/frontend/public/assets/images/logo.png';
+    $logoImage = pdf_image_data_as_jpeg($logoPath);
+    $pages = [];
+    $page = [];
+    $y = 650;
+
+    $addHeader = static function () use (&$page, $logoImage, $subject): void {
+        $page[] = pdf_rect(0, 0, 612, 792, '1 1 1');
+        $page[] = pdf_rect(0, 672, 612, 120, '0.031 0.039 0.059');
+        $page[] = pdf_rect(0, 672, 612, 8, '0.976 0.451 0.086');
+        if ($logoImage !== null) {
+            $page[] = pdf_image_command('Logo', 48, 704, 60, 60);
+        }
+        $page[] = pdf_text(RTBO_COMPANY_NAME, 124, 744, 20, 'F2', '1 1 1');
+        $page[] = pdf_text('Professional Email Notice', 124, 720, 15, 'F2', '0.976 0.451 0.086');
+        foreach (array_slice(pdf_wrap($subject, 68), 0, 2) as $index => $line) {
+            $page[] = pdf_text($line, 124, 698 - ($index * 13), 10, 'F1', '0.86 0.88 0.91');
+        }
+    };
+
+    $newPage = static function () use (&$pages, &$page, &$y, $addHeader): void {
+        if ($page !== []) {
+            $pages[] = implode("\n", $page);
+        }
+        $page = [];
+        $y = 650;
+        $addHeader();
+    };
+
+    $ensureSpace = static function (float $height) use (&$y, $newPage): void {
+        if ($y - $height < 54) {
+            $newPage();
+        }
+    };
+
+    $field = static function (string $label, string $value, int $wrap = 88) use (&$page, &$y, $ensureSpace): void {
+        $lines = pdf_wrap($value, $wrap);
+        $ensureSpace(24 + (count($lines) * 13));
+        $page[] = pdf_text($label, 54, $y, 9, 'F2', '0.55 0.20 0.05');
+        $y -= 16;
+        foreach ($lines as $line) {
+            $page[] = pdf_text($line, 72, $y, 10, 'F1', '0.07 0.08 0.10');
+            $y -= 13;
+        }
+        $y -= 8;
+    };
+
+    $addHeader();
+    $field('Subject', $subject, 86);
+    $field('Generated', (string) ($context['generated_at'] ?? date('M j, Y g:i A')), 86);
+    if (!empty($context['delivery_context'])) {
+        $field('Delivery Context', (string) $context['delivery_context'], 86);
+    }
+
+    $page[] = pdf_text('EMAIL MESSAGE', 54, $y, 11, 'F2', '0.976 0.451 0.086');
+    $page[] = pdf_line(54, $y - 8, 558, $y - 8, '0.976 0.451 0.086');
+    $y -= 28;
+    foreach (preg_split('/\r\n|\r|\n/', trim($message)) ?: [] as $paragraph) {
+        $paragraph = trim($paragraph);
+        if ($paragraph === '') {
+            $y -= 8;
+            continue;
+        }
+        foreach (pdf_wrap($paragraph, 92) as $line) {
+            $ensureSpace(18);
+            $page[] = pdf_text($line, 54, $y, 10, 'F1', '0.07 0.08 0.10');
+            $y -= 13;
+        }
+        $y -= 7;
+    }
+
+    $pages[] = implode("\n", $page);
+    $hash = substr(hash('sha256', $subject . "\0" . $message . "\0" . microtime(true)), 0, 10);
+
+    return rtbo_pdf_write_pages(
+        $pages,
+        PDF_DIR . '/email_notice_' . date('Ymd_His') . '_' . $hash . '.pdf',
+        $logoImage !== null ? ['Logo' => $logoImage] : []
+    );
+}
+
+function build_store_order_receipt_pdf(array $order): string
+{
+    ensure_dir(PDF_DIR);
+
+    $logoPath = dirname(__DIR__, 2) . '/frontend/public/assets/images/logo.png';
+    $logoImage = pdf_image_data_as_jpeg($logoPath);
+    $customer = is_array($order['customer'] ?? null) ? $order['customer'] : [];
+    $customerName = trim((string) ($customer['first_name'] ?? '') . ' ' . (string) ($customer['last_name'] ?? ''));
+    $customerName = $customerName !== '' ? $customerName : 'Store customer';
+    $orderId = pdf_value((string) ($order['id'] ?? 'RTBO Store Order'));
+    $items = is_array($order['items'] ?? null) ? $order['items'] : [];
+    $pages = [];
+    $page = [];
+    $y = 650;
+
+    $addHeader = static function () use (&$page, $logoImage, $orderId): void {
+        $page[] = pdf_rect(0, 0, 612, 792, '1 1 1');
+        $page[] = pdf_rect(0, 672, 612, 120, '0.031 0.039 0.059');
+        $page[] = pdf_rect(0, 672, 612, 8, '0.976 0.451 0.086');
+        if ($logoImage !== null) {
+            $page[] = pdf_image_command('Logo', 48, 704, 60, 60);
+        }
+        $page[] = pdf_text(RTBO_COMPANY_NAME, 124, 744, 20, 'F2', '1 1 1');
+        $page[] = pdf_text('Professional Store Purchase Receipt', 124, 720, 15, 'F2', '0.976 0.451 0.086');
+        $page[] = pdf_text('Order ' . $orderId, 124, 698, 10, 'F1', '0.86 0.88 0.91');
+    };
+
+    $newPage = static function () use (&$pages, &$page, &$y, $addHeader): void {
+        if ($page !== []) {
+            $pages[] = implode("\n", $page);
+        }
+        $page = [];
+        $y = 650;
+        $addHeader();
+    };
+
+    $ensureSpace = static function (float $height) use (&$y, $newPage): void {
+        if ($y - $height < 54) {
+            $newPage();
+        }
+    };
+
+    $field = static function (string $label, string $value) use (&$page, &$y, $ensureSpace): void {
+        $lines = pdf_wrap($value, 78);
+        $ensureSpace(22 + (count($lines) * 13));
+        $page[] = pdf_text($label, 54, $y, 9, 'F2', '0.23 0.25 0.30');
+        $y -= 15;
+        foreach ($lines as $line) {
+            $page[] = pdf_text($line, 72, $y, 10, 'F1', '0.07 0.08 0.10');
+            $y -= 13;
+        }
+        $y -= 7;
+    };
+
+    $money = static fn (int $cents): string => '$' . number_format($cents / 100, 2);
+
+    $addHeader();
+    $field('Customer', $customerName);
+    $field('Email', pdf_value((string) ($customer['email'] ?? $order['customer_email'] ?? '')));
+    $field('Phone', pdf_value((string) ($customer['phone'] ?? '')));
+    $field('Shipping Address', trim(implode(', ', array_filter([
+        (string) ($customer['address'] ?? ''),
+        (string) ($customer['address2'] ?? ''),
+        trim((string) ($customer['city'] ?? '') . ', ' . (string) ($customer['state'] ?? '') . ' ' . (string) ($customer['zip'] ?? '')),
+    ]))));
+    $field('Payment Provider', strtoupper((string) ($order['payment_provider'] ?? $order['gateway_provider'] ?? '')));
+    $field('Payment Status', (string) ($order['status'] ?? 'paid'));
+    $field('Paid', pdf_date((string) ($order['paid_at'] ?? date('c'))));
+
+    $ensureSpace(54);
+    $page[] = pdf_text('ITEMS PURCHASED', 54, $y, 11, 'F2', '0.976 0.451 0.086');
+    $page[] = pdf_line(54, $y - 8, 558, $y - 8, '0.976 0.451 0.086');
+    $y -= 30;
+    foreach ($items as $item) {
+        if (!is_array($item)) {
+            continue;
+        }
+        $details = array_values(array_filter([
+            (string) ($item['size'] ?? ''),
+            (string) ($item['color'] ?? ''),
+        ]));
+        $name = (string) ($item['name'] ?? $item['sku'] ?? 'Store item');
+        if ($details !== []) {
+            $name .= ' (' . implode(' / ', $details) . ')';
+        }
+        $ensureSpace(28);
+        $page[] = pdf_text((string) ((int) ($item['quantity'] ?? 1)) . ' x ' . $name, 54, $y, 10, 'F2', '0.07 0.08 0.10');
+        $page[] = pdf_text($money((int) ($item['line_total_cents'] ?? 0)), 480, $y, 10, 'F2', '0.07 0.08 0.10');
+        $y -= 19;
+    }
+
+    $ensureSpace(88);
+    $page[] = pdf_line(344, $y, 558, $y, '0.23 0.25 0.30', 0.6);
+    $y -= 20;
+    foreach ([
+        'Subtotal' => (int) ($order['subtotal_cents'] ?? 0),
+        'Shipping' => (int) ($order['shipping_cents'] ?? 0),
+        'Estimated Tax' => (int) ($order['tax_cents'] ?? 0),
+        'Total Paid' => (int) ($order['total_cents'] ?? 0),
+    ] as $label => $cents) {
+        $font = $label === 'Total Paid' ? 'F2' : 'F1';
+        $size = $label === 'Total Paid' ? 13 : 10;
+        $page[] = pdf_text($label, 358, $y, $size, $font, '0.07 0.08 0.10');
+        $page[] = pdf_text($money($cents), 480, $y, $size, $font, $label === 'Total Paid' ? '0.976 0.451 0.086' : '0.07 0.08 0.10');
+        $y -= 18;
+    }
+
+    $pages[] = implode("\n", $page);
+
+    return rtbo_pdf_write_pages(
+        $pages,
+        PDF_DIR . '/store_order_' . rtbo_pdf_sanitize_file_part($orderId, 'store-order') . '.pdf',
+        $logoImage !== null ? ['Logo' => $logoImage] : []
+    );
+}
+
 function build_registration_pdf(array $registration): string
 {
     ensure_dir(PDF_DIR);

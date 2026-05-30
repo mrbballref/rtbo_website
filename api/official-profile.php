@@ -8,6 +8,7 @@ require_once __DIR__ . '/includes/admin-schools.php';
 require_once __DIR__ . '/includes/admin-games.php';
 require_once __DIR__ . '/includes/geo.php';
 require_once __DIR__ . '/includes/notifications.php';
+require_once __DIR__ . '/includes/schedule-review.php';
 
 header('Content-Type: application/json');
 
@@ -961,11 +962,16 @@ if (!$user) {
 
 $publicUser = public_auth_user($user);
 $officialId = (int) $publicUser['id'];
+$assignments = $officialId > 0 ? rtbo_official_assignments($officialId) : [];
+
+if ($officialId > 0 && (int) (current_user()['id'] ?? 0) === $officialId) {
+    rtbo_record_accepted_schedule_review($publicUser, $assignments);
+}
 
 echo json_encode([
     'success' => true,
     'user' => $publicUser,
-    'assignments' => $officialId > 0 ? rtbo_official_assignments($officialId) : [],
+    'assignments' => $assignments,
     'tba_games' => $officialId > 0 ? admin_game_tba_open_games_for_official($officialId) : [],
     'availability' => $officialId > 0 ? rtbo_official_availability($officialId) : [],
     'game_reports' => $officialId > 0 ? rtbo_official_game_reports($officialId) : [],

@@ -66,7 +66,7 @@ const RTBO_REVIEW_STORAGE_KEY = 'rtbo-attendee-reviews';
 const SITE_CONTENT_KEY = 'rtbo-site-content-records';
 const SITE_CONTENT_UPDATED_EVENT = 'rtbo-site-content-updated';
 const HOME_CLIENT_SPOTLIGHT_CSS_ID = 'home-client-spotlight-css';
-const HOME_CLIENT_SPOTLIGHT_CSS_HREF = '/assets/css/home-client-spotlight.css?v=20260529-layout';
+const HOME_CLIENT_SPOTLIGHT_CSS_HREF = '/assets/css/home-client-spotlight.css?v=20260529-wide-player';
 
 function safeLocalStorageGet(key) {
   try {
@@ -442,19 +442,33 @@ function isMessageNotification(notification = {}) {
   return type.includes('message') || relatedType === 'message';
 }
 
-async function apiPost(endpoint, formData) {
-  const response = await fetch(`${API_URL}${endpoint}`, {
-    method: 'POST',
-    body: formData,
-    credentials: 'include'
-  });
-  const data = await response.json().catch(() => ({}));
+async function readApiJson(response) {
+  const body = await response.text();
+  let data = {};
+  if (body.trim() !== '') {
+    try {
+      data = JSON.parse(body);
+    } catch {
+      const error = new Error('The RTBO API did not return JSON. Confirm MAMP is routing /api requests to the PHP backend.');
+      error.status = response.status;
+      throw error;
+    }
+  }
   if (!response.ok || data.success === false) {
     const error = new Error(data.message || 'Request failed.');
     error.status = response.status;
     throw error;
   }
   return data;
+}
+
+async function apiPost(endpoint, formData) {
+  const response = await fetch(`${API_URL}${endpoint}`, {
+    method: 'POST',
+    body: formData,
+    credentials: 'include'
+  });
+  return readApiJson(response);
 }
 
 async function apiPostJson(endpoint, payload) {
@@ -464,24 +478,12 @@ async function apiPostJson(endpoint, payload) {
     body: JSON.stringify(payload),
     credentials: 'include'
   });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok || data.success === false) {
-    const error = new Error(data.message || 'Request failed.');
-    error.status = response.status;
-    throw error;
-  }
-  return data;
+  return readApiJson(response);
 }
 
 async function apiGet(endpoint) {
   const response = await fetch(`${API_URL}${endpoint}`, { credentials: 'include' });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok || data.success === false) {
-    const error = new Error(data.message || 'Request failed.');
-    error.status = response.status;
-    throw error;
-  }
-  return data;
+  return readApiJson(response);
 }
 
 function readStoredSiteContentRecords() {
@@ -737,9 +739,9 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
                 aria-haspopup="true"
                 onClick={() => openNavDropdown('livestream')}
               >
-                {label}<span className="nav-dropdown-caret" aria-hidden="true"></span>
+                The Lab<span className="nav-dropdown-caret" aria-hidden="true"></span>
               </button>
-              <div className="nav-dropdown-menu" aria-label="Live stream navigation">
+              <div className="nav-dropdown-menu" aria-label="The Lab navigation">
                 {liveStreamNavLinks.map(([childId, childLabel]) => (
                   <button className={active === childId ? 'active' : ''} key={childId} type="button" onClick={() => openNavDropdownPage(childId, 'livestream')}>{childLabel}</button>
                 ))}
@@ -829,7 +831,6 @@ function Home({ setActive, onOpenRegister }) {
       <HomeRefZoneUniversity setActive={setActive} />
       <HomeRefZoneMemberships setActive={setActive} />
       <HomeResultsFeature setActive={setActive} />
-      <GotUNexRefSection />
       <Services />
       <Contact />
     </>
@@ -1146,45 +1147,6 @@ function GotUNexRefSection() {
   );
 }
 
-function ServicesPlatformWorkflow() {
-  return (
-    <section className="services-platform-section" aria-labelledby="services-platform-title">
-      <div className="services-platform-head">
-        <p className="eyebrow">Platform</p>
-        <h2 id="services-platform-title">One system for the full assigning workflow.</h2>
-      </div>
-        <div className="platform-workflow-layout services-workflow-layout">
-          <div className="platform-image-frame platform-workflow-image services-workflow-image">
-          <img src={image('u-got-nex-ref-platform.png')} alt="Got U Nex Ref platform logo" />
-        </div>
-        <div className="platform-feature-grid platform-workflow-cards">
-          {platformCards.map(([icon, title, text]) => (
-            <article key={title}>
-              <img className="card-icon" src={image(icon)} alt="" />
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-      <div className="platform-flow-panel services-flow-panel">
-        <div>
-          <p className="eyebrow">Game Flow</p>
-          <h3>From schedule creation to final report.</h3>
-        </div>
-        <div className="platform-flow-grid">
-          {platformFlow.map((item, index) => (
-            <article key={item}>
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              <strong>{item}</strong>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function Director() {
   return (
     <section className="rtbo-section about-director-section director-home-section">
@@ -1438,27 +1400,41 @@ function Services() {
     ['feat_img_4.png', 'Leadership', 'Officials are challenged to model accountability, communicate clearly, serve crews well, and carry a standard of excellence on and off the court.']
   ];
   return (
-    <section className="rtbo-band services-page-section" id="development">
-      <div className="services-top-section">
+    <section className="rtbo-band services-page-section" id="services">
+      <div className="services-unified-head">
+        <p className="eyebrow">Service Model</p>
+        <h2>One standard for assigning, development, and game-day operations.</h2>
+        <p>RTBO combines professional referee assignments, U Got Nex Ref workflow tools, official development, leadership standards, and event reporting into one streamlined service model.</p>
+      </div>
+
+      <div className="services-unified-overview">
+        <a className="services-top-image" href="#services" aria-label="View RTBO services">
+          <img src={image('u-got-nex-ref-platform.png')} alt="Got U Nex Ref platform logo" />
+        </a>
         <div className="services-top-copy">
-          <p className="eyebrow">Service Model</p>
-          <h2>Officiating services under one standard.</h2>
           <div className="services-referee-copy">
             <h3>Complete Officiating Solutions</h3>
             <h4>Professional Referee Assignments</h4>
             <p>We provide highly qualified basketball officials for leagues, schools, tournaments, and special events. Every official is trained, evaluated, and prepared to perform with professionalism and consistency.</p>
           </div>
-          <p>RTBO supports schools, events, officials, and organizations with a complete officiating model built around preparation, accountability, communication, and service to the game.</p>
-          <div className="services-top-points">
-            <article><img className="card-icon" src={image('accountability_icon.png')} alt="" /><h3>Event Assigning</h3><p>Organized assignment support for schools, events, and team camps with clear communication and professional standards.</p></article>
-            <article><img className="card-icon" src={image('about_trng_icon.png')} alt="" /><h3>Official Development</h3><p>Training, court work, film review, feedback, and mentorship help officials grow beyond a single event.</p></article>
-            <article><img className="card-icon" src={image('committed_serving_icon.png')} alt="" /><h3>Leadership Standards</h3><p>Every service is rooted in accountability, preparation, and a commitment to serving the game the right way.</p></article>
+          <div className="platform-feature-grid platform-workflow-cards services-unified-platform-cards">
+            {platformCards.map(([icon, title, text]) => (
+              <article key={title}>
+                <img className="card-icon" src={image(icon)} alt="" />
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>
+            ))}
           </div>
         </div>
-        <a className="services-top-image" href="#services" aria-label="View RTBO services">
-          <img src={image('u-got-nex-ref-platform.png')} alt="Got U Nex Ref platform logo" />
-        </a>
       </div>
+
+      <div className="services-top-points">
+        <article><img className="card-icon" src={image('accountability_icon.png')} alt="" /><h3>Event Assigning</h3><p>Organized assignment support for schools, events, and team camps with clear communication and professional standards.</p></article>
+        <article><img className="card-icon" src={image('about_trng_icon.png')} alt="" /><h3>Official Development</h3><p>Training, court work, film review, feedback, and mentorship help officials grow beyond a single event.</p></article>
+        <article><img className="card-icon" src={image('committed_serving_icon.png')} alt="" /><h3>Leadership Standards</h3><p>Every service is rooted in accountability, preparation, and a commitment to serving the game the right way.</p></article>
+      </div>
+
       <div className="services-features-section">
         <div className="services-features-intro">
           <p className="eyebrow">Complete Officiating Solutions</p>
@@ -1477,7 +1453,21 @@ function Services() {
           ))}
         </div>
       </div>
-      <ServicesPlatformWorkflow />
+
+      <div className="platform-flow-panel services-flow-panel">
+        <div>
+          <p className="eyebrow">Game Flow</p>
+          <h3>From schedule creation to final report.</h3>
+        </div>
+        <div className="platform-flow-grid">
+          {platformFlow.map((item, index) => (
+            <article key={item}>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <strong>{item}</strong>
+            </article>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
@@ -4076,7 +4066,7 @@ function validateEmailAddress(value = '') {
 
 function validateAuthPassword(value = '') {
   const password = String(value || '');
-  return password.length >= 10 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /\d/.test(password) && /[^A-Za-z0-9]/.test(password);
+  return password.length >= 12 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /\d/.test(password) && /[^A-Za-z0-9]/.test(password);
 }
 
 function base64UrlToArrayBuffer(value = '') {
@@ -4203,7 +4193,7 @@ function AccountModal({ mode = 'login', resetToken = '', onClose, onLogin, onRes
     if (!account.last_name.trim()) errors.last_name = 'Enter your last name.';
     if (!validateEmailAddress(account.email)) errors.email = 'Enter a valid email address.';
     if (!/^\(\d{3}\) \d{3}-\d{4}$/.test(account.phone)) errors.phone = 'Enter a phone number as (xxx) xxx-xxxx.';
-    if (!validateAuthPassword(account.password)) errors.password = 'Use at least 10 characters with uppercase, lowercase, number, and special character.';
+    if (!validateAuthPassword(account.password)) errors.password = 'Use at least 12 characters with uppercase, lowercase, number, and special character.';
     if (account.confirm_password !== account.password) errors.confirm_password = 'Passwords must match.';
     return errors;
   }
@@ -4214,7 +4204,7 @@ function AccountModal({ mode = 'login', resetToken = '', onClose, onLogin, onRes
 
   function validateResetForm() {
     const errors = {};
-    if (!validateAuthPassword(resetPassword.new_password)) errors.new_password = 'Use at least 10 characters with uppercase, lowercase, number, and special character.';
+    if (!validateAuthPassword(resetPassword.new_password)) errors.new_password = 'Use at least 12 characters with uppercase, lowercase, number, and special character.';
     if (resetPassword.confirm_password !== resetPassword.new_password) errors.confirm_password = 'Passwords must match.';
     return errors;
   }
@@ -4415,7 +4405,7 @@ function AccountModal({ mode = 'login', resetToken = '', onClose, onLogin, onRes
   const modalViewClass = isSignup ? 'signup-view' : isRecovery ? 'forgot-view' : 'signin-view';
   const passwordHelp = (
     <div className="rtbo-auth-password-rules" aria-label="Password requirements">
-      <span className={account.password.length >= 10 ? 'met' : ''}>At least 10 characters</span>
+      <span className={account.password.length >= 12 ? 'met' : ''}>At least 12 characters</span>
       <span className={/[A-Z]/.test(account.password) ? 'met' : ''}>One uppercase letter</span>
       <span className={/\d/.test(account.password) ? 'met' : ''}>One number</span>
       <span className={/[^A-Za-z0-9]/.test(account.password) ? 'met' : ''}>One special character</span>
@@ -4469,8 +4459,8 @@ function AccountModal({ mode = 'login', resetToken = '', onClose, onLogin, onRes
                 <label>Phone Number<input type="tel" name="phone" value={account.phone} onChange={updateAccount} inputMode="tel" autoComplete="tel" maxLength="14" placeholder="(555) 123-4567" aria-invalid={Boolean(formErrors.phone)} required /><FieldError message={formErrors.phone} /></label>
               </div>
               <div className="grid two">
-                <PasswordField label="Password" name="password" value={account.password} onChange={updateAccount} minLength="10" autoComplete="new-password" aria-invalid={Boolean(formErrors.password)} error={formErrors.password} required />
-                <PasswordField label="Confirm Password" name="confirm_password" value={account.confirm_password} onChange={updateAccount} minLength="10" autoComplete="new-password" aria-invalid={Boolean(formErrors.confirm_password)} error={formErrors.confirm_password} required />
+                <PasswordField label="Password" name="password" value={account.password} onChange={updateAccount} minLength="12" autoComplete="new-password" aria-invalid={Boolean(formErrors.password)} error={formErrors.password} required />
+                <PasswordField label="Confirm Password" name="confirm_password" value={account.confirm_password} onChange={updateAccount} minLength="12" autoComplete="new-password" aria-invalid={Boolean(formErrors.confirm_password)} error={formErrors.confirm_password} required />
               </div>
               {passwordHelp}
               {status && <p className="form-message" role="status">{status}</p>}
@@ -4501,8 +4491,8 @@ function AccountModal({ mode = 'login', resetToken = '', onClose, onLogin, onRes
             </form>
           ) : activeMode === 'reset' ? (
             <form className="form rtbo-login-form" onSubmit={submitResetPassword} noValidate>
-              <PasswordField label="New Password" name="new_password" value={resetPassword.new_password} onChange={updateResetPassword} minLength="10" autoComplete="new-password" aria-invalid={Boolean(formErrors.new_password)} error={formErrors.new_password} required />
-              <PasswordField label="Confirm New Password" name="confirm_password" value={resetPassword.confirm_password} onChange={updateResetPassword} minLength="10" autoComplete="new-password" aria-invalid={Boolean(formErrors.confirm_password)} error={formErrors.confirm_password} required />
+              <PasswordField label="New Password" name="new_password" value={resetPassword.new_password} onChange={updateResetPassword} minLength="12" autoComplete="new-password" aria-invalid={Boolean(formErrors.new_password)} error={formErrors.new_password} required />
+              <PasswordField label="Confirm New Password" name="confirm_password" value={resetPassword.confirm_password} onChange={updateResetPassword} minLength="12" autoComplete="new-password" aria-invalid={Boolean(formErrors.confirm_password)} error={formErrors.confirm_password} required />
               {status && <p className="form-message" role="status">{status}</p>}
               <div className="button-row">
                 <button className="btn" type="submit" disabled={submitting}>{submitting ? 'Resetting...' : 'Reset Password'}</button>
@@ -4543,6 +4533,81 @@ function AccountModal({ mode = 'login', resetToken = '', onClose, onLogin, onRes
               </p>
             </form>
           )}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function TemporaryPasswordModal({ user, onComplete, onLogout }) {
+  const [form, setForm] = useState({ current_password: '', new_password: '', confirm_password: '' });
+  const [status, setStatus] = useState('');
+  const [errors, setErrors] = useState({});
+  const [saving, setSaving] = useState(false);
+
+  function update(event) {
+    const { name, value } = event.target;
+    setForm(current => ({ ...current, [name]: value }));
+    if (errors[name]) setErrors(current => ({ ...current, [name]: '' }));
+  }
+
+  function validate() {
+    const nextErrors = {};
+    if (!form.current_password) nextErrors.current_password = 'Enter the temporary password you used to sign in.';
+    if (!validateAuthPassword(form.new_password)) nextErrors.new_password = 'Use at least 12 characters with uppercase, lowercase, number, and special character.';
+    if (form.confirm_password !== form.new_password) nextErrors.confirm_password = 'Passwords must match.';
+    return nextErrors;
+  }
+
+  async function submit(event) {
+    event.preventDefault();
+    const nextErrors = validate();
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) {
+      setStatus('Please create a secure password before continuing.');
+      return;
+    }
+
+    setSaving(true);
+    setStatus('Saving new password...');
+    try {
+      const data = await apiPostJson('/password-change.php', form);
+      setForm({ current_password: '', new_password: '', confirm_password: '' });
+      onComplete(data.user || { ...user, mustChangePassword: false, password_is_temporary: false });
+    } catch (error) {
+      setStatus(error.message || 'Password could not be changed.');
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <div className="rtbo-modal-scrim rtbo-auth-modal-scrim rtbo-temp-password-scrim">
+      <section className="rtbo-account-modal signin-view rtbo-temp-password-modal" role="dialog" aria-modal="true" aria-labelledby="rtbo-temp-password-title">
+        <AuthShowcase activeMode="reset" />
+        <div className="rtbo-auth-form-panel">
+          <div className="rtbo-auth-heading">
+            <p className="eyebrow">Temporary Password</p>
+            <h2 id="rtbo-temp-password-title">Create Your New Password</h2>
+            <p>This account is signed in with a temporary password. Create a permanent password before using the Command Center.</p>
+          </div>
+          <form className="form rtbo-login-form" onSubmit={submit} noValidate>
+            <PasswordField label="Temporary Password" name="current_password" value={form.current_password} onChange={update} autoComplete="current-password" aria-invalid={Boolean(errors.current_password)} error={errors.current_password} required />
+            <PasswordField label="New Password" name="new_password" value={form.new_password} onChange={update} minLength="12" autoComplete="new-password" aria-invalid={Boolean(errors.new_password)} error={errors.new_password} required />
+            <PasswordField label="Confirm New Password" name="confirm_password" value={form.confirm_password} onChange={update} minLength="12" autoComplete="new-password" aria-invalid={Boolean(errors.confirm_password)} error={errors.confirm_password} required />
+            <div className="rtbo-auth-password-rules" aria-label="Password requirements">
+              <span className={form.new_password.length >= 12 ? 'met' : ''}>At least 12 characters</span>
+              <span className={/[A-Z]/.test(form.new_password) ? 'met' : ''}>One uppercase letter</span>
+              <span className={/[a-z]/.test(form.new_password) ? 'met' : ''}>One lowercase letter</span>
+              <span className={/\d/.test(form.new_password) ? 'met' : ''}>One number</span>
+              <span className={/[^A-Za-z0-9]/.test(form.new_password) ? 'met' : ''}>One special character</span>
+            </div>
+            {status && <p className="form-message" role="status">{status}</p>}
+            <div className="button-row">
+              <button className="btn rtbo-auth-primary-btn" type="submit" disabled={saving}>{saving ? 'Saving...' : 'Save Password'}</button>
+              <button className="btn secondary dark-btn" type="button" onClick={onLogout} disabled={saving}>Sign Out</button>
+            </div>
+          </form>
         </div>
       </section>
     </div>
@@ -10884,7 +10949,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
       window.removeEventListener('hashchange', syncDashboardHashSection);
       window.removeEventListener('popstate', syncDashboardHashSection);
     };
-  }, [activeSection, canUseAdminDashboard, user, canUseTaxCenter]);
+  }, [canUseAdminDashboard, canUseTaxCenter, user.email, user.id, user.role]);
 
   const [membersMenuOpen, setMembersMenuOpen] = useState(false);
   const [schedulesMenuOpen, setSchedulesMenuOpen] = useState(false);
@@ -14657,6 +14722,17 @@ function App() {
     setPostLoginTarget(null);
   }
 
+  function completeTemporaryPasswordChange(updatedUser) {
+    const nextUser = {
+      ...authUser,
+      ...updatedUser,
+      mustChangePassword: false,
+      password_is_temporary: false
+    };
+    localStorage.setItem(RTBO_AUTH_KEY, JSON.stringify(nextUser));
+    setAuthUser(nextUser);
+  }
+
   function openLogin() {
     setPostLoginTarget(null);
     setAccountModal('login');
@@ -14829,6 +14905,7 @@ function App() {
     return (
       <React.Suspense fallback={<main className="rtbo-dashboard-shell"><section className="rtbo-dashboard-card"><p className="rtbo-empty-state">Loading Command Center...</p></section></main>}>
         <AdminDashboard user={authUser} onLogout={logout} onHome={() => goTo('home')} />
+        {authUser.mustChangePassword && <TemporaryPasswordModal user={authUser} onComplete={completeTemporaryPasswordChange} onLogout={logout} />}
       </React.Suspense>
     );
   }
@@ -14859,6 +14936,7 @@ function App() {
       <main className={publicMainClassName}>{content}</main>
       {!suppressPublicChrome && <Footer setActive={goTo} navLinks={publicNavItems} />}
       {accountModal && <AccountModal mode={accountModal} resetToken={passwordResetToken} onClose={closeAccountModal} onLogin={login} onResetTokenHandled={clearPasswordResetToken} />}
+      {authUser?.mustChangePassword && <TemporaryPasswordModal user={authUser} onComplete={completeTemporaryPasswordChange} onLogout={logout} />}
     </React.Suspense>
   );
 }

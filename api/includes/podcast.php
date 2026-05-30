@@ -1,6 +1,10 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/feature-store.php';
+
+const RTBO_PODCAST_STORE_TABLE = 'podcast_store';
+
 function rtbo_podcast_path(): string
 {
     ensure_dir(STORAGE_DIR);
@@ -155,6 +159,23 @@ function rtbo_podcast_episodes(array $episodes): array
 
 function rtbo_podcast_load(): array
 {
+    $data = rtbo_feature_store_load(RTBO_PODCAST_STORE_TABLE);
+    if (!is_array($data)) {
+        $data = rtbo_podcast_load_file();
+        rtbo_podcast_save_data($data);
+    }
+
+    $empty = rtbo_podcast_empty_data();
+    $data['show'] = rtbo_podcast_show(is_array($data['show'] ?? null) ? $data['show'] : []);
+    $data['episodes'] = rtbo_podcast_episodes(is_array($data['episodes'] ?? null) ? $data['episodes'] : []);
+    $data['audit'] = is_array($data['audit'] ?? null) ? $data['audit'] : $empty['audit'];
+    $data['updated_at'] = $data['updated_at'] ?? null;
+
+    return $data;
+}
+
+function rtbo_podcast_load_file(): array
+{
     $path = rtbo_podcast_path();
     if (!is_file($path)) {
         return rtbo_podcast_empty_data();
@@ -176,11 +197,7 @@ function rtbo_podcast_load(): array
 
 function rtbo_podcast_save_data(array $data): void
 {
-    file_put_contents(
-        rtbo_podcast_path(),
-        json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
-        LOCK_EX
-    );
+    rtbo_feature_store_save(RTBO_PODCAST_STORE_TABLE, $data);
 }
 
 function rtbo_podcast_public_episodes(array $episodes): array

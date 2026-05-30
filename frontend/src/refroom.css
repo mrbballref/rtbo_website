@@ -153,9 +153,9 @@
 .rtbo-refroom-control-grid button:hover,
 .rtbo-refroom-production-card button:hover,
 .rtbo-refroom-popover-wrap > button:hover {
-  color: #111827;
-  border-color: var(--orange);
-  background: var(--orange);
+  color: var(--refroom-heading);
+  border-color: rgba(226, 232, 240, .8);
+  background: rgba(226, 232, 240, .14);
 }
 
 .rtbo-refroom-stat-grid {
@@ -512,11 +512,11 @@
   right: 12px;
   bottom: 12px;
   min-height: 34px;
-  border: 1px solid var(--orange);
+  border: 1px solid rgba(226, 232, 240, .72);
   border-radius: 8px;
   padding: 7px 10px;
-  color: #111827;
-  background: var(--orange);
+  color: var(--refroom-heading);
+  background: rgba(226, 232, 240, .14);
   cursor: pointer;
   font-size: .72rem;
   font-weight: 1000;

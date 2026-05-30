@@ -349,6 +349,25 @@ try {
         ]);
     }
 
+    rtbo_notify_admins([
+        'type' => 'evaluation_form_submitted',
+        'title' => 'Evaluator form completed',
+        'body' => trim((string) ($meta['evaluatorName'] ?? $user['name'] ?? 'An evaluator')) . ' completed an evaluation for ' . $officialName . '.',
+        'related_type' => 'evaluation',
+        'related_id' => $id,
+        'metadata' => [
+            'evaluation_id' => $id,
+            'official_id' => $officialId,
+            'official_name' => $officialName,
+            'official_email' => $officialEmail,
+            'evaluation_type' => $evaluationType,
+            'game_type' => $gameType,
+            'total_score' => $evaluation['total_score'],
+            'ranking_label' => $evaluation['ranking_label'],
+        ],
+        'actor' => $user,
+    ]);
+
     echo json_encode([
         'success' => true,
         'evaluation' => $evaluation,

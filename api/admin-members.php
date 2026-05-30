@@ -45,6 +45,7 @@ try {
     if ($action === 'create') {
         $created = admin_member_create($member);
         try {
+            send_super_admin_member_added_email($created, current_user());
             rtbo_notify_users([(int) ($created['id'] ?? 0)], [
                 'type' => 'member_profile_created',
                 'title' => 'Your RTBO profile was created',

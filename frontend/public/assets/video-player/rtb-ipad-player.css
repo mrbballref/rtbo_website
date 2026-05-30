@@ -4,7 +4,6 @@
   --rtb-ipad-muted: rgba(255, 255, 255, .68);
   --rtb-ipad-line: rgba(255, 255, 255, .16);
   --rtb-ipad-orange: #ff7a00;
-  --rtb-ipad-gold: #ffb347;
   --rtb-ipad-green: #29f077;
   --rtb-ipad-red: #ff3030;
   --rtb-ipad-blue: #188cff;
@@ -336,9 +335,8 @@
   min-width: 0;
   gap: 10px;
   padding: 10px clamp(14px, 3vw, 36px) 16px;
-  background:
-    linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.78) 18%, rgba(0,0,0,.96));
-  border-top: 1px solid rgba(255,255,255,.08);
+  background: transparent;
+  border-top: 0;
 }
 
 .rtb-control-row {
@@ -356,18 +354,9 @@
 .rtb-main-buttons {
   justify-content: center;
   max-width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
+  flex-wrap: wrap;
+  overflow: visible;
   padding-bottom: 2px;
-}
-
-.rtb-main-buttons::-webkit-scrollbar {
-  height: 6px;
-}
-
-.rtb-main-buttons::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,.16);
-  border-radius: 999px;
 }
 
 .rtb-timecode {
@@ -479,13 +468,11 @@
   border-radius: 16px;
   color: rgba(255,255,255,.9);
   background:
-    radial-gradient(circle at 50% 8%, rgba(255,255,255,.4), transparent 22%),
-    linear-gradient(145deg, rgba(255,255,255,.14), rgba(255,255,255,.03) 42%, rgba(0,0,0,.6)),
-    #101010;
+    radial-gradient(circle at 50% 8%, rgba(255,255,255,.24), transparent 24%),
+    linear-gradient(145deg, rgba(255,255,255,.16), rgba(255,255,255,.045));
   box-shadow:
     0 1px 0 rgba(255,255,255,.18) inset,
-    0 -1px 0 rgba(0,0,0,.8) inset,
-    0 8px 20px rgba(0,0,0,.28);
+    0 0 0 1px rgba(255,255,255,.04) inset;
   font: 900 .72rem/1 var(--rtb-ipad-font);
   cursor: pointer;
   transition: transform .12s ease, box-shadow .12s ease, color .12s ease, border-color .12s ease;
@@ -494,11 +481,15 @@
 .rtb-control-btn:hover,
 .rtb-control-btn:focus-visible {
   outline: none;
-  border-color: rgba(255,255,255,.18);
+  border-color: rgba(255,255,255,.24) !important;
+  color: rgba(255,255,255,.9) !important;
+  -webkit-text-fill-color: rgba(255,255,255,.9) !important;
+  background:
+    radial-gradient(circle at 50% 8%, rgba(255,255,255,.3), transparent 24%),
+    linear-gradient(145deg, rgba(255,255,255,.2), rgba(255,255,255,.07)) !important;
   box-shadow:
-    0 1px 0 rgba(255,255,255,.18) inset,
-    0 -1px 0 rgba(0,0,0,.8) inset,
-    0 8px 20px rgba(0,0,0,.28);
+    0 1px 0 rgba(255,255,255,.22) inset,
+    0 0 0 1px rgba(255,255,255,.06) inset !important;
 }
 
 .rtb-control-btn:focus-visible {
@@ -523,7 +514,7 @@
   border-radius: 10px;
   color: rgba(255,255,255,.9);
   background: linear-gradient(145deg, rgba(255,255,255,.12), rgba(255,255,255,.035));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.14), inset 0 -1px 0 rgba(0,0,0,.42);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
   transition: background .16s ease, box-shadow .16s ease, color .16s ease, transform .12s ease;
 }
 
@@ -545,28 +536,27 @@
 
 .rtb-play-button:not(:disabled):is(:hover, :focus-visible, :active, .rtb-active) .rtb-btn-icon {
   color: #02130a;
-  background: linear-gradient(145deg, #78ffad, var(--rtb-ipad-green));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.58), 0 0 18px rgba(41,240,119,.28);
+  background: linear-gradient(145deg, #78ffad, var(--rtb-ipad-green)) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.58), 0 0 18px rgba(41,240,119,.28) !important;
 }
 
-.rtb-seek-button:not(:disabled):is(:hover, :focus-visible, :active, .rtb-active) .rtb-btn-icon,
-.rtb-goldable-button:not(:disabled):is(:hover, :focus-visible, :active, .rtb-active) .rtb-btn-icon {
-  color: #170e00;
-  background: linear-gradient(145deg, #ffe1a0, var(--rtb-ipad-gold));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.62), 0 0 18px rgba(255,179,71,.26);
+.rtb-seek-button:not(:disabled):is(:hover, :focus-visible, :active, .rtb-active) .rtb-btn-icon {
+  color: #f8fafc;
+  background: linear-gradient(145deg, rgba(226,232,240,.28), rgba(255,255,255,.075)) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.28), 0 0 16px rgba(226,232,240,.14) !important;
 }
 
 .rtb-record-button:not(:disabled):is(:hover, :focus-visible, :active, .rtb-active) .rtb-btn-icon,
 .rtb-live-button:not(:disabled):is(:hover, :focus-visible, :active, .rtb-active) .rtb-btn-icon {
   color: #fff;
-  background: linear-gradient(145deg, #ff6b6b, var(--rtb-ipad-red));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.44), 0 0 18px rgba(255,48,48,.28);
+  background: linear-gradient(145deg, #ff6b6b, var(--rtb-ipad-red)) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.44), 0 0 18px rgba(255,48,48,.28) !important;
 }
 
 .rtb-skip-button:not(:disabled):is(:active, .rtb-pulse-active) .rtb-btn-icon {
-  color: #170e00;
-  background: linear-gradient(145deg, #ffe1a0, var(--rtb-ipad-gold));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.62), 0 0 18px rgba(255,179,71,.24);
+  color: #f8fafc;
+  background: linear-gradient(145deg, rgba(226,232,240,.3), rgba(255,255,255,.08)) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 0 16px rgba(226,232,240,.16) !important;
 }
 
 .rtb-pause-button:not(:disabled):active .rtb-btn-icon,
@@ -576,14 +566,14 @@
 
 .rtb-caption-button.rtb-active .rtb-btn-icon {
   color: #06182b;
-  background: linear-gradient(145deg, #78c2ff, var(--rtb-ipad-blue));
+  background: linear-gradient(145deg, #78c2ff, var(--rtb-ipad-blue)) !important;
 }
 
 .rtb-studio-button.rtb-active .rtb-btn-icon,
 .rtb-test-button.rtb-active .rtb-btn-icon,
 .rtb-settings-button.rtb-active .rtb-btn-icon {
-  color: #1d0d00;
-  background: linear-gradient(145deg, #ffb37a, var(--rtb-ipad-orange));
+  color: #06182b;
+  background: linear-gradient(145deg, #78c2ff, var(--rtb-ipad-blue)) !important;
 }
 
 @keyframes rtbIpadPulse {
@@ -721,7 +711,7 @@
 .rtb-menu-button:hover,
 .rtb-menu-button:focus-visible {
   outline: none;
-  color: var(--rtb-ipad-gold);
+  color: #fff;
 }
 
 .rtb-settings-note {
@@ -762,7 +752,7 @@
   }
 
   .rtb-main-buttons {
-    justify-content: flex-start;
+    justify-content: center;
   }
 }
 

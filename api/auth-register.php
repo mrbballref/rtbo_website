@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/includes/bootstrap.php';
 require_once __DIR__ . '/includes/users.php';
+require_once __DIR__ . '/includes/email.php';
+require_once __DIR__ . '/includes/notifications.php';
+require_once __DIR__ . '/includes/session-tracking.php';
 
 header('Content-Type: application/json');
 
@@ -60,8 +63,8 @@ try {
     }
 
     $stmt = db()->prepare(
-        "INSERT INTO users(role, first_name, last_name, email, phone, password_hash, status)
-         VALUES(?, ?, ?, ?, ?, ?, 'active')"
+        "INSERT INTO users(role, first_name, last_name, email, phone, password_hash, status, registered_at, updated_at)
+         VALUES(?, ?, ?, ?, ?, ?, 'inactive', NOW(), NOW())"
     );
     $stmt->execute([
         $role,
@@ -77,8 +80,49 @@ try {
     $fresh->execute([$userId]);
     $user = $fresh->fetch();
 
+    $emailSent = false;
+    try {
+        $emailSent = is_array($user) && send_account_registration_confirmation_email($user);
+        if ($emailSent) {
+            db()->prepare('UPDATE users SET registration_confirmation_sent_at = NOW(), updated_at = NOW() WHERE id = ?')->execute([$userId]);
+            $fresh->execute([$userId]);
+            $user = $fresh->fetch() ?: $user;
+        }
+        send_super_admin_user_registered_email(is_array($user) ? $user : [
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+            'email' => $email,
+            'role' => $role,
+            'status' => 'inactive',
+        ]);
+        rtbo_notify_admins([
+            'type' => 'user_registered',
+            'title' => 'New user registered',
+            'body' => trim($firstName . ' ' . $lastName) . ' registered for an RTBO account and must complete their profile.',
+            'related_type' => 'member',
+            'related_id' => $userId,
+            'metadata' => [
+                'email' => $email,
+                'role' => $role,
+                'status' => 'inactive',
+                'confirmation_email_sent' => $emailSent,
+            ],
+        ]);
+        rtbo_notify_users([$userId], [
+            'type' => 'profile_completion_required',
+            'title' => 'Complete your profile',
+            'body' => 'Your RTBO account was created. Complete your profile before gaining access to all website features.',
+            'related_type' => 'member',
+            'related_id' => $userId,
+            'metadata' => ['confirmation_email_sent' => $emailSent],
+        ]);
+    } catch (Throwable $notificationError) {
+        error_log('RTBO account registration notification failed: ' . $notificationError->getMessage());
+    }
+
     session_regenerate_id(true);
     $_SESSION['user'] = public_auth_user($user);
+    rtbo_login_session_start($_SESSION['user']);
 
     echo json_encode(['success' => true, 'user' => $_SESSION['user']], JSON_UNESCAPED_SLASHES);
 } catch (Throwable $error) {

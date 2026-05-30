@@ -6,15 +6,19 @@ require_once __DIR__ . '/api/includes/payments.php';
 require_once __DIR__ . '/api/includes/registration-store.php';
 require_once __DIR__ . '/api/includes/refzone-enrollments.php';
 require_once __DIR__ . '/api/includes/email.php';
+require_once __DIR__ . '/api/includes/notifications.php';
+require_once __DIR__ . '/api/includes/store-orders.php';
 
 $provider = strtolower(trim((string) ($_GET['provider'] ?? '')));
 $type = strtolower(trim((string) ($_GET['type'] ?? '')));
 $registrationId = trim((string) ($_GET['registration'] ?? ''));
 $enrollmentId = trim((string) ($_GET['enrollment'] ?? ''));
+$storeOrderId = trim((string) ($_GET['order'] ?? ''));
 $verified = false;
 $message = 'We could not verify this payment. Please contact RTBO if you believe this is an error.';
 $registration = null;
 $enrollment = null;
+$storeOrder = null;
 $redirectUrl = '';
 
 if ($type === 'refzone' && in_array($provider, ['stripe', 'paypal'], true) && $enrollmentId !== '') {
@@ -54,6 +58,20 @@ if ($type === 'refzone' && in_array($provider, ['stripe', 'paypal'], true) && $e
             if ($verified || $alreadyPaid) {
                 update_refzone_enrollment_payment($enrollmentId, 'paid', $updates);
                 $enrollment = array_merge($enrollment, $updates, ['payment_status' => 'paid']);
+                if (!$alreadyPaid) {
+                    rtbo_notify_admins([
+                        'type' => 'refzone_enrollment_paid',
+                        'title' => 'RefZone membership payment confirmed',
+                        'body' => (string) ($enrollment['full_name'] ?? 'A RefZone member') . ' completed payment for ' . (string) ($enrollment['package_name'] ?? 'RefZone University') . '.',
+                        'related_type' => 'refzone_enrollment',
+                        'metadata' => [
+                            'enrollment_id' => $enrollmentId,
+                            'email' => (string) ($enrollment['email'] ?? ''),
+                            'package_name' => (string) ($enrollment['package_name'] ?? ''),
+                            'payment_provider' => $provider,
+                        ],
+                    ]);
+                }
                 $redirectUrl = rtbo_refzone_course_url($enrollment);
             } else {
                 update_refzone_enrollment_payment($enrollmentId, 'verification_failed', $updates);
@@ -68,6 +86,70 @@ if ($type === 'refzone' && in_array($provider, ['stripe', 'paypal'], true) && $e
         }
     } else {
         $message = 'RefZone University enrollment record was not found.';
+    }
+}
+
+if ($type === 'store' && in_array($provider, ['stripe', 'paypal'], true) && $storeOrderId !== '') {
+    $storeOrder = rtbo_store_order_find($storeOrderId);
+
+    if ($storeOrder) {
+        try {
+            $alreadyPaid = (($storeOrder['status'] ?? '') === 'paid');
+            $updates = [];
+
+            if (!$alreadyPaid && $provider === 'stripe') {
+                $sessionId = trim((string) ($_GET['session_id'] ?? ''));
+                if ($sessionId !== '') {
+                    $session = retrieve_stripe_checkout_session($sessionId);
+                    $metadata = is_array($session['metadata'] ?? null) ? $session['metadata'] : [];
+                    $verified = (($session['payment_status'] ?? '') === 'paid')
+                        && (($metadata['order_id'] ?? '') === $storeOrderId || ($session['client_reference_id'] ?? '') === $storeOrderId);
+                    $updates = [
+                        'stripe_checkout_session_id' => (string) ($session['id'] ?? ''),
+                    ];
+                }
+            } elseif (!$alreadyPaid && $provider === 'paypal') {
+                $paypalOrderId = trim((string) ($_GET['token'] ?? ''));
+                if ($paypalOrderId !== '') {
+                    $response = http_json(paypal_base_url() . '/v2/checkout/orders/' . rawurlencode($paypalOrderId) . '/capture', 'POST', [
+                        'Authorization: Bearer ' . paypal_access_token(),
+                        'Content-Type: application/json',
+                    ], '{}');
+                    $body = $response['body'];
+                    $verified = $response['status'] < 400
+                        && (($body['status'] ?? '') === 'COMPLETED')
+                        && (($body['purchase_units'][0]['reference_id'] ?? '') === $storeOrderId);
+                    $updates = [
+                        'paypal_order_id' => $paypalOrderId,
+                        'paypal_capture_id' => (string) ($body['purchase_units'][0]['payments']['captures'][0]['id'] ?? ''),
+                    ];
+                }
+            } else {
+                $verified = true;
+            }
+
+            if ($verified || $alreadyPaid) {
+                $storeOrder = rtbo_store_order_update_record($storeOrderId, array_merge($updates, [
+                    'status' => 'paid',
+                    'payment_status' => 'paid',
+                    'paid_at' => $storeOrder['paid_at'] ?? gmdate('c'),
+                ])) ?: $storeOrder;
+                rtbo_store_order_notify_purchase_completed($storeOrder);
+                $message = 'Payment verified. Your RTBO shop purchase is confirmed.';
+            } else {
+                rtbo_store_order_update_record($storeOrderId, array_merge($updates, [
+                    'status' => 'verification_failed',
+                    'payment_status' => 'verification_failed',
+                ]));
+                $message = 'Payment returned, but store purchase verification did not complete.';
+            }
+        } catch (Throwable $error) {
+            error_log('RTBO store payment verification failed: ' . $error->getMessage());
+            rtbo_store_order_update_record($storeOrderId, ['status' => 'verification_error']);
+            $message = 'Payment returned, but store purchase verification could not be completed.';
+        }
+    } else {
+        $message = 'Store order record was not found.';
     }
 }
 
@@ -129,6 +211,9 @@ if ($type !== 'refzone' && in_array($provider, ['stripe', 'paypal'], true) && $r
     <?php endif; ?>
     <?php if ($enrollment): ?>
       <p><strong>Member:</strong> <?php echo e((string) ($enrollment['full_name'] ?? '')); ?><br><strong>Package:</strong> <?php echo e((string) ($enrollment['package_name'] ?? 'RefZone University')); ?><br><strong>Enrollment:</strong> <?php echo e($enrollmentId); ?></p>
+    <?php endif; ?>
+    <?php if ($storeOrder): ?>
+      <p><strong>Store Order:</strong> <?php echo e($storeOrderId); ?><br><strong>Total:</strong> $<?php echo e(number_format(((int) ($storeOrder['total_cents'] ?? 0)) / 100, 2)); ?></p>
     <?php endif; ?>
     <?php if ($redirectUrl !== ''): ?>
       <p>Redirecting you to your RefZone University course now.</p>

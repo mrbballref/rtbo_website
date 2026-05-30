@@ -61,17 +61,29 @@ try {
         foreach ($members as $index => $member) {
             if ((int) ($member['id'] ?? 0) === (int) $user['id']) {
                 $members[$index]['password_hash'] = password_hash($newPassword, PASSWORD_DEFAULT);
+                $members[$index]['password_is_temporary'] = false;
+                $members[$index]['temporary_password_created_at'] = '';
+                $members[$index]['password_changed_at'] = date('c');
                 admin_member_write_file($members);
-                echo json_encode(['success' => true, 'message' => 'Password changed.']);
+                $_SESSION['user'] = public_auth_user($members[$index]);
+                echo json_encode(['success' => true, 'message' => 'Password changed.', 'user' => $_SESSION['user']], JSON_UNESCAPED_SLASHES);
                 exit;
             }
         }
         throw new RuntimeException('Profile record not found.');
     }
 
-    $stmt = db()->prepare('UPDATE users SET password_hash = ? WHERE id = ?');
+    $stmt = db()->prepare(
+        'UPDATE users
+         SET password_hash = ?, password_is_temporary = 0, temporary_password_created_at = NULL, password_changed_at = NOW(), updated_at = NOW()
+         WHERE id = ?'
+    );
     $stmt->execute([password_hash($newPassword, PASSWORD_DEFAULT), (int) $user['id']]);
-    echo json_encode(['success' => true, 'message' => 'Password changed.']);
+    $fresh = db()->prepare('SELECT * FROM users WHERE id = ? LIMIT 1');
+    $fresh->execute([(int) $user['id']]);
+    $freshUser = $fresh->fetch();
+    $_SESSION['user'] = $freshUser ? public_auth_user($freshUser) : public_auth_user([...$user, 'password_is_temporary' => 0]);
+    echo json_encode(['success' => true, 'message' => 'Password changed.', 'user' => $_SESSION['user']], JSON_UNESCAPED_SLASHES);
 } catch (Throwable $error) {
     error_log('RTBO password change failed: ' . $error->getMessage());
     http_response_code(500);
