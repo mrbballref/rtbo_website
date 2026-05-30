@@ -3248,9 +3248,9 @@ button.hero-scroll-link {
 
 .attendee-review-section {
   display: grid;
-  grid-template-columns: minmax(260px, .82fr) minmax(360px, 1fr);
-  gap: clamp(22px, 3vw, 44px);
-  align-items: start;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 32px;
   margin-top: clamp(34px, 5vw, 72px);
   padding: clamp(20px, 3vw, 34px);
   border: 1px solid rgba(193, 18, 31, .32);
@@ -3264,12 +3264,13 @@ button.hero-scroll-link {
 .attendee-review-copy {
   display: grid;
   gap: 16px;
+  width: min(100%, 1320px);
 }
 
 .attendee-review-copy h3 {
   margin: 0;
   color: #fff;
-  font-size: clamp(1.65rem, 3vw, 3.35rem);
+  font-size: clamp(2.2rem, 4.2vw, 4rem);
   line-height: 1;
   text-transform: uppercase;
 }
@@ -3363,6 +3364,7 @@ button.hero-scroll-link {
 .attendee-review-form {
   display: grid;
   gap: 16px;
+  width: min(100%, 900px);
   padding: clamp(16px, 2vw, 24px);
   border: 1px solid rgba(255, 255, 255, .11);
   border-radius: 8px;
