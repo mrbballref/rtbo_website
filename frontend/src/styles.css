@@ -9,7 +9,6 @@
   --rtbo-gold-dark: #9f7600;
   --rtbo-gold-muted: #b8922f;
   --rtbo-gold-soft: rgba(212, 175, 55, .18);
-  --rtbo-gold-strong: #f3d675;
   --rtbo-gold-hover-border: rgba(212, 175, 55, .78);
   --rtbo-gold-hover-soft: rgba(212, 175, 55, .18);
   --rtbo-gold-hover-glow: rgba(212, 175, 55, .3);
@@ -11335,7 +11334,7 @@ button.hero-scroll-link {
     #080a0f !important;
 }
 
-:root[data-theme="light"] .rtbo-public .rtbo-hero :is(h1, p:not(.eyebrow), .rtbo-stats strong, .rtbo-stats span) {
+:root[data-theme="light"] .rtbo-public .rtbo-hero :is(h1, p:not(.eyebrow)) {
   color: #f8fafc !important;
 }
 
@@ -15107,12 +15106,14 @@ body.rtbo-printing-invoice .rtbo-invoice-footer span,
 }
 
 .rtbo-public .rtbo-stats strong {
+  color: var(--rtbo-gold-strong) !important;
   font-size: clamp(1.25rem, 2vw, 1.72rem) !important;
   line-height: 1 !important;
 }
 
 .rtbo-public .rtbo-stats span {
   margin-top: 2px !important;
+  color: var(--rtbo-gold) !important;
   font-size: .72rem !important;
   line-height: 1.15 !important;
 }
@@ -15993,7 +15994,7 @@ body {
   padding-bottom: clamp(178px, 15vw, 238px) !important;
   background:
     linear-gradient(90deg, rgba(5, 6, 8, .98) 0%, rgba(5, 6, 8, .94) 34%, rgba(5, 6, 8, .8) 62%, rgba(5, 6, 8, .64) 100%),
-    url("/assets/images/banner_2.jpg") right center / min(62%, 860px) auto no-repeat,
+    url("/assets/images/banner_2.jpg") center center / cover no-repeat,
     #080a0f !important;
 }
 
@@ -16003,7 +16004,7 @@ html.dark .rtbo-public .rtbo-hero,
 html.light .rtbo-public .rtbo-hero {
   background:
     linear-gradient(90deg, rgba(5, 6, 8, .98) 0%, rgba(5, 6, 8, .94) 34%, rgba(5, 6, 8, .8) 62%, rgba(5, 6, 8, .64) 100%),
-    url("/assets/images/banner_2.jpg") right center / min(62%, 860px) auto no-repeat,
+    url("/assets/images/banner_2.jpg") center center / cover no-repeat,
     #080a0f !important;
 }
 
@@ -16126,7 +16127,7 @@ html.light .rtbo-public .page-hero {
     padding-bottom: clamp(42px, 8vw, 72px) !important;
     background:
       linear-gradient(100deg, rgba(5, 6, 8, .98) 0%, rgba(5, 6, 8, .88) 56%, rgba(5, 6, 8, .72) 100%),
-      url("/assets/images/banner_2.jpg") right bottom / min(92%, 680px) auto no-repeat,
+      url("/assets/images/banner_2.jpg") center center / cover no-repeat,
       #080a0f !important;
   }
 
@@ -16136,7 +16137,7 @@ html.light .rtbo-public .page-hero {
   html.light .rtbo-public .rtbo-hero {
     background:
       linear-gradient(100deg, rgba(5, 6, 8, .98) 0%, rgba(5, 6, 8, .88) 56%, rgba(5, 6, 8, .72) 100%),
-      url("/assets/images/banner_2.jpg") right bottom / min(92%, 680px) auto no-repeat,
+      url("/assets/images/banner_2.jpg") center center / cover no-repeat,
       #080a0f !important;
   }
 
