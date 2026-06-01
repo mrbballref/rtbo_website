@@ -348,6 +348,7 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
   const [invitationSendingId, setInvitationSendingId] = useState('');
   const [activeMeetingId, setActiveMeetingId] = useState('');
   const [breakoutRooms, setBreakoutRooms] = useState(() => safeReadJson(scopedKey(displayUser, 'breakoutRooms'), []));
+  const [breakoutSaving, setBreakoutSaving] = useState(false);
   const [breakoutName, setBreakoutName] = useState('');
   const [participantLocations, setParticipantLocations] = useState(() => safeReadJson(scopedKey(displayUser, 'participantLocations'), {}));
   const [participantRoles, setParticipantRoles] = useState(() => safeReadJson(scopedKey(displayUser, 'participantRoles'), {}));
@@ -546,6 +547,11 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
     const timer = window.setInterval(() => setElapsed(current => current + 1), 1000);
     return () => window.clearInterval(timer);
   }, [roomActive]);
+
+  useEffect(() => {
+    if (!canManageMeetings) return;
+    setBreakoutRooms(Array.isArray(activeMeeting?.breakout_rooms) ? activeMeeting.breakout_rooms : []);
+  }, [activeMeeting, canManageMeetings]);
 
   useEffect(() => {
     refreshDevices();
@@ -1198,22 +1204,9 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
           await sendRoomInvitations(savedMeeting);
         }
       } else if (isPublicPlayer) {
-        let savedMeeting = null;
-        let apiMessage = '';
-        try {
-          const data = await refroomApiPost('/refroom.php', { action: 'create_public', meeting: nextRoom });
-          savedMeeting = data.meeting || nextRoom;
-          apiMessage = data.message || '';
-        } catch {
-          savedMeeting = {
-            ...nextRoom,
-            invite_status: 'draft_ready',
-            invite_recipient_count: inviteRecipientCount(nextRoom),
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          };
-          apiMessage = 'RefRoom meeting created. Copy or email the invite link to share it.';
-        }
+        const data = await refroomApiPost('/refroom.php', { action: 'create_public', meeting: nextRoom });
+        const savedMeeting = data.meeting || nextRoom;
+        const apiMessage = data.message || '';
         setRooms(currentRoomsWith(savedMeeting));
         setActiveMeetingId(String(savedMeeting.id || savedMeeting.meetingCode));
         setSettings(current => ({
@@ -1369,13 +1362,38 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
     setSettings(current => ({ ...current, [name]: value }));
   }
 
-  function createBreakoutRoom(event) {
+  async function createBreakoutRoom(event) {
     event.preventDefault();
     const name = breakoutName.trim();
     if (!name) {
       updateStatus('Enter a breakout room name before creating it.');
       return;
     }
+    if (canManageMeetings) {
+      if (!activeMeeting?.id) {
+        updateStatus('Select or create a RefRoom meeting before creating a breakout room.');
+        return;
+      }
+      setBreakoutSaving(true);
+      try {
+        const data = await refroomApiPost('/refroom.php', {
+          action: 'create_breakout_room',
+          meeting_id: activeMeeting.id,
+          room: { name }
+        });
+        const savedMeeting = data.meeting || activeMeeting;
+        setRooms(Array.isArray(data.meetings) ? data.meetings : currentRoomsWith(savedMeeting));
+        setBreakoutRooms(Array.isArray(savedMeeting.breakout_rooms) ? savedMeeting.breakout_rooms : []);
+        setBreakoutName('');
+        updateStatus(data.message || `${name} breakout room created.`);
+      } catch (error) {
+        updateStatus(error.message || 'Breakout room could not be created.');
+      } finally {
+        setBreakoutSaving(false);
+      }
+      return;
+    }
+
     setBreakoutRooms(current => [
       ...current,
       { id: createId('breakout'), name, createdAt: new Date().toISOString(), meetingId: activeMeeting?.id || activeMeetingId || '' }
@@ -1384,8 +1402,24 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
     updateStatus(`${name} breakout room created.`);
   }
 
-  function deleteBreakoutRoom(roomId) {
-    setBreakoutRooms(current => current.filter(room => String(room.id) !== String(roomId)));
+  async function deleteBreakoutRoom(roomId) {
+    if (canManageMeetings && activeMeeting?.id) {
+      try {
+        const data = await refroomApiPost('/refroom.php', {
+          action: 'delete_breakout_room',
+          meeting_id: activeMeeting.id,
+          room_id: roomId
+        });
+        const savedMeeting = data.meeting || activeMeeting;
+        setRooms(Array.isArray(data.meetings) ? data.meetings : currentRoomsWith(savedMeeting));
+        setBreakoutRooms(Array.isArray(savedMeeting.breakout_rooms) ? savedMeeting.breakout_rooms : []);
+      } catch (error) {
+        updateStatus(error.message || 'Breakout room could not be removed.');
+        return;
+      }
+    } else {
+      setBreakoutRooms(current => current.filter(room => String(room.id) !== String(roomId)));
+    }
     setParticipantLocations(current => {
       const next = { ...current };
       Object.keys(next).forEach(id => {
@@ -1887,7 +1921,7 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
           </div>
           <form className="rtbo-refroom-chat-form" onSubmit={createBreakoutRoom}>
             <input value={breakoutName} onChange={event => setBreakoutName(event.target.value)} placeholder="Breakout room name" />
-            <button className="btn" type="submit">Create Room</button>
+            <button className="btn" type="submit" disabled={breakoutSaving}>{breakoutSaving ? 'Creating...' : 'Create Room'}</button>
           </form>
           <div className="rtbo-refroom-breakout-grid">
             {breakoutRooms.length === 0 && <p className="rtbo-empty-state">No breakout rooms have been created yet.</p>}

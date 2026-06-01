@@ -106,14 +106,15 @@ Every production feature that creates, updates, signs, submits, purchases, logs 
 
 Every project change or new feature must include the following before it is considered complete:
 
-- Responsive audit across mobile, tablet, and desktop layouts touched by the change.
-- The responsive audit must include these required viewport widths: `368px`, `480px`, `550px`, `648px`, `768px`, `1024px`, `1280px`, and `1536px`.
+- Responsive audit across mobile, tablet, laptop, desktop, large-display, and projector layouts touched by the change.
+- The responsive audit must include these required production viewport ranges and widths: Extra Small `320px-480px`, Small `481px-768px`, Medium `769px-1024px`, Large `1025px-1200px`, Extra Large `1201px-1920px`, and Projector `1920px+`. The automated audit enforces `320px`, `480px`, `768px`, `1024px`, `1200px`, `1536px`, and `1920px` coverage in the global stylesheet, plus the site-wide module breakpoints `368px`, `480px`, `550px`, `648px`, `768px`, `1024px`, `1280px`, and `1536px` in every source CSS file.
 - Advanced SEO audit for public pages, including title, description, indexing intent, semantic content, and crawl-safe output.
 - Optimization audit, including production build output and bundle-size warnings. New oversized chunks must be fixed through code splitting or other optimization, not only noted.
 - Syntax/build verification for the affected stack, including `npm run build` for frontend changes and MAMP PHP lint for edited PHP endpoints.
 - Frontend changes must run `npm run build` and `npm run audit` from `frontend/` before completion.
 - Accessibility and print-readiness checks when forms, invoices, dashboards, or printable views are changed.
 - Phone number inputs must use the shared `(xxx) xxx-xxxx` formatter in React and `rtbo_format_phone_number()` in PHP before values are displayed, saved, exported, or printed.
+- Every GitHub push must verify that the `origin` fetch and push URL target `mrbballref/rtbo_website`. The local pre-push hook runs `npm run verify:github-remote` and blocks pushes to any other repository.
 
 ## Super Admin
 

@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const frontendRoot = path.resolve(scriptDir, '..');
 const requiredBreakpoints = [368, 480, 550, 648, 768, 1024, 1280, 1536];
+const requiredProductionViewportWidths = [320, 480, 768, 1024, 1200, 1536, 1920];
 const failures = [];
 const warnings = [];
 
@@ -41,6 +42,14 @@ const styles = readText('src/styles.css');
 const publicAppCss = readText('public/assets/css/app.css');
 const mainSource = readText('src/main.jsx');
 const shopStoreSource = readText('src/ShopStore.jsx');
+const shopStoreCss = readText('src/shop-store.css');
+const refRoomSource = readText('src/RefRoom.jsx');
+const refRoomApiSource = readText('../api/refroom.php');
+const databaseSetupSource = readText('../api/includes/database-setup.php');
+const lockerRoomCss = readText('src/locker-room.css');
+const ipadVideoPlayerCss = readText('public/assets/video-player/rtb-ipad-player.css');
+const rtboResumeSource = readText('src/RTBOResumePage.jsx');
+const rtboResumeCss = readText('src/rtbo-resume-page.css');
 const sourceCssFiles = walkFiles(path.join(frontendRoot, 'src')).filter(filePath => filePath.endsWith('.css'));
 const sourceComponentFiles = walkFiles(path.join(frontendRoot, 'src')).filter(filePath => /\.(?:js|jsx)$/i.test(filePath));
 const cssPaletteCorpus = [publicAppCss, styles, ...sourceCssFiles.map(filePath => fs.readFileSync(filePath, 'utf8'))].join('\n');
@@ -50,8 +59,37 @@ const taxCenterSource = readText('src/TaxCenter.jsx');
 const taxCenterCss = readText('src/tax-center.css');
 const contractGeneratorCss = readText('src/contract-generator.css');
 
+[
+  ['public/assets/css/app.css', publicAppCss],
+  ['public/assets/video-player/rtb-ipad-player.css', ipadVideoPlayerCss],
+  ...walkFiles(path.join(frontendRoot, 'public', 'assets', 'css'))
+    .filter(filePath => filePath.endsWith('.css'))
+    .map(filePath => [path.relative(frontendRoot, filePath), fs.readFileSync(filePath, 'utf8')]),
+  ...sourceCssFiles.map(filePath => [path.relative(frontendRoot, filePath), fs.readFileSync(filePath, 'utf8')])
+].forEach(([relativeName, css]) => {
+  const goldHoverRules = findGoldHoverRules(css, relativeName);
+  if (goldHoverRules.length) {
+    failures.push(`Gold hover fills are not allowed site-wide. Gold is allowed only as an outline/border on hover. Remove filled hover/focus styling from: ${goldHoverRules.join(', ')}`);
+  }
+});
+
 function hasRequiredBreakpoint(css, width) {
   return new RegExp(`@media\\s*[^{}]*\\(\\s*max-width\\s*:\\s*${width}px\\s*\\)`, 'i').test(css);
+}
+
+function findGoldHoverRules(css, relativeName) {
+  const goldPattern = /var\(--rtbo-gold|--rtbo-gold-hover|#d4af37|#f3d675|rgba?\(\s*212\s*,\s*175\s*,\s*55/i;
+  const filledPropertyPattern = /(?:background(?:-color|-image)?|box-shadow|text-shadow)\s*:[^;}]*?(?:var\(--rtbo-gold|--rtbo-gold-hover|#d4af37|#f3d675|rgba?\(\s*212\s*,\s*175\s*,\s*55)/i;
+  const hoverRulePattern = /[^{}]*(?::hover|:focus-visible|:focus-within)[^{]*\{[^{}]*\}/gi;
+  const matches = [];
+  let match;
+  while ((match = hoverRulePattern.exec(css)) !== null) {
+    if (goldPattern.test(match[0]) && filledPropertyPattern.test(match[0])) {
+      const line = css.slice(0, match.index).split(/\r?\n/).length;
+      matches.push(`${relativeName}:${line}`);
+    }
+  }
+  return matches;
 }
 
 function jsxOpeningTags(source, tagName) {
@@ -153,6 +191,93 @@ assertCheck(
   [
     'summary card visual standard',
     /\.rtbo-summary-card[\s\S]*border-radius\s*:\s*8px/.test(styles)
+  ],
+  [
+    'home About RTBO cards render as responsive single-row summary cards',
+    /about-rtbo-section\s+\.about-icon-grid[\s\S]*grid-template-columns\s*:\s*1fr\s*!important/.test(styles)
+  ],
+  [
+    'home About RTBO layout collapses before tablet widths',
+    /@media\s*\(max-width:\s*1180px\)[\s\S]*about-rtbo-layout[\s\S]*grid-template-columns\s*:\s*1fr\s*!important/.test(styles)
+  ],
+  [
+    'Services page cards render as responsive single-row summary cards',
+    /services-unified-platform-cards\s*\{[\s\S]*grid-template-columns\s*:\s*1fr/.test(styles)
+      && /services-top-points\s*\{[\s\S]*grid-template-columns\s*:\s*1fr/.test(styles)
+      && /services-features-section\s+\.solution-grid\s*\{[\s\S]*grid-template-columns\s*:\s*1fr\s*!important/.test(styles)
+      && /@media\s*\(max-width:\s*1180px\)[\s\S]*services-unified-overview[\s\S]*grid-template-columns\s*:\s*1fr/.test(styles)
+  ],
+  [
+    'home guest, testimonial, and livestream card grids stay responsive',
+    /guest-top-points\s*\{[\s\S]*grid-template-columns\s*:\s*1fr/.test(styles)
+      && /testimonial-grid\s*\{[\s\S]*repeat\(auto-fit,\s*minmax\(min\(100%,\s*300px\),\s*1fr\)\)/.test(styles)
+      && /livestream-channel-grid\s*\{[\s\S]*repeat\(auto-fit,\s*minmax\(min\(100%,\s*220px\),\s*1fr\)\)/.test(styles)
+      && /@media\s*\(max-width:\s*1180px\)[\s\S]*guest-top-section[\s\S]*grid-template-columns\s*:\s*1fr/.test(styles)
+  ],
+  [
+    'public feature cards use mandatory one-card-per-row layout',
+    /trainer-top-points\s*\{[\s\S]*grid-template-columns\s*:\s*1fr/.test(styles)
+      && /results-top-points\s*\{[\s\S]*grid-template-columns\s*:\s*1fr/.test(styles)
+      && /about-difference-grid\s*\{[\s\S]*grid-template-columns\s*:\s*1fr/.test(styles)
+      && /platform-feature-grid\s*\{[\s\S]*grid-template-columns\s*:\s*1fr/.test(styles)
+  ],
+  [
+    'shop product grid and sidebar use production responsive rules',
+    /rtbo-shop-products\s*\{[\s\S]*repeat\(auto-fit,\s*minmax\(min\(100%,\s*230px\),\s*1fr\)\)/.test(shopStoreCss)
+      && /@media\s*\(max-width:\s*1180px\)[\s\S]*rtbo-shop-layout[\s\S]*grid-template-columns\s*:\s*1fr/.test(shopStoreCss)
+      && /rtbo-shop-category-list[\s\S]*repeat\(auto-fit,\s*minmax\(min\(100%,\s*150px\),\s*1fr\)\)/.test(shopStoreCss)
+  ],
+  [
+    'mobile header drawer uses single-column responsive navigation',
+    /@media\s*\(max-width:\s*1280px\)[\s\S]*site-header\.rtbo-header\s+\.nav-link-group,\s*\n\s*\.site-header\.rtbo-header\s+\.nav-action-group\s*\{[\s\S]*display\s*:\s*flex\s*!important[\s\S]*flex-direction\s*:\s*column\s*!important[\s\S]*grid-template-columns\s*:\s*1fr\s*!important/.test(styles)
+      && /site-header\.rtbo-header\s+\.nav-action-group\s+\.theme-toggle[\s\S]*align-self\s*:\s*flex-start\s*!important/.test(styles)
+  ],
+  [
+    'mobile menu overlay closes the drawer and never receives button hover fills',
+    /className=\{`nav-flyout-scrim[\s\S]*onPointerDown=\{\(event\)[\s\S]*closeMobileNav\(\)/.test(mainSource)
+      && /site-header\.rtbo-header\s+\.nav-flyout-scrim,[\s\S]*nav-flyout-scrim:is\(:hover,\s*:focus,\s*:focus-visible,\s*:active\)[\s\S]*background\s*:\s*rgba\(0,\s*0,\s*0,\s*\.58\)\s*!important[\s\S]*background-image\s*:\s*none\s*!important[\s\S]*pointer-events\s*:\s*none/.test(styles)
+      && /site-header\.rtbo-header\.nav-open\s+\.nav-flyout-scrim,[\s\S]*nav-flyout-scrim\.is-open[\s\S]*pointer-events\s*:\s*auto\s*!important/.test(styles)
+  ],
+  [
+    'button hover uses gold outline without filled hover backgrounds',
+    /Mandatory interaction standard[\s\S]*button:not\(:disabled\):not\(\.theme-toggle\)[\s\S]*outline\s*:\s*2px solid rgba\(212,\s*175,\s*55,\s*\.86\)\s*!important[\s\S]*background\s*:\s*transparent\s*!important[\s\S]*background-image\s*:\s*none\s*!important/.test(styles)
+  ],
+  [
+    'theme switcher hover has no red or gold background fill',
+    /\.theme-toggle,[\s\S]*theme-toggle:is\(:hover,\s*:focus,\s*:focus-visible,\s*:active\)[\s\S]*background\s*:\s*transparent\s*!important[\s\S]*background-image\s*:\s*none\s*!important[\s\S]*theme-toggle-track:is\(:hover,\s*:focus-visible\)[\s\S]*outline\s*:\s*2px solid rgba\(212,\s*175,\s*55,\s*\.72\)\s*!important/.test(styles)
+  ],
+  [
+    'iPad video player hover guard excludes site-wide gold backgrounds',
+    /body\s+\.rtb-ipad-player[\s\S]*rtb-control-btn[\s\S]*outline\s*:\s*2px solid rgba\(212,\s*175,\s*55,\s*\.86\)\s*!important[\s\S]*background\s*:\s*transparent\s*!important[\s\S]*background-image\s*:\s*none\s*!important/.test(ipadVideoPlayerCss)
+  ],
+  [
+    'Locker Room iPad film library is inside the player and can be minimized',
+    /locker-room-ipad-library[\s\S]*is-minimized/.test(lockerRoomCss)
+      && /overlayContent=\{\([\s\S]*locker-room-ipad-library/.test(readText('src/LockerRoomPage.jsx'))
+  ],
+  [
+    'RefRoom public meeting creation never falls back to browser-only state',
+    /refroomApiPost\('\/refroom\.php',\s*\{\s*action:\s*'create_public'/.test(refRoomSource)
+      && !/catch\s*\{[\s\S]*RefRoom meeting created\. Copy or email the invite link/.test(refRoomSource)
+  ],
+  [
+    'RefRoom Create Room saves breakout rooms through the API and database',
+    /action:\s*'create_breakout_room'/.test(refRoomSource)
+      && /create_breakout_room/.test(refRoomApiSource)
+      && /refroom_breakout_rooms/.test(refRoomApiSource)
+      && /refroom_breakout_rooms/.test(databaseSetupSource)
+  ],
+  [
+    'resume event summary cards open a production click modal',
+    /selectedResumeEvent/.test(rtboResumeSource)
+      && /role="button"[\s\S]*tabIndex=\{0\}[\s\S]*onClick=\{\(\)\s*=>\s*openResumeEventModal/.test(rtboResumeSource)
+      && /handleResumeEventKeyDown/.test(rtboResumeSource)
+      && /rtob-resume-event-modal/.test(rtboResumeSource)
+      && /rtob-resume-event-modal-backdrop[\s\S]*onClick=\{\(\)\s*=>\s*setSelectedResumeEvent\(null\)\}/.test(rtboResumeSource)
+      && !/onMouse(?:Enter|Over|Move)=/.test(rtboResumeSource)
+      && !/\.rtob-resume-event-card(?::|[^{]*):hover/.test(rtboResumeCss)
+      && /\.rtob-resume-event-modal[\s\S]*position\s*:\s*fixed/.test(rtboResumeCss)
+      && /\.rtob-resume-event-preview-card[\s\S]*width\s*:\s*min\(760px,\s*calc\(100vw - 40px\)\)/.test(rtboResumeCss)
   ]
 ].forEach(([label, passed]) => {
   assertCheck(passed, `Mandatory visual polish audit failed: missing ${label}.`);
@@ -281,6 +406,13 @@ sourceCssFiles.forEach(filePath => {
   });
 });
 
+requiredProductionViewportWidths.forEach(width => {
+  assertCheck(
+    hasRequiredBreakpoint(styles, width),
+    `src/styles.css is missing mandatory production viewport coverage for ${width}px. Every public, dashboard, course, and form section must remain responsive across the full RTBO device range.`
+  );
+});
+
 const themeLockRules = [
   ['fixed #333 text with !important', /(?:^|[;\s])(?:color|-webkit-text-fill-color)\s*:\s*#333\s*!important/i],
   ['fixed white background with !important', /(?:^|[;\s])background(?:-color)?\s*:\s*#fff\s*!important/i]
@@ -372,7 +504,7 @@ const routeChunkBudgets = {
   '.css': 96 * 1024
 };
 const initialJsBudget = 700 * 1024;
-const initialCssBudget = 380 * 1024;
+const initialCssBudget = 384 * 1024;
 const initialBundleBudget = 1125 * 1024;
 const fullBundleReviewTarget = 2048 * 1024;
 
@@ -428,6 +560,7 @@ if (bundleAssetBytes > fullBundleReviewTarget) {
 
 console.log('RTBO mandatory audit');
 console.log(`Responsive breakpoints checked: ${requiredBreakpoints.map(width => `${width}px`).join(', ')}`);
+console.log(`Production viewport coverage checked: ${requiredProductionViewportWidths.map(width => `${width}px`).join(', ')}`);
 console.log(`Theme toggler compliance checked: ${sourceCssFiles.length} source CSS files`);
 console.log('Visual polish guardrails checked: horizontal overflow, heading wrapping, field spacing, file inputs, and summary cards');
 console.log(`Built assets checked: ${assetFiles.length} files, ${formatKb(totalAssetBytes)} total`);

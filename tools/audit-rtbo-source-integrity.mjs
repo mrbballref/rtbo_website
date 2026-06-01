@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 const toolsDir = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(toolsDir, '..');
 const requiredBreakpoints = [368, 480, 550, 648, 768, 1024, 1280, 1536];
+const requiredProductionViewportWidths = [320, 480, 768, 1024, 1200, 1536, 1920];
 const failures = [];
 const warnings = [];
 
@@ -39,6 +40,21 @@ function walkFiles(directory) {
 
 function hasRequiredBreakpoint(css, width) {
   return new RegExp(`@media\\s*[^{}]*\\(\\s*max-width\\s*:\\s*${width}px\\s*\\)`, 'i').test(css);
+}
+
+function findGoldHoverRules(css, relativeName) {
+  const goldPattern = /var\(--rtbo-gold|--rtbo-gold-hover|#d4af37|#f3d675|rgba?\(\s*212\s*,\s*175\s*,\s*55/i;
+  const filledPropertyPattern = /(?:background(?:-color|-image)?|box-shadow|text-shadow)\s*:[^;}]*?(?:var\(--rtbo-gold|--rtbo-gold-hover|#d4af37|#f3d675|rgba?\(\s*212\s*,\s*175\s*,\s*55)/i;
+  const hoverRulePattern = /[^{}]*(?::hover|:focus-visible|:focus-within)[^{]*\{[^{}]*\}/gi;
+  const matches = [];
+  let match;
+  while ((match = hoverRulePattern.exec(css)) !== null) {
+    if (goldPattern.test(match[0]) && filledPropertyPattern.test(match[0])) {
+      const line = css.slice(0, match.index).split(/\r?\n/).length;
+      matches.push(`${relativeName}:${line}`);
+    }
+  }
+  return matches;
 }
 
 function assertFile(relativePath) {
@@ -161,6 +177,118 @@ if (exists('frontend/src')) {
         }
       });
     });
+}
+
+if (exists('frontend/src/styles.css')) {
+  const globalStyles = read('frontend/src/styles.css');
+  requiredProductionViewportWidths.forEach(width => {
+    if (!hasRequiredBreakpoint(globalStyles, width)) {
+      failures.push(`frontend/src/styles.css is missing mandatory production viewport coverage for ${width}px.`);
+    }
+  });
+
+  [
+    ['guest card single-row summary layout', /guest-top-points\s*\{[\s\S]*grid-template-columns\s*:\s*1fr/],
+    ['about card single-row summary layout', /about-rtbo-section\s+\.about-icon-grid[\s\S]*grid-template-columns\s*:\s*1fr\s*!important/],
+    ['services card single-row summary layout', /services-top-points\s*\{[\s\S]*grid-template-columns\s*:\s*1fr[\s\S]*services-unified-platform-cards\s*\{[\s\S]*grid-template-columns\s*:\s*1fr[\s\S]*services-features-section\s+\.solution-grid\s*\{[\s\S]*grid-template-columns\s*:\s*1fr\s*!important/],
+    ['public feature card single-row summary layout', /trainer-top-points\s*\{[\s\S]*grid-template-columns\s*:\s*1fr[\s\S]*results-top-points\s*\{[\s\S]*grid-template-columns\s*:\s*1fr[\s\S]*platform-feature-grid\s*\{[\s\S]*grid-template-columns\s*:\s*1fr[\s\S]*about-difference-grid\s*\{[\s\S]*grid-template-columns\s*:\s*1fr/],
+    ['testimonial card grid', /testimonial-grid\s*\{[\s\S]*repeat\(auto-fit,\s*minmax\(min\(100%,\s*300px\),\s*1fr\)\)/],
+    ['livestream channel card grid', /livestream-channel-grid\s*\{[\s\S]*repeat\(auto-fit,\s*minmax\(min\(100%,\s*220px\),\s*1fr\)\)/],
+    ['guest top section tablet collapse', /@media\s*\(max-width:\s*1180px\)[\s\S]*guest-top-section[\s\S]*grid-template-columns\s*:\s*1fr/],
+    ['mobile header single-column drawer', /@media\s*\(max-width:\s*1280px\)[\s\S]*site-header\.rtbo-header\s+\.nav-link-group,\s*\n\s*\.site-header\.rtbo-header\s+\.nav-action-group\s*\{[\s\S]*display\s*:\s*flex\s*!important[\s\S]*flex-direction\s*:\s*column\s*!important[\s\S]*grid-template-columns\s*:\s*1fr\s*!important/],
+    ['mobile menu overlay closes without button hover fills', /site-header\.rtbo-header\s+\.nav-flyout-scrim,[\s\S]*nav-flyout-scrim:is\(:hover,\s*:focus,\s*:focus-visible,\s*:active\)[\s\S]*background\s*:\s*rgba\(0,\s*0,\s*0,\s*\.58\)\s*!important[\s\S]*background-image\s*:\s*none\s*!important[\s\S]*pointer-events\s*:\s*none/],
+    ['button hover gold outline without filled panel', /Mandatory interaction standard[\s\S]*button:not\(:disabled\):not\(\.theme-toggle\)[\s\S]*outline\s*:\s*2px solid rgba\(212,\s*175,\s*55,\s*\.86\)\s*!important[\s\S]*background\s*:\s*transparent\s*!important[\s\S]*background-image\s*:\s*none\s*!important/],
+    ['theme switcher hover transparent with outline only', /\.theme-toggle,[\s\S]*theme-toggle:is\(:hover,\s*:focus,\s*:focus-visible,\s*:active\)[\s\S]*background\s*:\s*transparent\s*!important[\s\S]*background-image\s*:\s*none\s*!important[\s\S]*theme-toggle-track:is\(:hover,\s*:focus-visible\)[\s\S]*outline\s*:\s*2px solid rgba\(212,\s*175,\s*55,\s*\.72\)\s*!important/]
+  ].forEach(([label, pattern]) => {
+    if (!pattern.test(globalStyles)) {
+      failures.push(`frontend/src/styles.css is missing mandatory responsive production rule: ${label}.`);
+    }
+  });
+}
+
+if (exists('frontend/src/main.jsx')) {
+  const mainSource = read('frontend/src/main.jsx');
+  if (!/className=\{`nav-flyout-scrim[\s\S]*onPointerDown=\{\(event\)[\s\S]*closeMobileNav\(\)/.test(mainSource)) {
+    failures.push('frontend/src/main.jsx is missing the mandatory mobile menu overlay pointer dismissal handler.');
+  }
+}
+
+[
+  ...walkFiles(path.join(repoRoot, 'frontend', 'public', 'assets', 'css'))
+    .filter(filePath => filePath.endsWith('.css')),
+  path.join(repoRoot, 'frontend', 'public', 'assets', 'video-player', 'rtb-ipad-player.css'),
+  ...walkFiles(path.join(repoRoot, 'frontend', 'src')).filter(filePath => filePath.endsWith('.css'))
+]
+  .filter(filePath => fs.existsSync(filePath))
+  .forEach(filePath => {
+    const relativeName = path.relative(repoRoot, filePath);
+    const goldHoverRules = findGoldHoverRules(fs.readFileSync(filePath, 'utf8'), relativeName);
+    if (goldHoverRules.length) {
+      failures.push(`Gold hover fills are not allowed site-wide. Gold is allowed only as an outline/border on hover. Remove filled hover/focus styling from: ${goldHoverRules.join(', ')}`);
+    }
+  });
+
+if (exists('frontend/public/assets/video-player/rtb-ipad-player.css')) {
+  const ipadCss = read('frontend/public/assets/video-player/rtb-ipad-player.css');
+  if (!/body\s+\.rtb-ipad-player[\s\S]*rtb-control-btn[\s\S]*outline\s*:\s*2px solid rgba\(212,\s*175,\s*55,\s*\.86\)\s*!important[\s\S]*background\s*:\s*transparent\s*!important[\s\S]*background-image\s*:\s*none\s*!important/.test(ipadCss)) {
+    failures.push('frontend/public/assets/video-player/rtb-ipad-player.css is missing the mandatory gold-outline-only hover rule for iPad player buttons.');
+  }
+}
+
+if (!exists('tools/verify-github-remote.mjs')) {
+  failures.push('Missing mandatory GitHub remote verification script: tools/verify-github-remote.mjs.');
+} else {
+  const githubRemoteGuard = read('tools/verify-github-remote.mjs');
+  if (!/mrbballref\/rtbo_website/.test(githubRemoteGuard) || !/remote', 'get-url', '--push', 'origin'/.test(githubRemoteGuard)) {
+    failures.push('GitHub remote verification must block pushes unless origin fetch and push URLs target mrbballref/rtbo_website.');
+  }
+}
+
+if (!exists('.githooks/pre-push')) {
+  failures.push('Missing mandatory pre-push hook for GitHub remote verification.');
+} else {
+  const prePushHook = read('.githooks/pre-push');
+  if (!/npm run verify:github-remote/.test(prePushHook)) {
+    failures.push('The pre-push hook must run npm run verify:github-remote before every push.');
+  }
+}
+
+if (exists('package.json')) {
+  const rootPackage = read('package.json');
+  if (!/"verify:github-remote"\s*:\s*"node tools\/verify-github-remote\.mjs"/.test(rootPackage)) {
+    failures.push('package.json must expose npm run verify:github-remote for mandatory push verification.');
+  }
+}
+
+if (exists('frontend/src/shop-store.css')) {
+  const shopStyles = read('frontend/src/shop-store.css');
+  [
+    ['shop product fluid grid', /rtbo-shop-products\s*\{[\s\S]*repeat\(auto-fit,\s*minmax\(min\(100%,\s*230px\),\s*1fr\)\)/],
+    ['shop tablet layout collapse', /@media\s*\(max-width:\s*1180px\)[\s\S]*rtbo-shop-layout[\s\S]*grid-template-columns\s*:\s*1fr/],
+    ['shop category fluid grid', /rtbo-shop-category-list[\s\S]*repeat\(auto-fit,\s*minmax\(min\(100%,\s*150px\),\s*1fr\)\)/]
+  ].forEach(([label, pattern]) => {
+    if (!pattern.test(shopStyles)) {
+      failures.push(`frontend/src/shop-store.css is missing mandatory responsive production rule: ${label}.`);
+    }
+  });
+}
+
+if (exists('frontend/src/RTBOResumePage.jsx') && exists('frontend/src/rtbo-resume-page.css')) {
+  const resumeSource = read('frontend/src/RTBOResumePage.jsx');
+  const resumeStyles = read('frontend/src/rtbo-resume-page.css');
+  [
+    ['resume event click state', /selectedResumeEvent/.test(resumeSource) && /onClick=\{\(\)\s*=>\s*openResumeEventModal/.test(resumeSource)],
+    ['resume event keyboard preview state', /handleResumeEventKeyDown/.test(resumeSource) && /Escape/.test(resumeSource)],
+    ['resume event modal markup', /rtob-resume-event-modal/.test(resumeSource)],
+    ['resume event modal overlay close', /rtob-resume-event-modal-backdrop[\s\S]*onClick=\{\(\)\s*=>\s*setSelectedResumeEvent\(null\)\}/.test(resumeSource)],
+    ['resume event hover preview removed', !/onMouse(?:Enter|Over|Move)=/.test(resumeSource) && !/\.rtob-resume-event-card(?::|[^{]*):hover/.test(resumeStyles)],
+    ['resume event modal CSS', /\.rtob-resume-event-modal[\s\S]*position\s*:\s*fixed/.test(resumeStyles)],
+    ['resume event preview card responsive sizing', /\.rtob-resume-event-preview-card[\s\S]*width\s*:\s*min\(760px,\s*calc\(100vw - 40px\)\)/.test(resumeStyles)]
+  ].forEach(([label, passed]) => {
+    if (!passed) {
+      failures.push(`Resume page production click modal is missing mandatory support: ${label}.`);
+    }
+  });
 }
 
 if (!exists('frontend/public/robots.txt')) {

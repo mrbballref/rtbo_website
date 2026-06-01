@@ -107,11 +107,19 @@ function EmptySignInGate({ onCreateAccount, onSignIn }) {
 
 function TeamRoomCreateForm({ onCreate, busy }) {
   const [name, setName] = useState('');
+  const [error, setError] = useState('');
 
   function submit(event) {
     event.preventDefault();
-    if (!name.trim()) return;
-    onCreate(name.trim()).then(() => setName('')).catch(() => {});
+    const cleanName = name.trim();
+    if (!cleanName) {
+      setError('Enter a team room name before creating it.');
+      return;
+    }
+    setError('');
+    onCreate(cleanName)
+      .then(() => setName(''))
+      .catch((caughtError) => setError(caughtError?.message || 'The team room could not be created.'));
   }
 
   return (
@@ -121,6 +129,7 @@ function TeamRoomCreateForm({ onCreate, busy }) {
         <input value={name} onChange={(event) => setName(event.target.value)} placeholder="Enter team room name" minLength={2} required />
       </label>
       <button className="btn" type="submit" disabled={busy || name.trim().length < 2}>{busy ? 'Creating...' : 'Create Team Room'}</button>
+      {error && <p className="locker-room-message locker-room-form-error" role="alert">{error}</p>}
     </form>
   );
 }
@@ -289,6 +298,7 @@ export default function LockerRoomPage({ user, onCreateAccount, onSignIn }) {
   const [loading, setLoading] = useState(false);
   const [creatingTeam, setCreatingTeam] = useState(false);
   const [status, setStatus] = useState('');
+  const [filmLibraryOpen, setFilmLibraryOpen] = useState(true);
   const viewedFilmIdsRef = useRef(new Set());
 
   const normalizedFilms = useMemo(() => films.map(normalizeFilm), [films]);
@@ -368,13 +378,20 @@ export default function LockerRoomPage({ user, onCreateAccount, onSignIn }) {
     setFilms((data.films || []).map(normalizeFilm));
     setSelectedTeamId(Number(data.film?.teamId || data.selectedTeamId || selectedTeamId));
     setSelectedFilmId(String(data.film?.id || ''));
+    setFilmLibraryOpen(false);
     setStatus(data.message || 'Locker Room updated.');
+  }
+
+  function selectFilm(filmId) {
+    setSelectedFilmId(filmId);
+    setFilmLibraryOpen(false);
   }
 
   function changeTeam(event) {
     const nextTeamId = Number(event.target.value);
     setSelectedTeamId(nextTeamId);
     setSelectedFilmId('');
+    setFilmLibraryOpen(true);
     loadLockerRoom(nextTeamId);
   }
 
@@ -415,15 +432,6 @@ export default function LockerRoomPage({ user, onCreateAccount, onSignIn }) {
         )}
 
         <div className="locker-room-grid">
-          <aside className="locker-room-library-panel">
-            <div className="locker-room-card-head">
-              <p className="eyebrow">Film library</p>
-              <h3>{selectedTeam?.name || 'No team room selected'}</h3>
-              <p>{loading ? 'Loading secure film list...' : 'Only real uploaded film appears in this library.'}</p>
-            </div>
-            <FilmLibrary films={normalizedFilms} selectedFilmId={selectedFilm?.id || ''} onSelect={setSelectedFilmId} />
-          </aside>
-
           <main className="locker-room-player-panel">
             <RTBIPadVideoPlayer
               className="locker-room-ipad-player"
@@ -433,9 +441,32 @@ export default function LockerRoomPage({ user, onCreateAccount, onSignIn }) {
               status={selectedFilm ? 'Ready' : 'Awaiting Upload'}
               playlist={playlist}
               selectedId={selectedFilm?.id || ''}
-              onSelect={setSelectedFilmId}
+              onSelect={selectFilm}
               emptyTitle="No Locker Room film selected"
               emptyMessage="Upload or choose real game film to activate secure playback."
+              overlayContent={(
+                <div className={`locker-room-ipad-library ${filmLibraryOpen ? 'is-open' : 'is-minimized'}`}>
+                  <button
+                    className="locker-room-library-toggle"
+                    type="button"
+                    onClick={() => setFilmLibraryOpen((current) => !current)}
+                    aria-expanded={filmLibraryOpen}
+                    aria-controls="locker-room-ipad-film-library"
+                  >
+                    {filmLibraryOpen ? 'Minimize Library' : 'Film Library'}
+                  </button>
+                  {filmLibraryOpen && (
+                    <div className="locker-room-ipad-library-panel" id="locker-room-ipad-film-library">
+                      <div className="locker-room-card-head">
+                        <p className="eyebrow">Film library</p>
+                        <h3>{selectedTeam?.name || 'No team room selected'}</h3>
+                        <p>{loading ? 'Loading secure film list...' : 'Only real uploaded film appears in this library.'}</p>
+                      </div>
+                      <FilmLibrary films={normalizedFilms} selectedFilmId={selectedFilm?.id || ''} onSelect={selectFilm} />
+                    </div>
+                  )}
+                </div>
+              )}
               settingsNote="The Locker Room player streams private uploaded film through RTBO account permissions."
             />
 

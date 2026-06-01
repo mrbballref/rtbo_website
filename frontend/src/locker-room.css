@@ -24,7 +24,8 @@ html.light .locker-room-page {
 .locker-room-shell {
   display: grid;
   gap: 22px;
-  width: min(100%, 1680px);
+  width: 100%;
+  max-width: none;
   margin: 0 auto;
 }
 
@@ -81,6 +82,10 @@ html.light .locker-room-page {
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 12px;
   align-items: end;
+}
+
+.locker-room-form-error {
+  grid-column: 1 / -1;
 }
 
 .locker-room-create-form label,
@@ -157,7 +162,7 @@ html.light .locker-room-page select {
 
 .locker-room-grid {
   display: grid;
-  grid-template-columns: minmax(300px, 380px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 22px;
   align-items: start;
 }
@@ -279,8 +284,72 @@ html.light .locker-room-page select {
 
 .locker-room-ipad-player {
   width: 100%;
-  max-width: 1380px;
+  max-width: none;
   margin: 0 auto;
+}
+
+.locker-room-ipad-player .rtb-ipad-shell {
+  width: 100%;
+  max-width: none;
+}
+
+.locker-room-ipad-library {
+  position: absolute;
+  top: clamp(12px, 2vw, 22px);
+  right: clamp(12px, 2vw, 24px);
+  z-index: 12;
+  display: grid;
+  justify-items: end;
+  width: min(390px, calc(100% - 28px));
+  pointer-events: none;
+}
+
+.locker-room-ipad-library.is-minimized {
+  width: auto;
+}
+
+.locker-room-library-toggle {
+  pointer-events: auto;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 999px;
+  padding: 10px 14px;
+  color: #fff;
+  background: rgba(8, 11, 16, .82);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .28);
+  font-weight: 900;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.locker-room-library-toggle:hover,
+.locker-room-library-toggle:focus-visible {
+  border-color: rgba(255, 255, 255, .42);
+  background: rgba(22, 26, 34, .92);
+  outline: none;
+}
+
+.locker-room-ipad-library-panel {
+  pointer-events: auto;
+  display: grid;
+  gap: 14px;
+  width: 100%;
+  max-height: min(58dvh, 560px);
+  margin-top: 10px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 18px;
+  padding: 16px;
+  color: var(--locker-text);
+  background: rgba(8, 11, 16, .92);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .44);
+  backdrop-filter: blur(18px);
+}
+
+.locker-room-ipad-library-panel .locker-room-empty-card {
+  padding: 16px;
+  box-shadow: none;
 }
 
 .locker-room-upload-card {
@@ -391,7 +460,7 @@ html.light .locker-room-file-picker strong {
 
 @media (max-width: 1536px) {
   .locker-room-shell {
-    width: min(100%, 1480px);
+    width: 100%;
   }
 }
 
@@ -426,6 +495,20 @@ html.light .locker-room-file-picker strong {
   .locker-room-player-panel {
     gap: 16px;
   }
+
+  .locker-room-ipad-library {
+    inset-inline: 12px;
+    width: auto;
+    justify-items: stretch;
+  }
+
+  .locker-room-ipad-library.is-minimized {
+    justify-items: end;
+  }
+
+  .locker-room-ipad-library-panel {
+    max-height: min(48dvh, 460px);
+  }
 }
 
 @media (max-width: 648px) {
@@ -459,6 +542,7 @@ html.light .locker-room-file-picker strong {
   .locker-room-heading,
   .locker-room-toolbar,
   .locker-room-library-panel,
+  .locker-room-ipad-library-panel,
   .locker-room-upload-card {
     padding: 16px;
   }

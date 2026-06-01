@@ -351,6 +351,20 @@ function rtbo_ensure_endpoint_tables(): array
     $tables[] = 'refroom_meetings';
 
     rtbo_database_setup_exec(
+        "CREATE TABLE IF NOT EXISTS refroom_breakout_rooms (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            meeting_id INT NOT NULL,
+            room_name VARCHAR(190) NOT NULL,
+            payload LONGTEXT NOT NULL,
+            created_at DATETIME NULL,
+            updated_at DATETIME NULL,
+            INDEX idx_refroom_breakout_meeting (meeting_id),
+            INDEX idx_refroom_breakout_name (room_name)
+        )"
+    );
+    $tables[] = 'refroom_breakout_rooms';
+
+    rtbo_database_setup_exec(
         "CREATE TABLE IF NOT EXISTS stripe_webhook_events (
             id VARCHAR(190) PRIMARY KEY,
             event_type VARCHAR(120) NOT NULL,

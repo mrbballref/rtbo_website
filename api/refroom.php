@@ -75,6 +75,18 @@ function rtbo_refroom_ensure_table(): void
             INDEX idx_refroom_meeting_status (invite_status)
         )"
     );
+    db()->exec(
+        "CREATE TABLE IF NOT EXISTS refroom_breakout_rooms (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            meeting_id INT NOT NULL,
+            room_name VARCHAR(190) NOT NULL,
+            payload LONGTEXT NOT NULL,
+            created_at DATETIME NULL,
+            updated_at DATETIME NULL,
+            INDEX idx_refroom_breakout_meeting (meeting_id),
+            INDEX idx_refroom_breakout_name (room_name)
+        )"
+    );
 }
 
 function rtbo_refroom_db_available(): bool
@@ -117,6 +129,99 @@ function rtbo_refroom_row_to_meeting(array $row): array
         'created_at' => (string) ($payload['created_at'] ?? $row['created_at'] ?? ''),
         'updated_at' => (string) ($payload['updated_at'] ?? $row['updated_at'] ?? ''),
     ]);
+}
+
+function rtbo_refroom_breakout_row_to_room(array $row): array
+{
+    $payload = json_decode((string) ($row['payload'] ?? ''), true);
+    if (!is_array($payload)) {
+        $payload = [];
+    }
+
+    return array_merge($payload, [
+        'id' => (int) ($row['id'] ?? $payload['id'] ?? 0),
+        'meetingId' => (int) ($row['meeting_id'] ?? $payload['meetingId'] ?? 0),
+        'name' => (string) ($payload['name'] ?? $row['room_name'] ?? ''),
+        'createdAt' => (string) ($payload['createdAt'] ?? $row['created_at'] ?? ''),
+        'updatedAt' => (string) ($payload['updatedAt'] ?? $row['updated_at'] ?? ''),
+    ]);
+}
+
+function rtbo_refroom_read_database_breakouts(): array
+{
+    rtbo_refroom_ensure_table();
+    $rows = db()->query('SELECT * FROM refroom_breakout_rooms ORDER BY COALESCE(created_at, updated_at) ASC, id ASC')->fetchAll();
+    $grouped = [];
+    foreach ($rows as $row) {
+        $room = rtbo_refroom_breakout_row_to_room($row);
+        $meetingId = (int) ($room['meetingId'] ?? 0);
+        if ($meetingId <= 0) {
+            continue;
+        }
+        if (!isset($grouped[$meetingId])) {
+            $grouped[$meetingId] = [];
+        }
+        $grouped[$meetingId][] = $room;
+    }
+
+    return $grouped;
+}
+
+function rtbo_refroom_breakout_payload(array $source, int $meetingId, ?array $existing = null): array
+{
+    $name = rtbo_refroom_text($source, 'name');
+    if ($name === '') {
+        throw new RuntimeException('Breakout room name is required.');
+    }
+
+    $now = date('c');
+
+    return [
+        'id' => (int) ($existing['id'] ?? $source['id'] ?? 0),
+        'meetingId' => $meetingId,
+        'name' => $name,
+        'createdAt' => (string) ($existing['createdAt'] ?? $source['createdAt'] ?? $now),
+        'updatedAt' => $now,
+    ];
+}
+
+function rtbo_refroom_insert_breakout_database(int $meetingId, array $room): array
+{
+    rtbo_refroom_ensure_table();
+    $stmt = db()->prepare(
+        "INSERT INTO refroom_breakout_rooms(meeting_id, room_name, payload, created_at, updated_at)
+         VALUES(?, ?, ?, ?, ?)"
+    );
+    $stmt->execute([
+        $meetingId,
+        (string) ($room['name'] ?? ''),
+        json_encode($room, JSON_UNESCAPED_SLASHES),
+        rtbo_refroom_datetime_or_null((string) ($room['createdAt'] ?? '')),
+        rtbo_refroom_datetime_or_null((string) ($room['updatedAt'] ?? '')),
+    ]);
+    $room['id'] = (int) db()->lastInsertId();
+    $room['meetingId'] = $meetingId;
+
+    $update = db()->prepare('UPDATE refroom_breakout_rooms SET payload = ? WHERE id = ?');
+    $update->execute([json_encode($room, JSON_UNESCAPED_SLASHES), (int) $room['id']]);
+
+    return $room;
+}
+
+function rtbo_refroom_delete_breakout_database(int $meetingId, int $roomId): bool
+{
+    rtbo_refroom_ensure_table();
+    $stmt = db()->prepare('DELETE FROM refroom_breakout_rooms WHERE meeting_id = ? AND id = ?');
+    $stmt->execute([$meetingId, $roomId]);
+
+    return $stmt->rowCount() > 0;
+}
+
+function rtbo_refroom_delete_meeting_breakouts_database(int $meetingId): void
+{
+    rtbo_refroom_ensure_table();
+    $stmt = db()->prepare('DELETE FROM refroom_breakout_rooms WHERE meeting_id = ?');
+    $stmt->execute([$meetingId]);
 }
 
 function rtbo_refroom_upsert_database(array $meeting): array
@@ -186,7 +291,12 @@ function rtbo_refroom_read_database_store(): array
         $rows = db()->query('SELECT * FROM refroom_meetings ORDER BY COALESCE(updated_at, created_at) DESC, id DESC LIMIT 500')->fetchAll();
     }
 
-    $meetings = array_map('rtbo_refroom_row_to_meeting', $rows);
+    $breakoutsByMeeting = rtbo_refroom_read_database_breakouts();
+    $meetings = array_map(static function (array $row) use ($breakoutsByMeeting): array {
+        $meeting = rtbo_refroom_row_to_meeting($row);
+        $meeting['breakout_rooms'] = $breakoutsByMeeting[(int) ($meeting['id'] ?? 0)] ?? [];
+        return $meeting;
+    }, $rows);
     $maxId = array_reduce($meetings, static fn (int $carry, array $meeting): int => max($carry, (int) ($meeting['id'] ?? 0)), 0);
 
     return [
@@ -298,9 +408,10 @@ function rtbo_refroom_meeting_payload(array $source, ?array $existing = null): a
 
     $memberIds = is_array($source['invited_member_ids'] ?? null) ? $source['invited_member_ids'] : [];
     $invitedEmails = is_array($source['invited_emails'] ?? null) ? $source['invited_emails'] : [];
+    $now = date('c');
 
     return [
-        'id' => (int) ($existing['id'] ?? 0),
+        'id' => (int) ($existing['id'] ?? $source['id'] ?? 0),
         'title' => $title,
         'date' => $date,
         'time' => $time,
@@ -310,11 +421,11 @@ function rtbo_refroom_meeting_payload(array $source, ?array $existing = null): a
         'meetingCode' => (string) ($existing['meetingCode'] ?? rtbo_refroom_code()),
         'invited_member_ids' => array_values(array_unique(array_filter(array_map('intval', $memberIds)))),
         'invited_emails' => rtbo_normalize_email_list(array_map('strval', $invitedEmails)),
-        'invite_status' => (string) ($existing['invite_status'] ?? 'not_sent'),
-        'invite_sent_at' => (string) ($existing['invite_sent_at'] ?? ''),
-        'invite_recipient_count' => (int) ($existing['invite_recipient_count'] ?? 0),
-        'created_at' => (string) ($existing['created_at'] ?? date('c')),
-        'updated_at' => date('c'),
+        'invite_status' => (string) ($existing['invite_status'] ?? $source['invite_status'] ?? 'not_sent'),
+        'invite_sent_at' => (string) ($existing['invite_sent_at'] ?? $source['invite_sent_at'] ?? ''),
+        'invite_recipient_count' => (int) ($existing['invite_recipient_count'] ?? $source['invite_recipient_count'] ?? 0),
+        'created_at' => (string) ($existing['created_at'] ?? $source['created_at'] ?? $now),
+        'updated_at' => $now,
     ];
 }
 
@@ -426,6 +537,23 @@ function rtbo_refroom_find_by_code(string $meetingCode, array $meetings): ?array
     return null;
 }
 
+function rtbo_refroom_find_meeting_index(array $meetings, array $input): ?int
+{
+    $meetingId = (int) ($input['meeting_id'] ?? $input['meetingId'] ?? 0);
+    $meetingCode = strtoupper(trim((string) ($input['meeting_code'] ?? $input['meetingCode'] ?? '')));
+
+    foreach ($meetings as $index => $meeting) {
+        if ($meetingId > 0 && (int) ($meeting['id'] ?? 0) === $meetingId) {
+            return $index;
+        }
+        if ($meetingCode !== '' && strtoupper((string) ($meeting['meetingCode'] ?? '')) === $meetingCode) {
+            return $index;
+        }
+    }
+
+    return null;
+}
+
 $databaseUser = current_database_user();
 $user = $databaseUser ? public_auth_user($databaseUser) : current_user();
 
@@ -446,7 +574,8 @@ try {
     }
 
     if ($method === 'POST') {
-        if ((string) ($requestInput['action'] ?? '') === 'create_public') {
+        $publicAction = strtolower(trim((string) ($requestInput['action'] ?? '')));
+        if (in_array($publicAction, ['create_public', 'create_public_meeting', 'create_public_room'], true)) {
             require_same_origin_request();
             $store = rtbo_refroom_read_records_store();
             $meetings = is_array($store['meetings'] ?? null) ? $store['meetings'] : [];
@@ -488,12 +617,12 @@ try {
     require_same_origin_request();
 
     $input = $requestInput;
-    $action = (string) ($input['action'] ?? '');
+    $action = strtolower(trim((string) ($input['action'] ?? '')));
     $store = rtbo_refroom_read_records_store();
     $meetings = is_array($store['meetings'] ?? null) ? $store['meetings'] : [];
     $members = rtbo_refroom_member_options();
 
-    if ($action === 'create') {
+    if (in_array($action, ['create', 'create_meeting', 'create_room'], true)) {
         $meeting = rtbo_refroom_meeting_payload(is_array($input['meeting'] ?? null) ? $input['meeting'] : []);
         $meeting['id'] = (int) ($store['next_id'] ?? 1);
         $store['next_id'] = $meeting['id'] + 1;
@@ -537,8 +666,72 @@ try {
         $meetings = array_values(array_filter($meetings, static fn (array $meeting): bool => (int) ($meeting['id'] ?? 0) !== $id));
         $store['meetings'] = $meetings;
         rtbo_refroom_write_records_store($store);
+        if ($id > 0 && rtbo_refroom_db_available()) {
+            rtbo_refroom_delete_meeting_breakouts_database($id);
+        }
 
         echo json_encode(['success' => true, 'message' => 'RefRoom meeting deleted.', 'meetings' => $meetings], JSON_UNESCAPED_SLASHES);
+        exit;
+    }
+
+    if ($action === 'create_breakout_room') {
+        $targetIndex = rtbo_refroom_find_meeting_index($meetings, $input);
+        if ($targetIndex === null) {
+            throw new RuntimeException('Select or create a RefRoom meeting before creating a breakout room.');
+        }
+
+        $meeting = $meetings[$targetIndex];
+        $meetingId = (int) ($meeting['id'] ?? 0);
+        if ($meetingId <= 0) {
+            throw new RuntimeException('Save the RefRoom meeting before creating breakout rooms.');
+        }
+
+        $room = rtbo_refroom_breakout_payload(is_array($input['room'] ?? null) ? $input['room'] : [], $meetingId);
+        $existingNames = array_map(
+            static fn (array $item): string => strtolower(trim((string) ($item['name'] ?? ''))),
+            is_array($meeting['breakout_rooms'] ?? null) ? $meeting['breakout_rooms'] : []
+        );
+        if (in_array(strtolower((string) ($room['name'] ?? '')), $existingNames, true)) {
+            throw new RuntimeException('A breakout room with that name already exists for this meeting.');
+        }
+
+        $room = rtbo_refroom_insert_breakout_database($meetingId, $room);
+        $meeting['breakout_rooms'] = [
+            ...(is_array($meeting['breakout_rooms'] ?? null) ? $meeting['breakout_rooms'] : []),
+            $room,
+        ];
+        $meeting['updated_at'] = date('c');
+        $meetings[$targetIndex] = $meeting;
+        $store['meetings'] = $meetings;
+        rtbo_refroom_write_records_store($store);
+
+        echo json_encode(['success' => true, 'message' => 'Breakout room created.', 'breakout_room' => $room, 'meeting' => $meeting, 'meetings' => $meetings], JSON_UNESCAPED_SLASHES);
+        exit;
+    }
+
+    if ($action === 'delete_breakout_room') {
+        $targetIndex = rtbo_refroom_find_meeting_index($meetings, $input);
+        $roomId = (int) ($input['room_id'] ?? $input['roomId'] ?? 0);
+        if ($targetIndex === null || $roomId <= 0) {
+            throw new RuntimeException('Select a valid RefRoom meeting and breakout room.');
+        }
+
+        $meeting = $meetings[$targetIndex];
+        $meetingId = (int) ($meeting['id'] ?? 0);
+        if (!rtbo_refroom_delete_breakout_database($meetingId, $roomId)) {
+            throw new RuntimeException('Breakout room not found.');
+        }
+
+        $meeting['breakout_rooms'] = array_values(array_filter(
+            is_array($meeting['breakout_rooms'] ?? null) ? $meeting['breakout_rooms'] : [],
+            static fn (array $room): bool => (int) ($room['id'] ?? 0) !== $roomId
+        ));
+        $meeting['updated_at'] = date('c');
+        $meetings[$targetIndex] = $meeting;
+        $store['meetings'] = $meetings;
+        rtbo_refroom_write_records_store($store);
+
+        echo json_encode(['success' => true, 'message' => 'Breakout room removed.', 'meeting' => $meeting, 'meetings' => $meetings], JSON_UNESCAPED_SLASHES);
         exit;
     }
 

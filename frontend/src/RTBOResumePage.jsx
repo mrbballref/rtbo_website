@@ -114,10 +114,47 @@ function getResumeEventDateParts(date = '') {
   };
 }
 
+function ResumeEventCardContent({ eventItem, index, isPreview = false }) {
+  const dateParts = getResumeEventDateParts(eventItem.date);
+  const imageUrl = String(eventItem.imageUrl || '').trim();
+  return (
+    <>
+      {imageUrl && (
+        <figure className="rtob-resume-event-art">
+          <img
+            src={imageUrl}
+            alt={`${eventItem.event} ${eventItem.date} event artwork`}
+            loading={isPreview || index < 4 ? 'eager' : 'lazy'}
+            decoding="async"
+          />
+        </figure>
+      )}
+      <div className="rtob-resume-event-summary">
+        <div className="rtob-resume-event-card-top">
+          <div className="rtob-resume-event-date-lockup" aria-label={`Event date ${eventItem.date}`}>
+            <span>{dateParts.month}</span>
+            <strong>{dateParts.primary}</strong>
+            <small>{dateParts.secondary}</small>
+          </div>
+          <div className="rtob-resume-event-meta">
+            <span className="rtob-resume-event-kind">{getResumeEventKind(eventItem.event)}</span>
+            <span className="rtob-resume-event-mark" aria-hidden="true">{getResumeEventMark(eventItem.event)}</span>
+          </div>
+        </div>
+        <div className="rtob-resume-event-card-body">
+          <h4>{eventItem.event}</h4>
+        </div>
+        <p className="rtob-resume-event-location"><span>{eventItem.location}</span></p>
+      </div>
+    </>
+  );
+}
+
 export default function RTBOResumePage() {
   const [resume, setResume] = useState(readStoredRtboResume);
   const [loading, setLoading] = useState(true);
   const [requestModalOpen, setRequestModalOpen] = useState(false);
+  const [selectedResumeEvent, setSelectedResumeEvent] = useState(null);
   const [requestForm, setRequestForm] = useState(REQUEST_OFFICIALS_INITIAL_FORM);
   const [requestStatus, setRequestStatus] = useState({ type: '', message: '' });
   const [requestSubmitting, setRequestSubmitting] = useState(false);
@@ -171,6 +208,32 @@ export default function RTBOResumePage() {
       window.removeEventListener('keydown', closeOnEscape);
     };
   }, [requestModalOpen]);
+
+  useEffect(() => {
+    if (!selectedResumeEvent) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    function closePreviewOnEscape(event) {
+      if (event.key === 'Escape') {
+        setSelectedResumeEvent(null);
+      }
+    }
+    window.addEventListener('keydown', closePreviewOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', closePreviewOnEscape);
+    };
+  }, [selectedResumeEvent]);
+
+  const openResumeEventModal = (eventItem, index) => {
+    setSelectedResumeEvent({ ...eventItem, previewIndex: index });
+  };
+
+  const handleResumeEventKeyDown = (keyboardEvent, eventItem, index) => {
+    if (keyboardEvent.key !== 'Enter' && keyboardEvent.key !== ' ') return;
+    keyboardEvent.preventDefault();
+    openResumeEventModal(eventItem, index);
+  };
 
   const contactItems = useMemo(() => ([
     ['Primary Contact', resume.contact.primary],
@@ -282,37 +345,20 @@ export default function RTBOResumePage() {
           <p>Event history provided for RTBO, organized by date, event partner or host, and location.</p>
           <div className="rtob-resume-event-card-grid">
             {resume.events.map((eventItem, index) => {
-              const dateParts = getResumeEventDateParts(eventItem.date);
               const imageUrl = String(eventItem.imageUrl || '').trim();
               return (
-                <article className={`rtob-resume-event-card ${imageUrl ? 'has-art' : 'no-art'} ${eventItem.highlight ? 'is-highlighted' : ''}`.trim()} key={`${eventItem.date}-${eventItem.event}-${index}`}>
-                  {imageUrl && (
-                    <figure className="rtob-resume-event-art">
-                      <img
-                        src={imageUrl}
-                        alt={`${eventItem.event} ${eventItem.date} event artwork`}
-                        loading={index < 4 ? 'eager' : 'lazy'}
-                        decoding="async"
-                      />
-                    </figure>
-                  )}
-                  <div className="rtob-resume-event-summary">
-                    <div className="rtob-resume-event-card-top">
-                      <div className="rtob-resume-event-date-lockup" aria-label={`Event date ${eventItem.date}`}>
-                        <span>{dateParts.month}</span>
-                        <strong>{dateParts.primary}</strong>
-                        <small>{dateParts.secondary}</small>
-                      </div>
-                      <div className="rtob-resume-event-meta">
-                        <span className="rtob-resume-event-kind">{getResumeEventKind(eventItem.event)}</span>
-                        <span className="rtob-resume-event-mark" aria-hidden="true">{getResumeEventMark(eventItem.event)}</span>
-                      </div>
-                    </div>
-                    <div className="rtob-resume-event-card-body">
-                      <h4>{eventItem.event}</h4>
-                    </div>
-                    <p className="rtob-resume-event-location"><span>{eventItem.location}</span></p>
-                  </div>
+                <article
+                  className={`rtob-resume-event-card ${imageUrl ? 'has-art' : 'no-art'} ${eventItem.highlight ? 'is-highlighted' : ''}`.trim()}
+                  key={`${eventItem.date}-${eventItem.event}-${index}`}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`${eventItem.date} ${eventItem.event} in ${eventItem.location}`}
+                  aria-haspopup="dialog"
+                  onClick={() => openResumeEventModal(eventItem, index)}
+                  onKeyDown={(keyboardEvent) => handleResumeEventKeyDown(keyboardEvent, eventItem, index)}
+                >
+                  <ResumeEventCardContent eventItem={eventItem} index={index} />
+                  <span className="rtob-resume-event-open-hint">Click to view</span>
                 </article>
               );
             })}
@@ -347,6 +393,23 @@ export default function RTBOResumePage() {
 
         {loading && <p className="rtbo-empty-state">Loading the latest RTBO resume...</p>}
       </div>
+
+      {selectedResumeEvent && (
+        <div className="rtob-resume-event-modal" role="presentation">
+          <button className="rtob-resume-event-modal-backdrop" type="button" aria-label="Close event card preview" onClick={() => setSelectedResumeEvent(null)} />
+          <article
+            className={`rtob-resume-event-card rtob-resume-event-preview-card ${selectedResumeEvent.imageUrl ? 'has-art' : 'no-art'} ${selectedResumeEvent.highlight ? 'is-highlighted' : ''}`.trim()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="rtob-resume-event-preview-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button className="rtob-resume-event-preview-close" type="button" aria-label="Close event card preview" onClick={() => setSelectedResumeEvent(null)}>×</button>
+            <ResumeEventCardContent eventItem={selectedResumeEvent} index={selectedResumeEvent.previewIndex || 0} isPreview />
+            <h3 className="rtob-resume-event-preview-sr-title" id="rtob-resume-event-preview-title">{selectedResumeEvent.event}</h3>
+          </article>
+        </div>
+      )}
 
       {requestModalOpen && (
         <div className="rtob-official-request-modal" role="presentation">

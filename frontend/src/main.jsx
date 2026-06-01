@@ -679,6 +679,11 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
     closeNavDropdowns();
   }
 
+  function closeMobileNav() {
+    setOpen(false);
+    closeNavDropdowns('');
+  }
+
   useEffect(() => {
     function handleDocumentOutsidePress(event) {
       if (event.target instanceof Element && event.target.closest('.site-header.rtbo-header .nav-dropdown')) return;
@@ -743,7 +748,18 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
       >
         <span className="nav-menu-icon" aria-hidden="true"></span><span>Menu</span>
       </button>
-      <button className={`nav-flyout-scrim ${open ? 'is-open' : ''}`} type="button" aria-label="Close navigation menu" onClick={() => { setOpen(false); closeNavDropdowns(''); }}></button>
+      <button
+        className={`nav-flyout-scrim ${open ? 'is-open' : ''}`}
+        type="button"
+        aria-label="Close navigation menu"
+        aria-hidden={!open}
+        tabIndex={open ? 0 : -1}
+        onPointerDown={(event) => {
+          event.preventDefault();
+          closeMobileNav();
+        }}
+        onClick={closeMobileNav}
+      ></button>
       <nav className={`site-nav ${open ? 'is-open' : ''}`}>
         <div className="nav-link-group">
           {primaryNavLinks.map(([id, label]) => id === 'about' ? (
