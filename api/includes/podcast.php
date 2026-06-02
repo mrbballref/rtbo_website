@@ -4,6 +4,20 @@ declare(strict_types=1);
 require_once __DIR__ . '/feature-store.php';
 
 const RTBO_PODCAST_STORE_TABLE = 'podcast_store';
+const RTBO_JAMMED_UP_BAR_LOGO = '/assets/podcast/jammed-up-bar-logo_.png';
+
+function rtbo_podcast_legacy_logo_paths(): array
+{
+    return [
+        '/assets/podcast/jammed-up-bar-logo.png',
+        '/assets/podcast/jammed-up-bar-logo-card.png',
+        '/assets/podcast/jammed-up-bar-logo-card.webp',
+        '/assets/podcast/jammed-up-bar-logo-transparent.png',
+        '/assets/podcast/jammed-up-bar-logo-mark.png',
+        '/assets/podcast/jammed-up-bar-logo-badge.png',
+        '/assets/podcast/social-card.png',
+    ];
+}
 
 function rtbo_podcast_path(): string
 {
@@ -23,10 +37,10 @@ function rtbo_podcast_default_show(): array
         'brandMeaning' => 'Jammed Up means not letting yourself get backed into a corner. You stay calm under pressure, fight your way out, and keep moving forward.',
         'audience' => 'Basketball officials first, with basketball fans growing into an equal audience over time.',
         'releaseSchedule' => 'Saturday and Sunday at 5 PM Central until viewership increases.',
-        'logo' => '/assets/podcast/jammed-up-bar-logo-transparent.png',
-        'logoCard' => '/assets/podcast/jammed-up-bar-logo-card.webp',
-        'logoMark' => '/assets/podcast/jammed-up-bar-logo-mark.png',
-        'socialCard' => '/assets/podcast/social-card.png',
+        'logo' => RTBO_JAMMED_UP_BAR_LOGO,
+        'logoCard' => RTBO_JAMMED_UP_BAR_LOGO,
+        'logoMark' => RTBO_JAMMED_UP_BAR_LOGO,
+        'socialCard' => RTBO_JAMMED_UP_BAR_LOGO,
     ];
 }
 
@@ -69,6 +83,13 @@ function rtbo_podcast_url(mixed $value): string
     return $url;
 }
 
+function rtbo_podcast_brand_url(mixed $value): string
+{
+    $url = rtbo_podcast_url($value);
+
+    return in_array($url, rtbo_podcast_legacy_logo_paths(), true) ? RTBO_JAMMED_UP_BAR_LOGO : $url;
+}
+
 function rtbo_podcast_status(mixed $value): string
 {
     $status = rtbo_podcast_slug($value, 'draft');
@@ -95,10 +116,10 @@ function rtbo_podcast_show(array $show): array
         'brandMeaning' => rtbo_podcast_text($show['brandMeaning'] ?? $base['brandMeaning'], 800),
         'audience' => rtbo_podcast_text($show['audience'] ?? $base['audience'], 500),
         'releaseSchedule' => rtbo_podcast_text($show['releaseSchedule'] ?? $base['releaseSchedule'], 300),
-        'logo' => rtbo_podcast_url($show['logo'] ?? $base['logo']) ?: $base['logo'],
-        'logoCard' => rtbo_podcast_url($show['logoCard'] ?? $base['logoCard']) ?: $base['logoCard'],
-        'logoMark' => rtbo_podcast_url($show['logoMark'] ?? $base['logoMark']) ?: $base['logoMark'],
-        'socialCard' => rtbo_podcast_url($show['socialCard'] ?? $base['socialCard']) ?: $base['socialCard'],
+        'logo' => rtbo_podcast_brand_url($show['logo'] ?? $base['logo']) ?: $base['logo'],
+        'logoCard' => rtbo_podcast_brand_url($show['logoCard'] ?? $base['logoCard']) ?: $base['logoCard'],
+        'logoMark' => rtbo_podcast_brand_url($show['logoMark'] ?? $base['logoMark']) ?: $base['logoMark'],
+        'socialCard' => rtbo_podcast_brand_url($show['socialCard'] ?? $base['socialCard']) ?: $base['socialCard'],
     ];
 }
 

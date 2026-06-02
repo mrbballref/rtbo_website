@@ -109,10 +109,7 @@ export default function JammedUpPodcastPage() {
             </div>
           </div>
           <div className="jammed-podcast-logo-stage">
-            <picture>
-              <source srcSet={show.logoCard || defaultPodcastShow.logoCard} type="image/webp" />
-              <img src={show.logo || defaultPodcastShow.logo} alt={`${show.name} logo`} />
-            </picture>
+            <img src={show.logoCard || show.logo || defaultPodcastShow.logoCard} alt={`${show.name} logo`} />
           </div>
         </section>
 

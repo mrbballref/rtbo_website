@@ -1,5 +1,16 @@
 export const PODCAST_LIBRARY_KEY = 'rtbo-jammed-up-podcast-library';
 export const PODCAST_UPDATED_EVENT = 'rtbo-jammed-up-podcast-updated';
+export const JAMMED_UP_BAR_LOGO = '/assets/podcast/jammed-up-bar-logo_.png';
+
+const legacyJammedLogoPaths = new Set([
+  '/assets/podcast/jammed-up-bar-logo.png',
+  '/assets/podcast/jammed-up-bar-logo-card.png',
+  '/assets/podcast/jammed-up-bar-logo-card.webp',
+  '/assets/podcast/jammed-up-bar-logo-transparent.png',
+  '/assets/podcast/jammed-up-bar-logo-mark.png',
+  '/assets/podcast/jammed-up-bar-logo-badge.png',
+  '/assets/podcast/social-card.png'
+]);
 
 export const defaultPodcastShow = {
   name: 'The Jammed Up Bar! Podcast',
@@ -10,10 +21,10 @@ export const defaultPodcastShow = {
   brandMeaning: 'Jammed Up means not letting yourself get backed into a corner. You stay calm under pressure, fight your way out, and keep moving forward.',
   audience: 'Basketball officials first, with basketball fans growing into an equal audience over time.',
   releaseSchedule: 'Saturday and Sunday at 5 PM Central until viewership increases.',
-  logo: '/assets/podcast/jammed-up-bar-logo-transparent.png',
-  logoCard: '/assets/podcast/jammed-up-bar-logo-card.webp',
-  logoMark: '/assets/podcast/jammed-up-bar-logo-mark.png',
-  socialCard: '/assets/podcast/social-card.png'
+  logo: JAMMED_UP_BAR_LOGO,
+  logoCard: JAMMED_UP_BAR_LOGO,
+  logoMark: JAMMED_UP_BAR_LOGO,
+  socialCard: JAMMED_UP_BAR_LOGO
 };
 
 export const emptyPodcastLibrary = {
@@ -24,6 +35,11 @@ export const emptyPodcastLibrary = {
 
 function textValue(value = '', fallback = '') {
   return String(value ?? fallback).trim();
+}
+
+function podcastBrandImage(value = '', fallback = JAMMED_UP_BAR_LOGO) {
+  const image = textValue(value, fallback);
+  return legacyJammedLogoPaths.has(image) ? JAMMED_UP_BAR_LOGO : image;
 }
 
 export function podcastSlug(value = 'podcast-episode') {
@@ -58,10 +74,10 @@ export function normalizePodcastShow(show = {}) {
     brandMeaning: textValue(show.brandMeaning, defaultPodcastShow.brandMeaning),
     audience: textValue(show.audience, defaultPodcastShow.audience),
     releaseSchedule: textValue(show.releaseSchedule, defaultPodcastShow.releaseSchedule),
-    logo: textValue(show.logo, defaultPodcastShow.logo),
-    logoCard: textValue(show.logoCard, defaultPodcastShow.logoCard),
-    logoMark: textValue(show.logoMark, defaultPodcastShow.logoMark),
-    socialCard: textValue(show.socialCard, defaultPodcastShow.socialCard)
+    logo: podcastBrandImage(show.logo, defaultPodcastShow.logo),
+    logoCard: podcastBrandImage(show.logoCard, defaultPodcastShow.logoCard),
+    logoMark: podcastBrandImage(show.logoMark, defaultPodcastShow.logoMark),
+    socialCard: podcastBrandImage(show.socialCard, defaultPodcastShow.socialCard)
   };
 }
 
