@@ -1682,6 +1682,23 @@
 
 .rtbo-coursera-brand-logo {
   min-height: 56px;
+  width: fit-content;
+  border-radius: 14px;
+  text-decoration: none;
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    outline-color .2s ease;
+}
+
+.rtbo-coursera-brand-logo:hover {
+  transform: translateY(-1px);
+}
+
+.rtbo-coursera-brand-logo:focus-visible {
+  outline: 3px solid rgba(245, 188, 72, .85);
+  outline-offset: 4px;
+  box-shadow: 0 0 0 7px rgba(245, 188, 72, .16);
 }
 
 .rtbo-coursera-brand-logo img {

@@ -3196,9 +3196,9 @@ function RTBOAcademy({
       {activeView === 'course' && selectedTrack && (
         <div className="rtbo-coursera-course rtbo-coursera-course-shell">
           <section className="rtbo-coursera-topbar" aria-label="Course player controls">
-            <div className="rtbo-coursera-brand rtbo-coursera-brand-logo">
+            <a className="rtbo-coursera-brand rtbo-coursera-brand-logo" href="#home" aria-label="Go to the RTBO home page">
               <img src={REFZONE_UNIVERSITY_LOGO} alt="RefZone University" loading="eager" decoding="async" />
-            </div>
+            </a>
             <div className="rtbo-coursera-top-progress">
               <span>{selectedTrackProgress.completedLessons}/{selectedTrackLessons.length} learning items</span>
               <div className="rtbo-academy-progress"><span style={{ width: `${selectedTrackProgress.percent}%` }} /></div>
