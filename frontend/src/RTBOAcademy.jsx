@@ -8,6 +8,7 @@ const VIDEO_JOBS_URL = '/refzone-course-video-jobs.json';
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
 const noopStatus = () => {};
 const COURSE_OVERVIEW_THUMBNAIL = '/assets/images/refzone/course-overview-thumbnail.png';
+const REFZONE_UNIVERSITY_LOGO = '/assets/images/refzone/refzone_u_logo.png';
 const ACADEMY_LAST_ROUTE_KEY = 'rtbo_refzone_university_last_route';
 const ACADEMY_PUBLIC_ROUTE_BASE = 'education';
 const ACADEMY_DASHBOARD_ROUTE_BASE = 'dashboard/rtboAcademy';
@@ -1483,6 +1484,62 @@ function AcademyMetric({ label, value, detail }) {
   );
 }
 
+function CourseSummaryStrip({
+  tracks = [],
+  activeTrackId = '',
+  completed = {},
+  passedTests = {},
+  onOpenCourse = () => {}
+}) {
+  const courseTracks = tracks.filter(track => track?.id !== 'overview' && Array.isArray(track?.weeks) && track.weeks.length);
+  if (!courseTracks.length) return null;
+  const activeIndex = Math.max(0, courseTracks.findIndex(track => track.id === activeTrackId));
+  const activeProgress = courseProgressFor(courseTracks[activeIndex], completed, passedTests);
+  const activeCourseComplete = activeProgress.lessons.length > 0
+    && activeProgress.completedLessons === activeProgress.lessons.length
+    && activeProgress.passedAssessments === activeProgress.lessons.length;
+
+  return (
+    <section className="rtbo-coursera-course-strip" aria-label="Available RefZone University courses">
+      <div className="rtbo-coursera-course-strip-head">
+        <div>
+          <p className="eyebrow">Available Courses</p>
+          <strong>RefZone University course tracks</strong>
+        </div>
+        <span>{courseTracks.length} courses</span>
+      </div>
+      <div className="rtbo-coursera-course-summary-grid">
+        {courseTracks.map((track, index) => {
+          const progress = courseProgressFor(track, completed, passedTests);
+          const isActive = track.id === activeTrackId;
+          const isNextCourse = index === activeIndex + 1;
+          const isLocked = index > activeIndex && !(isNextCourse && activeCourseComplete);
+          return (
+            <button
+              className={`rtbo-coursera-course-summary-card${isActive ? ' is-active' : ''}${isLocked ? ' is-locked' : ''}`.trim()}
+              type="button"
+              key={track.id || track.title}
+              aria-current={isActive ? 'true' : undefined}
+              disabled={isLocked}
+              title={isLocked ? `Complete ${courseTracks[activeIndex]?.title || 'the current course'} and pass every test before opening this course.` : track.title}
+              onClick={() => onOpenCourse(track)}
+            >
+              <img src={courseImageSrcFor(track, index)} alt="" loading="lazy" decoding="async" />
+              <span>
+                <small>{track.level || `${progress.hours} hr course`}</small>
+                <strong>{track.title}</strong>
+                <em>{progress.completedLessons}/{progress.lessons.length} items complete</em>
+              </span>
+              <b>{isActive ? 'Active' : isLocked ? 'Locked' : 'Open'}</b>
+              <i aria-hidden="true"><span style={{ width: `${progress.percent}%` }} /></i>
+            </button>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 function LabView({ title, rows }) {
   return (
     <section className="rtbo-academy-panel">
@@ -2449,6 +2506,7 @@ function CourseTestPanel({
 function RTBOAcademy({
   user = {},
   onStatus = noopStatus,
+  onOpenMembership = null,
   publicMode = false,
   brandName = 'RTBO Academy',
   initialTrackId = '',
@@ -2813,6 +2871,36 @@ function RTBOAcademy({
     syncAcademyRoute({ view: 'course', trackId: track.id, weekIndex, dayIndex });
   }
 
+  function openCourseSummaryTrack(track) {
+    const courseTracks = tracks.filter(row => row?.id !== 'overview' && Array.isArray(row?.weeks) && row.weeks.length);
+    const activeIndex = Math.max(0, courseTracks.findIndex(row => row.id === selectedTrack?.id));
+    const targetIndex = courseTracks.findIndex(row => row.id === track?.id);
+    const activeProgress = courseProgressFor(courseTracks[activeIndex], completed, passedTests);
+    const activeCourseComplete = activeProgress.lessons.length > 0
+      && activeProgress.completedLessons === activeProgress.lessons.length
+      && activeProgress.passedAssessments === activeProgress.lessons.length;
+    if (targetIndex > activeIndex && !(targetIndex === activeIndex + 1 && activeCourseComplete)) {
+      onStatus(`Complete ${courseTracks[activeIndex]?.title || 'the current course'} and pass every test before opening the next course.`);
+      return;
+    }
+    const rows = courseProgressFor(track, completed, passedTests).lessons;
+    const targetRow = rows.find(row => academyDayGate(track, row.day.id).open && (!completed[row.day.id] || !passedTests[row.day.id]))
+      || rows.find(row => academyDayGate(track, row.day.id).open)
+      || rows[0];
+    if (!targetRow) return;
+    openAcademyDay(track, targetRow.weekIndex, targetRow.dayIndex);
+  }
+
+  function openMembershipOption(packageId = 'elite') {
+    if (typeof onOpenMembership === 'function') {
+      onOpenMembership(packageId);
+      return;
+    }
+    if (typeof window !== 'undefined') {
+      window.location.hash = `#education/enroll/${encodeURIComponent(packageId)}`;
+    }
+  }
+
   function openAcademyWeek(track, weekIndex) {
     const targetWeek = track?.weeks?.[weekIndex];
     const firstDay = targetWeek?.days?.[0];
@@ -3108,18 +3196,17 @@ function RTBOAcademy({
       {activeView === 'course' && selectedTrack && (
         <div className="rtbo-coursera-course rtbo-coursera-course-shell">
           <section className="rtbo-coursera-topbar" aria-label="Course player controls">
-            <div className="rtbo-coursera-brand">
-              <strong>refzone</strong>
-              <span><i aria-hidden="true" />RTBO</span>
+            <div className="rtbo-coursera-brand rtbo-coursera-brand-logo">
+              <img src={REFZONE_UNIVERSITY_LOGO} alt="RefZone University" loading="eager" decoding="async" />
             </div>
             <div className="rtbo-coursera-top-progress">
               <span>{selectedTrackProgress.completedLessons}/{selectedTrackLessons.length} learning items</span>
               <div className="rtbo-academy-progress"><span style={{ width: `${selectedTrackProgress.percent}%` }} /></div>
             </div>
             <div className="rtbo-coursera-top-actions">
-              <button type="button" aria-label="Course help" onClick={() => onStatus('Course help opened.')}>?</button>
-              <button type="button" aria-label="Language and region" onClick={() => onStatus('Language options opened.')}>O</button>
-              <button type="button" aria-label="Learning assistant" onClick={() => runCoursePrompt('summary')}>AI</button>
+              <button type="button" aria-label="Course resources" onClick={() => openCourseTool('files')}>R</button>
+              <button type="button" aria-label="Lesson transcript" onClick={() => openCourseTool('transcript')}>T</button>
+              <button type="button" aria-label="Student notes" disabled={!selectedDay} onClick={() => openCourseTool('notes')}>N</button>
               <button
                 className="rtbo-coursera-pro-button"
                 type="button"
@@ -3140,9 +3227,17 @@ function RTBOAcademy({
                 <p>Add mentor checkpoints, portfolio review, evaluated development work, and advanced advancement planning.</p>
               </div>
               <strong>$79.00 <small>per month</small></strong>
-              <button type="button" onClick={() => onStatus('Pro-Am Membership upgrade option selected. Use RefZone University enrollment to complete checkout.')}>View Pro Option</button>
+              <button type="button" onClick={() => openMembershipOption('elite')}>View Pro Options</button>
             </section>
           )}
+
+          <CourseSummaryStrip
+            tracks={tracks}
+            activeTrackId={selectedTrack.id}
+            completed={completed}
+            passedTests={passedTests}
+            onOpenCourse={openCourseSummaryTrack}
+          />
 
           <div className={`rtbo-coursera-layout rtbo-coursera-workspace ${courseToolPanelOpen ? 'has-tool-panel' : 'tool-panel-closed'}`.trim()}>
             <aside className="rtbo-coursera-sidebar" aria-label="Course content">

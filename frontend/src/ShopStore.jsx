@@ -2171,6 +2171,12 @@ export default function ShopStore() {
             <strong>Elite Official Gear</strong>
             <span>Secure checkout, RTBO training gear, and official essentials.</span>
           </div>
+          <a className="rtbo-shop-id-card-link" href="#id-cards/shop">
+            <span>
+              <strong>Select ID Cards</strong>
+              <small>Member and RefZone student designs</small>
+            </span>
+          </a>
           <div className="rtbo-shop-category-list">
             {categories.map(([id, label]) => (
               <button

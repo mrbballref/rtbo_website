@@ -1663,12 +1663,12 @@
 
 .rtbo-coursera-topbar {
   display: grid;
-  grid-template-columns: minmax(220px, 1fr) minmax(280px, 420px) minmax(220px, 1fr);
-  gap: 14px;
+  grid-template-columns: minmax(120px, .72fr) minmax(280px, 420px) minmax(260px, 1fr);
+  gap: 16px;
   align-items: center;
-  min-height: 44px;
+  min-height: 76px;
   border-bottom: 1px solid var(--course-border);
-  padding: 8px 12px;
+  padding: 10px 18px;
   background: var(--course-topbar-bg);
 }
 
@@ -1680,35 +1680,18 @@
   min-width: 0;
 }
 
-.rtbo-coursera-brand strong {
-  color: var(--course-blue) !important;
-  -webkit-text-fill-color: var(--course-blue) !important;
-  font-size: 1.02rem;
-  line-height: 1;
+.rtbo-coursera-brand-logo {
+  min-height: 56px;
 }
 
-.rtbo-coursera-brand span {
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
-  border-left: 1px solid var(--academy-button-border);
-  padding-left: 10px;
-  color: var(--academy-heading) !important;
-  -webkit-text-fill-color: var(--academy-heading) !important;
-  font-size: .92rem;
-  font-weight: 900;
-}
-
-.rtbo-coursera-brand span i {
-  display: grid;
-  width: 16px;
-  height: 16px;
-  background:
-    linear-gradient(90deg, #f25022 0 50%, #7fba00 50%),
-    linear-gradient(90deg, #00a4ef 0 50%, #ffb900 50%);
-  background-position: 0 0, 0 100%;
-  background-size: 100% 50%;
-  background-repeat: no-repeat;
+.rtbo-coursera-brand-logo img {
+  display: block;
+  width: auto;
+  height: clamp(48px, 4.5vw, 64px);
+  max-width: min(220px, 100%);
+  border-radius: 12px;
+  object-fit: contain;
+  object-position: left center;
 }
 
 .rtbo-coursera-top-progress {
@@ -1857,6 +1840,180 @@
   font-size: .76rem;
   font-weight: 950;
   white-space: nowrap;
+}
+
+.rtbo-coursera-course-strip {
+  border-bottom: 1px solid var(--course-border);
+  padding: 12px;
+  background:
+    linear-gradient(135deg, rgba(31, 115, 232, .06), transparent 42%),
+    var(--course-topbar-bg);
+}
+
+.rtbo-coursera-course-strip-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: end;
+  margin-bottom: 10px;
+}
+
+.rtbo-coursera-course-strip-head .eyebrow,
+.rtbo-coursera-course-strip-head strong,
+.rtbo-coursera-course-strip-head span {
+  margin: 0;
+}
+
+.rtbo-coursera-course-strip-head strong {
+  display: block;
+  margin-top: 2px;
+  color: var(--course-heading) !important;
+  -webkit-text-fill-color: var(--course-heading) !important;
+  font-size: .95rem;
+  line-height: 1.1;
+}
+
+.rtbo-coursera-course-strip-head span {
+  flex: 0 0 auto;
+  border: 1px solid var(--course-border);
+  border-radius: 999px;
+  padding: 5px 9px;
+  color: var(--course-muted) !important;
+  -webkit-text-fill-color: var(--course-muted) !important;
+  background: var(--course-panel-bg);
+  font-size: .72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.rtbo-coursera-course-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(176px, 1fr));
+  gap: 8px;
+}
+
+.rtbo-coursera-course-summary-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  min-height: 78px;
+  border: 1px solid var(--course-border);
+  border-radius: 12px;
+  padding: 9px;
+  color: var(--course-text) !important;
+  -webkit-text-fill-color: var(--course-text) !important;
+  background: var(--course-panel-bg);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, .06);
+  text-align: left;
+  cursor: pointer;
+}
+
+.rtbo-coursera-course-summary-card:hover,
+.rtbo-coursera-course-summary-card:focus-visible {
+  border-color: rgba(31, 115, 232, .42);
+  transform: translateY(-1px);
+}
+
+.rtbo-coursera-course-summary-card.is-active {
+  border-color: rgba(244, 198, 90, .86);
+  background:
+    linear-gradient(135deg, rgba(244, 198, 90, .18), transparent 48%),
+    var(--course-panel-bg);
+  box-shadow: 0 12px 28px rgba(193, 18, 31, .12);
+}
+
+.rtbo-coursera-course-summary-card.is-locked {
+  cursor: not-allowed;
+  opacity: .58;
+}
+
+.rtbo-coursera-course-summary-card.is-locked:hover,
+.rtbo-coursera-course-summary-card.is-locked:focus-visible {
+  border-color: var(--course-border);
+  transform: none;
+}
+
+.rtbo-coursera-course-summary-card img {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--course-border);
+  border-radius: 10px;
+  object-fit: cover;
+  background: var(--course-soft-bg);
+}
+
+.rtbo-coursera-course-summary-card span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.rtbo-coursera-course-summary-card small,
+.rtbo-coursera-course-summary-card em {
+  overflow: hidden;
+  color: var(--course-muted) !important;
+  -webkit-text-fill-color: var(--course-muted) !important;
+  font-size: .64rem;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.rtbo-coursera-course-summary-card strong {
+  overflow: hidden;
+  color: var(--course-heading) !important;
+  -webkit-text-fill-color: var(--course-heading) !important;
+  font-size: .82rem;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rtbo-coursera-course-summary-card b {
+  align-self: start;
+  border-radius: 999px;
+  padding: 4px 6px;
+  color: var(--course-muted) !important;
+  -webkit-text-fill-color: var(--course-muted) !important;
+  background: var(--course-soft-bg);
+  font-size: .58rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.rtbo-coursera-course-summary-card.is-active b {
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+  background: #f4c65a;
+}
+
+.rtbo-coursera-course-summary-card.is-locked b {
+  color: var(--course-muted) !important;
+  -webkit-text-fill-color: var(--course-muted) !important;
+  background: var(--course-soft-bg);
+}
+
+.rtbo-coursera-course-summary-card > i {
+  position: absolute;
+  right: 9px;
+  bottom: 7px;
+  left: 58px;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--academy-progress-bg);
+}
+
+.rtbo-coursera-course-summary-card > i span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #c1121f, #f4c65a);
 }
 
 .rtbo-coursera-workspace {

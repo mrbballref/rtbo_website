@@ -17279,3 +17279,135 @@ html.light .site-footer.original-footer .footer-link:is(:hover, :focus-visible) 
   outline-offset: 2px !important;
   box-shadow: none !important;
 }
+
+/* Site-wide polish layer: every public theme must read as intentional and production-ready. */
+:root[data-theme="light"] :is(.rtbo-public, .site-footer, .rtbo-account-modal) :is(.eyebrow, .footer-title, .footer-eyebrow, .footer-link-column h4),
+html.light :is(.rtbo-public, .site-footer, .rtbo-account-modal) :is(.eyebrow, .footer-title, .footer-eyebrow, .footer-link-column h4) {
+  color: #8f111b !important;
+  -webkit-text-fill-color: #8f111b !important;
+  text-shadow: none !important;
+}
+
+:root[data-theme="dark"] :is(.rtbo-public, .site-footer, .rtbo-account-modal) :is(.eyebrow, .footer-title, .footer-eyebrow, .footer-link-column h4),
+html.dark :is(.rtbo-public, .site-footer, .rtbo-account-modal) :is(.eyebrow, .footer-title, .footer-eyebrow, .footer-link-column h4),
+:root:not([data-theme="light"]) :is(.rtbo-public, .site-footer, .rtbo-account-modal) :is(.eyebrow, .footer-title, .footer-eyebrow, .footer-link-column h4) {
+  color: #f4c65a !important;
+  -webkit-text-fill-color: #f4c65a !important;
+  text-shadow: none !important;
+}
+
+:root[data-theme="light"] :is(.rtbo-public, .site-footer, .rtbo-account-modal) :is(.btn.secondary.dark-btn, .dark-btn, .nav-chrome-btn, .footer-schedule-link, .scroll-up, .rtbo-shop-id-card-link):not(:disabled),
+html.light :is(.rtbo-public, .site-footer, .rtbo-account-modal) :is(.btn.secondary.dark-btn, .dark-btn, .nav-chrome-btn, .footer-schedule-link, .scroll-up, .rtbo-shop-id-card-link):not(:disabled) {
+  color: #101827 !important;
+  -webkit-text-fill-color: #101827 !important;
+  border-color: rgba(15, 23, 42, .2) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(248, 250, 252, .9)),
+    #ffffff !important;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, .1) !important;
+  text-shadow: none !important;
+}
+
+:root[data-theme="light"] :is(.rtbo-public, .site-footer, .rtbo-account-modal) :is(.btn.secondary.dark-btn, .dark-btn, .nav-chrome-btn, .footer-schedule-link, .scroll-up, .rtbo-shop-id-card-link):not(:disabled):is(:hover, :focus-visible),
+html.light :is(.rtbo-public, .site-footer, .rtbo-account-modal) :is(.btn.secondary.dark-btn, .dark-btn, .nav-chrome-btn, .footer-schedule-link, .scroll-up, .rtbo-shop-id-card-link):not(:disabled):is(:hover, :focus-visible) {
+  color: #7f1018 !important;
+  -webkit-text-fill-color: #7f1018 !important;
+  border-color: rgba(193, 18, 31, .42) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 1), rgba(255, 246, 231, .9)),
+    #ffffff !important;
+  box-shadow: 0 18px 38px rgba(15, 23, 42, .14) !important;
+  outline: 2px solid rgba(244, 198, 90, .72) !important;
+  outline-offset: 2px !important;
+}
+
+:root[data-theme="dark"] :is(.rtbo-public, .site-footer, .rtbo-account-modal) :is(.btn.secondary.dark-btn, .dark-btn, .nav-chrome-btn, .footer-schedule-link, .scroll-up, .rtbo-shop-id-card-link):not(:disabled),
+html.dark :is(.rtbo-public, .site-footer, .rtbo-account-modal) :is(.btn.secondary.dark-btn, .dark-btn, .nav-chrome-btn, .footer-schedule-link, .scroll-up, .rtbo-shop-id-card-link):not(:disabled),
+:root:not([data-theme="light"]) :is(.rtbo-public, .site-footer, .rtbo-account-modal) :is(.btn.secondary.dark-btn, .dark-btn, .nav-chrome-btn, .footer-schedule-link, .scroll-up, .rtbo-shop-id-card-link):not(:disabled) {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+  border-color: rgba(244, 198, 90, .26) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .095), rgba(255, 255, 255, .025)),
+    rgba(8, 11, 16, .9) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, .26) !important;
+  text-shadow: none !important;
+}
+
+:root[data-theme="dark"] :is(.rtbo-public, .site-footer, .rtbo-account-modal) :is(.btn.secondary.dark-btn, .dark-btn, .nav-chrome-btn, .footer-schedule-link, .scroll-up, .rtbo-shop-id-card-link):not(:disabled):is(:hover, :focus-visible),
+html.dark :is(.rtbo-public, .site-footer, .rtbo-account-modal) :is(.btn.secondary.dark-btn, .dark-btn, .nav-chrome-btn, .footer-schedule-link, .scroll-up, .rtbo-shop-id-card-link):not(:disabled):is(:hover, :focus-visible),
+:root:not([data-theme="light"]) :is(.rtbo-public, .site-footer, .rtbo-account-modal) :is(.btn.secondary.dark-btn, .dark-btn, .nav-chrome-btn, .footer-schedule-link, .scroll-up, .rtbo-shop-id-card-link):not(:disabled):is(:hover, :focus-visible) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: rgba(244, 198, 90, .72) !important;
+  background:
+    linear-gradient(145deg, rgba(193, 18, 31, .3), rgba(255, 255, 255, .055)),
+    rgba(8, 11, 16, .94) !important;
+  box-shadow: 0 20px 44px rgba(0, 0, 0, .34) !important;
+  outline: 2px solid rgba(244, 198, 90, .7) !important;
+  outline-offset: 2px !important;
+}
+
+:root[data-theme="light"] .rtbo-public .refzone-package-badge,
+html.light .rtbo-public .refzone-package-badge {
+  color: #101827 !important;
+  -webkit-text-fill-color: #101827 !important;
+  background: linear-gradient(145deg, #fff6c7, #f4c65a) !important;
+  border-color: rgba(143, 17, 27, .22) !important;
+}
+
+.rtbo-public .contact-section {
+  border-radius: 0 !important;
+}
+
+body#top main.rtbo-public .contact-section .contact-info-list article,
+body#top main.rtbo-public .contact-section .contact-form {
+  border-radius: 18px !important;
+}
+
+body#top main.rtbo-public .contact-section .contact-info-icon {
+  border-radius: 14px !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .contact-section,
+html.light body#top main.rtbo-public .contact-section {
+  background:
+    radial-gradient(circle at 12% 12%, rgba(193, 18, 31, .06), transparent 34rem),
+    linear-gradient(180deg, #f8fafc, #eef3f8) !important;
+}
+
+:root[data-theme="dark"] body#top main.rtbo-public .contact-section,
+html.dark body#top main.rtbo-public .contact-section,
+:root:not([data-theme="light"]) body#top main.rtbo-public .contact-section {
+  background:
+    radial-gradient(circle at 12% 12%, rgba(193, 18, 31, .18), transparent 34rem),
+    linear-gradient(180deg, #050507, #090d13) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .contact-section .contact-info-panel > p:not(.eyebrow),
+html.light body#top main.rtbo-public .contact-section .contact-info-panel > p:not(.eyebrow) {
+  color: #334155 !important;
+  -webkit-text-fill-color: #334155 !important;
+}
+
+body#top main.rtbo-public .contact-section .contact-info-list a,
+body#top main.rtbo-public .contact-section .contact-info-list strong {
+  overflow-wrap: anywhere;
+}
+
+:root[data-theme="light"] .site-footer.original-footer .footer-brand-line span,
+html.light .site-footer.original-footer .footer-brand-line span {
+  color: #334155 !important;
+  -webkit-text-fill-color: #334155 !important;
+  border-color: rgba(15, 23, 42, .14) !important;
+  background: #ffffff !important;
+}
+
+:root[data-theme="dark"] .site-footer.original-footer .footer-brand-line span,
+html.dark .site-footer.original-footer .footer-brand-line span,
+:root:not([data-theme="light"]) .site-footer.original-footer .footer-brand-line span {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+  border-color: rgba(244, 198, 90, .24) !important;
+  background: rgba(255, 255, 255, .06) !important;
+}

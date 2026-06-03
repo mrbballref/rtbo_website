@@ -347,22 +347,49 @@ html.dark .rtbo-premium-impact-strip p {
 }
 
 .rtbo-public .home-client-spotlight-player {
-  border: 1px solid var(--rtbo-premium-line);
-  border-radius: 8px;
-  padding: clamp(10px, 1.8vw, 22px);
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, .065), rgba(255, 255, 255, .018)),
-    rgba(2, 6, 12, .72);
-  box-shadow: 0 28px 84px rgba(0, 0, 0, .32);
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
-.rtbo-public .home-refzone-university,
-.rtbo-public .home-results-section,
 .rtbo-public .contact-section {
   padding: clamp(52px, 7vw, 110px) clamp(18px, 5vw, 78px) !important;
+  color: #f8fafc !important;
+  border-block: 1px solid rgba(255, 255, 255, .1);
   background:
-    linear-gradient(180deg, rgba(248, 250, 252, .97), rgba(241, 245, 249, .94)),
+    radial-gradient(circle at 14% 16%, rgba(193, 18, 31, .22), transparent 34%),
+    linear-gradient(180deg, rgba(5, 7, 11, .98), rgba(3, 5, 8, .98)),
+    #05070b !important;
+}
+
+:root[data-theme="light"] .rtbo-public .contact-section,
+html.light .rtbo-public .contact-section {
+  color: #111827 !important;
+  border-block-color: rgba(15, 23, 42, .08);
+  background:
+    linear-gradient(180deg, rgba(248, 250, 252, .98), rgba(241, 245, 249, .96)),
     #f8fafc !important;
+}
+
+.rtbo-public .home-results-section {
+  padding: clamp(52px, 7vw, 104px) clamp(18px, 5vw, 78px) !important;
+  border-block: 1px solid rgba(255, 255, 255, .1);
+  background:
+    linear-gradient(180deg, rgba(5, 7, 11, .98), rgba(4, 6, 10, .98)),
+    #05070b !important;
+}
+
+.rtbo-public .home-refzone-university {
+  grid-template-columns: minmax(320px, .82fr) minmax(0, 1.18fr) !important;
+  gap: clamp(28px, 5vw, 78px) !important;
+  align-items: center !important;
+  padding: clamp(56px, 7vw, 108px) clamp(18px, 5vw, 78px) !important;
+  border-block: 1px solid rgba(255, 255, 255, .1);
+  background:
+    linear-gradient(110deg, rgba(4, 6, 10, .98) 0%, rgba(4, 6, 10, .94) 48%, rgba(15, 23, 42, .78) 100%),
+    #05070b !important;
 }
 
 .rtbo-public .home-refzone-media,
@@ -374,39 +401,110 @@ html.dark .rtbo-premium-impact-strip p {
 }
 
 .rtbo-public .home-refzone-media {
-  width: min(520px, 100%) !important;
-  border-color: rgba(15, 23, 42, .12) !important;
-  background: #fff !important;
+  width: min(560px, 100%) !important;
+  border-color: rgba(243, 214, 117, .18) !important;
+  padding: clamp(8px, 1.2vw, 14px);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .075), rgba(255, 255, 255, .018)),
+    #05070b !important;
 }
 
-.rtbo-public .home-refzone-copy h2,
-.rtbo-public .home-results-section h2,
+.rtbo-public .home-refzone-media img {
+  border-radius: 6px;
+  background: #05070b;
+  object-fit: contain !important;
+}
+
 .rtbo-public .contact-section h2 {
-  color: #111827 !important;
+  color: #fff !important;
   font-size: clamp(2.2rem, 4.7vw, 5rem) !important;
   line-height: .96 !important;
+  text-shadow: 0 3px 0 rgba(193, 18, 31, .36), 0 16px 38px rgba(0, 0, 0, .5);
 }
 
-.rtbo-public .home-refzone-copy > p:not(.eyebrow),
-.rtbo-public .home-results-section p,
-.rtbo-public .contact-info-panel > p:not(.eyebrow) {
+:root[data-theme="light"] .rtbo-public .contact-section h2,
+html.light .rtbo-public .contact-section h2 {
+  color: #111827 !important;
+  text-shadow: 0 2px 0 rgba(193, 18, 31, .18);
+}
+
+.rtbo-public .home-results-section h2 {
+  max-width: 980px;
+  color: #fff !important;
+  font-size: clamp(2.1rem, 3.75vw, 4.35rem) !important;
+  line-height: .98 !important;
+  text-shadow: 0 3px 0 rgba(193, 18, 31, .34), 0 14px 34px rgba(0, 0, 0, .52);
+}
+
+.rtbo-public .home-refzone-copy h2 {
+  max-width: 980px !important;
+  color: #fff !important;
+  font-size: clamp(2.3rem, 4.6vw, 5.35rem) !important;
+  line-height: .92 !important;
+  text-transform: uppercase;
+  text-shadow: 0 3px 0 rgba(193, 18, 31, .42), 0 16px 38px rgba(0, 0, 0, .52);
+}
+
+.rtbo-public .home-refzone-copy .eyebrow {
+  color: var(--rtbo-premium-gold) !important;
+}
+
+.rtbo-public .home-refzone-price {
+  color: rgba(248, 250, 252, .9) !important;
+}
+
+.rtbo-public .home-refzone-price b {
+  color: #ff3344 !important;
+}
+
+.rtbo-public .home-refzone-copy > p:not(.eyebrow) {
   color: #475569 !important;
 }
 
+.rtbo-public .home-refzone-copy > p:not(.eyebrow) {
+  color: rgba(203, 213, 225, .84) !important;
+}
+
+.rtbo-public .contact-info-panel > p:not(.eyebrow) {
+  color: rgba(203, 213, 225, .8) !important;
+}
+
+:root[data-theme="light"] .rtbo-public .contact-info-panel > p:not(.eyebrow),
+html.light .rtbo-public .contact-info-panel > p:not(.eyebrow) {
+  color: #475569 !important;
+}
+
+.rtbo-public .home-results-section p {
+  color: rgba(203, 213, 225, .82) !important;
+}
+
 .rtbo-public .home-refzone-memberships {
-  padding: clamp(44px, 6vw, 82px) clamp(18px, 5vw, 78px) !important;
-  border-top: 1px solid rgba(15, 23, 42, .08);
+  padding: clamp(48px, 6vw, 88px) clamp(18px, 5vw, 78px) !important;
+  border-block: 1px solid rgba(255, 255, 255, .1);
   background:
-    linear-gradient(180deg, #ffffff, #f8fafc),
-    #fff !important;
+    linear-gradient(180deg, rgba(5, 7, 11, .98), rgba(3, 5, 8, .98)),
+    #05070b !important;
+}
+
+.rtbo-public .home-refzone-memberships .rtbo-section-head {
+  max-width: 980px;
+}
+
+.rtbo-public .home-refzone-memberships .rtbo-section-head h2 {
+  max-width: 980px;
+  color: #fff !important;
+  font-size: clamp(2.1rem, 3.65vw, 4.25rem) !important;
+  line-height: .98 !important;
+  text-shadow: 0 3px 0 rgba(193, 18, 31, .34), 0 14px 34px rgba(0, 0, 0, .52);
 }
 
 .rtbo-public .home-refzone-membership-grid article {
   min-height: 100%;
-  border-color: rgba(15, 23, 42, .1) !important;
+  border-color: rgba(243, 214, 117, .16) !important;
   background:
-    linear-gradient(180deg, #ffffff, #f8fafc) !important;
-  box-shadow: 0 22px 54px rgba(15, 23, 42, .1);
+    linear-gradient(145deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .018)),
+    rgba(8, 11, 16, .82) !important;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, .28);
   transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
 }
 
@@ -418,7 +516,26 @@ html.dark .rtbo-premium-impact-strip p {
 
 .rtbo-public .home-refzone-membership-grid h3,
 .rtbo-public .home-refzone-membership-grid article > strong {
-  color: #111827 !important;
+  color: #fff !important;
+}
+
+.rtbo-public .home-refzone-membership-grid article > strong small,
+.rtbo-public .home-refzone-membership-grid p {
+  color: rgba(203, 213, 225, .78) !important;
+}
+
+.rtbo-public .home-refzone-membership-grid .btn {
+  min-height: 46px !important;
+  border: 1px solid rgba(243, 214, 117, .28) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  background: linear-gradient(180deg, #c1121f, #7f0d16) !important;
+  box-shadow: 0 14px 28px rgba(193, 18, 31, .18) !important;
+}
+
+.rtbo-public .home-refzone-membership-grid .btn:hover,
+.rtbo-public .home-refzone-membership-grid .btn:focus-visible {
+  background: linear-gradient(180deg, #a41623, #c1121f) !important;
 }
 
 .rtbo-public .home-results-section {
@@ -428,10 +545,26 @@ html.dark .rtbo-premium-impact-strip p {
 }
 
 .rtbo-public .results-top-points article {
-  border: 1px solid rgba(15, 23, 42, .1);
+  border: 1px solid rgba(243, 214, 117, .16);
   border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 18px 42px rgba(15, 23, 42, .08);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .018)),
+    rgba(8, 11, 16, .82);
+  box-shadow: 0 18px 46px rgba(0, 0, 0, .24);
+}
+
+.rtbo-public .results-top-points article h3 {
+  color: #fff !important;
+}
+
+.rtbo-public .results-top-points article p {
+  color: rgba(203, 213, 225, .8) !important;
+}
+
+.rtbo-public .results-home-btn {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  background: linear-gradient(180deg, #c1121f, #7f0d16) !important;
 }
 
 .rtbo-public .results-top-cards {
@@ -509,18 +642,80 @@ html.dark .rtbo-premium-impact-strip p {
 
 .rtbo-public .contact-info-list article,
 .rtbo-public .contact-form {
-  border: 1px solid rgba(15, 23, 42, .1) !important;
-  background: #fff !important;
+  border: 1px solid rgba(255, 255, 255, .12) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .075), rgba(255, 255, 255, .018)),
+    rgba(8, 11, 16, .92) !important;
 }
 
 .rtbo-public .contact-form {
   padding: clamp(18px, 3vw, 34px) !important;
 }
 
+.rtbo-public .contact-info-panel h2,
+.rtbo-public .contact-info-panel p,
+.rtbo-public .contact-info-list :is(strong, a),
+.rtbo-public .contact-form label {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+.rtbo-public .contact-info-panel > p:not(.eyebrow),
+.rtbo-public .contact-info-list article span {
+  color: rgba(203, 213, 225, .78) !important;
+}
+
+.rtbo-public .contact-info-list article span {
+  color: var(--rtbo-premium-gold) !important;
+}
+
 .rtbo-public .contact-form :is(input, textarea) {
   min-height: 48px;
+  border-color: rgba(255, 255, 255, .16);
+  color: #f8fafc !important;
+  background: rgba(2, 6, 12, .72);
+}
+
+.rtbo-public .contact-form :is(input, textarea):focus {
+  border-color: rgba(243, 214, 117, .55);
+  box-shadow: 0 0 0 4px rgba(243, 214, 117, .12);
+}
+
+:root[data-theme="light"] .rtbo-public .contact-info-list article,
+:root[data-theme="light"] .rtbo-public .contact-form,
+html.light .rtbo-public .contact-info-list article,
+html.light .rtbo-public .contact-form {
+  border-color: rgba(15, 23, 42, .1) !important;
+  background: #fff !important;
+}
+
+:root[data-theme="light"] .rtbo-public .contact-info-panel h2,
+:root[data-theme="light"] .rtbo-public .contact-info-panel p,
+:root[data-theme="light"] .rtbo-public .contact-info-list :is(strong, a),
+:root[data-theme="light"] .rtbo-public .contact-form label,
+html.light .rtbo-public .contact-info-panel h2,
+html.light .rtbo-public .contact-info-panel p,
+html.light .rtbo-public .contact-info-list :is(strong, a),
+html.light .rtbo-public .contact-form label {
+  color: #111827 !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+:root[data-theme="light"] .rtbo-public .contact-info-list article span,
+html.light .rtbo-public .contact-info-list article span {
+  color: var(--rtbo-premium-red) !important;
+}
+
+:root[data-theme="light"] .rtbo-public .contact-form :is(input, textarea),
+html.light .rtbo-public .contact-form :is(input, textarea) {
   border-color: rgba(15, 23, 42, .14);
+  color: #111827 !important;
   background: #f8fafc;
+}
+
+.rtbo-public .contact-form .btn {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
 }
 
 .rtbo-public .contact-form textarea {
@@ -712,6 +907,236 @@ html.dark .rtbo-premium-impact-strip p {
   .rtbo-public .services-features-intro h2 {
     font-size: clamp(2rem, 9.4vw, 3rem) !important;
   }
+}
+
+:root[data-theme="light"],
+html.light {
+  --rtbo-premium-ink: #111827;
+  --rtbo-premium-line: rgba(15, 23, 42, .1);
+  --rtbo-premium-panel: rgba(255, 255, 255, .94);
+}
+
+:root[data-theme="light"] .site-header.rtbo-header,
+html.light .site-header.rtbo-header {
+  border-bottom-color: rgba(15, 23, 42, .1) !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .96), rgba(248, 250, 252, .9)) !important;
+  box-shadow: 0 18px 44px rgba(15, 23, 42, .1) !important;
+}
+
+:root[data-theme="light"] .site-header.rtbo-header .nav-link-group > button:not(.btn),
+:root[data-theme="light"] .site-header.rtbo-header .nav-dropdown-trigger,
+html.light .site-header.rtbo-header .nav-link-group > button:not(.btn),
+html.light .site-header.rtbo-header .nav-dropdown-trigger {
+  color: #111827 !important;
+}
+
+:root[data-theme="light"] .site-header.rtbo-header .nav-link-group > button:not(.btn).active,
+:root[data-theme="light"] .site-header.rtbo-header .nav-dropdown-trigger.active,
+html.light .site-header.rtbo-header .nav-link-group > button:not(.btn).active,
+html.light .site-header.rtbo-header .nav-dropdown-trigger.active {
+  color: #111827 !important;
+  border-color: rgba(193, 18, 31, .18) !important;
+  background: linear-gradient(180deg, rgba(193, 18, 31, .08), rgba(255, 255, 255, .76)) !important;
+}
+
+:root[data-theme="light"] .site-header.rtbo-header .site-nav,
+html.light .site-header.rtbo-header .site-nav {
+  background: transparent !important;
+}
+
+:root[data-theme="light"] .rtbo-public .rtbo-hero,
+html.light .rtbo-public .rtbo-hero {
+  color: #111827 !important;
+  border-bottom-color: rgba(15, 23, 42, .1) !important;
+  background:
+    linear-gradient(90deg, rgba(248, 250, 252, .98) 0%, rgba(248, 250, 252, .94) 42%, rgba(248, 250, 252, .76) 70%, rgba(248, 250, 252, .9) 100%),
+    url("/assets/images/banner_2.jpg") center center / cover no-repeat,
+    #f8fafc !important;
+}
+
+:root[data-theme="light"] .rtbo-public .rtbo-hero::after,
+html.light .rtbo-public .rtbo-hero::after {
+  background: linear-gradient(180deg, transparent, rgba(248, 250, 252, .64) 56%, #f8fafc 100%);
+}
+
+:root[data-theme="light"] .rtbo-public .rtbo-hero h1,
+:root[data-theme="light"] .rtbo-public .rtbo-hero h1 span:first-child,
+:root[data-theme="light"] .rtbo-public .rtbo-hero h1 span:last-child,
+html.light .rtbo-public .rtbo-hero h1,
+html.light .rtbo-public .rtbo-hero h1 span:first-child,
+html.light .rtbo-public .rtbo-hero h1 span:last-child {
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+  text-shadow: 0 2px 0 rgba(193, 18, 31, .16), 0 18px 40px rgba(15, 23, 42, .12) !important;
+}
+
+:root[data-theme="light"] .rtbo-public .rtbo-hero-copy > p:not(.eyebrow),
+html.light .rtbo-public .rtbo-hero-copy > p:not(.eyebrow) {
+  color: #334155 !important;
+  text-shadow: none !important;
+}
+
+:root[data-theme="light"] .rtbo-hero-proof-row span,
+html.light .rtbo-hero-proof-row span {
+  color: #111827 !important;
+  border-color: rgba(193, 18, 31, .16);
+  background: rgba(255, 255, 255, .78);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), 0 10px 28px rgba(15, 23, 42, .08);
+}
+
+:root[data-theme="light"] .rtbo-public .rtbo-hero > .hero-carousel,
+:root[data-theme="light"] .rtbo-public .rtbo-hero .rtbo-stats article,
+html.light .rtbo-public .rtbo-hero > .hero-carousel,
+html.light .rtbo-public .rtbo-hero .rtbo-stats article {
+  border-color: rgba(15, 23, 42, .1) !important;
+  background: rgba(255, 255, 255, .82) !important;
+  box-shadow: 0 22px 54px rgba(15, 23, 42, .12) !important;
+}
+
+:root[data-theme="light"] .rtbo-public :is(
+  .home-about-rtbo-section,
+  .home-client-spotlight-section,
+  .home-refzone-university,
+  .home-refzone-memberships,
+  .home-results-section,
+  .services-page-section
+),
+html.light .rtbo-public :is(
+  .home-about-rtbo-section,
+  .home-client-spotlight-section,
+  .home-refzone-university,
+  .home-refzone-memberships,
+  .home-results-section,
+  .services-page-section
+) {
+  color: #111827 !important;
+  border-block-color: rgba(15, 23, 42, .08) !important;
+  background:
+    radial-gradient(circle at 10% 4%, rgba(193, 18, 31, .08), transparent 28%),
+    linear-gradient(180deg, #ffffff, #f6f8fb) !important;
+}
+
+:root[data-theme="light"] .rtbo-public :is(
+  .home-about-rtbo-section,
+  .home-client-spotlight-section,
+  .home-refzone-university,
+  .home-refzone-memberships,
+  .home-results-section,
+  .services-page-section
+) :is(h2, h3, h4, strong),
+html.light .rtbo-public :is(
+  .home-about-rtbo-section,
+  .home-client-spotlight-section,
+  .home-refzone-university,
+  .home-refzone-memberships,
+  .home-results-section,
+  .services-page-section
+) :is(h2, h3, h4, strong) {
+  color: #111827 !important;
+  -webkit-text-fill-color: currentColor !important;
+  text-shadow: none !important;
+}
+
+:root[data-theme="light"] .rtbo-public :is(
+  .home-about-rtbo-section,
+  .home-client-spotlight-section,
+  .home-refzone-university,
+  .home-refzone-memberships,
+  .home-results-section,
+  .services-page-section
+) p:not(.eyebrow),
+html.light .rtbo-public :is(
+  .home-about-rtbo-section,
+  .home-client-spotlight-section,
+  .home-refzone-university,
+  .home-refzone-memberships,
+  .home-results-section,
+  .services-page-section
+) p:not(.eyebrow) {
+  color: #475569 !important;
+  -webkit-text-fill-color: currentColor !important;
+  text-shadow: none !important;
+}
+
+:root[data-theme="light"] .rtbo-public :is(
+  .about-rtbo-visual-column,
+  .about-rtbo-content .long-copy,
+  .about-icon-grid article,
+  .home-refzone-media,
+  .home-refzone-membership-grid article,
+  .results-top-points article,
+  .services-unified-overview,
+  .services-features-section,
+  .platform-flow-panel,
+  .services-referee-copy,
+  .services-unified-platform-cards article,
+  .services-top-points article,
+  .compact-solutions-grid article,
+  .platform-flow-grid article
+),
+html.light .rtbo-public :is(
+  .about-rtbo-visual-column,
+  .about-rtbo-content .long-copy,
+  .about-icon-grid article,
+  .home-refzone-media,
+  .home-refzone-membership-grid article,
+  .results-top-points article,
+  .services-unified-overview,
+  .services-features-section,
+  .platform-flow-panel,
+  .services-referee-copy,
+  .services-unified-platform-cards article,
+  .services-top-points article,
+  .compact-solutions-grid article,
+  .platform-flow-grid article
+) {
+  color: #111827 !important;
+  border-color: rgba(15, 23, 42, .1) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(248, 250, 252, .9)),
+    #ffffff !important;
+  box-shadow: 0 22px 54px rgba(15, 23, 42, .1) !important;
+}
+
+:root[data-theme="light"] .rtbo-public .home-client-spotlight-subtitle,
+html.light .rtbo-public .home-client-spotlight-subtitle {
+  color: #111827 !important;
+}
+
+:root[data-theme="light"] .rtbo-public .home-refzone-price,
+html.light .rtbo-public .home-refzone-price {
+  color: #334155 !important;
+}
+
+:root[data-theme="light"] .rtbo-public .home-refzone-price b,
+html.light .rtbo-public .home-refzone-price b {
+  color: var(--rtbo-premium-red) !important;
+}
+
+:root[data-theme="light"] .rtbo-public .home-refzone-media img,
+html.light .rtbo-public .home-refzone-media img {
+  background: #f8fafc !important;
+}
+
+:root[data-theme="light"] .rtbo-public .home-refzone-membership-grid article > strong small,
+:root[data-theme="light"] .rtbo-public .home-refzone-membership-grid p,
+:root[data-theme="light"] .rtbo-public .results-top-points article p,
+html.light .rtbo-public .home-refzone-membership-grid article > strong small,
+html.light .rtbo-public .home-refzone-membership-grid p,
+html.light .rtbo-public .results-top-points article p {
+  color: #475569 !important;
+}
+
+:root[data-theme="light"] .rtbo-public .results-top-cards figure,
+html.light .rtbo-public .results-top-cards figure {
+  border-color: rgba(15, 23, 42, .1);
+  background: #ffffff;
+  box-shadow: 0 22px 54px rgba(15, 23, 42, .12) !important;
+}
+
+:root[data-theme="light"] .rtbo-public .results-top-cards figcaption h3,
+html.light .rtbo-public .results-top-cards figcaption h3 {
+  color: #ffffff !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

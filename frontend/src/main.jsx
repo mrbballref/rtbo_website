@@ -57,6 +57,7 @@ const ResumeManager = React.lazy(() => import('./ResumeManager.jsx'));
 const JammedUpPodcastPage = React.lazy(() => import('./JammedUpPodcastPage.jsx'));
 const LockerRoomPage = React.lazy(() => import('./LockerRoomPage.jsx'));
 const ClientSpotlightStudio = React.lazy(() => import('./ClientSpotlightStudio.jsx'));
+const IDCardSelectionPage = React.lazy(() => import('./IDCardSelectionPage.jsx'));
 const StateSelect = React.lazy(() => import('./StateSelect.jsx'));
 const CountrySelect = React.lazy(() => import('./CountrySelect.jsx'));
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
@@ -69,7 +70,9 @@ const SITE_CONTENT_UPDATED_EVENT = 'rtbo-site-content-updated';
 const HOME_CLIENT_SPOTLIGHT_CSS_ID = 'home-client-spotlight-css';
 const HOME_CLIENT_SPOTLIGHT_CSS_HREF = '/assets/css/home-client-spotlight.css?v=20260529-wide-player';
 const HOME_PREMIUM_CSS_ID = 'rtbo-premium-home-css';
-const HOME_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-home.css?v=20260603d';
+const HOME_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-home.css?v=20260603k';
+const PUBLIC_PREMIUM_CSS_ID = 'rtbo-premium-public-css';
+const PUBLIC_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-public.css?v=20260603-redesign-q';
 const APP_PREMIUM_CSS_ID = 'rtbo-premium-app-css';
 const APP_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-app.css?v=20260603a';
 
@@ -242,7 +245,7 @@ function imageSafe(name) {
   return `/assets/images/${file}${version ? `?v=${version}` : ''}`;
 }
 
-const validPages = new Set([...navItems.map(([id]) => id), 'register', 'contact', 'contract-sign']);
+const validPages = new Set([...navItems.map(([id]) => id), 'register', 'contact', 'contract-sign', 'id-cards']);
 
 function image(name) {
   return imageSafe(name);
@@ -274,6 +277,19 @@ function educationCourseIdFromRoute(route = '') {
   if (parts[1] === 'course' || parts[1] === 'overview') return parts[2] || '';
   if (parts[1] === 'view') return parts[3] || '';
   return '';
+}
+
+function educationMembershipRouteState(route = '') {
+  const parts = routeParts(route);
+  if (parts[0] !== 'education') return { active: false, mode: '', packageId: '' };
+  if (!['packages', 'enroll', 'membership'].includes(parts[1])) {
+    return { active: false, mode: '', packageId: '' };
+  }
+  return {
+    active: true,
+    mode: parts[1] === 'enroll' ? 'enrollment' : 'packages',
+    packageId: parts[2] || ''
+  };
 }
 
 function isDashboardRouteHash(hash = '') {
@@ -649,6 +665,11 @@ function SidebarIcon({ id }) {
 
 function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onOpenRegister, navLinks = navItems }) {
   const [open, setOpen] = useState(false);
+  const [mobileNavViewport, setMobileNavViewport] = useState(() => (
+    typeof window !== 'undefined'
+    && typeof window.matchMedia === 'function'
+    && window.matchMedia('(max-width: 1280px)').matches
+  ));
   const [aboutOpen, setAboutOpen] = useState(false);
   const [schoolsEventsOpen, setSchoolsEventsOpen] = useState(false);
   const [liveStreamOpen, setLiveStreamOpen] = useState(false);
@@ -663,6 +684,13 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
   const aboutActive = aboutNavLinks.some(([id]) => id === active);
   const schoolsEventsActive = schoolsEventsNavLinks.some(([id]) => id === active);
   const liveStreamActive = liveStreamNavLinks.some(([id]) => id === active);
+  const mobileNavStyle = mobileNavViewport ? {
+    transform: open ? 'translateX(0)' : 'translateX(105%)',
+    opacity: open ? 1 : 0,
+    visibility: open ? 'visible' : 'hidden',
+    pointerEvents: open ? 'auto' : 'none',
+    transition: 'none'
+  } : undefined;
 
   function closeNavDropdowns(nextDismissedDropdown = '') {
     dismissedDropdownRef.current = nextDismissedDropdown;
@@ -726,6 +754,23 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
     };
   }, []);
 
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return undefined;
+    const mediaQuery = window.matchMedia('(max-width: 1280px)');
+    const updateMobileNavViewport = () => {
+      setMobileNavViewport(mediaQuery.matches);
+      if (!mediaQuery.matches) setOpen(false);
+    };
+
+    updateMobileNavViewport();
+    mediaQuery.addEventListener?.('change', updateMobileNavViewport);
+    mediaQuery.addListener?.(updateMobileNavViewport);
+    return () => {
+      mediaQuery.removeEventListener?.('change', updateMobileNavViewport);
+      mediaQuery.removeListener?.(updateMobileNavViewport);
+    };
+  }, []);
+
   function openNavPage(id) {
     setActive(id);
     setOpen(false);
@@ -742,7 +787,7 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
     <header className={`site-header rtbo-header ${open ? 'nav-open' : ''}`}>
       <a
         className="brand-mark"
-        href="#"
+        href="#home"
         onClick={(event) => {
           event.preventDefault();
           openNavPage('home');
@@ -780,7 +825,10 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
         }}
         onClick={closeMobileNav}
       ></button>
-      <nav className={`site-nav ${open ? 'is-open' : ''}`}>
+      <nav
+        className={`site-nav ${open ? 'is-open' : ''}`}
+        style={mobileNavStyle}
+      >
         <div className="nav-link-group">
           {primaryNavLinks.map(([id, label]) => id === 'about' ? (
             <div className={`nav-dropdown ${aboutOpen ? 'is-open' : ''} ${dismissedDropdown === 'about' && !aboutOpen ? 'is-click-dismissed' : ''}`.trim()} key={id} onMouseEnter={() => openNavDropdown('about')} onMouseLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onPointerEnter={() => openNavDropdown('about')} onPointerLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onFocus={() => openNavDropdown('about')} onBlur={closeDropdownOnBlur}>
@@ -879,10 +927,10 @@ function Home({ setActive, onOpenRegister }) {
             {[...carouselImages, ...carouselImages].map((name, index) => <img key={`${name}-${index}`} src={image(name)} alt="RTBO officiating" />)}
           </div>
         </div>
-        <div className="rtbo-stats">
-          <article><strong>12+</strong><span>Years Pro-Am Experience</span></article>
-          <article><strong>15+</strong><span>Years NCAA Experience</span></article>
-          <article><strong>20+</strong><span>Years NFHS Experience</span></article>
+        <div className="rtbo-stats rtbo-service-signals" aria-label="RTBO service signals">
+          <article><strong>Assigning</strong><span>Event crews, communication, and reports</span></article>
+          <article><strong>Development</strong><span>Training, feedback, and mentorship</span></article>
+          <article><strong>Mobile Tools</strong><span>Availability, alerts, and game day updates</span></article>
         </div>
         <button
           type="button"
@@ -1040,7 +1088,7 @@ function HomeClientSpotlight() {
       <div className="home-client-spotlight-layout">
         <div className="home-client-spotlight-player" aria-label="Client Spotlight video player">
           <RTBIPadVideoPlayer
-            className="home-client-spotlight-ipad"
+            className={`home-client-spotlight-ipad ${playlist.length ? 'has-client-videos' : 'is-empty-library'}`}
             brand={library.show.shortName || defaultClientSpotlightShow.shortName}
             title={library.show.name || defaultClientSpotlightShow.name}
             logoSrc={library.show.logoMark || library.show.logo || defaultClientSpotlightShow.logo}
@@ -1135,30 +1183,36 @@ function HomeResultsFeature({ setActive }) {
 
   return (
     <section className="rtbo-section home-results-section">
-      <div className="results-top-copy">
-        <p className="eyebrow">Real Results</p>
-        <h2>Officials leave with stronger habits, clearer feedback, and a path forward.</h2>
-        <p>The RTBO experience is built around measurable development. Officials receive practical teaching, real court reps, direct feedback, and leadership standards they can take into every assignment.</p>
-        <div className="results-top-points">
-          {points.map(([icon, title, text]) => (
-            <article key={title}>
-              <img className="card-icon" src={image(icon)} alt="" />
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </article>
+      <div className="results-feature-panel">
+        <div className="results-top-copy">
+          <p className="eyebrow">Real Results</p>
+          <h2>Officials leave with stronger habits, clearer feedback, and a path forward.</h2>
+          <p>The RTBO experience is built around measurable development. Officials receive practical teaching, real court reps, direct feedback, and leadership standards they can take into every assignment.</p>
+          <button className="btn results-home-btn" type="button" onClick={() => setActive('reviews')}>View Reviews</button>
+        </div>
+        <div className="results-top-cards">
+          <div className="results-proof-head">
+            <span>Featured Voices</span>
+            <strong>RTBO training and development from people connected to the work.</strong>
+          </div>
+          {resultCards.map(([img, name, title]) => (
+            <figure key={name}>
+              <img src={image(img)} alt={`${name} RTBO result card`} />
+              <figcaption>
+                <h3>{name}</h3>
+                <p>{title}</p>
+              </figcaption>
+            </figure>
           ))}
         </div>
-        <button className="btn results-home-btn" type="button" onClick={() => setActive('reviews')}>View Reviews</button>
       </div>
-      <div className="results-top-cards">
-        {resultCards.map(([img, name, title]) => (
-          <figure key={name}>
-            <img src={image(img)} alt={`${name} RTBO result card`} />
-            <figcaption>
-              <h3>{name}</h3>
-              <p>{title}</p>
-            </figcaption>
-          </figure>
+      <div className="results-top-points">
+        {points.map(([icon, title, text]) => (
+          <article key={title}>
+            <img className="card-icon" src={image(icon)} alt="" />
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
         ))}
       </div>
     </section>
@@ -1503,14 +1557,20 @@ function Services() {
     <section className="rtbo-band services-page-section" id="services">
       <div className="services-unified-head">
         <p className="eyebrow">Service Model</p>
-        <h2>One standard for assigning, development, and game-day operations.</h2>
+        <h2>One standard for assigning, development, and game day operations.</h2>
         <p>RTBO combines professional referee assignments, U Got Nex Ref workflow tools, official development, leadership standards, and event reporting into one streamlined service model.</p>
       </div>
 
-      <div className="services-unified-overview">
-        <a className="services-top-image" href="#services" aria-label="View RTBO services">
-          <img src={image('u-got-nex-ref-platform.png')} alt="Got U Nex Ref platform logo" />
-        </a>
+      <div className="services-unified-overview services-redesign-panel">
+        <div className="services-visual-rail">
+          <a className="services-top-image" href="#services" aria-label="View RTBO services">
+            <img src={image('u-got-nex-ref-platform.png')} alt="Got U Nex Ref platform logo" />
+          </a>
+          <div className="services-visual-caption">
+            <span>Assign. Connect. Elevate.</span>
+            <p>U Got Nex Ref supports games, crews, reporting, and mobile official communication.</p>
+          </div>
+        </div>
         <div className="services-top-copy">
           <div className="services-referee-copy">
             <h3>Complete Officiating Solutions</h3>
@@ -1884,6 +1944,9 @@ function LivestreamStudio({ studio, actions, onClose }) {
             <button type="button" onClick={() => actions.toggleOverlay('comment', true)}>Add</button>
           </div>
           <div className="livestream-comment-cues">
+            {livestreamProducerComments.length === 0 && (
+              <p className="livestream-comment-empty">Live comments will appear here after a connected broadcast receives viewer or producer notes.</p>
+            )}
             {livestreamProducerComments.map(comment => (
               <button className={studio.spotlightComment?.[0] === comment[0] ? 'active' : ''} key={comment[0]} type="button" onClick={() => actions.spotlightComment(comment)}>
                 <strong>{comment[0]}</strong>
@@ -3446,8 +3509,15 @@ function RefZoneMembershipGate({ courseId = '', loading = false, onEnroll = () =
   );
 }
 
-function RefZoneUniversityLanding({ user = null, onCreateAccount = () => {}, onSignIn = () => {} }) {
-  const defaultPackage = refZoneMembershipPackages[0]?.id || 'fundamentals';
+function RefZoneUniversityLanding({
+  user = null,
+  onCreateAccount = () => {},
+  onSignIn = () => {},
+  initialPackageId = '',
+  initialScrollTarget = ''
+}) {
+  const routePackage = refZoneMembershipPackages.find((membership) => membership.id === initialPackageId)?.id || '';
+  const defaultPackage = routePackage || refZoneMembershipPackages[0]?.id || 'fundamentals';
   const [selectedPackageId, setSelectedPackageId] = useState(defaultPackage);
   const [paymentProvider, setPaymentProvider] = useState('stripe');
   const [status, setStatus] = useState('');
@@ -3455,6 +3525,18 @@ function RefZoneUniversityLanding({ user = null, onCreateAccount = () => {}, onS
   const signedIn = Boolean(user?.email);
   const accountName = user?.name || [user?.first_name, user?.last_name].filter(Boolean).join(' ');
   const accountPhone = formatPhoneNumber(user?.phone || '');
+
+  useEffect(() => {
+    if (routePackage) setSelectedPackageId(routePackage);
+  }, [routePackage]);
+
+  useEffect(() => {
+    if (!initialScrollTarget) return;
+    const targetId = initialScrollTarget === 'enrollment' ? 'refzone-university-enrollment' : 'refzone-university-packages';
+    requestAnimationFrame(() => {
+      document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }, [initialScrollTarget, routePackage]);
 
   async function submitEnrollment(event) {
     event.preventDefault();
@@ -4192,7 +4274,7 @@ function AuthShowcase({ activeMode }) {
     ? 'Create your account to access RTBO tools, training, messages, assignments, and services.'
     : isRecovery
       ? "No worries. Enter your email and we'll send you a secure link to reset your password."
-      : 'Sign in to continue your officiating journey with the RTBO command center.';
+      : 'Sign in to continue your officiating journey through the RTBO account portal.';
 
   return (
     <aside className="rtbo-auth-showcase" aria-label="Raising The Bar Officiating account access">
@@ -14594,6 +14676,11 @@ function App() {
   const [dashboardOpen, setDashboardOpen] = useState(readStoredDashboardOpen);
 
   useEffect(() => {
+    ensureDocumentStylesheet(HOME_PREMIUM_CSS_ID, HOME_PREMIUM_CSS_HREF);
+    ensureDocumentStylesheet(PUBLIC_PREMIUM_CSS_ID, PUBLIC_PREMIUM_CSS_HREF);
+  }, []);
+
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
@@ -14785,6 +14872,17 @@ function App() {
     localStorage.setItem(RTBO_AUTH_KEY, JSON.stringify(user));
     setAuthUser(user);
     setAccountModal(null);
+    if (postLoginTarget === 'id-cards') {
+      setPostLoginTarget(null);
+      localStorage.setItem(RTBO_DASHBOARD_OPEN_KEY, 'false');
+      setDashboardOpen(false);
+      setActive('id-cards');
+      const currentIdCardRoute = routeFromHash(window.location.hash);
+      const targetRoute = currentIdCardRoute.startsWith('id-cards') ? currentIdCardRoute : 'id-cards';
+      setCurrentRoute(targetRoute);
+      window.location.hash = `#${targetRoute}`;
+      return;
+    }
     if (isSuperAdminUser(user)) {
       setPostLoginTarget(null);
       localStorage.setItem(RTBO_DASHBOARD_OPEN_KEY, 'true');
@@ -14843,6 +14941,16 @@ function App() {
     setAccountModal('login');
   }
 
+  function openIDCardSignIn() {
+    setPostLoginTarget('id-cards');
+    setAccountModal('login');
+  }
+
+  function openIDCardCreateAccount() {
+    setPostLoginTarget('id-cards');
+    setAccountModal('signup');
+  }
+
   function openRegister() {
     if (authUser) {
       goTo('register');
@@ -14872,12 +14980,16 @@ function App() {
     setAccountModal('login');
   }
 
-  function scrollToRefZoneEnrollment() {
+  function scrollToRefZoneEnrollment(packageId = '') {
+    const normalizedPackageId = typeof packageId === 'string' ? packageId.trim() : '';
+    const nextRoute = normalizedPackageId
+      ? `education/enroll/${encodeURIComponent(normalizedPackageId)}`
+      : 'education/enroll';
     setActive('education');
     setDashboardOpen(false);
-    if (!routeFromHash(window.location.hash).startsWith('education')) {
-      window.location.hash = '#education';
-      setCurrentRoute('education');
+    if (routeFromHash(window.location.hash) !== nextRoute) {
+      window.location.hash = `#${nextRoute}`;
+      setCurrentRoute(nextRoute);
     }
     requestAnimationFrame(() => {
       document.getElementById('refzone-university-enrollment')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -14962,13 +15074,14 @@ function App() {
     }
     if (active === 'education') {
       const educationCourseId = educationCourseIdFromRoute(currentRoute);
+      const educationMembershipState = educationMembershipRouteState(currentRoute);
       const accessibleCourseIds = Array.isArray(refZoneAccess.courseIds) ? refZoneAccess.courseIds : [];
       const superAdminCourseAccess = isSuperAdminUser(authUser);
       const localBrowserPassAccess = isLocalRefZoneBrowserPassEnabled();
       const requestedCourseAllowed = localBrowserPassAccess || superAdminCourseAccess || educationCourseId === '' || accessibleCourseIds.includes(educationCourseId);
       const academyInitialCourseId = requestedCourseAllowed ? (educationCourseId || accessibleCourseIds[0] || '') : '';
       const hasCourseAccess = localBrowserPassAccess || superAdminCourseAccess || (accessibleCourseIds.length > 0 && requestedCourseAllowed);
-      const showEducationLanding = !localBrowserPassAccess && (!authUser || !hasCourseAccess);
+      const showEducationLanding = educationMembershipState.active || (!localBrowserPassAccess && (!authUser || !hasCourseAccess));
       const academyUser = authUser || (localBrowserPassAccess ? {
         id: 'local-browser-pass',
         name: 'Local Browser Pass',
@@ -14978,24 +15091,42 @@ function App() {
       return (
         <>
           {showEducationLanding && <PageHero page="education" eyebrow="RefZone University" title="College-Style Officiating Education">Structured rules study, lecture notes, visual aids, labs, tests, and portfolio evidence for basketball officials at every level.</PageHero>}
-          {showEducationLanding && <RefZoneUniversityLanding user={authUser} onCreateAccount={openRefZoneCreateAccount} onSignIn={openRefZoneSignIn} />}
-          {authUser && refZoneAccess.loading ? (
+          {showEducationLanding && (
+            <RefZoneUniversityLanding
+              user={authUser}
+              onCreateAccount={openRefZoneCreateAccount}
+              onSignIn={openRefZoneSignIn}
+              initialPackageId={educationMembershipState.packageId}
+              initialScrollTarget={educationMembershipState.mode}
+            />
+          )}
+          {!educationMembershipState.active && (authUser && refZoneAccess.loading ? (
             <RefZoneMembershipGate courseId={educationCourseId} loading onEnroll={scrollToRefZoneEnrollment} />
           ) : academyUser && hasCourseAccess ? (
             <React.Suspense fallback={<section className="rtbo-section"><p className="rtbo-empty-state">Loading RTBO Education...</p></section>}>
-              <RTBOAcademy user={academyUser} publicMode brandName="RefZone University" initialTrackId={academyInitialCourseId} routePath={currentRoute} />
+              <RTBOAcademy user={academyUser} onOpenMembership={scrollToRefZoneEnrollment} publicMode brandName="RefZone University" initialTrackId={academyInitialCourseId} routePath={currentRoute} />
             </React.Suspense>
           ) : authUser ? (
             <RefZoneMembershipGate courseId={educationCourseId || accessibleCourseIds[0] || ''} onEnroll={scrollToRefZoneEnrollment} />
           ) : (
             <RefZoneCourseAccessGate courseId={educationCourseId} onCreateAccount={openRefZoneCreateAccount} onSignIn={openRefZoneSignIn} />
-          )}
+          ))}
           {managedSections('education')}
         </>
       );
     }
     if (active === 'trainers') return <><PageHero page="trainers" eyebrow="Trainers" title="Professional Development Team">Meet the trainers helping officials sharpen mechanics, judgment, communication, and leadership.</PageHero><Trainers />{managedSections('trainers')}</>;
     if (active === 'guests') return <><PageHero page="guests" eyebrow="Special Guests & Coordinators" title="RTBO Leadership Network">Guest instructors and coordinators supporting the RTBO school experience.</PageHero><Guests />{managedSections('guests')}</>;
+    if (active === 'id-cards') {
+      return (
+        <>
+          <React.Suspense fallback={<section className="rtbo-section"><p className="rtbo-empty-state">Loading ID Card selector...</p></section>}>
+            <IDCardSelectionPage user={authUser} onCreateAccount={openIDCardCreateAccount} onSignIn={openIDCardSignIn} />
+          </React.Suspense>
+          {managedSections('id-cards')}
+        </>
+      );
+    }
     if (active === 'shop') return <><Shop />{managedSections('shop')}</>;
     if (active === 'reviews') return <><PageHero page="reviews" eyebrow="Real Results" title="Testimonials">Officials and coaches sharing the impact of RTBO training, development, and leadership.</PageHero><Reviews />{managedSections('reviews')}</>;
     if (active === 'register') return authUser ? <RegistrationForm user={authUser} active={active} setActive={goTo} onOpenDashboard={openDashboard} onOpenLogin={openLogin} /> : <RegistrationGate onCreateAccount={openRegister} onSignIn={openRegisterSignIn} />;

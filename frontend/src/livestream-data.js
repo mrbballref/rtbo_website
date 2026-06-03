@@ -152,9 +152,4 @@ export const livestreamStudioSources = [
   ['mic', 'Floor Audio', 'Audio', 81]
 ];
 
-export const livestreamProducerComments = [
-  ['Coach Williams', 'Great angle on the block-charge teaching point.'],
-  ['Official Davis', 'Can you show that rotation again from the weak side?'],
-  ['Parent View', 'The live training coverage looks outstanding.'],
-  ['RTBO Staff', 'Reminder: interviews start after the next teaching block.']
-];
+export const livestreamProducerComments = [];

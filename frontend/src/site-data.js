@@ -217,6 +217,10 @@ export const seoMeta = {
     'RTBO Shop | Premium Basketball Officiating Gear',
     'Preview Raising The Bar Officiating branded gear, apparel, whistles, drinkware, and accessories for basketball officials.'
   ],
+  'id-cards': [
+    'RTBO ID Cards | Member & RefZone Student Card Selection',
+    'Select official RTBO ID Card and RefZone University Student ID designs with safe profile personalization and QR event arrival check-in.'
+  ],
   reviews: [
     'RTBO Reviews | Basketball Officials, Coaches & Training Results',
     'Read results and testimonials from officials and coaches connected with Raising The Bar Officiating training and development.'
@@ -248,12 +252,12 @@ export const aboutDifferenceCards = [
   ['reliable_partnership_icon.png', 'Reliable Partnership', 'We are not just a group of officials. We are a brotherhood and sisterhood, and we believe this partnership helps everyone grow as an official and reach their officiating goals.'],
   ['accountability_icon.png', 'Accountability', 'Accountability is part of our core values. We believe in holding each other accountable for the actions tied to our goals because accountability helps us reach the level we aspire to.'],
   ['committed_serving_icon.png', 'Committed To Serving The Game', 'We believe in being committed to serving the game by staying committed to the craft we love. We continue working to become better officials, earn better games, and build a better future.'],
-  ['proven_results_icon.png', 'Committed To Serving The Game', 'Our training has proven results. Multiple attendees are now officiating at a higher level after attending our training school, with many working from higher-level high school games to NCAA Division I.']
+  ['proven_results_icon.png', 'Committed To Serving The Game', 'Officials leave with practical development, stronger habits, and a path toward higher-level opportunities.']
 ];
 
 export const platformCards = [
   ['accountability_icon.png', 'Assigning Command Center', 'Create games, build crews, monitor assignment status, and protect every schedule with availability, conflicts, and role-based permissions.'],
-  ['tech-driven_icon.png', 'Mobile Game-Day Tools', 'Officials can view games, respond to assignments, check in, receive alerts, message crews, and submit reports from the mobile app.'],
+  ['tech-driven_icon.png', 'Mobile Game Day Tools', 'Officials can view games, respond to assignments, check in, receive alerts, message crews, and submit reports from the mobile app.'],
   ['proven_results_icon.png', 'Evaluation & Development', 'Track performance, ratings, feedback, reports, film, training modules, quizzes, certifications, and promotion readiness.'],
   ['reliable_partnership_icon.png', 'Payments & Invoicing', 'Manage school invoices, assigning fees, payment batches, official ledger records, export reports, and Stripe/ACH workflows.']
 ];
@@ -263,7 +267,7 @@ export const platformFlow = [
   'Best crew selected',
   'Notification sent',
   'Official responds',
-  'Game-day check-in',
+  'Game day check-in',
   'Reports and evaluations'
 ];
 

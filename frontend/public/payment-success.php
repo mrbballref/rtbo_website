@@ -20,6 +20,8 @@ $registration = null;
 $enrollment = null;
 $storeOrder = null;
 $redirectUrl = '';
+$redirectMessage = '';
+$redirectButton = 'Continue';
 
 if ($type === 'refzone' && in_array($provider, ['stripe', 'paypal'], true) && $enrollmentId !== '') {
     $enrollment = find_refzone_enrollment($enrollmentId);
@@ -72,7 +74,16 @@ if ($type === 'refzone' && in_array($provider, ['stripe', 'paypal'], true) && $e
                         ],
                     ]);
                 }
-                $redirectUrl = rtbo_refzone_course_url($enrollment);
+                $courseId = trim((string) ($enrollment['course_id'] ?? ''));
+                if ($courseId === '') {
+                    $courseId = rtbo_refzone_course_id_for_package(
+                        (string) ($enrollment['package_id'] ?? ''),
+                        (string) ($enrollment['course_track'] ?? '')
+                    );
+                }
+                $redirectUrl = RTBO_BASE_URL . '/#id-cards/refzone/' . rawurlencode($enrollmentId) . '/' . rawurlencode($courseId);
+                $redirectMessage = 'Redirecting you to choose your RefZone Student ID Card now.';
+                $redirectButton = 'Choose Student ID Card';
             } else {
                 update_refzone_enrollment_payment($enrollmentId, 'verification_failed', $updates);
             }
@@ -216,8 +227,8 @@ if ($type !== 'refzone' && in_array($provider, ['stripe', 'paypal'], true) && $r
       <p><strong>Store Order:</strong> <?php echo e($storeOrderId); ?><br><strong>Total:</strong> $<?php echo e(number_format(((int) ($storeOrder['total_cents'] ?? 0)) / 100, 2)); ?></p>
     <?php endif; ?>
     <?php if ($redirectUrl !== ''): ?>
-      <p>Redirecting you to your RefZone University course now.</p>
-      <a href="<?php echo e($redirectUrl); ?>">Continue to Course</a>
+      <p><?php echo e($redirectMessage !== '' ? $redirectMessage : 'Redirecting you now.'); ?></p>
+      <a href="<?php echo e($redirectUrl); ?>"><?php echo e($redirectButton); ?></a>
     <?php else: ?>
       <a href="/">Return to RTBO</a>
     <?php endif; ?>
