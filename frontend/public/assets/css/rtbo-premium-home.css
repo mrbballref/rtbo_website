@@ -1,0 +1,376 @@
+/* RTBO premium homepage layer. Loaded only on the public homepage to protect the initial CSS budget. */
+:root {
+  --rtbo-premium-gold: #f3d675;
+  --rtbo-premium-red: #c1121f;
+}
+
+.site-header.rtbo-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 9000 !important;
+  min-height: 92px !important;
+  padding: 14px clamp(18px, 4vw, 54px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, .1) !important;
+  background: linear-gradient(180deg, rgba(5, 7, 11, .96), rgba(5, 7, 11, .82)) !important;
+  backdrop-filter: blur(18px) saturate(1.15);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .34) !important;
+}
+
+.site-header.rtbo-header::after {
+  content: "";
+  position: absolute;
+  inset: auto clamp(18px, 4vw, 54px) 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(243, 214, 117, .5), rgba(193, 18, 31, .42), transparent);
+  pointer-events: none;
+}
+
+.site-header.rtbo-header .brand-mark img {
+  width: clamp(86px, 8vw, 128px) !important;
+  filter: drop-shadow(0 16px 28px rgba(0, 0, 0, .46)) !important;
+}
+
+.site-header.rtbo-header .site-nav,
+.site-header.rtbo-header .nav-link-group {
+  align-items: center !important;
+}
+
+.site-header.rtbo-header .site-nav {
+  gap: clamp(14px, 2vw, 28px) !important;
+}
+
+.site-header.rtbo-header .nav-link-group {
+  gap: clamp(4px, .8vw, 10px) !important;
+}
+
+.site-header.rtbo-header .nav-link-group > button:not(.btn),
+.site-header.rtbo-header .nav-dropdown-trigger {
+  min-height: 42px !important;
+  border-radius: 8px !important;
+  color: rgba(248, 250, 252, .86) !important;
+  font-size: .87rem !important;
+  letter-spacing: 0 !important;
+}
+
+.site-header.rtbo-header .nav-link-group > button:not(.btn).active,
+.site-header.rtbo-header .nav-dropdown-trigger.active {
+  color: #fff !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .025)) !important;
+  border-color: rgba(243, 214, 117, .24) !important;
+}
+
+.site-header.rtbo-header .nav-action-group .btn {
+  min-height: 44px !important;
+  border-radius: 8px !important;
+  padding-inline: 18px !important;
+}
+
+.rtbo-public .rtbo-hero {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  align-items: center !important;
+  min-height: clamp(700px, calc(100svh - 92px), 880px) !important;
+  padding: clamp(74px, 8vw, 120px) clamp(22px, 6vw, 86px) clamp(136px, 14vw, 210px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, .12) !important;
+  color: #f8fafc !important;
+  background:
+    linear-gradient(90deg, rgba(4, 6, 10, .97) 0%, rgba(6, 8, 13, .92) 38%, rgba(7, 9, 13, .7) 67%, rgba(7, 9, 13, .86) 100%),
+    url("/assets/images/banner_2.jpg") center center / cover no-repeat,
+    #05070b !important;
+}
+
+body .rtbo-public .rtbo-hero.rtbo-hero {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+.rtbo-public .rtbo-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 34%;
+  background: linear-gradient(180deg, transparent, rgba(4, 6, 10, .72) 58%, rgba(4, 6, 10, .96));
+  pointer-events: none;
+}
+
+.rtbo-public .rtbo-hero-copy {
+  position: relative !important;
+  z-index: 2 !important;
+  grid-column: auto !important;
+  max-width: 780px !important;
+}
+
+.rtbo-public .rtbo-hero-copy .eyebrow {
+  color: var(--rtbo-premium-gold) !important;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, .45);
+}
+
+.rtbo-public .rtbo-hero h1 {
+  max-width: 730px !important;
+  margin: 0 !important;
+  color: #fff !important;
+  opacity: 1 !important;
+  font-size: clamp(3.1rem, 6.1vw, 6.7rem) !important;
+  line-height: .9 !important;
+  text-transform: uppercase;
+  text-shadow: 0 3px 0 rgba(193, 18, 31, .46), 0 14px 38px rgba(0, 0, 0, .72);
+}
+
+.rtbo-public .rtbo-hero h1 span:first-child {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
+.rtbo-public .rtbo-hero h1 span:last-child {
+  color: rgba(255, 255, 255, .88) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, .88) !important;
+}
+
+.rtbo-public .rtbo-hero-copy > p:not(.eyebrow) {
+  max-width: 720px !important;
+  margin-top: 24px !important;
+  color: rgba(248, 250, 252, .88) !important;
+  font-size: clamp(1rem, 1.28vw, 1.18rem) !important;
+  line-height: 1.75 !important;
+  text-shadow: 0 5px 18px rgba(0, 0, 0, .58);
+}
+
+.rtbo-hero-proof-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 24px 0 0;
+}
+
+.rtbo-hero-proof-row span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  border: 1px solid rgba(243, 214, 117, .28);
+  border-radius: 999px;
+  padding: 7px 12px;
+  color: rgba(248, 250, 252, .88);
+  background: rgba(8, 11, 16, .58);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+  font-size: .78rem;
+  font-weight: 900;
+}
+
+.rtbo-public .rtbo-hero .button-row {
+  position: relative;
+  z-index: 4;
+  margin-top: 28px !important;
+}
+
+.rtbo-public .rtbo-hero .btn {
+  min-height: 50px !important;
+  border-radius: 8px !important;
+  padding-inline: 22px !important;
+}
+
+.rtbo-public .rtbo-hero > .hero-carousel {
+  z-index: 2 !important;
+  border-radius: 8px !important;
+  border-color: rgba(255, 255, 255, .14) !important;
+  background: rgba(5, 7, 11, .56) !important;
+  box-shadow: 0 22px 70px rgba(0, 0, 0, .36) !important;
+}
+
+.rtbo-public .rtbo-hero .rtbo-stats {
+  z-index: 3 !important;
+  gap: 8px !important;
+}
+
+.rtbo-public .rtbo-hero .rtbo-stats article {
+  border-radius: 8px !important;
+  border-color: rgba(243, 214, 117, .28) !important;
+  background: linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .018)), rgba(5, 7, 11, .66) !important;
+  backdrop-filter: blur(12px);
+}
+
+.rtbo-premium-impact-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  width: min(100%, var(--rtbo-site-max-width, 1920px));
+  margin: 0 auto;
+  border-bottom: 1px solid rgba(15, 23, 42, .08);
+  background: rgba(15, 23, 42, .12);
+}
+
+.rtbo-premium-impact-strip article {
+  min-width: 0;
+  padding: clamp(18px, 2.4vw, 32px);
+  background: linear-gradient(180deg, #ffffff, #f8fafc);
+  transition: transform .24s ease, box-shadow .24s ease;
+}
+
+.rtbo-premium-impact-strip span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--rtbo-premium-red);
+  font-size: .77rem;
+  font-weight: 1000;
+  text-transform: uppercase;
+}
+
+.rtbo-premium-impact-strip p {
+  margin: 0;
+  color: #1f2937;
+  font-size: clamp(.92rem, 1vw, 1rem);
+  line-height: 1.55;
+}
+
+:root[data-theme="dark"] .rtbo-premium-impact-strip article,
+html.dark .rtbo-premium-impact-strip article {
+  background: linear-gradient(145deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .018)), #080b10;
+}
+
+:root[data-theme="dark"] .rtbo-premium-impact-strip p,
+html.dark .rtbo-premium-impact-strip p {
+  color: rgba(226, 232, 240, .78);
+}
+
+.rtbo-premium-impact-strip article:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 42px rgba(15, 23, 42, .12);
+}
+
+@keyframes rtbo-premium-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rtbo-public .rtbo-hero-copy .eyebrow,
+.rtbo-public .rtbo-hero h1,
+.rtbo-public .rtbo-hero-copy > p:not(.eyebrow),
+.rtbo-hero-proof-row,
+.rtbo-public .rtbo-hero .button-row {
+  animation: rtbo-premium-rise .72s ease both;
+}
+
+.rtbo-public .rtbo-hero h1 { animation-delay: .06s; }
+.rtbo-public .rtbo-hero-copy > p:not(.eyebrow) { animation-delay: .12s; }
+.rtbo-hero-proof-row { animation-delay: .18s; }
+.rtbo-public .rtbo-hero .button-row { animation-delay: .24s; }
+
+@media (max-width: 1280px) {
+  .site-header.rtbo-header {
+    min-height: 86px !important;
+  }
+
+  .site-header.rtbo-header .site-nav {
+    border-left: 1px solid rgba(243, 214, 117, .18) !important;
+    background: linear-gradient(180deg, rgba(6, 8, 13, .98), rgba(10, 14, 21, .98)) !important;
+    box-shadow: -18px 0 60px rgba(0, 0, 0, .46) !important;
+  }
+
+  body#top main.rtbo-public > section.rtbo-hero,
+  .rtbo-public .rtbo-hero {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    grid-template-columns: none !important;
+    min-height: auto !important;
+    padding-top: clamp(54px, 9vw, 86px) !important;
+    padding-bottom: clamp(56px, 10vw, 88px) !important;
+  }
+
+  body#top main.rtbo-public > section.rtbo-hero > .rtbo-hero-copy,
+  body .rtbo-public .rtbo-hero .rtbo-hero-copy {
+    width: min(100%, 780px) !important;
+    max-width: min(100%, 780px) !important;
+  }
+
+  body#top main.rtbo-public > section.rtbo-hero > .hero-carousel,
+  .rtbo-public .rtbo-hero > .hero-carousel {
+    position: relative !important;
+    inset: auto !important;
+    align-self: stretch !important;
+    width: min(100%, 760px) !important;
+    max-width: 760px !important;
+    margin: clamp(24px, 5vw, 44px) 0 0 !important;
+  }
+
+  body#top main.rtbo-public > section.rtbo-hero > .rtbo-stats,
+  .rtbo-public .rtbo-hero .rtbo-stats {
+    position: relative !important;
+    inset: auto !important;
+    align-self: stretch !important;
+    width: min(100%, 760px) !important;
+    margin-top: 12px !important;
+  }
+}
+
+@media (max-width: 980px) {
+  .rtbo-public .rtbo-hero {
+    background:
+      linear-gradient(180deg, rgba(4, 6, 10, .96) 0%, rgba(4, 6, 10, .86) 56%, rgba(4, 6, 10, .97) 100%),
+      url("/assets/images/banner_2.jpg") 58% center / cover no-repeat,
+      #05070b !important;
+  }
+
+  .rtbo-premium-impact-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .site-header.rtbo-header {
+    min-height: 78px !important;
+    padding-inline: 18px !important;
+  }
+
+  .site-header.rtbo-header .brand-mark img {
+    width: 78px !important;
+  }
+
+  .rtbo-public .rtbo-hero {
+    min-height: calc(100svh - 78px) !important;
+    padding: 42px 18px 46px !important;
+    align-content: center !important;
+  }
+
+  .rtbo-public .rtbo-hero h1 {
+    font-size: clamp(2.55rem, 13vw, 4rem) !important;
+    line-height: .92 !important;
+  }
+
+  .rtbo-public .rtbo-hero-copy > p:not(.eyebrow) {
+    font-size: .98rem !important;
+    line-height: 1.6 !important;
+  }
+
+  .rtbo-hero-proof-row span,
+  .rtbo-public .rtbo-hero .button-row,
+  .rtbo-public .rtbo-hero .button-row .btn {
+    width: 100%;
+  }
+
+  .rtbo-hero-proof-row span {
+    justify-content: center;
+  }
+
+  .rtbo-public .hero-scroll-link {
+    display: none !important;
+  }
+
+  .rtbo-premium-impact-strip {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rtbo-public .rtbo-hero-copy .eyebrow,
+  .rtbo-public .rtbo-hero h1,
+  .rtbo-public .rtbo-hero-copy > p:not(.eyebrow),
+  .rtbo-hero-proof-row,
+  .rtbo-public .rtbo-hero .button-row {
+    animation: none !important;
+  }
+}

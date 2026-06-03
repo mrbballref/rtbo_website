@@ -68,6 +68,8 @@ const SITE_CONTENT_KEY = 'rtbo-site-content-records';
 const SITE_CONTENT_UPDATED_EVENT = 'rtbo-site-content-updated';
 const HOME_CLIENT_SPOTLIGHT_CSS_ID = 'home-client-spotlight-css';
 const HOME_CLIENT_SPOTLIGHT_CSS_HREF = '/assets/css/home-client-spotlight.css?v=20260529-wide-player';
+const HOME_PREMIUM_CSS_ID = 'rtbo-premium-home-css';
+const HOME_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-home.css?v=20260603c';
 
 function safeLocalStorageGet(key) {
   try {
@@ -826,8 +828,31 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
   );
 }
 
+const premiumHeroPillars = [
+  'Assigning workflow',
+  'Official development',
+  'Mobile crew operations'
+];
+
 function Home({ setActive, onOpenRegister }) {
   const carouselImages = ['carousel_img_1.png', 'carousel_img_2.png', 'carousel_img_3.png', 'carousel_img_4.png', 'carousel_img_5.png'];
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const existing = document.getElementById(HOME_PREMIUM_CSS_ID);
+    if (existing) {
+      if (existing.getAttribute('href') !== HOME_PREMIUM_CSS_HREF) {
+        existing.setAttribute('href', HOME_PREMIUM_CSS_HREF);
+      }
+      return;
+    }
+    const link = document.createElement('link');
+    link.id = HOME_PREMIUM_CSS_ID;
+    link.rel = 'stylesheet';
+    link.href = HOME_PREMIUM_CSS_HREF;
+    document.head.appendChild(link);
+  }, []);
+
   return (
     <>
       <section className="rtbo-hero">
@@ -835,6 +860,9 @@ function Home({ setActive, onOpenRegister }) {
           <p className="eyebrow">We Will Serve and Will Be of Service to the Game</p>
           <div className="hero-title-row"><h1><span>Raising The Bar</span><span>Officiating</span></h1></div>
           <p>Elite officiating assignments, professional training, and leadership development serving the game with integrity, precision, and purpose. We develop officials through advanced training, mentorship, real-game experience, rules knowledge, mechanics, and philosophy of the game.</p>
+          <div className="rtbo-hero-proof-row" aria-label="RTBO premium service pillars">
+            {premiumHeroPillars.map((pillar) => <span key={pillar}>{pillar}</span>)}
+          </div>
           <div className="button-row">
             <button className="btn" type="button" onClick={onOpenRegister}>Register for School</button>
             <button className="btn secondary dark-btn" type="button" onClick={() => setActive('events')}>View Sessions</button>
@@ -858,6 +886,7 @@ function Home({ setActive, onOpenRegister }) {
           Scroll Down <span aria-hidden="true">↓</span>
         </button>
       </section>
+      <PremiumImpactStrip />
       <AboutSummary setActive={setActive} />
       <HomeClientSpotlight />
       <HomeRefZoneUniversity setActive={setActive} />
@@ -866,6 +895,26 @@ function Home({ setActive, onOpenRegister }) {
       <Services />
       <Contact />
     </>
+  );
+}
+
+function PremiumImpactStrip() {
+  const items = [
+    ['Training', 'College-level curriculum, film lab habits, and real-court mentorship.'],
+    ['Assigning', 'A structured workflow for crews, venues, reports, and communication.'],
+    ['Mobile App', 'Officials can manage assignments, availability, alerts, and profile updates on the go.'],
+    ['Operations', 'Admin tools for payments, forms, newsletters, tax docs, content, and production media.']
+  ];
+
+  return (
+    <section className="rtbo-premium-impact-strip" aria-label="RTBO premium design and development scope">
+      {items.map(([title, text]) => (
+        <article key={title}>
+          <span>{title}</span>
+          <p>{text}</p>
+        </article>
+      ))}
+    </section>
   );
 }
 
@@ -977,7 +1026,7 @@ function HomeClientSpotlight() {
               {selectedVideo.eventName && <div><dt>Event</dt><dd>{[selectedVideo.eventName, selectedVideo.eventDate].filter(Boolean).join(' / ')}</dd></div>}
             </dl>
           ) : (
-            <p className="home-client-spotlight-empty-note">Add and publish real videos in the Command Center Client Spotlight Studio to activate the public playlist.</p>
+            <p className="home-client-spotlight-empty-note">Publish real Client Spotlight videos to activate the public playlist.</p>
           )}
         </div>
       </div>
@@ -995,7 +1044,7 @@ function HomeClientSpotlight() {
             onSelect={setSelectedId}
             emptyTitle="No Client Spotlight videos published yet"
             emptyMessage="Published videos from the Client Spotlight Studio will appear here automatically."
-            settingsNote="Client Spotlight loads published Command Center videos only."
+            settingsNote="Client Spotlight loads published videos only."
           />
         </div>
 
