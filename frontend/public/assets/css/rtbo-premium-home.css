@@ -2,6 +2,9 @@
 :root {
   --rtbo-premium-gold: #f3d675;
   --rtbo-premium-red: #c1121f;
+  --rtbo-premium-ink: #f8fafc;
+  --rtbo-premium-line: rgba(226, 232, 240, .16);
+  --rtbo-premium-panel: rgba(8, 11, 16, .78);
 }
 
 .site-header.rtbo-header {
@@ -109,7 +112,7 @@ body .rtbo-public .rtbo-hero.rtbo-hero {
   margin: 0 !important;
   color: #fff !important;
   opacity: 1 !important;
-  font-size: clamp(3.1rem, 6.1vw, 6.7rem) !important;
+  font-size: clamp(2.85rem, 4.45vw, 5.25rem) !important;
   line-height: .9 !important;
   text-transform: uppercase;
   text-shadow: 0 3px 0 rgba(193, 18, 31, .46), 0 14px 38px rgba(0, 0, 0, .72);
@@ -235,6 +238,318 @@ html.dark .rtbo-premium-impact-strip p {
   box-shadow: 0 18px 42px rgba(15, 23, 42, .12);
 }
 
+.rtbo-public .home-about-rtbo-section,
+.rtbo-public .home-client-spotlight-section,
+.rtbo-public .home-refzone-university,
+.rtbo-public .home-refzone-memberships,
+.rtbo-public .home-results-section,
+.rtbo-public .services-page-section,
+.rtbo-public .contact-section {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, var(--rtbo-site-max-width, 1920px));
+  margin-inline: auto;
+}
+
+.rtbo-public .home-about-rtbo-section,
+.rtbo-public .home-client-spotlight-section,
+.rtbo-public .services-page-section {
+  border-block: 1px solid rgba(255, 255, 255, .1);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .03), rgba(255, 255, 255, .008)),
+    #05070b !important;
+}
+
+.rtbo-public .home-about-rtbo-section {
+  padding: clamp(48px, 7vw, 108px) clamp(18px, 5vw, 78px) !important;
+}
+
+.rtbo-public .about-rtbo-layout {
+  display: grid !important;
+  grid-template-columns: minmax(240px, .82fr) minmax(0, 1.18fr);
+  gap: clamp(22px, 4vw, 58px) !important;
+  align-items: center;
+}
+
+.rtbo-public .about-rtbo-visual-column,
+.rtbo-public .about-rtbo-content .long-copy,
+.rtbo-public .about-icon-grid article {
+  border: 1px solid var(--rtbo-premium-line);
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .075), rgba(255, 255, 255, .018)),
+    var(--rtbo-premium-panel);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .28);
+}
+
+.rtbo-public .about-rtbo-visual-column {
+  padding: clamp(18px, 2.8vw, 32px);
+}
+
+.rtbo-public .about-rtbo-image-frame {
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+
+.rtbo-public .about-rtbo-content .long-copy {
+  padding: clamp(22px, 3.2vw, 42px);
+}
+
+.rtbo-public .about-rtbo-content .long-copy h3 {
+  color: #fff !important;
+  font-size: clamp(1.35rem, 2.2vw, 2.1rem) !important;
+}
+
+.rtbo-public .about-icon-grid {
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 1px !important;
+  border: 1px solid var(--rtbo-premium-line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .1);
+}
+
+.rtbo-public .about-icon-grid article {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  transition: transform .24s ease, background .24s ease;
+}
+
+.rtbo-public .about-icon-grid article:hover {
+  transform: translateY(-2px);
+  background:
+    linear-gradient(145deg, rgba(193, 18, 31, .14), rgba(255, 255, 255, .025)),
+    var(--rtbo-premium-panel);
+}
+
+.rtbo-public .home-client-spotlight-section {
+  padding: clamp(48px, 7vw, 104px) clamp(18px, 5vw, 78px) !important;
+}
+
+.rtbo-public .home-client-spotlight-head {
+  padding-bottom: clamp(8px, 1.5vw, 18px);
+}
+
+.rtbo-public .home-client-spotlight-subtitle {
+  max-width: 1040px !important;
+  color: rgba(248, 250, 252, .94) !important;
+  line-height: 1.12 !important;
+  overflow-wrap: anywhere !important;
+  text-wrap: balance !important;
+  white-space: normal !important;
+}
+
+.rtbo-public .home-client-spotlight-copy {
+  border-left: 3px solid rgba(243, 214, 117, .68);
+  padding-left: clamp(14px, 2vw, 24px);
+}
+
+.rtbo-public .home-client-spotlight-player {
+  border: 1px solid var(--rtbo-premium-line);
+  border-radius: 8px;
+  padding: clamp(10px, 1.8vw, 22px);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .065), rgba(255, 255, 255, .018)),
+    rgba(2, 6, 12, .72);
+  box-shadow: 0 28px 84px rgba(0, 0, 0, .32);
+}
+
+.rtbo-public .home-refzone-university,
+.rtbo-public .home-results-section,
+.rtbo-public .contact-section {
+  padding: clamp(52px, 7vw, 110px) clamp(18px, 5vw, 78px) !important;
+  background:
+    linear-gradient(180deg, rgba(248, 250, 252, .97), rgba(241, 245, 249, .94)),
+    #f8fafc !important;
+}
+
+.rtbo-public .home-refzone-media,
+.rtbo-public .results-top-cards figure,
+.rtbo-public .contact-form,
+.rtbo-public .contact-info-list article {
+  border-radius: 8px !important;
+  box-shadow: 0 24px 64px rgba(15, 23, 42, .13) !important;
+}
+
+.rtbo-public .home-refzone-media {
+  width: min(520px, 100%) !important;
+  border-color: rgba(15, 23, 42, .12) !important;
+  background: #fff !important;
+}
+
+.rtbo-public .home-refzone-copy h2,
+.rtbo-public .home-results-section h2,
+.rtbo-public .contact-section h2 {
+  color: #111827 !important;
+  font-size: clamp(2.2rem, 4.7vw, 5rem) !important;
+  line-height: .96 !important;
+}
+
+.rtbo-public .home-refzone-copy > p:not(.eyebrow),
+.rtbo-public .home-results-section p,
+.rtbo-public .contact-info-panel > p:not(.eyebrow) {
+  color: #475569 !important;
+}
+
+.rtbo-public .home-refzone-memberships {
+  padding: clamp(44px, 6vw, 82px) clamp(18px, 5vw, 78px) !important;
+  border-top: 1px solid rgba(15, 23, 42, .08);
+  background:
+    linear-gradient(180deg, #ffffff, #f8fafc),
+    #fff !important;
+}
+
+.rtbo-public .home-refzone-membership-grid article {
+  min-height: 100%;
+  border-color: rgba(15, 23, 42, .1) !important;
+  background:
+    linear-gradient(180deg, #ffffff, #f8fafc) !important;
+  box-shadow: 0 22px 54px rgba(15, 23, 42, .1);
+  transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+}
+
+.rtbo-public .home-refzone-membership-grid article:hover {
+  border-color: rgba(193, 18, 31, .42) !important;
+  transform: translateY(-3px);
+  box-shadow: 0 28px 70px rgba(15, 23, 42, .14);
+}
+
+.rtbo-public .home-refzone-membership-grid h3,
+.rtbo-public .home-refzone-membership-grid article > strong {
+  color: #111827 !important;
+}
+
+.rtbo-public .home-results-section {
+  grid-template-columns: minmax(0, 1.08fr) minmax(320px, .92fr) !important;
+  gap: clamp(28px, 5vw, 70px) !important;
+  align-items: center;
+}
+
+.rtbo-public .results-top-points article {
+  border: 1px solid rgba(15, 23, 42, .1);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 18px 42px rgba(15, 23, 42, .08);
+}
+
+.rtbo-public .results-top-cards {
+  gap: clamp(12px, 2vw, 22px) !important;
+}
+
+.rtbo-public .results-top-cards figure {
+  overflow: hidden;
+  border: 1px solid rgba(15, 23, 42, .1);
+  background: #111827;
+}
+
+.rtbo-public .results-top-cards img {
+  transition: transform .34s ease, filter .34s ease;
+}
+
+.rtbo-public .results-top-cards figure:hover img {
+  filter: saturate(1.08) contrast(1.04);
+  transform: scale(1.025);
+}
+
+.rtbo-public .services-page-section {
+  padding: clamp(52px, 7vw, 112px) clamp(18px, 5vw, 78px) !important;
+}
+
+.rtbo-public .services-unified-head {
+  max-width: 980px !important;
+}
+
+.rtbo-public .services-unified-head h2,
+.rtbo-public .services-features-intro h2 {
+  color: #fff !important;
+  font-size: clamp(2.25rem, 4.5vw, 4.9rem) !important;
+  line-height: .96 !important;
+}
+
+.rtbo-public .services-unified-overview,
+.rtbo-public .services-features-section,
+.rtbo-public .platform-flow-panel {
+  border: 1px solid var(--rtbo-premium-line);
+  border-radius: 8px;
+  padding: clamp(18px, 3vw, 34px);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .018)),
+    rgba(6, 9, 14, .72);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .28);
+}
+
+.rtbo-public .services-unified-platform-cards article,
+.rtbo-public .services-top-points article,
+.rtbo-public .compact-solutions-grid article,
+.rtbo-public .platform-flow-grid article {
+  border-radius: 8px !important;
+  transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease;
+}
+
+.rtbo-public .services-unified-platform-cards article:hover,
+.rtbo-public .services-top-points article:hover,
+.rtbo-public .compact-solutions-grid article:hover,
+.rtbo-public .platform-flow-grid article:hover {
+  border-color: rgba(243, 214, 117, .38) !important;
+  transform: translateY(-3px);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, .24);
+}
+
+.rtbo-public .contact-section {
+  grid-template-columns: minmax(0, .86fr) minmax(320px, 1.14fr) !important;
+  gap: clamp(28px, 5vw, 72px) !important;
+}
+
+.rtbo-public .contact-info-list {
+  display: grid;
+  gap: 10px;
+}
+
+.rtbo-public .contact-info-list article,
+.rtbo-public .contact-form {
+  border: 1px solid rgba(15, 23, 42, .1) !important;
+  background: #fff !important;
+}
+
+.rtbo-public .contact-form {
+  padding: clamp(18px, 3vw, 34px) !important;
+}
+
+.rtbo-public .contact-form :is(input, textarea) {
+  min-height: 48px;
+  border-color: rgba(15, 23, 42, .14);
+  background: #f8fafc;
+}
+
+.rtbo-public .contact-form textarea {
+  min-height: 150px;
+}
+
+@keyframes rtbo-premium-section-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rtbo-public :is(
+  .home-about-rtbo-section,
+  .home-client-spotlight-section,
+  .home-refzone-university,
+  .home-refzone-memberships,
+  .home-results-section,
+  .services-page-section,
+  .contact-section
+) {
+  animation: rtbo-premium-section-rise .62s ease both;
+}
+
 @keyframes rtbo-premium-rise {
   from {
     opacity: 0;
@@ -318,6 +633,17 @@ html.dark .rtbo-premium-impact-strip p {
   .rtbo-premium-impact-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .rtbo-public .about-rtbo-layout,
+  .rtbo-public .home-results-section,
+  .rtbo-public .contact-section {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .rtbo-public .about-icon-grid,
+  .rtbo-public .home-refzone-membership-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
 }
 
 @media (max-width: 640px) {
@@ -363,6 +689,29 @@ html.dark .rtbo-premium-impact-strip p {
   .rtbo-premium-impact-strip {
     grid-template-columns: 1fr;
   }
+
+  .rtbo-public .home-about-rtbo-section,
+  .rtbo-public .home-client-spotlight-section,
+  .rtbo-public .home-refzone-university,
+  .rtbo-public .home-refzone-memberships,
+  .rtbo-public .home-results-section,
+  .rtbo-public .services-page-section,
+  .rtbo-public .contact-section {
+    padding-inline: 18px !important;
+  }
+
+  .rtbo-public .about-icon-grid,
+  .rtbo-public .home-refzone-membership-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .rtbo-public .home-refzone-copy h2,
+  .rtbo-public .home-results-section h2,
+  .rtbo-public .contact-section h2,
+  .rtbo-public .services-unified-head h2,
+  .rtbo-public .services-features-intro h2 {
+    font-size: clamp(2rem, 9.4vw, 3rem) !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -371,6 +720,18 @@ html.dark .rtbo-premium-impact-strip p {
   .rtbo-public .rtbo-hero-copy > p:not(.eyebrow),
   .rtbo-hero-proof-row,
   .rtbo-public .rtbo-hero .button-row {
+    animation: none !important;
+  }
+
+  .rtbo-public :is(
+    .home-about-rtbo-section,
+    .home-client-spotlight-section,
+    .home-refzone-university,
+    .home-refzone-memberships,
+    .home-results-section,
+    .services-page-section,
+    .contact-section
+  ) {
     animation: none !important;
   }
 }

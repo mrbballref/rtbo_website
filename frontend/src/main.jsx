@@ -69,7 +69,9 @@ const SITE_CONTENT_UPDATED_EVENT = 'rtbo-site-content-updated';
 const HOME_CLIENT_SPOTLIGHT_CSS_ID = 'home-client-spotlight-css';
 const HOME_CLIENT_SPOTLIGHT_CSS_HREF = '/assets/css/home-client-spotlight.css?v=20260529-wide-player';
 const HOME_PREMIUM_CSS_ID = 'rtbo-premium-home-css';
-const HOME_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-home.css?v=20260603c';
+const HOME_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-home.css?v=20260603d';
+const APP_PREMIUM_CSS_ID = 'rtbo-premium-app-css';
+const APP_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-app.css?v=20260603a';
 
 function safeLocalStorageGet(key) {
   try {
@@ -77,6 +79,22 @@ function safeLocalStorageGet(key) {
   } catch {
     return null;
   }
+}
+
+function ensureDocumentStylesheet(id, href) {
+  if (typeof document === 'undefined') return;
+  const existing = document.getElementById(id);
+  if (existing) {
+    if (existing.getAttribute('href') !== href) {
+      existing.setAttribute('href', href);
+    }
+    return;
+  }
+  const link = document.createElement('link');
+  link.id = id;
+  link.rel = 'stylesheet';
+  link.href = href;
+  document.head.appendChild(link);
 }
 
 const optimizedImages = {
@@ -838,19 +856,7 @@ function Home({ setActive, onOpenRegister }) {
   const carouselImages = ['carousel_img_1.png', 'carousel_img_2.png', 'carousel_img_3.png', 'carousel_img_4.png', 'carousel_img_5.png'];
 
   useEffect(() => {
-    if (typeof document === 'undefined') return;
-    const existing = document.getElementById(HOME_PREMIUM_CSS_ID);
-    if (existing) {
-      if (existing.getAttribute('href') !== HOME_PREMIUM_CSS_HREF) {
-        existing.setAttribute('href', HOME_PREMIUM_CSS_HREF);
-      }
-      return;
-    }
-    const link = document.createElement('link');
-    link.id = HOME_PREMIUM_CSS_ID;
-    link.rel = 'stylesheet';
-    link.href = HOME_PREMIUM_CSS_HREF;
-    document.head.appendChild(link);
+    ensureDocumentStylesheet(HOME_PREMIUM_CSS_ID, HOME_PREMIUM_CSS_HREF);
   }, []);
 
   return (
@@ -10960,6 +10966,11 @@ function OrganizationClassifications({ onStatus }) {
 
 function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   const canUseAdminDashboard = ['super_admin', 'admin'].includes(user.role);
+
+  useEffect(() => {
+    ensureDocumentStylesheet(APP_PREMIUM_CSS_ID, APP_PREMIUM_CSS_HREF);
+  }, []);
+
   const canUseTaxCenter = canUseAdminDashboard || [
     'school_admin',
     'athletic_director',
