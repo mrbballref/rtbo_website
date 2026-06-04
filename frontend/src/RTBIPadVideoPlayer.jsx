@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 const CSS_ID = 'rtb-ipad-video-player-css';
-const CSS_HREF = '/assets/video-player/rtb-ipad-player.css?v=20260603-transparent-player';
+const CSS_HREF = '/assets/video-player/rtb-ipad-player.css?v=20260603-animated-logos';
 const SPEEDS = [0.75, 1, 1.25, 1.5, 2];
 
 const icons = {
@@ -87,6 +87,17 @@ function PlayerButton({
       <span className="rtb-btn-icon">{icons[icon] || icons.play}</span>
       <span className="rtb-btn-text">{label}</span>
     </button>
+  );
+}
+
+function AnimatedPlayerLogo({ src = '', variant = 'status' }) {
+  if (!src) return null;
+  return (
+    <span className={`rtb-animated-logo rtb-animated-logo-${variant}`} aria-hidden="true">
+      <span className="rtb-animated-logo-halo" />
+      <img src={src} alt="" />
+      <span className="rtb-animated-logo-sheen" />
+    </span>
   );
 }
 
@@ -423,7 +434,7 @@ export default function RTBIPadVideoPlayer({
       </video>
     ) : (
       <div className="rtb-empty-state">
-        {logoSrc && <img src={logoSrc} alt="" aria-hidden="true" />}
+        <AnimatedPlayerLogo src={logoSrc} variant="empty" />
         <h3>{emptyTitle}</h3>
         <p>{emptyMessage}</p>
       </div>
@@ -440,7 +451,7 @@ export default function RTBIPadVideoPlayer({
         <div className="rtb-ipad-glass">
           <div className="rtb-statusbar">
             <div className="rtb-status-left">
-              {logoSrc && <img className="rtb-status-logo" src={logoSrc} alt="" aria-hidden="true" />}
+              <AnimatedPlayerLogo src={logoSrc} variant="status" />
               <span>{brand}</span>
             </div>
             <div className="rtb-status-brand">

@@ -64,15 +64,16 @@ const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
 const RTBO_AUTH_KEY = 'rtbo_admin_auth';
 const RTBO_DASHBOARD_OPEN_KEY = 'rtbo-dashboard-open';
 const RTBO_THEME_KEY = 'rtbo-theme';
+const RTBO_NAV_DRAWER_MEDIA = '(max-width: 1200px)';
 const RTBO_REVIEW_STORAGE_KEY = 'rtbo-attendee-reviews';
 const SITE_CONTENT_KEY = 'rtbo-site-content-records';
 const SITE_CONTENT_UPDATED_EVENT = 'rtbo-site-content-updated';
 const HOME_CLIENT_SPOTLIGHT_CSS_ID = 'home-client-spotlight-css';
 const HOME_CLIENT_SPOTLIGHT_CSS_HREF = '/assets/css/home-client-spotlight.css?v=20260529-wide-player';
 const HOME_PREMIUM_CSS_ID = 'rtbo-premium-home-css';
-const HOME_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-home.css?v=20260603k';
+const HOME_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-home.css?v=20260603-luxury-nav';
 const PUBLIC_PREMIUM_CSS_ID = 'rtbo-premium-public-css';
-const PUBLIC_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-public.css?v=20260603-redesign-q';
+const PUBLIC_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-public.css?v=20260603-luxury-nav-logos';
 const APP_PREMIUM_CSS_ID = 'rtbo-premium-app-css';
 const APP_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-app.css?v=20260603a';
 
@@ -668,7 +669,7 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
   const [mobileNavViewport, setMobileNavViewport] = useState(() => (
     typeof window !== 'undefined'
     && typeof window.matchMedia === 'function'
-    && window.matchMedia('(max-width: 1280px)').matches
+    && window.matchMedia(RTBO_NAV_DRAWER_MEDIA).matches
   ));
   const [aboutOpen, setAboutOpen] = useState(false);
   const [schoolsEventsOpen, setSchoolsEventsOpen] = useState(false);
@@ -756,7 +757,7 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
 
   useEffect(() => {
     if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return undefined;
-    const mediaQuery = window.matchMedia('(max-width: 1280px)');
+    const mediaQuery = window.matchMedia(RTBO_NAV_DRAWER_MEDIA);
     const updateMobileNavViewport = () => {
       setMobileNavViewport(mediaQuery.matches);
       if (!mediaQuery.matches) setOpen(false);
@@ -2716,7 +2717,7 @@ function LivestreamPlayer({ channel, studio, activationKey, recording = false, o
     <RTBIPadVideoPlayer
       className={`livestream-ipad-player ${channel.playerOptions?.className || ''}`.trim()}
       brand={channel.playerOptions?.brandTitle || channel.title || channel.label}
-      logoSrc={image(channel.icon || 'logo.png')}
+      logoSrc={channel.playerOptions?.logoSrc || image(channel.icon || 'video-player-logos/rtbo-logo.png')}
       status={channel.playerOptions?.statusLabel || (playing ? 'Live' : channel.status || 'Standby')}
       live={playing || studio?.studioMode === 'Live'}
       aspect={channel.aspect}
@@ -2774,7 +2775,7 @@ function RefRoomLivestreamPlayer() {
     status: 'Standby',
     title: 'RefRoom Live Stream Player',
     description: 'No active RefRoom live source is connected yet.',
-    icon: '3d_rtbo_livestream_icon.jpg',
+    icon: 'video-player-logos/ref-room-logo.png',
     streamUrl: '',
     embedUrl: '',
     embedHtml: '',
@@ -2784,6 +2785,7 @@ function RefRoomLivestreamPlayer() {
       className: 'refroom-livestream-player',
       brandTitle: 'RefRoom',
       brandSubtitle: 'RTBO live meeting and training broadcast player',
+      logoSrc: '/assets/images/video-player-logos/ref-room-logo.png',
       statusLabel: 'Standby',
       showFollowLinks: false,
       showSidebar: false,
@@ -7765,8 +7767,10 @@ function positionByName(positions = [], name = '') {
 }
 
 function requiredPositionIdsForCrewSize(positions = [], size = 3) {
-  const names = ['Referee', 'Umpire 1', 'Umpire 2'];
-  if (Number(size) >= 4) names.push('Alternate');
+  const officialCount = Number(size || 3);
+  const names = ['Referee', 'Umpire 1'];
+  if (officialCount >= 3) names.push('Umpire 2');
+  if (officialCount >= 4) names.push('Alternate');
 
   return names
     .map(name => positionByName(positions, name))
@@ -9188,6 +9192,7 @@ function GameAssignmentForm({ mode = 'create', onStatus }) {
           <div className="rtbo-required-crew-panel">
             <label>Required Officials / Positions
               <select name="officials_required" value={form.officials_required} onChange={updateGameForm} required>
+                <option value="2">Referee, Umpire 1</option>
                 <option value="3">Referee, Umpire 1, Umpire 2</option>
                 <option value="4">Referee, Umpire 1, Umpire 2, Alternate</option>
               </select>

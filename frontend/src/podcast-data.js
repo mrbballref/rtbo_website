@@ -1,5 +1,12 @@
 export const PODCAST_LIBRARY_KEY = 'rtbo-jammed-up-podcast-library';
 export const PODCAST_UPDATED_EVENT = 'rtbo-jammed-up-podcast-updated';
+export const JAMMED_UP_PLAYER_LOGO = '/assets/images/video-player-logos/jammed-up-bar-logo.png';
+
+const LEGACY_JAMMED_UP_PLAYER_LOGOS = new Set([
+  '/assets/podcast/jammed-up-bar-logo-mark.png',
+  '/assets/podcast/jammed-up-bar-logo-transparent.png',
+  '/assets/podcast/jammed-up-bar-logo.png'
+]);
 
 export const defaultPodcastShow = {
   name: 'The Jammed Up Bar! Podcast',
@@ -12,7 +19,7 @@ export const defaultPodcastShow = {
   releaseSchedule: 'Saturday and Sunday at 5 PM Central until viewership increases.',
   logo: '/assets/podcast/jammed-up-bar-logo-transparent.png',
   logoCard: '/assets/podcast/jammed-up-bar-logo-card.webp',
-  logoMark: '/assets/podcast/jammed-up-bar-logo-mark.png',
+  logoMark: JAMMED_UP_PLAYER_LOGO,
   socialCard: '/assets/podcast/social-card.png'
 };
 
@@ -24,6 +31,11 @@ export const emptyPodcastLibrary = {
 
 function textValue(value = '', fallback = '') {
   return String(value ?? fallback).trim();
+}
+
+function playerLogoValue(value = '', fallback = JAMMED_UP_PLAYER_LOGO) {
+  const logo = textValue(value, fallback);
+  return LEGACY_JAMMED_UP_PLAYER_LOGOS.has(logo) ? fallback : logo;
 }
 
 export function podcastSlug(value = 'podcast-episode') {
@@ -60,7 +72,7 @@ export function normalizePodcastShow(show = {}) {
     releaseSchedule: textValue(show.releaseSchedule, defaultPodcastShow.releaseSchedule),
     logo: textValue(show.logo, defaultPodcastShow.logo),
     logoCard: textValue(show.logoCard, defaultPodcastShow.logoCard),
-    logoMark: textValue(show.logoMark, defaultPodcastShow.logoMark),
+    logoMark: playerLogoValue(show.logoMark, defaultPodcastShow.logoMark),
     socialCard: textValue(show.socialCard, defaultPodcastShow.socialCard)
   };
 }

@@ -17066,7 +17066,108 @@ html.light .site-footer.original-footer .footer-link:is(:hover, :focus-visible) 
 }
 
 /* Final mobile navigation guard: the public menu must never squeeze desktop columns into cramped viewports. */
-@media (max-width: 1280px) {
+@media (min-width: 1201px) {
+  .site-header.rtbo-header .brand-mark img {
+    width: clamp(74px, 4.8vw, 94px) !important;
+    filter: drop-shadow(0 12px 22px rgba(0, 0, 0, .46)) !important;
+  }
+
+  .site-header.rtbo-header {
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: clamp(18px, 2vw, 34px) !important;
+  }
+
+  .site-header.rtbo-header .site-nav {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) max-content !important;
+    align-items: center !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    gap: clamp(14px, 1.45vw, 26px) !important;
+  }
+
+  .site-header.rtbo-header .nav-link-group,
+  .site-header.rtbo-header .nav-action-group {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    min-width: 0 !important;
+  }
+
+  .site-header.rtbo-header .nav-link-group {
+    justify-content: center !important;
+    gap: clamp(8px, .72vw, 14px) !important;
+  }
+
+  .site-header.rtbo-header .nav-action-group {
+    justify-content: flex-end !important;
+    gap: clamp(10px, .85vw, 18px) !important;
+    min-width: max-content !important;
+  }
+
+  .site-header.rtbo-header .nav-link-group > button:not(.btn),
+  .site-header.rtbo-header .nav-dropdown,
+  .site-header.rtbo-header .nav-dropdown-trigger,
+  .site-header.rtbo-header .nav-action-group > .btn,
+  .site-header.rtbo-header .theme-toggle {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+  }
+}
+
+@media (min-width: 1201px) and (max-width: 1680px) {
+  .site-header.rtbo-header {
+    min-height: 84px !important;
+    padding: 12px clamp(18px, 2.2vw, 32px) !important;
+    gap: clamp(12px, 1.2vw, 22px) !important;
+  }
+
+  .site-header.rtbo-header .brand-mark img {
+    width: clamp(72px, 5vw, 88px) !important;
+  }
+
+  .site-header.rtbo-header .site-nav {
+    gap: clamp(10px, 1vw, 18px) !important;
+  }
+
+  .site-header.rtbo-header .nav-link-group {
+    justify-content: flex-start !important;
+    gap: clamp(2px, .45vw, 8px) !important;
+  }
+
+  .site-header.rtbo-header .nav-action-group {
+    gap: clamp(8px, .65vw, 12px) !important;
+  }
+
+  .site-header.rtbo-header .nav-link-group > button:not(.btn),
+  .site-header.rtbo-header .nav-dropdown-trigger {
+    min-height: 38px !important;
+    padding: 8px clamp(7px, .65vw, 12px) !important;
+    font-size: clamp(.74rem, .68vw, .84rem) !important;
+  }
+
+  .site-header.rtbo-header .nav-action-group .btn {
+    min-height: 40px !important;
+    padding-inline: clamp(10px, .75vw, 14px) !important;
+    font-size: clamp(.78rem, .72vw, .9rem) !important;
+  }
+
+  .site-header.rtbo-header .theme-toggle {
+    min-width: 88px !important;
+    width: 88px !important;
+    transform: scale(.92);
+    transform-origin: center right;
+  }
+
+  .site-header.rtbo-header .nav-menu-toggle {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1200px) {
   .site-header.rtbo-header {
     display: grid !important;
     grid-template-columns: auto auto !important;
@@ -17199,7 +17300,7 @@ html.light .site-footer.original-footer .footer-link:is(:hover, :focus-visible) 
   visibility: visible !important;
 }
 
-@media (max-width: 1280px) {
+@media (max-width: 1200px) {
   .site-header.rtbo-header .site-nav {
     z-index: 1001 !important;
   }

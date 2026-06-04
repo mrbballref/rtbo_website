@@ -6,7 +6,7 @@ export const livestreamChannels = [
     status: 'Primary',
     title: 'RTBO Website Broadcast',
     description: 'The main home for school coverage, film breakdowns, court mechanics, guest instruction, and promotional moments.',
-    icon: '3d_rtbo_livestream_icon.jpg',
+    icon: 'video-player-logos/rtbo-logo.png',
     streamUrl: '',
     embedUrl: '',
     embedHtml: '',

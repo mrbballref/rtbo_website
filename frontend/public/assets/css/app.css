@@ -3959,7 +3959,7 @@ textarea:focus {
   background-position: left top, center center, center !important;
 }
 
-@media (max-width: 1280px) {
+@media (max-width: 1200px) {
   .site-header.rtbo-header {
     display: grid;
     grid-template-columns: auto auto;

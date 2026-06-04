@@ -10,10 +10,12 @@ const EMOJI_REACTIONS = ['👍', '👏', '✅', '❓', '🔥', '🎥', '🏀', '
 const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
 const PARTICIPANT_ROLES = ['attendee', 'presenter', 'co_host', 'host'];
 const SURVEY_TYPES = ['Single Choice', 'Multiple Choice', 'Short Answer', 'Rating'];
-const LOGO_SRC = '/assets/images/logo.png';
+const RTBO_LOGO_SRC = '/assets/images/video-player-logos/rtbo-logo.png';
+const REFROOM_LOGO_SRC = '/assets/images/video-player-logos/ref-room-logo.png';
 const PUBLIC_PLAYER_POSTER = '/assets/images/3d_rtbo_livestream_player.jpg';
 const VIRTUAL_BACKGROUNDS = [
-  { id: 'rtbo-logo', label: 'RTBO Logo', value: LOGO_SRC },
+  { id: 'refroom-logo', label: 'RefRoom Logo', value: REFROOM_LOGO_SRC },
+  { id: 'rtbo-logo', label: 'RTBO Logo', value: RTBO_LOGO_SRC },
   { id: 'court', label: 'Court', value: '/assets/images/three-person-crew.jpg' },
   { id: 'training', label: 'Training', value: '/assets/images/rtbo_web_banner.jpg' },
   { id: 'studio', label: 'Studio', value: '/assets/images/3d_rtbo_livestream_player.jpg' }
@@ -59,8 +61,8 @@ const DEFAULT_PRODUCTION = {
   lowerThird: true,
   brandOverlay: true,
   backgroundBlur: false,
-  backgroundMode: 'rtbo-logo',
-  backgroundImage: LOGO_SRC,
+  backgroundMode: 'refroom-logo',
+  backgroundImage: REFROOM_LOGO_SRC,
   customBackground: '',
   cleanBackgroundEdges: true,
   destination: '',
@@ -429,7 +431,7 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
       || (meetingCode && String(message.meetingCode || '') === meetingCode)
     ));
   }, [activeMeeting, activeMeetingId, messages, settings.meetingCode]);
-  const stageBackgroundUrl = production.customBackground || production.backgroundImage || LOGO_SRC;
+  const stageBackgroundUrl = production.customBackground || production.backgroundImage || REFROOM_LOGO_SRC;
   const stageStyle = {
     '--refroom-stage-bg': `url("${stageBackgroundUrl}")`
   };
@@ -1655,7 +1657,7 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
                 <video ref={videoRef} autoPlay playsInline muted className={production.backgroundBlur ? 'uses-background-blur' : ''} />
               ) : (
                 <div className="rtbo-refroom-video-placeholder">
-                  <img src={LOGO_SRC} alt="Raising The Bar Officiating logo" />
+                  <img src={REFROOM_LOGO_SRC} alt="RefRoom logo" />
                   <span>{userInitials(displayUser)}</span>
                   <strong>{displayName(displayUser)}</strong>
                   <small>Start the room to enable the camera, microphone, and meeting viewport.</small>

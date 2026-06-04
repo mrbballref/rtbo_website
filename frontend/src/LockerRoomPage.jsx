@@ -437,7 +437,7 @@ export default function LockerRoomPage({ user, onCreateAccount, onSignIn }) {
               className="locker-room-ipad-player"
               brand="The Locker Room"
               title={selectedFilm?.title || 'The Locker Room'}
-              logoSrc="/assets/images/logo.png"
+              logoSrc="/assets/images/video-player-logos/locker-room-logo.png"
               status={selectedFilm ? 'Ready' : 'Awaiting Upload'}
               playlist={playlist}
               selectedId={selectedFilm?.id || ''}

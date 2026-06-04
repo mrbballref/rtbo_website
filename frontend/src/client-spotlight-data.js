@@ -1,5 +1,10 @@
 export const CLIENT_SPOTLIGHT_LIBRARY_KEY = 'rtbo-client-spotlight-library';
 export const CLIENT_SPOTLIGHT_UPDATED_EVENT = 'rtbo-client-spotlight-updated';
+export const CLIENT_SPOTLIGHT_PLAYER_LOGO = '/assets/images/video-player-logos/client-spotlight-logo.png';
+
+const LEGACY_CLIENT_SPOTLIGHT_PLAYER_LOGOS = new Set([
+  '/assets/images/logo.png'
+]);
 
 export const defaultClientSpotlightShow = {
   name: 'Client Spotlight',
@@ -9,7 +14,7 @@ export const defaultClientSpotlightShow = {
   mission: 'A production library for coach conversations, player interviews, official development stories, school highlights, and promotional films connected to Raising The Bar Officiating.',
   logo: '/assets/images/logo.png',
   logoCard: '/assets/images/3d_rtbo_livestream_icon.jpg',
-  logoMark: '/assets/images/logo.png'
+  logoMark: CLIENT_SPOTLIGHT_PLAYER_LOGO
 };
 
 export const emptyClientSpotlightLibrary = {
@@ -20,6 +25,11 @@ export const emptyClientSpotlightLibrary = {
 
 function textValue(value = '', fallback = '') {
   return String(value ?? fallback).trim();
+}
+
+function playerLogoValue(value = '', fallback = CLIENT_SPOTLIGHT_PLAYER_LOGO) {
+  const logo = textValue(value, fallback);
+  return LEGACY_CLIENT_SPOTLIGHT_PLAYER_LOGOS.has(logo) ? fallback : logo;
 }
 
 export function clientSpotlightSlug(value = 'client-spotlight-video') {
@@ -47,7 +57,7 @@ export function normalizeClientSpotlightShow(show = {}) {
     mission: textValue(show.mission, defaultClientSpotlightShow.mission),
     logo: textValue(show.logo, defaultClientSpotlightShow.logo),
     logoCard: textValue(show.logoCard, defaultClientSpotlightShow.logoCard),
-    logoMark: textValue(show.logoMark, defaultClientSpotlightShow.logoMark)
+    logoMark: playerLogoValue(show.logoMark, defaultClientSpotlightShow.logoMark)
   };
 }
 

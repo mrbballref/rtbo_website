@@ -489,17 +489,22 @@ function admin_game_position_id_by_name(string $name): int
     return 0;
 }
 
-function admin_game_core_position_ids(): array
+function admin_game_core_position_ids(int $officialsRequired = 3): array
 {
+    $names = ['Referee', 'Umpire 1'];
+    if ($officialsRequired >= 3) {
+        $names[] = 'Umpire 2';
+    }
+
     return array_values(array_filter(array_map(
         static fn (string $name): int => admin_game_position_id_by_name($name),
-        ['Referee', 'Umpire 1', 'Umpire 2']
+        $names
     )));
 }
 
 function admin_game_default_required_position_ids(int $officialsRequired = 3): array
 {
-    $ids = admin_game_core_position_ids();
+    $ids = admin_game_core_position_ids($officialsRequired);
     if ($officialsRequired >= 4) {
         $alternateId = admin_game_position_id_by_name('Alternate');
         if ($alternateId > 0) {
@@ -665,7 +670,7 @@ function admin_game_normalize(array $record): array
     if (!in_array($status, ['scheduled', 'published', 'cancelled', 'canceled', 'postponed', 'rescheduled', 'deleted'], true)) {
         $status = 'scheduled';
     }
-    $officialsRequired = max(3, min(4, (int) ($record['officials_required'] ?? $record['officialsRequired'] ?? 3)));
+    $officialsRequired = max(2, min(4, (int) ($record['officials_required'] ?? $record['officialsRequired'] ?? 3)));
     $requiredPositionIds = admin_game_required_position_ids_from_record([
         ...$record,
         'officials_required' => $officialsRequired,
@@ -801,10 +806,15 @@ function admin_game_require_valid(array $record): array
     if ($game['school_event_center_id'] <= 0) {
         throw new RuntimeException('School or event center is required.');
     }
-    $corePositionIds = admin_game_core_position_ids();
-    $missingCoreIds = array_diff($corePositionIds, $game['required_position_ids']);
-    if ($missingCoreIds || count($game['required_position_ids']) < 3) {
-        throw new RuntimeException('Referee, Umpire 1, and Umpire 2 are required before a game assignment can be saved.');
+    $requiredDefaultPositionIds = admin_game_default_required_position_ids($game['officials_required']);
+    $missingCoreIds = array_diff($requiredDefaultPositionIds, $game['required_position_ids']);
+    if ($missingCoreIds || count($game['required_position_ids']) < $game['officials_required']) {
+        $positionMap = admin_game_position_map();
+        $positionNames = array_map(
+            static fn (int $positionId): string => (string) (($positionMap[$positionId]['name'] ?? 'Position ' . $positionId)),
+            $requiredDefaultPositionIds
+        );
+        throw new RuntimeException('Required positions are missing: ' . implode(', ', array_filter($positionNames)) . '.');
     }
 
     $venues = admin_game_venue_records();

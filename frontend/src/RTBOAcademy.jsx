@@ -9,6 +9,7 @@ const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
 const noopStatus = () => {};
 const COURSE_OVERVIEW_THUMBNAIL = '/assets/images/refzone/course-overview-thumbnail.png';
 const REFZONE_UNIVERSITY_LOGO = '/assets/images/refzone/refzone_u_logo.png';
+const REFZONE_UNIVERSITY_PLAYER_LOGO = '/assets/images/video-player-logos/refzone-university-logo.png';
 const ACADEMY_LAST_ROUTE_KEY = 'rtbo_refzone_university_last_route';
 const ACADEMY_PUBLIC_ROUTE_BASE = 'education';
 const ACADEMY_DASHBOARD_ROUTE_BASE = 'dashboard/rtboAcademy';
@@ -2261,7 +2262,7 @@ function CourseVideoPlayer({
     <RTBIPadVideoPlayer
       className="rtbo-course-ipad-player"
       brand="REFZONE"
-      logoSrc="/assets/images/logo.png"
+      logoSrc={REFZONE_UNIVERSITY_PLAYER_LOGO}
       status={courseStatus}
       aspect="wide"
       mediaContent={mediaContent}

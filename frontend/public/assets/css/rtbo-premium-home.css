@@ -11,8 +11,8 @@
   position: sticky !important;
   top: 0 !important;
   z-index: 9000 !important;
-  min-height: 92px !important;
-  padding: 14px clamp(18px, 4vw, 54px) !important;
+  min-height: 88px !important;
+  padding: 10px clamp(18px, 3vw, 48px) !important;
   border-bottom: 1px solid rgba(255, 255, 255, .1) !important;
   background: linear-gradient(180deg, rgba(5, 7, 11, .96), rgba(5, 7, 11, .82)) !important;
   backdrop-filter: blur(18px) saturate(1.15);
@@ -29,8 +29,8 @@
 }
 
 .site-header.rtbo-header .brand-mark img {
-  width: clamp(86px, 8vw, 128px) !important;
-  filter: drop-shadow(0 16px 28px rgba(0, 0, 0, .46)) !important;
+  width: clamp(74px, 4.8vw, 94px) !important;
+  filter: drop-shadow(0 12px 22px rgba(0, 0, 0, .46)) !important;
 }
 
 .site-header.rtbo-header .site-nav,
@@ -66,6 +66,102 @@
   min-height: 44px !important;
   border-radius: 8px !important;
   padding-inline: 18px !important;
+}
+
+@media (min-width: 1201px) {
+  .site-header.rtbo-header {
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: clamp(18px, 2vw, 34px) !important;
+  }
+
+  .site-header.rtbo-header .site-nav {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) max-content !important;
+    align-items: center !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    gap: clamp(14px, 1.45vw, 26px) !important;
+  }
+
+  .site-header.rtbo-header .nav-link-group,
+  .site-header.rtbo-header .nav-action-group {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    min-width: 0 !important;
+  }
+
+  .site-header.rtbo-header .nav-link-group {
+    justify-content: center !important;
+    gap: clamp(8px, .72vw, 14px) !important;
+  }
+
+  .site-header.rtbo-header .nav-action-group {
+    justify-content: flex-end !important;
+    gap: clamp(10px, .85vw, 18px) !important;
+    min-width: max-content !important;
+  }
+
+  .site-header.rtbo-header .nav-link-group > button:not(.btn),
+  .site-header.rtbo-header .nav-dropdown,
+  .site-header.rtbo-header .nav-dropdown-trigger,
+  .site-header.rtbo-header .nav-action-group > .btn,
+  .site-header.rtbo-header .theme-toggle {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+  }
+}
+
+@media (min-width: 1201px) and (max-width: 1680px) {
+  .site-header.rtbo-header {
+    min-height: 84px !important;
+    padding: 12px clamp(18px, 2.2vw, 32px) !important;
+    gap: clamp(12px, 1.2vw, 22px) !important;
+  }
+
+  .site-header.rtbo-header .brand-mark img {
+    width: clamp(72px, 5vw, 88px) !important;
+  }
+
+  .site-header.rtbo-header .site-nav {
+    gap: clamp(10px, 1vw, 18px) !important;
+  }
+
+  .site-header.rtbo-header .nav-link-group {
+    justify-content: flex-start !important;
+    gap: clamp(2px, .45vw, 8px) !important;
+  }
+
+  .site-header.rtbo-header .nav-action-group {
+    gap: clamp(8px, .65vw, 12px) !important;
+  }
+
+  .site-header.rtbo-header .nav-link-group > button:not(.btn),
+  .site-header.rtbo-header .nav-dropdown-trigger {
+    min-height: 38px !important;
+    padding: 8px clamp(7px, .65vw, 12px) !important;
+    font-size: clamp(.74rem, .68vw, .84rem) !important;
+  }
+
+  .site-header.rtbo-header .nav-action-group .btn {
+    min-height: 40px !important;
+    padding-inline: clamp(10px, .75vw, 14px) !important;
+    font-size: clamp(.78rem, .72vw, .9rem) !important;
+  }
+
+  .site-header.rtbo-header .theme-toggle {
+    min-width: 88px !important;
+    width: 88px !important;
+    transform: scale(.92);
+    transform-origin: center right;
+  }
+
+  .site-header.rtbo-header .nav-menu-toggle {
+    display: none !important;
+  }
 }
 
 .rtbo-public .rtbo-hero {
@@ -768,6 +864,18 @@ html.light .rtbo-public .contact-form :is(input, textarea) {
 .rtbo-public .rtbo-hero-copy > p:not(.eyebrow) { animation-delay: .12s; }
 .rtbo-hero-proof-row { animation-delay: .18s; }
 .rtbo-public .rtbo-hero .button-row { animation-delay: .24s; }
+
+@media (max-width: 1200px) {
+  .site-header.rtbo-header {
+    min-height: 86px !important;
+  }
+
+  .site-header.rtbo-header .site-nav {
+    border-left: 1px solid rgba(243, 214, 117, .18) !important;
+    background: linear-gradient(180deg, rgba(6, 8, 13, .98), rgba(10, 14, 21, .98)) !important;
+    box-shadow: -18px 0 60px rgba(0, 0, 0, .46) !important;
+  }
+}
 
 @media (max-width: 1280px) {
   .site-header.rtbo-header {
