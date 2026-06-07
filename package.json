@@ -10,6 +10,8 @@
     "verify:github-remote": "node tools/verify-github-remote.mjs",
     "refzone:video-jobs": "node tools/generate-refzone-course-video-jobs.mjs",
     "refzone:render-videos": "node video-renderer/render-refzone-course-videos.mjs",
+    "rtbo:render-advertising": "node video-renderer/render-rtbo-advertising-video.mjs",
+    "rtbo:render-marketing": "node video-renderer/render-rtbo-marketing-video.mjs",
     "frontend:build": "npm --prefix frontend run build",
     "frontend:audit": "npm --prefix frontend run audit"
   },
