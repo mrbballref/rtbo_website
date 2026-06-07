@@ -239,7 +239,7 @@ export default function ClientSpotlightStudio({ onStatus = () => {} }) {
     payload.append('video', file);
     const data = await apiPostForm('/client-spotlight-video-upload.php', payload);
     if (!data.video?.url) {
-      throw new Error('The server did not return a playable Client Spotlight video URL.');
+      throw new Error('The server did not return a playable Client Spotlight video source.');
     }
     return data.video;
   }
@@ -251,7 +251,7 @@ export default function ClientSpotlightStudio({ onStatus = () => {} }) {
       videoUrl: video.url
     }));
     clearSelectedVideoFile();
-    setVideoUploadNote(`Uploaded ${video.title} and filled the Video URL field.`);
+    setVideoUploadNote(`Uploaded ${video.title} and filled the Video Source field.`);
   }
 
   async function uploadSelectedVideo() {
@@ -265,7 +265,7 @@ export default function ClientSpotlightStudio({ onStatus = () => {} }) {
     try {
       const video = await uploadSpotlightVideoFile(selectedVideoFile);
       applyUploadedVideo(video);
-      setMessage('Client Spotlight video uploaded. Review the URL, then save the record.');
+      setMessage('Client Spotlight video uploaded. Save the record to publish the uploaded file.');
       onStatus('Client Spotlight video uploaded.');
       return video;
     } catch (error) {
@@ -331,7 +331,7 @@ export default function ClientSpotlightStudio({ onStatus = () => {} }) {
     }
     if (formForSave.status === 'published' && !formForSave.videoUrl.trim()) {
       setSaving(false);
-      setMessage('Upload a Client Spotlight video or paste a real video URL before publishing.');
+      setMessage('Upload a Client Spotlight video or paste a playable video source before publishing.');
       return;
     }
 
@@ -414,7 +414,7 @@ export default function ClientSpotlightStudio({ onStatus = () => {} }) {
         <div>
           <p className="eyebrow">Production Studio</p>
           <h3>Client Spotlight Studio</h3>
-          <p>Create, upload, publish, hide, or remove the real videos shown in the Client Spotlight section on the home page. Drafts stay private until they are published with a playable video URL.</p>
+          <p>Create, upload, publish, hide, or remove the real videos shown in the Client Spotlight section on the home page. Drafts stay private until they are published with a playable uploaded video or direct video source.</p>
         </div>
         <div className="button-row">
           <a className="btn secondary dark-btn" href="#home" target="_blank" rel="noopener">View Home Spotlight</a>
@@ -436,7 +436,7 @@ export default function ClientSpotlightStudio({ onStatus = () => {} }) {
         <div>
           <p className="eyebrow">Home Page Preview</p>
           <h4>Published videos appear in this iPad player.</h4>
-          <p>Only published records with real video URLs are sent to the public Client Spotlight section.</p>
+          <p>Only published records with playable uploaded files or direct video sources are sent to the public Client Spotlight section.</p>
         </div>
         <RTBIPadVideoPlayer
           className="client-spotlight-studio-player"
@@ -449,7 +449,7 @@ export default function ClientSpotlightStudio({ onStatus = () => {} }) {
           onSelect={setPreviewId}
           emptyTitle="No published Client Spotlight videos yet"
           emptyMessage="Upload a real video, set it to Published, and save it to preview it here and on the home page."
-          settingsNote="The public Client Spotlight player only loads published videos with playable video URLs."
+          settingsNote="The public Client Spotlight player only loads published videos with playable video sources."
         />
       </section>
 
@@ -477,7 +477,7 @@ export default function ClientSpotlightStudio({ onStatus = () => {} }) {
         <div className="podcast-builder-panel-head">
           <div>
             <h4>{editingId ? 'Update Client Spotlight Video' : 'Add Client Spotlight Video'}</h4>
-            <p>Upload an actual video file or paste a real direct video URL that the browser can play.</p>
+            <p>Upload an actual video file from this computer or paste a direct video source that the browser can play.</p>
           </div>
           <div className="button-row">
             <button className="btn" type="submit" disabled={saving}>{saving ? 'Saving...' : 'Save Spotlight Video'}</button>
@@ -512,8 +512,8 @@ export default function ClientSpotlightStudio({ onStatus = () => {} }) {
               </button>
             </div>
           </div>
-          <label className="span-two">Video URL {videoForm.status === 'published' ? '*' : ''}<input name="videoUrl" type="url" value={videoForm.videoUrl} onChange={updateVideoForm} required={videoForm.status === 'published'} placeholder="https://.../spotlight.mp4 or /api/client-spotlight-video.php?file=..." /></label>
-          <label className="span-two">Poster Image URL<input name="posterUrl" type="url" value={videoForm.posterUrl} onChange={updateVideoForm} placeholder="/assets/images/clients/..." /></label>
+          <label className="span-two">Video Source {videoForm.status === 'published' ? '*' : ''}<input name="videoUrl" type="text" value={videoForm.videoUrl} onChange={updateVideoForm} required={videoForm.status === 'published'} placeholder="Uploaded video path, /api/client-spotlight-video.php?file=..., or https://.../spotlight.mp4" /></label>
+          <label className="span-two">Poster Image Source<input name="posterUrl" type="text" value={videoForm.posterUrl} onChange={updateVideoForm} placeholder="/assets/images/clients/... or https://..." /></label>
           <label className="span-two">Transcript / Captions Text<textarea name="transcript" rows="5" value={videoForm.transcript} onChange={updateVideoForm} /></label>
         </div>
       </form>
@@ -546,7 +546,7 @@ export default function ClientSpotlightStudio({ onStatus = () => {} }) {
                   <span>{video.status}</span>
                   <strong>{video.title}</strong>
                   <small>{[video.category, video.featuredPerson, video.affiliation, video.publishedAt || video.eventDate, video.runtime].filter(Boolean).join(' / ') || 'No spotlight details set'}</small>
-                  <p>{video.videoUrl || 'No video URL assigned yet.'}</p>
+                  <p>{video.videoUrl || 'No video source assigned yet.'}</p>
                 </div>
                 <div className="podcast-builder-row-actions">
                   <button className="btn secondary dark-btn" type="button" onClick={() => editVideo(video)}>Edit</button>

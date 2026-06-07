@@ -59,6 +59,7 @@ const ResumeManager = React.lazy(() => import('./ResumeManager.jsx'));
 const JammedUpPodcastPage = React.lazy(() => import('./JammedUpPodcastPage.jsx'));
 const LockerRoomPage = React.lazy(() => import('./LockerRoomPage.jsx'));
 const ClientSpotlightStudio = React.lazy(() => import('./ClientSpotlightStudio.jsx'));
+const PodcastBuilder = React.lazy(() => import('./PodcastBuilder.jsx'));
 const IDCardSelectionPage = React.lazy(() => import('./IDCardSelectionPage.jsx'));
 const StateSelect = React.lazy(() => import('./StateSelect.jsx'));
 const CountrySelect = React.lazy(() => import('./CountrySelect.jsx'));
@@ -11859,6 +11860,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['newsletterCenter', 'Newsletter'],
     ['refroom', 'RefRoom'],
     ['clientSpotlightStudio', 'Client Spotlight'],
+    ['podcastBuilder', 'Podcast Builder'],
     ['notifications', 'Notifications'],
     ['payments', 'Payments'],
     ['assignorSubscriptions', 'Assignor Subscriptions'],
@@ -11885,7 +11887,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['evaluation', 'Evaluations'],
     ['education', 'Education']
   ];
-  const allowedDashboardSidebarIds = new Set(['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'clientSpotlightStudio', 'notifications', 'payments', 'assignorSubscriptions', 'shopInventory', 'siteContent', 'taxCenter', 'education', 'profile', 'reports', 'reviews', 'organizations']);
+  const allowedDashboardSidebarIds = new Set(['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'clientSpotlightStudio', 'podcastBuilder', 'notifications', 'payments', 'assignorSubscriptions', 'shopInventory', 'siteContent', 'taxCenter', 'education', 'profile', 'reports', 'reviews', 'organizations']);
   const visibleAdminSections = adminSections.filter(([id]) => allowedDashboardSidebarIds.has(id) && !hiddenSections.includes(id));
   const visibleAddMemberSections = addMemberSections.filter(item => !hiddenMemberItems.includes(item.id));
   const visibleScheduleSetupSections = scheduleSetupSections.filter(item => !hiddenScheduleItems.includes(item.id));
@@ -11905,7 +11907,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         ? uniqueFormSubSections([...visibleOfficialFormsSubSections, ...officialFormsSubSections])
         : [];
   const completedFormsSectionIds = completedFormsWidgets.map(widget => widget.section);
-  const primaryAdminOrder = ['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'clientSpotlightStudio', 'notifications', 'payments', 'assignorSubscriptions', 'shopInventory', 'siteContent', 'taxCenter', 'education'];
+  const primaryAdminOrder = ['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'clientSpotlightStudio', 'podcastBuilder', 'notifications', 'payments', 'assignorSubscriptions', 'shopInventory', 'siteContent', 'taxCenter', 'education'];
   const secondaryAdminOrder = ['reports', 'reviews', 'organizations'];
   const sections = canUseAdminDashboard
     ? [
@@ -11927,7 +11929,6 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['completedOfficialForms', 'Completed Official Game Reports'],
     ['completedEvaluatorForms', 'Completed Evaluator Evaluations'],
     ['completedObserverForms', 'Completed Observer Forms'],
-    ['podcastBuilder', 'Client Spotlight'],
     ...addMemberSections.map(item => [item.id, item.title]),
     ...settingsWorkflowSections.map(item => [item.id, item.title]),
     ...scheduleSetupSections.map(item => [item.id, item.title]),
@@ -11958,7 +11959,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   const dashboardControlColumns = [
     ['overview', 'payments', 'assignorSubscriptions', 'shopInventory', 'siteContent', 'taxCenter', 'education'],
     ['members', 'reports', 'reviews', 'rtbomail', 'newsletterCenter'],
-    ['schedules', 'organizations', 'notifications', 'refroom', 'clientSpotlightStudio']
+    ['schedules', 'organizations', 'notifications', 'refroom', 'clientSpotlightStudio', 'podcastBuilder']
   ].map(column => column.map(id => settingsMenuItems.find(item => item.id === id)).filter(Boolean));
   const settingsWorkflowById = new Map(settingsWorkflowSections.map(item => [item.id, item]));
 
@@ -13919,7 +13920,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
             <label>Crew Chief<input name="crewChief" value={observerForm.crewChief} onChange={updateObserverForm} /></label>
             <label>Official #2<input name="official2" value={observerForm.official2} onChange={updateObserverForm} /></label>
             <label>Official #3<input name="official3" value={observerForm.official3} onChange={updateObserverForm} /></label>
-            <label className="span-three">Livestream / Film Link<input type="url" name="videoUrl" value={observerForm.videoUrl} onChange={updateObserverForm} placeholder="https://..." /></label>
+            <label className="span-three">Livestream / Film Source<input type="text" name="videoUrl" value={observerForm.videoUrl} onChange={updateObserverForm} placeholder="https://... or a saved RTBO video path" /></label>
           </div>
         </section>
 
@@ -14438,9 +14439,15 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
 
         {canUseAdminDashboard && activeSection === 'refroom' && refRoomPage}
 
-        {canUseAdminDashboard && ['clientSpotlightStudio', 'podcastBuilder'].includes(activeSection) && (
+        {canUseAdminDashboard && activeSection === 'clientSpotlightStudio' && (
           <React.Suspense fallback={<section className="rtbo-dashboard-card rtbo-focused-page-card"><p className="rtbo-empty-state">Loading Client Spotlight Studio...</p></section>}>
             <ClientSpotlightStudio onStatus={setStatus} />
+          </React.Suspense>
+        )}
+
+        {canUseAdminDashboard && activeSection === 'podcastBuilder' && (
+          <React.Suspense fallback={<section className="rtbo-dashboard-card rtbo-focused-page-card"><p className="rtbo-empty-state">Loading Podcast Builder...</p></section>}>
+            <PodcastBuilder onStatus={setStatus} />
           </React.Suspense>
         )}
 

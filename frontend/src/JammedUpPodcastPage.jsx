@@ -44,7 +44,7 @@ function PodcastChromePlayer({ show, episodes, selectedId, onSelect }) {
         onSelect={onSelect}
         emptyTitle="No published podcast videos yet"
         emptyMessage="Real podcast videos will appear here after they are added and published in the Podcast Builder."
-        settingsNote="The podcast player only loads published episodes with real video URLs from the Podcast Builder."
+        settingsNote="The podcast player only loads published episodes with playable video sources from the Podcast Builder."
       />
     </section>
   );

@@ -204,7 +204,7 @@ export default function PodcastBuilder({ onStatus = () => {} }) {
     payload.append('video', file);
     const data = await apiPostForm('/podcast-video-upload.php', payload);
     if (!data.video?.url) {
-      throw new Error('The server did not return a playable podcast video URL.');
+      throw new Error('The server did not return a playable podcast video source.');
     }
     return data.video;
   }
@@ -216,7 +216,7 @@ export default function PodcastBuilder({ onStatus = () => {} }) {
       videoUrl: video.url
     }));
     clearSelectedVideoFile();
-    setVideoUploadNote(`Uploaded ${video.title} and filled the Video URL field.`);
+    setVideoUploadNote(`Uploaded ${video.title} and filled the Video Source field.`);
   }
 
   async function uploadSelectedVideo() {
@@ -230,7 +230,7 @@ export default function PodcastBuilder({ onStatus = () => {} }) {
     try {
       const video = await uploadPodcastVideoFile(selectedVideoFile);
       applyUploadedVideo(video);
-      setMessage('Podcast video uploaded. Review the URL, then save the podcast video.');
+      setMessage('Podcast video uploaded. Save the podcast video to publish the uploaded file.');
       onStatus('Podcast video uploaded.');
       return video;
     } catch (error) {
@@ -296,7 +296,7 @@ export default function PodcastBuilder({ onStatus = () => {} }) {
     }
     if (formForSave.status === 'published' && !formForSave.videoUrl.trim()) {
       setSaving(false);
-      setMessage('Upload a podcast video or paste a real video URL before publishing.');
+      setMessage('Upload a podcast video or paste a playable video source before publishing.');
       return;
     }
 
@@ -379,7 +379,7 @@ export default function PodcastBuilder({ onStatus = () => {} }) {
         <div>
           <p className="eyebrow">Podcast Builder</p>
           <h3>The Jammed Up Bar! Podcast</h3>
-          <p>Create and manage the real video sources shown on the public podcast page. Drafts stay private until they are published with a real video URL.</p>
+          <p>Create and manage the real video sources shown on the public podcast page. Drafts stay private until they are published with a playable uploaded video or direct video source.</p>
         </div>
         <div className="button-row">
           <a className="btn secondary dark-btn" href="#podcast" target="_blank" rel="noopener">View Public Podcast</a>
@@ -389,7 +389,7 @@ export default function PodcastBuilder({ onStatus = () => {} }) {
 
       <div className="podcast-builder-summary-grid">
         <SummaryCard label="Videos" value={summary.total} detail="Total managed records" />
-        <SummaryCard label="Published" value={summary.published} detail="Visible with real video URLs" />
+        <SummaryCard label="Published" value={summary.published} detail="Visible with playable video sources" />
         <SummaryCard label="Drafts" value={summary.drafts} detail="Private in the builder" />
         <SummaryCard label="Hidden" value={summary.hidden} detail="Archived or not visible" />
       </div>
@@ -425,7 +425,7 @@ export default function PodcastBuilder({ onStatus = () => {} }) {
         <div className="podcast-builder-panel-head">
           <div>
             <h4>{editingId ? 'Update Podcast Video' : 'Add Podcast Video'}</h4>
-            <p>Upload an actual video file or paste a real direct video URL that the browser can play.</p>
+            <p>Upload an actual video file from this computer or paste a direct video source that the browser can play.</p>
           </div>
           <div className="button-row">
             <button className="btn" type="submit" disabled={saving}>{saving ? 'Saving...' : 'Save Podcast Video'}</button>
@@ -456,8 +456,8 @@ export default function PodcastBuilder({ onStatus = () => {} }) {
               </button>
             </div>
           </div>
-          <label className="span-two">Video URL {episodeForm.status === 'published' ? '*' : ''}<input name="videoUrl" type="url" value={episodeForm.videoUrl} onChange={updateEpisodeForm} required={episodeForm.status === 'published'} placeholder="https://.../episode.mp4 or /api/podcast-video.php?file=..." /></label>
-          <label className="span-two">Poster Image URL<input name="posterUrl" type="url" value={episodeForm.posterUrl} onChange={updateEpisodeForm} placeholder="/assets/podcast/..." /></label>
+          <label className="span-two">Video Source {episodeForm.status === 'published' ? '*' : ''}<input name="videoUrl" type="text" value={episodeForm.videoUrl} onChange={updateEpisodeForm} required={episodeForm.status === 'published'} placeholder="Uploaded video path, /api/podcast-video.php?file=..., or https://.../episode.mp4" /></label>
+          <label className="span-two">Poster Image Source<input name="posterUrl" type="text" value={episodeForm.posterUrl} onChange={updateEpisodeForm} placeholder="/assets/podcast/... or https://..." /></label>
           <label className="span-two">Guests<input name="guests" value={episodeForm.guests} onChange={updateEpisodeForm} /></label>
           <label className="span-two">Transcript / Captions Text<textarea name="transcript" rows="5" value={episodeForm.transcript} onChange={updateEpisodeForm} /></label>
         </div>
@@ -491,7 +491,7 @@ export default function PodcastBuilder({ onStatus = () => {} }) {
                   <span>{episode.status}</span>
                   <strong>{episode.title}</strong>
                   <small>{[episode.category, episode.publishedAt, episode.runtime].filter(Boolean).join(' / ') || 'No episode details set'}</small>
-                  <p>{episode.videoUrl || 'No video URL assigned yet.'}</p>
+                  <p>{episode.videoUrl || 'No video source assigned yet.'}</p>
                 </div>
                 <div className="podcast-builder-row-actions">
                   <button className="btn secondary dark-btn" type="button" onClick={() => editEpisode(episode)}>Edit</button>

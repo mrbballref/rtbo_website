@@ -2157,7 +2157,7 @@ export default function RefRoom({ user = {}, onStatus = () => {}, canManageMeeti
               <h4>Public Player Feed</h4>
               <div className="rtbo-refroom-form-grid">
                 <label className="wide">Lower Third / Overlay Text<input value={production.overlayText} onChange={event => updateProduction('overlayText', event.target.value)} /></label>
-                <label className="wide">Video Source URL<input value={production.destination} onChange={event => updateProduction('destination', event.target.value)} placeholder="Paste a playable MP4/WebM/HLS URL for the public RefRoom player" /></label>
+                <label className="wide">Video Source<input value={production.destination} onChange={event => updateProduction('destination', event.target.value)} placeholder="Paste a saved RTBO media path or playable MP4/WebM/HLS source for the public RefRoom player" /></label>
                 <label className="wide">Program Note<textarea value={production.programNote} onChange={event => updateProduction('programNote', event.target.value)} placeholder="Optional production note for the host team" /></label>
               </div>
               <div className="rtbo-refroom-toggle-grid">
