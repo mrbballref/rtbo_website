@@ -293,7 +293,6 @@ function LogoOutroScene({ localFrame, duration }) {
 
 function OpeningScene({ localFrame, duration }) {
   const cut = Math.floor(localFrame / 26) % 4;
-  const ballY = Math.abs(Math.sin(localFrame / 8)) * 220;
   const show = inOut(localFrame, duration, 2);
   return (
     <AbsoluteFill>
@@ -301,8 +300,6 @@ function OpeningScene({ localFrame, duration }) {
       {cut === 0 ? <ScenePhoto src="rtbo-ad/three-person-crew-evaluation.png" localFrame={localFrame} duration={duration} dark={0.72} position="center" /> : null}
       {cut === 1 ? <ScenePhoto src="rtbo-ad/court-officials-briefing.png" localFrame={localFrame} duration={duration} dark={0.68} position="center" /> : null}
       {cut >= 2 ? <ScenePhoto src="rtbo-ad/court-mechanics-training.png" localFrame={localFrame} duration={duration} dark={0.7} position="center" /> : null}
-      <div style={{ position: 'absolute', right: 220, top: 170 + ballY, width: 150, height: 150, borderRadius: 999, background: 'radial-gradient(circle at 35% 28%, #ffb35c, #f58220 44%, #9a3412)', boxShadow: '0 24px 60px rgba(245,130,32,.32)' }} />
-      <div style={{ position: 'absolute', right: 220, top: 174 + ballY, width: 150, height: 150, borderRadius: 999, border: '6px solid rgba(64,24,8,.72)', clipPath: 'polygon(0 45%, 100% 45%, 100% 58%, 0 58%)' }} />
       <div style={{ position: 'absolute', left: 86, bottom: 140, opacity: show, transform: `scale(${interpolate(show, [0, 1], [0.9, 1], CLAMP)})` }}>
         <Img src={img('rtbo-ad/rtbo-logo.png')} style={{ width: 180, height: 180, objectFit: 'contain', filter: 'drop-shadow(0 22px 42px rgba(0,0,0,.5))' }} />
         <h1 style={{ margin: '12px 0 0', color: WHITE, fontSize: 92, lineHeight: 0.96, fontWeight: 950, letterSpacing: 0 }}>Raise the Standard.</h1>
@@ -592,8 +589,8 @@ function CaptionOverlay({ frame }) {
 
   return (
     <div style={{ position: 'absolute', left: 0, right: 0, bottom: 28, display: 'flex', justifyContent: 'center', pointerEvents: 'none', opacity }}>
-      <div style={{ maxWidth: 1320, minHeight: 74, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '18px 34px', borderRadius: 12, border: '1px solid rgba(255,255,255,.22)', background: 'rgba(2,6,12,.78)', boxShadow: '0 18px 52px rgba(0,0,0,.5)', backdropFilter: 'blur(5px)' }}>
-        <p style={{ margin: 0, color: WHITE, fontSize: captionFontSize, lineHeight: 1.18, fontWeight: 900, textAlign: 'center', letterSpacing: 0, textShadow: '0 2px 10px rgba(0,0,0,.8)' }}>{activeCaption.text}</p>
+      <div style={{ maxWidth: 1320, minHeight: 74, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '18px 34px' }}>
+        <p style={{ margin: 0, color: WHITE, fontSize: captionFontSize, lineHeight: 1.18, fontWeight: 900, textAlign: 'center', letterSpacing: 0, WebkitTextStroke: '1.5px rgba(0,0,0,.88)', textShadow: '0 3px 4px rgba(0,0,0,.95), 0 7px 18px rgba(0,0,0,.88), 0 0 32px rgba(0,0,0,.72)' }}>{activeCaption.text}</p>
       </div>
     </div>
   );
