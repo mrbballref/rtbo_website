@@ -169,6 +169,11 @@ function create_stripe_checkout_session(array $options): array
     }
 
     if ($mode === 'subscription') {
+        $trialDays = max(0, (int) ($options['trial_period_days'] ?? 0));
+        if ($trialDays > 0) {
+            $params['subscription_data[trial_period_days]'] = $trialDays;
+        }
+
         foreach (($options['subscription_metadata'] ?? []) as $key => $value) {
             if ((string) $value !== '') {
                 $params['subscription_data[metadata][' . $key . ']'] = (string) $value;

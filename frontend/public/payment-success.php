@@ -5,6 +5,7 @@ require_once __DIR__ . '/api/includes/bootstrap.php';
 require_once __DIR__ . '/api/includes/payments.php';
 require_once __DIR__ . '/api/includes/registration-store.php';
 require_once __DIR__ . '/api/includes/refzone-enrollments.php';
+require_once __DIR__ . '/api/includes/assignor-subscriptions.php';
 require_once __DIR__ . '/api/includes/email.php';
 require_once __DIR__ . '/api/includes/notifications.php';
 require_once __DIR__ . '/api/includes/store-orders.php';
@@ -14,14 +15,70 @@ $type = strtolower(trim((string) ($_GET['type'] ?? '')));
 $registrationId = trim((string) ($_GET['registration'] ?? ''));
 $enrollmentId = trim((string) ($_GET['enrollment'] ?? ''));
 $storeOrderId = trim((string) ($_GET['order'] ?? ''));
+$assignorApplicationId = trim((string) ($_GET['application'] ?? ''));
 $verified = false;
 $message = 'We could not verify this payment. Please contact RTBO if you believe this is an error.';
 $registration = null;
 $enrollment = null;
 $storeOrder = null;
+$assignorApplication = null;
 $redirectUrl = '';
 $redirectMessage = '';
 $redirectButton = 'Continue';
+
+if ($type === 'assignor_workspace' && $provider === 'stripe' && $assignorApplicationId !== '') {
+    $assignorApplication = rtbo_assignor_subscription_find($assignorApplicationId);
+
+    if ($assignorApplication) {
+        try {
+            $sessionId = trim((string) ($_GET['session_id'] ?? ''));
+            if ($sessionId !== '') {
+                $session = retrieve_stripe_checkout_session($sessionId);
+                $metadata = is_array($session['metadata'] ?? null) ? $session['metadata'] : [];
+                $verified = (($session['mode'] ?? '') === 'subscription')
+                    && (($metadata['application_id'] ?? '') === $assignorApplicationId || ($session['client_reference_id'] ?? '') === $assignorApplicationId);
+
+                if ($verified) {
+                    $assignorApplication = rtbo_assignor_subscription_update_payment($assignorApplicationId, 'active', [
+                        'stripe_checkout_session_id' => (string) ($session['id'] ?? ''),
+                        'stripe_subscription_id' => (string) ($session['subscription'] ?? ''),
+                    ]) ?: $assignorApplication;
+
+                    rtbo_notify_admins([
+                        'type' => 'assignor_workspace_paid',
+                        'title' => 'Got U Nex Ref assignor subscription confirmed',
+                        'body' => (string) ($assignorApplication['organization_name'] ?? 'An assignor organization') . ' confirmed ' . (string) ($assignorApplication['plan_name'] ?? 'Got U Nex Ref') . '.',
+                        'related_type' => 'assignor_workspace',
+                        'metadata' => [
+                            'application_id' => $assignorApplicationId,
+                            'organization_name' => (string) ($assignorApplication['organization_name'] ?? ''),
+                            'contact_name' => (string) ($assignorApplication['contact_name'] ?? ''),
+                            'email' => (string) ($assignorApplication['email'] ?? ''),
+                            'plan_id' => (string) ($assignorApplication['plan_id'] ?? ''),
+                            'custom_branding' => !empty($assignorApplication['custom_branding']) ? 'yes' : 'no',
+                        ],
+                    ]);
+
+                    $message = 'Payment verified. Your Got U Nex Ref assignor workspace subscription is confirmed.';
+                    $redirectUrl = RTBO_BASE_URL . '/#services';
+                    $redirectMessage = 'RTBO has been notified and can begin workspace setup.';
+                    $redirectButton = 'Return to Services';
+                } else {
+                    rtbo_assignor_subscription_update_payment($assignorApplicationId, 'verification_failed', [
+                        'stripe_checkout_session_id' => (string) ($session['id'] ?? ''),
+                    ]);
+                    $message = 'Payment returned, but assignor workspace verification did not complete.';
+                }
+            }
+        } catch (Throwable $error) {
+            error_log('RTBO assignor workspace payment verification failed: ' . $error->getMessage());
+            rtbo_assignor_subscription_update_payment($assignorApplicationId, 'verification_error');
+            $message = 'Payment returned, but assignor workspace verification could not be completed.';
+        }
+    } else {
+        $message = 'Assignor workspace application record was not found.';
+    }
+}
 
 if ($type === 'refzone' && in_array($provider, ['stripe', 'paypal'], true) && $enrollmentId !== '') {
     $enrollment = find_refzone_enrollment($enrollmentId);
@@ -225,6 +282,9 @@ if ($type !== 'refzone' && in_array($provider, ['stripe', 'paypal'], true) && $r
     <?php endif; ?>
     <?php if ($storeOrder): ?>
       <p><strong>Store Order:</strong> <?php echo e($storeOrderId); ?><br><strong>Total:</strong> $<?php echo e(number_format(((int) ($storeOrder['total_cents'] ?? 0)) / 100, 2)); ?></p>
+    <?php endif; ?>
+    <?php if ($assignorApplication): ?>
+      <p><strong>Workspace:</strong> <?php echo e((string) ($assignorApplication['organization_name'] ?? '')); ?><br><strong>Plan:</strong> <?php echo e((string) ($assignorApplication['plan_name'] ?? 'Got U Nex Ref')); ?><br><strong>Application:</strong> <?php echo e($assignorApplicationId); ?></p>
     <?php endif; ?>
     <?php if ($redirectUrl !== ''): ?>
       <p><?php echo e($redirectMessage !== '' ? $redirectMessage : 'Redirecting you now.'); ?></p>

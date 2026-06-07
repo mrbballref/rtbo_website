@@ -271,6 +271,80 @@ export const platformFlow = [
   'Reports and evaluations'
 ];
 
+export const assignorSubscriptionPlans = [
+  {
+    id: 'trial',
+    eyebrow: 'Free Trial',
+    name: 'Trial Workspace',
+    priceLabel: 'Free trial',
+    cadence: 'Stripe billing starts after approval and trial setup',
+    summary: 'For assignors who want to test Got U Nex Ref with a controlled schedule before moving into a paid workspace.',
+    cta: 'Start Free Trial',
+    featured: false,
+    limits: [
+      ['Workspace limits', '1 assignor workspace'],
+      ['Number of officials', 'Up to 25 officials'],
+      ['Number of games', 'Up to 50 scheduled games'],
+      ['Storage limits', '5 GB document and report storage'],
+      ['Whiteboard access', 'Included for planning boards'],
+      ['Video storage', '2 GB evaluation video storage'],
+      ['Custom branding add-on', 'Available after trial conversion']
+    ]
+  },
+  {
+    id: 'monthly',
+    eyebrow: 'Monthly Subscription',
+    name: 'Assignor Pro Monthly',
+    priceLabel: 'Monthly',
+    cadence: 'Recurring Stripe subscription',
+    summary: 'For active assignors running recurring school, league, camp, and tournament schedules from their own workspace.',
+    cta: 'Subscribe Monthly',
+    featured: true,
+    limits: [
+      ['Workspace limits', '1 active assigning workspace'],
+      ['Number of officials', 'Up to 150 officials'],
+      ['Number of games', 'Up to 500 scheduled games per billing cycle'],
+      ['Storage limits', '50 GB document and report storage'],
+      ['Whiteboard access', 'Full whiteboard and app-builder access'],
+      ['Video storage', '25 GB evaluation video storage'],
+      ['Custom branding add-on', 'Optional Stripe add-on']
+    ]
+  },
+  {
+    id: 'annual',
+    eyebrow: 'Annual Subscription',
+    name: 'Assignor Enterprise Annual',
+    priceLabel: 'Annual',
+    cadence: 'Recurring Stripe subscription',
+    summary: 'For organizations that need expanded workspaces, higher schedule volume, larger crews, and long-term platform control.',
+    cta: 'Subscribe Annually',
+    featured: false,
+    limits: [
+      ['Workspace limits', '3 active assigning workspaces'],
+      ['Number of officials', 'Up to 500 officials'],
+      ['Number of games', 'Up to 2,500 scheduled games per year'],
+      ['Storage limits', '250 GB document and report storage'],
+      ['Whiteboard access', 'Full whiteboard and app-builder access'],
+      ['Video storage', '150 GB evaluation video storage'],
+      ['Custom branding add-on', 'Optional Stripe add-on']
+    ]
+  }
+];
+
+export const assignorSubscriptionFeatures = [
+  'Free trial',
+  'Monthly subscription',
+  'Annual subscription',
+  'Stripe billing through Raising The Bar Officiating',
+  'Workspace limits',
+  'Number of officials',
+  'Number of games',
+  'Storage limits',
+  'Whiteboard access',
+  'Video storage',
+  'Custom branding add-on'
+];
+
 export const trainers = [
   ['stacy_chambers_trainer_card.png', 'Stacey Chambers'],
   ['stacy_moultrie_trainer_card.png', 'Stacy Moultrie'],

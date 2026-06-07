@@ -509,6 +509,35 @@ CREATE TABLE IF NOT EXISTS store_orders (
   INDEX idx_store_orders_created (created_at)
 );
 
+CREATE TABLE IF NOT EXISTS assignor_workspace_applications (
+  id VARCHAR(64) PRIMARY KEY,
+  organization_name VARCHAR(190) NOT NULL,
+  contact_name VARCHAR(190) NOT NULL,
+  email VARCHAR(190) NOT NULL,
+  phone VARCHAR(60) NULL,
+  plan_id VARCHAR(80) NOT NULL,
+  plan_name VARCHAR(160) NOT NULL,
+  workspace_limit INT NOT NULL DEFAULT 1,
+  official_limit INT NOT NULL DEFAULT 0,
+  game_limit INT NOT NULL DEFAULT 0,
+  storage_limit_gb INT NOT NULL DEFAULT 0,
+  video_storage_limit_gb INT NOT NULL DEFAULT 0,
+  whiteboard_access VARCHAR(80) NOT NULL DEFAULT 'included',
+  custom_branding TINYINT(1) NOT NULL DEFAULT 0,
+  status VARCHAR(60) NOT NULL DEFAULT 'pending_checkout',
+  payment_provider VARCHAR(40) NOT NULL DEFAULT 'stripe',
+  stripe_checkout_session_id VARCHAR(190) NULL,
+  stripe_subscription_id VARCHAR(190) NULL,
+  paid_at DATETIME NULL,
+  payload JSON NULL,
+  submitted_at DATETIME NOT NULL,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_assignor_workspace_email (email),
+  INDEX idx_assignor_workspace_plan (plan_id),
+  INDEX idx_assignor_workspace_status (status),
+  INDEX idx_assignor_workspace_submitted (submitted_at)
+);
+
 CREATE TABLE IF NOT EXISTS dashboard_records (
   id INT AUTO_INCREMENT PRIMARY KEY,
   section_key VARCHAR(80) NOT NULL,

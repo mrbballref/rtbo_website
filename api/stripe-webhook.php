@@ -5,6 +5,7 @@ require_once __DIR__ . '/includes/bootstrap.php';
 require_once __DIR__ . '/includes/payments.php';
 require_once __DIR__ . '/includes/registration-store.php';
 require_once __DIR__ . '/includes/refzone-enrollments.php';
+require_once __DIR__ . '/includes/assignor-subscriptions.php';
 require_once __DIR__ . '/includes/email.php';
 require_once __DIR__ . '/includes/notifications.php';
 require_once __DIR__ . '/includes/store-orders.php';
@@ -225,6 +226,32 @@ try {
                 }
             }
         }
+
+        if (($metadata['type'] ?? '') === 'assignor_workspace') {
+            $applicationId = (string) ($metadata['application_id'] ?? $object['client_reference_id'] ?? '');
+            if ($applicationId !== '') {
+                $application = rtbo_assignor_subscription_update_payment($applicationId, 'active', [
+                    'stripe_checkout_session_id' => (string) ($object['id'] ?? ''),
+                    'stripe_subscription_id' => (string) ($object['subscription'] ?? ''),
+                ]);
+                if ($application) {
+                    rtbo_notify_admins([
+                        'type' => 'assignor_workspace_paid',
+                        'title' => 'Got U Nex Ref assignor subscription confirmed',
+                        'body' => (string) ($application['organization_name'] ?? 'An assignor organization') . ' confirmed ' . (string) ($application['plan_name'] ?? 'Got U Nex Ref') . '.',
+                        'related_type' => 'assignor_workspace',
+                        'metadata' => [
+                            'application_id' => $applicationId,
+                            'organization_name' => (string) ($application['organization_name'] ?? ''),
+                            'contact_name' => (string) ($application['contact_name'] ?? ''),
+                            'email' => (string) ($application['email'] ?? ''),
+                            'plan_id' => (string) ($application['plan_id'] ?? ''),
+                            'custom_branding' => !empty($application['custom_branding']) ? 'yes' : 'no',
+                        ],
+                    ]);
+                }
+            }
+        }
     }
 
     if ($type === 'checkout.session.async_payment_failed') {
@@ -251,9 +278,31 @@ try {
                 ]);
             }
         }
+
+        if (($metadata['type'] ?? '') === 'assignor_workspace') {
+            rtbo_assignor_subscription_update_payment(
+                (string) ($metadata['application_id'] ?? $object['client_reference_id'] ?? ''),
+                'payment_failed',
+                ['stripe_checkout_session_id' => (string) ($object['id'] ?? '')]
+            );
+        }
     }
 
     if (in_array($type, ['invoice.paid', 'invoice.payment_failed', 'customer.subscription.deleted', 'customer.subscription.updated'], true)) {
+        if (($metadata['type'] ?? '') === 'assignor_workspace') {
+            $applicationId = (string) ($metadata['application_id'] ?? '');
+            if ($applicationId !== '') {
+                $statusMap = [
+                    'invoice.paid' => 'active',
+                    'invoice.payment_failed' => 'payment_failed',
+                    'customer.subscription.deleted' => 'cancelled',
+                    'customer.subscription.updated' => 'subscription_updated',
+                ];
+                rtbo_assignor_subscription_update_payment($applicationId, $statusMap[$type] ?? 'subscription_updated', [
+                    'stripe_subscription_id' => (string) ($object['subscription'] ?? $object['id'] ?? ''),
+                ]);
+            }
+        }
         error_log('RTBO Stripe billing event received: ' . $type . ' ' . (string) ($object['id'] ?? ''));
     }
 

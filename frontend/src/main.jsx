@@ -15,6 +15,8 @@ import {
 import {
   aboutCards,
   aboutDifferenceCards,
+  assignorSubscriptionFeatures,
+  assignorSubscriptionPlans,
   guests,
   navItems,
   paidEventCards,
@@ -1590,6 +1592,8 @@ function Services() {
         </div>
       </div>
 
+      <AssignorSubscriptionPlansSection />
+
       <div className="services-top-points">
         <article><img className="card-icon" src={image('accountability_icon.png')} alt="" /><h3>Event Assigning</h3><p>Organized assignment support for schools, events, and team camps with clear communication and professional standards.</p></article>
         <article><img className="card-icon" src={image('about_trng_icon.png')} alt="" /><h3>Official Development</h3><p>Training, court work, film review, feedback, and mentorship help officials grow beyond a single event.</p></article>
@@ -1659,6 +1663,137 @@ function ServicesClientSlider() {
           ))}
         </div>
       </div>
+    </section>
+  );
+}
+
+function AssignorSubscriptionPlansSection() {
+  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [customBranding, setCustomBranding] = useState(false);
+  const [checkoutStatus, setCheckoutStatus] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+
+  function openPlan(plan, includeBranding = false) {
+    setSelectedPlan(plan);
+    setCustomBranding(includeBranding);
+    setCheckoutStatus('');
+  }
+
+  function closePlan() {
+    if (submitting) return;
+    setSelectedPlan(null);
+    setCheckoutStatus('');
+  }
+
+  async function submitAssignorSubscription(event) {
+    event.preventDefault();
+    if (!selectedPlan) return;
+
+    setSubmitting(true);
+    setCheckoutStatus('Creating secure Stripe subscription checkout...');
+    try {
+      const formData = new FormData(event.currentTarget);
+      const payload = Object.fromEntries(formData.entries());
+      const data = await apiPostJson('/assignor-subscription.php', {
+        ...payload,
+        plan_id: selectedPlan.id,
+        custom_branding: customBranding
+      });
+      if (!data.redirect) {
+        throw new Error('Stripe checkout did not return a subscription URL.');
+      }
+      window.location.assign(data.redirect);
+    } catch (error) {
+      setCheckoutStatus(error.message || 'Assignor subscription checkout could not be created.');
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <section className="assignor-subscription-section" aria-labelledby="assignor-subscription-title">
+      <div className="assignor-subscription-head">
+        <div>
+          <p className="eyebrow">Subscription Plans for Assignors</p>
+          <h2 id="assignor-subscription-title">Run Got U Nex Ref as your own assigning platform.</h2>
+          <p>Assignors can apply for a branded Got U Nex Ref workspace with Stripe-managed billing, usage limits, whiteboard access, video storage, and optional custom branding through the Raising The Bar Stripe account.</p>
+        </div>
+        <div className="assignor-subscription-feature-cloud" aria-label="Included assignor subscription features">
+          {assignorSubscriptionFeatures.map((feature) => <span key={feature}>{feature}</span>)}
+        </div>
+      </div>
+
+      <div className="assignor-plan-grid">
+        {assignorSubscriptionPlans.map((plan) => (
+          <article className={`assignor-plan-card${plan.featured ? ' featured' : ''}`.trim()} key={plan.id}>
+            <div className="assignor-plan-card-head">
+              <span>{plan.eyebrow}</span>
+              {plan.featured && <b>Best fit</b>}
+            </div>
+            <h3>{plan.name}</h3>
+            <strong>{plan.priceLabel}</strong>
+            <p>{plan.summary}</p>
+            <small>{plan.cadence}</small>
+            <dl className="assignor-limit-list">
+              {plan.limits.map(([label, value]) => (
+                <div key={`${plan.id}-${label}`}>
+                  <dt>{label}</dt>
+                  <dd>{value}</dd>
+                </div>
+              ))}
+            </dl>
+            <button className="btn assignor-plan-button" type="button" onClick={() => openPlan(plan)}>
+              {plan.cta}
+            </button>
+          </article>
+        ))}
+      </div>
+
+      <article className="assignor-branding-addon">
+        <div>
+          <p className="eyebrow">Custom Branding Add-On</p>
+          <h3>Launch with your logo, workspace name, and assignor-facing brand layer.</h3>
+          <p>The add-on is billed through Stripe with the selected workspace plan and keeps RTBO in control of the payment account while the assignor gets their own presentation layer.</p>
+        </div>
+        <button className="btn secondary dark-btn" type="button" onClick={() => openPlan(assignorSubscriptionPlans[1], true)}>
+          Add Branding
+        </button>
+      </article>
+
+      {selectedPlan && (
+        <div className="rtbo-modal-scrim assignor-subscription-modal-scrim" onMouseDown={closePlan}>
+          <section className="assignor-subscription-modal" role="dialog" aria-modal="true" aria-labelledby="assignor-subscription-modal-title" onMouseDown={(event) => event.stopPropagation()}>
+            <button className="rtbo-modal-close" type="button" aria-label="Close assignor subscription form" onClick={closePlan} disabled={submitting}>×</button>
+            <div className="assignor-subscription-modal-summary">
+              <p className="eyebrow">{selectedPlan.eyebrow}</p>
+              <h2 id="assignor-subscription-modal-title">{selectedPlan.name}</h2>
+              <p>{selectedPlan.summary}</p>
+              <ul>
+                {selectedPlan.limits.slice(0, 4).map(([label, value]) => <li key={`${selectedPlan.id}-modal-${label}`}><strong>{label}:</strong> {value}</li>)}
+              </ul>
+            </div>
+            <form className="form assignor-subscription-form" onSubmit={submitAssignorSubscription}>
+              <input type="hidden" name="plan_id" value={selectedPlan.id} readOnly />
+              <label>Organization / Workspace Name<input name="organization_name" autoComplete="organization" required /></label>
+              <div className="grid two">
+                <label>Assignor Contact Name<input name="contact_name" autoComplete="name" required /></label>
+                <label>Billing Email<input name="email" type="email" autoComplete="email" required /></label>
+              </div>
+              <div className="grid two">
+                <label>Phone<input name="phone" type="tel" inputMode="tel" autoComplete="tel" maxLength="14" onInput={formatPhoneFieldInput} /></label>
+                <label>Expected Officials<input name="expected_officials" inputMode="numeric" /></label>
+              </div>
+              <label>Expected Games<input name="expected_games" inputMode="numeric" /></label>
+              <label className="assignor-branding-check">
+                <input type="checkbox" checked={customBranding} onChange={(event) => setCustomBranding(event.target.checked)} />
+                <span>Add custom branding to this Stripe subscription.</span>
+              </label>
+              <label>Workspace Notes<textarea name="notes" rows="4" /></label>
+              <button className="btn" type="submit" disabled={submitting}>{submitting ? 'Opening Stripe...' : 'Continue to Stripe Billing'}</button>
+              {checkoutStatus && <p className={`form-message${/not connected|could not|valid|enter/i.test(checkoutStatus) ? ' error' : ''}`} role="status">{checkoutStatus}</p>}
+            </form>
+          </section>
+        </div>
+      )}
     </section>
   );
 }
@@ -6332,6 +6467,197 @@ function AdminInvoiceCreator({ user, onStatus = () => {} }) {
   );
 }
 
+const assignorDashboardStatuses = [
+  ['pending_checkout', 'Pending checkout'],
+  ['checkout_created', 'Checkout created'],
+  ['active', 'Active'],
+  ['subscription_updated', 'Subscription updated'],
+  ['needs_setup', 'Needs setup'],
+  ['payment_failed', 'Payment failed'],
+  ['cancelled', 'Cancelled']
+];
+
+function AssignorWorkspaceManager({ onStatus = () => {} }) {
+  const [applications, setApplications] = useState([]);
+  const [summary, setSummary] = useState({ total: 0, active: 0, pending: 0, custom_branding: 0 });
+  const [plans, setPlans] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [savingId, setSavingId] = useState('');
+
+  async function loadApplications({ quiet = false } = {}) {
+    if (!quiet) {
+      setLoading(true);
+      setError('');
+    }
+    try {
+      const data = await apiGet('/admin-assignor-subscriptions.php');
+      setApplications(Array.isArray(data.applications) ? data.applications : []);
+      setSummary(data.summary || { total: 0, active: 0, pending: 0, custom_branding: 0 });
+      setPlans(Array.isArray(data.plans) ? data.plans : []);
+      if (!quiet) {
+        onStatus('Assignor subscription dashboard loaded.');
+      }
+    } catch (requestError) {
+      setError(requestError.message || 'Assignor subscriptions could not be loaded.');
+    } finally {
+      if (!quiet) setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    loadApplications();
+  }, []);
+
+  async function updateApplicationStatus(application, status) {
+    const id = String(application?.id || '');
+    if (!id || status === application.status) return;
+
+    setSavingId(id);
+    setError('');
+    try {
+      const data = await apiPostJson('/admin-assignor-subscriptions.php', {
+        action: 'update_status',
+        id,
+        status
+      });
+      setApplications(Array.isArray(data.applications) ? data.applications : []);
+      setSummary(data.summary || summary);
+      onStatus(data.message || 'Assignor subscription status updated.');
+    } catch (requestError) {
+      setError(requestError.message || 'Assignor subscription status could not be updated.');
+    } finally {
+      setSavingId('');
+    }
+  }
+
+  const summaryCards = [
+    ['Total', summary.total || 0],
+    ['Active', summary.active || 0],
+    ['Pending checkout', summary.pending || 0],
+    ['Branding add-ons', summary.custom_branding || 0]
+  ];
+
+  return (
+    <section className="rtbo-dashboard-card rtbo-focused-page-card assignor-workspace-manager">
+      <div className="rtbo-dashboard-card-head">
+        <div>
+          <p className="eyebrow">Got U Nex Ref SaaS</p>
+          <h3>Assignor Subscriptions</h3>
+          <p>Manage trial, monthly, and annual assignor workspaces connected to Stripe billing, whiteboard access, video storage, workspace limits, and custom branding add-ons.</p>
+        </div>
+        <div className="rtbo-form-toolbar">
+          <button className="btn secondary dark-btn" type="button" onClick={() => loadApplications()} disabled={loading}>
+            Refresh
+          </button>
+        </div>
+      </div>
+
+      <div className="assignor-dashboard-summary" aria-label="Assignor subscription summary">
+        {summaryCards.map(([label, value]) => (
+          <article className="assignor-dashboard-stat" key={label}>
+            <span>{label}</span>
+            <strong>{value}</strong>
+          </article>
+        ))}
+      </div>
+
+      {plans.length > 0 && (
+        <div className="assignor-dashboard-plan-strip" aria-label="Available assignor subscription plans">
+          {plans.map(plan => (
+            <article key={plan.id}>
+              <span>{plan.name}</span>
+              <small>{plan.workspace_limit} workspace{Number(plan.workspace_limit) === 1 ? '' : 's'} · {plan.official_limit} officials · {plan.game_limit} games</small>
+            </article>
+          ))}
+        </div>
+      )}
+
+      {error && <p className="rtbo-form-status error">{error}</p>}
+      {loading && <p className="rtbo-empty-state">Loading assignor subscriptions...</p>}
+
+      {!loading && applications.length === 0 && (
+        <p className="rtbo-empty-state">No assignor workspace subscriptions have been created yet.</p>
+      )}
+
+      {!loading && applications.length > 0 && (
+        <div className="assignor-workspace-list">
+          {applications.map(application => {
+            const payload = application.payload || {};
+            const isSaving = savingId === String(application.id || '');
+            return (
+              <article className="assignor-workspace-row" key={application.id}>
+                <div className="assignor-workspace-primary">
+                  <div>
+                    <p className="eyebrow">{application.plan_name || formatLabel(application.plan_id)}</p>
+                    <h4>{application.organization_name}</h4>
+                    <p>{application.contact_name} · {application.email}{application.phone ? ` · ${application.phone}` : ''}</p>
+                  </div>
+                  <span className={`assignor-status-pill status-${String(application.status || '').replaceAll('_', '-')}`}>
+                    {assignorDashboardStatuses.find(([id]) => id === application.status)?.[1] || formatLabel(application.status || 'pending_checkout')}
+                  </span>
+                </div>
+
+                <dl className="assignor-workspace-limits">
+                  <div>
+                    <dt>Workspaces</dt>
+                    <dd>{application.workspace_limit}</dd>
+                  </div>
+                  <div>
+                    <dt>Officials</dt>
+                    <dd>{application.official_limit}</dd>
+                  </div>
+                  <div>
+                    <dt>Games</dt>
+                    <dd>{application.game_limit}</dd>
+                  </div>
+                  <div>
+                    <dt>Storage</dt>
+                    <dd>{application.storage_limit_gb}GB</dd>
+                  </div>
+                  <div>
+                    <dt>Video</dt>
+                    <dd>{application.video_storage_limit_gb}GB</dd>
+                  </div>
+                  <div>
+                    <dt>Whiteboard</dt>
+                    <dd>{formatLabel(application.whiteboard_access || 'Included')}</dd>
+                  </div>
+                </dl>
+
+                <div className="assignor-workspace-meta">
+                  <span>Custom branding: <strong>{Number(application.custom_branding) === 1 ? 'Yes' : 'No'}</strong></span>
+                  <span>Expected officials: <strong>{payload.expected_officials || 'Not provided'}</strong></span>
+                  <span>Expected games: <strong>{payload.expected_games || 'Not provided'}</strong></span>
+                  <span>Submitted: <strong>{formatNotificationTimestamp(application.submitted_at)}</strong></span>
+                  <span>Stripe subscription: <strong>{application.stripe_subscription_id || 'Awaiting checkout'}</strong></span>
+                </div>
+
+                {payload.notes && (
+                  <p className="assignor-workspace-notes">{payload.notes}</p>
+                )}
+
+                <label className="assignor-workspace-status-control">
+                  <span>Workspace status</span>
+                  <select
+                    value={application.status || 'pending_checkout'}
+                    onChange={(event) => updateApplicationStatus(application, event.target.value)}
+                    disabled={isSaving}
+                  >
+                    {assignorDashboardStatuses.map(([id, label]) => (
+                      <option key={id} value={id}>{label}</option>
+                    ))}
+                  </select>
+                </label>
+              </article>
+            );
+          })}
+        </div>
+      )}
+    </section>
+  );
+}
+
 const advancedEvaluationCategories = [
   {
     id: 'professionalism',
@@ -6863,7 +7189,8 @@ const observerFormsSubSections = [
 ];
 
 const paymentSubSections = [
-  { id: 'invoiceCreator', label: 'Invoice Creator', title: 'Invoice Creator', source: 'payment_tools', parent: 'payments' }
+  { id: 'invoiceCreator', label: 'Invoice Creator', title: 'Invoice Creator', source: 'payment_tools', parent: 'payments' },
+  { id: 'assignorSubscriptions', label: 'Assignor Plans', title: 'Assignor Subscriptions', source: 'payment_tools', parent: 'payments' }
 ];
 
 const allFormsSubSections = [
@@ -14334,6 +14661,23 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
                   </div>
                 </div>
                 <p className="rtbo-empty-state">Use a Super Admin account to create and manage invoices.</p>
+              </section>
+            )
+        )}
+
+        {canUseAdminDashboard && activeSection === 'assignorSubscriptions' && (
+          isSuperAdminUser(user)
+            ? <AssignorWorkspaceManager onStatus={setStatus} />
+            : (
+              <section className="rtbo-dashboard-card rtbo-focused-page-card">
+                <div className="rtbo-dashboard-card-head">
+                  <div>
+                    <p className="eyebrow">Super Admin Billing</p>
+                    <h3>Assignor Subscriptions</h3>
+                    <p>Assignor subscription management is available to the Super Admin for Stripe billing, workspace limits, and whiteboard access.</p>
+                  </div>
+                </div>
+                <p className="rtbo-empty-state">Use a Super Admin account to manage assignor subscriptions.</p>
               </section>
             )
         )}
