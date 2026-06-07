@@ -439,7 +439,7 @@
         path: String(course.path || '').trim(),
         level: String(course.level || '').trim(),
         status: status(course.status),
-        cover: String(course.cover || `/assets/images/refzone/course-covers/${id}.svg`).trim(),
+        cover: String(course.cover || `/rtbo_website/assets/images/refzone/course-covers/${id}.svg`).trim(),
         overviewThumbnail: overviewThumbnailFor({ ...course, id, title }),
         description: String(course.overview || course.description || course.lecture || '').trim(),
         weeks: Array.isArray(course.weeks) ? course.weeks : [],
@@ -508,15 +508,15 @@
         title: form.lessonTitle || 'Course Welcome and Baseline Assessment',
         visualType: form.lessonType,
         visualTitle: 'Course Visual',
-        visual: `/assets/images/refzone/lesson-visuals/${form.lessonType}.svg`,
+        visual: `/rtbo_website/assets/images/refzone/lesson-visuals/${form.lessonType}.svg`,
         screenshot: 'Learner screen, course visual, and assessment prompt.',
         presentation: `${form.title} opening lesson`,
         college,
         test,
         sections: [
-          { id: `${dayId}-instruction`, title: 'Line Item 1 - Professor Explanation', materialType: 'instruction-slide', collegeRole: 'Professor-facing lecture, required reading, and discussion prompt.', summary: sectionSummary('instruction', form, college), visual: `/assets/images/refzone/lesson-visuals/${form.lessonType}.svg` },
-          { id: `${dayId}-student`, title: 'Line Item 2 - What the Student Performs', materialType: 'student-activity', collegeRole: 'Student-facing lab action, assignment, and participation artifact.', summary: sectionSummary('student', form, college), visual: `/assets/images/refzone/lesson-visuals/${form.lessonType}.svg` },
-          { id: `${dayId}-evidence`, title: 'Line Item 3 - Expected Outcome, Evidence, and Grading', materialType: 'assessment-evidence', collegeRole: 'Assessment-facing quiz/test item, rubric row, and evidence checkpoint.', summary: sectionSummary('evidence', form, college), visual: `/assets/images/refzone/lesson-visuals/${form.lessonType}.svg` }
+          { id: `${dayId}-instruction`, title: 'Line Item 1 - Professor Explanation', materialType: 'instruction-slide', collegeRole: 'Professor-facing lecture, required reading, and discussion prompt.', summary: sectionSummary('instruction', form, college), visual: `/rtbo_website/assets/images/refzone/lesson-visuals/${form.lessonType}.svg` },
+          { id: `${dayId}-student`, title: 'Line Item 2 - What the Student Performs', materialType: 'student-activity', collegeRole: 'Student-facing lab action, assignment, and participation artifact.', summary: sectionSummary('student', form, college), visual: `/rtbo_website/assets/images/refzone/lesson-visuals/${form.lessonType}.svg` },
+          { id: `${dayId}-evidence`, title: 'Line Item 3 - Expected Outcome, Evidence, and Grading', materialType: 'assessment-evidence', collegeRole: 'Assessment-facing quiz/test item, rubric row, and evidence checkpoint.', summary: sectionSummary('evidence', form, college), visual: `/rtbo_website/assets/images/refzone/lesson-visuals/${form.lessonType}.svg` }
         ]
       }]
     };
@@ -538,7 +538,7 @@
               : sectionIndex === 2 ? { ...section, summary: sectionSummary('evidence', form, college), collegeRole: section.collegeRole || 'Assessment-facing quiz/test item, rubric row, and evidence checkpoint.' }
                 : section
         )) : day.sections;
-        return { ...day, title: form.lessonTitle || day.title, visualType: form.lessonType, visual: `/assets/images/refzone/lesson-visuals/${form.lessonType}.svg`, college, test, sections };
+        return { ...day, title: form.lessonTitle || day.title, visualType: form.lessonType, visual: `/rtbo_website/assets/images/refzone/lesson-visuals/${form.lessonType}.svg`, college, test, sections };
       }) : week.days;
       return { ...week, title: form.moduleTitle || week.title, lecture: form.description || week.lecture, evidence: form.assessment || week.evidence, days };
     });
@@ -553,7 +553,7 @@
       path: form.path,
       level: form.level,
       status: status(form.status),
-      cover: form.cover || `/assets/images/refzone/course-covers/${id}.svg`,
+      cover: form.cover || `/rtbo_website/assets/images/refzone/course-covers/${id}.svg`,
       overviewThumbnail: form.overviewThumbnail || COURSE_OVERVIEW_THUMBNAILS[id] || '',
       description: form.description,
       weeks: applySectionVideosToWeeks(updateFirstWeek(existing?.weeks, form), form)
@@ -741,7 +741,7 @@
       <div class="rtbo-education-course-list">
         ${visible.length ? visible.map(course => `
           <article>
-            <img src="${escapeHtml(course.overviewThumbnail || course.cover || `/assets/images/refzone/course-covers/${course.id}.svg`)}" alt="" loading="lazy" decoding="async">
+            <img src="${escapeHtml(course.overviewThumbnail || course.cover || `/rtbo_website/assets/images/refzone/course-covers/${course.id}.svg`)}" alt="" loading="lazy" decoding="async">
             <div><span>${escapeHtml(course.status)}</span><strong>${escapeHtml(course.title)}</strong><p>${escapeHtml(course.description || course.path || 'RefZone University course')}</p><small>${course.weeks?.length || 0} modules</small></div>
             <div class="rtbo-form-toolbar">
               <button class="btn secondary dark-btn" type="button" data-action="edit" data-id="${escapeHtml(course.id)}">Edit</button>
