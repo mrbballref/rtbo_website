@@ -7189,8 +7189,7 @@ const observerFormsSubSections = [
 ];
 
 const paymentSubSections = [
-  { id: 'invoiceCreator', label: 'Invoice Creator', title: 'Invoice Creator', source: 'payment_tools', parent: 'payments' },
-  { id: 'assignorSubscriptions', label: 'Assignor Plans', title: 'Assignor Subscriptions', source: 'payment_tools', parent: 'payments' }
+  { id: 'invoiceCreator', label: 'Invoice Creator', title: 'Invoice Creator', source: 'payment_tools', parent: 'payments' }
 ];
 
 const allFormsSubSections = [
@@ -11862,6 +11861,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['clientSpotlightStudio', 'Client Spotlight'],
     ['notifications', 'Notifications'],
     ['payments', 'Payments'],
+    ['assignorSubscriptions', 'Assignor Subscriptions'],
     ['shopInventory', 'Inventory'],
     ['siteContent', 'Website'],
     ['taxCenter', 'Tax Center'],
@@ -11885,7 +11885,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['evaluation', 'Evaluations'],
     ['education', 'Education']
   ];
-  const allowedDashboardSidebarIds = new Set(['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'clientSpotlightStudio', 'notifications', 'payments', 'shopInventory', 'siteContent', 'taxCenter', 'education', 'profile', 'reports', 'reviews', 'organizations']);
+  const allowedDashboardSidebarIds = new Set(['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'clientSpotlightStudio', 'notifications', 'payments', 'assignorSubscriptions', 'shopInventory', 'siteContent', 'taxCenter', 'education', 'profile', 'reports', 'reviews', 'organizations']);
   const visibleAdminSections = adminSections.filter(([id]) => allowedDashboardSidebarIds.has(id) && !hiddenSections.includes(id));
   const visibleAddMemberSections = addMemberSections.filter(item => !hiddenMemberItems.includes(item.id));
   const visibleScheduleSetupSections = scheduleSetupSections.filter(item => !hiddenScheduleItems.includes(item.id));
@@ -11905,7 +11905,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         ? uniqueFormSubSections([...visibleOfficialFormsSubSections, ...officialFormsSubSections])
         : [];
   const completedFormsSectionIds = completedFormsWidgets.map(widget => widget.section);
-  const primaryAdminOrder = ['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'clientSpotlightStudio', 'notifications', 'payments', 'shopInventory', 'siteContent', 'taxCenter', 'education'];
+  const primaryAdminOrder = ['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'clientSpotlightStudio', 'notifications', 'payments', 'assignorSubscriptions', 'shopInventory', 'siteContent', 'taxCenter', 'education'];
   const secondaryAdminOrder = ['reports', 'reviews', 'organizations'];
   const sections = canUseAdminDashboard
     ? [
@@ -11956,7 +11956,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         : []
   }));
   const dashboardControlColumns = [
-    ['overview', 'payments', 'shopInventory', 'siteContent', 'taxCenter', 'education'],
+    ['overview', 'payments', 'assignorSubscriptions', 'shopInventory', 'siteContent', 'taxCenter', 'education'],
     ['members', 'reports', 'reviews', 'rtbomail', 'newsletterCenter'],
     ['schedules', 'organizations', 'notifications', 'refroom', 'clientSpotlightStudio']
   ].map(column => column.map(id => settingsMenuItems.find(item => item.id === id)).filter(Boolean));
