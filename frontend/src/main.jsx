@@ -1114,7 +1114,17 @@ function AboutSummary({ setActive }) {
 function HomeClientSpotlight() {
   const [library, setLibrary] = useState(readStoredClientSpotlightLibrary);
   const [selectedId, setSelectedId] = useState('');
+  const [sidebarFilter, setSidebarFilter] = useState('All');
   const publishedVideos = useMemo(() => visibleClientSpotlightVideos(library.videos), [library.videos]);
+  const spotlightCategories = useMemo(() => {
+    const categories = Array.from(new Set(publishedVideos.map(video => video.category).filter(Boolean)));
+    return ['All', ...categories];
+  }, [publishedVideos]);
+  const sidebarVideos = useMemo(() => (
+    sidebarFilter === 'All'
+      ? publishedVideos
+      : publishedVideos.filter(video => video.category === sidebarFilter)
+  ), [publishedVideos, sidebarFilter]);
   const playlist = useMemo(() => publishedVideos.map(video => ({
     id: video.id,
     title: video.title,
@@ -1177,6 +1187,13 @@ function HomeClientSpotlight() {
     }
   }, [playlist, selectedId]);
 
+  useEffect(() => {
+    if (sidebarFilter === 'All') return;
+    if (!publishedVideos.some(video => video.category === sidebarFilter)) {
+      setSidebarFilter('All');
+    }
+  }, [publishedVideos, sidebarFilter]);
+
   const selectedVideoMeta = selectedVideo
     ? [selectedVideo.category, selectedVideo.runtime, selectedVideo.publishedAt].filter(Boolean).join(' / ')
     : '';
@@ -1229,17 +1246,43 @@ function HomeClientSpotlight() {
             emptyMessage="Published videos from the Client Spotlight Studio will appear here automatically."
             settingsNote="Client Spotlight loads published videos only."
           />
+          {selectedVideo && (
+            <article className="home-client-spotlight-watch-details" aria-label="Current video details">
+              <h3>{selectedVideo.title}</h3>
+              <div className="home-client-spotlight-watch-meta">
+                <img src={library.show.logoMark || library.show.logo || defaultClientSpotlightShow.logo} alt="" loading="lazy" decoding="async" />
+                <span>
+                  <strong>{library.show.shortName || defaultClientSpotlightShow.shortName}</strong>
+                  {selectedVideoMeta && <small>{selectedVideoMeta}</small>}
+                </span>
+              </div>
+              {selectedVideo.description && <p>{selectedVideo.description}</p>}
+            </article>
+          )}
         </div>
 
         {publishedVideos.length > 0 && (
           <aside className="home-client-spotlight-sidebar" aria-label="Uploaded Client Spotlight videos">
             <div className="home-client-spotlight-sidebar-shell">
+              <div className="home-client-spotlight-category-tabs" aria-label="Filter Client Spotlight videos">
+                {spotlightCategories.map(category => (
+                  <button
+                    key={category}
+                    className={category === sidebarFilter ? 'active' : ''}
+                    type="button"
+                    onClick={() => setSidebarFilter(category)}
+                    aria-pressed={category === sidebarFilter}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
               <div className="home-client-spotlight-sidebar-head">
                 <p className="eyebrow">Uploaded Videos</p>
-                <strong>{publishedVideos.length}</strong>
+                <strong>{sidebarVideos.length}</strong>
               </div>
               <div className="home-client-spotlight-playlist" aria-label="Published Client Spotlight videos">
-                {publishedVideos.map(video => {
+                {sidebarVideos.map(video => {
                   const videoMeta = [video.category, video.runtime, video.publishedAt].filter(Boolean).join(' / ');
                   const isActiveVideo = video.id === selectedVideo?.id;
                   return (

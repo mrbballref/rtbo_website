@@ -1278,3 +1278,1516 @@ html.light body#top main.rtbo-public .sports-agency-about-roster p {
     transform: none !important;
   }
 }
+
+/* Client Spotlight final sports-agency media division redesign. */
+body#top main.rtbo-public .home-client-spotlight-section {
+  position: relative !important;
+  display: grid !important;
+  gap: clamp(34px, 4vw, 58px) !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: clamp(78px, 8vw, 118px) max(28px, calc((100vw - 1560px) / 2)) clamp(84px, 8vw, 126px) !important;
+  overflow: hidden !important;
+  background:
+    radial-gradient(circle at 78% 12%, rgba(246, 196, 83, 0.13), transparent 28%),
+    radial-gradient(circle at 16% 28%, rgba(193, 18, 31, 0.28), transparent 34%),
+    linear-gradient(118deg, rgba(5, 8, 12, 0.98), rgba(7, 12, 17, 0.94) 42%, rgba(12, 14, 10, 0.96)),
+    #05080c !important;
+  isolation: isolate !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section::before {
+  content: "MEDIA DIVISION" !important;
+  position: absolute !important;
+  top: clamp(18px, 3vw, 44px) !important;
+  right: -2vw !important;
+  z-index: -1 !important;
+  color: rgba(255, 255, 255, 0.045) !important;
+  font-family: var(--display-font, inherit) !important;
+  font-size: clamp(5rem, 12vw, 13rem) !important;
+  font-weight: 1000 !important;
+  line-height: 0.8 !important;
+  letter-spacing: 0 !important;
+  white-space: nowrap !important;
+  pointer-events: none !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 auto 0 max(30px, calc((100vw - 1560px) / 2)) !important;
+  z-index: -1 !important;
+  width: min(32vw, 470px) !important;
+  background: linear-gradient(90deg, rgba(116, 9, 21, 0.38), transparent) !important;
+  pointer-events: none !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head {
+  position: relative !important;
+  z-index: 1 !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 0.68fr) minmax(320px, 0.32fr) !important;
+  gap: clamp(34px, 5vw, 84px) !important;
+  align-items: end !important;
+  width: 100% !important;
+  max-width: 1560px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-title-block {
+  position: relative !important;
+  display: grid !important;
+  gap: 16px !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  padding: 0 0 0 30px !important;
+  border-left: 5px solid #c1121f !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-title-block::before {
+  content: "01 / STORYTELLING & PRODUCTION" !important;
+  width: max-content !important;
+  max-width: 100% !important;
+  margin-bottom: 4px !important;
+  padding: 7px 12px !important;
+  border: 1px solid rgba(246, 196, 83, 0.34) !important;
+  color: #ffd766 !important;
+  font-size: 0.72rem !important;
+  font-weight: 1000 !important;
+  letter-spacing: 0.12em !important;
+  line-height: 1 !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-title-block .eyebrow {
+  margin: 0 !important;
+  color: #ffd766 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head h2 {
+  max-width: 930px !important;
+  margin: 0 !important;
+  color: #fff !important;
+  font-size: clamp(3.15rem, 6.4vw, 7.4rem) !important;
+  line-height: 0.82 !important;
+  letter-spacing: 0 !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 5px 0 rgba(193, 18, 31, 0.8), 0 28px 58px rgba(0, 0, 0, 0.5) !important;
+  text-wrap: balance !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-subtitle {
+  max-width: 980px !important;
+  margin: 0 !important;
+  color: #fff !important;
+  font-size: clamp(1.25rem, 2vw, 2.24rem) !important;
+  line-height: 1.04 !important;
+  white-space: normal !important;
+  text-wrap: balance !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-copy {
+  display: grid !important;
+  gap: 13px !important;
+  width: 100% !important;
+  max-width: 1040px !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-copy > p:first-child {
+  max-width: 1040px !important;
+  margin: 0 !important;
+  padding-left: 22px !important;
+  border-left: 3px solid rgba(246, 196, 83, 0.72) !important;
+  color: rgba(255, 255, 255, 0.78) !important;
+  font-size: clamp(0.98rem, 1.05vw, 1.12rem) !important;
+  line-height: 1.66 !important;
+  white-space: normal !important;
+  text-wrap: pretty !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-tagline {
+  max-width: 920px !important;
+  margin: 0 !important;
+  color: #fff !important;
+  font-size: clamp(1rem, 1.1vw, 1.14rem) !important;
+  font-weight: 900 !important;
+  line-height: 1.45 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-meta {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  margin: 4px 0 0 !important;
+  white-space: normal !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-meta div {
+  display: inline-flex !important;
+  gap: 8px !important;
+  align-items: baseline !important;
+  min-width: 0 !important;
+  padding: 8px 12px !important;
+  border: 1px solid rgba(246, 196, 83, 0.22) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-meta dt {
+  color: #ffd766 !important;
+  font-size: 0.68rem !important;
+  font-weight: 1000 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-meta dd {
+  margin: 0 !important;
+  color: #fff !important;
+  font-size: 0.9rem !important;
+  font-weight: 850 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 132px minmax(0, 1fr) !important;
+  gap: 16px !important;
+  align-items: center !important;
+  padding: 18px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(246, 196, 83, 0.28) !important;
+  border-left: 4px solid #c1121f !important;
+  border-radius: 0 !important;
+  background:
+    linear-gradient(135deg, rgba(193, 18, 31, 0.18), rgba(255, 255, 255, 0.045)),
+    rgba(5, 8, 12, 0.68) !important;
+  box-shadow: 0 24px 54px rgba(0, 0, 0, 0.24) !important;
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px)) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature::before {
+  content: "NOW FEATURED" !important;
+  position: absolute !important;
+  top: 12px !important;
+  right: 16px !important;
+  color: rgba(246, 196, 83, 0.2) !important;
+  font-size: 1.4rem !important;
+  font-weight: 1000 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature img {
+  position: relative !important;
+  z-index: 1 !important;
+  width: 132px !important;
+  aspect-ratio: 16 / 9 !important;
+  object-fit: cover !important;
+  border: 1px solid rgba(246, 196, 83, 0.26) !important;
+  border-radius: 0 !important;
+  background: #050505 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature span {
+  position: relative !important;
+  z-index: 1 !important;
+  display: grid !important;
+  gap: 6px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature small {
+  color: #ffd766 !important;
+  font-size: 0.68rem !important;
+  font-weight: 1000 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature strong {
+  color: #fff !important;
+  font-size: clamp(1rem, 1.1vw, 1.18rem) !important;
+  line-height: 1.08 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature em {
+  color: rgba(255, 255, 255, 0.66) !important;
+  font-size: 0.8rem !important;
+  font-style: normal !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
+  position: relative !important;
+  z-index: 1 !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 390px) !important;
+  gap: clamp(24px, 3vw, 42px) !important;
+  align-items: start !important;
+  width: 100% !important;
+  max-width: 1560px !important;
+  margin: 0 auto !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-player {
+  position: relative !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  justify-self: stretch !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-player::before {
+  content: "PRODUCTION STAGE" !important;
+  display: block !important;
+  width: max-content !important;
+  max-width: 100% !important;
+  margin: 0 0 12px 28px !important;
+  color: #ffd766 !important;
+  font-size: 0.76rem !important;
+  font-weight: 1000 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-ipad-shell {
+  min-height: clamp(560px, 45vw, 760px) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-ipad-frame {
+  background: transparent !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar {
+  position: sticky !important;
+  top: 124px !important;
+  align-self: start !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-shell {
+  position: relative !important;
+  overflow: hidden !important;
+  padding: 18px !important;
+  border: 1px solid rgba(246, 196, 83, 0.26) !important;
+  border-left: 4px solid #c1121f !important;
+  border-radius: 0 !important;
+  background:
+    linear-gradient(145deg, rgba(193, 18, 31, 0.16), rgba(255, 255, 255, 0.04)),
+    rgba(5, 8, 12, 0.76) !important;
+  box-shadow: 0 24px 54px rgba(0, 0, 0, 0.25) !important;
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-shell::before {
+  content: "VIDEO SLATE" !important;
+  position: absolute !important;
+  top: 18px !important;
+  right: 16px !important;
+  color: rgba(255, 255, 255, 0.055) !important;
+  font-size: 2.15rem !important;
+  font-weight: 1000 !important;
+  line-height: 0.86 !important;
+  letter-spacing: 0 !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-head {
+  position: relative !important;
+  z-index: 1 !important;
+  display: flex !important;
+  align-items: end !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  padding-bottom: 16px !important;
+  border-bottom: 1px solid rgba(246, 196, 83, 0.22) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-head .eyebrow {
+  margin: 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-head strong {
+  color: #ffd766 !important;
+  font-family: var(--display-font, inherit) !important;
+  font-size: 3.1rem !important;
+  font-weight: 1000 !important;
+  line-height: 0.78 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist {
+  position: relative !important;
+  z-index: 1 !important;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 12px !important;
+  width: 100% !important;
+  margin: 16px 0 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 104px minmax(0, 1fr) !important;
+  gap: 12px !important;
+  align-items: center !important;
+  min-width: 0 !important;
+  padding: 10px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(246, 196, 83, 0.18) !important;
+  border-left: 3px solid rgba(246, 196, 83, 0.35) !important;
+  border-radius: 0 !important;
+  color: inherit !important;
+  text-align: left !important;
+  background: rgba(255, 255, 255, 0.045) !important;
+  box-shadow: none !important;
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%) !important;
+  cursor: pointer !important;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button:is(:hover, :focus-visible),
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button.active {
+  border-color: rgba(246, 196, 83, 0.52) !important;
+  border-left-color: #c1121f !important;
+  background: linear-gradient(135deg, rgba(193, 18, 31, 0.22), rgba(255, 255, 255, 0.055)) !important;
+  transform: translateX(-4px) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist img {
+  width: 104px !important;
+  aspect-ratio: 16 / 9 !important;
+  object-fit: cover !important;
+  border: 1px solid rgba(246, 196, 83, 0.22) !important;
+  border-radius: 0 !important;
+  background: #050505 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist span {
+  display: grid !important;
+  gap: 5px !important;
+  min-width: 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist strong {
+  color: #fff !important;
+  font-size: 0.93rem !important;
+  line-height: 1.08 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist small {
+  color: rgba(255, 255, 255, 0.62) !important;
+  font-size: 0.76rem !important;
+  line-height: 1.25 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist em {
+  color: #ffd766 !important;
+  font-size: 0.68rem !important;
+  font-style: normal !important;
+  font-weight: 1000 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section,
+html.light body#top main.rtbo-public .home-client-spotlight-section {
+  background:
+    radial-gradient(circle at 78% 12%, rgba(246, 196, 83, 0.18), transparent 28%),
+    radial-gradient(circle at 16% 28%, rgba(193, 18, 31, 0.08), transparent 34%),
+    linear-gradient(118deg, #f8fafc, #eef2f7 52%, #fff),
+    #f8fafc !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head h2,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head h2,
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-subtitle,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-subtitle,
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature strong,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature strong,
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist strong,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist strong {
+  color: #0f172a !important;
+  text-shadow: 0 3px 0 rgba(193, 18, 31, 0.14) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-copy > p:first-child,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-copy > p:first-child,
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist small,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist small,
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature em,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature em {
+  color: #334155 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-tagline,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-tagline,
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-meta dd,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-meta dd {
+  color: #0f172a !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature,
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-shell,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-shell,
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button,
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-meta div,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-meta div {
+  background:
+    linear-gradient(135deg, rgba(193, 18, 31, 0.07), rgba(255, 255, 255, 0.9)),
+    #fff !important;
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.08) !important;
+}
+
+@media (max-width: 1180px) {
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head,
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature,
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar {
+    position: relative !important;
+    top: auto !important;
+    max-width: 620px !important;
+  }
+}
+
+@media (max-width: 680px) {
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-title-block {
+    padding-left: 22px !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature,
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature img,
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist img {
+    width: 100% !important;
+  }
+}
+
+/* Client Spotlight corrected sports-agency broadcast section. */
+body#top main.rtbo-public .home-client-spotlight-section {
+  box-sizing: border-box !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 34px !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 84px max(26px, calc((100vw - 1500px) / 2)) 96px !important;
+  overflow-x: clip !important;
+  background:
+    linear-gradient(90deg, rgba(116, 9, 21, 0.58) 0, rgba(116, 9, 21, 0.18) 27%, transparent 57%),
+    radial-gradient(circle at 76% 18%, rgba(246, 196, 83, 0.1), transparent 31%),
+    linear-gradient(135deg, #05080c 0, #080d12 46%, #11130f 100%) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section::before {
+  content: "MEDIA DIVISION" !important;
+  inset: 24px max(26px, calc((100vw - 1500px) / 2)) auto auto !important;
+  width: min(100%, 1120px) !important;
+  color: rgba(255, 255, 255, 0.04) !important;
+  font-family: var(--display-font, inherit) !important;
+  font-size: 8.75rem !important;
+  font-weight: 1000 !important;
+  line-height: 0.78 !important;
+  letter-spacing: 0 !important;
+  text-align: right !important;
+  white-space: nowrap !important;
+  transform: none !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section::after {
+  inset: 0 auto 0 0 !important;
+  width: min(42vw, 520px) !important;
+  background: linear-gradient(90deg, rgba(193, 18, 31, 0.2), transparent) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 24px !important;
+  align-items: stretch !important;
+  width: min(100%, 1500px) !important;
+  max-width: 1500px !important;
+  margin: 0 auto !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-title-block {
+  box-sizing: border-box !important;
+  display: grid !important;
+  gap: 14px !important;
+  width: 100% !important;
+  max-width: 1080px !important;
+  min-width: 0 !important;
+  padding: 0 0 0 24px !important;
+  border-left: 4px solid #c1121f !important;
+  background: transparent !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-title-block::before {
+  justify-self: start !important;
+  max-width: 100% !important;
+  padding: 7px 10px !important;
+  border: 1px solid rgba(246, 196, 83, 0.44) !important;
+  background: rgba(0, 0, 0, 0.28) !important;
+  color: #ffd766 !important;
+  font-size: 0.68rem !important;
+  line-height: 1 !important;
+  letter-spacing: 0.1em !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-title-block .eyebrow {
+  margin: 0 !important;
+  color: #ffd766 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head h2 {
+  width: min(100%, 930px) !important;
+  max-width: 930px !important;
+  margin: 0 !important;
+  color: #fff !important;
+  font-size: 5.15rem !important;
+  line-height: 0.86 !important;
+  letter-spacing: 0 !important;
+  text-transform: uppercase !important;
+  text-wrap: balance !important;
+  text-shadow: 0 4px 0 rgba(193, 18, 31, 0.74), 0 26px 54px rgba(0, 0, 0, 0.45) !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-subtitle {
+  max-width: 980px !important;
+  margin: 0 !important;
+  color: #fff !important;
+  font-size: 2.05rem !important;
+  line-height: 1.02 !important;
+  white-space: normal !important;
+  text-wrap: balance !important;
+  overflow-wrap: normal !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-copy {
+  display: grid !important;
+  gap: 12px !important;
+  width: min(100%, 1080px) !important;
+  max-width: 1080px !important;
+  padding: 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-copy > p:first-child {
+  max-width: 1040px !important;
+  padding-left: 20px !important;
+  border-left: 3px solid rgba(246, 196, 83, 0.72) !important;
+  color: rgba(255, 255, 255, 0.76) !important;
+  font-size: 1.08rem !important;
+  line-height: 1.58 !important;
+  white-space: normal !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-tagline {
+  color: #fff !important;
+  font-size: 1.08rem !important;
+  line-height: 1.42 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-meta {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  width: 100% !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-meta div {
+  min-width: 0 !important;
+  padding: 9px 12px !important;
+  border: 1px solid rgba(246, 196, 83, 0.3) !important;
+  background: linear-gradient(135deg, rgba(193, 18, 31, 0.22), rgba(255, 255, 255, 0.045)) !important;
+  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 0 100%) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature {
+  box-sizing: border-box !important;
+  display: grid !important;
+  grid-template-columns: 148px minmax(0, 1fr) !important;
+  gap: 16px !important;
+  align-items: center !important;
+  width: 100% !important;
+  max-width: 520px !important;
+  min-width: 0 !important;
+  padding: 18px !important;
+  border: 1px solid rgba(246, 196, 83, 0.3) !important;
+  border-left: 4px solid #c1121f !important;
+  background:
+    linear-gradient(135deg, rgba(193, 18, 31, 0.2), rgba(255, 255, 255, 0.06)),
+    rgba(5, 8, 12, 0.78) !important;
+  box-shadow: 0 22px 58px rgba(0, 0, 0, 0.26) !important;
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px)) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature::before {
+  top: 10px !important;
+  right: 14px !important;
+  color: rgba(246, 196, 83, 0.16) !important;
+  font-size: 1.2rem !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature img {
+  width: 148px !important;
+  max-width: 100% !important;
+  aspect-ratio: 16 / 9 !important;
+  object-fit: cover !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 28px !important;
+  align-items: start !important;
+  width: min(100%, 1500px) !important;
+  max-width: 1500px !important;
+  margin: 0 auto !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-player {
+  width: 100% !important;
+  min-width: 0 !important;
+  justify-self: stretch !important;
+  background: transparent !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-player::before {
+  margin: 0 0 12px 0 !important;
+  padding-left: 24px !important;
+  color: #ffd766 !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.12em !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad {
+  width: 100% !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-ipad-shell {
+  aspect-ratio: 16 / 10 !important;
+  min-height: 620px !important;
+  max-height: 760px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-screen {
+  grid-template-rows: minmax(0, 1fr) auto !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-video-stage {
+  min-height: 0 !important;
+  padding: 0 46px 6px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-video-frame {
+  height: 100% !important;
+  max-height: 100% !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-video-frame video {
+  object-fit: contain !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-control-dock {
+  gap: 8px !important;
+  padding: 6px 46px 14px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-main-buttons {
+  gap: 8px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-control-btn {
+  width: 54px !important;
+  height: 54px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-volume-wrap {
+  flex: 0 0 92px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar {
+  position: relative !important;
+  top: auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-shell {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  padding: 22px !important;
+  border: 1px solid rgba(246, 196, 83, 0.26) !important;
+  border-left: 4px solid #c1121f !important;
+  background:
+    linear-gradient(135deg, rgba(193, 18, 31, 0.16), rgba(255, 255, 255, 0.045)),
+    rgba(5, 8, 12, 0.76) !important;
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important;
+  gap: 12px !important;
+  width: 100% !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button {
+  grid-template-columns: 112px minmax(0, 1fr) !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  border-radius: 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist img {
+  width: 112px !important;
+  max-width: 100% !important;
+}
+
+@media (min-width: 1180px) {
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head {
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 520px) !important;
+    align-items: end !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature {
+    justify-self: end !important;
+  }
+}
+
+@media (min-width: 1320px) {
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
+    grid-template-columns: minmax(740px, 1fr) minmax(340px, 410px) !important;
+    gap: 34px !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar {
+    position: relative !important;
+    top: auto !important;
+    align-self: start !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (min-width: 1500px) {
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-ipad-shell {
+    min-height: 690px !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  body#top main.rtbo-public .home-client-spotlight-section {
+    padding-top: 72px !important;
+    padding-bottom: 82px !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section::before {
+    font-size: 6.2rem !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head h2 {
+    font-size: 4.1rem !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-subtitle {
+    font-size: 1.65rem !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-ipad-shell {
+    min-height: 620px !important;
+  }
+}
+
+@media (max-width: 720px) {
+  body#top main.rtbo-public .home-client-spotlight-section {
+    padding: 62px 18px 72px !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section::before {
+    font-size: 4rem !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-title-block {
+    padding-left: 18px !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head h2 {
+    font-size: 3rem !important;
+    line-height: 0.9 !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-subtitle {
+    font-size: 1.28rem !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature,
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature img,
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist img {
+    width: 100% !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-ipad-shell {
+    min-height: 560px !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-video-stage {
+    padding: 0 24px 6px !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-control-dock {
+    padding: 6px 24px 14px !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-control-btn {
+    width: 50px !important;
+    height: 50px !important;
+  }
+}
+
+/* Client Spotlight YouTube-style watch layout correction. */
+body#top main.rtbo-public .home-client-spotlight-section {
+  gap: 30px !important;
+  padding: 72px max(24px, calc((100vw - 1460px) / 2)) 88px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section::before {
+  right: max(24px, calc((100vw - 1460px) / 2)) !important;
+  font-size: 7.5rem !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head {
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 18px !important;
+  width: min(100%, 1460px) !important;
+  max-width: 1460px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-title-block {
+  max-width: 1120px !important;
+  padding-left: 22px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head h2 {
+  max-width: 780px !important;
+  font-size: 4.65rem !important;
+  line-height: 0.88 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-subtitle {
+  max-width: 980px !important;
+  font-size: 1.78rem !important;
+  line-height: 1.05 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-copy {
+  max-width: 1120px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-copy > p:first-child {
+  max-width: 1060px !important;
+  font-size: 1.02rem !important;
+  line-height: 1.52 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature {
+  display: none !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
+  width: min(100%, 1460px) !important;
+  max-width: 1460px !important;
+  gap: 22px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-player::before {
+  margin-bottom: 10px !important;
+  padding-left: 4px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-ipad-shell {
+  aspect-ratio: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  height: auto !important;
+  padding: 12px !important;
+  border-radius: 26px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-ipad-shell::before {
+  border-radius: 20px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-ipad-glass {
+  border-radius: 18px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-statusbar {
+  height: 42px !important;
+  padding: 0 26px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-screen {
+  height: auto !important;
+  grid-template-rows: auto auto !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-video-stage {
+  display: block !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+  aspect-ratio: 16 / 9 !important;
+  padding: 0 26px 4px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-video-frame {
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: 16 / 9 !important;
+  border-radius: 14px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-video-frame :is(video, iframe, .livestream-player) {
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: 16 / 9 !important;
+  object-fit: contain !important;
+  border-radius: 14px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-control-dock {
+  padding: 8px 26px 14px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-control-row-top {
+  grid-template-columns: 52px minmax(160px, 1fr) 52px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-timecode {
+  min-width: 52px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-main-buttons {
+  justify-content: flex-start !important;
+  gap: 7px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-control-btn {
+  width: 48px !important;
+  height: 48px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-volume-wrap {
+  flex: 0 0 86px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-watch-details {
+  display: grid !important;
+  gap: 12px !important;
+  margin: 16px 0 0 !important;
+  color: #fff !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-watch-details h3 {
+  max-width: 1080px !important;
+  margin: 0 !important;
+  color: #fff !important;
+  font-size: 1.55rem !important;
+  font-weight: 1000 !important;
+  line-height: 1.1 !important;
+  text-transform: none !important;
+  text-shadow: none !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-watch-meta {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-width: 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-watch-meta img {
+  flex: 0 0 auto !important;
+  width: 42px !important;
+  height: 42px !important;
+  object-fit: contain !important;
+  border-radius: 50% !important;
+  background: rgba(0, 0, 0, 0.26) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-watch-meta span {
+  display: grid !important;
+  gap: 3px !important;
+  min-width: 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-watch-meta strong {
+  color: #fff !important;
+  font-size: 0.95rem !important;
+  line-height: 1.1 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-watch-meta small {
+  color: rgba(255, 255, 255, 0.62) !important;
+  font-size: 0.8rem !important;
+  line-height: 1.25 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-watch-details p {
+  max-width: 1020px !important;
+  margin: 0 !important;
+  padding: 14px 16px !important;
+  border: 1px solid rgba(246, 196, 83, 0.16) !important;
+  border-left: 3px solid rgba(246, 196, 83, 0.58) !important;
+  color: rgba(255, 255, 255, 0.76) !important;
+  line-height: 1.5 !important;
+  background: rgba(255, 255, 255, 0.045) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-shell {
+  padding: 0 !important;
+  border: 0 !important;
+  border-left: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-shell::before {
+  content: none !important;
+  display: none !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-category-tabs {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  width: 100% !important;
+  margin: 0 0 12px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-category-tabs button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 32px !important;
+  padding: 0 12px !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 999px !important;
+  color: rgba(255, 255, 255, 0.86) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
+  font-size: 0.78rem !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-category-tabs button:is(:hover, :focus-visible),
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-category-tabs button.active {
+  border-color: rgba(246, 196, 83, 0.5) !important;
+  color: #05080c !important;
+  background: #ffd766 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-head {
+  align-items: center !important;
+  padding: 0 0 10px !important;
+  border-bottom: 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-head strong {
+  display: inline-grid !important;
+  min-width: 30px !important;
+  min-height: 30px !important;
+  place-items: center !important;
+  border-radius: 999px !important;
+  color: #05080c !important;
+  background: #ffd766 !important;
+  font-family: inherit !important;
+  font-size: 0.9rem !important;
+  line-height: 1 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist {
+  gap: 10px !important;
+  margin-top: 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button {
+  grid-template-columns: 112px minmax(0, 1fr) !important;
+  gap: 10px !important;
+  padding: 6px !important;
+  border: 1px solid transparent !important;
+  border-left: 0 !important;
+  background: transparent !important;
+  clip-path: none !important;
+  transform: none !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist img {
+  width: 112px !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 5px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist strong {
+  font-size: 0.86rem !important;
+  line-height: 1.13 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist small {
+  margin-top: 1px !important;
+  font-size: 0.68rem !important;
+  line-height: 1.2 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist em {
+  font-size: 0.62rem !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button:is(:hover, :focus-visible),
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button.active {
+  border-color: rgba(246, 196, 83, 0.22) !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  transform: none !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-watch-details h3,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-watch-details h3,
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-watch-meta strong,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-watch-meta strong,
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist strong,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist strong {
+  color: #0f172a !important;
+  text-shadow: none !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-watch-meta small,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-watch-meta small,
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-watch-details p,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-watch-details p,
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist small,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist small {
+  color: #334155 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-watch-details p,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-watch-details p,
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button:is(:hover, :focus-visible),
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button:is(:hover, :focus-visible),
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button.active,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button.active {
+  background: rgba(255, 255, 255, 0.76) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-category-tabs button,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-category-tabs button {
+  border-color: rgba(15, 23, 42, 0.12) !important;
+  color: #334155 !important;
+  background: rgba(255, 255, 255, 0.82) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-category-tabs button:is(:hover, :focus-visible),
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-category-tabs button:is(:hover, :focus-visible),
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-category-tabs button.active,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-category-tabs button.active {
+  border-color: rgba(193, 18, 31, 0.28) !important;
+  color: #0f172a !important;
+  background: #ffd766 !important;
+}
+
+@media (min-width: 980px) {
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
+    grid-template-columns: minmax(0, 1fr) 250px !important;
+    align-items: start !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (min-width: 1420px) {
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
+    grid-template-columns: minmax(0, 1fr) 306px !important;
+    gap: 24px !important;
+  }
+}
+
+@media (max-width: 979px) {
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important;
+  }
+}
+
+@media (max-width: 720px) {
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head h2 {
+    font-size: 2.9rem !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-subtitle {
+    font-size: 1.22rem !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-statusbar {
+    padding: 0 18px !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-video-stage,
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-control-dock {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+}
+
+/* Client Spotlight edge-aligned YouTube rail. */
+body#top main.rtbo-public .home-client-spotlight-section {
+  --client-spotlight-edge-gutter: max(24px, calc((100vw - 1460px) / 2));
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
+  width: calc(100vw - var(--client-spotlight-edge-gutter)) !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-player {
+  position: relative !important;
+  padding-top: 0 !important;
+  overflow: visible !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-player::before {
+  position: absolute !important;
+  top: -31px !important;
+  left: 0 !important;
+  margin: 0 !important;
+  padding-left: 0 !important;
+}
+
+@media (min-width: 980px) {
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
+    grid-template-columns: minmax(0, 1fr) 250px !important;
+    gap: 22px !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar {
+    align-self: start !important;
+    margin-top: 0 !important;
+  }
+}
+
+@media (min-width: 1420px) {
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
+    grid-template-columns: minmax(0, 1fr) 306px !important;
+    gap: 24px !important;
+  }
+}
+
+@media (max-width: 979px) {
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
+    width: 100% !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-player::before {
+    position: static !important;
+    display: block !important;
+    margin: 0 0 10px !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar {
+    margin-top: 0 !important;
+  }
+}
+
+/* Client Spotlight final alignment and YouTube-scale title pass. */
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head {
+  width: calc(100vw - var(--client-spotlight-edge-gutter)) !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-title-block {
+  max-width: min(100%, 1120px) !important;
+  padding-left: 0 !important;
+  border-left: 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head h2 {
+  max-width: 760px !important;
+  font-size: 3.55rem !important;
+  line-height: 0.92 !important;
+  text-shadow: 0 3px 0 rgba(193, 18, 31, 0.66), 0 18px 42px rgba(0, 0, 0, 0.42) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-subtitle {
+  max-width: 920px !important;
+  font-size: 1.42rem !important;
+  line-height: 1.12 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-copy > p:first-child {
+  max-width: 1020px !important;
+  font-size: 0.98rem !important;
+  line-height: 1.5 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
+  align-items: start !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar {
+  position: relative !important;
+  top: auto !important;
+  align-self: start !important;
+  margin-top: 0 !important;
+  transform: none !important;
+}
+
+@media (min-width: 980px) {
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar {
+    position: relative !important;
+    top: auto !important;
+    margin-top: 0 !important;
+  }
+}
+
+@media (max-width: 979px) {
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 720px) {
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head h2 {
+    font-size: 2.45rem !important;
+    line-height: 0.95 !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-subtitle {
+    font-size: 1.12rem !important;
+  }
+}
+
+/* Client Spotlight contained YouTube-style watch correction. */
+body#top main.rtbo-public .home-client-spotlight-section {
+  --client-spotlight-content-max: 1460px;
+  --client-spotlight-rail-width: 306px;
+  --client-spotlight-column-gap: 24px;
+  overflow-x: clip !important;
+  padding-inline: max(24px, calc((100vw - var(--client-spotlight-content-max)) / 2)) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head,
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
+  width: min(100%, var(--client-spotlight-content-max)) !important;
+  max-width: var(--client-spotlight-content-max) !important;
+  margin-inline: auto !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-title-block {
+  max-width: 920px !important;
+  padding-left: 0 !important;
+  border-left: 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head h2 {
+  max-width: 650px !important;
+  font-size: 3.08rem !important;
+  line-height: 0.95 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-subtitle {
+  max-width: 900px !important;
+  font-size: 1.26rem !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-copy {
+  max-width: 960px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-player {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: visible !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar,
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-shell {
+  width: var(--client-spotlight-rail-width) !important;
+  max-width: var(--client-spotlight-rail-width) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar {
+  align-self: start !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  top: 0 !important;
+  transform: none !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-shell {
+  top: 0 !important;
+  margin-top: 0 !important;
+  transform: none !important;
+}
+
+@media (min-width: 980px) {
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
+    display: grid !important;
+    grid-template-columns: minmax(0, calc(var(--client-spotlight-content-max) - var(--client-spotlight-rail-width) - var(--client-spotlight-column-gap))) var(--client-spotlight-rail-width) !important;
+    gap: var(--client-spotlight-column-gap) !important;
+    align-items: start !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-ipad-shell {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 979px) {
+  body#top main.rtbo-public .home-client-spotlight-section {
+    padding-inline: 24px !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head,
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar,
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-shell {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
