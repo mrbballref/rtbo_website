@@ -11,7 +11,7 @@ export const defaultClientSpotlightShow = {
   shortName: 'RTBO Spotlight',
   tagline: 'Real conversations from the RTBO training schools and events.',
   brandLine: 'Raising The Bar Officiating',
-  mission: 'A production library for coach conversations, player interviews, official development stories, school highlights, and promotional films connected to Raising The Bar Officiating.',
+  mission: 'A production library for coach conversations, player interviews, school highlights, and RTBO feature films.',
   logo: '/assets/images/logo.png',
   logoCard: '/assets/images/3d_rtbo_livestream_icon.jpg',
   logoMark: CLIENT_SPOTLIGHT_PLAYER_LOGO
@@ -75,7 +75,7 @@ export function normalizeClientSpotlightVideo(video = {}, index = 0) {
     subtitle: textValue(video.subtitle),
     description: textValue(video.description || video.summary),
     status: normalizeStatus(video.status),
-    category: textValue(video.category || 'Training School Conversation'),
+    category: textValue(video.category),
     featuredPerson: textValue(video.featuredPerson || video.featured_person || video.person),
     role: textValue(video.role),
     affiliation: textValue(video.affiliation || video.organization),

@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/sms.php';
+require_once __DIR__ . '/notification-templates.php';
 
 function rtbo_notifications_storage_path(): string
 {
@@ -186,6 +187,10 @@ function rtbo_notification_matches_user(array $notification, array $user): bool
 function rtbo_notification_create(array $notification): array
 {
     $actor = rtbo_notification_actor(is_array($notification['actor'] ?? null) ? $notification['actor'] : null);
+    $notification = rtbo_notification_apply_template([
+        ...$notification,
+        'actor_name' => $actor['actor_name'],
+    ]);
     $record = [
         'audience' => rtbo_notification_clean_audience((string) ($notification['audience'] ?? 'user')),
         'target_user_id' => isset($notification['target_user_id']) ? (int) $notification['target_user_id'] : null,

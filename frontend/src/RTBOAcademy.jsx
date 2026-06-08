@@ -1884,7 +1884,7 @@ function CourseVideoPlayer({
   function syncNativeCaptionTracks(media = activeMediaElement()) {
     if (!media?.textTracks) return;
     Array.from(media.textTracks).forEach(track => {
-      track.mode = captionsOn ? 'showing' : 'disabled';
+      track.mode = captionsOn ? 'hidden' : 'disabled';
     });
   }
 
@@ -2266,7 +2266,7 @@ function CourseVideoPlayer({
       status={courseStatus}
       aspect="wide"
       mediaContent={mediaContent}
-      captionContent={captionsOn && (!hasPublishedVideo || !videoJob?.captionsPath) ? (
+      captionContent={captionsOn ? (
         <div className="rtbo-course-caption-strip" aria-live="polite">
           {captionText}
         </div>

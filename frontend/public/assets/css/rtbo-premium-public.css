@@ -915,9 +915,11 @@ body#top main.rtbo-public .home-client-spotlight-player .rtb-ipad-player .rtb-em
 
 body#top main.rtbo-public .home-client-spotlight-section {
   display: grid !important;
-  grid-template-columns: minmax(360px, .72fr) minmax(560px, 1fr) !important;
-  gap: clamp(30px, 4vw, 72px) !important;
-  align-items: center !important;
+  grid-template-columns: 1fr !important;
+  justify-items: center !important;
+  gap: clamp(24px, 3.4vw, 46px) !important;
+  align-items: start !important;
+  overflow: hidden !important;
   padding: clamp(64px, 6vw, 108px) clamp(32px, 5.4vw, 104px) !important;
   background:
     radial-gradient(circle at 18% 22%, rgba(193, 18, 31, .14), transparent 28%),
@@ -927,9 +929,10 @@ body#top main.rtbo-public .home-client-spotlight-section {
 }
 
 body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head {
-  align-self: center;
-  width: min(100%, 650px) !important;
-  max-width: 650px !important;
+  align-self: auto;
+  justify-self: center !important;
+  width: min(100%, 1320px) !important;
+  max-width: 1320px !important;
   padding: clamp(24px, 2.6vw, 40px);
   border: 1px solid rgba(243, 214, 117, .12);
   border-left: 4px solid rgba(193, 18, 31, .82);
@@ -941,30 +944,44 @@ body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-
 }
 
 body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head h2 {
-  font-size: clamp(2.35rem, 3.4vw, 4.15rem) !important;
+  font-size: clamp(1.9rem, 2.8vw, 3.35rem) !important;
   line-height: .98 !important;
+  white-space: nowrap !important;
+  text-wrap: nowrap !important;
 }
 
 body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-subtitle {
-  white-space: normal !important;
-  text-wrap: balance !important;
+  white-space: nowrap !important;
+  text-wrap: nowrap !important;
   font-size: clamp(1.2rem, 1.9vw, 2rem) !important;
   line-height: 1.12 !important;
 }
 
 body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-copy {
   width: 100% !important;
-  max-width: 590px !important;
+  max-width: none !important;
+  overflow: visible !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-copy :is(p, dl, dt, dd) {
+  white-space: nowrap !important;
+  text-wrap: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  font-size: clamp(.95rem, .92vw, 1.04rem) !important;
 }
 
 body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
   width: 100%;
   min-width: 0;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  justify-items: center !important;
 }
 
 body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-player {
-  width: min(100%, 980px) !important;
-  justify-self: end !important;
+  width: min(100%, 1320px) !important;
+  justify-self: center !important;
   padding: 0 !important;
   border: 0 !important;
   background: transparent !important;
@@ -972,8 +989,8 @@ body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-
 }
 
 body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-ipad .rtb-ipad-shell {
-  min-height: 0 !important;
-  aspect-ratio: 16 / 9 !important;
+  min-height: clamp(620px, 50vw, 820px) !important;
+  aspect-ratio: 16 / 10.5 !important;
   border-radius: 32px !important;
   padding: clamp(8px, 1vw, 14px) !important;
 }
@@ -1040,8 +1057,20 @@ html.light body#top main.rtbo-public .home-client-spotlight-section .home-client
     grid-template-columns: 1fr !important;
   }
 
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head {
+    width: min(100%, 760px) !important;
+    max-width: 760px !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head h2,
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-subtitle,
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-copy :is(p, dl, dt, dd) {
+    white-space: normal !important;
+    text-wrap: balance !important;
+  }
+
   body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-player {
-    justify-self: start !important;
+    justify-self: center !important;
     width: min(100%, 940px) !important;
   }
 
@@ -3829,5 +3858,4292 @@ html.dark body#top main.rtbo-public :is(.contact-info-list article, .contact-for
   body#top main.rtbo-public .services-page-section .compact-solutions-grid img {
     height: auto !important;
     max-height: 240px !important;
+  }
+}
+
+/* Desktop homepage audit layer: professional composition, restrained graphics, and no mid-desktop stacking. */
+@media (min-width: 1201px) {
+  body#top main.rtbo-public > section.rtbo-hero {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: center !important;
+    min-height: clamp(680px, calc(100svh - 72px), 780px) !important;
+    padding: clamp(58px, 6vw, 86px) clamp(48px, 6vw, 92px) clamp(158px, 13vw, 210px) !important;
+  }
+
+  body#top main.rtbo-public > section.rtbo-hero > .rtbo-hero-copy {
+    width: min(100%, 780px) !important;
+    max-width: 780px !important;
+  }
+
+  body#top main.rtbo-public > section.rtbo-hero > .hero-carousel {
+    position: absolute !important;
+    inset: auto auto clamp(18px, 2vw, 28px) clamp(42px, 5vw, 78px) !important;
+    width: min(720px, calc(100% - 360px)) !important;
+    max-width: 720px !important;
+    margin: 0 !important;
+  }
+
+  body#top main.rtbo-public > section.rtbo-hero > .rtbo-stats {
+    position: absolute !important;
+    inset: auto clamp(32px, 4vw, 68px) clamp(24px, 2.4vw, 36px) auto !important;
+    width: min(245px, 24vw) !important;
+    margin: 0 !important;
+  }
+}
+
+@media (min-width: 1201px) and (max-width: 1499px) {
+  body#top main.rtbo-public > section.rtbo-hero > .rtbo-stats {
+    display: none !important;
+  }
+
+  body#top main.rtbo-public > section.rtbo-hero > .hero-carousel {
+    width: min(760px, calc(100% - clamp(84px, 10vw, 156px))) !important;
+    max-width: 760px !important;
+  }
+}
+
+/* Page-by-page redesign pass: About / brand story. */
+body#top main.rtbo-public .home-about-rtbo-section {
+  padding: clamp(58px, 5vw, 92px) clamp(42px, 5.4vw, 96px) clamp(72px, 6vw, 110px) !important;
+  background:
+    radial-gradient(circle at 14% 10%, rgba(193, 18, 31, .18), transparent 32%),
+    radial-gradient(circle at 86% 22%, rgba(243, 214, 117, .08), transparent 30%),
+    linear-gradient(180deg, #05070b 0%, #080b11 100%) !important;
+}
+
+body#top main.rtbo-public .home-about-rtbo-section .about-rtbo-layout {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: clamp(24px, 2.7vw, 42px) !important;
+  align-items: start !important;
+  width: min(100%, 1280px) !important;
+  margin-inline: auto !important;
+}
+
+body#top main.rtbo-public .home-about-rtbo-section .about-rtbo-heading {
+  display: grid !important;
+  grid-column: 1 / -1 !important;
+  gap: 12px !important;
+  width: min(100%, 1040px) !important;
+  max-width: 1040px !important;
+}
+
+body#top main.rtbo-public .home-about-rtbo-section .about-rtbo-heading h2 {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0 .3em !important;
+  max-width: none !important;
+  margin: 0 !important;
+  font-size: clamp(2.8rem, 4.15vw, 4.95rem) !important;
+  line-height: .94 !important;
+  overflow-wrap: normal !important;
+  text-wrap: normal !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  hyphens: none !important;
+}
+
+body#top main.rtbo-public .home-about-rtbo-section .about-rtbo-heading h2 span {
+  display: inline-block !important;
+  white-space: nowrap !important;
+}
+
+body#top main.rtbo-public .home-about-rtbo-section .about-rtbo-story-row {
+  display: grid !important;
+  grid-column: 1 / -1 !important;
+  grid-template-columns: minmax(430px, .95fr) minmax(520px, 1.05fr) !important;
+  gap: clamp(26px, 3.5vw, 52px) !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+body#top main.rtbo-public .home-about-rtbo-section .about-rtbo-visual-column,
+body#top main.rtbo-public .home-about-rtbo-section .about-rtbo-content .long-copy {
+  min-width: 0 !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(243, 214, 117, .16) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .075), rgba(255, 255, 255, .022)),
+    rgba(8, 11, 16, .82) !important;
+  box-shadow: 0 26px 70px rgba(0, 0, 0, .28) !important;
+}
+
+body#top main.rtbo-public .home-about-rtbo-section .about-rtbo-visual-column {
+  align-self: center !important;
+  display: grid !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .home-about-rtbo-section .about-rtbo-content {
+  align-self: stretch !important;
+  display: grid !important;
+}
+
+body#top main.rtbo-public .home-about-rtbo-section .about-rtbo-image-frame {
+  align-self: center !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 100% !important;
+  min-height: clamp(460px, 39vw, 600px) !important;
+  padding: clamp(20px, 2.5vw, 34px) !important;
+  border: 1px solid rgba(243, 214, 117, .18) !important;
+  border-left: 4px solid rgba(193, 18, 31, .88) !important;
+  border-radius: 10px !important;
+  background:
+    radial-gradient(circle at 50% 36%, rgba(193, 18, 31, .2), transparent 43%),
+    linear-gradient(145deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .018)),
+    rgba(8, 11, 16, .84) !important;
+  box-shadow: 0 26px 70px rgba(0, 0, 0, .3) !important;
+  overflow: hidden !important;
+}
+
+body#top main.rtbo-public .home-about-rtbo-section .about-rtbo-image-frame img {
+  display: block !important;
+  width: auto !important;
+  height: min(100%, 530px) !important;
+  max-width: 100% !important;
+  max-height: 530px !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 26px 46px rgba(0, 0, 0, .5)) !important;
+}
+
+body#top main.rtbo-public .home-about-rtbo-section .about-rtbo-content .long-copy {
+  position: relative !important;
+  display: grid !important;
+  align-content: center !important;
+  gap: clamp(16px, 1.8vw, 26px) !important;
+  min-height: clamp(460px, 39vw, 600px) !important;
+  padding: clamp(36px, 4.4vw, 68px) !important;
+  border-left: 4px solid var(--rtbo-design-red, #c1121f) !important;
+}
+
+body#top main.rtbo-public .home-about-rtbo-section .about-rtbo-content .long-copy h3 {
+  font-size: clamp(1.9rem, 2.4vw, 3rem) !important;
+  line-height: 1 !important;
+}
+
+body#top main.rtbo-public .home-about-rtbo-section .about-rtbo-content .long-copy p {
+  max-width: 66ch !important;
+  font-size: clamp(1rem, 1.02vw, 1.12rem) !important;
+  line-height: 1.68 !important;
+}
+
+body#top main.rtbo-public .home-about-rtbo-section .about-icon-grid {
+  grid-column: 1 / -1 !important;
+  display: grid !important;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+  gap: clamp(16px, 1.6vw, 24px) !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+  background: transparent !important;
+}
+
+body#top main.rtbo-public .home-about-rtbo-section .about-icon-grid article {
+  position: relative !important;
+  overflow: hidden !important;
+  display: grid !important;
+  grid-column: span 2 !important;
+  grid-template-columns: 56px minmax(0, 1fr) !important;
+  gap: 8px 16px !important;
+  align-content: start !important;
+  min-height: 148px !important;
+  padding: clamp(20px, 1.6vw, 26px) !important;
+  border: 1px solid rgba(243, 214, 117, .14) !important;
+  border-radius: 10px !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .065), rgba(255, 255, 255, .018)),
+    rgba(8, 11, 16, .74) !important;
+}
+
+body#top main.rtbo-public .home-about-rtbo-section .about-icon-grid article::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(180deg, #c1121f, rgba(193, 18, 31, .12));
+}
+
+body#top main.rtbo-public .home-about-rtbo-section .about-icon-grid .card-icon {
+  grid-row: 1 / span 2 !important;
+  width: 56px !important;
+  height: 56px !important;
+}
+
+body#top main.rtbo-public .home-about-rtbo-section .about-icon-grid h3 {
+  font-size: clamp(.98rem, 1vw, 1.12rem) !important;
+  line-height: 1.18 !important;
+}
+
+body#top main.rtbo-public .home-about-rtbo-section .about-icon-grid p {
+  max-width: 42ch !important;
+  font-size: clamp(.9rem, .88vw, .98rem) !important;
+  line-height: 1.5 !important;
+}
+
+body#top main.rtbo-public .home-about-rtbo-section .about-icon-grid article :is(h3, p) {
+  grid-column: 2 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .home-about-rtbo-section,
+html.light body#top main.rtbo-public .home-about-rtbo-section {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(193, 18, 31, .08), transparent 32%),
+    linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .home-about-rtbo-section :is(.about-rtbo-visual-column, .about-rtbo-content .long-copy, .about-icon-grid article),
+html.light body#top main.rtbo-public .home-about-rtbo-section :is(.about-rtbo-visual-column, .about-rtbo-content .long-copy, .about-icon-grid article) {
+  color: #111827 !important;
+  border-color: rgba(15, 23, 42, .1) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .99), rgba(248, 250, 252, .93)),
+    #ffffff !important;
+  box-shadow: 0 22px 58px rgba(15, 23, 42, .09) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .about-rtbo-image-frame,
+html.light body#top main.rtbo-public .about-rtbo-image-frame {
+  background:
+    radial-gradient(circle at 50% 28%, rgba(193, 18, 31, .08), transparent 36%),
+    linear-gradient(180deg, #ffffff, #f1f5f9) !important;
+}
+
+@media (max-width: 1180px) {
+  body#top main.rtbo-public .home-about-rtbo-section .about-rtbo-story-row,
+  body#top main.rtbo-public .home-about-rtbo-section .about-icon-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Full redesign layer: public brand editorial system. */
+body#top main.rtbo-public .rtbo-premium-impact-strip {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 0 !important;
+  width: min(100%, 1440px) !important;
+  margin: 0 auto !important;
+  padding: 0 clamp(28px, 4vw, 64px) !important;
+  border-block: 1px solid rgba(243, 214, 117, .16) !important;
+  background:
+    linear-gradient(90deg, rgba(193, 18, 31, .18), transparent 28%, rgba(243, 214, 117, .07) 68%, transparent),
+    #070a0f !important;
+}
+
+body#top main.rtbo-public .rtbo-premium-impact-strip article {
+  min-height: 96px !important;
+  padding: 24px clamp(18px, 2.2vw, 34px) !important;
+  border-inline-start: 1px solid rgba(255, 255, 255, .08) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .rtbo-premium-impact-strip article:last-child {
+  border-inline-end: 1px solid rgba(255, 255, 255, .08) !important;
+}
+
+body#top main.rtbo-public .rtbo-premium-impact-strip span {
+  display: block !important;
+  margin-bottom: 8px !important;
+  color: #f3d675 !important;
+  font-size: .74rem !important;
+  font-weight: 900 !important;
+  letter-spacing: .14em !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .rtbo-premium-impact-strip p {
+  max-width: 30ch !important;
+  margin: 0 !important;
+  color: rgba(226, 232, 240, .84) !important;
+  font-size: .92rem !important;
+  line-height: 1.45 !important;
+}
+
+body#top main.rtbo-public .about-v2-section {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  padding: clamp(76px, 6vw, 118px) clamp(36px, 5vw, 86px) clamp(82px, 6vw, 118px) !important;
+  background:
+    linear-gradient(115deg, rgba(193, 18, 31, .2) 0%, rgba(7, 10, 15, .86) 30%, rgba(7, 10, 15, .98) 58%, rgba(243, 214, 117, .08) 100%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, .035) 0 1px, transparent 1px 96px),
+    #05070b !important;
+}
+
+body#top main.rtbo-public .about-v2-section::before {
+  content: "RAISING THE BAR" !important;
+  position: absolute !important;
+  inset: 28px auto auto clamp(32px, 5vw, 82px) !important;
+  z-index: -1 !important;
+  color: rgba(255, 255, 255, .026) !important;
+  font-size: clamp(5rem, 12vw, 14rem) !important;
+  font-weight: 950 !important;
+  line-height: .8 !important;
+  letter-spacing: .02em !important;
+  white-space: nowrap !important;
+  pointer-events: none !important;
+}
+
+body#top main.rtbo-public .about-v2-layout {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(410px, .72fr) !important;
+  gap: clamp(34px, 5vw, 82px) !important;
+  align-items: end !important;
+  width: min(100%, 1440px) !important;
+  margin-inline: auto !important;
+}
+
+body#top main.rtbo-public .about-v2-copy {
+  display: grid !important;
+  align-content: end !important;
+  gap: clamp(18px, 2vw, 28px) !important;
+  min-height: clamp(560px, 44vw, 720px) !important;
+  padding-bottom: clamp(14px, 2vw, 28px) !important;
+}
+
+body#top main.rtbo-public .about-v2-copy .eyebrow {
+  color: #f3d675 !important;
+}
+
+body#top main.rtbo-public .about-v2-copy h2 {
+  max-width: 950px !important;
+  margin: 0 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: clamp(3.7rem, 6.1vw, 7.5rem) !important;
+  line-height: .86 !important;
+  letter-spacing: 0 !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 4px 0 rgba(193, 18, 31, .55), 0 28px 70px rgba(0, 0, 0, .52) !important;
+}
+
+body#top main.rtbo-public .about-v2-lead {
+  width: min(100%, 790px) !important;
+  margin: 0 !important;
+  color: rgba(226, 232, 240, .9) !important;
+  font-size: clamp(1.1rem, 1.25vw, 1.32rem) !important;
+  line-height: 1.65 !important;
+}
+
+body#top main.rtbo-public .about-v2-proof-row {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 1px !important;
+  width: min(100%, 900px) !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(243, 214, 117, .16) !important;
+  border-radius: 10px !important;
+  background: rgba(243, 214, 117, .13) !important;
+}
+
+body#top main.rtbo-public .about-v2-proof-row article {
+  min-height: 132px !important;
+  padding: clamp(18px, 1.7vw, 26px) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .02)),
+    rgba(8, 11, 16, .88) !important;
+}
+
+body#top main.rtbo-public .about-v2-proof-row span,
+body#top main.rtbo-public .about-v2-story span {
+  display: block !important;
+  margin-bottom: 10px !important;
+  color: #f3d675 !important;
+  font-size: .75rem !important;
+  font-weight: 950 !important;
+  letter-spacing: .14em !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .about-v2-proof-row p {
+  margin: 0 !important;
+  color: rgba(226, 232, 240, .82) !important;
+  font-size: .94rem !important;
+  line-height: 1.48 !important;
+}
+
+body#top main.rtbo-public .about-v2-art {
+  position: relative !important;
+  min-height: clamp(560px, 44vw, 720px) !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(243, 214, 117, .2) !important;
+  border-radius: 14px !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .01)),
+    #080b10 !important;
+  box-shadow: 0 34px 100px rgba(0, 0, 0, .38) !important;
+}
+
+body#top main.rtbo-public .about-v2-art::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background:
+    linear-gradient(90deg, rgba(193, 18, 31, .78), transparent 4px),
+    linear-gradient(145deg, rgba(193, 18, 31, .2), transparent 36%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, .035) 0 1px, transparent 1px 18px) !important;
+  pointer-events: none !important;
+}
+
+body#top main.rtbo-public .about-v2-art-stage {
+  position: absolute !important;
+  inset: clamp(24px, 3vw, 46px) clamp(18px, 3vw, 44px) 104px !important;
+  display: grid !important;
+  place-items: center !important;
+}
+
+body#top main.rtbo-public .about-v2-art img {
+  position: relative !important;
+  z-index: 1 !important;
+  display: block !important;
+  width: auto !important;
+  height: min(100%, 620px) !important;
+  max-width: 100% !important;
+  max-height: 620px !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 34px 52px rgba(0, 0, 0, .62)) !important;
+}
+
+body#top main.rtbo-public .about-v2-art figcaption {
+  position: absolute !important;
+  inset: auto 18px 18px !important;
+  z-index: 2 !important;
+  display: grid !important;
+  gap: 6px !important;
+  padding: 18px 20px !important;
+  border: 1px solid rgba(243, 214, 117, .22) !important;
+  border-radius: 10px !important;
+  background: rgba(5, 7, 11, .78) !important;
+  backdrop-filter: blur(14px) !important;
+}
+
+body#top main.rtbo-public .about-v2-art figcaption span {
+  margin: 0 !important;
+}
+
+body#top main.rtbo-public .about-v2-art figcaption strong {
+  color: #fff !important;
+  font-size: clamp(1.05rem, 1.15vw, 1.25rem) !important;
+  line-height: 1.25 !important;
+}
+
+body#top main.rtbo-public .about-v2-story {
+  display: grid !important;
+  grid-template-columns: minmax(320px, .62fr) minmax(0, 1.38fr) !important;
+  gap: clamp(24px, 3vw, 40px) !important;
+  width: min(100%, 1440px) !important;
+  margin: clamp(34px, 4vw, 58px) auto 0 !important;
+}
+
+body#top main.rtbo-public .about-v2-statement {
+  position: sticky !important;
+  top: 110px !important;
+  align-self: start !important;
+  min-height: 100% !important;
+  padding: clamp(26px, 2.8vw, 42px) !important;
+  border: 1px solid rgba(243, 214, 117, .16) !important;
+  border-left: 4px solid rgba(193, 18, 31, .9) !important;
+  border-radius: 12px !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .018)),
+    rgba(8, 11, 16, .76) !important;
+}
+
+body#top main.rtbo-public .about-v2-statement p {
+  margin: 0 0 18px !important;
+  color: rgba(226, 232, 240, .86) !important;
+  font-size: clamp(1rem, 1.04vw, 1.12rem) !important;
+  line-height: 1.7 !important;
+}
+
+body#top main.rtbo-public .about-v2-statement p:last-child {
+  margin-bottom: 0 !important;
+}
+
+body#top main.rtbo-public .about-v2-card-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: clamp(16px, 1.7vw, 24px) !important;
+}
+
+body#top main.rtbo-public .about-v2-card-grid article {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 56px minmax(0, 1fr) !important;
+  gap: 8px 18px !important;
+  min-height: 164px !important;
+  padding: clamp(22px, 2vw, 30px) !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(243, 214, 117, .14) !important;
+  border-radius: 12px !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .065), rgba(255, 255, 255, .018)),
+    rgba(8, 11, 16, .74) !important;
+}
+
+body#top main.rtbo-public .about-v2-card-grid article::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 auto 0 0 !important;
+  width: 4px !important;
+  background: linear-gradient(180deg, #c1121f, rgba(193, 18, 31, .15)) !important;
+}
+
+body#top main.rtbo-public .about-v2-card-grid .card-icon {
+  grid-row: 1 / span 2 !important;
+  width: 56px !important;
+  height: 56px !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(193, 18, 31, .42) !important;
+  background: rgba(193, 18, 31, .18) !important;
+}
+
+body#top main.rtbo-public .about-v2-card-grid h3,
+body#top main.rtbo-public .about-v2-card-grid p {
+  grid-column: 2 !important;
+  margin: 0 !important;
+}
+
+body#top main.rtbo-public .about-v2-card-grid h3 {
+  color: #fff !important;
+  font-size: clamp(1rem, 1.04vw, 1.16rem) !important;
+  line-height: 1.18 !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .about-v2-card-grid p {
+  color: rgba(226, 232, 240, .78) !important;
+  font-size: .96rem !important;
+  line-height: 1.5 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .rtbo-premium-impact-strip,
+html.light body#top main.rtbo-public .rtbo-premium-impact-strip {
+  border-color: rgba(15, 23, 42, .1) !important;
+  background:
+    linear-gradient(90deg, rgba(193, 18, 31, .08), transparent 32%, rgba(243, 214, 117, .16)),
+    #ffffff !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .rtbo-premium-impact-strip p,
+html.light body#top main.rtbo-public .rtbo-premium-impact-strip p {
+  color: #475569 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .about-v2-section,
+html.light body#top main.rtbo-public .about-v2-section {
+  background:
+    linear-gradient(115deg, rgba(193, 18, 31, .07), rgba(248, 250, 252, .96) 36%, rgba(255, 255, 255, 1) 62%, rgba(243, 214, 117, .14)),
+    repeating-linear-gradient(90deg, rgba(15, 23, 42, .035) 0 1px, transparent 1px 96px),
+    #f8fafc !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .about-v2-section::before,
+html.light body#top main.rtbo-public .about-v2-section::before {
+  color: rgba(15, 23, 42, .04) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .about-v2-copy h2,
+html.light body#top main.rtbo-public .about-v2-copy h2 {
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+  text-shadow: 0 3px 0 rgba(193, 18, 31, .18) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .about-v2-lead,
+:root[data-theme="light"] body#top main.rtbo-public .about-v2-proof-row p,
+:root[data-theme="light"] body#top main.rtbo-public .about-v2-statement p,
+:root[data-theme="light"] body#top main.rtbo-public .about-v2-card-grid p,
+html.light body#top main.rtbo-public .about-v2-lead,
+html.light body#top main.rtbo-public .about-v2-proof-row p,
+html.light body#top main.rtbo-public .about-v2-statement p,
+html.light body#top main.rtbo-public .about-v2-card-grid p {
+  color: #475569 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public :is(.about-v2-proof-row article, .about-v2-art, .about-v2-statement, .about-v2-card-grid article),
+html.light body#top main.rtbo-public :is(.about-v2-proof-row article, .about-v2-art, .about-v2-statement, .about-v2-card-grid article) {
+  border-color: rgba(15, 23, 42, .1) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(248, 250, 252, .88)),
+    #fff !important;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, .08) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public :is(.about-v2-card-grid h3, .about-v2-art figcaption strong),
+html.light body#top main.rtbo-public :is(.about-v2-card-grid h3, .about-v2-art figcaption strong) {
+  color: #111827 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .about-v2-art figcaption,
+html.light body#top main.rtbo-public .about-v2-art figcaption {
+  background: rgba(255, 255, 255, .86) !important;
+}
+
+@media (max-width: 1180px) {
+  body#top main.rtbo-public .rtbo-premium-impact-strip,
+  body#top main.rtbo-public .about-v2-proof-row,
+  body#top main.rtbo-public .about-v2-layout,
+  body#top main.rtbo-public .about-v2-story,
+  body#top main.rtbo-public .about-v2-card-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .about-v2-copy,
+  body#top main.rtbo-public .about-v2-art {
+    min-height: auto !important;
+  }
+
+  body#top main.rtbo-public .about-v2-art {
+    min-height: 620px !important;
+  }
+
+  body#top main.rtbo-public .about-v2-statement {
+    position: relative !important;
+    top: auto !important;
+  }
+}
+
+/* About RTBO rebuild: controlled editorial composition. */
+body#top main.rtbo-public .about-v2-section {
+  padding: clamp(74px, 5.4vw, 108px) clamp(42px, 5vw, 84px) clamp(82px, 6vw, 118px) !important;
+  background:
+    radial-gradient(circle at 8% 18%, rgba(193, 18, 31, .26), transparent 32%),
+    radial-gradient(circle at 94% 24%, rgba(243, 214, 117, .1), transparent 30%),
+    linear-gradient(135deg, #05070b 0%, #080b10 54%, #111209 100%) !important;
+}
+
+body#top main.rtbo-public .about-v2-section::before {
+  content: none !important;
+  display: none !important;
+}
+
+body#top main.rtbo-public .about-v2-layout {
+  grid-template-columns: minmax(0, 620px) minmax(420px, 500px) !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: clamp(48px, 6vw, 92px) !important;
+  width: min(100%, 1240px) !important;
+}
+
+body#top main.rtbo-public .about-v2-copy {
+  min-height: auto !important;
+  padding: 0 !important;
+  align-content: center !important;
+  gap: clamp(16px, 1.7vw, 24px) !important;
+}
+
+body#top main.rtbo-public .about-v2-copy h2 {
+  display: grid !important;
+  gap: 0 !important;
+  max-width: 620px !important;
+  font-size: clamp(3.55rem, 5.1vw, 5.4rem) !important;
+  line-height: .86 !important;
+  text-wrap: auto !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  hyphens: none !important;
+}
+
+body#top main.rtbo-public .about-v2-copy h2 span {
+  display: block !important;
+  white-space: nowrap !important;
+}
+
+body#top main.rtbo-public .about-v2-lead {
+  width: min(100%, 610px) !important;
+  font-size: clamp(1.02rem, 1.08vw, 1.16rem) !important;
+  line-height: 1.62 !important;
+}
+
+body#top main.rtbo-public .about-v2-proof-row {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+  width: min(100%, 620px) !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+body#top main.rtbo-public .about-v2-proof-row article {
+  min-height: 116px !important;
+  padding: 18px !important;
+  border: 1px solid rgba(243, 214, 117, .15) !important;
+  border-radius: 10px !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .075), rgba(255, 255, 255, .018)),
+    rgba(8, 11, 16, .82) !important;
+}
+
+body#top main.rtbo-public .about-v2-proof-row span {
+  margin-bottom: 8px !important;
+  font-size: .68rem !important;
+  letter-spacing: .13em !important;
+}
+
+body#top main.rtbo-public .about-v2-proof-row p {
+  font-size: .82rem !important;
+  line-height: 1.42 !important;
+}
+
+body#top main.rtbo-public .about-v2-art {
+  min-height: 630px !important;
+  border-radius: 12px !important;
+}
+
+body#top main.rtbo-public .about-v2-art-stage {
+  inset: 28px 28px 110px !important;
+}
+
+body#top main.rtbo-public .about-v2-art img {
+  height: min(100%, 548px) !important;
+  max-height: 548px !important;
+}
+
+body#top main.rtbo-public .about-v2-story {
+  grid-template-columns: minmax(300px, 370px) minmax(0, 1fr) !important;
+  gap: clamp(20px, 2.4vw, 34px) !important;
+  width: min(100%, 1240px) !important;
+  margin-top: clamp(34px, 4vw, 54px) !important;
+}
+
+body#top main.rtbo-public .about-v2-statement {
+  position: relative !important;
+  top: auto !important;
+  min-height: auto !important;
+  padding: clamp(24px, 2.4vw, 34px) !important;
+}
+
+body#top main.rtbo-public .about-v2-card-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+
+body#top main.rtbo-public .about-v2-card-grid article {
+  grid-template-columns: 44px minmax(0, 1fr) !important;
+  min-height: 156px !important;
+  padding: 20px !important;
+}
+
+body#top main.rtbo-public .about-v2-card-grid .card-icon {
+  width: 44px !important;
+  height: 44px !important;
+}
+
+body#top main.rtbo-public .about-v2-card-grid h3 {
+  font-size: .9rem !important;
+  line-height: 1.2 !important;
+}
+
+body#top main.rtbo-public .about-v2-card-grid p {
+  font-size: .82rem !important;
+  line-height: 1.44 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .about-v2-section,
+html.light body#top main.rtbo-public .about-v2-section {
+  background:
+    radial-gradient(circle at 8% 18%, rgba(193, 18, 31, .08), transparent 32%),
+    radial-gradient(circle at 94% 24%, rgba(243, 214, 117, .2), transparent 30%),
+    linear-gradient(135deg, #f8fafc 0%, #ffffff 52%, #f2f5f9 100%) !important;
+}
+
+@media (max-width: 1180px) {
+  body#top main.rtbo-public .about-v2-layout,
+  body#top main.rtbo-public .about-v2-story,
+  body#top main.rtbo-public .about-v2-card-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .about-v2-proof-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Site-wide professional redesign system: premium sports editorial direction. */
+:root {
+  --rtbo-stage: #05070b;
+  --rtbo-ink: #f8fafc;
+  --rtbo-muted: rgba(226, 232, 240, .78);
+  --rtbo-subtle: rgba(226, 232, 240, .58);
+  --rtbo-red: #c1121f;
+  --rtbo-red-2: #8f0d16;
+  --rtbo-gold: #f3d675;
+  --rtbo-line: rgba(243, 214, 117, .16);
+  --rtbo-glass: rgba(11, 14, 20, .78);
+  --rtbo-panel: rgba(13, 17, 23, .9);
+}
+
+body#top {
+  background:
+    radial-gradient(circle at 16% 5%, rgba(193, 18, 31, .14), transparent 28%),
+    radial-gradient(circle at 84% 8%, rgba(243, 214, 117, .08), transparent 24%),
+    var(--rtbo-stage) !important;
+}
+
+body#top main.rtbo-public {
+  overflow-x: clip !important;
+  background: transparent !important;
+}
+
+body#top main.rtbo-public :is(.rtbo-section, .rtbo-band, .page-hero) {
+  position: relative !important;
+}
+
+body#top main.rtbo-public :is(.rtbo-section-head, .services-unified-head, .services-features-intro, .paid-event-section .rtbo-section-head, .school-session-cards .rtbo-section-head, .pricing-plans .rtbo-section-head, .testimonials-section .rtbo-section-head) {
+  width: min(100%, 1160px) !important;
+  margin-inline: auto !important;
+}
+
+body#top main.rtbo-public :is(.rtbo-section-head h2, .services-unified-head h2, .services-features-intro h2, .page-hero h1) {
+  letter-spacing: 0 !important;
+}
+
+body#top main.rtbo-public .eyebrow {
+  color: var(--rtbo-gold) !important;
+  letter-spacing: .14em !important;
+}
+
+body#top .site-header.rtbo-header {
+  height: 96px !important;
+  padding: 10px clamp(22px, 3vw, 42px) !important;
+  border-bottom: 1px solid rgba(243, 214, 117, .16) !important;
+  background:
+    linear-gradient(90deg, rgba(193, 18, 31, .12), transparent 38%, rgba(243, 214, 117, .06)),
+    rgba(4, 6, 10, .94) !important;
+  backdrop-filter: blur(18px) !important;
+}
+
+body#top .site-header.rtbo-header .brand-mark img {
+  width: 82px !important;
+  height: 82px !important;
+  object-fit: contain !important;
+}
+
+@media (min-width: 1201px) {
+  body#top .site-header.rtbo-header {
+    display: grid !important;
+    grid-template-columns: 92px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: clamp(18px, 2.4vw, 42px) !important;
+  }
+
+  body#top .site-header.rtbo-header .site-nav {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: clamp(18px, 2vw, 30px) !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  body#top .site-header.rtbo-header .nav-link-group,
+  body#top .site-header.rtbo-header .nav-action-group {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    min-width: 0 !important;
+  }
+
+  body#top .site-header.rtbo-header .nav-link-group {
+    gap: 6px !important;
+    justify-content: flex-start !important;
+  }
+
+  body#top .site-header.rtbo-header .nav-action-group {
+    gap: 10px !important;
+    justify-content: flex-end !important;
+  }
+
+  body#top .site-header.rtbo-header :is(.nav-link-group > button:not(.btn), .nav-dropdown-trigger) {
+    height: 44px !important;
+    padding: 0 14px !important;
+    border: 1px solid transparent !important;
+    border-radius: 8px !important;
+    color: rgba(248, 250, 252, .86) !important;
+    font-size: .91rem !important;
+    font-weight: 850 !important;
+    background: transparent !important;
+    white-space: nowrap !important;
+  }
+
+  body#top .site-header.rtbo-header :is(.nav-link-group > button:not(.btn), .nav-dropdown-trigger):is(:hover, :focus-visible, .active),
+  body#top .site-header.rtbo-header .nav-dropdown.is-open > .nav-dropdown-trigger {
+    color: #fff !important;
+    border-color: rgba(243, 214, 117, .24) !important;
+    background: rgba(255, 255, 255, .045) !important;
+    box-shadow: none !important;
+  }
+
+  body#top .site-header.rtbo-header .nav-action-group .btn {
+    min-height: 44px !important;
+    padding: 0 17px !important;
+    border-radius: 8px !important;
+    font-size: .92rem !important;
+    white-space: nowrap !important;
+  }
+}
+
+body#top .site-header.rtbo-header .nav-dropdown-menu {
+  border: 1px solid rgba(243, 214, 117, .18) !important;
+  border-radius: 10px !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .02)),
+    rgba(5, 7, 11, .96) !important;
+  box-shadow: 0 26px 70px rgba(0, 0, 0, .44) !important;
+}
+
+body#top main.rtbo-public > section.rtbo-hero {
+  min-height: calc(100svh - 96px) !important;
+  padding: clamp(76px, 7vw, 122px) clamp(48px, 6vw, 92px) clamp(112px, 10vw, 178px) !important;
+  background:
+    linear-gradient(90deg, rgba(5, 7, 11, .9) 0%, rgba(5, 7, 11, .76) 42%, rgba(5, 7, 11, .28) 100%),
+    image-set(url("/assets/images/rtbo_web_banner_2.jpg") 1x) center right / cover no-repeat,
+    #05070b !important;
+}
+
+body#top main.rtbo-public > section.rtbo-hero::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: auto 0 0 !important;
+  height: 44% !important;
+  background: linear-gradient(180deg, transparent, #05070b) !important;
+  pointer-events: none !important;
+}
+
+body#top main.rtbo-public .rtbo-hero-copy {
+  position: relative !important;
+  z-index: 2 !important;
+  width: min(100%, 780px) !important;
+}
+
+body#top main.rtbo-public .rtbo-hero h1 {
+  font-size: clamp(4.4rem, 7vw, 8.6rem) !important;
+  line-height: .82 !important;
+  letter-spacing: 0 !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 5px 0 rgba(193, 18, 31, .6), 0 32px 78px rgba(0, 0, 0, .62) !important;
+}
+
+body#top main.rtbo-public .rtbo-hero-copy > p:not(.eyebrow) {
+  max-width: 780px !important;
+  color: rgba(248, 250, 252, .84) !important;
+  font-size: clamp(1.05rem, 1.18vw, 1.25rem) !important;
+  line-height: 1.65 !important;
+}
+
+body#top main.rtbo-public .rtbo-hero-proof-row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+}
+
+body#top main.rtbo-public .rtbo-hero-proof-row span {
+  border: 1px solid rgba(243, 214, 117, .18) !important;
+  border-radius: 999px !important;
+  background: rgba(5, 7, 11, .58) !important;
+  color: rgba(248, 250, 252, .86) !important;
+}
+
+body#top main.rtbo-public > section.rtbo-hero > .hero-carousel {
+  z-index: 3 !important;
+  border: 1px solid rgba(243, 214, 117, .2) !important;
+  border-radius: 10px !important;
+  background: rgba(5, 7, 11, .66) !important;
+  box-shadow: 0 26px 70px rgba(0, 0, 0, .32) !important;
+}
+
+body#top main.rtbo-public .page-hero {
+  min-height: clamp(430px, 42vw, 580px) !important;
+  display: grid !important;
+  align-items: end !important;
+  padding: clamp(86px, 8vw, 132px) clamp(46px, 6vw, 92px) clamp(62px, 6vw, 92px) !important;
+  background:
+    linear-gradient(90deg, rgba(5, 7, 11, .94), rgba(5, 7, 11, .72), rgba(193, 18, 31, .16)),
+    url("/assets/images/rtbo_web_banner.jpg") center right / cover no-repeat !important;
+}
+
+body#top main.rtbo-public .page-hero h1 {
+  max-width: 980px !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: clamp(3.8rem, 6vw, 7rem) !important;
+  line-height: .88 !important;
+  text-shadow: 0 5px 0 rgba(193, 18, 31, .56), 0 30px 80px rgba(0, 0, 0, .58) !important;
+}
+
+body#top main.rtbo-public .page-hero p:not(.eyebrow) {
+  max-width: 760px !important;
+  color: rgba(248, 250, 252, .84) !important;
+  font-size: clamp(1.04rem, 1.15vw, 1.24rem) !important;
+  line-height: 1.62 !important;
+}
+
+body#top main.rtbo-public :is(.home-client-spotlight-section, .home-refzone-university, .home-refzone-memberships, .home-results-section, .services-page-section, .events-pricing-page, .testimonials-section, .contact-section, .livestream-page, .refroom-livestream-section) {
+  padding-inline: clamp(42px, 5vw, 86px) !important;
+}
+
+body#top main.rtbo-public .home-refzone-university {
+  display: grid !important;
+  grid-template-columns: minmax(360px, .82fr) minmax(0, 1.18fr) !important;
+  align-items: center !important;
+  gap: clamp(38px, 5vw, 78px) !important;
+  padding-block: clamp(80px, 7vw, 124px) !important;
+  background:
+    linear-gradient(135deg, #05070b, #0a0d14 46%, rgba(193, 18, 31, .16)),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 92px) !important;
+}
+
+body#top main.rtbo-public .home-refzone-media {
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 14px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .home-refzone-media img {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 520px !important;
+  object-fit: contain !important;
+  border-radius: 12px !important;
+  filter: drop-shadow(0 30px 70px rgba(0, 0, 0, .5)) !important;
+}
+
+body#top main.rtbo-public .home-refzone-copy h2,
+body#top main.rtbo-public .home-refzone-memberships .rtbo-section-head h2,
+body#top main.rtbo-public .home-results-section h2,
+body#top main.rtbo-public .services-unified-head h2,
+body#top main.rtbo-public .contact-section h2 {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: clamp(3rem, 5vw, 6rem) !important;
+  line-height: .9 !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 4px 0 rgba(193, 18, 31, .5), 0 26px 72px rgba(0, 0, 0, .48) !important;
+}
+
+body#top main.rtbo-public .home-refzone-copy > p:not(.eyebrow),
+body#top main.rtbo-public .home-refzone-price,
+body#top main.rtbo-public .home-results-section .results-top-copy > p,
+body#top main.rtbo-public .services-unified-head > p,
+body#top main.rtbo-public .contact-section > div:first-child > p:not(.eyebrow) {
+  color: rgba(226, 232, 240, .82) !important;
+  font-size: clamp(1rem, 1.08vw, 1.18rem) !important;
+  line-height: 1.65 !important;
+}
+
+body#top main.rtbo-public .home-refzone-memberships {
+  padding-block: clamp(74px, 6vw, 112px) !important;
+  background:
+    linear-gradient(180deg, #080b10, #05070b) !important;
+}
+
+body#top main.rtbo-public .home-refzone-membership-grid,
+body#top main.rtbo-public .pricing-container,
+body#top main.rtbo-public .assignor-plan-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: clamp(18px, 2vw, 28px) !important;
+  width: min(100%, 1240px) !important;
+  margin-inline: auto !important;
+}
+
+body#top main.rtbo-public :is(.home-refzone-membership-grid article, .pricing-card, .assignor-plan-card) {
+  min-height: 320px !important;
+  padding: clamp(26px, 2.6vw, 38px) !important;
+  border: 1px solid rgba(243, 214, 117, .16) !important;
+  border-radius: 14px !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .018)),
+    rgba(11, 14, 20, .86) !important;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, .28) !important;
+}
+
+body#top main.rtbo-public .home-results-section {
+  padding-block: clamp(82px, 7vw, 126px) !important;
+  background:
+    linear-gradient(115deg, rgba(193, 18, 31, .22), rgba(5, 7, 11, .96) 36%, #05070b 100%) !important;
+}
+
+body#top main.rtbo-public .home-results-section .results-feature-panel {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(380px, 560px) !important;
+  gap: clamp(38px, 5vw, 78px) !important;
+  align-items: center !important;
+  width: min(100%, 1240px) !important;
+  margin-inline: auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .home-results-section .results-top-cards {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+  padding: 22px !important;
+  border: 1px solid rgba(243, 214, 117, .16) !important;
+  border-radius: 14px !important;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.015)),
+    rgba(11, 14, 20, .78) !important;
+}
+
+body#top main.rtbo-public .home-results-section .results-proof-head {
+  grid-column: 1 / -1 !important;
+  padding: 0 0 4px !important;
+  border: 0 !important;
+}
+
+body#top main.rtbo-public .home-results-section .results-top-cards figure {
+  overflow: hidden !important;
+  border: 1px solid rgba(243, 214, 117, .12) !important;
+  border-radius: 12px !important;
+  background: #070a0f !important;
+}
+
+body#top main.rtbo-public .home-results-section .results-top-cards img {
+  height: clamp(280px, 28vw, 430px) !important;
+  object-fit: cover !important;
+}
+
+body#top main.rtbo-public .home-results-section .results-top-points {
+  width: min(100%, 1240px) !important;
+  margin: clamp(22px, 2.6vw, 34px) auto 0 !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+
+body#top main.rtbo-public .home-results-section .results-top-points article {
+  border-radius: 12px !important;
+}
+
+body#top main.rtbo-public .services-page-section {
+  padding-block: clamp(82px, 7vw, 126px) !important;
+  background:
+    radial-gradient(circle at 10% 15%, rgba(193, 18, 31, .18), transparent 30%),
+    linear-gradient(180deg, #05070b, #090d14) !important;
+}
+
+body#top main.rtbo-public .services-unified-overview {
+  display: grid !important;
+  grid-template-columns: minmax(360px, .78fr) minmax(0, 1.22fr) !important;
+  gap: clamp(36px, 5vw, 76px) !important;
+  align-items: start !important;
+  width: min(100%, 1240px) !important;
+  margin: clamp(34px, 4vw, 56px) auto 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .services-visual-rail {
+  position: sticky !important;
+  top: 118px !important;
+  display: grid !important;
+  gap: 18px !important;
+}
+
+body#top main.rtbo-public .services-top-image {
+  display: grid !important;
+  place-items: center !important;
+  min-height: 460px !important;
+  border: 1px solid rgba(243, 214, 117, .16) !important;
+  border-radius: 14px !important;
+  background:
+    radial-gradient(circle at 50% 34%, rgba(193, 18, 31, .22), transparent 42%),
+    rgba(11, 14, 20, .78) !important;
+}
+
+body#top main.rtbo-public .services-top-image img {
+  width: min(100%, 390px) !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+body#top main.rtbo-public .services-referee-copy,
+body#top main.rtbo-public .platform-feature-grid.services-unified-platform-cards article,
+body#top main.rtbo-public .services-top-points article,
+body#top main.rtbo-public .compact-solutions-grid article,
+body#top main.rtbo-public .platform-flow-panel {
+  border-radius: 12px !important;
+}
+
+body#top main.rtbo-public .platform-feature-grid.services-unified-platform-cards {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+}
+
+body#top main.rtbo-public .compact-solutions-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+}
+
+body#top main.rtbo-public .compact-solutions-grid article {
+  grid-template-columns: 180px minmax(0, 1fr) !important;
+  min-height: 220px !important;
+  padding: 20px !important;
+}
+
+body#top main.rtbo-public .compact-solutions-grid img {
+  width: 180px !important;
+  height: 180px !important;
+  object-fit: cover !important;
+  border-radius: 10px !important;
+}
+
+body#top main.rtbo-public .contact-section {
+  display: grid !important;
+  grid-template-columns: minmax(360px, .8fr) minmax(0, 1.2fr) !important;
+  gap: clamp(36px, 5vw, 76px) !important;
+  align-items: start !important;
+  padding-block: clamp(82px, 7vw, 126px) !important;
+  background:
+    linear-gradient(135deg, #05070b, rgba(193, 18, 31, .18) 48%, #090d14) !important;
+}
+
+body#top main.rtbo-public .contact-section > div:first-child,
+body#top main.rtbo-public .contact-form {
+  border: 1px solid rgba(243, 214, 117, .16) !important;
+  border-radius: 14px !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .018)),
+    rgba(11, 14, 20, .84) !important;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, .28) !important;
+}
+
+body#top main.rtbo-public .contact-section > div:first-child {
+  padding: clamp(30px, 3vw, 46px) !important;
+}
+
+body#top main.rtbo-public .contact-form {
+  padding: clamp(30px, 3vw, 46px) !important;
+}
+
+body#top main.rtbo-public .contact-card {
+  background: rgba(5, 7, 11, .48) !important;
+  border: 1px solid rgba(243, 214, 117, .12) !important;
+  border-radius: 12px !important;
+}
+
+body#top main.rtbo-public :is(input, textarea, select) {
+  border-radius: 8px !important;
+}
+
+body#top main.rtbo-public :is(.paid-event-grid, .school-grid, .multi-session-grid, .testimonial-grid, .livestream-channel-grid, .livestream-schedule-grid) {
+  width: min(100%, 1240px) !important;
+  margin-inline: auto !important;
+}
+
+body#top main.rtbo-public :is(.paid-event-card, .school-session-card, .multi-session-grid article, .testimonial-grid article, .livestream-channel-grid article, .livestream-schedule-grid article) {
+  border: 1px solid rgba(243, 214, 117, .15) !important;
+  border-radius: 14px !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .075), rgba(255, 255, 255, .018)),
+    rgba(11, 14, 20, .86) !important;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .24) !important;
+}
+
+:root[data-theme="light"] body#top,
+html.light body#top {
+  background: #f8fafc !important;
+}
+
+:root[data-theme="light"] body#top .site-header.rtbo-header,
+html.light body#top .site-header.rtbo-header {
+  background: rgba(255, 255, 255, .92) !important;
+  border-bottom-color: rgba(15, 23, 42, .12) !important;
+}
+
+:root[data-theme="light"] body#top .site-header.rtbo-header :is(.nav-link-group > button:not(.btn), .nav-dropdown-trigger),
+html.light body#top .site-header.rtbo-header :is(.nav-link-group > button:not(.btn), .nav-dropdown-trigger) {
+  color: #111827 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public > section.rtbo-hero,
+html.light body#top main.rtbo-public > section.rtbo-hero {
+  background:
+    linear-gradient(90deg, rgba(248, 250, 252, .95) 0%, rgba(248, 250, 252, .78) 45%, rgba(248, 250, 252, .24) 100%),
+    url("/assets/images/rtbo_web_banner_2.jpg") center right / cover no-repeat,
+    #f8fafc !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .page-hero,
+html.light body#top main.rtbo-public .page-hero {
+  background:
+    linear-gradient(90deg, rgba(248, 250, 252, .95), rgba(248, 250, 252, .72), rgba(193, 18, 31, .1)),
+    url("/assets/images/rtbo_web_banner.jpg") center right / cover no-repeat !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public :is(.rtbo-hero h1, .page-hero h1, .home-refzone-copy h2, .home-refzone-memberships .rtbo-section-head h2, .home-results-section h2, .services-unified-head h2, .contact-section h2),
+html.light body#top main.rtbo-public :is(.rtbo-hero h1, .page-hero h1, .home-refzone-copy h2, .home-refzone-memberships .rtbo-section-head h2, .home-results-section h2, .services-unified-head h2, .contact-section h2) {
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+  text-shadow: 0 3px 0 rgba(193, 18, 31, .18) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public :is(.home-refzone-university, .home-refzone-memberships, .home-results-section, .services-page-section, .contact-section, .events-pricing-page, .testimonials-section),
+html.light body#top main.rtbo-public :is(.home-refzone-university, .home-refzone-memberships, .home-results-section, .services-page-section, .contact-section, .events-pricing-page, .testimonials-section) {
+  background:
+    linear-gradient(135deg, #f8fafc, #fff 58%, rgba(243, 214, 117, .12)) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public :is(.home-refzone-membership-grid article, .pricing-card, .assignor-plan-card, .home-results-section .results-top-cards, .services-top-image, .contact-section > div:first-child, .contact-form, .paid-event-card, .school-session-card, .multi-session-grid article, .testimonial-grid article, .livestream-channel-grid article, .livestream-schedule-grid article),
+html.light body#top main.rtbo-public :is(.home-refzone-membership-grid article, .pricing-card, .assignor-plan-card, .home-results-section .results-top-cards, .services-top-image, .contact-section > div:first-child, .contact-form, .paid-event-card, .school-session-card, .multi-session-grid article, .testimonial-grid article, .livestream-channel-grid article, .livestream-schedule-grid article) {
+  color: #111827 !important;
+  border-color: rgba(15, 23, 42, .1) !important;
+  background: rgba(255, 255, 255, .9) !important;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, .08) !important;
+}
+
+/* Agency redesign pass: same RTBO assets, new section architecture. */
+body#top main.rtbo-public > section.rtbo-hero {
+  min-height: clamp(700px, calc(100svh - 92px), 880px) !important;
+  padding: clamp(74px, 8vw, 120px) clamp(22px, 6vw, 86px) clamp(136px, 14vw, 210px) !important;
+  background:
+    linear-gradient(90deg, rgba(4, 6, 10, .97) 0%, rgba(6, 8, 13, .92) 38%, rgba(7, 9, 13, .7) 67%, rgba(7, 9, 13, .86) 100%),
+    url("/assets/images/banner_2.jpg") center center / cover no-repeat,
+    #05070b !important;
+}
+
+body#top main.rtbo-public .rtbo-hero h1 {
+  max-width: 730px !important;
+  font-size: clamp(2.85rem, 4.45vw, 5.25rem) !important;
+  line-height: .9 !important;
+}
+
+body#top main.rtbo-public .about-agency-section {
+  position: relative !important;
+  overflow: clip !important;
+  padding: clamp(82px, 7vw, 132px) clamp(22px, 6vw, 90px) !important;
+  color: #f8fafc !important;
+  background:
+    radial-gradient(circle at 9% 16%, rgba(193, 18, 31, .28), transparent 28%),
+    radial-gradient(circle at 92% 20%, rgba(243, 214, 117, .12), transparent 26%),
+    linear-gradient(135deg, #05070b 0%, #090d13 48%, #11140f 100%) !important;
+}
+
+body#top main.rtbo-public .about-agency-section::before {
+  content: "RAISING THE BAR" !important;
+  position: absolute !important;
+  inset: 18px auto auto 2vw !important;
+  z-index: 0 !important;
+  color: rgba(255, 255, 255, .035) !important;
+  font-size: clamp(6rem, 14vw, 16rem) !important;
+  font-weight: 1000 !important;
+  line-height: .78 !important;
+  letter-spacing: 0 !important;
+  white-space: nowrap !important;
+  pointer-events: none !important;
+}
+
+body#top main.rtbo-public .about-agency-section > * {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+body#top main.rtbo-public .about-agency-masthead {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.05fr) minmax(360px, .62fr) !important;
+  gap: clamp(30px, 5vw, 84px) !important;
+  align-items: end !important;
+  width: min(100%, 1320px) !important;
+  margin: 0 auto clamp(44px, 5vw, 86px) !important;
+}
+
+body#top main.rtbo-public .about-agency-masthead h2 {
+  max-width: 960px !important;
+  margin: 0 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: clamp(4rem, 6.8vw, 8.25rem) !important;
+  line-height: .86 !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 4px 0 rgba(193, 18, 31, .62), 0 30px 80px rgba(0, 0, 0, .48) !important;
+}
+
+body#top main.rtbo-public .about-agency-masthead > p {
+  margin: 0 !important;
+  color: rgba(226, 232, 240, .86) !important;
+  font-size: clamp(1.03rem, 1.12vw, 1.24rem) !important;
+  line-height: 1.72 !important;
+}
+
+body#top main.rtbo-public .about-agency-hero {
+  display: grid !important;
+  grid-template-columns: minmax(420px, .88fr) minmax(0, 1.12fr) !important;
+  gap: clamp(28px, 4vw, 68px) !important;
+  align-items: stretch !important;
+  width: min(100%, 1320px) !important;
+  margin: 0 auto !important;
+}
+
+body#top main.rtbo-public .about-agency-media {
+  display: grid !important;
+  grid-template-rows: 1fr auto !important;
+  min-height: 640px !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(243, 214, 117, .18) !important;
+  border-radius: 8px !important;
+  background:
+    radial-gradient(circle at 50% 28%, rgba(193, 18, 31, .3), transparent 42%),
+    linear-gradient(145deg, rgba(255, 255, 255, .09), rgba(255, 255, 255, .02)),
+    rgba(9, 12, 18, .84) !important;
+  box-shadow: 0 44px 110px rgba(0, 0, 0, .42) !important;
+}
+
+body#top main.rtbo-public .about-agency-media img {
+  align-self: center !important;
+  justify-self: center !important;
+  width: min(74%, 440px) !important;
+  max-height: 520px !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 32px 60px rgba(0, 0, 0, .48)) !important;
+}
+
+body#top main.rtbo-public .about-agency-media figcaption {
+  display: grid !important;
+  gap: 6px !important;
+  padding: 22px 26px !important;
+  border-top: 1px solid rgba(243, 214, 117, .16) !important;
+  background: rgba(5, 7, 11, .68) !important;
+}
+
+body#top main.rtbo-public .about-agency-media figcaption span,
+body#top main.rtbo-public .about-agency-narrative > span,
+body#top main.rtbo-public .about-agency-operating-model > article > span,
+body#top main.rtbo-public .about-agency-standard-number {
+  color: var(--rtbo-gold) !important;
+  font-size: .76rem !important;
+  font-weight: 950 !important;
+  letter-spacing: .16em !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .about-agency-media figcaption strong {
+  color: #fff !important;
+  font-size: 1.02rem !important;
+  line-height: 1.28 !important;
+}
+
+body#top main.rtbo-public .about-agency-narrative {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  min-height: 640px !important;
+  padding: clamp(42px, 5vw, 84px) !important;
+  border-left: 4px solid var(--rtbo-red) !important;
+  border-radius: 8px !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .085), rgba(255, 255, 255, .018)),
+    rgba(14, 17, 23, .88) !important;
+  box-shadow: 0 44px 110px rgba(0, 0, 0, .34) !important;
+}
+
+body#top main.rtbo-public .about-agency-narrative p {
+  max-width: 720px !important;
+  margin: 26px 0 0 !important;
+  color: rgba(248, 250, 252, .86) !important;
+  font-size: clamp(1.02rem, 1.08vw, 1.18rem) !important;
+  line-height: 1.78 !important;
+}
+
+body#top main.rtbo-public .about-agency-narrative .btn {
+  width: fit-content !important;
+  margin-top: 34px !important;
+}
+
+body#top main.rtbo-public .about-agency-operating-model {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  width: min(100%, 1320px) !important;
+  margin: clamp(18px, 2vw, 28px) auto 0 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(243, 214, 117, .18) !important;
+  border-radius: 8px !important;
+  background: rgba(5, 7, 11, .62) !important;
+}
+
+body#top main.rtbo-public .about-agency-operating-model article {
+  display: grid !important;
+  grid-template-columns: 56px minmax(0, 1fr) !important;
+  gap: 18px !important;
+  padding: clamp(24px, 2.4vw, 36px) !important;
+  border-right: 1px solid rgba(243, 214, 117, .12) !important;
+}
+
+body#top main.rtbo-public .about-agency-operating-model article:last-child {
+  border-right: 0 !important;
+}
+
+body#top main.rtbo-public .about-agency-operating-model h3 {
+  margin: 0 0 8px !important;
+  color: #fff !important;
+  font-size: clamp(1.02rem, 1.1vw, 1.24rem) !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .about-agency-operating-model p {
+  margin: 0 !important;
+  color: rgba(226, 232, 240, .75) !important;
+  line-height: 1.55 !important;
+}
+
+body#top main.rtbo-public .about-agency-standards {
+  display: grid !important;
+  grid-template-columns: minmax(320px, .42fr) minmax(0, .58fr) !important;
+  gap: clamp(28px, 4vw, 62px) !important;
+  width: min(100%, 1320px) !important;
+  margin: clamp(62px, 6vw, 104px) auto 0 !important;
+}
+
+body#top main.rtbo-public .about-agency-standards-head h3 {
+  max-width: 500px !important;
+  margin: 0 !important;
+  color: #fff !important;
+  font-size: clamp(2rem, 3vw, 3.4rem) !important;
+  line-height: .98 !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .about-agency-standard-list {
+  display: grid !important;
+  gap: 0 !important;
+  overflow: hidden !important;
+  border-top: 1px solid rgba(243, 214, 117, .16) !important;
+}
+
+body#top main.rtbo-public .about-agency-standard-list article {
+  display: grid !important;
+  grid-template-columns: 58px 58px minmax(0, 1fr) !important;
+  gap: 20px !important;
+  align-items: center !important;
+  padding: 24px 0 !important;
+  border-bottom: 1px solid rgba(243, 214, 117, .16) !important;
+}
+
+body#top main.rtbo-public .about-agency-standard-list .card-icon {
+  width: 52px !important;
+  height: 52px !important;
+  object-fit: contain !important;
+  border-radius: 8px !important;
+  background: rgba(193, 18, 31, .16) !important;
+}
+
+body#top main.rtbo-public .about-agency-standard-list h3 {
+  margin: 0 0 6px !important;
+  color: #fff !important;
+  font-size: 1rem !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .about-agency-standard-list p {
+  margin: 0 !important;
+  color: rgba(226, 232, 240, .74) !important;
+  line-height: 1.55 !important;
+}
+
+body#top main.rtbo-public .results-agency-section {
+  position: relative !important;
+  padding: clamp(82px, 7vw, 132px) clamp(22px, 6vw, 90px) !important;
+  background:
+    linear-gradient(110deg, rgba(5, 7, 11, .98), rgba(5, 7, 11, .94) 45%, rgba(193, 18, 31, .18)),
+    #05070b !important;
+}
+
+body#top main.rtbo-public .results-agency-layout {
+  display: grid !important;
+  grid-template-columns: minmax(0, .92fr) minmax(440px, .64fr) !important;
+  gap: clamp(38px, 5vw, 84px) !important;
+  align-items: center !important;
+  width: min(100%, 1320px) !important;
+  margin: 0 auto !important;
+}
+
+body#top main.rtbo-public .results-agency-copy h2 {
+  max-width: 850px !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: clamp(3.4rem, 5.4vw, 7rem) !important;
+  line-height: .88 !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 4px 0 rgba(193, 18, 31, .54), 0 26px 72px rgba(0, 0, 0, .5) !important;
+}
+
+body#top main.rtbo-public .results-agency-copy > p {
+  max-width: 780px !important;
+  color: rgba(226, 232, 240, .84) !important;
+  font-size: clamp(1.02rem, 1.12vw, 1.22rem) !important;
+  line-height: 1.72 !important;
+}
+
+body#top main.rtbo-public .results-agency-proof-list {
+  display: grid !important;
+  gap: 0 !important;
+  max-width: 820px !important;
+  margin: 34px 0 !important;
+  border-top: 1px solid rgba(243, 214, 117, .16) !important;
+}
+
+body#top main.rtbo-public .results-agency-proof-list article {
+  display: grid !important;
+  grid-template-columns: 44px 54px minmax(0, 1fr) !important;
+  gap: 18px !important;
+  align-items: center !important;
+  padding: 20px 0 !important;
+  border-bottom: 1px solid rgba(243, 214, 117, .16) !important;
+}
+
+body#top main.rtbo-public .results-agency-proof-list span {
+  color: var(--rtbo-gold) !important;
+  font-size: .78rem !important;
+  font-weight: 950 !important;
+  letter-spacing: .14em !important;
+}
+
+body#top main.rtbo-public .results-agency-proof-list .card-icon {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 8px !important;
+}
+
+body#top main.rtbo-public .results-agency-proof-list h3 {
+  margin: 0 0 6px !important;
+  color: #fff !important;
+  font-size: 1.02rem !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .results-agency-proof-list p {
+  margin: 0 !important;
+  color: rgba(226, 232, 240, .74) !important;
+  line-height: 1.54 !important;
+}
+
+body#top main.rtbo-public .results-agency-voices {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+  padding: 22px !important;
+  border: 1px solid rgba(243, 214, 117, .18) !important;
+  border-radius: 8px !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .018)),
+    rgba(13, 16, 22, .82) !important;
+  box-shadow: 0 42px 100px rgba(0, 0, 0, .38) !important;
+}
+
+body#top main.rtbo-public .results-agency-voices-head {
+  grid-column: 1 / -1 !important;
+  display: grid !important;
+  gap: 8px !important;
+}
+
+body#top main.rtbo-public .results-agency-voices-head span {
+  color: var(--rtbo-gold) !important;
+  font-size: .78rem !important;
+  font-weight: 950 !important;
+  letter-spacing: .16em !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .results-agency-voices-head strong {
+  color: #fff !important;
+  font-size: 1.04rem !important;
+  line-height: 1.36 !important;
+}
+
+body#top main.rtbo-public .results-agency-voices figure {
+  overflow: hidden !important;
+  margin: 0 !important;
+  border: 1px solid rgba(243, 214, 117, .12) !important;
+  border-radius: 8px !important;
+  background: #080b10 !important;
+}
+
+body#top main.rtbo-public .results-agency-voices img {
+  display: block !important;
+  width: 100% !important;
+  height: clamp(300px, 28vw, 460px) !important;
+  object-fit: cover !important;
+}
+
+body#top main.rtbo-public .results-agency-voices figcaption {
+  padding: 16px 18px !important;
+  text-align: center !important;
+  background: #101722 !important;
+}
+
+body#top main.rtbo-public .results-agency-voices h3,
+body#top main.rtbo-public .results-agency-voices p {
+  margin: 0 !important;
+}
+
+body#top main.rtbo-public .results-agency-voices h3 {
+  color: #fff !important;
+  font-size: 1rem !important;
+}
+
+body#top main.rtbo-public .results-agency-voices p {
+  margin-top: 4px !important;
+  color: rgba(226, 232, 240, .7) !important;
+  font-size: .76rem !important;
+  font-weight: 900 !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public > section.rtbo-hero,
+html.light body#top main.rtbo-public > section.rtbo-hero {
+  background:
+    linear-gradient(90deg, rgba(248, 250, 252, .96) 0%, rgba(248, 250, 252, .84) 38%, rgba(248, 250, 252, .42) 100%),
+    url("/assets/images/banner_2.jpg") center center / cover no-repeat,
+    #f8fafc !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public :is(.about-agency-section, .results-agency-section),
+html.light body#top main.rtbo-public :is(.about-agency-section, .results-agency-section) {
+  color: #111827 !important;
+  background:
+    radial-gradient(circle at 7% 14%, rgba(193, 18, 31, .12), transparent 28%),
+    linear-gradient(135deg, #f8fafc, #fff 62%, rgba(243, 214, 117, .12)) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public :is(.about-agency-masthead h2, .about-agency-standards-head h3, .results-agency-copy h2),
+html.light body#top main.rtbo-public :is(.about-agency-masthead h2, .about-agency-standards-head h3, .results-agency-copy h2) {
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+  text-shadow: 0 3px 0 rgba(193, 18, 31, .16) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public :is(.about-agency-masthead > p, .about-agency-narrative p, .about-agency-operating-model p, .about-agency-standard-list p, .results-agency-copy > p, .results-agency-proof-list p),
+html.light body#top main.rtbo-public :is(.about-agency-masthead > p, .about-agency-narrative p, .about-agency-operating-model p, .about-agency-standard-list p, .results-agency-copy > p, .results-agency-proof-list p) {
+  color: #334155 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public :is(.about-agency-media, .about-agency-narrative, .about-agency-operating-model, .results-agency-voices),
+html.light body#top main.rtbo-public :is(.about-agency-media, .about-agency-narrative, .about-agency-operating-model, .results-agency-voices) {
+  border-color: rgba(15, 23, 42, .12) !important;
+  background: rgba(255, 255, 255, .9) !important;
+  box-shadow: 0 30px 80px rgba(15, 23, 42, .1) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public :is(.about-agency-media figcaption, .results-agency-voices figcaption),
+html.light body#top main.rtbo-public :is(.about-agency-media figcaption, .results-agency-voices figcaption) {
+  background: rgba(248, 250, 252, .96) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public :is(.about-agency-media figcaption strong, .about-agency-operating-model h3, .about-agency-standard-list h3, .about-agency-narrative > span, .results-agency-proof-list h3, .results-agency-voices-head strong, .results-agency-voices h3),
+html.light body#top main.rtbo-public :is(.about-agency-media figcaption strong, .about-agency-operating-model h3, .about-agency-standard-list h3, .about-agency-narrative > span, .results-agency-proof-list h3, .results-agency-voices-head strong, .results-agency-voices h3) {
+  color: #111827 !important;
+}
+
+@media (max-width: 1180px) {
+  body#top main.rtbo-public .about-agency-masthead,
+  body#top main.rtbo-public .about-agency-hero,
+  body#top main.rtbo-public .about-agency-standards,
+  body#top main.rtbo-public .results-agency-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .about-agency-media,
+  body#top main.rtbo-public .about-agency-narrative {
+    min-height: auto !important;
+  }
+
+  body#top main.rtbo-public .about-agency-operating-model {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .about-agency-operating-model article {
+    border-right: 0 !important;
+    border-bottom: 1px solid rgba(243, 214, 117, .12) !important;
+  }
+}
+
+/* About candidate correction: one editorial panel instead of separate cards. */
+body#top main.rtbo-public .about-agency-masthead h2 {
+  max-width: 860px !important;
+  font-size: clamp(3.8rem, 5.25vw, 6.2rem) !important;
+  line-height: .9 !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  text-wrap: balance !important;
+}
+
+body#top main.rtbo-public .about-agency-hero {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: minmax(440px, .92fr) minmax(0, 1.08fr) !important;
+  min-height: 620px !important;
+  gap: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(243, 214, 117, .18) !important;
+  border-radius: 8px !important;
+  background:
+    linear-gradient(90deg, rgba(7, 9, 13, .3) 0%, rgba(7, 9, 13, .92) 48%, rgba(15, 18, 24, .96) 100%),
+    radial-gradient(circle at 20% 24%, rgba(193, 18, 31, .32), transparent 38%),
+    rgba(9, 12, 18, .9) !important;
+  box-shadow: 0 44px 120px rgba(0, 0, 0, .42) !important;
+}
+
+body#top main.rtbo-public .about-agency-media {
+  min-height: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .about-agency-media img {
+  width: min(82%, 520px) !important;
+  max-height: 600px !important;
+  align-self: end !important;
+}
+
+body#top main.rtbo-public .about-agency-media figcaption {
+  align-self: end !important;
+  margin: 0 32px 32px !important;
+  padding: 16px 18px !important;
+  border: 1px solid rgba(243, 214, 117, .16) !important;
+  border-radius: 8px !important;
+  background: rgba(5, 7, 11, .72) !important;
+  backdrop-filter: blur(14px) !important;
+}
+
+body#top main.rtbo-public .about-agency-narrative {
+  min-height: 620px !important;
+  border: 0 !important;
+  border-left: 1px solid rgba(243, 214, 117, .14) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .about-agency-operating-model {
+  margin-top: 0 !important;
+  border-top: 0 !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .about-agency-hero,
+html.light body#top main.rtbo-public .about-agency-hero {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, .46) 0%, rgba(255, 255, 255, .9) 48%, rgba(248, 250, 252, .96) 100%),
+    radial-gradient(circle at 20% 24%, rgba(193, 18, 31, .12), transparent 38%),
+    #fff !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .about-agency-media,
+:root[data-theme="light"] body#top main.rtbo-public .about-agency-narrative,
+html.light body#top main.rtbo-public .about-agency-media,
+html.light body#top main.rtbo-public .about-agency-narrative {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 1180px) {
+  body#top main.rtbo-public .about-agency-masthead h2 {
+    font-size: clamp(2.6rem, 7vw, 4.6rem) !important;
+  }
+
+  body#top main.rtbo-public .about-agency-hero {
+    grid-template-columns: 1fr !important;
+    min-height: 0 !important;
+  }
+
+  body#top main.rtbo-public .about-agency-media img {
+    width: min(86%, 520px) !important;
+    max-height: 520px !important;
+  }
+
+  body#top main.rtbo-public .about-agency-narrative {
+    min-height: 0 !important;
+    border-left: 0 !important;
+    border-top: 1px solid rgba(243, 214, 117, .14) !important;
+  }
+}
+
+/* Sports agency home direction. */
+body#top main.rtbo-public .sports-agency-hero {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  min-height: calc(100svh - 96px) !important;
+  padding: clamp(62px, 6vw, 96px) clamp(22px, 5vw, 82px) 0 !important;
+  color: #fff !important;
+  background: #04060a !important;
+}
+
+body#top main.rtbo-public .sports-agency-backdrop {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: -2 !important;
+  background:
+    linear-gradient(90deg, rgba(4, 6, 10, .96) 0%, rgba(4, 6, 10, .72) 44%, rgba(4, 6, 10, .5) 100%),
+    radial-gradient(circle at 70% 22%, rgba(193, 18, 31, .34), transparent 30%),
+    url("/assets/images/banner_2.jpg") center / cover no-repeat !important;
+  transform: scale(1.02) !important;
+}
+
+body#top main.rtbo-public .sports-agency-hero::before {
+  content: "RTBO" !important;
+  position: absolute !important;
+  inset: clamp(42px, 5vw, 82px) 0 auto auto !important;
+  z-index: -1 !important;
+  color: rgba(255, 255, 255, .05) !important;
+  font-size: clamp(8rem, 24vw, 26rem) !important;
+  font-weight: 1000 !important;
+  line-height: .72 !important;
+  letter-spacing: 0 !important;
+}
+
+body#top main.rtbo-public .sports-agency-hero-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(420px, 560px) !important;
+  gap: clamp(36px, 6vw, 96px) !important;
+  align-items: center !important;
+  width: min(100%, 1380px) !important;
+  margin-inline: auto !important;
+}
+
+body#top main.rtbo-public .sports-agency-hero-copy {
+  max-width: 860px !important;
+}
+
+body#top main.rtbo-public .sports-agency-hero h1 {
+  margin: 0 !important;
+  max-width: 760px !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: clamp(4.2rem, 6.25vw, 8.1rem) !important;
+  line-height: .84 !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 5px 0 rgba(193, 18, 31, .58), 0 36px 90px rgba(0, 0, 0, .62) !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  hyphens: manual !important;
+}
+
+body#top main.rtbo-public .sports-agency-hero h1 span {
+  display: block !important;
+  white-space: nowrap !important;
+}
+
+body#top main.rtbo-public .sports-agency-lede {
+  max-width: 760px !important;
+  margin: 26px 0 0 !important;
+  color: rgba(248, 250, 252, .88) !important;
+  font-size: clamp(1.05rem, 1.22vw, 1.32rem) !important;
+  line-height: 1.68 !important;
+}
+
+body#top main.rtbo-public .sports-agency-actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 14px !important;
+  margin-top: 34px !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-panel {
+  position: relative !important;
+  display: grid !important;
+  gap: 18px !important;
+  padding: 20px !important;
+  border: 1px solid rgba(243, 214, 117, .18) !important;
+  border-radius: 8px !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .018)),
+    rgba(8, 11, 17, .78) !important;
+  box-shadow: 0 44px 120px rgba(0, 0, 0, .5) !important;
+  backdrop-filter: blur(18px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-logo {
+  position: absolute !important;
+  left: 22px !important;
+  top: 22px !important;
+  z-index: 2 !important;
+  width: 84px !important;
+  height: 84px !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 16px 28px rgba(0, 0, 0, .48)) !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-panel figure {
+  margin: 0 !important;
+  overflow: hidden !important;
+  border-radius: 8px !important;
+  background: #05070b !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-panel figure img {
+  display: block !important;
+  width: 100% !important;
+  height: clamp(390px, 46vw, 560px) !important;
+  object-fit: cover !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-copy {
+  display: grid !important;
+  gap: 8px !important;
+  padding: 4px 4px 2px !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-copy span {
+  color: var(--rtbo-gold) !important;
+  font-size: .76rem !important;
+  font-weight: 950 !important;
+  letter-spacing: .16em !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-copy strong {
+  color: #fff !important;
+  font-size: clamp(1.3rem, 1.7vw, 1.9rem) !important;
+  line-height: 1 !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-copy p {
+  margin: 0 !important;
+  color: rgba(226, 232, 240, .74) !important;
+  line-height: 1.55 !important;
+}
+
+body#top main.rtbo-public .sports-agency-service-rail {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  width: min(100%, 1380px) !important;
+  margin: clamp(40px, 5vw, 78px) auto 0 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(243, 214, 117, .16) !important;
+  border-radius: 8px 8px 0 0 !important;
+  background: rgba(5, 7, 11, .82) !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-service-rail button {
+  display: grid !important;
+  gap: 10px !important;
+  min-height: 180px !important;
+  padding: clamp(24px, 2.3vw, 34px) !important;
+  border: 0 !important;
+  border-right: 1px solid rgba(243, 214, 117, .12) !important;
+  border-radius: 0 !important;
+  text-align: left !important;
+  background: transparent !important;
+  color: inherit !important;
+  cursor: pointer !important;
+}
+
+body#top main.rtbo-public .sports-agency-service-rail button:last-child {
+  border-right: 0 !important;
+}
+
+body#top main.rtbo-public .sports-agency-service-rail button:is(:hover, :focus-visible) {
+  background:
+    linear-gradient(145deg, rgba(193, 18, 31, .24), rgba(243, 214, 117, .08)) !important;
+  outline: 0 !important;
+}
+
+body#top main.rtbo-public .sports-agency-service-rail span {
+  color: var(--rtbo-gold) !important;
+  font-size: .72rem !important;
+  font-weight: 950 !important;
+  letter-spacing: .16em !important;
+}
+
+body#top main.rtbo-public .sports-agency-service-rail strong {
+  color: #fff !important;
+  font-size: clamp(1.2rem, 1.45vw, 1.65rem) !important;
+  line-height: 1 !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .sports-agency-service-rail p {
+  margin: 0 !important;
+  color: rgba(226, 232, 240, .72) !important;
+  line-height: 1.48 !important;
+}
+
+body#top main.rtbo-public .sports-agency-marquee {
+  overflow: hidden !important;
+  margin-inline: calc(clamp(22px, 5vw, 82px) * -1) !important;
+  border-block: 1px solid rgba(243, 214, 117, .14) !important;
+  background: rgba(193, 18, 31, .28) !important;
+}
+
+body#top main.rtbo-public .sports-agency-image-reel {
+  position: relative !important;
+  z-index: 4 !important;
+  width: min(100%, 1380px) !important;
+  margin: clamp(24px, 2.8vw, 42px) auto 0 !important;
+  overflow: hidden !important;
+  padding-block: 2px !important;
+  border-block: 1px solid rgba(243, 214, 117, .16) !important;
+  mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%) !important;
+}
+
+body#top main.rtbo-public .sports-agency-image-reel-section {
+  position: relative !important;
+  overflow: hidden !important;
+  padding: clamp(50px, 5vw, 82px) clamp(22px, 5vw, 82px) clamp(56px, 5.5vw, 92px) !important;
+  color: #f8fafc !important;
+  background:
+    linear-gradient(180deg, #04060a 0%, #080b10 100%) !important;
+}
+
+body#top main.rtbo-public .sports-agency-image-reel-section::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(193, 18, 31, .18), transparent 34%),
+    linear-gradient(90deg, rgba(243, 214, 117, .08), transparent 24%, transparent 76%, rgba(193, 18, 31, .08)) !important;
+  pointer-events: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-image-reel-section > * {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+body#top main.rtbo-public .sports-agency-image-reel-head {
+  display: flex !important;
+  align-items: end !important;
+  justify-content: space-between !important;
+  gap: 28px !important;
+  width: min(100%, 1380px) !important;
+  margin-inline: auto !important;
+}
+
+body#top main.rtbo-public .sports-agency-image-reel-head h2 {
+  max-width: 820px !important;
+  margin: 0 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: clamp(1.55rem, 2.35vw, 2.85rem) !important;
+  line-height: 1.02 !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 3px 0 rgba(193, 18, 31, .5) !important;
+  text-align: right !important;
+}
+
+body#top main.rtbo-public .sports-agency-image-track {
+  display: flex !important;
+  gap: 14px !important;
+  width: max-content !important;
+  animation: rtbo-image-reel 38s linear infinite !important;
+  will-change: transform !important;
+}
+
+body#top main.rtbo-public .sports-agency-image-reel figure {
+  width: clamp(230px, 23vw, 360px) !important;
+  height: clamp(134px, 13vw, 204px) !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(243, 214, 117, .14) !important;
+  border-radius: 8px !important;
+  background: rgba(5, 7, 11, .74) !important;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, .28) !important;
+}
+
+body#top main.rtbo-public .sports-agency-image-reel img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+@keyframes rtbo-image-reel {
+  to { transform: translateX(calc(-50% - 7px)); }
+}
+
+body#top main.rtbo-public .sports-agency-marquee div {
+  display: flex !important;
+  width: max-content !important;
+  animation: rtbo-marquee 24s linear infinite !important;
+}
+
+body#top main.rtbo-public .sports-agency-marquee span {
+  padding: 13px 32px !important;
+  color: #fff !important;
+  font-size: .78rem !important;
+  font-weight: 950 !important;
+  letter-spacing: .16em !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+}
+
+@keyframes rtbo-marquee {
+  to { transform: translateX(-50%); }
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-hero,
+html.light body#top main.rtbo-public .sports-agency-hero {
+  color: #111827 !important;
+  background: #f8fafc !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-backdrop,
+html.light body#top main.rtbo-public .sports-agency-backdrop {
+  background:
+    linear-gradient(90deg, rgba(248, 250, 252, .96) 0%, rgba(248, 250, 252, .78) 44%, rgba(248, 250, 252, .44) 100%),
+    radial-gradient(circle at 70% 22%, rgba(193, 18, 31, .18), transparent 30%),
+    url("/assets/images/banner_2.jpg") center / cover no-repeat !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-hero h1,
+html.light body#top main.rtbo-public .sports-agency-hero h1 {
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+  text-shadow: 0 4px 0 rgba(193, 18, 31, .18) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-lede,
+html.light body#top main.rtbo-public .sports-agency-lede {
+  color: #334155 !important;
+}
+
+@media (max-width: 1180px) {
+  body#top main.rtbo-public .sports-agency-hero-grid,
+  body#top main.rtbo-public .sports-agency-service-rail {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-hero h1 {
+    font-size: clamp(3rem, 9.3vw, 5.2rem) !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-feature-panel figure img {
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-service-rail button {
+    min-height: 0 !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid rgba(243, 214, 117, .12) !important;
+  }
+}
+
+/* Sports agency refinement: remove blocky first-screen treatment. */
+body#top main.rtbo-public .sports-agency-hero {
+  min-height: calc(100svh - 96px) !important;
+  padding: clamp(58px, 6vw, 104px) clamp(22px, 5vw, 82px) clamp(28px, 3vw, 44px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-hero-grid {
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 44vw) !important;
+  min-height: clamp(560px, 68vh, 760px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-panel {
+  align-self: stretch !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-panel figure {
+  position: absolute !important;
+  inset: clamp(92px, 10vw, 128px) clamp(22px, 5vw, 82px) clamp(88px, 8vw, 132px) auto !important;
+  z-index: -1 !important;
+  width: min(48vw, 720px) !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  opacity: .96 !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-panel figure::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 8% -8% 4% 12% !important;
+  z-index: -1 !important;
+  border: 1px solid rgba(243, 214, 117, .18) !important;
+  border-radius: 999px 999px 16px 16px !important;
+  background: radial-gradient(circle at 48% 34%, rgba(193, 18, 31, .28), transparent 55%) !important;
+  transform: skewX(-5deg) !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-panel figure img {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 44px 90px rgba(0, 0, 0, .55)) !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-logo {
+  left: auto !important;
+  right: clamp(20px, 5vw, 76px) !important;
+  top: clamp(24px, 4vw, 58px) !important;
+  width: clamp(86px, 8vw, 124px) !important;
+  height: clamp(86px, 8vw, 124px) !important;
+  opacity: .95 !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-copy {
+  position: absolute !important;
+  right: clamp(22px, 5vw, 82px) !important;
+  bottom: clamp(86px, 8vw, 130px) !important;
+  z-index: 2 !important;
+  width: min(360px, 32vw) !important;
+  padding: 0 0 0 18px !important;
+  border-left: 3px solid var(--rtbo-red) !important;
+  background: transparent !important;
+}
+
+body#top main.rtbo-public .sports-agency-service-rail {
+  position: relative !important;
+  z-index: 3 !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  margin-top: clamp(16px, 2vw, 26px) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-service-rail button {
+  min-height: 0 !important;
+  padding: 18px 20px 18px 0 !important;
+  border-right: 0 !important;
+  border-top: 1px solid rgba(243, 214, 117, .2) !important;
+  background: transparent !important;
+}
+
+body#top main.rtbo-public .sports-agency-service-rail button:is(:hover, :focus-visible) {
+  padding-left: 14px !important;
+  background: linear-gradient(90deg, rgba(193, 18, 31, .16), transparent 72%) !important;
+}
+
+body#top main.rtbo-public .sports-agency-service-rail p {
+  max-width: 280px !important;
+}
+
+body#top main.rtbo-public .sports-agency-marquee {
+  margin-top: 26px !important;
+  margin-bottom: 0 !important;
+}
+
+@media (max-width: 1180px) {
+  body#top main.rtbo-public .sports-agency-hero {
+    min-height: auto !important;
+    padding-bottom: 0 !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-hero-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    min-height: 0 !important;
+    gap: 24px !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-feature-panel {
+    min-height: clamp(340px, 62vw, 560px) !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-feature-panel figure {
+    position: relative !important;
+    inset: auto !important;
+    width: min(100%, 680px) !important;
+    margin-inline: auto !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-feature-logo {
+    right: 0 !important;
+    top: 0 !important;
+    width: 82px !important;
+    height: 82px !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-feature-copy {
+    position: relative !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: min(100%, 620px) !important;
+    margin: -22px auto 0 !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-service-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0 20px !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-service-rail button {
+    border-bottom: 0 !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-image-reel-head {
+    display: grid !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-image-reel-head h2 {
+    text-align: left !important;
+  }
+}
+
+@media (max-width: 720px) {
+  body#top main.rtbo-public .sports-agency-service-rail {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Final approved hero direction refinements. */
+body#top main.rtbo-public .sports-agency-hero-grid {
+  grid-template-columns: minmax(0, .72fr) minmax(500px, .98fr) !important;
+  gap: clamp(24px, 4vw, 64px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-hero-copy {
+  position: relative !important;
+  z-index: 3 !important;
+  max-width: 620px !important;
+}
+
+body#top main.rtbo-public .sports-agency-hero h1 {
+  max-width: 590px !important;
+  font-size: clamp(3.35rem, 4.75vw, 6.15rem) !important;
+  line-height: .86 !important;
+}
+
+body#top main.rtbo-public .sports-agency-lede {
+  max-width: 590px !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-panel {
+  position: relative !important;
+  min-height: clamp(420px, 48vw, 640px) !important;
+  align-self: center !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-panel figure {
+  position: absolute !important;
+  inset: 50% 0 auto auto !important;
+  width: min(100%, 880px) !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  transform: translateY(-50%) !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-panel figure::before {
+  display: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-panel figure img {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-height: min(62vh, 640px) !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 44px 88px rgba(0, 0, 0, .56)) !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-logo {
+  display: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-copy {
+  position: absolute !important;
+  right: clamp(8px, 1vw, 16px) !important;
+  bottom: clamp(24px, 3vw, 46px) !important;
+  z-index: 4 !important;
+  width: min(360px, 34vw) !important;
+  padding-left: 18px !important;
+  border-left: 3px solid var(--rtbo-red) !important;
+  background: transparent !important;
+}
+
+body#top main.rtbo-public .sports-agency-image-reel figure {
+  width: clamp(150px, 13vw, 210px) !important;
+  height: clamp(200px, 17.5vw, 280px) !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 8px !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .018)),
+    rgba(5, 7, 11, .82) !important;
+}
+
+body#top main.rtbo-public .sports-agency-image-reel img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+}
+
+@media (max-width: 1180px) {
+  body#top main.rtbo-public .sports-agency-hero-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-hero-copy,
+  body#top main.rtbo-public .sports-agency-hero h1,
+  body#top main.rtbo-public .sports-agency-lede {
+    max-width: 760px !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-hero h1 {
+    font-size: clamp(3rem, 9vw, 5.2rem) !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-feature-panel {
+    min-height: 0 !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-feature-panel figure {
+    position: relative !important;
+    inset: auto !important;
+    width: min(100%, 920px) !important;
+    margin-inline: auto !important;
+    transform: none !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-feature-copy {
+    position: relative !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: min(100%, 620px) !important;
+    margin: 16px 0 0 !important;
+  }
+}
+
+/* Hero image/title collision fix. */
+body#top main.rtbo-public .sports-agency-hero-grid {
+  grid-template-columns: minmax(360px, .56fr) minmax(560px, .9fr) !important;
+  align-items: center !important;
+}
+
+body#top main.rtbo-public .sports-agency-hero-copy {
+  max-width: 540px !important;
+}
+
+body#top main.rtbo-public .sports-agency-hero h1 {
+  max-width: 540px !important;
+  font-size: clamp(3.1rem, 4vw, 5.35rem) !important;
+  line-height: .88 !important;
+}
+
+body#top main.rtbo-public .sports-agency-lede {
+  max-width: 500px !important;
+  font-size: clamp(1rem, 1.05vw, 1.16rem) !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-panel {
+  display: grid !important;
+  align-content: center !important;
+  gap: 18px !important;
+  min-height: auto !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-panel figure {
+  position: relative !important;
+  inset: auto !important;
+  width: min(100%, 860px) !important;
+  transform: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-panel figure img {
+  max-height: min(54vh, 560px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-copy {
+  position: relative !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: min(100%, 620px) !important;
+  margin-left: auto !important;
+  padding: 0 0 0 16px !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-copy strong {
+  font-size: clamp(1.12rem, 1.5vw, 1.65rem) !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-copy p {
+  max-width: 540px !important;
+}
+
+@media (max-width: 1180px) {
+  body#top main.rtbo-public .sports-agency-hero-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-hero-copy,
+  body#top main.rtbo-public .sports-agency-hero h1,
+  body#top main.rtbo-public .sports-agency-lede {
+    max-width: 760px !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-hero h1 {
+    font-size: clamp(3rem, 8vw, 5rem) !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-feature-copy {
+    margin-left: 0 !important;
+  }
+}
+
+/* Hero banner presentation: show the people and RTBO logo, hide baked-in banner headline/footer copy. */
+body#top main.rtbo-public .sports-agency-feature-panel figure {
+  overflow: hidden !important;
+  border-radius: 8px !important;
+  aspect-ratio: 16 / 9 !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-panel figure img {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  object-position: center 49% !important;
+  transform: scale(1.22) !important;
+  transform-origin: center center !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-panel figure::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
+  background:
+    linear-gradient(180deg, rgba(4, 6, 10, .28), transparent 28% 70%, rgba(4, 6, 10, .2)),
+    linear-gradient(90deg, rgba(4, 6, 10, .42) 0 7%, transparent 18% 82%, rgba(4, 6, 10, .42) 93% 100%) !important;
+  border-radius: inherit !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-panel figure::after {
+  display: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-copy {
+  position: absolute !important;
+  right: clamp(22px, 3vw, 44px) !important;
+  bottom: 0 !important;
+  transform: translateY(50%) !important;
+  z-index: 5 !important;
+  width: min(390px, 43%) !important;
+  margin: 0 !important;
+  padding: 0 0 0 18px !important;
+  border-left: 3px solid var(--rtbo-red) !important;
+  background: transparent !important;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, .85) !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-copy p {
+  color: rgba(248, 250, 252, .86) !important;
+}
+
+@media (max-width: 1180px) {
+  body#top main.rtbo-public .sports-agency-feature-panel figure img {
+    max-height: none !important;
+    transform: scale(1.14) translateY(1%) !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-feature-copy {
+    right: clamp(18px, 4vw, 34px) !important;
+    bottom: 0 !important;
+    transform: translateY(50%) !important;
+    width: min(410px, 58%) !important;
+  }
+}
+
+/* Keep the hero overlay copy clear of the center RTBO logo. */
+body#top main.rtbo-public .sports-agency-feature-copy {
+  left: 72% !important;
+  right: auto !important;
+  width: min(330px, 28vw) !important;
+}
+
+@media (max-width: 1180px) {
+  body#top main.rtbo-public .sports-agency-feature-copy {
+    left: auto !important;
+    right: clamp(16px, 4vw, 34px) !important;
+    width: min(360px, 48%) !important;
+  }
+}
+
+/* Hero image final: contain full artwork and remove all masking layers. */
+body#top main.rtbo-public .sports-agency-feature-panel figure {
+  aspect-ratio: 1448 / 1086 !important;
+  overflow: visible !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-panel figure::before,
+body#top main.rtbo-public .sports-agency-feature-panel figure::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-feature-panel figure img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-height: min(60vh, 650px) !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  transform: none !important;
+  filter: drop-shadow(0 44px 88px rgba(0, 0, 0, .56)) !important;
+}
+
+@media (max-width: 1180px) {
+  body#top main.rtbo-public .sports-agency-feature-panel figure img {
+    max-height: none !important;
+    transform: none !important;
+  }
+}
+
+/* Home About RTBO: sports agency profile section. */
+body#top main.rtbo-public .sports-agency-about-section {
+  position: relative !important;
+  overflow: clip !important;
+  padding: clamp(74px, 7vw, 124px) clamp(22px, 5vw, 82px) !important;
+  color: #f8fafc !important;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(193, 18, 31, .24), transparent 32%),
+    radial-gradient(circle at 84% 12%, rgba(243, 214, 117, .1), transparent 30%),
+    linear-gradient(135deg, #04060a 0%, #070b12 50%, #10120d 100%) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-section::before {
+  content: "OFFICIATING AGENCY" !important;
+  position: absolute !important;
+  inset: 18px auto auto -1vw !important;
+  z-index: 0 !important;
+  color: rgba(255, 255, 255, .035) !important;
+  font-size: clamp(5rem, 13vw, 15rem) !important;
+  font-weight: 1000 !important;
+  line-height: .74 !important;
+  white-space: nowrap !important;
+  pointer-events: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-shell {
+  position: relative !important;
+  z-index: 1 !important;
+  width: min(100%, 1380px) !important;
+  margin-inline: auto !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead {
+  display: grid !important;
+  grid-template-columns: minmax(0, .88fr) minmax(340px, .46fr) !important;
+  gap: clamp(30px, 5vw, 82px) !important;
+  align-items: end !important;
+  margin-bottom: clamp(42px, 5vw, 82px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead h2 {
+  margin: 0 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: clamp(3.2rem, 5.2vw, 6.8rem) !important;
+  line-height: .86 !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 4px 0 rgba(193, 18, 31, .52), 0 30px 80px rgba(0, 0, 0, .46) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead h2 span {
+  display: block !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead > p {
+  margin: 0 0 10px !important;
+  color: rgba(226, 232, 240, .84) !important;
+  font-size: clamp(1rem, 1.08vw, 1.18rem) !important;
+  line-height: 1.72 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-grid {
+  display: grid !important;
+  grid-template-columns: minmax(260px, .36fr) minmax(360px, .56fr) minmax(340px, .46fr) !important;
+  gap: clamp(24px, 3vw, 46px) !important;
+  align-items: stretch !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster {
+  display: grid !important;
+  align-content: center !important;
+  gap: 0 !important;
+  border-block: 1px solid rgba(243, 214, 117, .18) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article {
+  display: grid !important;
+  grid-template-columns: 42px minmax(0, 1fr) !important;
+  gap: 16px !important;
+  padding: clamp(20px, 2vw, 28px) 0 !important;
+  border-bottom: 1px solid rgba(243, 214, 117, .14) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article:last-child {
+  border-bottom: 0 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster span,
+body#top main.rtbo-public .sports-agency-about-standards article > span {
+  color: var(--rtbo-gold) !important;
+  font-size: .76rem !important;
+  font-weight: 950 !important;
+  letter-spacing: .16em !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster h3 {
+  margin: 0 0 8px !important;
+  color: #fff !important;
+  font-size: clamp(.98rem, 1.05vw, 1.16rem) !important;
+  line-height: 1.06 !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster p,
+body#top main.rtbo-public .sports-agency-about-story p,
+body#top main.rtbo-public .sports-agency-about-standard-track p {
+  margin: 0 !important;
+  color: rgba(226, 232, 240, .76) !important;
+  line-height: 1.58 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual {
+  position: relative !important;
+  display: grid !important;
+  grid-template-rows: 1fr auto !important;
+  min-height: clamp(520px, 52vw, 720px) !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(243, 214, 117, .18) !important;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(193, 18, 31, .28), transparent 42%),
+    linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .018)),
+    rgba(7, 10, 16, .88) !important;
+  box-shadow: 0 44px 110px rgba(0, 0, 0, .38) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual::before {
+  content: "RTBO" !important;
+  position: absolute !important;
+  inset: 24px auto auto 50% !important;
+  transform: translateX(-50%) !important;
+  color: rgba(255, 255, 255, .055) !important;
+  font-size: clamp(5rem, 10vw, 11rem) !important;
+  font-weight: 1000 !important;
+  line-height: .8 !important;
+  pointer-events: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual img {
+  align-self: end !important;
+  justify-self: center !important;
+  width: min(82%, 520px) !important;
+  max-height: 610px !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 36px 70px rgba(0, 0, 0, .54)) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual figcaption {
+  display: grid !important;
+  gap: 6px !important;
+  padding: 20px 24px !important;
+  border-top: 1px solid rgba(243, 214, 117, .16) !important;
+  background: rgba(5, 7, 11, .72) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual figcaption span {
+  color: var(--rtbo-gold) !important;
+  font-size: .72rem !important;
+  font-weight: 950 !important;
+  letter-spacing: .16em !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual figcaption strong {
+  color: #fff !important;
+  font-size: clamp(1rem, 1.15vw, 1.28rem) !important;
+  line-height: 1.22 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story {
+  align-self: center !important;
+  display: grid !important;
+  gap: 22px !important;
+  padding-left: clamp(20px, 2.4vw, 34px) !important;
+  border-left: 3px solid var(--rtbo-red) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story h3 {
+  margin: 0 !important;
+  color: #fff !important;
+  font-size: clamp(2rem, 2.8vw, 3.4rem) !important;
+  line-height: .96 !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story .btn {
+  width: fit-content !important;
+  margin-top: 10px !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards {
+  display: grid !important;
+  grid-template-columns: minmax(280px, .34fr) minmax(0, .66fr) !important;
+  gap: clamp(26px, 4vw, 70px) !important;
+  align-items: start !important;
+  margin-top: clamp(50px, 5vw, 86px) !important;
+  padding-top: clamp(28px, 3vw, 48px) !important;
+  border-top: 1px solid rgba(243, 214, 117, .18) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards h3 {
+  margin: 0 !important;
+  color: #fff !important;
+  font-size: clamp(1.65rem, 2.4vw, 3rem) !important;
+  line-height: .98 !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 0 clamp(26px, 3vw, 52px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article {
+  display: grid !important;
+  grid-template-columns: 42px 52px minmax(0, 1fr) !important;
+  gap: 16px !important;
+  align-items: center !important;
+  padding: 18px 0 !important;
+  border-bottom: 1px solid rgba(243, 214, 117, .14) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track .card-icon {
+  width: 46px !important;
+  height: 46px !important;
+  object-fit: contain !important;
+  border-radius: 8px !important;
+  background: rgba(193, 18, 31, .14) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track h4 {
+  margin: 0 0 5px !important;
+  color: #fff !important;
+  font-size: .96rem !important;
+  line-height: 1.05 !important;
+  text-transform: uppercase !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-section,
+html.light body#top main.rtbo-public .sports-agency-about-section {
+  color: #111827 !important;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(193, 18, 31, .1), transparent 32%),
+    linear-gradient(135deg, #f8fafc, #fff 60%, rgba(243, 214, 117, .12)) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public :is(.sports-agency-about-masthead h2, .sports-agency-about-roster h3, .sports-agency-about-story h3, .sports-agency-about-standards h3, .sports-agency-about-standard-track h4),
+html.light body#top main.rtbo-public :is(.sports-agency-about-masthead h2, .sports-agency-about-roster h3, .sports-agency-about-story h3, .sports-agency-about-standards h3, .sports-agency-about-standard-track h4) {
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+  text-shadow: 0 3px 0 rgba(193, 18, 31, .14) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public :is(.sports-agency-about-masthead > p, .sports-agency-about-roster p, .sports-agency-about-story p, .sports-agency-about-standard-track p),
+html.light body#top main.rtbo-public :is(.sports-agency-about-masthead > p, .sports-agency-about-roster p, .sports-agency-about-story p, .sports-agency-about-standard-track p) {
+  color: #334155 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-visual,
+html.light body#top main.rtbo-public .sports-agency-about-visual {
+  border-color: rgba(15, 23, 42, .12) !important;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(193, 18, 31, .1), transparent 42%),
+    rgba(255, 255, 255, .9) !important;
+  box-shadow: 0 30px 80px rgba(15, 23, 42, .1) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-visual figcaption,
+html.light body#top main.rtbo-public .sports-agency-about-visual figcaption {
+  background: rgba(248, 250, 252, .94) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-visual figcaption strong,
+html.light body#top main.rtbo-public .sports-agency-about-visual figcaption strong {
+  color: #111827 !important;
+}
+
+@media (max-width: 1180px) {
+  body#top main.rtbo-public .sports-agency-about-masthead,
+  body#top main.rtbo-public .sports-agency-about-grid,
+  body#top main.rtbo-public .sports-agency-about-standards {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-standard-track {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* About RTBO agency layout correction: remove cramped columns and restore professional hierarchy. */
+body#top main.rtbo-public .sports-agency-about-section {
+  padding: clamp(86px, 7vw, 132px) clamp(22px, 5vw, 88px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-section::before {
+  inset: 14px auto auto 50% !important;
+  transform: translateX(-50%) !important;
+  width: max-content !important;
+  font-size: clamp(4.8rem, 11vw, 14rem) !important;
+  line-height: .8 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-shell {
+  width: min(100%, 1320px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 460px) !important;
+  grid-template-areas:
+    "eyebrow intro"
+    "title intro" !important;
+  column-gap: clamp(38px, 6vw, 110px) !important;
+  row-gap: 18px !important;
+  align-items: end !important;
+  margin-bottom: clamp(46px, 5vw, 78px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead .eyebrow {
+  grid-area: eyebrow !important;
+  margin: 0 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead h2 {
+  grid-area: title !important;
+  max-width: 1040px !important;
+  font-size: clamp(3.25rem, 5.9vw, 7rem) !important;
+  line-height: .88 !important;
+  letter-spacing: 0 !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  hyphens: none !important;
+  text-wrap: balance !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead h2 span {
+  display: block !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead > p:not(.eyebrow) {
+  grid-area: intro !important;
+  max-width: 460px !important;
+  margin: 0 0 8px !important;
+  padding-left: 22px !important;
+  border-left: 3px solid var(--rtbo-red) !important;
+  font-size: clamp(1rem, 1.06vw, 1.18rem) !important;
+  line-height: 1.68 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-grid {
+  display: grid !important;
+  grid-template-columns: minmax(400px, .9fr) minmax(420px, 1fr) !important;
+  grid-template-areas:
+    "visual story"
+    "roster roster" !important;
+  gap: clamp(28px, 3.6vw, 58px) !important;
+  align-items: stretch !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster {
+  grid-area: roster !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  align-content: stretch !important;
+  border-block: 1px solid rgba(243, 214, 117, .2) !important;
+  border-inline: 0 !important;
+  background: linear-gradient(90deg, rgba(255, 255, 255, .035), rgba(255, 255, 255, .012)) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article {
+  grid-template-columns: 38px minmax(0, 1fr) !important;
+  padding: clamp(20px, 2vw, 28px) clamp(16px, 2vw, 28px) !important;
+  border-bottom: 0 !important;
+  border-right: 1px solid rgba(243, 214, 117, .14) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article:last-child {
+  border-right: 0 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster h3 {
+  font-size: clamp(.9rem, .92vw, 1.02rem) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster p {
+  font-size: .92rem !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual {
+  grid-area: visual !important;
+  min-height: clamp(520px, 45vw, 680px) !important;
+  border-radius: 8px !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual::before {
+  inset: 32px auto auto 50% !important;
+  font-size: clamp(5rem, 8.2vw, 10rem) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual img {
+  width: min(76%, 470px) !important;
+  max-height: 560px !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story {
+  grid-area: story !important;
+  align-self: center !important;
+  min-height: 100% !important;
+  justify-content: center !important;
+  padding: clamp(28px, 3vw, 54px) 0 clamp(28px, 3vw, 54px) clamp(26px, 3vw, 48px) !important;
+  border-left: 4px solid var(--rtbo-red) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story h3 {
+  max-width: 680px !important;
+  font-size: clamp(2.1rem, 3.2vw, 4.2rem) !important;
+  line-height: .96 !important;
+  letter-spacing: 0 !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  hyphens: none !important;
+  text-wrap: balance !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story p:not(.eyebrow) {
+  max-width: 660px !important;
+  font-size: clamp(.98rem, 1vw, 1.08rem) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards {
+  grid-template-columns: minmax(320px, .38fr) minmax(0, .62fr) !important;
+  margin-top: clamp(54px, 5vw, 88px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards h3 {
+  max-width: 420px !important;
+  font-size: clamp(2rem, 2.65vw, 3.35rem) !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article {
+  grid-template-columns: 36px 48px minmax(0, 1fr) !important;
+  padding: 20px 0 !important;
+}
+
+@media (max-width: 980px) {
+  body#top main.rtbo-public .sports-agency-about-masthead {
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "eyebrow"
+      "title"
+      "intro" !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-masthead h2 {
+    font-size: clamp(2.6rem, 9vw, 4.4rem) !important;
+    max-width: 760px !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-masthead > p:not(.eyebrow) {
+    max-width: 720px !important;
+    margin-top: 6px !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-grid {
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "visual"
+      "story"
+      "roster" !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-roster {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-roster article:nth-child(2n) {
+    border-right: 0 !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-story {
+    min-height: auto !important;
+  }
+}
+
+@media (max-width: 620px) {
+  body#top main.rtbo-public .sports-agency-about-section {
+    padding-inline: 18px !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-masthead h2,
+  body#top main.rtbo-public .sports-agency-about-story h3,
+  body#top main.rtbo-public .sports-agency-about-standards h3 {
+    text-wrap: pretty !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-roster {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-roster article {
+    border-right: 0 !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-visual {
+    min-height: 480px !important;
+  }
+}
+
+/* Client Spotlight uploaded-video sidebar. */
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
+  width: min(100%, 1480px) !important;
+  grid-template-columns: minmax(0, 1fr) minmax(310px, 360px) !important;
+  gap: clamp(22px, 2.6vw, 40px) !important;
+  align-items: start !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-player {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-shell {
+  position: sticky !important;
+  top: clamp(102px, 10vw, 132px) !important;
+  display: grid !important;
+  gap: 16px !important;
+  padding: clamp(18px, 1.6vw, 24px) !important;
+  border: 1px solid rgba(243, 214, 117, .18) !important;
+  border-left: 4px solid rgba(193, 18, 31, .9) !important;
+  border-radius: 8px !important;
+  background:
+    linear-gradient(150deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .018)),
+    rgba(8, 11, 16, .78) !important;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, .28) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-head {
+  display: flex !important;
+  align-items: end !important;
+  justify-content: space-between !important;
+  gap: 18px !important;
+  padding-bottom: 12px !important;
+  border-bottom: 1px solid rgba(243, 214, 117, .16) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-head .eyebrow {
+  margin: 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-head strong {
+  color: var(--rtbo-gold) !important;
+  font-size: clamp(2rem, 2.6vw, 3rem) !important;
+  font-weight: 1000 !important;
+  line-height: .8 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 12px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  max-height: min(680px, 58vw) !important;
+  overflow: auto !important;
+  padding: 0 4px 2px 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 108px minmax(0, 1fr) !important;
+  gap: 12px !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  padding: 10px !important;
+  border: 1px solid rgba(148, 163, 184, .18) !important;
+  border-radius: 8px !important;
+  color: #f8fafc !important;
+  text-align: left !important;
+  background: rgba(3, 7, 18, .58) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 10px auto 10px 0 !important;
+  width: 3px !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button:is(:hover, :focus-visible) {
+  border-color: rgba(243, 214, 117, .36) !important;
+  background: rgba(15, 23, 42, .82) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button.active {
+  border-color: rgba(193, 18, 31, .76) !important;
+  background:
+    linear-gradient(135deg, rgba(193, 18, 31, .2), rgba(193, 18, 31, .04)),
+    rgba(15, 23, 42, .86) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button.active::before {
+  background: var(--rtbo-red) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist img {
+  width: 108px !important;
+  height: 72px !important;
+  aspect-ratio: auto !important;
+  object-fit: cover !important;
+  border-radius: 6px !important;
+  background: #050505 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist span {
+  display: grid !important;
+  align-content: center !important;
+  gap: 5px !important;
+  min-width: 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist strong {
+  color: #fff !important;
+  font-size: .95rem !important;
+  line-height: 1.12 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist small {
+  color: rgba(203, 213, 225, .78) !important;
+  font-size: .74rem !important;
+  line-height: 1.25 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist em {
+  color: var(--rtbo-gold) !important;
+  font-size: .68rem !important;
+  font-style: normal !important;
+  font-weight: 950 !important;
+  letter-spacing: .1em !important;
+  line-height: 1 !important;
+  text-transform: uppercase !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-shell,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-shell {
+  border-color: rgba(15, 23, 42, .12) !important;
+  border-left-color: rgba(193, 18, 31, .68) !important;
+  background:
+    linear-gradient(150deg, rgba(255, 255, 255, .98), rgba(248, 250, 252, .9)),
+    #fff !important;
+  box-shadow: 0 24px 62px rgba(15, 23, 42, .1) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button {
+  color: #111827 !important;
+  border-color: rgba(15, 23, 42, .1) !important;
+  background: rgba(255, 255, 255, .92) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button.active,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button.active {
+  background:
+    linear-gradient(135deg, rgba(193, 18, 31, .1), rgba(243, 214, 117, .1)),
+    #fff !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist strong,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist strong {
+  color: #111827 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist small,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist small {
+  color: #475569 !important;
+}
+
+@media (max-width: 1180px) {
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-shell {
+    position: relative !important;
+    top: auto !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+}
+
+@media (max-width: 560px) {
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist button {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-playlist img {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16 / 9 !important;
+  }
+}
+
+/* About RTBO final agency composition: readable, balanced, no compressed poster layout. */
+body#top main.rtbo-public .sports-agency-about-section {
+  padding-block: clamp(88px, 7.4vw, 136px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-shell {
+  width: min(100%, 1280px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead {
+  grid-template-columns: 1fr !important;
+  grid-template-areas:
+    "eyebrow"
+    "title"
+    "intro" !important;
+  gap: 18px !important;
+  align-items: start !important;
+  max-width: 1120px !important;
+  margin: 0 0 clamp(44px, 5vw, 78px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead h2 {
+  max-width: 1060px !important;
+  font-size: clamp(3rem, 5.4vw, 6.2rem) !important;
+  line-height: .9 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead > p:not(.eyebrow) {
+  width: min(100%, 820px) !important;
+  max-width: 820px !important;
+  margin-top: 8px !important;
+  padding-left: 22px !important;
+  border-left: 4px solid var(--rtbo-red) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-grid {
+  grid-template-columns: minmax(360px, .82fr) minmax(0, 1fr) !important;
+  grid-template-areas:
+    "story story"
+    "visual roster" !important;
+  gap: clamp(26px, 3vw, 46px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story {
+  grid-area: story !important;
+  min-height: auto !important;
+  align-self: stretch !important;
+  justify-content: start !important;
+  gap: 18px !important;
+  padding: clamp(28px, 3vw, 44px) clamp(28px, 4vw, 58px) !important;
+  border: 1px solid rgba(243, 214, 117, .16) !important;
+  border-left: 5px solid var(--rtbo-red) !important;
+  border-radius: 8px !important;
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .016)),
+    rgba(8, 11, 16, .58) !important;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, .22) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story h3 {
+  max-width: 980px !important;
+  font-size: clamp(2.15rem, 3.35vw, 4.35rem) !important;
+  line-height: .98 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story p:not(.eyebrow) {
+  max-width: 920px !important;
+  font-size: clamp(1rem, 1.05vw, 1.13rem) !important;
+  line-height: 1.7 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual {
+  grid-area: visual !important;
+  min-height: clamp(520px, 42vw, 640px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual img {
+  width: min(78%, 470px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster {
+  grid-area: roster !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  align-content: stretch !important;
+  border: 1px solid rgba(243, 214, 117, .16) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .012)),
+    rgba(8, 11, 16, .52) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article {
+  grid-template-columns: 36px minmax(0, 1fr) !important;
+  padding: clamp(24px, 2.25vw, 34px) !important;
+  border-right: 1px solid rgba(243, 214, 117, .12) !important;
+  border-bottom: 1px solid rgba(243, 214, 117, .12) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article:nth-child(2n) {
+  border-right: 0 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article:nth-last-child(-n + 2) {
+  border-bottom: 0 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster h3 {
+  font-size: clamp(.98rem, 1.05vw, 1.14rem) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster p {
+  font-size: clamp(.9rem, .94vw, 1rem) !important;
+  line-height: 1.55 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards {
+  grid-template-columns: 1fr !important;
+  gap: clamp(22px, 2.6vw, 36px) !important;
+  margin-top: clamp(58px, 5vw, 86px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards > div:first-child {
+  display: grid !important;
+  gap: 10px !important;
+  max-width: 980px !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards h3 {
+  max-width: 900px !important;
+  font-size: clamp(2.35rem, 4vw, 4.8rem) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article {
+  grid-template-columns: 34px 48px minmax(0, 1fr) !important;
+  gap: 14px !important;
+  align-items: start !important;
+  padding: clamp(18px, 1.8vw, 24px) !important;
+  border: 1px solid rgba(243, 214, 117, .15) !important;
+  border-radius: 8px !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .014)),
+    rgba(8, 11, 16, .48) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track h4 {
+  font-size: clamp(.96rem, .98vw, 1.08rem) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track p {
+  font-size: clamp(.88rem, .92vw, .98rem) !important;
+  line-height: 1.52 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-story,
+html.light body#top main.rtbo-public .sports-agency-about-story,
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-roster,
+html.light body#top main.rtbo-public .sports-agency-about-roster,
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-standard-track article,
+html.light body#top main.rtbo-public .sports-agency-about-standard-track article {
+  border-color: rgba(15, 23, 42, .12) !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(248, 250, 252, .88)),
+    #fff !important;
+  box-shadow: 0 18px 48px rgba(15, 23, 42, .08) !important;
+}
+
+@media (max-width: 1240px) {
+  body#top main.rtbo-public .sports-agency-about-grid {
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "story"
+      "visual"
+      "roster" !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-standard-track {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body#top main.rtbo-public .sports-agency-about-masthead h2 {
+    font-size: clamp(2.45rem, 11vw, 4rem) !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-roster,
+  body#top main.rtbo-public .sports-agency-about-standard-track {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-roster article {
+    border-right: 0 !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-roster article:nth-last-child(-n + 2) {
+    border-bottom: 1px solid rgba(243, 214, 117, .12) !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-roster article:last-child {
+    border-bottom: 0 !important;
+  }
+}
+
+/* About RTBO service feature: sports agency editorial flow instead of boxed quadrants. */
+body#top main.rtbo-public .sports-agency-about-grid {
+  grid-template-columns: minmax(380px, .72fr) minmax(0, 1fr) !important;
+  grid-template-areas:
+    "story story"
+    "visual roster" !important;
+  gap: clamp(34px, 4vw, 74px) !important;
+  align-items: center !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual {
+  min-height: clamp(500px, 42vw, 650px) !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 8% 5% 12% 0 !important;
+  transform: none !important;
+  border: 1px solid rgba(243, 214, 117, .18) !important;
+  border-left: 5px solid rgba(193, 18, 31, .8) !important;
+  border-radius: 8px !important;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(193, 18, 31, .18), transparent 42%),
+    rgba(7, 10, 16, .6) !important;
+  box-shadow: 0 34px 92px rgba(0, 0, 0, .28) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual img {
+  position: relative !important;
+  z-index: 1 !important;
+  width: min(82%, 500px) !important;
+  max-height: 610px !important;
+  align-self: center !important;
+  transform: translateX(5%) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual figcaption {
+  position: absolute !important;
+  z-index: 2 !important;
+  left: clamp(18px, 2.5vw, 34px) !important;
+  right: clamp(10px, 2vw, 26px) !important;
+  bottom: clamp(12px, 2vw, 30px) !important;
+  width: auto !important;
+  padding: 0 0 0 18px !important;
+  border: 0 !important;
+  border-left: 3px solid var(--rtbo-gold) !important;
+  background: transparent !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual figcaption strong {
+  max-width: 30ch !important;
+  display: block !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 0 !important;
+  align-content: center !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 54px minmax(0, 1fr) !important;
+  gap: clamp(18px, 2vw, 28px) !important;
+  padding: clamp(22px, 2vw, 30px) 0 clamp(22px, 2vw, 30px) clamp(18px, 2vw, 34px) !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(243, 214, 117, .18) !important;
+  background: transparent !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article:last-child {
+  border-bottom: 1px solid rgba(243, 214, 117, .18) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 26px !important;
+  bottom: 26px !important;
+  width: 4px !important;
+  border-radius: 999px !important;
+  background: rgba(193, 18, 31, .72) !important;
+  opacity: .42 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article:nth-child(even) {
+  margin-left: clamp(18px, 4vw, 70px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster span {
+  align-self: start !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 48px !important;
+  height: 48px !important;
+  border: 1px solid rgba(243, 214, 117, .28) !important;
+  border-radius: 999px !important;
+  background: rgba(193, 18, 31, .12) !important;
+  font-size: .76rem !important;
+  letter-spacing: .06em !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster h3 {
+  margin-bottom: 10px !important;
+  font-size: clamp(1.15rem, 1.55vw, 1.65rem) !important;
+  line-height: .98 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster p {
+  max-width: 46ch !important;
+  font-size: clamp(.98rem, 1.03vw, 1.12rem) !important;
+  line-height: 1.55 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-visual::before,
+html.light body#top main.rtbo-public .sports-agency-about-visual::before {
+  background:
+    radial-gradient(circle at 50% 30%, rgba(193, 18, 31, .08), transparent 42%),
+    rgba(255, 255, 255, .78) !important;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, .1) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-roster article,
+html.light body#top main.rtbo-public .sports-agency-about-roster article {
+  border-color: rgba(15, 23, 42, .14) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 1240px) {
+  body#top main.rtbo-public .sports-agency-about-grid {
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "story"
+      "visual"
+      "roster" !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-roster article:nth-child(even) {
+    margin-left: 0 !important;
+  }
+}
+
+/* About RTBO editorial agency refinement: remove the heavy story card and oversized masthead. */
+body#top main.rtbo-public .sports-agency-about-masthead {
+  max-width: 980px !important;
+  margin-bottom: clamp(40px, 4.5vw, 66px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead h2 {
+  max-width: 920px !important;
+  font-size: clamp(2.85rem, 4.6vw, 5.45rem) !important;
+  line-height: .91 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead > p:not(.eyebrow) {
+  width: min(100%, 700px) !important;
+  max-width: 700px !important;
+  font-size: clamp(.98rem, 1vw, 1.08rem) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story {
+  display: grid !important;
+  grid-template-columns: minmax(0, .92fr) minmax(360px, .72fr) !important;
+  column-gap: clamp(34px, 5vw, 86px) !important;
+  row-gap: 18px !important;
+  align-items: start !important;
+  padding: clamp(26px, 3vw, 44px) 0 !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(243, 214, 117, .2) !important;
+  border-bottom: 1px solid rgba(243, 214, 117, .2) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story .eyebrow {
+  grid-column: 1 / -1 !important;
+  margin: 0 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story h3 {
+  max-width: 720px !important;
+  font-size: clamp(2rem, 3vw, 3.65rem) !important;
+  line-height: .98 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story p:not(.eyebrow) {
+  max-width: 620px !important;
+  font-size: clamp(.98rem, 1vw, 1.08rem) !important;
+  line-height: 1.68 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story p:not(.eyebrow):first-of-type {
+  padding-left: 20px !important;
+  border-left: 3px solid var(--rtbo-red) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story .about-learn-more-button {
+  grid-column: 2 !important;
+  align-self: start !important;
+  margin-top: 0 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-story,
+html.light body#top main.rtbo-public .sports-agency-about-story {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-color: rgba(15, 23, 42, .14) !important;
+}
+
+@media (max-width: 980px) {
+  body#top main.rtbo-public .sports-agency-about-story {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-story .about-learn-more-button {
+    grid-column: 1 !important;
+  }
+}
+
+/* Client Spotlight media masthead: lighter agency treatment with real uploaded-video feature. */
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 380px) !important;
+  gap: clamp(28px, 4vw, 72px) !important;
+  align-items: end !important;
+  width: min(100%, 1480px) !important;
+  max-width: 1480px !important;
+  padding: 0 0 clamp(24px, 2.8vw, 42px) !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(243, 214, 117, .2) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-title-block {
+  display: grid !important;
+  gap: 12px !important;
+  min-width: 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head h2 {
+  max-width: 760px !important;
+  font-size: clamp(2.35rem, 4.2vw, 5.15rem) !important;
+  line-height: .9 !important;
+  white-space: normal !important;
+  text-wrap: balance !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-subtitle {
+  max-width: 820px !important;
+  white-space: normal !important;
+  text-wrap: balance !important;
+  font-size: clamp(1.2rem, 1.7vw, 1.8rem) !important;
+  line-height: 1.1 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-copy {
+  display: grid !important;
+  gap: 12px !important;
+  max-width: 900px !important;
+  padding-left: 20px !important;
+  border-left: 3px solid rgba(243, 214, 117, .8) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-copy :is(p, dl, dt, dd) {
+  max-width: 900px !important;
+  white-space: normal !important;
+  text-wrap: pretty !important;
+  overflow: visible !important;
+  font-size: clamp(.96rem, .96vw, 1.08rem) !important;
+  line-height: 1.62 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-meta {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px 18px !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature {
+  display: grid !important;
+  grid-template-columns: 122px minmax(0, 1fr) !important;
+  gap: 14px !important;
+  align-items: center !important;
+  padding: 14px 0 0 !important;
+  border-top: 1px solid rgba(243, 214, 117, .18) !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature img {
+  width: 122px !important;
+  aspect-ratio: 16 / 9 !important;
+  object-fit: cover !important;
+  border-radius: 6px !important;
+  background: #050505 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature span {
+  display: grid !important;
+  gap: 5px !important;
+  min-width: 0 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature small {
+  color: var(--rtbo-gold) !important;
+  font-size: .68rem !important;
+  font-weight: 950 !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature strong {
+  color: #fff !important;
+  font-size: clamp(.95rem, 1.04vw, 1.12rem) !important;
+  line-height: 1.1 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature em {
+  color: rgba(203, 213, 225, .78) !important;
+  font-size: .78rem !important;
+  font-style: normal !important;
+  line-height: 1.25 !important;
+}
+
+/* About headline tuning after the editorial redesign. */
+body#top main.rtbo-public .sports-agency-about-story h3 {
+  max-width: 640px !important;
+  font-size: clamp(1.85rem, 2.45vw, 3.05rem) !important;
+  line-height: 1.02 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story p:not(.eyebrow) {
+  font-size: clamp(.96rem, .98vw, 1.05rem) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead h2 {
+  font-size: clamp(2.65rem, 4.2vw, 5rem) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-color: rgba(15, 23, 42, .14) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature strong,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature strong {
+  color: #111827 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature em,
+html.light body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature em {
+  color: #475569 !important;
+}
+
+@media (max-width: 1080px) {
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature {
+    max-width: 560px !important;
+  }
+}
+
+/* Operating Standards: sports-agency standards lineup, not boxed cards. */
+body#top main.rtbo-public .sports-agency-about-standards {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: minmax(300px, .34fr) minmax(0, .66fr) !important;
+  gap: clamp(34px, 5vw, 86px) !important;
+  align-items: start !important;
+  margin-top: clamp(66px, 6vw, 104px) !important;
+  padding: clamp(34px, 4vw, 62px) 0 0 !important;
+  border-top: 1px solid rgba(243, 214, 117, .24) !important;
+  background: transparent !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards::before {
+  content: "06" !important;
+  position: absolute !important;
+  right: 0 !important;
+  top: clamp(20px, 4vw, 58px) !important;
+  z-index: 0 !important;
+  color: rgba(255, 255, 255, .035) !important;
+  font-size: clamp(7rem, 15vw, 17rem) !important;
+  font-weight: 1000 !important;
+  line-height: .72 !important;
+  pointer-events: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards > div:first-child {
+  position: sticky !important;
+  top: clamp(112px, 11vw, 150px) !important;
+  z-index: 1 !important;
+  display: grid !important;
+  gap: 12px !important;
+  max-width: 410px !important;
+  padding: 0 0 0 clamp(18px, 2vw, 28px) !important;
+  border-left: 4px solid var(--rtbo-red) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards h3 {
+  max-width: 410px !important;
+  margin: 0 !important;
+  color: #fff !important;
+  font-size: clamp(2rem, 2.95vw, 3.65rem) !important;
+  line-height: .96 !important;
+  letter-spacing: 0 !important;
+  text-transform: uppercase !important;
+  text-wrap: balance !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track {
+  position: relative !important;
+  z-index: 1 !important;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 0 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 70px 64px minmax(0, 1fr) !important;
+  gap: clamp(16px, 2.4vw, 34px) !important;
+  align-items: center !important;
+  min-height: 124px !important;
+  padding: clamp(22px, 2.6vw, 34px) 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(243, 214, 117, .18) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article:first-child {
+  border-top: 1px solid rgba(243, 214, 117, .18) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 70px !important;
+  top: 28px !important;
+  bottom: 28px !important;
+  width: 3px !important;
+  border-radius: 999px !important;
+  background: rgba(193, 18, 31, .65) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article:nth-child(even) {
+  padding-left: clamp(0px, 3.5vw, 54px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article > span {
+  align-self: center !important;
+  color: var(--rtbo-gold) !important;
+  font-size: clamp(1.35rem, 2vw, 2.15rem) !important;
+  font-weight: 1000 !important;
+  letter-spacing: 0 !important;
+  line-height: .9 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track .card-icon {
+  width: 54px !important;
+  height: 54px !important;
+  object-fit: contain !important;
+  border: 1px solid rgba(193, 18, 31, .64) !important;
+  border-radius: 999px !important;
+  padding: 7px !important;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(243, 214, 117, .14), transparent 55%),
+    rgba(193, 18, 31, .12) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article > div {
+  display: grid !important;
+  grid-template-columns: minmax(220px, .55fr) minmax(260px, .45fr) !important;
+  gap: clamp(16px, 3vw, 42px) !important;
+  align-items: start !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track h4 {
+  margin: 0 !important;
+  max-width: 420px !important;
+  color: #fff !important;
+  font-size: clamp(1.2rem, 1.75vw, 2.1rem) !important;
+  line-height: .96 !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track p {
+  max-width: 48ch !important;
+  margin: 0 !important;
+  color: rgba(226, 232, 240, .78) !important;
+  font-size: clamp(.95rem, 1vw, 1.08rem) !important;
+  line-height: 1.58 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-standards,
+html.light body#top main.rtbo-public .sports-agency-about-standards {
+  border-top-color: rgba(15, 23, 42, .14) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-standards::before,
+html.light body#top main.rtbo-public .sports-agency-about-standards::before {
+  color: rgba(15, 23, 42, .045) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-standards h3,
+html.light body#top main.rtbo-public .sports-agency-about-standards h3,
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-standard-track h4,
+html.light body#top main.rtbo-public .sports-agency-about-standard-track h4 {
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-standard-track article,
+html.light body#top main.rtbo-public .sports-agency-about-standard-track article {
+  border-color: rgba(15, 23, 42, .14) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-standard-track p,
+html.light body#top main.rtbo-public .sports-agency-about-standard-track p {
+  color: #334155 !important;
+}
+
+@media (max-width: 1180px) {
+  body#top main.rtbo-public .sports-agency-about-standards {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-standards > div:first-child {
+    position: relative !important;
+    top: auto !important;
+    max-width: 760px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body#top main.rtbo-public .sports-agency-about-standard-track article,
+  body#top main.rtbo-public .sports-agency-about-standard-track article:nth-child(even) {
+    grid-template-columns: 52px minmax(0, 1fr) !important;
+    padding-left: 0 !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-standard-track article::before {
+    display: none !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-standard-track .card-icon {
+    display: none !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-standard-track article > div {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
   }
 }

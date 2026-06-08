@@ -1,0 +1,1280 @@
+/* Final sports-agency art direction layer.
+   Loaded after the large public stylesheet so these rules own the public homepage polish. */
+
+body#top main.rtbo-public .sports-agency-about-section {
+  position: relative !important;
+  overflow: hidden !important;
+  padding-block: 64px 90px !important;
+  background:
+    linear-gradient(115deg, rgba(116, 9, 21, 0.42) 0%, rgba(5, 8, 12, 0.94) 34%, rgba(9, 14, 13, 0.98) 100%),
+    #05080c !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-section::before {
+  content: "RTBO AGENCY" !important;
+  position: absolute !important;
+  top: 10px !important;
+  left: max(28px, calc((100vw - 1440px) / 2)) !important;
+  z-index: 0 !important;
+  color: rgba(255, 255, 255, 0.035) !important;
+  font-family: var(--display-font, inherit) !important;
+  font-size: 8rem !important;
+  font-weight: 1000 !important;
+  line-height: 0.8 !important;
+  letter-spacing: 0 !important;
+  pointer-events: none !important;
+  white-space: nowrap !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-shell {
+  position: relative !important;
+  z-index: 1 !important;
+  width: min(calc(100% - 64px), 1440px) !important;
+  max-width: 1440px !important;
+  margin-inline: auto !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead {
+  display: grid !important;
+  grid-template-columns: minmax(0, 0.86fr) minmax(320px, 0.44fr) !important;
+  gap: 44px !important;
+  align-items: end !important;
+  max-width: none !important;
+  margin: 0 0 52px !important;
+  text-align: left !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead .eyebrow {
+  grid-column: 1 / -1 !important;
+  margin: 0 0 -22px !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead h2 {
+  max-width: 960px !important;
+  margin: 0 !important;
+  color: #fff !important;
+  font-size: 5rem !important;
+  line-height: 0.88 !important;
+  letter-spacing: 0 !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 4px 0 rgba(193, 18, 31, 0.82), 0 22px 44px rgba(0, 0, 0, 0.5) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead h2 span {
+  display: inline !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead > p:not(.eyebrow) {
+  max-width: 440px !important;
+  margin: 0 !important;
+  padding-left: 22px !important;
+  border-left: 3px solid #c1121f !important;
+  color: rgba(255, 255, 255, 0.84) !important;
+  font-size: 1rem !important;
+  line-height: 1.65 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-grid {
+  display: grid !important;
+  grid-template-columns: minmax(360px, 0.82fr) minmax(0, 1.18fr) !important;
+  grid-template-areas:
+    "visual story"
+    "roster roster" !important;
+  gap: 34px 58px !important;
+  align-items: stretch !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual {
+  grid-area: visual !important;
+  position: relative !important;
+  min-height: 560px !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(246, 196, 83, 0.32) !important;
+  border-radius: 0 !important;
+  background:
+    linear-gradient(145deg, rgba(193, 18, 31, 0.2), rgba(4, 8, 14, 0.92) 46%, rgba(2, 4, 8, 0.98)),
+    #05080c !important;
+  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.34) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual::before {
+  content: "RTBO" !important;
+  position: absolute !important;
+  top: 24px !important;
+  left: 30px !important;
+  z-index: 0 !important;
+  color: rgba(255, 255, 255, 0.055) !important;
+  font-family: var(--display-font, inherit) !important;
+  font-size: 6rem !important;
+  font-weight: 1000 !important;
+  line-height: 1 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual img {
+  position: relative !important;
+  z-index: 1 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 560px !important;
+  object-fit: contain !important;
+  object-position: center bottom !important;
+  padding: 52px 44px 88px !important;
+  filter: drop-shadow(0 28px 46px rgba(0, 0, 0, 0.48)) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual figcaption {
+  position: absolute !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  z-index: 2 !important;
+  display: grid !important;
+  gap: 7px !important;
+  padding: 20px 26px !important;
+  border-top: 1px solid rgba(246, 196, 83, 0.28) !important;
+  background: rgba(3, 7, 12, 0.9) !important;
+  color: #fff !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual figcaption span,
+body#top main.rtbo-public .sports-agency-about-roster span,
+body#top main.rtbo-public .sports-agency-about-standard-track article > span {
+  color: #ffd766 !important;
+  font-size: 0.78rem !important;
+  font-weight: 1000 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual figcaption strong {
+  color: #fff !important;
+  font-size: 1.15rem !important;
+  line-height: 1.2 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story {
+  grid-area: story !important;
+  align-self: center !important;
+  max-width: 760px !important;
+  min-height: auto !important;
+  padding: 10px 0 10px 42px !important;
+  border: 0 !important;
+  border-left: 4px solid #c1121f !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story .eyebrow {
+  margin-bottom: 16px !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story h3 {
+  max-width: 700px !important;
+  margin: 0 0 24px !important;
+  color: #fff !important;
+  font-size: 3.35rem !important;
+  line-height: 0.92 !important;
+  letter-spacing: 0 !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story p:not(.eyebrow) {
+  max-width: 620px !important;
+  color: rgba(255, 255, 255, 0.82) !important;
+  font-size: 1.02rem !important;
+  line-height: 1.74 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster {
+  grid-area: roster !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 0 !important;
+  overflow: hidden !important;
+  border-block: 1px solid rgba(246, 196, 83, 0.32) !important;
+  border-radius: 0 !important;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015)) !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 44px minmax(0, 1fr) !important;
+  gap: 20px !important;
+  min-height: 162px !important;
+  padding: 28px 30px !important;
+  border: 0 !important;
+  border-right: 1px solid rgba(246, 196, 83, 0.18) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article:last-child {
+  border-right: 0 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster h3 {
+  margin: 0 0 9px !important;
+  color: #fff !important;
+  font-size: 1.05rem !important;
+  line-height: 1.08 !important;
+  letter-spacing: 0 !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster p {
+  max-width: 18rem !important;
+  margin: 0 !important;
+  color: rgba(255, 255, 255, 0.73) !important;
+  font-size: 0.94rem !important;
+  line-height: 1.5 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: minmax(320px, 0.72fr) minmax(0, 1.28fr) !important;
+  gap: 66px !important;
+  align-items: start !important;
+  max-width: none !important;
+  margin: 84px 0 0 !important;
+  padding: 66px 0 42px !important;
+  overflow: hidden !important;
+  border-block: 1px solid rgba(246, 196, 83, 0.32) !important;
+  border-radius: 0 !important;
+  background:
+    linear-gradient(100deg, rgba(193, 18, 31, 0.16), rgba(2, 5, 10, 0.28) 32%, rgba(246, 196, 83, 0.08) 100%) !important;
+  box-shadow: none !important;
+  isolation: isolate !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards::before {
+  content: "OPERATIONS" !important;
+  position: absolute !important;
+  top: -22px !important;
+  left: -8px !important;
+  z-index: -1 !important;
+  color: rgba(255, 255, 255, 0.045) !important;
+  font-family: var(--display-font, inherit) !important;
+  font-size: 7.5rem !important;
+  font-weight: 1000 !important;
+  line-height: 0.8 !important;
+  letter-spacing: 0 !important;
+  white-space: nowrap !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards > div:first-child {
+  position: sticky !important;
+  top: 120px !important;
+  align-self: start !important;
+  padding: 8px 0 12px 28px !important;
+  border-left: 4px solid #c1121f !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards h3 {
+  max-width: 8ch !important;
+  margin: 12px 0 0 !important;
+  color: #fff !important;
+  font-size: 4.1rem !important;
+  line-height: 0.9 !important;
+  letter-spacing: 0 !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 4px 0 rgba(193, 18, 31, 0.76), 0 20px 44px rgba(0, 0, 0, 0.44) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 0 !important;
+  margin: 0 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 58px 76px minmax(0, 1fr) !important;
+  gap: 24px !important;
+  align-items: center !important;
+  min-height: 118px !important;
+  padding: 26px 0 !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(246, 196, 83, 0.22) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article:last-child {
+  border-bottom: 1px solid rgba(246, 196, 83, 0.22) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article:nth-child(even) {
+  padding-left: 78px !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 12px auto 12px 21px !important;
+  width: 1px !important;
+  background: linear-gradient(180deg, rgba(193, 18, 31, 0), rgba(193, 18, 31, 0.86), rgba(246, 196, 83, 0)) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article > span {
+  position: relative !important;
+  z-index: 1 !important;
+  display: inline-grid !important;
+  width: 42px !important;
+  height: 42px !important;
+  place-items: center !important;
+  border: 1px solid rgba(246, 196, 83, 0.5) !important;
+  border-radius: 999px !important;
+  background: rgba(5, 8, 12, 0.92) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track .card-icon {
+  width: 64px !important;
+  height: 64px !important;
+  padding: 9px !important;
+  border: 1px solid rgba(193, 18, 31, 0.76) !important;
+  border-radius: 999px !important;
+  object-fit: contain !important;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(246, 196, 83, 0.16), rgba(193, 18, 31, 0.22) 55%, rgba(4, 8, 14, 0.92) 100%) !important;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.32) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article > div {
+  display: grid !important;
+  grid-template-columns: minmax(210px, 0.46fr) minmax(280px, 0.54fr) !important;
+  gap: 30px !important;
+  align-items: center !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track h4 {
+  margin: 0 !important;
+  max-width: 20rem !important;
+  color: #fff !important;
+  font-size: 1.22rem !important;
+  line-height: 1.05 !important;
+  letter-spacing: 0 !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track p {
+  max-width: 34rem !important;
+  margin: 0 !important;
+  color: rgba(255, 255, 255, 0.72) !important;
+  font-size: 1rem !important;
+  line-height: 1.58 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 430px) !important;
+  gap: 30px !important;
+  align-items: end !important;
+  width: min(calc(100% - 64px), 1560px) !important;
+  max-width: 1560px !important;
+  margin-inline: auto !important;
+  padding: 32px 0 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-title-block {
+  max-width: none !important;
+  padding-left: 28px !important;
+  border-left: 4px solid #c1121f !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head h2 {
+  max-width: 780px !important;
+  font-size: 3.35rem !important;
+  line-height: 0.92 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-subtitle {
+  font-size: 1.75rem !important;
+  line-height: 1.12 !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-current-feature {
+  border: 0 !important;
+  border-block: 1px solid rgba(246, 196, 83, 0.28) !important;
+  border-radius: 0 !important;
+  background: rgba(255, 255, 255, 0.035) !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 360px) !important;
+  gap: 28px !important;
+  align-items: start !important;
+  width: min(calc(100% - 64px), 1560px) !important;
+  max-width: 1560px !important;
+  margin-inline: auto !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-player {
+  width: 100% !important;
+  max-width: 1180px !important;
+  justify-self: center !important;
+  background: transparent !important;
+}
+
+body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-sidebar-shell {
+  border: 1px solid rgba(246, 196, 83, 0.22) !important;
+  border-radius: 0 !important;
+  background: rgba(5, 8, 12, 0.5) !important;
+}
+
+@media (max-width: 1180px) {
+  body#top main.rtbo-public .sports-agency-about-masthead,
+  body#top main.rtbo-public .sports-agency-about-grid,
+  body#top main.rtbo-public .sports-agency-about-standards,
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head,
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-grid {
+    grid-template-areas:
+      "story"
+      "visual"
+      "roster" !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-story {
+    max-width: none !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-roster {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-roster article:nth-child(2n) {
+    border-right: 0 !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-standards > div:first-child {
+    position: relative !important;
+    top: auto !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-standard-track article:nth-child(even) {
+    padding-left: 0 !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body#top main.rtbo-public .sports-agency-about-section {
+    padding-block: 56px 72px !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-shell,
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head,
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-layout {
+    width: min(calc(100% - 32px), 1440px) !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-section::before {
+    font-size: 4.5rem !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-masthead h2 {
+    font-size: 3.1rem !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-story {
+    padding-left: 24px !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-story h3,
+  body#top main.rtbo-public .sports-agency-about-standards h3 {
+    font-size: 2.65rem !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-visual,
+  body#top main.rtbo-public .sports-agency-about-visual img {
+    min-height: 430px !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-visual img {
+    padding: 34px 24px 92px !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-roster {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-roster article {
+    border-right: 0 !important;
+    border-bottom: 1px solid rgba(246, 196, 83, 0.18) !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-roster article:last-child {
+    border-bottom: 0 !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-standard-track article {
+    grid-template-columns: 48px 58px minmax(0, 1fr) !important;
+    gap: 16px !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-standard-track article > div {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-standard-track .card-icon {
+    width: 54px !important;
+    height: 54px !important;
+  }
+
+  body#top main.rtbo-public .home-client-spotlight-section .home-client-spotlight-head h2 {
+    font-size: 2.65rem !important;
+  }
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-section,
+html.light body#top main.rtbo-public .sports-agency-about-section {
+  background:
+    linear-gradient(115deg, rgba(193, 18, 31, 0.08) 0%, rgba(248, 250, 252, 0.98) 35%, rgba(238, 242, 247, 0.98) 100%),
+    #f8fafc !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-masthead h2,
+html.light body#top main.rtbo-public .sports-agency-about-masthead h2,
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-story h3,
+html.light body#top main.rtbo-public .sports-agency-about-story h3,
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-standards h3,
+html.light body#top main.rtbo-public .sports-agency-about-standards h3,
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-standard-track h4,
+html.light body#top main.rtbo-public .sports-agency-about-standard-track h4,
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-roster h3,
+html.light body#top main.rtbo-public .sports-agency-about-roster h3 {
+  color: #0f172a !important;
+  text-shadow: 0 3px 0 rgba(193, 18, 31, 0.16) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-masthead > p:not(.eyebrow),
+html.light body#top main.rtbo-public .sports-agency-about-masthead > p:not(.eyebrow),
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-story p:not(.eyebrow),
+html.light body#top main.rtbo-public .sports-agency-about-story p:not(.eyebrow),
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-roster p,
+html.light body#top main.rtbo-public .sports-agency-about-roster p,
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-standard-track p,
+html.light body#top main.rtbo-public .sports-agency-about-standard-track p {
+  color: #334155 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-visual,
+html.light body#top main.rtbo-public .sports-agency-about-visual,
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-roster,
+html.light body#top main.rtbo-public .sports-agency-about-roster,
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-standards,
+html.light body#top main.rtbo-public .sports-agency-about-standards {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(241, 245, 249, 0.78)),
+    #fff !important;
+  border-color: rgba(148, 163, 184, 0.34) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-visual figcaption,
+html.light body#top main.rtbo-public .sports-agency-about-visual figcaption {
+  background: rgba(255, 255, 255, 0.92) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-visual figcaption strong,
+html.light body#top main.rtbo-public .sports-agency-about-visual figcaption strong {
+  color: #0f172a !important;
+}
+
+/* About RTBO refinement: remove inherited card/grid behavior and make this read like an agency profile. */
+body#top main.rtbo-public .sports-agency-about-masthead {
+  grid-template-columns: 1fr !important;
+  gap: 24px !important;
+  max-width: 1120px !important;
+  margin-bottom: 40px !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead .eyebrow {
+  grid-column: auto !important;
+  margin: 0 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead h2 {
+  max-width: 1080px !important;
+  font-size: 4.35rem !important;
+  line-height: 0.9 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead h2 span {
+  display: block !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-masthead > p:not(.eyebrow) {
+  max-width: 620px !important;
+  padding-left: 24px !important;
+  font-size: 1.02rem !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-grid {
+  grid-template-columns: minmax(420px, 0.86fr) minmax(560px, 1.14fr) !important;
+  grid-template-areas:
+    "visual story"
+    "roster roster" !important;
+  gap: 32px 54px !important;
+  align-items: start !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story {
+  display: flex !important;
+  flex-direction: column !important;
+  grid-template-columns: none !important;
+  gap: 18px !important;
+  align-self: start !important;
+  max-width: none !important;
+  min-height: 0 !important;
+  padding: 0 0 8px 42px !important;
+  overflow: visible !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story::before {
+  content: "Agency Model" !important;
+  display: inline-flex !important;
+  width: max-content !important;
+  margin-bottom: 4px !important;
+  padding: 7px 12px !important;
+  border: 1px solid rgba(246, 196, 83, 0.32) !important;
+  color: #ffd766 !important;
+  font-size: 0.72rem !important;
+  font-weight: 1000 !important;
+  letter-spacing: 0.12em !important;
+  line-height: 1 !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story .eyebrow {
+  margin: 0 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story h3 {
+  max-width: 780px !important;
+  margin: 0 !important;
+  font-size: 2.45rem !important;
+  line-height: 1.02 !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  text-wrap: balance !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story p:not(.eyebrow) {
+  max-width: 760px !important;
+  margin: 0 !important;
+  font-size: 1rem !important;
+  line-height: 1.58 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-story .about-learn-more-button {
+  align-self: flex-start !important;
+  margin-top: 8px !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual {
+  min-height: 500px !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual img {
+  min-height: 500px !important;
+  padding: 34px 38px 82px !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster {
+  margin-top: 0 !important;
+  gap: 0 !important;
+  overflow: hidden !important;
+  border-top: 1px solid rgba(246, 196, 83, 0.28) !important;
+  border-bottom: 1px solid rgba(246, 196, 83, 0.28) !important;
+  background:
+    linear-gradient(90deg, rgba(193, 18, 31, 0.14), rgba(255, 255, 255, 0.028) 44%, rgba(246, 196, 83, 0.055)),
+    rgba(4, 8, 14, 0.42) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article {
+  grid-template-columns: 46px minmax(0, 1fr) !important;
+  gap: 16px !important;
+  min-height: 124px !important;
+  padding: 24px 28px !important;
+  border: 0 !important;
+  border-right: 1px solid rgba(246, 196, 83, 0.18) !important;
+  border-left: 0 !important;
+  background: transparent !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 24px !important;
+  bottom: 24px !important;
+  left: 0 !important;
+  width: 3px !important;
+  background: linear-gradient(180deg, rgba(193, 18, 31, 0), rgba(193, 18, 31, 0.82), rgba(193, 18, 31, 0)) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article:last-child {
+  border-right: 0 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster h3 {
+  max-width: none !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster p {
+  max-width: 20rem !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards {
+  grid-template-columns: minmax(380px, 0.62fr) minmax(0, 1.38fr) !important;
+  gap: 48px !important;
+  padding: 58px 0 36px !important;
+  overflow: visible !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards h3 {
+  max-width: 12ch !important;
+  font-size: 3.05rem !important;
+  line-height: 0.94 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article {
+  grid-template-columns: 56px minmax(0, 1fr) !important;
+  gap: 24px !important;
+  min-height: 104px !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track .card-icon {
+  display: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article > div {
+  display: grid !important;
+  grid-template-columns: minmax(210px, 0.42fr) minmax(320px, 0.58fr) !important;
+  gap: 30px !important;
+}
+
+@media (max-width: 1180px) {
+  body#top main.rtbo-public .sports-agency-about-masthead h2 {
+    font-size: 4rem !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-grid {
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "story"
+      "visual"
+      "roster" !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-story {
+    align-self: start !important;
+    padding-left: 32px !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-story h3 {
+    max-width: 900px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body#top main.rtbo-public .sports-agency-about-masthead h2 {
+    font-size: 3rem !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-story h3,
+  body#top main.rtbo-public .sports-agency-about-standards h3 {
+    font-size: 2.35rem !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-story {
+    padding-left: 22px !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-standard-track article {
+    grid-template-columns: 46px minmax(0, 1fr) !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-standard-track article > div {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Operating standards final art direction: agency playbook, not table rows. */
+body#top main.rtbo-public .sports-agency-about-standards {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: minmax(330px, 0.42fr) minmax(0, 0.58fr) !important;
+  gap: clamp(38px, 5vw, 78px) !important;
+  align-items: center !important;
+  margin: clamp(72px, 7vw, 108px) 0 0 !important;
+  padding: clamp(56px, 7vw, 86px) 0 clamp(44px, 6vw, 72px) !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background:
+    radial-gradient(circle at 16% 22%, rgba(193, 18, 31, 0.3), transparent 34%),
+    radial-gradient(circle at 86% 18%, rgba(246, 196, 83, 0.12), transparent 34%),
+    linear-gradient(118deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01)) !important;
+  box-shadow: none !important;
+  isolation: isolate !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards::before {
+  content: "PLAYBOOK" !important;
+  position: absolute !important;
+  top: clamp(-34px, -2vw, -18px) !important;
+  right: -2vw !important;
+  left: auto !important;
+  z-index: -1 !important;
+  color: rgba(255, 255, 255, 0.04) !important;
+  font-family: var(--display-font, inherit) !important;
+  font-size: clamp(5rem, 11vw, 10rem) !important;
+  font-weight: 1000 !important;
+  line-height: 0.82 !important;
+  letter-spacing: 0 !important;
+  white-space: nowrap !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 auto 0 30.5% !important;
+  width: 1px !important;
+  background: linear-gradient(180deg, transparent, rgba(246, 196, 83, 0.38), transparent) !important;
+  opacity: 0.9 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards > div:first-child {
+  position: relative !important;
+  top: auto !important;
+  align-self: center !important;
+  z-index: 1 !important;
+  padding: 0 0 0 30px !important;
+  border-left: 5px solid #c1121f !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards > div:first-child::after {
+  content: "06 Core Standards / One RTBO Game-Day Standard" !important;
+  display: block !important;
+  width: min(100%, 360px) !important;
+  margin-top: 28px !important;
+  padding-top: 18px !important;
+  border-top: 1px solid rgba(246, 196, 83, 0.34) !important;
+  color: rgba(255, 255, 255, 0.72) !important;
+  font-size: 0.9rem !important;
+  font-weight: 800 !important;
+  line-height: 1.55 !important;
+  letter-spacing: 0.02em !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standards h3 {
+  max-width: 13.5ch !important;
+  margin: 14px 0 0 !important;
+  color: #fff !important;
+  font-size: clamp(2.75rem, 4.25vw, 4rem) !important;
+  line-height: 0.91 !important;
+  letter-spacing: 0 !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 4px 0 rgba(193, 18, 31, 0.76), 0 24px 48px rgba(0, 0, 0, 0.46) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track {
+  position: relative !important;
+  z-index: 1 !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 50px minmax(0, 1fr) !important;
+  gap: 16px !important;
+  align-items: start !important;
+  min-height: 188px !important;
+  padding: 22px 22px 24px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(246, 196, 83, 0.24) !important;
+  border-left: 4px solid rgba(193, 18, 31, 0.92) !important;
+  border-radius: 0 !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)),
+    rgba(4, 8, 14, 0.76) !important;
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.22) !important;
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px)) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article:nth-child(even) {
+  padding-left: 22px !important;
+  transform: translateY(28px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article:nth-child(3),
+body#top main.rtbo-public .sports-agency-about-standard-track article:nth-child(4) {
+  transform: translateX(-18px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article:nth-child(4),
+body#top main.rtbo-public .sports-agency-about-standard-track article:nth-child(6) {
+  transform: translate(18px, 28px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article:last-child {
+  border-bottom: 1px solid rgba(246, 196, 83, 0.24) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: auto 18px 16px auto !important;
+  width: 76px !important;
+  height: 76px !important;
+  border: 1px solid rgba(246, 196, 83, 0.16) !important;
+  border-radius: 999px !important;
+  background: radial-gradient(circle, rgba(246, 196, 83, 0.12), transparent 68%) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 auto 0 0 !important;
+  width: 28% !important;
+  background: linear-gradient(90deg, rgba(193, 18, 31, 0.2), transparent) !important;
+  opacity: 0.76 !important;
+  pointer-events: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article > span {
+  position: relative !important;
+  z-index: 2 !important;
+  display: inline-grid !important;
+  width: 42px !important;
+  height: 42px !important;
+  place-items: center !important;
+  border: 1px solid rgba(246, 196, 83, 0.74) !important;
+  border-radius: 999px !important;
+  background: rgba(18, 7, 9, 0.88) !important;
+  color: #ffd766 !important;
+  box-shadow: 0 0 0 7px rgba(193, 18, 31, 0.12) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track .card-icon {
+  position: absolute !important;
+  right: 18px !important;
+  bottom: 18px !important;
+  z-index: 1 !important;
+  display: block !important;
+  width: 54px !important;
+  height: 54px !important;
+  padding: 8px !important;
+  border: 1px solid rgba(246, 196, 83, 0.18) !important;
+  border-radius: 999px !important;
+  object-fit: contain !important;
+  opacity: 0.38 !important;
+  background: rgba(5, 8, 12, 0.62) !important;
+  filter: saturate(0.86) contrast(1.08) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track article > div {
+  position: relative !important;
+  z-index: 2 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  min-width: 0 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track h4 {
+  max-width: 18rem !important;
+  margin: 0 !important;
+  color: #fff !important;
+  font-size: clamp(1rem, 1.28vw, 1.24rem) !important;
+  line-height: 1.02 !important;
+  letter-spacing: 0 !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-standard-track p {
+  max-width: 26rem !important;
+  margin: 0 !important;
+  color: rgba(255, 255, 255, 0.72) !important;
+  font-size: 0.94rem !important;
+  line-height: 1.52 !important;
+}
+
+@media (max-width: 1180px) {
+  body#top main.rtbo-public .sports-agency-about-standards {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-standards::after {
+    display: none !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-standards h3 {
+    max-width: 14ch !important;
+  }
+}
+
+@media (max-width: 860px) {
+  body#top main.rtbo-public .sports-agency-about-standard-track {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-standard-track article,
+  body#top main.rtbo-public .sports-agency-about-standard-track article:nth-child(even),
+  body#top main.rtbo-public .sports-agency-about-standard-track article:nth-child(3),
+  body#top main.rtbo-public .sports-agency-about-standard-track article:nth-child(4),
+  body#top main.rtbo-public .sports-agency-about-standard-track article:nth-child(6) {
+    transform: none !important;
+  }
+}
+
+/* About feature polish: remove boxed apparel frame and spreadsheet-style capability strip. */
+body#top main.rtbo-public .sports-agency-about-visual {
+  position: relative !important;
+  min-height: 520px !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 12px 34px 44px 40px !important;
+  z-index: 0 !important;
+  border: 0 !important;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(246, 196, 83, 0.16), transparent 44%),
+    radial-gradient(circle at 28% 30%, rgba(193, 18, 31, 0.28), transparent 38%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.05), transparent 60%) !important;
+  clip-path: polygon(10% 0, 100% 0, 88% 100%, 0 100%) !important;
+  filter: blur(0.1px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual::after {
+  content: "UNIFORM STANDARD" !important;
+  position: absolute !important;
+  top: 12px !important;
+  left: 18px !important;
+  z-index: 2 !important;
+  color: rgba(255, 255, 255, 0.08) !important;
+  font-family: var(--display-font, inherit) !important;
+  font-size: clamp(2.8rem, 6vw, 5.7rem) !important;
+  font-weight: 1000 !important;
+  line-height: 0.84 !important;
+  letter-spacing: 0 !important;
+  pointer-events: none !important;
+  text-transform: uppercase !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual img {
+  position: relative !important;
+  z-index: 1 !important;
+  display: block !important;
+  width: min(86%, 500px) !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: 510px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  filter: drop-shadow(0 34px 54px rgba(0, 0, 0, 0.56)) !important;
+  clip-path: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-visual figcaption {
+  right: auto !important;
+  bottom: 18px !important;
+  left: 28px !important;
+  z-index: 3 !important;
+  width: min(74%, 360px) !important;
+  padding: 14px 16px 14px 20px !important;
+  border: 0 !important;
+  border-left: 5px solid #ffd766 !important;
+  background:
+    linear-gradient(90deg, rgba(3, 7, 12, 0.86), rgba(3, 7, 12, 0.56)),
+    rgba(3, 7, 12, 0.62) !important;
+  box-shadow: 0 22px 46px rgba(0, 0, 0, 0.34) !important;
+  backdrop-filter: blur(12px) !important;
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+  margin-top: 12px !important;
+  overflow: visible !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 42px minmax(0, 1fr) !important;
+  gap: 14px !important;
+  min-height: 152px !important;
+  padding: 22px 18px 20px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(246, 196, 83, 0.24) !important;
+  border-left: 4px solid rgba(193, 18, 31, 0.92) !important;
+  border-radius: 0 !important;
+  background:
+    linear-gradient(135deg, rgba(193, 18, 31, 0.18), rgba(255, 255, 255, 0.055) 42%, rgba(255, 255, 255, 0.018)),
+    rgba(5, 8, 12, 0.76) !important;
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.2) !important;
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px)) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: auto 16px 14px auto !important;
+  width: 58px !important;
+  height: 58px !important;
+  border: 1px solid rgba(246, 196, 83, 0.14) !important;
+  border-radius: 999px !important;
+  background: radial-gradient(circle, rgba(246, 196, 83, 0.12), transparent 70%) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 auto 0 0 !important;
+  width: 34% !important;
+  background: linear-gradient(90deg, rgba(193, 18, 31, 0.2), transparent) !important;
+  pointer-events: none !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article:nth-child(even) {
+  transform: translateY(18px) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster span {
+  position: relative !important;
+  z-index: 2 !important;
+  display: inline-grid !important;
+  width: 38px !important;
+  height: 38px !important;
+  place-items: center !important;
+  border: 1px solid rgba(246, 196, 83, 0.72) !important;
+  border-radius: 999px !important;
+  background: rgba(18, 7, 9, 0.9) !important;
+  color: #ffd766 !important;
+  box-shadow: 0 0 0 7px rgba(193, 18, 31, 0.12) !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster article > div {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster h3 {
+  max-width: 14rem !important;
+  margin: 0 0 10px !important;
+  color: #fff !important;
+  font-size: 1rem !important;
+  line-height: 1.04 !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+body#top main.rtbo-public .sports-agency-about-roster p {
+  max-width: 15rem !important;
+  color: rgba(255, 255, 255, 0.75) !important;
+  font-size: 0.9rem !important;
+  line-height: 1.48 !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-visual::before,
+html.light body#top main.rtbo-public .sports-agency-about-visual::before {
+  background:
+    linear-gradient(135deg, rgba(193, 18, 31, 0.12), transparent 38%),
+    radial-gradient(circle at 68% 28%, rgba(246, 196, 83, 0.18), transparent 38%),
+    rgba(255, 255, 255, 0.72) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-roster article,
+html.light body#top main.rtbo-public .sports-agency-about-roster article {
+  background:
+    linear-gradient(135deg, rgba(193, 18, 31, 0.08), rgba(255, 255, 255, 0.92) 42%, rgba(241, 245, 249, 0.88)),
+    #fff !important;
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.1) !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-roster h3,
+html.light body#top main.rtbo-public .sports-agency-about-roster h3 {
+  color: #0f172a !important;
+}
+
+:root[data-theme="light"] body#top main.rtbo-public .sports-agency-about-roster p,
+html.light body#top main.rtbo-public .sports-agency-about-roster p {
+  color: #334155 !important;
+}
+
+@media (max-width: 1180px) {
+  body#top main.rtbo-public .sports-agency-about-roster {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body#top main.rtbo-public .sports-agency-about-visual {
+    min-height: 420px !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-visual::before {
+    inset: 18px 10px 46px 18px !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-visual img {
+    width: min(88%, 380px) !important;
+    max-height: 390px !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-roster {
+    grid-template-columns: 1fr !important;
+  }
+
+  body#top main.rtbo-public .sports-agency-about-roster article,
+  body#top main.rtbo-public .sports-agency-about-roster article:nth-child(even) {
+    transform: none !important;
+  }
+}

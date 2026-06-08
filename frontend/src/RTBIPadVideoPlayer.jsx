@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 const CSS_ID = 'rtb-ipad-video-player-css';
-const CSS_HREF = '/assets/video-player/rtb-ipad-player.css?v=20260603-animated-logos';
+const CSS_HREF = '/assets/video-player/rtb-ipad-player.css?v=20260607-transparent-captions-no-ball';
 const SPEEDS = [0.75, 1, 1.25, 1.5, 2];
 
 const icons = {
@@ -94,9 +94,7 @@ function AnimatedPlayerLogo({ src = '', variant = 'status' }) {
   if (!src) return null;
   return (
     <span className={`rtb-animated-logo rtb-animated-logo-${variant}`} aria-hidden="true">
-      <span className="rtb-animated-logo-halo" />
       <img src={src} alt="" />
-      <span className="rtb-animated-logo-sheen" />
     </span>
   );
 }
@@ -169,10 +167,9 @@ export default function RTBIPadVideoPlayer({
   const [nativeSpeed, setNativeSpeed] = useState(1);
   const [nativeTheater, setNativeTheater] = useState(false);
   const [nativeMini, setNativeMini] = useState(false);
-  const [pauseFlash, setPauseFlash] = useState(false);
-  const [adjacentFlash, setAdjacentFlash] = useState('');
-  const pauseFlashTimerRef = useRef(null);
-  const adjacentFlashTimerRef = useRef(null);
+  const [selectedControl, setSelectedControl] = useState('');
+  const [nativeCaptionText, setNativeCaptionText] = useState('');
+  const transientControlTimerRef = useRef(null);
 
   const selectedItem = useMemo(() => (
     playlist.find(item => item.id === selectedId) || playlist[0] || null
@@ -192,6 +189,12 @@ export default function RTBIPadVideoPlayer({
   const activeTheater = controlled ? theaterMode : nativeTheater;
   const activeMini = controlled ? miniMode : nativeMini;
   const playerTitle = selectedItem?.title || title || brand;
+  const connectionStatus = playing ? 'Online' : 'Offline';
+  const titleOverlayMeta = selectedItem
+    ? [selectedItem.subtitle, selectedItem.category, selectedItem.runtime].filter(Boolean).join(' / ')
+    : '';
+  const titleOverlayImage = selectedItem?.poster || selectedItem?.posterUrl || poster || '';
+  const showTitleOverlay = Boolean(!controlled && hasVideo && selectedItem?.title);
 
   useEffect(() => {
     if (controlled) return;
@@ -207,37 +210,73 @@ export default function RTBIPadVideoPlayer({
     setNativePlaying(false);
     setNativeCurrent(0);
     setNativeDuration(0);
+    setNativeCaptionText('');
+    setSelectedControl('');
   }, [controlled, selectedItem?.id]);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video?.textTracks) return;
-    Array.from(video.textTracks).forEach(track => {
-      track.mode = captionsOn ? 'showing' : 'disabled';
+    if (controlled || !video?.textTracks) {
+      setNativeCaptionText('');
+      return;
+    }
+
+    const tracks = Array.from(video.textTracks);
+    const updateCaptionText = () => {
+      if (!captionsOn) {
+        setNativeCaptionText('');
+        return;
+      }
+      const activeText = tracks
+        .flatMap(track => Array.from(track.activeCues || []))
+        .map(cue => String(cue.text || '').trim())
+        .filter(Boolean)
+        .join('\n');
+      setNativeCaptionText(activeText);
+    };
+
+    tracks.forEach(track => {
+      track.mode = captionsOn ? 'hidden' : 'disabled';
+      track.addEventListener?.('cuechange', updateCaptionText);
     });
-  }, [captionsOn, selectedItem?.id]);
+    video.addEventListener('timeupdate', updateCaptionText);
+    video.addEventListener('seeked', updateCaptionText);
+    updateCaptionText();
+
+    return () => {
+      tracks.forEach(track => {
+        track.removeEventListener?.('cuechange', updateCaptionText);
+        track.mode = 'disabled';
+      });
+      video.removeEventListener('timeupdate', updateCaptionText);
+      video.removeEventListener('seeked', updateCaptionText);
+    };
+  }, [captionsOn, controlled, selectedItem?.id]);
 
   useEffect(() => () => {
-    window.clearTimeout(pauseFlashTimerRef.current);
-    window.clearTimeout(adjacentFlashTimerRef.current);
+    window.clearTimeout(transientControlTimerRef.current);
   }, []);
 
-  function flashPauseButton() {
-    window.clearTimeout(pauseFlashTimerRef.current);
-    setPauseFlash(false);
-    window.requestAnimationFrame(() => {
-      setPauseFlash(true);
-      pauseFlashTimerRef.current = window.setTimeout(() => setPauseFlash(false), 780);
-    });
+  useEffect(() => {
+    if (playing) {
+      window.clearTimeout(transientControlTimerRef.current);
+      setSelectedControl('play');
+      return;
+    }
+    setSelectedControl(currentControl => (currentControl === 'play' ? '' : currentControl));
+  }, [playing]);
+
+  function selectPersistentControl(control) {
+    window.clearTimeout(transientControlTimerRef.current);
+    setSelectedControl(control);
   }
 
-  function flashAdjacentButton(direction) {
-    window.clearTimeout(adjacentFlashTimerRef.current);
-    setAdjacentFlash('');
-    window.requestAnimationFrame(() => {
-      setAdjacentFlash(direction);
-      adjacentFlashTimerRef.current = window.setTimeout(() => setAdjacentFlash(''), 520);
-    });
+  function selectTemporaryControl(control, timeout = 700) {
+    window.clearTimeout(transientControlTimerRef.current);
+    setSelectedControl(control);
+    transientControlTimerRef.current = window.setTimeout(() => {
+      setSelectedControl(currentControl => (currentControl === control ? '' : currentControl));
+    }, timeout);
   }
 
   async function nativePlay() {
@@ -309,34 +348,37 @@ export default function RTBIPadVideoPlayer({
   }
 
   function handlePlay() {
+    selectPersistentControl('play');
     if (controlled) onPlay?.();
     else nativePlay();
   }
 
   function handlePause() {
-    flashPauseButton();
+    selectPersistentControl('pause');
     if (controlled) onPause?.();
     else nativePause();
   }
 
   function handleStop() {
+    selectPersistentControl('stop');
     if (controlled) onStop?.();
     else nativeStop();
   }
 
   function handlePrevious() {
-    flashAdjacentButton('previous');
+    selectTemporaryControl('previous');
     if (controlled) onPrevious?.();
     else nativeAdjacent(-1);
   }
 
   function handleNext() {
-    flashAdjacentButton('next');
+    selectTemporaryControl('next');
     if (controlled) onNext?.();
     else nativeAdjacent(1);
   }
 
-  function handleSkip(seconds) {
+  function handleSkip(seconds, control = 'seek') {
+    selectTemporaryControl(control);
     if (controlled) {
       if (onSkip) {
         onSkip(seconds);
@@ -351,6 +393,7 @@ export default function RTBIPadVideoPlayer({
   }
 
   function handleSeek(percent) {
+    selectTemporaryControl('timeline', 520);
     if (controlled) onSeek?.(percent);
     else nativeSeek(percent);
   }
@@ -440,6 +483,9 @@ export default function RTBIPadVideoPlayer({
       </div>
     )
   );
+  const nativeTransparentCaption = !controlled && captionsOn
+    ? (nativeCaptionText || selectedItem?.transcript || '')
+    : '';
 
   return (
     <section
@@ -459,22 +505,28 @@ export default function RTBIPadVideoPlayer({
               {live && <small>Live</small>}
             </div>
             <div className="rtb-status-right">
-              <span>{typeof navigator !== 'undefined' && navigator.onLine === false ? 'Offline' : 'Online'}</span>
+              <span aria-live="polite">{connectionStatus}</span>
             </div>
           </div>
 
-          <div className={`rtb-screen rtb-screen-${aspect}`}>
-            <div className="rtb-video-stage">
-              {stageMedia}
-              {overlayContent}
-              {captionContent || (captionsOn && selectedItem?.transcript ? <div className="rtb-caption-strip">{selectedItem.transcript}</div> : null)}
-              {!playing && !disabled && (
-                <button className="rtb-center-play" type="button" onClick={handlePlay} aria-label={`Play ${playerTitle}`}>
-                  {icons.play}
-                </button>
-              )}
-              {live && <div className="rtb-live-badge">LIVE</div>}
-            </div>
+            <div className={`rtb-screen rtb-screen-${aspect}`}>
+              <div className="rtb-video-stage">
+                <div className="rtb-video-frame">
+                  {stageMedia}
+                  {showTitleOverlay && (
+                    <div className="rtb-video-title-overlay" key={`${selectedItem.id}-${playing ? 'playing' : 'ready'}-title-overlay`} aria-live="polite">
+                      {titleOverlayImage && <img src={titleOverlayImage} alt="" loading="lazy" decoding="async" />}
+                      <span>
+                        <strong>{selectedItem.title}</strong>
+                        {titleOverlayMeta && <small>{titleOverlayMeta}</small>}
+                      </span>
+                    </div>
+                  )}
+                  {overlayContent}
+                  {captionContent || (nativeTransparentCaption ? <div className="rtb-caption-strip">{nativeTransparentCaption}</div> : null)}
+                  {live && <div className="rtb-live-badge">LIVE</div>}
+                </div>
+              </div>
 
             <div className="rtb-control-dock">
               <div className="rtb-control-row rtb-control-row-top">
@@ -494,15 +546,15 @@ export default function RTBIPadVideoPlayer({
                 <span className="rtb-timecode">{formatTime(duration)}</span>
               </div>
               <div className="rtb-control-row rtb-main-buttons" role="group" aria-label="Video controls">
-                <PlayerButton icon="play" label="Play" variant="play" active={playing} onClick={handlePlay} disabled={disabled} />
-                <PlayerButton icon="pause" label="Pause" variant="pause" pulse={pauseFlash} onClick={handlePause} disabled={disabled} />
-                <PlayerButton icon="stop" label="Stop" onClick={handleStop} disabled={disabled} />
-                <PlayerButton icon="prev" label="Prev" variant="skip" pulse={adjacentFlash === 'previous'} onClick={handlePrevious} disabled={disabled || (!controlled && playlist.length < 2)} />
-                <PlayerButton icon="rewind" label="Rewind" variant="seek" onClick={() => handleSkip(-30)} disabled={disabled} />
-                <PlayerButton icon="rewind" label="-10" variant="seek" onClick={() => handleSkip(-10)} disabled={disabled} />
-                <PlayerButton icon="forward" label="+10" variant="seek" onClick={() => handleSkip(10)} disabled={disabled} />
-                <PlayerButton icon="forward" label="Fast Fwd" variant="seek" onClick={() => handleSkip(30)} disabled={disabled} />
-                <PlayerButton icon="next" label="Next" variant="skip" pulse={adjacentFlash === 'next'} onClick={handleNext} disabled={disabled || (!controlled && playlist.length < 2)} />
+                <PlayerButton icon="play" label="Play" variant="play" active={playing} onClick={handlePlay} disabled={disabled} ariaPressed={playing} />
+                <PlayerButton icon="pause" label="Pause" variant="pause" active={selectedControl === 'pause' && !playing} pulse={selectedControl === 'pause' && !playing} onClick={handlePause} disabled={disabled} ariaPressed={selectedControl === 'pause' && !playing} />
+                <PlayerButton icon="stop" label="Stop" variant="stop" active={selectedControl === 'stop' && !playing} onClick={handleStop} disabled={disabled} ariaPressed={selectedControl === 'stop' && !playing} />
+                <PlayerButton icon="prev" label="Prev" variant="skip" active={selectedControl === 'previous'} onClick={handlePrevious} disabled={disabled || (!controlled && playlist.length < 2)} />
+                <PlayerButton icon="rewind" label="Rewind" variant="seek" active={selectedControl === 'rewind'} onClick={() => handleSkip(-30, 'rewind')} disabled={disabled} />
+                <PlayerButton icon="rewind" label="-10" variant="seek" active={selectedControl === 'back10'} onClick={() => handleSkip(-10, 'back10')} disabled={disabled} />
+                <PlayerButton icon="forward" label="+10" variant="seek" active={selectedControl === 'forward10'} onClick={() => handleSkip(10, 'forward10')} disabled={disabled} />
+                <PlayerButton icon="forward" label="Fast Fwd" variant="seek" active={selectedControl === 'fastForward'} onClick={() => handleSkip(30, 'fastForward')} disabled={disabled} />
+                <PlayerButton icon="next" label="Next" variant="skip" active={selectedControl === 'next'} onClick={handleNext} disabled={disabled || (!controlled && playlist.length < 2)} />
                 {showRecord && (
                   <PlayerButton icon="record" label="Record" variant="record" active={recording} onClick={onToggleRecording} disabled={disabled || !onToggleRecording} ariaPressed={recording} />
                 )}

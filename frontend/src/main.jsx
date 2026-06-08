@@ -72,11 +72,13 @@ const RTBO_REVIEW_STORAGE_KEY = 'rtbo-attendee-reviews';
 const SITE_CONTENT_KEY = 'rtbo-site-content-records';
 const SITE_CONTENT_UPDATED_EVENT = 'rtbo-site-content-updated';
 const HOME_CLIENT_SPOTLIGHT_CSS_ID = 'home-client-spotlight-css';
-const HOME_CLIENT_SPOTLIGHT_CSS_HREF = '/assets/css/home-client-spotlight.css?v=20260529-wide-player';
+const HOME_CLIENT_SPOTLIGHT_CSS_HREF = '/assets/css/home-client-spotlight.css?v=20260607-player-overlay-layout';
 const HOME_PREMIUM_CSS_ID = 'rtbo-premium-home-css';
-const HOME_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-home.css?v=20260603-luxury-nav';
+const HOME_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-home.css?v=20260607-desktop-shell-audit';
 const PUBLIC_PREMIUM_CSS_ID = 'rtbo-premium-public-css';
-const PUBLIC_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-public.css?v=20260603-luxury-nav-logos';
+const PUBLIC_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-public.css?v=20260607-operating-standards-agency';
+const PUBLIC_AGENCY_REDESIGN_CSS_ID = 'rtbo-agency-redesign-css';
+const PUBLIC_AGENCY_REDESIGN_CSS_HREF = '/assets/css/rtbo-agency-redesign.css?v=20260607-operating-standards-agency';
 const APP_PREMIUM_CSS_ID = 'rtbo-premium-app-css';
 const APP_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-app.css?v=20260603a';
 
@@ -904,6 +906,37 @@ const premiumHeroPillars = [
   'Mobile crew operations'
 ];
 
+const sportsAgencyServices = [
+  {
+    id: 'assigning',
+    number: '01',
+    title: 'Assigning',
+    text: 'Professional basketball officials, crew communication, event coverage, and reporting support.',
+    target: 'services'
+  },
+  {
+    id: 'training',
+    number: '02',
+    title: 'Training',
+    text: 'School sessions, court mechanics, film habits, feedback, and mentorship for serious officials.',
+    target: 'events'
+  },
+  {
+    id: 'education',
+    number: '03',
+    title: 'RefZone University',
+    text: 'Structured online education, quizzes, tests, film labs, readings, and development tracks.',
+    target: 'education'
+  },
+  {
+    id: 'media',
+    number: '04',
+    title: 'Media',
+    text: 'Client Spotlight, RefRoom, livestream, podcast, and production tools for the RTBO community.',
+    target: 'livestream'
+  }
+];
+
 function Home({ setActive, onOpenRegister }) {
   const carouselImages = ['carousel_img_1.png', 'carousel_img_2.png', 'carousel_img_3.png', 'carousel_img_4.png', 'carousel_img_5.png'];
 
@@ -913,38 +946,67 @@ function Home({ setActive, onOpenRegister }) {
 
   return (
     <>
-      <section className="rtbo-hero">
-        <div className="rtbo-hero-copy">
-          <p className="eyebrow">We Will Serve and Will Be of Service to the Game</p>
-          <div className="hero-title-row"><h1><span>Raising The Bar</span><span>Officiating</span></h1></div>
-          <p>Elite officiating assignments, professional training, and leadership development serving the game with integrity, precision, and purpose. We develop officials through advanced training, mentorship, real-game experience, rules knowledge, mechanics, and philosophy of the game.</p>
-          <div className="rtbo-hero-proof-row" aria-label="RTBO premium service pillars">
-            {premiumHeroPillars.map((pillar) => <span key={pillar}>{pillar}</span>)}
+      <section className="sports-agency-hero" id="home" aria-label="Raising The Bar Officiating sports agency home">
+        <div className="sports-agency-backdrop" aria-hidden="true"></div>
+        <div className="sports-agency-hero-grid">
+          <div className="sports-agency-hero-copy">
+            <p className="eyebrow">Basketball Officiating Agency</p>
+            <h1>
+              <span>Raising</span>
+              <span>The Bar</span>
+              <span>Officiating</span>
+            </h1>
+            <p className="sports-agency-lede">Professional assignments, elite official development, RefZone University education, and media production systems built for the basketball community.</p>
+            <div className="sports-agency-actions">
+              <button className="btn" type="button" onClick={() => setActive('services')}>Explore Services</button>
+              <button className="btn secondary dark-btn" type="button" onClick={onOpenRegister}>Register for School</button>
+            </div>
           </div>
-          <div className="button-row">
-            <button className="btn" type="button" onClick={onOpenRegister}>Register for School</button>
-            <button className="btn secondary dark-btn" type="button" onClick={() => setActive('events')}>View Sessions</button>
+
+          <aside className="sports-agency-feature-panel" aria-label="RTBO agency feature">
+            <img className="sports-agency-feature-logo" src={image('logo.png')} alt="Raising The Bar Officiating logo" />
+            <figure>
+              <img src={image('hero_image.png')} alt="Raising The Bar Officiating leadership support team" />
+            </figure>
+            <div className="sports-agency-feature-copy">
+              <span>Built For The Game</span>
+              <strong>Assign. Train. Develop. Produce.</strong>
+              <p>RTBO connects event coverage, official education, game-day workflow, and production media into one service platform.</p>
+            </div>
+          </aside>
+        </div>
+
+        <div className="sports-agency-service-rail" aria-label="RTBO services">
+          {sportsAgencyServices.map((service) => (
+            <button key={service.id} type="button" onClick={() => setActive(service.target)}>
+              <span>{service.number}</span>
+              <strong>{service.title}</strong>
+              <p>{service.text}</p>
+            </button>
+          ))}
+        </div>
+
+        <div className="sports-agency-marquee" aria-hidden="true">
+          <div>
+            {premiumHeroPillars.concat(premiumHeroPillars).map((pillar, index) => <span key={`${pillar}-${index}`}>{pillar}</span>)}
           </div>
         </div>
-        <div className="hero-carousel" aria-label="RTBO officiating photo slider">
-          <div className="hero-carousel-track carousel-content">
-            {[...carouselImages, ...carouselImages].map((name, index) => <img key={`${name}-${index}`} src={image(name)} alt="RTBO officiating" />)}
-          </div>
-        </div>
-        <div className="rtbo-stats rtbo-service-signals" aria-label="RTBO service signals">
-          <article><strong>Assigning</strong><span>Event crews, communication, and reports</span></article>
-          <article><strong>Development</strong><span>Training, feedback, and mentorship</span></article>
-          <article><strong>Mobile Tools</strong><span>Availability, alerts, and game day updates</span></article>
-        </div>
-        <button
-          type="button"
-          className="hero-scroll-link"
-          onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-        >
-          Scroll Down <span aria-hidden="true">↓</span>
-        </button>
       </section>
-      <PremiumImpactStrip />
+      <section className="sports-agency-image-reel-section" aria-labelledby="sports-agency-image-reel-title">
+        <div className="sports-agency-image-reel-head">
+          <p className="eyebrow">RTBO Event Reel</p>
+          <h2 id="sports-agency-image-reel-title">The work, the schools, and the game-day standard.</h2>
+        </div>
+        <div className="sports-agency-image-reel" aria-label="RTBO officiating image slider">
+          <div className="sports-agency-image-track">
+            {[...carouselImages, ...carouselImages].map((name, index) => (
+              <figure key={`${name}-${index}`}>
+                <img src={image(name)} alt="RTBO officiating" loading={index < carouselImages.length ? 'eager' : 'lazy'} decoding="async" />
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
       <AboutSummary setActive={setActive} />
       <HomeClientSpotlight />
       <HomeRefZoneUniversity setActive={setActive} />
@@ -977,24 +1039,72 @@ function PremiumImpactStrip() {
 }
 
 function AboutSummary({ setActive }) {
+  const aboutProofPoints = [
+    ['01', 'Service Standard', 'Professional assignments, development, and communication built around serving the game.'],
+    ['02', 'Education Path', 'Structured training, film habits, testing, and mentorship for serious basketball officials.'],
+    ['03', 'Game-Day System', 'Assigning, mobile tools, reports, and feedback connected through RTBO operations.'],
+    ['04', 'Media & Platform', 'Client Spotlight, RefRoom, livestream, and Got U Nex Ref tools connected to the RTBO ecosystem.']
+  ];
+
   return (
-    <section className="rtbo-band about-rtbo-section home-about-rtbo-section" id="about">
-      <div className="about-rtbo-layout">
-        <div className="about-rtbo-visual-column">
-          <div className="about-rtbo-heading"><p className="eyebrow">About RTBO</p><h2>Service. Development. Innovation.</h2></div>
-          <div className="image-frame compact about-rtbo-image-frame"><img src={image('polo_blk_white.png')} alt="RTBO officiating apparel and brand mark" /></div>
-        </div>
-        <div className="about-rtbo-content">
-          <div className="long-copy">
-            <h3>Who We Are</h3>
-            <p>Raising The Bar Officiating is a premier organization committed to elevating the standard of basketball officiating through professional assignments, elite training, and leadership development. Founded on the principle of service, we exist to support the game by preparing officials who demonstrate integrity, consistency, and confidence on every possession.</p>
-            <p>We partner with leagues, schools, tournaments, and organizations to deliver dependable officiating solutions—while simultaneously developing the next generation of officials through structured education and real-game experience.</p>
-            <p><strong>Core Philosophy:</strong><br />We Will Serve, And Will Be Of Service To The Game.</p>
+    <section className="rtbo-section sports-agency-about-section" id="about">
+      <div className="sports-agency-about-shell">
+        <header className="sports-agency-about-masthead">
+          <p className="eyebrow">About RTBO</p>
+          <h2>
+            <span>Professional Officiating,</span>
+            <span>Built Around Service.</span>
+          </h2>
+          <p>Raising The Bar Officiating combines game assignments, official development, leadership standards, and modern operating tools into one professional basketball officiating organization.</p>
+        </header>
+
+        <div className="sports-agency-about-grid">
+          <aside className="sports-agency-about-roster" aria-label="RTBO agency service roster">
+            {aboutProofPoints.map(([number, title, text]) => (
+              <article key={title}>
+                <span>{number}</span>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </div>
+              </article>
+            ))}
+          </aside>
+
+          <figure className="sports-agency-about-visual">
+            <img src={image('polo_blk_white.png')} alt="RTBO officiating apparel and brand mark" />
+            <figcaption>
+              <span>Core Philosophy</span>
+              <strong>We Will Serve, And Will Be Of Service To The Game.</strong>
+            </figcaption>
+          </figure>
+
+          <article className="sports-agency-about-story">
+            <p className="eyebrow">Who We Are</p>
+            <h3>Assignments, training, leadership, and operating systems under one RTBO standard.</h3>
+            <p>Raising The Bar Officiating is a premier organization committed to elevating the standard of basketball officiating through professional assignments, elite training, and leadership development.</p>
+            <p>We partner with leagues, schools, tournaments, and organizations to deliver dependable officiating solutions while developing the next generation of officials through structured education and real-game experience.</p>
             {setActive && <button className="btn about-learn-more-button" type="button" onClick={() => setActive('about')}>Learn More</button>}
-          </div>
+          </article>
         </div>
-        <div className="about-icon-grid">
-          {aboutCards.map(([icon, title, text]) => <article key={title}><img className="card-icon" src={image(icon)} alt="" /><h3>{title}</h3><p>{text}</p></article>)}
+
+        <div className="sports-agency-about-standards" aria-label="RTBO operating standards">
+          <div>
+            <p className="eyebrow">Operating Standards</p>
+            <h3>Habits officials can carry into every assignment.</h3>
+          </div>
+          <div className="sports-agency-about-standard-track">
+            {aboutCards.map(([icon, title, text], index) => (
+              <article key={title}>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <img className="card-icon" src={image(icon)} alt="" />
+                <div>
+                  <h4>{title}</h4>
+                  <p>{text}</p>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -1067,26 +1177,41 @@ function HomeClientSpotlight() {
     }
   }, [playlist, selectedId]);
 
+  const selectedVideoMeta = selectedVideo
+    ? [selectedVideo.category, selectedVideo.runtime, selectedVideo.publishedAt].filter(Boolean).join(' / ')
+    : '';
+
   return (
     <section className="rtbo-section home-client-spotlight-section" aria-labelledby="home-client-spotlight-title">
       <div className="home-client-spotlight-head">
-        <p className="eyebrow">Client Spotlight</p>
-        <h2 id="home-client-spotlight-title">{library.show.name || defaultClientSpotlightShow.name}</h2>
-        <h3 className="home-client-spotlight-subtitle">Production-ready stories from the RTBO community.</h3>
-        <div className="home-client-spotlight-copy" aria-label="Client Spotlight details">
-          <p>{selectedVideo?.description || library.show.mission || defaultClientSpotlightShow.mission}</p>
-          <p className="home-client-spotlight-tagline">{library.show.tagline || defaultClientSpotlightShow.tagline}</p>
-          {selectedVideo?.title && <p className="home-client-spotlight-now-playing"><strong>Now playing:</strong> {selectedVideo.title}</p>}
-          {selectedVideo ? (
-            <dl className="home-client-spotlight-meta">
-              {selectedVideo.category && <div><dt>Category</dt><dd>{selectedVideo.category}</dd></div>}
-              {selectedVideo.featuredPerson && <div><dt>Featured</dt><dd>{[selectedVideo.featuredPerson, selectedVideo.role, selectedVideo.affiliation].filter(Boolean).join(' / ')}</dd></div>}
-              {selectedVideo.eventName && <div><dt>Event</dt><dd>{[selectedVideo.eventName, selectedVideo.eventDate].filter(Boolean).join(' / ')}</dd></div>}
-            </dl>
-          ) : (
-            <p className="home-client-spotlight-empty-note">Publish real Client Spotlight videos to activate the public playlist.</p>
-          )}
+        <div className="home-client-spotlight-title-block">
+          <p className="eyebrow">Client Spotlight</p>
+          <h2 id="home-client-spotlight-title">{library.show.name || defaultClientSpotlightShow.name}</h2>
+          <h3 className="home-client-spotlight-subtitle">Production-ready stories from the RTBO community.</h3>
+          <div className="home-client-spotlight-copy" aria-label="Client Spotlight details">
+            <p>{selectedVideo?.description || library.show.mission || defaultClientSpotlightShow.mission}</p>
+            <p className="home-client-spotlight-tagline">{library.show.tagline || defaultClientSpotlightShow.tagline}</p>
+            {selectedVideo ? (
+              <dl className="home-client-spotlight-meta">
+                {selectedVideo.category && <div><dt>Category</dt><dd>{selectedVideo.category}</dd></div>}
+                {selectedVideo.featuredPerson && <div><dt>Featured</dt><dd>{[selectedVideo.featuredPerson, selectedVideo.role, selectedVideo.affiliation].filter(Boolean).join(' / ')}</dd></div>}
+                {selectedVideo.eventName && <div><dt>Event</dt><dd>{[selectedVideo.eventName, selectedVideo.eventDate].filter(Boolean).join(' / ')}</dd></div>}
+              </dl>
+            ) : (
+              <p className="home-client-spotlight-empty-note">Publish real Client Spotlight videos to activate the public playlist.</p>
+            )}
+          </div>
         </div>
+        {selectedVideo && (
+          <aside className="home-client-spotlight-current-feature" aria-label="Current Client Spotlight video">
+            <img src={selectedVideo.posterUrl || library.show.logoCard || defaultClientSpotlightShow.logoCard} alt="" loading="lazy" decoding="async" />
+            <span>
+              <small>Now Featured</small>
+              <strong>{selectedVideo.title}</strong>
+              {selectedVideoMeta && <em>{selectedVideoMeta}</em>}
+            </span>
+          </aside>
+        )}
       </div>
 
       <div className="home-client-spotlight-layout">
@@ -1106,26 +1231,38 @@ function HomeClientSpotlight() {
           />
         </div>
 
-        <aside className="home-client-spotlight-sidebar" aria-label="Client Spotlight playlist">
-          {publishedVideos.length > 0 && (
-            <div className="home-client-spotlight-playlist" aria-label="Published Client Spotlight videos">
-              {publishedVideos.slice(0, 4).map(video => (
-                <button
-                  key={video.id}
-                  className={video.id === selectedVideo?.id ? 'active' : ''}
-                  type="button"
-                  onClick={() => setSelectedId(video.id)}
-                >
-                  <img src={video.posterUrl || library.show.logoCard || defaultClientSpotlightShow.logoCard} alt="" loading="lazy" decoding="async" />
-                  <span>
-                    <strong>{video.title}</strong>
-                    <small>{[video.category, video.runtime].filter(Boolean).join(' / ') || 'Client Spotlight video'}</small>
-                  </span>
-                </button>
-              ))}
+        {publishedVideos.length > 0 && (
+          <aside className="home-client-spotlight-sidebar" aria-label="Uploaded Client Spotlight videos">
+            <div className="home-client-spotlight-sidebar-shell">
+              <div className="home-client-spotlight-sidebar-head">
+                <p className="eyebrow">Uploaded Videos</p>
+                <strong>{publishedVideos.length}</strong>
+              </div>
+              <div className="home-client-spotlight-playlist" aria-label="Published Client Spotlight videos">
+                {publishedVideos.map(video => {
+                  const videoMeta = [video.category, video.runtime, video.publishedAt].filter(Boolean).join(' / ');
+                  const isActiveVideo = video.id === selectedVideo?.id;
+                  return (
+                    <button
+                      key={video.id}
+                      className={isActiveVideo ? 'active' : ''}
+                      type="button"
+                      onClick={() => setSelectedId(video.id)}
+                      aria-current={isActiveVideo ? 'true' : undefined}
+                    >
+                      <img src={video.posterUrl || library.show.logoCard || defaultClientSpotlightShow.logoCard} alt="" loading="lazy" decoding="async" />
+                      <span>
+                        <strong>{video.title}</strong>
+                        {videoMeta && <small>{videoMeta}</small>}
+                        <em>{isActiveVideo ? 'Now playing' : 'Select video'}</em>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          )}
-        </aside>
+          </aside>
+        )}
       </div>
     </section>
   );
@@ -1186,16 +1323,28 @@ function HomeResultsFeature({ setActive }) {
   ];
 
   return (
-    <section className="rtbo-section home-results-section">
-      <div className="results-feature-panel">
-        <div className="results-top-copy">
+    <section className="rtbo-section home-results-section results-agency-section">
+      <div className="results-agency-layout">
+        <div className="results-agency-copy">
           <p className="eyebrow">Real Results</p>
           <h2>Officials leave with stronger habits, clearer feedback, and a path forward.</h2>
           <p>The RTBO experience is built around measurable development. Officials receive practical teaching, real court reps, direct feedback, and leadership standards they can take into every assignment.</p>
+          <div className="results-agency-proof-list">
+            {points.map(([icon, title, text], index) => (
+              <article key={title}>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <img className="card-icon" src={image(icon)} alt="" />
+                <div>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </div>
+              </article>
+            ))}
+          </div>
           <button className="btn results-home-btn" type="button" onClick={() => setActive('reviews')}>View Reviews</button>
         </div>
-        <div className="results-top-cards">
-          <div className="results-proof-head">
+        <div className="results-agency-voices">
+          <div className="results-agency-voices-head">
             <span>Featured Voices</span>
             <strong>RTBO training and development from people connected to the work.</strong>
           </div>
@@ -1209,15 +1358,6 @@ function HomeResultsFeature({ setActive }) {
             </figure>
           ))}
         </div>
-      </div>
-      <div className="results-top-points">
-        {points.map(([icon, title, text]) => (
-          <article key={title}>
-            <img className="card-icon" src={image(icon)} alt="" />
-            <h3>{title}</h3>
-            <p>{text}</p>
-          </article>
-        ))}
       </div>
     </section>
   );
@@ -7166,6 +7306,7 @@ const settingsWorkflowSections = [
 const scheduleSetupSections = [
   { id: 'createGameAssignment', type: 'gameForm', label: 'Create Game Assignment', title: 'Create Game Assignment' },
   { id: 'masterSchedule', type: 'masterSchedule', label: 'Master Schedule', title: 'Master Schedule' },
+  { id: 'calendarSync', type: 'calendarSync', label: 'Calendar Sync', title: 'Calendar Sync' },
   { id: 'liveMap', type: 'map', label: '2D / 3D Location Map', title: '2D / 3D Official Location Map' }
 ];
 
@@ -10450,6 +10591,259 @@ function NotificationCenter({
   );
 }
 
+const emptyNotificationTemplateForm = {
+  key: '',
+  label: '',
+  description: '',
+  enabled: true,
+  email_subject: '',
+  email_body: '',
+  sms_body: '',
+  pdf_heading: '',
+  pdf_body: ''
+};
+
+function normalizeNotificationTemplate(template = {}) {
+  return {
+    ...emptyNotificationTemplateForm,
+    ...template,
+    enabled: template.enabled !== false
+  };
+}
+
+function NotificationTemplateBuilder({
+  templates = [],
+  placeholders = [],
+  selectedKey = '',
+  form = emptyNotificationTemplateForm,
+  preview = null,
+  status = '',
+  loading = false,
+  onRefresh = () => {},
+  onSelect = () => {},
+  onChange = () => {},
+  onSave = () => {},
+  onReset = () => {},
+  onPreview = () => {}
+}) {
+  const selectedTemplate = templates.find(template => template.key === selectedKey) || templates[0] || null;
+
+  return (
+    <article className="rtbo-dashboard-card rtbo-template-builder">
+      <div className="rtbo-dashboard-card-head">
+        <div>
+          <p className="eyebrow">Notification Template Builder</p>
+          <h3>Email, SMS & PDF Notification Formatting</h3>
+          <p>Super admins can manage production notification wording by event type. Saved templates render future notifications, SMS copy, and PDF-ready text.</p>
+        </div>
+        <div className="button-row">
+          <button className="btn secondary dark-btn" type="button" onClick={onRefresh} disabled={loading}>{loading ? 'Loading...' : 'Refresh Templates'}</button>
+        </div>
+      </div>
+
+      <div className="rtbo-template-builder-grid">
+        <aside className="rtbo-template-picker" aria-label="Notification template types">
+          {templates.map(template => (
+            <button
+              className={template.key === selectedKey ? 'active' : ''}
+              type="button"
+              key={template.key}
+              onClick={() => onSelect(template.key)}
+            >
+              <strong>{template.label}</strong>
+              <span>{template.enabled ? 'Enabled' : 'Disabled'}</span>
+            </button>
+          ))}
+        </aside>
+
+        <form className="form rtbo-template-form" onSubmit={onSave}>
+          <div className="rtbo-template-form-head">
+            <div>
+              <h4>{form.label || selectedTemplate?.label || 'Select a template'}</h4>
+              <p>{form.description || selectedTemplate?.description || 'Choose a template type to edit.'}</p>
+            </div>
+            <label className="rtbo-inline-toggle">
+              <span>Enabled</span>
+              <input type="checkbox" name="enabled" checked={Boolean(form.enabled)} onChange={onChange} />
+            </label>
+          </div>
+
+          <div className="grid two">
+            <label>Email Subject
+              <input name="email_subject" value={form.email_subject} onChange={onChange} placeholder="Subject line with {{placeholders}}" required />
+            </label>
+            <label>PDF Heading
+              <input name="pdf_heading" value={form.pdf_heading} onChange={onChange} placeholder="PDF heading" required />
+            </label>
+          </div>
+          <label>Email Body
+            <textarea name="email_body" rows="7" value={form.email_body} onChange={onChange} required />
+          </label>
+          <label>SMS Body
+            <textarea name="sms_body" rows="3" value={form.sms_body} onChange={onChange} required />
+          </label>
+          <label>PDF Body
+            <textarea name="pdf_body" rows="7" value={form.pdf_body} onChange={onChange} required />
+          </label>
+
+          <div className="rtbo-template-placeholders" aria-label="Available notification placeholders">
+            {placeholders.map(placeholder => <span key={placeholder}>{`{{${placeholder}}}`}</span>)}
+          </div>
+
+          <div className="button-row">
+            <button className="btn" type="submit">Save Template</button>
+            <button className="btn secondary dark-btn" type="button" onClick={onPreview}>Preview Render</button>
+            <button className="btn secondary dark-btn" type="button" onClick={onReset}>Reset Default</button>
+          </div>
+          {status && <p className="form-message">{status}</p>}
+        </form>
+      </div>
+
+      {preview && (
+        <div className="rtbo-template-preview" aria-label="Rendered notification preview">
+          <article>
+            <span>Email</span>
+            <strong>{preview.email_subject}</strong>
+            <p>{preview.email_body}</p>
+          </article>
+          <article>
+            <span>SMS</span>
+            <p>{preview.sms_body}</p>
+          </article>
+          <article>
+            <span>PDF</span>
+            <strong>{preview.pdf_heading}</strong>
+            <p>{preview.pdf_body}</p>
+          </article>
+        </div>
+      )}
+    </article>
+  );
+}
+
+function CalendarLinkCard({ title, value, href, onCopy }) {
+  return (
+    <article className="rtbo-calendar-sync-link">
+      <span>{title}</span>
+      <p>{value || 'Not generated yet'}</p>
+      <div className="button-row">
+        {href && <a className="btn secondary dark-btn" href={href} target="_blank" rel="noopener">Open</a>}
+        <button className="btn secondary dark-btn" type="button" onClick={() => onCopy(value)} disabled={!value}>Copy</button>
+      </div>
+    </article>
+  );
+}
+
+function CalendarSyncPanel({
+  user,
+  calendarSync = {},
+  status = '',
+  loading = false,
+  onRefresh = () => {},
+  onUpdateMaster = () => {},
+  onUpdateOfficial = () => {},
+  onCopy = () => {}
+}) {
+  const canManage = ['super_admin', 'admin'].includes(user.role);
+  const master = calendarSync.master || {};
+  const officials = Array.isArray(calendarSync.officials) ? calendarSync.officials : [];
+  const officialFeed = calendarSync.official || null;
+  const summary = calendarSync.summary || {};
+
+  return (
+    <article className="rtbo-dashboard-card rtbo-focused-page-card rtbo-calendar-sync-page">
+      <div className="rtbo-dashboard-card-head">
+        <div>
+          <p className="eyebrow">Calendar Sync</p>
+          <h3>{canManage ? 'Schedule Feed Management' : 'Assignment Calendar Feed'}</h3>
+          <p>{canManage ? 'Publish real RTBO schedule and official assignment feeds for Apple Calendar, Outlook, Google Calendar, and ICS subscribers.' : 'Sync your assigned games and availability notes to your calendar using your secure RTBO feed.'}</p>
+        </div>
+        <div className="button-row">
+          <button className="btn secondary dark-btn" type="button" onClick={onRefresh} disabled={loading}>{loading ? 'Loading...' : 'Refresh Sync'}</button>
+        </div>
+      </div>
+
+      {canManage && (
+        <>
+          <div className="rtbo-calendar-sync-summary">
+            <article><span>Published Games</span><strong>{summary.published_games || 0}</strong></article>
+            <article><span>Officials</span><strong>{summary.officials || 0}</strong></article>
+            <article><span>Active Feeds</span><strong>{summary.enabled_official_feeds || 0}</strong></article>
+          </div>
+
+          <section className="rtbo-calendar-sync-section">
+            <div>
+              <p className="eyebrow">Master Schedule</p>
+              <h4>RTBO Master ICS Feed</h4>
+              <p>This feed contains real published schedule records. Keep unpublished games out unless the Super Admin intentionally turns them on.</p>
+            </div>
+            <div className="rtbo-calendar-sync-controls">
+              <label className="rtbo-inline-toggle"><span>Master feed enabled</span><input type="checkbox" checked={master.enabled !== false} onChange={event => onUpdateMaster({ enabled: event.target.checked })} /></label>
+              <label className="rtbo-inline-toggle"><span>Include unpublished games</span><input type="checkbox" checked={Boolean(master.include_unpublished)} onChange={event => onUpdateMaster({ include_unpublished: event.target.checked })} /></label>
+              <button className="btn secondary dark-btn" type="button" onClick={() => onUpdateMaster({ regenerate_token: true })}>Regenerate Feed Link</button>
+            </div>
+            <div className="rtbo-calendar-sync-links">
+              <CalendarLinkCard title="ICS Feed URL" value={master.feed_url} href={master.feed_url} onCopy={onCopy} />
+              <CalendarLinkCard title="Apple / Outlook Webcal" value={master.webcal_url} href={master.webcal_url} onCopy={onCopy} />
+              <CalendarLinkCard title="Google Calendar Subscribe" value={master.google_url} href={master.google_url} onCopy={onCopy} />
+            </div>
+          </section>
+
+          <section className="rtbo-calendar-sync-section">
+            <div>
+              <p className="eyebrow">Official Feeds</p>
+              <h4>Assignment Calendar Access</h4>
+              <p>Enable a secure feed for each official when they need their assignments and availability records synced outside RTBO.</p>
+            </div>
+            <div className="rtbo-calendar-official-list">
+              {officials.length === 0 && <p className="rtbo-empty-state">No officials are available for calendar sync yet.</p>}
+              {officials.map(official => (
+                <article className="rtbo-calendar-official-card" key={official.official_id}>
+                  <div>
+                    <strong>{official.name || official.email || 'Official'}</strong>
+                    <span>{official.email}</span>
+                  </div>
+                  <div className="rtbo-calendar-official-controls">
+                    <label className="rtbo-inline-toggle"><span>Feed</span><input type="checkbox" checked={Boolean(official.enabled)} onChange={event => onUpdateOfficial(official.official_id, { enabled: event.target.checked })} /></label>
+                    <label className="rtbo-inline-toggle"><span>Availability</span><input type="checkbox" checked={official.include_availability !== false} onChange={event => onUpdateOfficial(official.official_id, { include_availability: event.target.checked })} /></label>
+                  </div>
+                  <div className="rtbo-calendar-official-feed">
+                    <p>{official.feed_url || 'Enable the feed to generate a secure URL.'}</p>
+                    <button className="btn secondary dark-btn" type="button" onClick={() => onCopy(official.feed_url)} disabled={!official.feed_url}>Copy ICS</button>
+                    <button className="btn secondary dark-btn" type="button" onClick={() => onUpdateOfficial(official.official_id, { regenerate_token: true })}>Regenerate</button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        </>
+      )}
+
+      {!canManage && officialFeed && (
+        <section className="rtbo-calendar-sync-section">
+          <div>
+            <p className="eyebrow">Your Feed</p>
+            <h4>{officialFeed.enabled ? 'Calendar sync is active' : 'Calendar sync is turned off'}</h4>
+            <p>Your feed includes published assignments. Availability records are included when the availability option is on.</p>
+          </div>
+          <div className="rtbo-calendar-sync-controls">
+            <label className="rtbo-inline-toggle"><span>Enable feed</span><input type="checkbox" checked={Boolean(officialFeed.enabled)} onChange={event => onUpdateOfficial(officialFeed.official_id, { enabled: event.target.checked })} /></label>
+            <label className="rtbo-inline-toggle"><span>Include availability</span><input type="checkbox" checked={officialFeed.include_availability !== false} onChange={event => onUpdateOfficial(officialFeed.official_id, { include_availability: event.target.checked })} /></label>
+            <button className="btn secondary dark-btn" type="button" onClick={() => onUpdateOfficial(officialFeed.official_id, { regenerate_token: true })}>Regenerate Feed Link</button>
+          </div>
+          <div className="rtbo-calendar-sync-links">
+            <CalendarLinkCard title="ICS Feed URL" value={officialFeed.feed_url} href={officialFeed.feed_url} onCopy={onCopy} />
+            <CalendarLinkCard title="Apple / Outlook Webcal" value={officialFeed.webcal_url} href={officialFeed.webcal_url} onCopy={onCopy} />
+            <CalendarLinkCard title="Google Calendar Subscribe" value={officialFeed.google_url} href={officialFeed.google_url} onCopy={onCopy} />
+          </div>
+        </section>
+      )}
+
+      {status && <p className="form-message">{status}</p>}
+    </article>
+  );
+}
+
 
 function OverviewGeoWidget({ geo = emptyOverviewData.geo, onOpenLiveMap }) {
   const [mapMode, setMapMode] = useState('3d');
@@ -11438,6 +11832,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     'messages',
     'tbaList',
     'availabilityCalendar',
+    'calendarSync',
     'evaluation',
     ...(canUseTaxCenter ? ['taxCenter'] : []),
     'education',
@@ -11573,6 +11968,16 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   const [notificationUnreadCount, setNotificationUnreadCount] = useState(0);
   const [releaseMessage, setReleaseMessage] = useState({ audience: 'everyone', title: '', body: '' });
   const [releaseMessageStatus, setReleaseMessageStatus] = useState('');
+  const [notificationTemplates, setNotificationTemplates] = useState([]);
+  const [notificationTemplatePlaceholders, setNotificationTemplatePlaceholders] = useState([]);
+  const [selectedNotificationTemplateKey, setSelectedNotificationTemplateKey] = useState('');
+  const [notificationTemplateForm, setNotificationTemplateForm] = useState(emptyNotificationTemplateForm);
+  const [notificationTemplatePreview, setNotificationTemplatePreview] = useState(null);
+  const [notificationTemplateStatus, setNotificationTemplateStatus] = useState('');
+  const [notificationTemplatesLoading, setNotificationTemplatesLoading] = useState(false);
+  const [calendarSync, setCalendarSync] = useState({ master: null, officials: [], official: null, summary: {} });
+  const [calendarSyncStatus, setCalendarSyncStatus] = useState('');
+  const [calendarSyncLoading, setCalendarSyncLoading] = useState(false);
   const [officialProfileLoading, setOfficialProfileLoading] = useState(!canUseAdminDashboard);
   const [officialProfileData, setOfficialProfileData] = useState({
     assignments: [],
@@ -11635,6 +12040,179 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     setNotificationUnreadCount(Number(data.notification_unread_count || 0));
   }
 
+  function updateNotificationTemplateState(data = {}) {
+    const templates = Array.isArray(data.templates) ? data.templates.map(normalizeNotificationTemplate) : [];
+    setNotificationTemplates(templates);
+    setNotificationTemplatePlaceholders(Array.isArray(data.placeholders) ? data.placeholders : []);
+    setSelectedNotificationTemplateKey(current => {
+      const nextKey = current && templates.some(template => template.key === current)
+        ? current
+        : (templates[0]?.key || '');
+      const nextTemplate = templates.find(template => template.key === nextKey) || templates[0] || emptyNotificationTemplateForm;
+      setNotificationTemplateForm(normalizeNotificationTemplate(nextTemplate));
+      return nextKey;
+    });
+  }
+
+  async function loadNotificationTemplates() {
+    if (user.role !== 'super_admin') return null;
+    setNotificationTemplatesLoading(true);
+    setNotificationTemplateStatus('Loading notification templates...');
+    try {
+      const data = await apiGet('/notification-templates.php');
+      updateNotificationTemplateState(data);
+      setNotificationTemplateStatus('Notification templates loaded.');
+      return data;
+    } catch (error) {
+      setNotificationTemplateStatus(error.message || 'Notification templates could not be loaded.');
+      return null;
+    } finally {
+      setNotificationTemplatesLoading(false);
+    }
+  }
+
+  function selectNotificationTemplate(key) {
+    const template = notificationTemplates.find(item => item.key === key);
+    if (!template) return;
+    setSelectedNotificationTemplateKey(key);
+    setNotificationTemplateForm(normalizeNotificationTemplate(template));
+    setNotificationTemplatePreview(null);
+    setNotificationTemplateStatus('');
+  }
+
+  function updateNotificationTemplateForm(event) {
+    const { name, value, type, checked } = event.target;
+    setNotificationTemplateForm(current => ({
+      ...current,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  }
+
+  async function saveNotificationTemplate(event) {
+    event.preventDefault();
+    setNotificationTemplateStatus('Saving notification template...');
+    try {
+      const data = await apiPostJson('/notification-templates.php', {
+        action: 'save_template',
+        template: notificationTemplateForm
+      });
+      updateNotificationTemplateState(data);
+      setNotificationTemplatePreview(null);
+      setNotificationTemplateStatus(data.message || 'Notification template saved.');
+      setStatus(data.message || 'Notification template saved.');
+    } catch (error) {
+      setNotificationTemplateStatus(error.message || 'Notification template could not be saved.');
+      setStatus(error.message || 'Notification template could not be saved.');
+    }
+  }
+
+  async function resetNotificationTemplate() {
+    if (!selectedNotificationTemplateKey) return;
+    setNotificationTemplateStatus('Resetting notification template...');
+    try {
+      const data = await apiPostJson('/notification-templates.php', {
+        action: 'reset_template',
+        key: selectedNotificationTemplateKey
+      });
+      updateNotificationTemplateState(data);
+      setNotificationTemplatePreview(null);
+      setNotificationTemplateStatus(data.message || 'Notification template reset.');
+      setStatus(data.message || 'Notification template reset.');
+    } catch (error) {
+      setNotificationTemplateStatus(error.message || 'Notification template could not be reset.');
+      setStatus(error.message || 'Notification template could not be reset.');
+    }
+  }
+
+  async function previewNotificationTemplate() {
+    setNotificationTemplateStatus('Rendering notification preview...');
+    try {
+      const data = await apiPostJson('/notification-templates.php', {
+        action: 'preview_template',
+        template: notificationTemplateForm
+      });
+      setNotificationTemplatePreview(data.preview || null);
+      setNotificationTemplateStatus('Preview rendered with sample values.');
+    } catch (error) {
+      setNotificationTemplateStatus(error.message || 'Notification template preview could not be rendered.');
+    }
+  }
+
+  function updateCalendarSyncState(data = {}) {
+    setCalendarSync({
+      master: data.master || null,
+      officials: Array.isArray(data.officials) ? data.officials : [],
+      official: data.official || null,
+      summary: data.summary || {}
+    });
+  }
+
+  async function loadCalendarSync() {
+    setCalendarSyncLoading(true);
+    setCalendarSyncStatus('Loading calendar sync...');
+    try {
+      const data = await apiGet('/calendar-sync.php');
+      updateCalendarSyncState(data);
+      setCalendarSyncStatus('Calendar sync loaded.');
+      return data;
+    } catch (error) {
+      setCalendarSyncStatus(error.message || 'Calendar sync could not be loaded.');
+      return null;
+    } finally {
+      setCalendarSyncLoading(false);
+    }
+  }
+
+  async function updateMasterCalendarSync(updates) {
+    const current = calendarSync.master || {};
+    const nextMaster = { ...current, ...updates };
+    setCalendarSyncStatus('Saving master calendar sync...');
+    try {
+      const data = await apiPostJson('/calendar-sync.php', {
+        action: 'update_master',
+        master: nextMaster
+      });
+      updateCalendarSyncState(data);
+      setCalendarSyncStatus(data.message || 'Master calendar sync updated.');
+      setStatus(data.message || 'Master calendar sync updated.');
+    } catch (error) {
+      setCalendarSyncStatus(error.message || 'Master calendar sync could not be updated.');
+      setStatus(error.message || 'Master calendar sync could not be updated.');
+    }
+  }
+
+  async function updateOfficialCalendarSync(officialId, updates) {
+    const existing = (calendarSync.officials || []).find(official => Number(official.official_id) === Number(officialId))
+      || calendarSync.official
+      || {};
+    const nextOfficial = { ...existing, ...updates };
+    setCalendarSyncStatus('Saving official calendar sync...');
+    try {
+      const data = await apiPostJson('/calendar-sync.php', {
+        action: 'update_official',
+        official_id: officialId,
+        official: nextOfficial
+      });
+      updateCalendarSyncState(data);
+      setCalendarSyncStatus(data.message || 'Official calendar sync updated.');
+      setStatus(data.message || 'Official calendar sync updated.');
+    } catch (error) {
+      setCalendarSyncStatus(error.message || 'Official calendar sync could not be updated.');
+      setStatus(error.message || 'Official calendar sync could not be updated.');
+    }
+  }
+
+  async function copyCalendarSyncValue(value) {
+    const text = String(value || '');
+    if (!text) return;
+    try {
+      await navigator.clipboard.writeText(text);
+      setCalendarSyncStatus('Calendar link copied.');
+    } catch {
+      setCalendarSyncStatus(text);
+    }
+  }
+
   function loadCompletedForms() {
     if (!canUseAdminDashboard) {
       return Promise.resolve();
@@ -11664,6 +12242,18 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
       loadCompletedForms();
     }
   }, [canUseAdminDashboard]);
+
+  useEffect(() => {
+    if (canUseAdminDashboard && user.role === 'super_admin' && activeSection === 'notifications' && notificationTemplates.length === 0 && !notificationTemplatesLoading) {
+      loadNotificationTemplates();
+    }
+  }, [activeSection, canUseAdminDashboard, notificationTemplates.length, notificationTemplatesLoading, user.role]);
+
+  useEffect(() => {
+    if (activeSection === 'calendarSync' && !calendarSyncLoading) {
+      loadCalendarSync();
+    }
+  }, [activeSection]);
 
   useEffect(() => {
     if (!canUseAdminDashboard) {
@@ -11883,6 +12473,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ...(canUseTaxCenter ? [['taxCenter', 'Tax Center']] : []),
     ...(releasedTbaGamesAvailable ? [['tbaList', 'TBA List']] : []),
     ['availabilityCalendar', 'Availability Calendar'],
+    ['calendarSync', 'Calendar Sync'],
     ...(user.role === 'official' ? [['reports', 'Forms']] : []),
     ['evaluation', 'Evaluations'],
     ['education', 'Education']
@@ -15034,6 +15625,7 @@ function App() {
   useEffect(() => {
     ensureDocumentStylesheet(HOME_PREMIUM_CSS_ID, HOME_PREMIUM_CSS_HREF);
     ensureDocumentStylesheet(PUBLIC_PREMIUM_CSS_ID, PUBLIC_PREMIUM_CSS_HREF);
+    ensureDocumentStylesheet(PUBLIC_AGENCY_REDESIGN_CSS_ID, PUBLIC_AGENCY_REDESIGN_CSS_HREF);
   }, []);
 
   useEffect(() => {

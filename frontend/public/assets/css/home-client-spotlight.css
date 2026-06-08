@@ -1,12 +1,12 @@
 .home-client-spotlight-section{display:grid;gap:clamp(24px,3vw,42px);padding-top:clamp(42px,5vw,72px);padding-bottom:clamp(42px,5vw,72px)}
-.home-client-spotlight-head{display:grid;gap:12px;max-width:min(100%,1560px)}
-.home-client-spotlight-head h2{margin:0;color:#fff;font-size:clamp(2rem,4vw,4.2rem);line-height:.96;text-wrap:balance}
+.home-client-spotlight-head{display:grid;gap:12px;width:min(100%,1560px);max-width:none;justify-self:center}
+.home-client-spotlight-head h2{margin:0;color:#fff;font-size:clamp(1.9rem,3.2vw,3.45rem);line-height:.98;text-wrap:balance}
 .rtbo-public .home-client-spotlight-subtitle{max-width:100%;margin:0;color:#fff;font-size:clamp(.72rem,2.25vw,2.25rem);line-height:1.08;overflow-wrap:normal!important;text-wrap:nowrap!important;white-space:nowrap!important;word-break:normal!important}
-.home-client-spotlight-head p:not(.eyebrow){max-width:1220px;margin:0;color:var(--muted);font-size:clamp(1rem,1.22vw,1.16rem);line-height:1.65}
+.home-client-spotlight-head p:not(.eyebrow){max-width:none;margin:0;color:var(--muted);font-size:clamp(1rem,1.16vw,1.14rem);line-height:1.65}
 .home-client-spotlight-layout{display:grid;grid-template-columns:1fr;gap:clamp(24px,3.4vw,46px);align-items:start}
 .home-client-spotlight-player{width:min(100%,1560px);min-width:0;justify-self:center;background:transparent}
 .home-client-spotlight-ipad .rtb-ipad-shell{min-height:clamp(600px,54vw,900px)}
-.home-client-spotlight-copy{display:grid;gap:12px;width:min(100%,1220px);min-width:0}
+.home-client-spotlight-copy{display:grid;gap:12px;width:min(100%,1560px);min-width:0;max-width:none}
 .home-client-spotlight-copy p{margin:0;color:var(--muted);line-height:1.65}
 .home-client-spotlight-tagline{font-weight:800}
 .home-client-spotlight-now-playing{color:#fff!important}
@@ -28,4 +28,6 @@
 :root[data-theme=light] .home-client-spotlight-head p:not(.eyebrow),:root[data-theme=light] .home-client-spotlight-copy p,:root[data-theme=light] .home-client-spotlight-playlist small{color:#475569}
 :root[data-theme=light] .home-client-spotlight-playlist button{background:#fff;box-shadow:0 18px 44px rgba(15,23,42,.08)}
 @media(max-width:880px){.home-client-spotlight-ipad .rtb-ipad-shell{min-height:clamp(430px,112vw,680px)}}
+@media(min-width:1080px){.home-client-spotlight-copy p,.home-client-spotlight-meta{white-space:nowrap}.home-client-spotlight-copy p{overflow:visible;text-overflow:clip}}
+@media(max-width:1079px){.rtbo-public .home-client-spotlight-subtitle,.home-client-spotlight-copy p,.home-client-spotlight-meta{white-space:normal!important;text-wrap:balance!important}}
 @media(max-width:480px){.home-client-spotlight-playlist button{grid-template-columns:1fr}.home-client-spotlight-playlist img{width:100%}}
