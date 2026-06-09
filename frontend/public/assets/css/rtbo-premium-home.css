@@ -7,163 +7,6 @@
   --rtbo-premium-panel: rgba(8, 11, 16, .78);
 }
 
-.site-header.rtbo-header {
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 9000 !important;
-  min-height: 88px !important;
-  padding: 10px clamp(18px, 3vw, 48px) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, .1) !important;
-  background: linear-gradient(180deg, rgba(5, 7, 11, .96), rgba(5, 7, 11, .82)) !important;
-  backdrop-filter: blur(18px) saturate(1.15);
-  box-shadow: 0 18px 50px rgba(0, 0, 0, .34) !important;
-}
-
-.site-header.rtbo-header::after {
-  content: "";
-  position: absolute;
-  inset: auto clamp(18px, 4vw, 54px) 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(243, 214, 117, .5), rgba(193, 18, 31, .42), transparent);
-  pointer-events: none;
-}
-
-.site-header.rtbo-header .brand-mark img {
-  width: clamp(74px, 4.8vw, 94px) !important;
-  filter: drop-shadow(0 12px 22px rgba(0, 0, 0, .46)) !important;
-}
-
-.site-header.rtbo-header .site-nav,
-.site-header.rtbo-header .nav-link-group {
-  align-items: center !important;
-}
-
-.site-header.rtbo-header .site-nav {
-  gap: clamp(14px, 2vw, 28px) !important;
-}
-
-.site-header.rtbo-header .nav-link-group {
-  gap: clamp(4px, .8vw, 10px) !important;
-}
-
-.site-header.rtbo-header .nav-link-group > button:not(.btn),
-.site-header.rtbo-header .nav-dropdown-trigger {
-  min-height: 42px !important;
-  border-radius: 8px !important;
-  color: rgba(248, 250, 252, .86) !important;
-  font-size: .87rem !important;
-  letter-spacing: 0 !important;
-}
-
-.site-header.rtbo-header .nav-link-group > button:not(.btn).active,
-.site-header.rtbo-header .nav-dropdown-trigger.active {
-  color: #fff !important;
-  background: linear-gradient(180deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .025)) !important;
-  border-color: rgba(243, 214, 117, .24) !important;
-}
-
-.site-header.rtbo-header .nav-action-group .btn {
-  min-height: 44px !important;
-  border-radius: 8px !important;
-  padding-inline: 18px !important;
-}
-
-@media (min-width: 1201px) {
-  .site-header.rtbo-header {
-    display: grid !important;
-    grid-template-columns: auto minmax(0, 1fr) !important;
-    align-items: center !important;
-    gap: clamp(18px, 2vw, 34px) !important;
-  }
-
-  .site-header.rtbo-header .site-nav {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) max-content !important;
-    align-items: center !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    gap: clamp(14px, 1.45vw, 26px) !important;
-  }
-
-  .site-header.rtbo-header .nav-link-group,
-  .site-header.rtbo-header .nav-action-group {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    align-items: center !important;
-    min-width: 0 !important;
-  }
-
-  .site-header.rtbo-header .nav-link-group {
-    justify-content: center !important;
-    gap: clamp(8px, .72vw, 14px) !important;
-  }
-
-  .site-header.rtbo-header .nav-action-group {
-    justify-content: flex-end !important;
-    gap: clamp(10px, .85vw, 18px) !important;
-    min-width: max-content !important;
-  }
-
-  .site-header.rtbo-header .nav-link-group > button:not(.btn),
-  .site-header.rtbo-header .nav-dropdown,
-  .site-header.rtbo-header .nav-dropdown-trigger,
-  .site-header.rtbo-header .nav-action-group > .btn,
-  .site-header.rtbo-header .theme-toggle {
-    flex: 0 0 auto !important;
-    white-space: nowrap !important;
-  }
-}
-
-@media (min-width: 1201px) and (max-width: 1680px) {
-  .site-header.rtbo-header {
-    min-height: 84px !important;
-    padding: 12px clamp(18px, 2.2vw, 32px) !important;
-    gap: clamp(12px, 1.2vw, 22px) !important;
-  }
-
-  .site-header.rtbo-header .brand-mark img {
-    width: clamp(72px, 5vw, 88px) !important;
-  }
-
-  .site-header.rtbo-header .site-nav {
-    gap: clamp(10px, 1vw, 18px) !important;
-  }
-
-  .site-header.rtbo-header .nav-link-group {
-    justify-content: flex-start !important;
-    gap: clamp(2px, .45vw, 8px) !important;
-  }
-
-  .site-header.rtbo-header .nav-action-group {
-    gap: clamp(8px, .65vw, 12px) !important;
-  }
-
-  .site-header.rtbo-header .nav-link-group > button:not(.btn),
-  .site-header.rtbo-header .nav-dropdown-trigger {
-    min-height: 38px !important;
-    padding: 8px clamp(7px, .65vw, 12px) !important;
-    font-size: clamp(.74rem, .68vw, .84rem) !important;
-  }
-
-  .site-header.rtbo-header .nav-action-group .btn {
-    min-height: 40px !important;
-    padding-inline: clamp(10px, .75vw, 14px) !important;
-    font-size: clamp(.78rem, .72vw, .9rem) !important;
-  }
-
-  .site-header.rtbo-header .theme-toggle {
-    min-width: 88px !important;
-    width: 88px !important;
-    transform: scale(.92);
-    transform-origin: center right;
-  }
-
-  .site-header.rtbo-header .nav-menu-toggle {
-    display: none !important;
-  }
-}
-
 .rtbo-public .rtbo-hero {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) !important;
@@ -335,7 +178,6 @@ html.dark .rtbo-premium-impact-strip p {
 }
 
 .rtbo-public .home-about-rtbo-section,
-.rtbo-public .home-client-spotlight-section,
 .rtbo-public .home-refzone-university,
 .rtbo-public .home-refzone-memberships,
 .rtbo-public .home-results-section,
@@ -348,7 +190,6 @@ html.dark .rtbo-premium-impact-strip p {
 }
 
 .rtbo-public .home-about-rtbo-section,
-.rtbo-public .home-client-spotlight-section,
 .rtbo-public .services-page-section {
   border-block: 1px solid rgba(255, 255, 255, .1);
   background:
@@ -418,36 +259,6 @@ html.dark .rtbo-premium-impact-strip p {
   background:
     linear-gradient(145deg, rgba(193, 18, 31, .14), rgba(255, 255, 255, .025)),
     var(--rtbo-premium-panel);
-}
-
-.rtbo-public .home-client-spotlight-section {
-  padding: clamp(48px, 7vw, 104px) clamp(18px, 5vw, 78px) !important;
-}
-
-.rtbo-public .home-client-spotlight-head {
-  padding-bottom: clamp(8px, 1.5vw, 18px);
-}
-
-.rtbo-public .home-client-spotlight-subtitle {
-  max-width: 1040px !important;
-  color: rgba(248, 250, 252, .94) !important;
-  line-height: 1.12 !important;
-  overflow-wrap: normal !important;
-  text-wrap: nowrap !important;
-  white-space: nowrap !important;
-}
-
-.rtbo-public .home-client-spotlight-copy {
-  border-left: 3px solid rgba(243, 214, 117, .68);
-  padding-left: clamp(14px, 2vw, 24px);
-}
-
-.rtbo-public .home-client-spotlight-player {
-  border: 0;
-  border-radius: 0;
-  padding: 0;
-  background: transparent;
-  box-shadow: none;
 }
 
 .rtbo-public .contact-section {
@@ -829,18 +640,6 @@ html.light .rtbo-public .contact-form :is(input, textarea) {
   }
 }
 
-.rtbo-public :is(
-  .home-about-rtbo-section,
-  .home-client-spotlight-section,
-  .home-refzone-university,
-  .home-refzone-memberships,
-  .home-results-section,
-  .services-page-section,
-  .contact-section
-) {
-  animation: rtbo-premium-section-rise .62s ease both;
-}
-
 @keyframes rtbo-premium-rise {
   from {
     opacity: 0;
@@ -866,27 +665,6 @@ html.light .rtbo-public .contact-form :is(input, textarea) {
 .rtbo-public .rtbo-hero .button-row { animation-delay: .24s; }
 
 @media (max-width: 1200px) {
-  .site-header.rtbo-header {
-    min-height: 86px !important;
-  }
-
-  .site-header.rtbo-header .site-nav {
-    border-left: 1px solid rgba(243, 214, 117, .18) !important;
-    background: linear-gradient(180deg, rgba(6, 8, 13, .98), rgba(10, 14, 21, .98)) !important;
-    box-shadow: -18px 0 60px rgba(0, 0, 0, .46) !important;
-  }
-}
-
-@media (max-width: 1200px) {
-  .site-header.rtbo-header {
-    min-height: 86px !important;
-  }
-
-  .site-header.rtbo-header .site-nav {
-    border-left: 1px solid rgba(243, 214, 117, .18) !important;
-    background: linear-gradient(180deg, rgba(6, 8, 13, .98), rgba(10, 14, 21, .98)) !important;
-    box-shadow: -18px 0 60px rgba(0, 0, 0, .46) !important;
-  }
 
   body#top main.rtbo-public > section.rtbo-hero,
   .rtbo-public .rtbo-hero {
@@ -950,14 +728,6 @@ html.light .rtbo-public .contact-form :is(input, textarea) {
 }
 
 @media (max-width: 640px) {
-  .site-header.rtbo-header {
-    min-height: 78px !important;
-    padding-inline: 18px !important;
-  }
-
-  .site-header.rtbo-header .brand-mark img {
-    width: 78px !important;
-  }
 
   .rtbo-public .rtbo-hero {
     min-height: calc(100svh - 78px) !important;
@@ -994,12 +764,11 @@ html.light .rtbo-public .contact-form :is(input, textarea) {
   }
 
   .rtbo-public .home-about-rtbo-section,
-  .rtbo-public .home-client-spotlight-section,
-  .rtbo-public .home-refzone-university,
-  .rtbo-public .home-refzone-memberships,
-  .rtbo-public .home-results-section,
-  .rtbo-public .services-page-section,
-  .rtbo-public .contact-section {
+.rtbo-public .home-refzone-university,
+.rtbo-public .home-refzone-memberships,
+.rtbo-public .home-results-section,
+.rtbo-public .services-page-section,
+.rtbo-public .contact-section {
     padding-inline: 18px !important;
   }
 
@@ -1022,34 +791,6 @@ html.light {
   --rtbo-premium-ink: #111827;
   --rtbo-premium-line: rgba(15, 23, 42, .1);
   --rtbo-premium-panel: rgba(255, 255, 255, .94);
-}
-
-:root[data-theme="light"] .site-header.rtbo-header,
-html.light .site-header.rtbo-header {
-  border-bottom-color: rgba(15, 23, 42, .1) !important;
-  background: linear-gradient(180deg, rgba(255, 255, 255, .96), rgba(248, 250, 252, .9)) !important;
-  box-shadow: 0 18px 44px rgba(15, 23, 42, .1) !important;
-}
-
-:root[data-theme="light"] .site-header.rtbo-header .nav-link-group > button:not(.btn),
-:root[data-theme="light"] .site-header.rtbo-header .nav-dropdown-trigger,
-html.light .site-header.rtbo-header .nav-link-group > button:not(.btn),
-html.light .site-header.rtbo-header .nav-dropdown-trigger {
-  color: #111827 !important;
-}
-
-:root[data-theme="light"] .site-header.rtbo-header .nav-link-group > button:not(.btn).active,
-:root[data-theme="light"] .site-header.rtbo-header .nav-dropdown-trigger.active,
-html.light .site-header.rtbo-header .nav-link-group > button:not(.btn).active,
-html.light .site-header.rtbo-header .nav-dropdown-trigger.active {
-  color: #111827 !important;
-  border-color: rgba(193, 18, 31, .18) !important;
-  background: linear-gradient(180deg, rgba(193, 18, 31, .08), rgba(255, 255, 255, .76)) !important;
-}
-
-:root[data-theme="light"] .site-header.rtbo-header .site-nav,
-html.light .site-header.rtbo-header .site-nav {
-  background: transparent !important;
 }
 
 :root[data-theme="light"] .rtbo-public .rtbo-hero,
@@ -1102,71 +843,6 @@ html.light .rtbo-public .rtbo-hero .rtbo-stats article {
 }
 
 :root[data-theme="light"] .rtbo-public :is(
-  .home-about-rtbo-section,
-  .home-client-spotlight-section,
-  .home-refzone-university,
-  .home-refzone-memberships,
-  .home-results-section,
-  .services-page-section
-),
-html.light .rtbo-public :is(
-  .home-about-rtbo-section,
-  .home-client-spotlight-section,
-  .home-refzone-university,
-  .home-refzone-memberships,
-  .home-results-section,
-  .services-page-section
-) {
-  color: #111827 !important;
-  border-block-color: rgba(15, 23, 42, .08) !important;
-  background:
-    radial-gradient(circle at 10% 4%, rgba(193, 18, 31, .08), transparent 28%),
-    linear-gradient(180deg, #ffffff, #f6f8fb) !important;
-}
-
-:root[data-theme="light"] .rtbo-public :is(
-  .home-about-rtbo-section,
-  .home-client-spotlight-section,
-  .home-refzone-university,
-  .home-refzone-memberships,
-  .home-results-section,
-  .services-page-section
-) :is(h2, h3, h4, strong),
-html.light .rtbo-public :is(
-  .home-about-rtbo-section,
-  .home-client-spotlight-section,
-  .home-refzone-university,
-  .home-refzone-memberships,
-  .home-results-section,
-  .services-page-section
-) :is(h2, h3, h4, strong) {
-  color: #111827 !important;
-  -webkit-text-fill-color: currentColor !important;
-  text-shadow: none !important;
-}
-
-:root[data-theme="light"] .rtbo-public :is(
-  .home-about-rtbo-section,
-  .home-client-spotlight-section,
-  .home-refzone-university,
-  .home-refzone-memberships,
-  .home-results-section,
-  .services-page-section
-) p:not(.eyebrow),
-html.light .rtbo-public :is(
-  .home-about-rtbo-section,
-  .home-client-spotlight-section,
-  .home-refzone-university,
-  .home-refzone-memberships,
-  .home-results-section,
-  .services-page-section
-) p:not(.eyebrow) {
-  color: #475569 !important;
-  -webkit-text-fill-color: currentColor !important;
-  text-shadow: none !important;
-}
-
-:root[data-theme="light"] .rtbo-public :is(
   .about-rtbo-visual-column,
   .about-rtbo-content .long-copy,
   .about-icon-grid article,
@@ -1204,11 +880,6 @@ html.light .rtbo-public :is(
     linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(248, 250, 252, .9)),
     #ffffff !important;
   box-shadow: 0 22px 54px rgba(15, 23, 42, .1) !important;
-}
-
-:root[data-theme="light"] .rtbo-public .home-client-spotlight-subtitle,
-html.light .rtbo-public .home-client-spotlight-subtitle {
-  color: #111827 !important;
 }
 
 :root[data-theme="light"] .rtbo-public .home-refzone-price,
@@ -1253,18 +924,6 @@ html.light .rtbo-public .results-top-cards figcaption h3 {
   .rtbo-public .rtbo-hero-copy > p:not(.eyebrow),
   .rtbo-hero-proof-row,
   .rtbo-public .rtbo-hero .button-row {
-    animation: none !important;
-  }
-
-  .rtbo-public :is(
-    .home-about-rtbo-section,
-    .home-client-spotlight-section,
-    .home-refzone-university,
-    .home-refzone-memberships,
-    .home-results-section,
-    .services-page-section,
-    .contact-section
-  ) {
     animation: none !important;
   }
 }

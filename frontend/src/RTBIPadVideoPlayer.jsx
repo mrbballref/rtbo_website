@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 const CSS_ID = 'rtb-ipad-video-player-css';
-const CSS_HREF = '/assets/video-player/rtb-ipad-player.css?v=20260607-transparent-captions-no-ball';
+const CSS_HREF = '/assets/video-player/rtb-ipad-player.css?v=20260608-phone-responsive-source';
 const SPEEDS = [0.75, 1, 1.25, 1.5, 2];
 
 const icons = {

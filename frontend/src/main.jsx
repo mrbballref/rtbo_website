@@ -67,18 +67,15 @@ const API_URL = import.meta.env.VITE_RTBO_API_URL || '/api';
 const RTBO_AUTH_KEY = 'rtbo_admin_auth';
 const RTBO_DASHBOARD_OPEN_KEY = 'rtbo-dashboard-open';
 const RTBO_THEME_KEY = 'rtbo-theme';
-const RTBO_NAV_DRAWER_MEDIA = '(max-width: 1200px)';
 const RTBO_REVIEW_STORAGE_KEY = 'rtbo-attendee-reviews';
 const SITE_CONTENT_KEY = 'rtbo-site-content-records';
 const SITE_CONTENT_UPDATED_EVENT = 'rtbo-site-content-updated';
-const HOME_CLIENT_SPOTLIGHT_CSS_ID = 'home-client-spotlight-css';
-const HOME_CLIENT_SPOTLIGHT_CSS_HREF = '/assets/css/home-client-spotlight.css?v=20260607-player-overlay-layout';
 const HOME_PREMIUM_CSS_ID = 'rtbo-premium-home-css';
-const HOME_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-home.css?v=20260607-desktop-shell-audit';
+const HOME_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-home.css?v=20260608-clean-no-header-spotlight';
 const PUBLIC_PREMIUM_CSS_ID = 'rtbo-premium-public-css';
-const PUBLIC_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-public.css?v=20260607-operating-standards-agency';
+const PUBLIC_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-public.css?v=20260608-clean-no-header-spotlight';
 const PUBLIC_AGENCY_REDESIGN_CSS_ID = 'rtbo-agency-redesign-css';
-const PUBLIC_AGENCY_REDESIGN_CSS_HREF = '/assets/css/rtbo-agency-redesign.css?v=20260607-operating-standards-agency';
+const PUBLIC_AGENCY_REDESIGN_CSS_HREF = '/assets/css/rtbo-agency-redesign.css?v=20260608-clean-responsive-source';
 const APP_PREMIUM_CSS_ID = 'rtbo-premium-app-css';
 const APP_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-app.css?v=20260603a';
 
@@ -671,11 +668,6 @@ function SidebarIcon({ id }) {
 
 function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onOpenRegister, navLinks = navItems }) {
   const [open, setOpen] = useState(false);
-  const [mobileNavViewport, setMobileNavViewport] = useState(() => (
-    typeof window !== 'undefined'
-    && typeof window.matchMedia === 'function'
-    && window.matchMedia(RTBO_NAV_DRAWER_MEDIA).matches
-  ));
   const [aboutOpen, setAboutOpen] = useState(false);
   const [schoolsEventsOpen, setSchoolsEventsOpen] = useState(false);
   const [liveStreamOpen, setLiveStreamOpen] = useState(false);
@@ -690,14 +682,6 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
   const aboutActive = aboutNavLinks.some(([id]) => id === active);
   const schoolsEventsActive = schoolsEventsNavLinks.some(([id]) => id === active);
   const liveStreamActive = liveStreamNavLinks.some(([id]) => id === active);
-  const mobileNavStyle = mobileNavViewport ? {
-    transform: open ? 'translateX(0)' : 'translateX(105%)',
-    opacity: open ? 1 : 0,
-    visibility: open ? 'visible' : 'hidden',
-    pointerEvents: open ? 'auto' : 'none',
-    transition: 'none'
-  } : undefined;
-
   function closeNavDropdowns(nextDismissedDropdown = '') {
     dismissedDropdownRef.current = nextDismissedDropdown;
     setAboutOpen(false);
@@ -760,23 +744,6 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
     };
   }, []);
 
-  useEffect(() => {
-    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return undefined;
-    const mediaQuery = window.matchMedia(RTBO_NAV_DRAWER_MEDIA);
-    const updateMobileNavViewport = () => {
-      setMobileNavViewport(mediaQuery.matches);
-      if (!mediaQuery.matches) setOpen(false);
-    };
-
-    updateMobileNavViewport();
-    mediaQuery.addEventListener?.('change', updateMobileNavViewport);
-    mediaQuery.addListener?.(updateMobileNavViewport);
-    return () => {
-      mediaQuery.removeEventListener?.('change', updateMobileNavViewport);
-      mediaQuery.removeListener?.(updateMobileNavViewport);
-    };
-  }, []);
-
   function openNavPage(id) {
     setActive(id);
     setOpen(false);
@@ -831,10 +798,7 @@ function Header({ active, setActive, authUser, onOpenLogin, onOpenDashboard, onO
         }}
         onClick={closeMobileNav}
       ></button>
-      <nav
-        className={`site-nav ${open ? 'is-open' : ''}`}
-        style={mobileNavStyle}
-      >
+      <nav className={`site-nav ${open ? 'is-open' : ''}`}>
         <div className="nav-link-group">
           {primaryNavLinks.map(([id, label]) => id === 'about' ? (
             <div className={`nav-dropdown ${aboutOpen ? 'is-open' : ''} ${dismissedDropdown === 'about' && !aboutOpen ? 'is-click-dismissed' : ''}`.trim()} key={id} onMouseEnter={() => openNavDropdown('about')} onMouseLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onPointerEnter={() => openNavDropdown('about')} onPointerLeave={() => { closeNavDropdowns(); resetDismissedDropdown(); }} onFocus={() => openNavDropdown('about')} onBlur={closeDropdownOnBlur}>
@@ -1115,16 +1079,29 @@ function HomeClientSpotlight() {
   const [library, setLibrary] = useState(readStoredClientSpotlightLibrary);
   const [selectedId, setSelectedId] = useState('');
   const [sidebarFilter, setSidebarFilter] = useState('All');
+  const [spotlightSearch, setSpotlightSearch] = useState('');
   const publishedVideos = useMemo(() => visibleClientSpotlightVideos(library.videos), [library.videos]);
   const spotlightCategories = useMemo(() => {
     const categories = Array.from(new Set(publishedVideos.map(video => video.category).filter(Boolean)));
     return ['All', ...categories];
   }, [publishedVideos]);
-  const sidebarVideos = useMemo(() => (
-    sidebarFilter === 'All'
-      ? publishedVideos
-      : publishedVideos.filter(video => video.category === sidebarFilter)
-  ), [publishedVideos, sidebarFilter]);
+  const sidebarVideos = useMemo(() => {
+    const normalizedSearch = spotlightSearch.trim().toLowerCase();
+    return publishedVideos.filter(video => {
+      const matchesCategory = sidebarFilter === 'All' || video.category === sidebarFilter;
+      if (!matchesCategory) return false;
+      if (!normalizedSearch) return true;
+      return [
+        video.title,
+        video.category,
+        video.description,
+        video.featuredPerson,
+        video.role,
+        video.affiliation,
+        video.eventName
+      ].filter(Boolean).join(' ').toLowerCase().includes(normalizedSearch);
+    });
+  }, [publishedVideos, sidebarFilter, spotlightSearch]);
   const playlist = useMemo(() => publishedVideos.map(video => ({
     id: video.id,
     title: video.title,
@@ -1133,22 +1110,6 @@ function HomeClientSpotlight() {
     transcript: video.transcript
   })), [library.show.logoCard, publishedVideos]);
   const selectedVideo = publishedVideos.find(video => video.id === selectedId) || publishedVideos[0] || null;
-
-  useEffect(() => {
-    if (typeof document === 'undefined') return;
-    const existing = document.getElementById(HOME_CLIENT_SPOTLIGHT_CSS_ID);
-    if (existing) {
-      if (existing.getAttribute('href') !== HOME_CLIENT_SPOTLIGHT_CSS_HREF) {
-        existing.setAttribute('href', HOME_CLIENT_SPOTLIGHT_CSS_HREF);
-      }
-      return;
-    }
-    const link = document.createElement('link');
-    link.id = HOME_CLIENT_SPOTLIGHT_CSS_ID;
-    link.rel = 'stylesheet';
-    link.href = HOME_CLIENT_SPOTLIGHT_CSS_HREF;
-    document.head.appendChild(link);
-  }, []);
 
   useEffect(() => {
     let active = true;
@@ -1219,20 +1180,21 @@ function HomeClientSpotlight() {
             )}
           </div>
         </div>
-        {selectedVideo && (
-          <aside className="home-client-spotlight-current-feature" aria-label="Current Client Spotlight video">
-            <img src={selectedVideo.posterUrl || library.show.logoCard || defaultClientSpotlightShow.logoCard} alt="" loading="lazy" decoding="async" />
-            <span>
-              <small>Now Featured</small>
-              <strong>{selectedVideo.title}</strong>
-              {selectedVideoMeta && <em>{selectedVideoMeta}</em>}
-            </span>
-          </aside>
-        )}
       </div>
 
       <div className="home-client-spotlight-layout">
         <div className="home-client-spotlight-player" aria-label="Client Spotlight video player">
+          <div className="home-client-spotlight-player-search" aria-label="Client Spotlight video search">
+            <label className="home-client-spotlight-search">
+              <span className="sr-only">Search Client Spotlight videos</span>
+              <input
+                type="search"
+                value={spotlightSearch}
+                onChange={(event) => setSpotlightSearch(event.target.value)}
+                placeholder="Search Client Spotlight"
+              />
+            </label>
+          </div>
           <RTBIPadVideoPlayer
             className={`home-client-spotlight-ipad ${playlist.length ? 'has-client-videos' : 'is-empty-library'}`}
             brand={library.show.shortName || defaultClientSpotlightShow.shortName}
@@ -1282,7 +1244,7 @@ function HomeClientSpotlight() {
                 <strong>{sidebarVideos.length}</strong>
               </div>
               <div className="home-client-spotlight-playlist" aria-label="Published Client Spotlight videos">
-                {sidebarVideos.map(video => {
+                {sidebarVideos.length > 0 ? sidebarVideos.map(video => {
                   const videoMeta = [video.category, video.runtime, video.publishedAt].filter(Boolean).join(' / ');
                   const isActiveVideo = video.id === selectedVideo?.id;
                   return (
@@ -1301,7 +1263,9 @@ function HomeClientSpotlight() {
                       </span>
                     </button>
                   );
-                })}
+                }) : (
+                  <p className="home-client-spotlight-no-results">No uploaded Client Spotlight videos match this search.</p>
+                )}
               </div>
             </div>
           </aside>

@@ -1213,3 +1213,310 @@ body .rtb-ipad-player :is(.rtb-control-btn, .rtb-menu-button, .rtb-center-play):
   background-image: none !important;
   box-shadow: none !important;
 }
+
+/* Site-wide video containment guard: every iPad player keeps media fully visible. */
+body .rtb-ipad-player .rtb-ipad-glass {
+  min-width: 0 !important;
+  min-height: 0 !important;
+}
+
+body .rtb-ipad-player .rtb-screen {
+  min-width: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+body .rtb-ipad-player .rtb-video-stage {
+  min-width: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+body .rtb-ipad-player .rtb-video-frame {
+  contain: layout paint !important;
+  isolation: isolate !important;
+  display: grid !important;
+  place-items: center !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
+  background: #000 !important;
+}
+
+body .rtb-ipad-player .rtb-video-frame > :is(video, iframe, .livestream-player, .rtbo-course-generated-stage),
+body .rtb-ipad-player .rtb-video-frame .livestream-player > :is(video, iframe),
+body .rtb-ipad-player .rtb-video-frame .rtbo-course-generated-stage {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  overflow: hidden !important;
+}
+
+body .rtb-ipad-player .rtb-video-frame > video,
+body .rtb-ipad-player .rtb-video-frame .livestream-player video {
+  object-fit: contain !important;
+}
+
+body .rtb-ipad-player .rtb-caption-strip,
+body .rtb-ipad-player .rtbo-course-caption-strip,
+body .rtb-ipad-player .livestream-caption-strip {
+  bottom: clamp(14px, 2vw, 26px) !important;
+  max-width: calc(100% - clamp(28px, 5vw, 76px)) !important;
+  background: transparent !important;
+  pointer-events: none !important;
+}
+
+body .rtb-ipad-player video::cue {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Responsive device frame: desktop/tablet iPad, phone breakpoint handset. */
+body .rtb-ipad-player {
+  --rtb-responsive-shell-padding: clamp(10px, 1.1vw, 16px);
+  --rtb-responsive-shell-radius: clamp(28px, 2.4vw, 42px);
+  --rtb-responsive-glass-radius: calc(var(--rtb-responsive-shell-radius) - 9px);
+  --rtb-responsive-status-height: 44px;
+  --rtb-responsive-control-gap: clamp(5px, 0.55vw, 8px);
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+body .rtb-ipad-player .rtb-ipad-shell {
+  aspect-ratio: auto !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  padding: var(--rtb-responsive-shell-padding) !important;
+  border-radius: var(--rtb-responsive-shell-radius) !important;
+}
+
+body .rtb-ipad-player .rtb-ipad-shell::before {
+  inset: calc(var(--rtb-responsive-shell-padding) * 0.55) !important;
+  border-radius: calc(var(--rtb-responsive-shell-radius) - 7px) !important;
+}
+
+body .rtb-ipad-player .rtb-ipad-glass {
+  display: grid !important;
+  grid-template-rows: var(--rtb-responsive-status-height) auto !important;
+  height: auto !important;
+  border-radius: var(--rtb-responsive-glass-radius) !important;
+}
+
+body .rtb-ipad-player .rtb-statusbar {
+  height: var(--rtb-responsive-status-height) !important;
+  min-height: var(--rtb-responsive-status-height) !important;
+}
+
+body .rtb-ipad-player .rtb-screen {
+  display: grid !important;
+  grid-template-rows: auto auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+body .rtb-ipad-player .rtb-video-stage {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  aspect-ratio: 16 / 9 !important;
+  padding: 0 !important;
+  background: #000 !important;
+}
+
+body .rtb-ipad-player .rtb-video-frame {
+  position: absolute !important;
+  inset: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  aspect-ratio: auto !important;
+  border-radius: clamp(12px, 1.15vw, 18px) !important;
+  background: #000 !important;
+}
+
+body .rtb-ipad-player .rtb-video-element,
+body .rtb-ipad-player .rtb-video-frame > video,
+body .rtb-ipad-player .rtb-video-frame video,
+body .rtb-ipad-player .rtb-video-frame iframe,
+body .rtb-ipad-player .rtb-video-frame .livestream-player,
+body .rtb-ipad-player .rtb-video-frame .livestream-player > :is(video, iframe),
+body .rtb-ipad-player .rtb-video-frame .rtbo-course-generated-stage {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  aspect-ratio: auto !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  border-radius: inherit !important;
+  overflow: hidden !important;
+}
+
+body .rtb-ipad-player .rtb-empty-state {
+  position: absolute !important;
+  inset: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  align-content: center !important;
+}
+
+body .rtb-ipad-player .rtb-control-dock {
+  position: relative !important;
+  inset: auto !important;
+  z-index: 6 !important;
+  gap: var(--rtb-responsive-control-gap) !important;
+  min-width: 0 !important;
+  background: #000 !important;
+}
+
+body .rtb-ipad-player .rtb-main-buttons {
+  min-width: 0 !important;
+}
+
+@media (max-width: 1024px) {
+  body .rtb-ipad-player {
+    --rtb-responsive-shell-padding: 10px;
+    --rtb-responsive-shell-radius: 34px;
+    --rtb-responsive-status-height: 40px;
+  }
+
+  body .rtb-ipad-player .rtb-statusbar {
+    grid-template-columns: minmax(0, 1fr) auto minmax(78px, 0.65fr) !important;
+    gap: 8px !important;
+    padding-inline: 16px !important;
+  }
+
+  body .rtb-ipad-player .rtb-control-dock {
+    padding: 9px 12px 12px !important;
+  }
+}
+
+@media (max-width: 720px) {
+  body .rtb-ipad-player {
+    --rtb-responsive-shell-padding: 8px;
+    --rtb-responsive-shell-radius: 38px;
+    --rtb-responsive-glass-radius: 30px;
+    --rtb-responsive-status-height: 42px;
+    --rtb-responsive-control-gap: 6px;
+    width: min(100%, 430px) !important;
+    max-width: min(100%, 430px) !important;
+    margin-inline: auto !important;
+  }
+
+  body .rtb-ipad-player .rtb-ipad-shell {
+    max-width: 430px !important;
+    padding: var(--rtb-responsive-shell-padding) !important;
+    border-radius: var(--rtb-responsive-shell-radius) !important;
+  }
+
+  body .rtb-ipad-player .rtb-ipad-camera {
+    top: 9px !important;
+    left: 50% !important;
+    width: 54px !important;
+    height: 6px !important;
+    transform: translateX(-50%) !important;
+    border-radius: 999px !important;
+    background: linear-gradient(90deg, #050505, #1d1d1d, #050505) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.8) !important;
+  }
+
+  body .rtb-ipad-player .rtb-statusbar {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    padding-inline: 14px !important;
+    padding-top: 7px !important;
+    font-size: 0.74rem !important;
+  }
+
+  body .rtb-ipad-player .rtb-status-brand {
+    display: none !important;
+  }
+
+  body .rtb-ipad-player .rtb-animated-logo-status {
+    --rtb-logo-size: 30px;
+  }
+
+  body .rtb-ipad-player .rtb-screen {
+    grid-template-rows: auto auto !important;
+  }
+
+  body .rtb-ipad-player .rtb-video-stage {
+    aspect-ratio: 16 / 9 !important;
+    border-radius: 18px !important;
+  }
+
+  body .rtb-ipad-player .rtb-video-frame {
+    border-radius: 18px !important;
+  }
+
+  body .rtb-ipad-player .rtb-control-dock {
+    padding: 9px 10px 12px !important;
+  }
+
+  body .rtb-ipad-player .rtb-main-buttons {
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    overflow-x: auto !important;
+    overscroll-behavior-inline: contain !important;
+    scrollbar-width: thin !important;
+  }
+
+  body .rtb-ipad-player .rtb-control-row-top {
+    grid-template-columns: 44px minmax(90px, 1fr) 44px !important;
+  }
+
+  body .rtb-ipad-player .rtb-control-btn {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  body .rtb-ipad-player {
+    --rtb-responsive-shell-padding: 7px;
+    --rtb-responsive-shell-radius: 34px;
+    --rtb-responsive-glass-radius: 27px;
+    --rtb-responsive-status-height: 38px;
+    width: min(100%, 360px) !important;
+    max-width: min(100%, 360px) !important;
+  }
+
+  body .rtb-ipad-player .rtb-ipad-shell {
+    max-width: 360px !important;
+  }
+
+  body .rtb-ipad-player .rtb-status-left span {
+    display: none !important;
+  }
+
+  body .rtb-ipad-player .rtb-status-right {
+    font-size: 0.68rem !important;
+  }
+
+  body .rtb-ipad-player .rtb-volume-wrap {
+    width: 78px !important;
+    min-width: 78px !important;
+  }
+
+  body .rtb-ipad-player .rtb-control-btn {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+  }
+}
