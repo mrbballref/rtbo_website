@@ -4,6 +4,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/admin-schools.php';
 require_once __DIR__ . '/admin-members.php';
 require_once __DIR__ . '/notifications.php';
+require_once __DIR__ . '/availability-rules.php';
 
 function admin_games_storage_path(): string
 {
@@ -67,6 +68,7 @@ function ensure_admin_games_table(): void
             officials_required INT NOT NULL DEFAULT 3,
             required_position_ids TEXT NULL,
             notes TEXT NULL,
+            schedule_changed_at DATETIME NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )"
     );
@@ -86,8 +88,20 @@ function ensure_admin_games_table(): void
         'officials_required' => "ALTER TABLE games ADD COLUMN officials_required INT NOT NULL DEFAULT 3 AFTER games_per_night",
         'required_position_ids' => "ALTER TABLE games ADD COLUMN required_position_ids TEXT NULL AFTER officials_required",
         'notes' => "ALTER TABLE games ADD COLUMN notes TEXT NULL",
+        'schedule_changed_at' => "ALTER TABLE games ADD COLUMN schedule_changed_at DATETIME NULL AFTER notes",
     ] as $column => $sql) {
         if (!admin_games_column_exists($column)) {
+            db()->exec($sql);
+        }
+    }
+
+    foreach ([
+        'background_check_expires_at' => "ALTER TABLE users ADD COLUMN background_check_expires_at DATE NULL AFTER official_rank",
+        'safesport_expires_at' => "ALTER TABLE users ADD COLUMN safesport_expires_at DATE NULL AFTER background_check_expires_at",
+        'default_pay_rate' => "ALTER TABLE users ADD COLUMN default_pay_rate DECIMAL(10,2) NULL AFTER safesport_expires_at",
+        'evaluation_score' => "ALTER TABLE users ADD COLUMN evaluation_score DECIMAL(5,2) NULL AFTER default_pay_rate",
+    ] as $column => $sql) {
+        if (!admin_games_table_column_exists('users', $column)) {
             db()->exec($sql);
         }
     }
@@ -641,6 +655,13 @@ function admin_game_officials_list(bool $activeOnly = true): array
             'status' => (string) ($member['status'] ?? 'active'),
             'role' => (string) ($member['role'] ?? ''),
             'official_rank' => $member['official_rank'] ?? null,
+            'official_classification' => (string) ($member['official_classification'] ?? ''),
+            'conferences' => (string) ($member['conferences'] ?? ''),
+            'experience' => (string) ($member['experience'] ?? ''),
+            'background_check_expires_at' => (string) ($member['background_check_expires_at'] ?? ''),
+            'safesport_expires_at' => (string) ($member['safesport_expires_at'] ?? ''),
+            'default_pay_rate' => isset($member['default_pay_rate']) ? (float) $member['default_pay_rate'] : null,
+            'evaluation_score' => isset($member['evaluation_score']) ? (float) $member['evaluation_score'] : null,
         ];
     }, admin_members_list()), static function (array $member) use ($activeOnly): bool {
         if ((int) ($member['id'] ?? 0) <= 0 || ($member['role'] ?? '') !== 'official') {
@@ -690,6 +711,204 @@ function admin_game_location_address(array $school): string
     ])));
 }
 
+function admin_game_date_key(array $game): string
+{
+    return (string) ($game['game_date'] ?? '');
+}
+
+function admin_game_time_minutes(array $game): ?int
+{
+    $time = substr((string) ($game['game_time'] ?? ''), 0, 5);
+    if (!preg_match('/^(\d{1,2}):(\d{2})$/', $time, $matches)) {
+        return null;
+    }
+    return ((int) $matches[1] * 60) + (int) $matches[2];
+}
+
+function admin_game_week_key(array $game): string
+{
+    $date = admin_game_date_key($game);
+    if ($date === '') {
+        return '';
+    }
+    $timestamp = strtotime($date);
+    return $timestamp ? date('o-W', $timestamp) : '';
+}
+
+function admin_game_school_key(array $game): string
+{
+    return strtolower(trim(implode(' ', array_filter([
+        (string) ($game['school_event_center_id'] ?? ''),
+        (string) ($game['location_name'] ?? ''),
+        (string) ($game['home_team'] ?? ''),
+    ]))));
+}
+
+function admin_game_distance_miles_between(array $first, array $second): ?float
+{
+    foreach ([$first, $second] as $game) {
+        if (($game['location_lat'] ?? null) === null || ($game['location_lng'] ?? null) === null) {
+            return null;
+        }
+    }
+
+    $earthRadius = 3958.8;
+    $lat1 = deg2rad((float) $first['location_lat']);
+    $lng1 = deg2rad((float) $first['location_lng']);
+    $lat2 = deg2rad((float) $second['location_lat']);
+    $lng2 = deg2rad((float) $second['location_lng']);
+    $latDelta = $lat2 - $lat1;
+    $lngDelta = $lng2 - $lng1;
+    $angle = (sin($latDelta / 2) ** 2) + cos($lat1) * cos($lat2) * (sin($lngDelta / 2) ** 2);
+    return round($earthRadius * 2 * atan2(sqrt($angle), sqrt(1 - $angle)), 1);
+}
+
+function admin_game_issue(string $code, string $severity, string $title, string $message, array $extra = []): array
+{
+    return [
+        'code' => $code,
+        'severity' => in_array($severity, ['critical', 'warning', 'info'], true) ? $severity : 'warning',
+        'title' => $title,
+        'message' => $message,
+        ...$extra,
+    ];
+}
+
+function admin_game_official_label(array $official): string
+{
+    return trim((string) ($official['name'] ?? '')) ?: trim((string) ($official['first_name'] ?? '') . ' ' . (string) ($official['last_name'] ?? '')) ?: (string) ($official['email'] ?? 'Official');
+}
+
+function admin_game_official_rules_map(array $officialIds): array
+{
+    $officialIds = array_values(array_unique(array_filter(array_map('intval', $officialIds))));
+    if (!$officialIds || !admin_games_db_available()) {
+        return [];
+    }
+
+    try {
+        rtbo_ensure_availability_rules_table();
+        $placeholders = implode(',', array_fill(0, count($officialIds), '?'));
+        $stmt = db()->prepare(
+            "SELECT *
+             FROM official_availability_rules
+             WHERE official_id IN ({$placeholders})
+               AND is_active = 1
+             ORDER BY official_id ASC, id ASC"
+        );
+        $stmt->execute($officialIds);
+        $rules = [];
+        foreach ($stmt->fetchAll() as $row) {
+            $officialId = (int) ($row['official_id'] ?? 0);
+            $rules[$officialId][] = rtbo_availability_rule_public($row);
+        }
+        return $rules;
+    } catch (Throwable $error) {
+        error_log('RTBO assignment rule lookup failed: ' . $error->getMessage());
+        return [];
+    }
+}
+
+function admin_game_rule_applies_to_game_day(array $rule, array $game): bool
+{
+    $days = array_map('strtolower', (array) ($rule['days'] ?? []));
+    if (!$days) {
+        return true;
+    }
+    $timestamp = strtotime((string) ($game['game_date'] ?? ''));
+    if (!$timestamp) {
+        return false;
+    }
+    return in_array(strtolower(date('D', $timestamp)), $days, true) || in_array(strtolower(date('l', $timestamp)), $days, true);
+}
+
+function admin_game_official_certifications(array $official): array
+{
+    $values = [];
+    foreach (['official_classification', 'conferences', 'experience'] as $field) {
+        $raw = trim((string) ($official[$field] ?? ''));
+        if ($raw !== '') {
+            $values[] = strtolower($raw);
+        }
+    }
+    return $values;
+}
+
+function admin_game_official_has_required_certification(array $official, array $game): bool
+{
+    $level = strtolower(trim((string) ($game['level'] ?? '')));
+    if ($level === '') {
+        return true;
+    }
+    $certifications = admin_game_official_certifications($official);
+    if (!$certifications) {
+        return false;
+    }
+    foreach ($certifications as $certification) {
+        if (str_contains($certification, $level) || str_contains($level, $certification)) {
+            return true;
+        }
+    }
+    foreach (['varsity', 'high school', 'nfhs'] as $nfhsTerm) {
+        if (str_contains($level, $nfhsTerm) && array_filter($certifications, static fn (string $cert): bool => str_contains($cert, 'nfhs') || str_contains($cert, 'high school') || str_contains($cert, 'varsity'))) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function admin_game_expiration_issue(array $official, string $field, string $label): ?array
+{
+    if (!array_key_exists($field, $official) || trim((string) ($official[$field] ?? '')) === '') {
+        return admin_game_issue($field . '_missing', 'warning', "{$label} not on file", admin_game_official_label($official) . " does not have {$label} date recorded.");
+    }
+    $timestamp = strtotime((string) $official[$field]);
+    if (!$timestamp || $timestamp < strtotime('today')) {
+        return admin_game_issue($field . '_expired', 'critical', "{$label} expired", admin_game_official_label($official) . " has an expired {$label} record.");
+    }
+    return null;
+}
+
+function admin_game_official_schedule_stats(int $officialId, array $game, array $allGames): array
+{
+    $date = admin_game_date_key($game);
+    $week = admin_game_week_key($game);
+    $schoolKey = admin_game_school_key($game);
+    $daily = 0;
+    $weekly = 0;
+    $schoolCount = 0;
+    $total = 0;
+    foreach ($allGames as $candidate) {
+        if ((string) ($candidate['id'] ?? '') === (string) ($game['id'] ?? '')) {
+            continue;
+        }
+        if (in_array(strtolower((string) ($candidate['status'] ?? '')), ['deleted', 'cancelled', 'canceled', 'postponed'], true)) {
+            continue;
+        }
+        $assigned = false;
+        foreach ((array) ($candidate['assignments'] ?? []) as $assignment) {
+            if ((int) ($assignment['official_id'] ?? 0) === $officialId && strtolower((string) ($assignment['status'] ?? '')) !== 'declined') {
+                $assigned = true;
+                break;
+            }
+        }
+        if (!$assigned) {
+            continue;
+        }
+        $total++;
+        if (admin_game_date_key($candidate) === $date) {
+            $daily++;
+        }
+        if (admin_game_week_key($candidate) === $week) {
+            $weekly++;
+        }
+        if ($schoolKey !== '' && admin_game_school_key($candidate) === $schoolKey) {
+            $schoolCount++;
+        }
+    }
+    return ['daily' => $daily, 'weekly' => $weekly, 'school' => $schoolCount, 'total' => $total];
+}
+
 function admin_game_normalize(array $record): array
 {
     $status = strtolower(trim((string) ($record['status'] ?? 'scheduled'))) ?: 'scheduled';
@@ -731,6 +950,7 @@ function admin_game_normalize(array $record): array
         'tba_sent_at' => (string) ($record['tba_sent_at'] ?? $record['tbaSentAt'] ?? ''),
         'cancellation_reason' => trim((string) ($record['cancellation_reason'] ?? $record['cancellationReason'] ?? '')),
         'notes' => trim((string) ($record['notes'] ?? '')),
+        'schedule_changed_at' => (string) ($record['schedule_changed_at'] ?? $record['scheduleChangedAt'] ?? ''),
         'created_at' => (string) ($record['created_at'] ?? ''),
         'assignments' => array_values(is_array($record['assignments'] ?? null) ? $record['assignments'] : []),
     ];
@@ -940,6 +1160,283 @@ function admin_games_list(): array
     return admin_game_attach_assignments(array_map('admin_game_normalize', $stmt->fetchAll()));
 }
 
+function admin_game_conflict_review(array $game, ?array $allGames = null, ?array $officialsById = null, ?array $rulesByOfficial = null): array
+{
+    $allGames ??= admin_games_list();
+    $officialsById ??= admin_game_official_map(false);
+    $rulesByOfficial ??= admin_game_official_rules_map(array_keys($officialsById));
+    $positions = admin_game_position_map();
+    $issues = [];
+    $assignments = array_values(array_filter((array) ($game['assignments'] ?? []), static fn (array $assignment): bool => (int) ($assignment['official_id'] ?? 0) > 0 && strtolower((string) ($assignment['status'] ?? '')) !== 'declined'));
+    $requiredPositionIds = array_values(array_filter(array_map('intval', $game['required_position_ids'] ?? [])));
+
+    foreach ($requiredPositionIds as $positionId) {
+        $hasAssignment = array_filter($assignments, static fn (array $assignment): bool => (int) ($assignment['position_id'] ?? 0) === $positionId);
+        if (!$hasAssignment) {
+            $issues[] = admin_game_issue('missing_required_position', 'critical', 'Missing required position', 'Assign ' . (string) ($positions[$positionId]['name'] ?? 'required position') . ' before publishing.', ['position_id' => $positionId]);
+        }
+    }
+
+    if (!array_filter($assignments, static fn (array $assignment): bool => strtolower((string) ($assignment['crew_designation'] ?? '')) === 'crew_chief')) {
+        $issues[] = admin_game_issue('missing_crew_chief', 'critical', 'Missing crew chief', 'Designate one assigned official as crew chief before publishing.');
+    }
+
+    if ((float) ($game['fee_per_official'] ?? 0) <= 0) {
+        $issues[] = admin_game_issue('payment_rate_missing', 'critical', 'Payment rate missing', 'Enter the fee per official before publishing this assignment.');
+    }
+
+    $assignedIds = [];
+    foreach ($assignments as $assignment) {
+        $officialId = (int) ($assignment['official_id'] ?? 0);
+        $official = $officialsById[$officialId] ?? ($assignment['official'] ?? []);
+        $officialName = admin_game_official_label($official);
+        if (in_array($officialId, $assignedIds, true)) {
+            $issues[] = admin_game_issue('crew_member_conflict', 'critical', 'Crew member duplicated', "{$officialName} is assigned to more than one position on this game.", ['official_id' => $officialId]);
+        }
+        $assignedIds[] = $officialId;
+
+        $availabilityRecord = null;
+        foreach ((array) ($official['availability'] ?? []) as $record) {
+            if ((string) ($record['date'] ?? '') === admin_game_date_key($game)) {
+                $availabilityRecord = $record;
+                break;
+            }
+        }
+        if ($availabilityRecord && in_array(strtolower((string) ($availabilityRecord['status'] ?? '')), ['unavailable', 'blocked', 'closed'], true)) {
+            $issues[] = admin_game_issue('official_blocked_out', 'critical', 'Official blocked out', "{$officialName} is marked unavailable for this date.", ['official_id' => $officialId]);
+        }
+
+        foreach ((array) ($rulesByOfficial[$officialId] ?? []) as $rule) {
+            if (!admin_game_rule_applies_to_game_day($rule, $game)) {
+                continue;
+            }
+            $type = (string) ($rule['rule_type'] ?? '');
+            $schoolName = strtolower(trim((string) ($rule['school_name'] ?? '')));
+            $level = strtolower(trim((string) ($rule['game_level'] ?? '')));
+            if ($type === 'weekly_unavailable') {
+                $issues[] = admin_game_issue('official_blocked_rule', 'critical', 'Standing availability conflict', "{$officialName} has a standing unavailable rule for this game day.", ['official_id' => $officialId, 'rule_id' => $rule['id'] ?? null]);
+            }
+            if (in_array($type, ['school_block', 'school_conflict_block'], true) && $schoolName !== '') {
+                $gameSchool = strtolower(trim(($game['location_name'] ?? '') . ' ' . ($game['home_team'] ?? '') . ' ' . ($game['away_team'] ?? '')));
+                if (str_contains($gameSchool, $schoolName)) {
+                    $issues[] = admin_game_issue('school_conflict', 'critical', 'School conflict', "{$officialName} has a school conflict rule for {$rule['school_name']}.", ['official_id' => $officialId, 'rule_id' => $rule['id'] ?? null]);
+                }
+            }
+            if ($type === 'game_level' && $level !== '' && !str_contains(strtolower((string) ($game['level'] ?? '')), $level)) {
+                $issues[] = admin_game_issue('game_level_rule', 'warning', 'Game level preference mismatch', "{$officialName} has a saved game-level rule that does not match this game.", ['official_id' => $officialId]);
+            }
+            if ($type === 'do_not_pair') {
+                $blockedPartnerId = (int) ($rule['partner_member_id'] ?? 0);
+                $blockedPartnerName = strtolower(trim((string) ($rule['partner_name'] ?? '')));
+                foreach ($assignments as $crewAssignment) {
+                    $crewOfficialId = (int) ($crewAssignment['official_id'] ?? 0);
+                    $crewOfficial = $officialsById[$crewOfficialId] ?? ($crewAssignment['official'] ?? []);
+                    $crewOfficialName = admin_game_official_label($crewOfficial);
+                    if (
+                        ($blockedPartnerId > 0 && $crewOfficialId === $blockedPartnerId)
+                        || ($blockedPartnerName !== '' && strtolower($crewOfficialName) === $blockedPartnerName)
+                    ) {
+                        $issues[] = admin_game_issue('crew_member_conflict', 'critical', 'Do-not-pair conflict', "{$officialName} has a do-not-pair rule with {$crewOfficialName}.", ['official_id' => $officialId]);
+                    }
+                }
+            }
+        }
+
+        if (!admin_game_official_has_required_certification($official, $game)) {
+            $issues[] = admin_game_issue('missing_required_certification', 'critical', 'Missing required certification level', "{$officialName} does not have a recorded certification/classification matching {$game['level']}.", ['official_id' => $officialId]);
+        }
+        foreach ([
+            ['background_check_expires_at', 'Background check'],
+            ['safesport_expires_at', 'SafeSport'],
+        ] as [$field, $label]) {
+            $issue = admin_game_expiration_issue($official, $field, $label);
+            if ($issue) {
+                $issue['official_id'] = $officialId;
+                $issues[] = $issue;
+            }
+        }
+
+        $stats = admin_game_official_schedule_stats($officialId, $game, $allGames);
+        foreach ((array) ($rulesByOfficial[$officialId] ?? []) as $rule) {
+            if (($rule['rule_type'] ?? '') !== 'max_games' || !admin_game_rule_applies_to_game_day($rule, $game)) {
+                continue;
+            }
+            $maxDay = (int) ($rule['max_games_per_day'] ?? 0);
+            $maxWeek = (int) ($rule['max_games_per_week'] ?? 0);
+            if ($maxDay > 0 && $stats['daily'] + 1 > $maxDay) {
+                $issues[] = admin_game_issue('too_many_games_day', 'critical', 'Maximum games per day exceeded', "{$officialName} set a {$maxDay}-game daily limit.", ['official_id' => $officialId]);
+            }
+            if ($maxWeek > 0 && $stats['weekly'] + 1 > $maxWeek) {
+                $issues[] = admin_game_issue('too_many_games_week', 'critical', 'Maximum games per week exceeded', "{$officialName} set a {$maxWeek}-game weekly limit.", ['official_id' => $officialId]);
+            }
+        }
+        if ($stats['daily'] >= 3) {
+            $issues[] = admin_game_issue('too_many_games_day', 'critical', 'Too many games in one day', "{$officialName} already has {$stats['daily']} other game assignments on this date.", ['official_id' => $officialId]);
+        }
+        if ($stats['school'] >= 3) {
+            $issues[] = admin_game_issue('school_overuse', 'warning', 'School overuse risk', "{$officialName} has already worked this school/site {$stats['school']} time(s).", ['official_id' => $officialId]);
+        }
+
+        if (strtolower((string) ($assignment['status'] ?? '')) === 'accepted' && !empty($game['schedule_changed_at']) && !empty($assignment['responded_at']) && strtotime((string) $game['schedule_changed_at']) > strtotime((string) $assignment['responded_at'])) {
+            $issues[] = admin_game_issue('accepted_schedule_changed', 'critical', 'Accepted assignment changed later', "{$officialName} accepted this assignment before the schedule was changed. Reconfirm before publishing.", ['official_id' => $officialId]);
+        }
+
+        foreach ($allGames as $candidate) {
+            if ((string) ($candidate['id'] ?? '') === (string) ($game['id'] ?? '') || admin_game_date_key($candidate) !== admin_game_date_key($game)) {
+                continue;
+            }
+            $candidateAssignment = array_filter((array) ($candidate['assignments'] ?? []), static fn (array $item): bool => (int) ($item['official_id'] ?? 0) === $officialId && strtolower((string) ($item['status'] ?? '')) !== 'declined');
+            if (!$candidateAssignment) {
+                continue;
+            }
+            $targetTime = admin_game_time_minutes($game);
+            $candidateTime = admin_game_time_minutes($candidate);
+            if ($targetTime === null || $candidateTime === null) {
+                continue;
+            }
+            $gap = abs($targetTime - $candidateTime);
+            if ($gap === 0) {
+                $issues[] = admin_game_issue('same_time_assignment', 'critical', 'Already assigned at same time', "{$officialName} is already assigned to {$candidate['away_team']} at {$candidate['home_team']} at the same time.", ['official_id' => $officialId, 'conflict_game_id' => $candidate['id'] ?? null]);
+                continue;
+            }
+            $distance = admin_game_distance_miles_between($game, $candidate);
+            if ($distance !== null) {
+                $travelMinutes = (int) ceil(($distance / 45) * 60) + 30;
+                if ($gap < $travelMinutes) {
+                    $issues[] = admin_game_issue('travel_time_conflict', 'critical', 'Travel time conflict', "{$officialName} has {$gap} minutes between sites about {$distance} miles apart.", ['official_id' => $officialId, 'conflict_game_id' => $candidate['id'] ?? null, 'distance_miles' => $distance]);
+                }
+            }
+        }
+    }
+
+    $critical = count(array_filter($issues, static fn (array $issue): bool => $issue['severity'] === 'critical'));
+    $warnings = count(array_filter($issues, static fn (array $issue): bool => $issue['severity'] === 'warning'));
+    return [
+        'status' => $critical > 0 ? 'blocked' : ($warnings > 0 ? 'needs_review' : 'clear'),
+        'critical_count' => $critical,
+        'warning_count' => $warnings,
+        'issues' => $issues,
+    ];
+}
+
+function admin_game_auto_assign_recommendations(array $game, ?array $allGames = null, ?array $officials = null, ?array $rulesByOfficial = null): array
+{
+    $allGames ??= admin_games_list();
+    $officials ??= admin_game_officials_list(true);
+    $rulesByOfficial ??= admin_game_official_rules_map(array_column($officials, 'id'));
+    $recommendations = [];
+    $assignedIds = array_map(static fn (array $assignment): int => (int) ($assignment['official_id'] ?? 0), (array) ($game['assignments'] ?? []));
+    $requiredPositions = admin_game_missing_required_positions($game);
+    if (!$requiredPositions) {
+        $requiredPositions = array_values(array_filter(admin_game_position_map(), static fn (array $position): bool => in_array((int) ($position['id'] ?? 0), array_map('intval', $game['required_position_ids'] ?? []), true)));
+    }
+
+    foreach ($requiredPositions as $position) {
+        $candidates = [];
+        foreach ($officials as $official) {
+            $officialId = (int) ($official['id'] ?? 0);
+            if ($officialId <= 0 || in_array($officialId, $assignedIds, true)) {
+                continue;
+            }
+            $score = 100;
+            $reasons = [];
+            $stats = admin_game_official_schedule_stats($officialId, $game, $allGames);
+            $conflictReview = admin_game_conflict_review([...$game, 'assignments' => [[
+                'official_id' => $officialId,
+                'position_id' => $position['id'] ?? 0,
+                'crew_designation' => 'official',
+                'status' => 'pending',
+                'official' => $official,
+            ]]], $allGames, [$officialId => $official], $rulesByOfficial);
+            $blockingCandidateIssues = array_filter(
+                (array) ($conflictReview['issues'] ?? []),
+                static fn (array $issue): bool => ($issue['severity'] ?? '') === 'critical'
+                    && !in_array((string) ($issue['code'] ?? ''), ['missing_required_position', 'missing_crew_chief', 'payment_rate_missing'], true)
+            );
+            if ($blockingCandidateIssues) {
+                continue;
+            }
+            foreach ((array) ($official['availability'] ?? []) as $availability) {
+                if ((string) ($availability['date'] ?? '') === admin_game_date_key($game)) {
+                    if (strtolower((string) ($availability['status'] ?? '')) === 'available') {
+                        $score += 18;
+                        $reasons[] = 'Available on game date';
+                    }
+                    if (!empty($availability['contact_required'])) {
+                        $score -= 6;
+                        $reasons[] = 'Contact before assignment';
+                    }
+                }
+            }
+            if (admin_game_official_has_required_certification($official, $game)) {
+                $score += 15;
+                $reasons[] = 'Certification/level match';
+            }
+            if ((int) ($official['official_rank'] ?? 0) > 0) {
+                $score += max(0, 12 - (int) $official['official_rank']);
+                $reasons[] = 'Official rank on file';
+            }
+            if (isset($official['evaluation_score']) && $official['evaluation_score'] !== null) {
+                $score += min(15, max(0, (float) $official['evaluation_score']));
+                $reasons[] = 'Evaluation score included';
+            }
+            $score -= min(20, $stats['daily'] * 8);
+            $score -= min(18, $stats['school'] * 6);
+            $score -= min(15, $stats['total']);
+            if ($stats['daily'] === 0) {
+                $reasons[] = 'No same-day assignment load';
+            }
+            if ($stats['school'] === 0) {
+                $reasons[] = 'Avoids school overuse';
+            }
+            foreach ((array) ($rulesByOfficial[$officialId] ?? []) as $rule) {
+                if (!admin_game_rule_applies_to_game_day($rule, $game)) {
+                    continue;
+                }
+                if (($rule['rule_type'] ?? '') === 'preferred_partner') {
+                    $score += 4;
+                    $reasons[] = 'Preferred partner rule available';
+                }
+                if (($rule['rule_type'] ?? '') === 'travel_limit' && (int) ($rule['max_miles'] ?? 0) > 0) {
+                    $reasons[] = 'Travel limit checked';
+                }
+            }
+            $candidates[] = [
+                'official_id' => $officialId,
+                'official' => $official,
+                'score' => max(0, round($score, 1)),
+                'reasons' => array_values(array_unique(array_slice($reasons, 0, 5))),
+                'daily_assignments' => $stats['daily'],
+                'total_assignments' => $stats['total'],
+            ];
+        }
+        usort($candidates, static fn (array $a, array $b): int => $b['score'] <=> $a['score']);
+        $recommendations[] = [
+            'position_id' => (int) ($position['id'] ?? 0),
+            'position_name' => (string) ($position['name'] ?? 'Position'),
+            'candidates' => array_slice($candidates, 0, 5),
+        ];
+    }
+
+    return $recommendations;
+}
+
+function admin_game_attach_conflicts_and_recommendations(array $games): array
+{
+    $officials = admin_game_officials_list(true);
+    $officialsById = [];
+    foreach ($officials as $official) {
+        $officialsById[(int) ($official['id'] ?? 0)] = $official;
+    }
+    $rulesByOfficial = admin_game_official_rules_map(array_column($officials, 'id'));
+    foreach ($games as &$game) {
+        $game['conflict_review'] = admin_game_conflict_review($game, $games, $officialsById, $rulesByOfficial);
+        $game['auto_assign_recommendations'] = admin_game_auto_assign_recommendations($game, $games, $officials, $rulesByOfficial);
+    }
+    unset($game);
+    return $games;
+}
+
 function admin_game_create(array $record): array
 {
     $game = admin_game_require_valid($record);
@@ -1007,6 +1504,22 @@ function admin_game_update(int $id, array $record): array
     }
 
     $game = admin_game_require_valid(['id' => $id, ...$record]);
+    $acceptedAssignmentsExist = false;
+    $scheduleChangedAfterAcceptance = false;
+    if ($before) {
+        foreach ((array) ($before['assignments'] ?? []) as $assignment) {
+            if (strtolower((string) ($assignment['status'] ?? '')) === 'accepted') {
+                $acceptedAssignmentsExist = true;
+                break;
+            }
+        }
+        foreach (['game_date', 'game_time', 'location_name', 'location_address', 'court_label', 'home_team', 'away_team'] as $field) {
+            if ((string) ($before[$field] ?? '') !== (string) ($game[$field] ?? '')) {
+                $scheduleChangedAfterAcceptance = true;
+                break;
+            }
+        }
+    }
 
     if (!admin_games_db_available()) {
         $records = admin_games_read_file();
@@ -1024,13 +1537,14 @@ function admin_game_update(int $id, array $record): array
         throw new RuntimeException('Game assignment not found.');
     }
 
+    $scheduleChangedAtSql = $acceptedAssignmentsExist && $scheduleChangedAfterAcceptance ? 'NOW()' : 'schedule_changed_at';
     $stmt = db()->prepare(
         "UPDATE games
          SET game_date = ?, game_time = ?, level = ?, home_team = ?, away_team = ?, location_name = ?,
              location_address = ?, location_lat = ?, location_lng = ?, fee_per_official = ?, status = ?,
              published = ?, tba_visible = ?, tba_sent_at = ?, cancellation_reason = ?, school_event_center_id = ?, home_team_id = ?,
              away_team_id = ?, court_number = ?, court_label = ?, games_per_night = ?,
-             officials_required = ?, required_position_ids = ?, notes = ?
+             officials_required = ?, required_position_ids = ?, notes = ?, schedule_changed_at = {$scheduleChangedAtSql}
          WHERE id = ?"
     );
     $stmt->execute([
@@ -1085,6 +1599,11 @@ function admin_game_set_published(int $id, bool $published): array
         $missingPositions = admin_game_missing_required_positions($game);
         if ($missingPositions) {
             throw new RuntimeException('Assign all required crew positions before publishing: ' . implode(', ', array_column($missingPositions, 'name')) . '.');
+        }
+        $review = admin_game_conflict_review($game);
+        if ((int) ($review['critical_count'] ?? 0) > 0) {
+            $firstIssue = $review['issues'][0]['title'] ?? 'Assignment conflict';
+            throw new RuntimeException("Resolve the Master Schedule Conflict Review before publishing. First issue: {$firstIssue}.");
         }
     }
 

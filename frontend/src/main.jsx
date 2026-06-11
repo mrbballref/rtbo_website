@@ -9065,11 +9065,60 @@ function MasterSchedulePage({ onStatus, onOpenCreate }) {
     });
   }
 
+  function openConflictReview(game) {
+    setAssigningGameId(game.id);
+    setCrewAssignmentForm(buildCrewFormForGame(game, positions));
+    setShowUnavailableOfficials(false);
+    setError('');
+    onStatus?.('Conflict Review opened. Resolve critical items before publishing.');
+  }
+
   function startAssigning(game) {
     setAssigningGameId(current => (String(current) === String(game.id) ? null : game.id));
     setCrewAssignmentForm(buildCrewFormForGame(game, positions));
     setShowUnavailableOfficials(false);
     setError('');
+  }
+
+  function applyAutoAssignRecommendation(game) {
+    const recommendations = Array.isArray(game.auto_assign_recommendations) ? game.auto_assign_recommendations : [];
+    if (recommendations.length === 0) {
+      setError('No conflict-free recommendations are available for this game yet.');
+      return;
+    }
+    const usedOfficialIds = new Set((game.assignments || []).map(assignment => String(assignment.official_id || '')).filter(Boolean));
+    const nextForm = buildCrewFormForGame(game, positions);
+    let appliedCount = 0;
+    recommendations.forEach((recommendation) => {
+      const positionId = String(recommendation.position_id || '');
+      if (!positionId || nextForm[positionId]?.official_id) {
+        return;
+      }
+      const candidate = (recommendation.candidates || []).find(item => {
+        const officialId = String(item.official_id || item.official?.id || '');
+        return officialId && !usedOfficialIds.has(officialId);
+      });
+      if (!candidate) {
+        return;
+      }
+      const officialId = String(candidate.official_id || candidate.official?.id || '');
+      usedOfficialIds.add(officialId);
+      nextForm[positionId] = {
+        ...(nextForm[positionId] || {}),
+        official_id: officialId,
+        crew_designation: nextForm[positionId]?.crew_designation || crewDesignationForPosition(positions.find(position => String(position.id) === positionId) || {}),
+        assignor_notes: [
+          nextForm[positionId]?.assignor_notes || '',
+          `Auto-Assign recommendation score ${candidate.score}: ${(candidate.reasons || []).join(', ')}`
+        ].filter(Boolean).join('\n')
+      };
+      appliedCount += 1;
+    });
+    setCrewAssignmentForm(nextForm);
+    setAssigningGameId(game.id);
+    setShowUnavailableOfficials(false);
+    setError('');
+    onStatus?.(appliedCount > 0 ? `Auto-Assign staged ${appliedCount} recommended official${appliedCount === 1 ? '' : 's'} for review. Save Crew Builder to commit.` : 'No open crew slots could be filled by the current recommendations.');
   }
 
   async function togglePublished(game) {
@@ -9418,6 +9467,89 @@ function MasterSchedulePage({ onStatus, onOpenCreate }) {
     );
   }
 
+  function renderConflictReviewPanel(game) {
+    const review = game.conflict_review || {};
+    const issues = Array.isArray(review.issues) ? review.issues : [];
+    const status = review.status || (issues.length ? 'needs_review' : 'clear');
+    const statusLabel = status === 'blocked' ? 'Blocked' : status === 'clear' ? 'Clear' : 'Needs Review';
+    return (
+      <section className={`rtbo-conflict-review-panel status-${status}`} aria-label="Assignment conflict review">
+        <div className="rtbo-conflict-review-head">
+          <div>
+            <p className="eyebrow">Conflict Review</p>
+            <h5>{statusLabel} Before Publish</h5>
+          </div>
+          <div className="rtbo-conflict-counts">
+            <span><strong>{review.critical_count || 0}</strong> critical</span>
+            <span><strong>{review.warning_count || 0}</strong> warnings</span>
+          </div>
+        </div>
+        {issues.length === 0 ? (
+          <p className="rtbo-empty-state compact">No assignment conflicts detected for the current crew and game details.</p>
+        ) : (
+          <div className="rtbo-conflict-issue-list">
+            {issues.slice(0, 8).map((issue, index) => (
+              <article className={`rtbo-conflict-issue severity-${issue.severity || 'warning'}`} key={`${issue.code || 'issue'}-${issue.official_id || 'game'}-${index}`}>
+                <strong>{issue.title || formatLabel(issue.code || 'Conflict')}</strong>
+                <span>{issue.message}</span>
+                <small>{formatLabel(issue.severity || 'warning')}</small>
+              </article>
+            ))}
+            {issues.length > 8 && <small className="rtbo-conflict-overflow">{issues.length - 8} additional issue{issues.length - 8 === 1 ? '' : 's'} detected.</small>}
+          </div>
+        )}
+      </section>
+    );
+  }
+
+  function renderAutoAssignPanel(game) {
+    const recommendations = Array.isArray(game.auto_assign_recommendations) ? game.auto_assign_recommendations : [];
+    return (
+      <section className="rtbo-auto-assign-panel" aria-label="Auto-Assign recommendations">
+        <div className="rtbo-auto-assign-head">
+          <div>
+            <p className="eyebrow">Auto-Assign Engine</p>
+            <h5>Recommended Officials For Super Admin Approval</h5>
+          </div>
+          <button className="btn secondary dark-btn" type="button" onClick={() => applyAutoAssignRecommendation(game)} disabled={saving || recommendations.length === 0}>
+            Stage Best Crew
+          </button>
+        </div>
+        {recommendations.length === 0 && <p className="rtbo-empty-state compact">No open required positions need recommendations.</p>}
+        {recommendations.length > 0 && (
+          <div className="rtbo-auto-assign-grid">
+            {recommendations.map(recommendation => {
+              const top = (recommendation.candidates || [])[0];
+              const official = top?.official || {};
+              const name = official.name || [official.first_name, official.last_name].filter(Boolean).join(' ') || official.email || 'No conflict-free official';
+              return (
+                <article className="rtbo-auto-assign-card" key={`auto-${game.id}-${recommendation.position_id}`}>
+                  <span>{recommendation.position_name}</span>
+                  {top ? (
+                    <>
+                      <div className="rtbo-auto-assign-official">
+                        <ProfilePhoto person={official} alt={`${name} profile`} className="rtbo-game-crew-photo" />
+                        <div>
+                          <strong>{name}</strong>
+                          <small>Score {top.score}</small>
+                        </div>
+                      </div>
+                      <ul>
+                        {(top.reasons || []).slice(0, 3).map(reason => <li key={reason}>{reason}</li>)}
+                      </ul>
+                    </>
+                  ) : (
+                    <p>No conflict-free recommendation available.</p>
+                  )}
+                </article>
+              );
+            })}
+          </div>
+        )}
+      </section>
+    );
+  }
+
   function renderCrewAssignmentPanel(game) {
     const requiredPositions = requiredPositionsForGame(game, positions);
     const builderPositions = crewBuilderPositionsForGame(game, positions);
@@ -9451,6 +9583,8 @@ function MasterSchedulePage({ onStatus, onOpenCreate }) {
         {!showUnavailableOfficials && contactRequiredOfficials.length > 0 && (
           <p className="form-message warning">{contactRequiredOfficials.length} available {contactRequiredOfficials.length === 1 ? 'official has' : 'officials have'} a contact-before-assignment note for this date.</p>
         )}
+        {renderConflictReviewPanel(game)}
+        {renderAutoAssignPanel(game)}
         <div className="rtbo-crew-assignment-grid rtbo-crew-builder-grid">
           {builderPositions.map((position) => {
             const entry = crewAssignmentForm[String(position.id)] || {};
@@ -9602,16 +9736,24 @@ function MasterSchedulePage({ onStatus, onOpenCreate }) {
             <div className="rtbo-game-assignment-crew-wrap">
               {renderAssignedCrew(game)}
             </div>
+            <div className="rtbo-game-conflict-summary">
+              {renderConflictReviewPanel(game)}
+            </div>
             <div className="rtbo-table-actions rtbo-game-record-actions">
+              <button type="button" onClick={() => openConflictReview(game)} disabled={saving}>Review Conflicts</button>
+              <button type="button" onClick={() => applyAutoAssignRecommendation(game)} disabled={saving || !hasAssignableOfficials}>Auto-Assign Assist</button>
               <button type="button" onClick={() => startAssigning(game)} disabled={saving || !hasAssignableOfficials}>{String(assigningGameId) === String(game.id) ? 'Close Assign' : 'Assign Officials'}</button>
               <button
                 className="rtbo-publish-officials-btn"
                 type="button"
                 onClick={() => togglePublished(game)}
-                disabled={saving || (!game.published && !isCrewComplete(game, positions))}
+                disabled={saving || (!game.published && (!isCrewComplete(game, positions) || Number(game.conflict_review?.critical_count || 0) > 0))}
               >
                 {game.published ? 'Unpublish from assigned officials' : 'Publish immediately to assigned officials'}
               </button>
+              {!game.published && Number(game.conflict_review?.critical_count || 0) > 0 && (
+                <small className="rtbo-publish-helper">Resolve critical Conflict Review items before publishing.</small>
+              )}
               {!game.published && !isCrewComplete(game, positions) && (
                 <small className="rtbo-publish-helper">Complete all required crew positions before publishing to officials.</small>
               )}

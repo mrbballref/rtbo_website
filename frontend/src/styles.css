@@ -10027,6 +10027,112 @@ button.hero-scroll-link {
   line-height: 1.35;
 }
 
+.rtbo-game-conflict-summary {
+  grid-column: 1 / -1;
+}
+
+.rtbo-conflict-review-panel {
+  display: grid;
+  gap: 12px;
+  border: 1px solid rgba(247, 211, 95, .2);
+  border-radius: 16px;
+  padding: 14px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .055), rgba(255, 255, 255, .025)),
+    rgba(0, 0, 0, .18);
+}
+
+.rtbo-conflict-review-panel.status-blocked {
+  border-color: rgba(193, 18, 31, .48);
+  box-shadow: inset 4px 0 0 rgba(193, 18, 31, .86);
+}
+
+.rtbo-conflict-review-panel.status-clear {
+  border-color: rgba(34, 197, 94, .36);
+  box-shadow: inset 4px 0 0 rgba(34, 197, 94, .7);
+}
+
+.rtbo-conflict-review-head,
+.rtbo-auto-assign-head {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rtbo-conflict-review-head h5,
+.rtbo-auto-assign-head h5 {
+  margin: 0;
+  color: #fff;
+  font-size: .92rem;
+  text-transform: uppercase;
+}
+
+.rtbo-conflict-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.rtbo-conflict-counts span {
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 999px;
+  padding: 5px 9px;
+  color: var(--muted);
+  font-size: .68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.rtbo-conflict-counts strong {
+  color: #f7d35f;
+}
+
+.rtbo-conflict-issue-list {
+  display: grid;
+  gap: 8px;
+}
+
+.rtbo-conflict-issue {
+  display: grid;
+  gap: 4px;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, .22);
+}
+
+.rtbo-conflict-issue.severity-critical {
+  border-color: rgba(193, 18, 31, .45);
+  background: rgba(193, 18, 31, .12);
+}
+
+.rtbo-conflict-issue.severity-warning {
+  border-color: rgba(247, 211, 95, .35);
+  background: rgba(247, 211, 95, .08);
+}
+
+.rtbo-conflict-issue strong {
+  color: #fff;
+  font-size: .8rem;
+  text-transform: uppercase;
+}
+
+.rtbo-conflict-issue span {
+  color: var(--muted);
+  font-size: .76rem;
+  line-height: 1.35;
+}
+
+.rtbo-conflict-issue small,
+.rtbo-conflict-overflow {
+  color: #f7d35f;
+  font-size: .64rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
 .rtbo-assign-official-panel {
   grid-column: 1 / -1;
   display: grid;
@@ -10105,6 +10211,75 @@ button.hero-scroll-link {
 .rtbo-crew-builder-panel {
   background:
     linear-gradient(135deg, rgba(193, 18, 31, .14), rgba(255, 255, 255, .035) 42%, rgba(247, 211, 95, .06));
+}
+
+.rtbo-auto-assign-panel {
+  display: grid;
+  gap: 12px;
+  border: 1px solid rgba(247, 211, 95, .24);
+  border-radius: 16px;
+  padding: 14px;
+  background:
+    linear-gradient(135deg, rgba(247, 211, 95, .11), rgba(193, 18, 31, .08)),
+    rgba(0, 0, 0, .18);
+}
+
+.rtbo-auto-assign-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 10px;
+}
+
+.rtbo-auto-assign-card {
+  display: grid;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 14px;
+  padding: 12px;
+  background: rgba(0, 0, 0, .2);
+}
+
+.rtbo-auto-assign-card > span {
+  color: #f7d35f;
+  font-size: .68rem;
+  font-weight: 1000;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.rtbo-auto-assign-official {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+}
+
+.rtbo-auto-assign-official strong {
+  display: block;
+  color: #fff;
+  font-size: .78rem;
+}
+
+.rtbo-auto-assign-official small {
+  color: #f7d35f;
+  font-size: .66rem;
+  font-weight: 900;
+}
+
+.rtbo-auto-assign-card ul {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding-left: 16px;
+  color: var(--muted);
+  font-size: .72rem;
+  line-height: 1.35;
+}
+
+.rtbo-auto-assign-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: .76rem;
 }
 
 .rtbo-crew-builder-actions {
@@ -11045,6 +11220,24 @@ button.hero-scroll-link {
 }
 
 @media (max-width: 880px) {
+  .rtbo-conflict-review-head,
+  .rtbo-auto-assign-head,
+  .rtbo-assign-panel-head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .rtbo-conflict-counts,
+  .rtbo-crew-builder-actions {
+    justify-content: flex-start;
+  }
+
+  .rtbo-auto-assign-grid,
+  .rtbo-crew-builder-grid,
+  .rtbo-crew-assignment-grid {
+    grid-template-columns: 1fr;
+  }
+
   .platform-feature-grid {
     grid-template-columns: 1fr;
   }

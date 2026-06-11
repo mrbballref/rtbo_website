@@ -21,6 +21,7 @@ function admin_games_json_body(): array
 
 function admin_games_reference_payload(): array
 {
+    $games = admin_game_add_tba_request_counts(admin_games_list());
     return [
         'venues' => admin_game_venue_records(),
         'schools' => admin_game_records_by_type('school'),
@@ -28,7 +29,7 @@ function admin_games_reference_payload(): array
         'teams' => admin_game_records_by_type('team'),
         'officials' => admin_game_officials_list(true),
         'positions' => admin_game_positions_list(),
-        'games' => admin_game_add_tba_request_counts(admin_games_list()),
+        'games' => admin_game_attach_conflicts_and_recommendations($games),
         'tba_requests' => admin_game_tba_requests_list(),
     ];
 }

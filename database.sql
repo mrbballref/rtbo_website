@@ -22,6 +22,10 @@ CREATE TABLE IF NOT EXISTS users (
   experience TEXT,
   official_rank INT NULL,
   official_classification VARCHAR(80) NULL,
+  background_check_expires_at DATE NULL,
+  safesport_expires_at DATE NULL,
+  default_pay_rate DECIMAL(10,2) NULL,
+  evaluation_score DECIMAL(5,2) NULL,
   password_hash VARCHAR(255) NOT NULL,
   password_is_temporary TINYINT(1) NOT NULL DEFAULT 0,
   temporary_password_created_at DATETIME NULL,
@@ -117,6 +121,7 @@ CREATE TABLE IF NOT EXISTS games (
   officials_required INT NOT NULL DEFAULT 3,
   required_position_ids TEXT NULL,
   notes TEXT NULL,
+  schedule_changed_at DATETIME NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
