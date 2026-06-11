@@ -370,6 +370,8 @@ function rtbo_assignment_official_profile(array $assignment): array
         'zip' => (string) ($official['zip'] ?? ''),
         'photo' => $photo,
         'position' => (string) ($assignment['position_name'] ?? $assignment['position'] ?? ''),
+        'crew_designation' => (string) ($assignment['crew_designation'] ?? 'official'),
+        'assignor_notes' => (string) ($assignment['assignor_notes'] ?? ''),
         'assignment_status' => (string) ($assignment['status'] ?? 'pending'),
     ];
 }
@@ -425,7 +427,10 @@ function rtbo_official_assignments(int $officialId): array
                     'game_status' => (string) ($game['status'] ?? ''),
                     'assignment_status' => (string) ($assignment['status'] ?? 'pending'),
                     'position' => (string) ($assignment['position_name'] ?? $assignment['position'] ?? ''),
+                    'crew_designation' => (string) ($assignment['crew_designation'] ?? 'official'),
+                    'assignor_notes' => (string) ($assignment['assignor_notes'] ?? ''),
                     'crew' => rtbo_assignment_crew_from_game($game),
+                    'crew_messages' => array_values(is_array($game['crew_messages'] ?? null) ? $game['crew_messages'] : []),
                 ];
             }
         }

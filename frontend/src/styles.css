@@ -9478,6 +9478,16 @@ button.hero-scroll-link {
   text-transform: uppercase;
 }
 
+.rtbo-crew-member em {
+  display: block;
+  color: #f7d35f;
+  font-size: .62rem;
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
 .rtbo-official-schedule-card .rtbo-crew-member {
   grid-template-columns: 60px minmax(0, 1fr);
   padding: 10px;
@@ -9487,6 +9497,35 @@ button.hero-scroll-link {
 .rtbo-official-schedule-card .rtbo-crew-photo-button {
   width: 60px;
   height: 60px;
+}
+
+.rtbo-assignment-crew-ops {
+  display: grid;
+  gap: 8px;
+}
+
+.rtbo-assignment-crew-ops article {
+  display: grid;
+  gap: 5px;
+  border: 1px solid rgba(247, 211, 95, .18);
+  border-left: 3px solid #f7d35f;
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, .16);
+}
+
+.rtbo-assignment-crew-ops strong {
+  color: #f7d35f;
+  font-size: .7rem;
+  font-weight: 1000;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.rtbo-assignment-crew-ops span {
+  color: var(--muted);
+  font-size: .78rem;
+  line-height: 1.35;
 }
 
 .rtbo-schedule-vs {
@@ -9952,6 +9991,18 @@ button.hero-scroll-link {
   text-transform: uppercase;
 }
 
+.rtbo-game-crew-member em {
+  display: block;
+  color: #f7d35f;
+  font-size: .62rem;
+  font-style: normal;
+  font-weight: 900;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .rtbo-game-crew-member small {
   color: var(--muted);
   font-size: .66rem;
@@ -10049,6 +10100,134 @@ button.hero-scroll-link {
 .rtbo-crew-completion.warning {
   color: #c1121f;
   background: rgba(193, 18, 31, .12);
+}
+
+.rtbo-crew-builder-panel {
+  background:
+    linear-gradient(135deg, rgba(193, 18, 31, .14), rgba(255, 255, 255, .035) 42%, rgba(247, 211, 95, .06));
+}
+
+.rtbo-crew-builder-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.rtbo-crew-builder-grid {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  align-items: stretch;
+}
+
+.rtbo-crew-builder-slot {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  margin: 0;
+  border: 1px solid rgba(247, 211, 95, .22);
+  border-radius: 16px;
+  padding: 14px;
+  background: rgba(0, 0, 0, .2);
+}
+
+.rtbo-crew-builder-slot legend {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 0 6px;
+  color: #fff;
+  font-size: .82rem;
+  font-weight: 1000;
+  text-transform: uppercase;
+}
+
+.rtbo-crew-builder-slot legend small {
+  border: 1px solid rgba(247, 211, 95, .3);
+  border-radius: 999px;
+  padding: 2px 7px;
+  color: #f7d35f;
+  font-size: .58rem;
+  letter-spacing: .04em;
+}
+
+.rtbo-crew-builder-official-row {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 10px;
+  align-items: end;
+}
+
+.rtbo-crew-builder-slot textarea,
+.rtbo-crew-message-form textarea {
+  min-height: 82px;
+  resize: vertical;
+}
+
+.rtbo-crew-builder-lower {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(260px, .9fr);
+  gap: 14px;
+}
+
+.rtbo-crew-thread-card,
+.rtbo-crew-history-card {
+  display: grid;
+  gap: 12px;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 16px;
+  padding: 14px;
+  background: rgba(0, 0, 0, .18);
+}
+
+.rtbo-crew-thread-card h5,
+.rtbo-crew-history-card h5 {
+  margin: 0;
+  color: #fff;
+  font-size: .92rem;
+  text-transform: uppercase;
+}
+
+.rtbo-crew-message-list {
+  display: grid;
+  gap: 8px;
+  max-height: 260px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.rtbo-crew-message-list article,
+.rtbo-crew-history-card article {
+  display: grid;
+  gap: 4px;
+  border-left: 3px solid #c1121f;
+  padding: 9px 10px;
+  background: rgba(255, 255, 255, .04);
+}
+
+.rtbo-crew-message-list strong,
+.rtbo-crew-history-card strong {
+  color: #fff;
+  font-size: .78rem;
+}
+
+.rtbo-crew-message-list span,
+.rtbo-crew-history-card span {
+  color: var(--muted);
+  font-size: .76rem;
+  line-height: 1.35;
+}
+
+.rtbo-crew-message-list small,
+.rtbo-crew-history-card small {
+  color: #f7d35f;
+  font-size: .66rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.rtbo-crew-message-form {
+  display: grid;
+  gap: 10px;
 }
 
 .rtbo-status-pill.tba {
@@ -11032,6 +11211,21 @@ button.hero-scroll-link {
 	  .rtbo-live-official-row {
 	    grid-template-columns: 1fr;
 	  }
+
+  .rtbo-crew-builder-lower,
+  .rtbo-crew-builder-official-row {
+    grid-template-columns: 1fr;
+  }
+
+  .rtbo-assign-panel-head,
+  .rtbo-crew-builder-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .rtbo-crew-builder-actions .btn {
+    width: 100%;
+  }
 
   .rtbo-invoice-preview-head {
     align-items: flex-start;

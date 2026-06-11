@@ -103,8 +103,17 @@ function ensure_admin_games_table(): void
     $stmt = db()->query('SELECT COUNT(*) FROM positions');
     if ((int) $stmt->fetchColumn() === 0) {
         $insert = db()->prepare('INSERT INTO positions(name, sort_order) VALUES(?, ?)');
-        foreach ([['Referee', 1], ['Umpire 1', 2], ['Umpire 2', 3], ['Alternate', 4]] as $position) {
+        foreach ([['Referee', 1], ['Umpire 1', 2], ['Umpire 2', 3], ['Alternate', 4], ['Observer / Evaluator', 5]] as $position) {
             $insert->execute($position);
+        }
+    }
+
+    $positionExists = db()->prepare('SELECT id FROM positions WHERE LOWER(name) = LOWER(?) LIMIT 1');
+    $positionInsert = db()->prepare('INSERT INTO positions(name, sort_order) VALUES(?, ?)');
+    foreach ([['Alternate', 4], ['Observer / Evaluator', 5]] as $position) {
+        $positionExists->execute([$position[0]]);
+        if (!$positionExists->fetchColumn()) {
+            $positionInsert->execute($position);
         }
     }
 
@@ -114,6 +123,8 @@ function ensure_admin_games_table(): void
             game_id INT NOT NULL,
             official_id INT NOT NULL,
             position_id INT NOT NULL,
+            crew_designation VARCHAR(60) NOT NULL DEFAULT 'official',
+            assignor_notes TEXT NULL,
             status VARCHAR(50) DEFAULT 'pending',
             decline_reason TEXT NULL,
             responded_at DATETIME NULL,
@@ -128,6 +139,8 @@ function ensure_admin_games_table(): void
         'game_id' => "ALTER TABLE assignments ADD COLUMN game_id INT NOT NULL AFTER id",
         'official_id' => "ALTER TABLE assignments ADD COLUMN official_id INT NOT NULL AFTER game_id",
         'position_id' => "ALTER TABLE assignments ADD COLUMN position_id INT NOT NULL AFTER official_id",
+        'crew_designation' => "ALTER TABLE assignments ADD COLUMN crew_designation VARCHAR(60) NOT NULL DEFAULT 'official' AFTER position_id",
+        'assignor_notes' => "ALTER TABLE assignments ADD COLUMN assignor_notes TEXT NULL AFTER crew_designation",
         'status' => "ALTER TABLE assignments ADD COLUMN status VARCHAR(50) DEFAULT 'pending' AFTER position_id",
         'decline_reason' => "ALTER TABLE assignments ADD COLUMN decline_reason TEXT NULL AFTER status",
         'responded_at' => "ALTER TABLE assignments ADD COLUMN responded_at DATETIME NULL AFTER decline_reason",
@@ -137,6 +150,19 @@ function ensure_admin_games_table(): void
             db()->exec($sql);
         }
     }
+
+    db()->exec(
+        "CREATE TABLE IF NOT EXISTS crew_messages (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            game_id INT NOT NULL,
+            sender_user_id INT NULL,
+            sender_name VARCHAR(190) NOT NULL,
+            message TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            INDEX idx_crew_messages_game (game_id),
+            INDEX idx_crew_messages_created (created_at)
+        )"
+    );
 
     db()->exec(
         "CREATE TABLE IF NOT EXISTS tba_requests (
@@ -740,11 +766,45 @@ function admin_game_assignment_normalize(array $record, array $officialsById = [
         'position_id' => $positionId,
         'position_name' => $positionName,
         'position' => $positionName,
+        'crew_designation' => strtolower(trim((string) ($record['crew_designation'] ?? 'official'))) ?: 'official',
+        'assignor_notes' => (string) ($record['assignor_notes'] ?? ''),
         'status' => strtolower(trim((string) ($record['status'] ?? 'pending'))) ?: 'pending',
         'decline_reason' => (string) ($record['decline_reason'] ?? ''),
         'responded_at' => (string) ($record['responded_at'] ?? ''),
         'official' => $official,
     ];
+}
+
+function admin_game_crew_messages_for_game_ids(array $gameIds): array
+{
+    $gameIds = array_values(array_unique(array_filter(array_map('intval', $gameIds))));
+    if (!$gameIds || !admin_games_db_available()) {
+        return [];
+    }
+
+    $placeholders = implode(',', array_fill(0, count($gameIds), '?'));
+    $stmt = db()->prepare(
+        "SELECT id, game_id, sender_user_id, sender_name, message, created_at
+         FROM crew_messages
+         WHERE game_id IN ({$placeholders})
+         ORDER BY created_at ASC, id ASC"
+    );
+    $stmt->execute($gameIds);
+
+    $grouped = [];
+    foreach ($stmt->fetchAll() as $row) {
+        $gameId = (int) ($row['game_id'] ?? 0);
+        $grouped[$gameId][] = [
+            'id' => (int) ($row['id'] ?? 0),
+            'game_id' => $gameId,
+            'sender_user_id' => (int) ($row['sender_user_id'] ?? 0),
+            'sender_name' => (string) ($row['sender_name'] ?? ''),
+            'message' => (string) ($row['message'] ?? ''),
+            'created_at' => (string) ($row['created_at'] ?? ''),
+        ];
+    }
+
+    return $grouped;
 }
 
 function admin_game_assignments_for_game_ids(array $gameIds): array
@@ -777,8 +837,10 @@ function admin_game_assignments_for_game_ids(array $gameIds): array
 function admin_game_attach_assignments(array $games): array
 {
     $assignmentMap = admin_game_assignments_for_game_ids(array_column($games, 'id'));
+    $messageMap = admin_game_crew_messages_for_game_ids(array_column($games, 'id'));
     foreach ($games as &$game) {
         $game['assignments'] = $assignmentMap[(int) ($game['id'] ?? 0)] ?? ($game['assignments'] ?? []);
+        $game['crew_messages'] = $messageMap[(int) ($game['id'] ?? 0)] ?? ($game['crew_messages'] ?? []);
     }
     unset($game);
     return $games;
@@ -1646,6 +1708,24 @@ function admin_game_assign_official(int $gameId, array $payload): array
     return $updated;
 }
 
+function admin_game_normalize_crew_designation(string $value, string $positionName = ''): string
+{
+    $normalized = strtolower(trim((string) preg_replace('/[\s-]+/', '_', $value)));
+    if (in_array($normalized, ['crew_chief', 'alternate', 'observer_evaluator', 'official'], true)) {
+        return $normalized;
+    }
+
+    $position = strtolower($positionName);
+    if (str_contains($position, 'alternate')) {
+        return 'alternate';
+    }
+    if (str_contains($position, 'observer') || str_contains($position, 'evaluator')) {
+        return 'observer_evaluator';
+    }
+
+    return 'official';
+}
+
 function admin_game_assign_crew(int $gameId, array $payload): array
 {
     $game = admin_game_fetch($gameId);
@@ -1661,24 +1741,35 @@ function admin_game_assign_crew(int $gameId, array $payload): array
         $positionId = admin_game_position_id_from_payload($assignment);
         $officialId = (int) ($assignment['official_id'] ?? 0);
         if ($officialId > 0) {
-            $incomingByPosition[$positionId] = $officialId;
+            $positionName = (string) ($positions[$positionId]['name'] ?? '');
+            $incomingByPosition[$positionId] = [
+                'official_id' => $officialId,
+                'crew_designation' => admin_game_normalize_crew_designation((string) ($assignment['crew_designation'] ?? ''), $positionName),
+                'assignor_notes' => trim((string) ($assignment['assignor_notes'] ?? '')),
+            ];
         }
     }
 
     $requiredPositionIds = array_values(array_filter(array_map('intval', $game['required_position_ids'] ?? admin_game_default_required_position_ids())));
     foreach ($requiredPositionIds as $positionId) {
-        if (empty($incomingByPosition[$positionId])) {
+        if (empty($incomingByPosition[$positionId]['official_id'])) {
             $positionName = (string) ($positions[$positionId]['name'] ?? 'required position');
             throw new RuntimeException("Select an official for {$positionName} before saving this crew.");
         }
     }
 
-    $selectedOfficialIds = array_values($incomingByPosition);
+    $selectedOfficialIds = array_map(static fn (array $assignment): int => (int) $assignment['official_id'], array_values($incomingByPosition));
     if (count($selectedOfficialIds) !== count(array_unique($selectedOfficialIds))) {
         throw new RuntimeException('Each required crew position must be assigned to a different official.');
     }
 
-    foreach ($incomingByPosition as $positionId => $officialId) {
+    $crewChiefCount = count(array_filter($incomingByPosition, static fn (array $assignment): bool => ($assignment['crew_designation'] ?? '') === 'crew_chief'));
+    if ($crewChiefCount !== 1) {
+        throw new RuntimeException('Designate exactly one crew chief before saving this crew.');
+    }
+
+    foreach ($incomingByPosition as $positionId => $assignment) {
+        $officialId = (int) $assignment['official_id'];
         if (!isset($officials[$officialId])) {
             throw new RuntimeException('Every crew member must be selected from the active officials database.');
         }
@@ -1692,12 +1783,96 @@ function admin_game_assign_crew(int $gameId, array $payload): array
         }
     }
 
-    foreach ($requiredPositionIds as $positionId) {
-        admin_game_assign_official($gameId, [
-            'official_id' => $incomingByPosition[$positionId],
-            'position_id' => $positionId,
-        ]);
+    if (!admin_games_db_available()) {
+        throw new RuntimeException('The database is required for the Crew Builder.');
     }
+
+    $deleteMissing = db()->prepare('DELETE FROM assignments WHERE game_id = ? AND position_id = ?');
+    foreach (array_keys($positions) as $positionId) {
+        if (!isset($incomingByPosition[(int) $positionId])) {
+            $deleteMissing->execute([$gameId, (int) $positionId]);
+        }
+    }
+
+    $upsertExisting = db()->prepare('SELECT id, official_id FROM assignments WHERE game_id = ? AND position_id = ? LIMIT 1');
+    $update = db()->prepare(
+        "UPDATE assignments
+         SET official_id = ?, crew_designation = ?, assignor_notes = ?, status = 'pending', decline_reason = NULL, responded_at = NULL
+         WHERE id = ?"
+    );
+    $insert = db()->prepare(
+        "INSERT INTO assignments(game_id, official_id, position_id, crew_designation, assignor_notes, status)
+         VALUES(?, ?, ?, ?, ?, 'pending')"
+    );
+
+    foreach ($incomingByPosition as $positionId => $assignment) {
+        $officialId = (int) $assignment['official_id'];
+        $upsertExisting->execute([$gameId, (int) $positionId]);
+        $existingAssignment = $upsertExisting->fetch() ?: [];
+        $assignmentId = (int) ($existingAssignment['id'] ?? 0);
+        if ($assignmentId > 0) {
+            $update->execute([
+                $officialId,
+                $assignment['crew_designation'],
+                $assignment['assignor_notes'] !== '' ? $assignment['assignor_notes'] : null,
+                $assignmentId,
+            ]);
+        } else {
+            $insert->execute([
+                $gameId,
+                $officialId,
+                (int) $positionId,
+                $assignment['crew_designation'],
+                $assignment['assignor_notes'] !== '' ? $assignment['assignor_notes'] : null,
+            ]);
+        }
+        admin_game_tba_request_mark_assigned($gameId, $officialId);
+    }
+
+    return admin_game_fetch($gameId);
+}
+
+function admin_game_save_crew_message(int $gameId, string $message, ?array $actor = null): array
+{
+    $game = admin_game_fetch($gameId);
+    $message = trim($message);
+    if ($message === '') {
+        throw new RuntimeException('Enter a crew message before sending.');
+    }
+    if (strlen($message) > 2000) {
+        throw new RuntimeException('Crew messages must be 2,000 characters or less.');
+    }
+    if (!admin_games_db_available()) {
+        throw new RuntimeException('The database is required for crew communication threads.');
+    }
+
+    $actor ??= current_user();
+    $senderName = trim((string) ($actor['name'] ?? ''));
+    if ($senderName === '') {
+        $senderName = trim((string) ($actor['first_name'] ?? '') . ' ' . (string) ($actor['last_name'] ?? ''));
+    }
+    if ($senderName === '') {
+        $senderName = (string) ($actor['email'] ?? 'RTBO Admin');
+    }
+
+    $stmt = db()->prepare(
+        "INSERT INTO crew_messages(game_id, sender_user_id, sender_name, message)
+         VALUES(?, ?, ?, ?)"
+    );
+    $stmt->execute([
+        $gameId,
+        isset($actor['id']) ? (int) $actor['id'] : null,
+        $senderName,
+        $message,
+    ]);
+
+    admin_game_notify_assigned_safe(
+        $game,
+        'crew_thread_message',
+        'New crew message',
+        rtbo_notification_game_summary($game) . ' has a new crew message from ' . $senderName . '.',
+        ['event' => 'crew_message']
+    );
 
     return admin_game_fetch($gameId);
 }

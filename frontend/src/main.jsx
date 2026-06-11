@@ -8228,7 +8228,8 @@ const fallbackAssignmentPositions = [
   { id: 1, name: 'Referee', sort_order: 1 },
   { id: 2, name: 'Umpire 1', sort_order: 2 },
   { id: 3, name: 'Umpire 2', sort_order: 3 },
-  { id: 4, name: 'Alternate', sort_order: 4 }
+  { id: 4, name: 'Alternate', sort_order: 4 },
+  { id: 5, name: 'Observer / Evaluator', sort_order: 5 }
 ];
 
 function sortedAssignmentPositions(positions = fallbackAssignmentPositions) {
@@ -8264,13 +8265,46 @@ function requiredPositionsForGame(game = {}, positions = []) {
     .filter(Boolean);
 }
 
+function crewBuilderPositionsForGame(game = {}, positions = []) {
+  const required = requiredPositionsForGame(game, positions);
+  const requiredIds = new Set(required.map(position => String(position.id)));
+  const optionalNames = ['Alternate', 'Observer / Evaluator'];
+  const optional = optionalNames
+    .map(name => positionByName(positions, name))
+    .filter(Boolean)
+    .filter(position => !requiredIds.has(String(position.id)));
+  return [...required, ...optional];
+}
+
+function crewDesignationForPosition(position = {}, existingAssignment = null, index = 0) {
+  const savedDesignation = String(existingAssignment?.crew_designation || '').trim();
+  if (savedDesignation) return savedDesignation;
+  const positionName = String(position.name || '').toLowerCase();
+  if (positionName.includes('alternate')) return 'alternate';
+  if (positionName.includes('observer') || positionName.includes('evaluator')) return 'observer_evaluator';
+  if (index === 0) return 'crew_chief';
+  return 'official';
+}
+
+function crewDesignationLabel(value = '') {
+  const normalized = String(value || '').toLowerCase();
+  if (normalized === 'crew_chief') return 'Crew Chief';
+  if (normalized === 'alternate') return 'Alternate Official';
+  if (normalized === 'observer_evaluator') return 'Observer / Evaluator';
+  return 'Crew Official';
+}
+
 function buildCrewFormForGame(game = {}, positions = []) {
-  const requiredPositions = requiredPositionsForGame(game, positions);
+  const builderPositions = crewBuilderPositionsForGame(game, positions);
   const existingAssignments = Array.isArray(game.assignments) ? game.assignments : [];
 
-  return requiredPositions.reduce((next, position) => {
+  return builderPositions.reduce((next, position, index) => {
     const currentAssignment = existingAssignments.find(assignment => String(assignment.position_id) === String(position.id));
-    next[String(position.id)] = currentAssignment?.official_id ? String(currentAssignment.official_id) : '';
+    next[String(position.id)] = {
+      official_id: currentAssignment?.official_id ? String(currentAssignment.official_id) : '',
+      crew_designation: crewDesignationForPosition(position, currentAssignment, index),
+      assignor_notes: currentAssignment?.assignor_notes || ''
+    };
     return next;
   }, {});
 }
@@ -8934,6 +8968,7 @@ function MasterSchedulePage({ onStatus, onOpenCreate }) {
   const [assignByOfficialOpen, setAssignByOfficialOpen] = useState(false);
   const [assignByOfficialForm, setAssignByOfficialForm] = useState({ officialId: '', gameId: '', positionId: '' });
   const [crewAssignmentForm, setCrewAssignmentForm] = useState({});
+  const [crewMessageForm, setCrewMessageForm] = useState({});
   const [showUnavailableOfficials, setShowUnavailableOfficials] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -9006,8 +9041,14 @@ function MasterSchedulePage({ onStatus, onOpenCreate }) {
   const selectedAssignGame = assignByOfficialGames.find(game => String(game.id) === String(assignByOfficialForm.gameId));
   const selectedAssignGamePositions = selectedAssignGame ? missingCrewPositions(selectedAssignGame, positions) : [];
 
-  function updateCrewAssignment(positionId, value) {
-    setCrewAssignmentForm(current => ({ ...current, [String(positionId)]: value }));
+  function updateCrewAssignment(positionId, field, value) {
+    setCrewAssignmentForm(current => ({
+      ...current,
+      [String(positionId)]: {
+        ...(current[String(positionId)] || {}),
+        [field]: value
+      }
+    }));
   }
 
   function updateAssignByOfficial(field, value) {
@@ -9057,10 +9098,26 @@ function MasterSchedulePage({ onStatus, onOpenCreate }) {
     setError('');
     try {
       const requiredPositions = requiredPositionsForGame(game, positions);
+      const builderPositions = crewBuilderPositionsForGame(game, positions);
       const assignments = requiredPositions.map(position => ({
         position_id: position.id,
-        official_id: crewAssignmentForm[String(position.id)] || ''
+        official_id: crewAssignmentForm[String(position.id)]?.official_id || '',
+        crew_designation: crewAssignmentForm[String(position.id)]?.crew_designation || crewDesignationForPosition(position),
+        assignor_notes: crewAssignmentForm[String(position.id)]?.assignor_notes || ''
       }));
+      builderPositions
+        .filter(position => !requiredPositions.some(required => String(required.id) === String(position.id)))
+        .forEach(position => {
+          const entry = crewAssignmentForm[String(position.id)] || {};
+          if (entry.official_id) {
+            assignments.push({
+              position_id: position.id,
+              official_id: entry.official_id,
+              crew_designation: entry.crew_designation || crewDesignationForPosition(position),
+              assignor_notes: entry.assignor_notes || ''
+            });
+          }
+        });
       const missingPosition = assignments.find(assignment => !assignment.official_id);
       if (missingPosition) {
         const position = requiredPositions.find(item => String(item.id) === String(missingPosition.position_id));
@@ -9069,6 +9126,9 @@ function MasterSchedulePage({ onStatus, onOpenCreate }) {
       const selectedOfficialIds = assignments.map(assignment => String(assignment.official_id));
       if (new Set(selectedOfficialIds).size !== selectedOfficialIds.length) {
         throw new Error('Each required crew position must be assigned to a different official.');
+      }
+      if (assignments.filter(assignment => assignment.crew_designation === 'crew_chief').length !== 1) {
+        throw new Error('Designate exactly one crew chief before saving this crew.');
       }
 
       const data = await apiPostJson('/admin-games.php', {
@@ -9086,6 +9146,38 @@ function MasterSchedulePage({ onStatus, onOpenCreate }) {
       const message = caught.message || 'Crew assignments could not be saved.';
       setError(message);
       onStatus?.(message);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  function updateCrewMessage(gameId, value) {
+    setCrewMessageForm(current => ({ ...current, [String(gameId)]: value }));
+  }
+
+  async function saveCrewMessage(event, game) {
+    event.preventDefault();
+    const message = String(crewMessageForm[String(game.id)] || '').trim();
+    if (!message) {
+      setError('Enter a crew message before sending.');
+      return;
+    }
+    setSaving(true);
+    setError('');
+    try {
+      const data = await apiPostJson('/admin-games.php', {
+        action: 'crew_message',
+        id: game.id,
+        message
+      });
+      setGames(data.games || []);
+      setTbaRequests(data.tba_requests || []);
+      setCrewMessageForm(current => ({ ...current, [String(game.id)]: '' }));
+      onStatus?.(data.message || 'Crew message saved.');
+    } catch (caught) {
+      const messageText = caught.message || 'Crew message could not be saved.';
+      setError(messageText);
+      onStatus?.(messageText);
     } finally {
       setSaving(false);
     }
@@ -9149,6 +9241,43 @@ function MasterSchedulePage({ onStatus, onOpenCreate }) {
     setCrewAssignmentForm(buildCrewFormForGame(game, positions));
     setShowUnavailableOfficials(false);
     onStatus?.('Select a crew position for the requesting official, then save the crew assignments.');
+  }
+
+  function assignedCrewForGame(game = {}) {
+    return (game.assignments || []).filter(assignment => (
+      assignment?.official_id && String(assignment.status || '').toLowerCase() !== 'declined'
+    ));
+  }
+
+  function contactCrewLinks(game = {}) {
+    const crew = assignedCrewForGame(game);
+    const emails = crew
+      .map(assignment => assignment.official?.email || '')
+      .filter(Boolean);
+    const phones = crew
+      .map(assignment => String(assignment.official?.phone || '').replace(/\D/g, ''))
+      .filter(Boolean);
+    const subject = encodeURIComponent(`RTBO Crew: ${game.away_team || 'Visiting Team'} at ${game.home_team || 'Home Team'}`);
+    const body = encodeURIComponent(`${formatGameDate(game.game_date)} at ${formatGameTime(game.game_time)}\n${game.location_name || ''}\n${game.location_address || ''}`);
+    return {
+      email: emails.length ? `mailto:${emails.join(',')}?subject=${subject}&body=${body}` : '',
+      sms: phones.length ? `sms:${phones.join(',')}${body ? `&body=${body}` : ''}` : ''
+    };
+  }
+
+  function crewHistoryForGame(game = {}) {
+    const crewIds = assignedCrewForGame(game).map(assignment => String(assignment.official_id)).filter(Boolean);
+    if (crewIds.length < 2) return [];
+    return games
+      .filter(candidate => String(candidate.id) !== String(game.id))
+      .map(candidate => {
+        const candidateIds = assignedCrewForGame(candidate).map(assignment => String(assignment.official_id)).filter(Boolean);
+        const sharedCount = crewIds.filter(id => candidateIds.includes(id)).length;
+        return sharedCount >= 2 ? { ...candidate, sharedCount } : null;
+      })
+      .filter(Boolean)
+      .sort((first, second) => String(second.game_date || '').localeCompare(String(first.game_date || '')))
+      .slice(0, 3);
   }
 
   function renderTbaRequestPanel() {
@@ -9275,6 +9404,7 @@ function MasterSchedulePage({ onStatus, onOpenCreate }) {
                 <div>
                   <strong>{officialName}</strong>
                   <span>{assignment.position_name || assignment.position || position.name}</span>
+                  <em>{crewDesignationLabel(assignment.crew_designation)}</em>
                   <small>{formatLabel(assignment.status || 'pending')}</small>
                 </div>
               </div>
@@ -9290,21 +9420,30 @@ function MasterSchedulePage({ onStatus, onOpenCreate }) {
 
   function renderCrewAssignmentPanel(game) {
     const requiredPositions = requiredPositionsForGame(game, positions);
+    const builderPositions = crewBuilderPositionsForGame(game, positions);
+    const requiredIds = new Set(requiredPositions.map(position => String(position.id)));
     const availableOfficials = officials.filter(official => !officialUnavailableRecordForGame(official, game));
     const unavailableOfficials = officials.filter(official => officialUnavailableRecordForGame(official, game));
     const selectableOfficials = showUnavailableOfficials ? unavailableOfficials : availableOfficials;
     const contactRequiredOfficials = availableOfficials.filter(official => officialContactRequiredRecordForGame(official, game));
+    const contactLinks = contactCrewLinks(game);
+    const history = crewHistoryForGame(game);
+    const messages = Array.isArray(game.crew_messages) ? game.crew_messages : [];
 
     return (
-      <form className="rtbo-assign-official-panel" onSubmit={(event) => saveCrewAssignments(event, game)}>
+      <form className="rtbo-assign-official-panel rtbo-crew-builder-panel" onSubmit={(event) => saveCrewAssignments(event, game)}>
         <div className="rtbo-assign-panel-head">
           <div>
-            <strong>Assign Required Crew</strong>
-            <span>{requiredPositions.map(position => position.name).join(' / ')} must be filled before this game can be published.</span>
+            <strong>Crew Builder</strong>
+            <span>{game.officials_required || requiredPositions.length}-person crew: {requiredPositions.map(position => position.name).join(' / ')}. Add an alternate or observer/evaluator when needed.</span>
           </div>
-          <button className="btn secondary dark-btn" type="button" onClick={() => setShowUnavailableOfficials(current => !current)}>
-            {showUnavailableOfficials ? 'View Available Officials' : `View Unavailable Officials (${unavailableOfficials.length})`}
-          </button>
+          <div className="rtbo-crew-builder-actions">
+            {contactLinks.email && <a className="btn secondary dark-btn" href={contactLinks.email}>Contact Crew</a>}
+            {contactLinks.sms && <a className="btn secondary dark-btn" href={contactLinks.sms}>Text Crew</a>}
+            <button className="btn secondary dark-btn" type="button" onClick={() => setShowUnavailableOfficials(current => !current)}>
+              {showUnavailableOfficials ? 'View Available Officials' : `View Unavailable Officials (${unavailableOfficials.length})`}
+            </button>
+          </div>
         </div>
         {showUnavailableOfficials && (
           <p className="form-message warning">Override mode: these officials are marked unavailable for this game date. You can still assign them as Super Admin.</p>
@@ -9312,28 +9451,95 @@ function MasterSchedulePage({ onStatus, onOpenCreate }) {
         {!showUnavailableOfficials && contactRequiredOfficials.length > 0 && (
           <p className="form-message warning">{contactRequiredOfficials.length} available {contactRequiredOfficials.length === 1 ? 'official has' : 'officials have'} a contact-before-assignment note for this date.</p>
         )}
-        <div className="rtbo-crew-assignment-grid">
-          {requiredPositions.map(position => (
-            <label key={position.id}>{position.name}
-              <select value={crewAssignmentForm[String(position.id)] || ''} onChange={(event) => updateCrewAssignment(position.id, event.target.value)} required>
-                <option value="">{showUnavailableOfficials ? 'Select unavailable official' : 'Select available official'}</option>
-                {selectableOfficials.map(official => {
-                  const unavailableRecord = officialUnavailableRecordForGame(official, game);
-                  const contactRequiredRecord = officialContactRequiredRecordForGame(official, game);
-                  return (
-                    <option key={official.id} value={official.id}>
-                      {officialOptionLabel(official)}{unavailableRecord ? ` / ${formatLabel(unavailableRecord.reason || unavailableRecord.status || 'Unavailable')}` : ''}{contactRequiredRecord ? ' / Contact before assignment' : ''}
-                    </option>
-                  );
-                })}
-              </select>
-            </label>
-          ))}
+        <div className="rtbo-crew-assignment-grid rtbo-crew-builder-grid">
+          {builderPositions.map((position) => {
+            const entry = crewAssignmentForm[String(position.id)] || {};
+            const selectedOfficial = officials.find(official => String(official.id) === String(entry.official_id));
+            const officialName = selectedOfficial ? (selectedOfficial.name || [selectedOfficial.first_name, selectedOfficial.last_name].filter(Boolean).join(' ') || selectedOfficial.email) : '';
+            const optionOfficials = selectedOfficial && !selectableOfficials.some(official => String(official.id) === String(selectedOfficial.id))
+              ? [selectedOfficial, ...selectableOfficials]
+              : selectableOfficials;
+            const required = requiredIds.has(String(position.id));
+            return (
+              <fieldset className="rtbo-crew-builder-slot" key={position.id}>
+                <legend>
+                  <span>{position.name}</span>
+                  <small>{required ? 'Required' : 'Optional'}</small>
+                </legend>
+                <div className="rtbo-crew-builder-official-row">
+                  <ProfilePhoto person={selectedOfficial || {}} alt={officialName ? `${officialName} profile` : `${position.name} profile`} className="rtbo-game-crew-photo" />
+                  <label>Official
+                    <select value={entry.official_id || ''} onChange={(event) => updateCrewAssignment(position.id, 'official_id', event.target.value)} required={required}>
+                      <option value="">{required ? (showUnavailableOfficials ? 'Select unavailable official' : 'Select available official') : 'No optional official'}</option>
+                      {optionOfficials.map(official => {
+                        const unavailableRecord = officialUnavailableRecordForGame(official, game);
+                        const contactRequiredRecord = officialContactRequiredRecordForGame(official, game);
+                        return (
+                          <option key={official.id} value={official.id}>
+                            {officialOptionLabel(official)}{unavailableRecord ? ` / ${formatLabel(unavailableRecord.reason || unavailableRecord.status || 'Unavailable')}` : ''}{contactRequiredRecord ? ' / Contact before assignment' : ''}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </label>
+                </div>
+                <label>Designation
+                  <select value={entry.crew_designation || crewDesignationForPosition(position)} onChange={(event) => updateCrewAssignment(position.id, 'crew_designation', event.target.value)}>
+                    <option value="official">Crew Official</option>
+                    <option value="crew_chief">Crew Chief</option>
+                    <option value="alternate">Alternate Official</option>
+                    <option value="observer_evaluator">Observer / Evaluator</option>
+                  </select>
+                </label>
+                <label>Assignor Notes
+                  <textarea rows="3" value={entry.assignor_notes || ''} onChange={(event) => updateCrewAssignment(position.id, 'assignor_notes', event.target.value)} placeholder="Game-specific crew note" />
+                </label>
+              </fieldset>
+            );
+          })}
         </div>
         {!showUnavailableOfficials && availableOfficials.length === 0 && <p className="form-message error">No available officials are currently listed for this date. Use “View Unavailable Officials” if you need to override.</p>}
         {showUnavailableOfficials && unavailableOfficials.length === 0 && <p className="form-message error">No unavailable officials are marked for this date.</p>}
         <div className="rtbo-member-actions">
-          <button className="btn" type="submit" disabled={saving || selectableOfficials.length === 0}>{saving ? 'Saving Crew...' : 'Save Crew Assignments'}</button>
+          <button className="btn" type="submit" disabled={saving || selectableOfficials.length === 0}>{saving ? 'Saving Crew...' : 'Save Crew Builder'}</button>
+        </div>
+        <div className="rtbo-crew-builder-lower">
+          <section className="rtbo-crew-thread-card">
+            <div>
+              <p className="eyebrow">Crew Communication Thread</p>
+              <h5>Game Crew Messages</h5>
+            </div>
+            <div className="rtbo-crew-message-list">
+              {messages.length === 0 && <p className="rtbo-empty-state compact">No crew messages have been sent for this game yet.</p>}
+              {messages.map(message => (
+                <article key={message.id}>
+                  <strong>{message.sender_name || 'RTBO Admin'}</strong>
+                  <span>{message.message}</span>
+                  <small>{message.created_at ? new Date(message.created_at.replace(' ', 'T')).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }) : 'Saved message'}</small>
+                </article>
+              ))}
+            </div>
+            <div className="rtbo-crew-message-form">
+              <textarea rows="3" value={crewMessageForm[String(game.id)] || ''} onChange={(event) => updateCrewMessage(game.id, event.target.value)} placeholder="Send a crew update, arrival note, court change, or assignment instruction." />
+              <button className="btn secondary dark-btn" type="button" onClick={(event) => saveCrewMessage(event, game)} disabled={saving}>
+                {saving ? 'Sending...' : 'Send Thread Message'}
+              </button>
+            </div>
+          </section>
+          <section className="rtbo-crew-history-card">
+            <div>
+              <p className="eyebrow">Crew History Together</p>
+              <h5>Shared Assignments</h5>
+            </div>
+            {history.length === 0 && <p className="rtbo-empty-state compact">No previous shared crew history found for this combination yet.</p>}
+            {history.map(record => (
+              <article key={`crew-history-${record.id}`}>
+                <strong>{record.away_team || 'Visiting Team'} at {record.home_team || 'Home Team'}</strong>
+                <span>{formatGameDate(record.game_date)} / {record.location_name || 'Location pending'}</span>
+                <small>{record.sharedCount} current crew members worked this assignment together.</small>
+              </article>
+            ))}
+          </section>
         </div>
       </form>
     );
@@ -9628,6 +9834,7 @@ function GameAssignmentForm({ mode = 'create', onStatus }) {
               <div>
                 <strong>{officialName}</strong>
                 <span>{assignment.position_name || assignment.position || 'Position pending'}</span>
+                <em>{crewDesignationLabel(assignment.crew_designation)}</em>
                 <small>{formatLabel(assignment.status || 'pending')}</small>
               </div>
             </div>
@@ -9822,6 +10029,7 @@ function TeamLogo({ team = {}, className = '' }) {
 function CrewMemberBadge({ member = {}, index = 0, onProfileOpen }) {
   const name = member.name || [member.first_name, member.last_name].filter(Boolean).join(' ') || `Official ${index + 1}`;
   const position = member.position || member.position_name || 'Position pending';
+  const designation = crewDesignationLabel(member.crew_designation);
   const modalProfile = {
     ...member,
     name,
@@ -9849,6 +10057,7 @@ function CrewMemberBadge({ member = {}, index = 0, onProfileOpen }) {
       <span>
         <strong>{name}</strong>
         <small>{position}</small>
+        <em>{designation}</em>
       </span>
     </div>
   );
@@ -9868,6 +10077,33 @@ function AssignmentCrewStrip({ crew = [], onProfileOpen }) {
           key={`${member.id || member.email || member.name || 'crew'}-${member.position || index}`}
         />
       ))}
+    </div>
+  );
+}
+
+function AssignmentCrewOps({ game = {} }) {
+  const notes = String(game.assignor_notes || '').trim();
+  const messages = Array.isArray(game.crew_messages) ? game.crew_messages.filter(message => String(message.message || '').trim()) : [];
+  if (!notes && messages.length === 0) return null;
+
+  return (
+    <div className="rtbo-assignment-crew-ops">
+      {notes && (
+        <article>
+          <strong>Assignor Notes</strong>
+          <span>{notes}</span>
+        </article>
+      )}
+      {messages.length > 0 && (
+        <article>
+          <strong>Crew Thread</strong>
+          {messages.slice(-3).map(message => (
+            <span key={message.id || `${message.sender_name}-${message.created_at}`}>
+              {message.sender_name ? `${message.sender_name}: ` : ''}{message.message}
+            </span>
+          ))}
+        </article>
+      )}
     </div>
   );
 }
@@ -10089,6 +10325,7 @@ function MemberProfilePage({ member, classifications = [], profileData = null, p
                 <AssignmentCoachContacts game={game} />
                 <AssignmentMileage game={game} />
                 <AssignmentCrewStrip crew={game.crew} onProfileOpen={setCrewProfileModal} />
+                <AssignmentCrewOps game={game} />
               </article>
             ))}
           </div>
@@ -14308,6 +14545,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
                     onDecline={() => respondToAssignment(game, 'decline')}
                   />
                   <AssignmentCrewStrip crew={game.crew} onProfileOpen={setOfficialProfileModal} />
+                  <AssignmentCrewOps game={game} />
                 </article>
               ))}
             </div>

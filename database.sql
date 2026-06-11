@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS positions (
 );
 
 INSERT INTO positions(name, sort_order)
-VALUES ('Referee', 1), ('Umpire 1', 2), ('Umpire 2', 3), ('Alternate', 4)
+VALUES ('Referee', 1), ('Umpire 1', 2), ('Umpire 2', 3), ('Alternate', 4), ('Observer / Evaluator', 5)
 ON DUPLICATE KEY UPDATE name = VALUES(name);
 
 CREATE TABLE IF NOT EXISTS assignments (
@@ -135,6 +135,8 @@ CREATE TABLE IF NOT EXISTS assignments (
   game_id INT NOT NULL,
   official_id INT NOT NULL,
   position_id INT NOT NULL,
+  crew_designation VARCHAR(60) NOT NULL DEFAULT 'official',
+  assignor_notes TEXT NULL,
   status VARCHAR(50) DEFAULT 'pending',
   decline_reason TEXT,
   responded_at DATETIME,
@@ -142,6 +144,17 @@ CREATE TABLE IF NOT EXISTS assignments (
   INDEX idx_assignments_game (game_id),
   INDEX idx_assignments_official (official_id),
   INDEX idx_assignments_position (position_id)
+);
+
+CREATE TABLE IF NOT EXISTS crew_messages (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  game_id INT NOT NULL,
+  sender_user_id INT NULL,
+  sender_name VARCHAR(190) NOT NULL,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_crew_messages_game (game_id),
+  INDEX idx_crew_messages_created (created_at)
 );
 
 CREATE TABLE IF NOT EXISTS assignment_schedule_reviews (

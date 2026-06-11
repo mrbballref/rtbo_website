@@ -107,6 +107,12 @@ try {
         exit;
     }
 
+    if ($action === 'crew_message') {
+        $updated = admin_game_save_crew_message($id, (string) ($input['message'] ?? ''), current_user());
+        echo json_encode(['success' => true, 'message' => 'Crew message saved and sent to the assigned crew.', 'game' => $updated, ...admin_games_reference_payload()], JSON_UNESCAPED_SLASHES);
+        exit;
+    }
+
     if ($action === 'send_tba_list') {
         $result = admin_game_send_tba_list();
         echo json_encode(['success' => true, ...$result, ...admin_games_reference_payload()], JSON_UNESCAPED_SLASHES);
