@@ -13862,6 +13862,150 @@ video::-webkit-media-text-track-display-backdrop {
   }
 }
 
+.rtbo-availability-rules-page {
+  overflow: hidden;
+}
+
+.rtbo-availability-rule-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 18px 0 24px;
+}
+
+.rtbo-availability-rule-summary article {
+  min-height: 108px;
+  padding: 18px;
+  border: 1px solid rgba(255, 210, 88, .26);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(193, 18, 31, .16), rgba(255, 255, 255, .04)),
+    rgba(10, 15, 21, .74);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, .22);
+}
+
+.rtbo-availability-rule-summary span,
+.rtbo-availability-rule-card span {
+  display: block;
+  color: #ffd966;
+  font-size: .74rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.rtbo-availability-rule-summary strong {
+  display: block;
+  margin-top: 8px;
+  color: #fff;
+  font-size: clamp(2.4rem, 5vw, 4.1rem);
+  line-height: .9;
+}
+
+.rtbo-availability-rule-layout {
+  display: grid;
+  grid-template-columns: minmax(320px, .9fr) minmax(360px, 1.1fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.rtbo-availability-rule-form,
+.rtbo-availability-rule-list {
+  min-width: 0;
+  border: 1px solid rgba(255, 210, 88, .2);
+  border-radius: 20px;
+  padding: 20px;
+  background:
+    radial-gradient(circle at top left, rgba(193, 18, 31, .18), transparent 42%),
+    rgba(8, 13, 18, .76);
+}
+
+.rtbo-rule-day-picker {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+  margin: 6px 0 16px;
+}
+
+.rtbo-rule-day-picker button {
+  min-height: 42px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .06);
+  color: #f7f7f7;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.rtbo-rule-day-picker button.active {
+  border-color: rgba(255, 210, 88, .82);
+  background: linear-gradient(135deg, #ffd966, #b35a12);
+  color: #10141b;
+}
+
+.rtbo-availability-rule-list {
+  display: grid;
+  gap: 12px;
+}
+
+.rtbo-availability-rule-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, .13);
+  border-left: 5px solid #c1121f;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .03));
+}
+
+.rtbo-availability-rule-card.paused {
+  opacity: .68;
+  border-left-color: rgba(255, 255, 255, .24);
+}
+
+.rtbo-availability-rule-card strong {
+  display: block;
+  margin-top: 6px;
+  color: #fff;
+  font-size: 1.08rem;
+}
+
+.rtbo-availability-rule-card p {
+  margin: 6px 0 0;
+  color: rgba(246, 248, 252, .78);
+}
+
+.rtbo-availability-rule-card .button-row {
+  justify-content: flex-end;
+}
+
+@media (max-width: 1040px) {
+  .rtbo-availability-rule-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .rtbo-availability-rule-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .rtbo-rule-day-picker {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .rtbo-availability-rule-card {
+    grid-template-columns: 1fr;
+  }
+
+  .rtbo-availability-rule-card .button-row {
+    justify-content: stretch;
+  }
+}
+
 @media (max-width: 520px) {
   .livestream-player-shell {
     padding: 8px;
@@ -15994,16 +16138,21 @@ body,
 .rtbo-public :is(h1, h2, h3) {
   max-width: 100%;
   letter-spacing: 0;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
   text-wrap: balance;
   white-space: normal !important;
+  word-break: normal;
 }
 
 .rtbo-public :is(.page-hero h1, .rtbo-section-head h2, .rtbo-band > div:first-child h2, .rtbo-section.split > div:first-child h2, .rtbo-offer h2, .about-director-content h2, .guest-modal-content h2, #assignments > div:first-child h2) {
-  overflow-wrap: anywhere !important;
+  overflow-wrap: normal !important;
   text-wrap: balance !important;
   white-space: normal !important;
   word-break: normal !important;
+}
+
+.rtbo-public :is(p, li, a, button, input, textarea, label, dd, dt, small, strong) {
+  overflow-wrap: anywhere;
 }
 
 .rtbo-public :is(.rtbo-section-head h2, .rtbo-section.split > div:first-child h2, .refzone-university-page h1, .refzone-university-page h2, .livestream-intro-title) {
@@ -18231,5 +18380,446 @@ html.dark .assignor-workspace-status-control select {
   .assignor-status-pill,
   .assignor-workspace-status-control {
     width: 100%;
+  }
+}
+
+/* Mobile public layout source of truth. These rules replace legacy desktop carryover
+   that forced public sections into narrow columns on phones. */
+@media (max-width: 900px) {
+  html,
+  body,
+  #root {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden !important;
+  }
+
+  .rtbo-public *,
+  .site-footer *,
+  .site-header * {
+    box-sizing: border-box;
+  }
+
+  .rtbo-public :is(h1, h2, h3) {
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    hyphens: none !important;
+    text-wrap: balance;
+  }
+
+  .rtbo-public :is(.rtbo-section, .rtbo-band, .rtbo-offer, .page-hero, .home-refzone-university, .home-refzone-memberships, .services-page-section, .assignor-subscription-section, .contact-section) {
+    width: 100%;
+    max-width: 100%;
+    margin-inline: auto;
+    overflow-x: hidden !important;
+  }
+
+  .home-refzone-university {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+    padding: 34px 18px !important;
+  }
+
+  .home-refzone-media,
+  .home-refzone-copy,
+  .home-refzone-copy > *,
+  .home-refzone-memberships,
+  .home-refzone-membership-grid {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .home-refzone-media {
+    width: 100% !important;
+    justify-self: stretch !important;
+  }
+
+  .home-refzone-media img {
+    width: 100%;
+    height: auto !important;
+    max-height: none !important;
+    object-fit: contain !important;
+  }
+
+  .home-refzone-copy {
+    gap: 14px !important;
+    align-content: start !important;
+  }
+
+  .home-refzone-copy h2,
+  .home-refzone-memberships .rtbo-section-head h2 {
+    max-width: 100%;
+    font-size: clamp(2.15rem, 9vw, 3.25rem) !important;
+    line-height: .96 !important;
+  }
+
+  .home-refzone-copy p:not(.eyebrow),
+  .home-refzone-memberships .rtbo-section-head p,
+  .home-refzone-membership-grid article p {
+    max-width: 100%;
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .home-refzone-copy .button-row,
+  .home-refzone-price {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .home-refzone-membership-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .home-refzone-membership-grid article {
+    width: 100%;
+    min-width: 0;
+    padding: 20px !important;
+  }
+
+  .home-refzone-membership-grid article h3 {
+    max-width: 100%;
+    font-size: clamp(1.25rem, 5.2vw, 1.65rem) !important;
+    line-height: 1.08 !important;
+  }
+
+  .home-refzone-membership-grid article strong {
+    font-size: clamp(2rem, 9vw, 2.75rem) !important;
+  }
+
+  .home-refzone-membership-grid .btn {
+    width: 100%;
+  }
+
+  .services-page-section {
+    padding: 42px 16px !important;
+  }
+
+  .services-unified-head {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    max-width: 100%;
+  }
+
+  .services-unified-head h2 {
+    max-width: 100%;
+    font-size: clamp(2rem, 9vw, 3rem) !important;
+    line-height: .98 !important;
+  }
+
+  .services-unified-head p:not(.eyebrow) {
+    max-width: 100%;
+    margin: 0 !important;
+  }
+
+  .services-unified-overview,
+  .services-top-copy,
+  .services-visual-rail,
+  .services-referee-copy,
+  .services-features-section,
+  .services-flow-panel {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .services-unified-overview {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+    padding: 18px !important;
+  }
+
+  .services-top-image {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .services-top-image img {
+    width: 100%;
+    height: auto;
+    max-height: 320px;
+    object-fit: contain;
+  }
+
+  .services-referee-copy {
+    padding: 18px !important;
+  }
+
+  .services-referee-copy h4 {
+    font-size: clamp(1.45rem, 6.5vw, 2rem) !important;
+    line-height: 1.05 !important;
+  }
+
+  .services-unified-platform-cards,
+  .services-top-points,
+  .compact-solutions-grid,
+  .platform-flow-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .services-unified-platform-cards article,
+  .services-top-points article {
+    grid-template-columns: 54px minmax(0, 1fr) !important;
+    gap: 14px !important;
+    min-height: auto !important;
+    padding: 18px !important;
+  }
+
+  .services-unified-platform-cards article h3,
+  .services-top-points article h3 {
+    max-width: 100%;
+    font-size: clamp(1.05rem, 4.6vw, 1.3rem) !important;
+    line-height: 1.08 !important;
+  }
+
+  .services-unified-platform-cards article p,
+  .services-top-points article p {
+    grid-column: 2;
+    max-width: 100%;
+    line-height: 1.5;
+  }
+
+  .services-features-intro h2,
+  .platform-flow-panel h3 {
+    font-size: clamp(2rem, 8vw, 2.8rem) !important;
+    line-height: 1 !important;
+  }
+
+  .compact-solutions-grid article {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    padding: 16px !important;
+  }
+
+  .compact-solutions-grid article img {
+    width: 100% !important;
+    max-width: 260px;
+    justify-self: center;
+    object-fit: contain !important;
+  }
+
+  .services-flow-panel {
+    padding: 18px !important;
+  }
+
+  .platform-flow-grid article {
+    min-height: auto !important;
+    padding: 16px !important;
+  }
+
+  .assignor-subscription-section {
+    padding: 22px 16px !important;
+    border-radius: 14px !important;
+    overflow: hidden !important;
+  }
+
+  .assignor-subscription-head,
+  .assignor-plan-grid,
+  .assignor-branding-addon,
+  .assignor-subscription-modal {
+    grid-template-columns: 1fr !important;
+  }
+
+  .assignor-subscription-head {
+    gap: 16px !important;
+    align-items: start !important;
+  }
+
+  .assignor-subscription-head h2 {
+    max-width: 100%;
+    font-size: clamp(2rem, 9vw, 3rem) !important;
+    line-height: .98 !important;
+  }
+
+  .assignor-subscription-feature-cloud {
+    justify-content: flex-start !important;
+  }
+
+  .assignor-subscription-feature-cloud span {
+    white-space: normal !important;
+    line-height: 1.2;
+  }
+
+  .assignor-plan-card {
+    grid-template-rows: auto !important;
+    min-width: 0;
+    padding: 20px !important;
+  }
+
+  .assignor-plan-card > strong {
+    max-width: 100%;
+    font-size: clamp(2.2rem, 10vw, 3.1rem) !important;
+    line-height: .95 !important;
+  }
+
+  .assignor-limit-list div {
+    grid-template-columns: 1fr !important;
+    gap: 5px !important;
+  }
+
+  .assignor-plan-button,
+  .assignor-branding-addon .btn {
+    width: 100%;
+    justify-self: stretch !important;
+  }
+
+  .contact-section {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+    padding: 42px 16px !important;
+  }
+
+  .contact-section .contact-info-panel,
+  .contact-section .contact-form {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    padding: 22px !important;
+  }
+
+  .contact-section .contact-info-panel h2 {
+    font-size: clamp(2.35rem, 10vw, 3.4rem) !important;
+    line-height: .95 !important;
+  }
+
+  .contact-section .contact-info-list {
+    display: grid;
+    gap: 14px;
+  }
+
+  .contact-section .contact-info-list article {
+    grid-template-columns: 52px minmax(0, 1fr) !important;
+    gap: 14px !important;
+    min-width: 0;
+    padding: 16px !important;
+  }
+
+  .contact-section .contact-info-list strong,
+  .contact-section .contact-info-list a {
+    display: inline-block;
+    max-width: 100%;
+  }
+
+  .contact-form .grid.two {
+    grid-template-columns: 1fr !important;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .contact-form textarea {
+    min-height: 136px;
+  }
+
+  .contact-form .btn {
+    width: 100%;
+  }
+
+  .site-footer.original-footer {
+    position: relative;
+    z-index: 0;
+    overflow: hidden;
+    padding-inline: 16px !important;
+  }
+
+  .site-footer.original-footer .footer-inner,
+  .site-footer.original-footer .footer-main-grid,
+  .site-footer.original-footer .footer-link-columns {
+    width: 100%;
+    max-width: 100%;
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .rtbo-public :is(.rtbo-section, .rtbo-band, .rtbo-offer) {
+    padding-inline: 16px !important;
+  }
+
+  .site-header.rtbo-header .site-nav {
+    width: min(78vw, 304px) !important;
+    max-width: calc(100vw - 36px) !important;
+    background:
+      linear-gradient(180deg, rgba(12, 16, 23, .98), rgba(6, 9, 15, .98)),
+      #070b12 !important;
+    box-shadow: -26px 0 70px rgba(0, 0, 0, .56) !important;
+  }
+
+  .site-header.rtbo-header .nav-links,
+  .site-header.rtbo-header .nav-action-group {
+    width: 100%;
+    max-width: 248px !important;
+  }
+
+  .site-header.rtbo-header .nav-link,
+  .site-header.rtbo-header .nav-dropdown > button,
+  .site-header.rtbo-header .nav-chrome-btn,
+  .site-header.rtbo-header .theme-toggle {
+    max-width: 248px !important;
+  }
+
+  .site-header.rtbo-header .theme-toggle {
+    width: max-content !important;
+  }
+
+  .site-header.rtbo-header .nav-flyout-scrim {
+    background: rgba(0, 0, 0, .72) !important;
+    backdrop-filter: blur(2px);
+  }
+}
+
+@media (max-width: 520px) {
+  .rtbo-public {
+    font-size: 16px;
+  }
+
+  .home-refzone-copy h2,
+  .home-refzone-memberships .rtbo-section-head h2,
+  .services-unified-head h2,
+  .assignor-subscription-head h2,
+  .contact-section .contact-info-panel h2 {
+    font-size: clamp(2rem, 10.5vw, 2.7rem) !important;
+  }
+
+  .home-refzone-copy .button-row .btn,
+  .sports-agency-actions .btn,
+  .button-row .btn {
+    width: 100%;
+  }
+
+  .services-unified-platform-cards article,
+  .services-top-points article,
+  .contact-section .contact-info-list article {
+    grid-template-columns: 48px minmax(0, 1fr) !important;
+    padding: 15px !important;
+  }
+
+  .assignor-subscription-feature-cloud {
+    gap: 7px !important;
+  }
+
+  .assignor-subscription-feature-cloud span {
+    padding: 7px 9px !important;
+    font-size: .7rem !important;
+  }
+
+  .site-header.rtbo-header .site-nav {
+    width: min(80vw, 286px) !important;
+    max-width: calc(100vw - 32px) !important;
+    padding-inline: 14px !important;
+  }
+
+  .site-header.rtbo-header .nav-links,
+  .site-header.rtbo-header .nav-action-group,
+  .site-header.rtbo-header .nav-link,
+  .site-header.rtbo-header .nav-dropdown > button,
+  .site-header.rtbo-header .nav-chrome-btn {
+    max-width: 226px !important;
   }
 }

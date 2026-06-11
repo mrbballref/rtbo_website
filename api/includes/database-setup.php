@@ -15,6 +15,7 @@ require_once __DIR__ . '/refzone-enrollments.php';
 require_once __DIR__ . '/geo.php';
 require_once __DIR__ . '/notifications.php';
 require_once __DIR__ . '/sms.php';
+require_once __DIR__ . '/availability-rules.php';
 require_once __DIR__ . '/availability-sharing.php';
 require_once __DIR__ . '/password-reset.php';
 require_once __DIR__ . '/feature-store.php';
@@ -215,6 +216,9 @@ function rtbo_ensure_endpoint_tables(): array
         )"
     );
     $tables[] = 'official_availability';
+
+    rtbo_ensure_availability_rules_table();
+    $tables[] = 'official_availability_rules';
 
     rtbo_database_setup_exec(
         "CREATE TABLE IF NOT EXISTS game_reports (

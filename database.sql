@@ -278,6 +278,30 @@ CREATE TABLE IF NOT EXISTS availability (
   notes TEXT
 );
 
+CREATE TABLE IF NOT EXISTS official_availability_rules (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  official_id INT NOT NULL,
+  rule_type VARCHAR(60) NOT NULL,
+  title VARCHAR(190) NOT NULL,
+  days_json TEXT NULL,
+  starts_at TIME NULL,
+  ends_at TIME NULL,
+  max_miles INT NULL,
+  game_level VARCHAR(120) NULL,
+  partner_member_id INT NULL,
+  partner_name VARCHAR(190) NULL,
+  school_name VARCHAR(190) NULL,
+  max_games_per_day INT NULL,
+  max_games_per_week INT NULL,
+  notes TEXT NULL,
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NULL,
+  INDEX idx_availability_rules_official (official_id),
+  INDEX idx_availability_rules_type (rule_type),
+  INDEX idx_availability_rules_active (is_active)
+);
+
 CREATE TABLE IF NOT EXISTS evaluations (
   id INT AUTO_INCREMENT PRIMARY KEY,
   game_id INT,

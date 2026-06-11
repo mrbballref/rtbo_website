@@ -8,6 +8,7 @@ require_once __DIR__ . '/includes/admin-schools.php';
 require_once __DIR__ . '/includes/admin-games.php';
 require_once __DIR__ . '/includes/geo.php';
 require_once __DIR__ . '/includes/notifications.php';
+require_once __DIR__ . '/includes/availability-rules.php';
 require_once __DIR__ . '/includes/schedule-review.php';
 
 header('Content-Type: application/json');
@@ -974,6 +975,8 @@ echo json_encode([
     'assignments' => $assignments,
     'tba_games' => $officialId > 0 ? admin_game_tba_open_games_for_official($officialId) : [],
     'availability' => $officialId > 0 ? rtbo_official_availability($officialId) : [],
+    'availability_rules' => $officialId > 0 ? rtbo_availability_rules_for_official($officialId) : [],
+    'availability_rules_summary' => $officialId > 0 ? rtbo_availability_rules_summary(rtbo_availability_rules_for_official($officialId)) : [],
     'game_reports' => $officialId > 0 ? rtbo_official_game_reports($officialId) : [],
     'observer_forms' => $officialId > 0 ? rtbo_observer_forms($officialId) : [],
     'film_clips' => $officialId > 0 ? rtbo_official_film_clips($officialId) : [],

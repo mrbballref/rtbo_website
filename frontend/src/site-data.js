@@ -257,6 +257,7 @@ export const aboutDifferenceCards = [
 
 export const platformCards = [
   ['accountability_icon.png', 'Assigning Command Center', 'Create games, build crews, monitor assignment status, and protect every schedule with availability, conflicts, and role-based permissions.'],
+  ['accountability_icon.png', 'Availability Rules Engine', 'Officials can save reusable rules for weekly availability, travel limits, school conflicts, partner preferences, blocked schools, and max game volume.'],
   ['tech-driven_icon.png', 'Mobile Game Day Tools', 'Officials can view games, respond to assignments, check in, receive alerts, message crews, and submit reports from the mobile app.'],
   ['proven_results_icon.png', 'Evaluation & Development', 'Track performance, ratings, feedback, reports, film, training modules, quizzes, certifications, and promotion readiness.'],
   ['reliable_partnership_icon.png', 'Payments & Invoicing', 'Manage school invoices, assigning fees, payment batches, official ledger records, export reports, and Stripe/ACH workflows.']
@@ -265,6 +266,7 @@ export const platformCards = [
 export const platformFlow = [
   'Game created',
   'Best crew selected',
+  'Availability rules checked',
   'Notification sent',
   'Official responds',
   'Game day check-in',

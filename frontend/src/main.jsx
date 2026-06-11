@@ -75,7 +75,7 @@ const HOME_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-home.css?v=20260608-clea
 const PUBLIC_PREMIUM_CSS_ID = 'rtbo-premium-public-css';
 const PUBLIC_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-public.css?v=20260608-clean-no-header-spotlight';
 const PUBLIC_AGENCY_REDESIGN_CSS_ID = 'rtbo-agency-redesign-css';
-const PUBLIC_AGENCY_REDESIGN_CSS_HREF = '/assets/css/rtbo-agency-redesign.css?v=20260608-clean-responsive-source';
+const PUBLIC_AGENCY_REDESIGN_CSS_HREF = '/assets/css/rtbo-agency-redesign.css?v=20260609-mobile-source-truth';
 const APP_PREMIUM_CSS_ID = 'rtbo-premium-app-css';
 const APP_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-app.css?v=20260603a';
 
@@ -10598,6 +10598,238 @@ function NotificationCenter({
   );
 }
 
+const availabilityRuleTypeOptions = [
+  ['weekly_available', 'Available every selected day after a set time'],
+  ['weekly_unavailable', 'Unavailable every selected day'],
+  ['travel_limit', 'Travel limit by day'],
+  ['game_level', 'Available for a specific game level only'],
+  ['training_only', 'Available for training schools only'],
+  ['school_conflict_block', 'Block school conflicts automatically'],
+  ['preferred_partner', 'Preferred partner'],
+  ['do_not_pair', 'Do-not-pair list'],
+  ['school_block', 'Cannot work at a specific school'],
+  ['max_games', 'Maximum games per day or week']
+];
+
+const availabilityRuleDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
+const emptyAvailabilityRuleForm = {
+  id: '',
+  rule_type: 'weekly_available',
+  title: 'Available Monday after 5 PM',
+  days: ['monday'],
+  starts_at: '17:00',
+  ends_at: '',
+  max_miles: '',
+  game_level: '',
+  partner_member_id: '',
+  partner_name: '',
+  school_name: '',
+  max_games_per_day: '',
+  max_games_per_week: '',
+  notes: '',
+  is_active: true
+};
+
+function availabilityRuleDefaults(ruleType) {
+  const defaults = {
+    weekly_available: { title: 'Available Monday after 5 PM', days: ['monday'], starts_at: '17:00', ends_at: '' },
+    weekly_unavailable: { title: 'Unavailable every Sunday', days: ['sunday'], starts_at: '', ends_at: '' },
+    travel_limit: { title: 'Travel limit: 40 miles on weekdays', days: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'], max_miles: '40' },
+    game_level: { title: 'Available for varsity only', game_level: 'Varsity' },
+    training_only: { title: 'Available for training schools only' },
+    school_conflict_block: { title: 'Block out school conflicts' },
+    preferred_partner: { title: 'Preferred partners' },
+    do_not_pair: { title: 'Do-not-pair list' },
+    school_block: { title: 'Cannot work at specific schools' },
+    max_games: { title: 'Maximum games per day/week', max_games_per_day: '3', max_games_per_week: '8' }
+  };
+
+  return { ...emptyAvailabilityRuleForm, rule_type: ruleType, ...(defaults[ruleType] || {}) };
+}
+
+function normalizeAvailabilityRule(rule = {}) {
+  return {
+    ...emptyAvailabilityRuleForm,
+    ...rule,
+    id: rule.id || '',
+    days: Array.isArray(rule.days) ? rule.days : [],
+    starts_at: String(rule.starts_at || '').slice(0, 5),
+    ends_at: String(rule.ends_at || '').slice(0, 5),
+    max_miles: rule.max_miles ?? '',
+    partner_member_id: rule.partner_member_id ?? '',
+    max_games_per_day: rule.max_games_per_day ?? '',
+    max_games_per_week: rule.max_games_per_week ?? '',
+    is_active: rule.is_active !== false
+  };
+}
+
+function availabilityRuleSentence(rule) {
+  const days = (rule.days || []).map(formatLabel).join(', ');
+  if (rule.rule_type === 'weekly_available') return `Available ${days || 'selected days'}${rule.starts_at ? ` after ${rule.starts_at}` : ''}${rule.ends_at ? ` until ${rule.ends_at}` : ''}.`;
+  if (rule.rule_type === 'weekly_unavailable') return `Unavailable every ${days || 'selected day'}.`;
+  if (rule.rule_type === 'travel_limit') return `Travel capped at ${rule.max_miles || 0} miles${days ? ` on ${days}` : ''}.`;
+  if (rule.rule_type === 'game_level') return `Game level restricted to ${rule.game_level || 'selected level'}.`;
+  if (rule.rule_type === 'training_only') return 'Available for training schools only.';
+  if (rule.rule_type === 'school_conflict_block') return `Block conflicts tied to ${rule.school_name || 'profile school records'}.`;
+  if (rule.rule_type === 'preferred_partner') return `Preferred partner: ${rule.partner_name || `member #${rule.partner_member_id}`}.`;
+  if (rule.rule_type === 'do_not_pair') return `Do not pair with ${rule.partner_name || `member #${rule.partner_member_id}`}.`;
+  if (rule.rule_type === 'school_block') return `Cannot work at ${rule.school_name || 'selected school'}.`;
+  if (rule.rule_type === 'max_games') return `Max ${rule.max_games_per_day || '-'} per day / ${rule.max_games_per_week || '-'} per week.`;
+  return rule.notes || 'Availability rule';
+}
+
+function AvailabilityRulesEngine({
+  rules = [],
+  ruleTypes = {},
+  summary = {},
+  form = emptyAvailabilityRuleForm,
+  status = '',
+  loading = false,
+  saving = false,
+  onRefresh = () => {},
+  onChange = () => {},
+  onToggleDay = () => {},
+  onSave = () => {},
+  onEdit = () => {},
+  onCancelEdit = () => {},
+  onToggleRule = () => {},
+  onDeleteRule = () => {}
+}) {
+  const activeRules = rules.filter(rule => rule.is_active);
+
+  return (
+    <article className="rtbo-dashboard-card rtbo-focused-page-card rtbo-availability-rules-page">
+      <div className="rtbo-dashboard-card-head">
+        <div>
+          <p className="eyebrow">Availability Rules Engine</p>
+          <h3>Reusable Assignment Rules</h3>
+          <p>Officials can set standing availability, travel, school, partner, and game-count rules so assignors can avoid conflicts before releasing games.</p>
+        </div>
+        <div className="button-row">
+          <button className="btn secondary dark-btn" type="button" onClick={onRefresh} disabled={loading || saving}>{loading ? 'Loading...' : 'Refresh Rules'}</button>
+        </div>
+      </div>
+
+      <div className="rtbo-availability-rule-summary">
+        <article><span>Active Rules</span><strong>{summary.active_rules || activeRules.length}</strong></article>
+        <article><span>Paused Rules</span><strong>{summary.inactive_rules || Math.max(0, rules.length - activeRules.length)}</strong></article>
+        <article><span>Conflict Controls</span><strong>{summary.conflict_controls || 0}</strong></article>
+      </div>
+
+      <div className="rtbo-availability-rule-layout">
+        <form className="form rtbo-availability-rule-form" onSubmit={onSave}>
+          <div className="rtbo-template-form-head">
+            <div>
+              <h4>{form.id ? 'Edit Availability Rule' : 'Create Availability Rule'}</h4>
+              <p>Rules are saved to your profile and can be used by assignment workflows before game offers are sent.</p>
+            </div>
+            <label className="rtbo-inline-toggle"><span>Active</span><input type="checkbox" name="is_active" checked={Boolean(form.is_active)} onChange={onChange} /></label>
+          </div>
+
+          <div className="grid two">
+            <label>Rule Type
+              <select name="rule_type" value={form.rule_type} onChange={onChange}>
+                {availabilityRuleTypeOptions.map(([value, label]) => <option value={value} key={value}>{ruleTypes[value] || label}</option>)}
+              </select>
+            </label>
+            <label>Rule Name
+              <input name="title" value={form.title} onChange={onChange} required />
+            </label>
+          </div>
+
+          {['weekly_available', 'weekly_unavailable', 'travel_limit'].includes(form.rule_type) && (
+            <div className="rtbo-rule-day-picker" aria-label="Rule days">
+              {availabilityRuleDays.map(day => (
+                <button className={form.days.includes(day) ? 'active' : ''} type="button" key={day} onClick={() => onToggleDay(day)}>{formatLabel(day).slice(0, 3)}</button>
+              ))}
+            </div>
+          )}
+
+          {form.rule_type === 'weekly_available' && (
+            <div className="grid two">
+              <label>Starts At<input type="time" name="starts_at" value={form.starts_at} onChange={onChange} required /></label>
+              <label>Ends At<input type="time" name="ends_at" value={form.ends_at} onChange={onChange} /></label>
+            </div>
+          )}
+
+          {form.rule_type === 'travel_limit' && (
+            <label>Maximum Travel Miles
+              <input type="number" min="0" max="1000" name="max_miles" value={form.max_miles} onChange={onChange} required />
+            </label>
+          )}
+
+          {form.rule_type === 'game_level' && (
+            <label>Game Level
+              <select name="game_level" value={form.game_level} onChange={onChange} required>
+                <option value="">Choose level</option>
+                <option value="Varsity">Varsity</option>
+                <option value="Junior Varsity">Junior Varsity</option>
+                <option value="Middle School">Middle School</option>
+                <option value="College">College</option>
+                <option value="Pro-Am">Pro-Am</option>
+                <option value="Training School">Training School</option>
+              </select>
+            </label>
+          )}
+
+          {['preferred_partner', 'do_not_pair'].includes(form.rule_type) && (
+            <div className="grid two">
+              <label>Official Name<input name="partner_name" value={form.partner_name} onChange={onChange} placeholder="Official name" /></label>
+              <label>Member ID<input type="number" min="0" name="partner_member_id" value={form.partner_member_id} onChange={onChange} /></label>
+            </div>
+          )}
+
+          {['school_conflict_block', 'school_block'].includes(form.rule_type) && (
+            <label>School Name<input name="school_name" value={form.school_name} onChange={onChange} placeholder="School or organization name" required /></label>
+          )}
+
+          {form.rule_type === 'max_games' && (
+            <div className="grid two">
+              <label>Max Games Per Day<input type="number" min="0" max="20" name="max_games_per_day" value={form.max_games_per_day} onChange={onChange} /></label>
+              <label>Max Games Per Week<input type="number" min="0" max="80" name="max_games_per_week" value={form.max_games_per_week} onChange={onChange} /></label>
+            </div>
+          )}
+
+          <label>Notes
+            <textarea name="notes" rows="3" value={form.notes} onChange={onChange} placeholder="Optional assignment notes for the assignor" />
+          </label>
+
+          <div className="button-row">
+            <button className="btn" type="submit" disabled={saving}>{saving ? 'Saving...' : (form.id ? 'Update Rule' : 'Save Rule')}</button>
+            {form.id && <button className="btn secondary dark-btn" type="button" onClick={onCancelEdit} disabled={saving}>Cancel Edit</button>}
+          </div>
+          {status && <p className="form-message">{status}</p>}
+        </form>
+
+        <section className="rtbo-availability-rule-list" aria-label="Saved availability rules">
+          <div className="rtbo-dashboard-card-head compact">
+            <div>
+              <p className="eyebrow">Assignment Engine Inputs</p>
+              <h4>Saved Rules</h4>
+            </div>
+          </div>
+          {rules.length === 0 && <p className="rtbo-empty-state">No availability rules saved yet. Create your first reusable rule to guide future assignments.</p>}
+          {rules.map(rule => (
+            <article className={`rtbo-availability-rule-card${rule.is_active ? '' : ' paused'}`} key={rule.id}>
+              <div>
+                <span>{rule.type_label || ruleTypes[rule.rule_type] || formatLabel(rule.rule_type)}</span>
+                <strong>{rule.title}</strong>
+                <p>{availabilityRuleSentence(rule)}</p>
+              </div>
+              <div className="button-row">
+                <button className="btn secondary dark-btn" type="button" onClick={() => onEdit(rule)}>Edit</button>
+                <button className="btn secondary dark-btn" type="button" onClick={() => onToggleRule(rule)}>{rule.is_active ? 'Pause' : 'Activate'}</button>
+                <button className="btn secondary dark-btn" type="button" onClick={() => onDeleteRule(rule)}>Delete</button>
+              </div>
+            </article>
+          ))}
+        </section>
+      </div>
+    </article>
+  );
+}
+
 const emptyNotificationTemplateForm = {
   key: '',
   label: '',
@@ -11809,6 +12041,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     'podcastBuilder',
     'notifications',
     'payments',
+    'availabilityRules',
     'shopInventory',
     'siteContent',
     'taxCenter',
@@ -11839,6 +12072,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     'messages',
     'tbaList',
     'availabilityCalendar',
+    'availabilityRules',
     'calendarSync',
     'evaluation',
     ...(canUseTaxCenter ? ['taxCenter'] : []),
@@ -11985,6 +12219,13 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   const [calendarSync, setCalendarSync] = useState({ master: null, officials: [], official: null, summary: {} });
   const [calendarSyncStatus, setCalendarSyncStatus] = useState('');
   const [calendarSyncLoading, setCalendarSyncLoading] = useState(false);
+  const [availabilityRules, setAvailabilityRules] = useState([]);
+  const [availabilityRuleTypes, setAvailabilityRuleTypes] = useState(Object.fromEntries(availabilityRuleTypeOptions));
+  const [availabilityRulesSummary, setAvailabilityRulesSummary] = useState({});
+  const [availabilityRuleForm, setAvailabilityRuleForm] = useState(emptyAvailabilityRuleForm);
+  const [availabilityRulesStatus, setAvailabilityRulesStatus] = useState('');
+  const [availabilityRulesLoading, setAvailabilityRulesLoading] = useState(false);
+  const [availabilityRulesSaving, setAvailabilityRulesSaving] = useState(false);
   const [officialProfileLoading, setOfficialProfileLoading] = useState(!canUseAdminDashboard);
   const [officialProfileData, setOfficialProfileData] = useState({
     assignments: [],
@@ -11994,6 +12235,8 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     observerForms: [],
     filmClips: [],
     evaluations: [],
+    availabilityRules: [],
+    availabilityRulesSummary: {},
     schoolRanking: null,
     geoLocation: null,
     arrivalStatuses: {}
@@ -12220,6 +12463,123 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     }
   }
 
+  function updateAvailabilityRulesState(data = {}) {
+    const rules = Array.isArray(data.rules) ? data.rules.map(normalizeAvailabilityRule) : [];
+    setAvailabilityRules(rules);
+    setAvailabilityRuleTypes(data.rule_types || Object.fromEntries(availabilityRuleTypeOptions));
+    setAvailabilityRulesSummary(data.summary || {});
+    setOfficialProfileData(current => ({
+      ...current,
+      availabilityRules: rules,
+      availabilityRulesSummary: data.summary || current.availabilityRulesSummary || {}
+    }));
+  }
+
+  async function loadAvailabilityRules() {
+    setAvailabilityRulesLoading(true);
+    setAvailabilityRulesStatus('Loading availability rules...');
+    try {
+      const data = await apiGet('/availability-rules.php');
+      updateAvailabilityRulesState(data);
+      setAvailabilityRulesStatus('Availability rules loaded.');
+      return data;
+    } catch (error) {
+      setAvailabilityRulesStatus(error.message || 'Availability rules could not be loaded.');
+      return null;
+    } finally {
+      setAvailabilityRulesLoading(false);
+    }
+  }
+
+  function updateAvailabilityRuleForm(event) {
+    const { name, value, type, checked } = event.target;
+    setAvailabilityRuleForm(current => {
+      if (name === 'rule_type') {
+        return availabilityRuleDefaults(value);
+      }
+      return {
+        ...current,
+        [name]: type === 'checkbox' ? checked : value
+      };
+    });
+  }
+
+  function toggleAvailabilityRuleDay(day) {
+    setAvailabilityRuleForm(current => {
+      const nextDays = current.days.includes(day)
+        ? current.days.filter(item => item !== day)
+        : [...current.days, day];
+      return { ...current, days: nextDays };
+    });
+  }
+
+  async function saveAvailabilityRule(event) {
+    event.preventDefault();
+    setAvailabilityRulesSaving(true);
+    setAvailabilityRulesStatus('Saving availability rule...');
+    try {
+      const data = await apiPostJson('/availability-rules.php', {
+        action: 'save_rule',
+        rule: availabilityRuleForm
+      });
+      updateAvailabilityRulesState(data);
+      setAvailabilityRuleForm(availabilityRuleDefaults(availabilityRuleForm.rule_type));
+      setAvailabilityRulesStatus(data.message || 'Availability rule saved.');
+      setStatus(data.message || 'Availability rule saved.');
+    } catch (error) {
+      setAvailabilityRulesStatus(error.message || 'Availability rule could not be saved.');
+      setStatus(error.message || 'Availability rule could not be saved.');
+    } finally {
+      setAvailabilityRulesSaving(false);
+    }
+  }
+
+  function editAvailabilityRule(rule) {
+    setAvailabilityRuleForm(normalizeAvailabilityRule(rule));
+    setAvailabilityRulesStatus(`Editing ${rule.title || 'availability rule'}.`);
+  }
+
+  function cancelAvailabilityRuleEdit() {
+    setAvailabilityRuleForm(availabilityRuleDefaults(availabilityRuleForm.rule_type));
+    setAvailabilityRulesStatus('');
+  }
+
+  async function toggleAvailabilityRule(rule) {
+    setAvailabilityRulesSaving(true);
+    try {
+      const data = await apiPostJson('/availability-rules.php', {
+        action: 'toggle_rule',
+        id: rule.id,
+        is_active: !rule.is_active
+      });
+      updateAvailabilityRulesState(data);
+      setAvailabilityRulesStatus(data.message || 'Availability rule updated.');
+      setStatus(data.message || 'Availability rule updated.');
+    } catch (error) {
+      setAvailabilityRulesStatus(error.message || 'Availability rule could not be updated.');
+    } finally {
+      setAvailabilityRulesSaving(false);
+    }
+  }
+
+  async function deleteAvailabilityRule(rule) {
+    if (!window.confirm(`Delete ${rule.title || 'this availability rule'}?`)) return;
+    setAvailabilityRulesSaving(true);
+    try {
+      const data = await apiPostJson('/availability-rules.php', {
+        action: 'delete_rule',
+        id: rule.id
+      });
+      updateAvailabilityRulesState(data);
+      setAvailabilityRulesStatus(data.message || 'Availability rule deleted.');
+      setStatus(data.message || 'Availability rule deleted.');
+    } catch (error) {
+      setAvailabilityRulesStatus(error.message || 'Availability rule could not be deleted.');
+    } finally {
+      setAvailabilityRulesSaving(false);
+    }
+  }
+
   function loadCompletedForms() {
     if (!canUseAdminDashboard) {
       return Promise.resolve();
@@ -12259,6 +12619,12 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   useEffect(() => {
     if (activeSection === 'calendarSync' && !calendarSyncLoading) {
       loadCalendarSync();
+    }
+  }, [activeSection]);
+
+  useEffect(() => {
+    if (activeSection === 'availabilityRules' && !availabilityRulesLoading) {
+      loadAvailabilityRules();
     }
   }, [activeSection]);
 
@@ -12415,10 +12781,14 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
           observerForms: data.observer_forms || [],
           filmClips: data.film_clips || [],
           evaluations: data.evaluations || [],
+          availabilityRules: data.availability_rules || [],
+          availabilityRulesSummary: data.availability_rules_summary || {},
           schoolRanking: data.school_ranking || null,
           geoLocation: data.geo_location || null,
           arrivalStatuses: data.arrival_statuses || {}
         });
+        setAvailabilityRules(Array.isArray(data.availability_rules) ? data.availability_rules.map(normalizeAvailabilityRule) : []);
+        setAvailabilityRulesSummary(data.availability_rules_summary || {});
         updateNotificationState(data);
         setStatus('Official profile loaded from the server.');
       })
@@ -12460,6 +12830,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['podcastBuilder', 'Podcast Builder'],
     ['notifications', 'Notifications'],
     ['payments', 'Payments'],
+    ['availabilityRules', 'Availability Rules'],
     ['assignorSubscriptions', 'Assignor Subscriptions'],
     ['shopInventory', 'Inventory'],
     ['siteContent', 'Website'],
@@ -12480,12 +12851,13 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ...(canUseTaxCenter ? [['taxCenter', 'Tax Center']] : []),
     ...(releasedTbaGamesAvailable ? [['tbaList', 'TBA List']] : []),
     ['availabilityCalendar', 'Availability Calendar'],
+    ['availabilityRules', 'Availability Rules'],
     ['calendarSync', 'Calendar Sync'],
     ...(user.role === 'official' ? [['reports', 'Forms']] : []),
     ['evaluation', 'Evaluations'],
     ['education', 'Education']
   ];
-  const allowedDashboardSidebarIds = new Set(['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'clientSpotlightStudio', 'podcastBuilder', 'notifications', 'payments', 'assignorSubscriptions', 'shopInventory', 'siteContent', 'taxCenter', 'education', 'profile', 'reports', 'reviews', 'organizations']);
+  const allowedDashboardSidebarIds = new Set(['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'clientSpotlightStudio', 'podcastBuilder', 'notifications', 'payments', 'availabilityRules', 'assignorSubscriptions', 'shopInventory', 'siteContent', 'taxCenter', 'education', 'profile', 'reports', 'reviews', 'organizations']);
   const visibleAdminSections = adminSections.filter(([id]) => allowedDashboardSidebarIds.has(id) && !hiddenSections.includes(id));
   const visibleAddMemberSections = addMemberSections.filter(item => !hiddenMemberItems.includes(item.id));
   const visibleScheduleSetupSections = scheduleSetupSections.filter(item => !hiddenScheduleItems.includes(item.id));
@@ -12505,7 +12877,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         ? uniqueFormSubSections([...visibleOfficialFormsSubSections, ...officialFormsSubSections])
         : [];
   const completedFormsSectionIds = completedFormsWidgets.map(widget => widget.section);
-  const primaryAdminOrder = ['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'clientSpotlightStudio', 'podcastBuilder', 'notifications', 'payments', 'assignorSubscriptions', 'shopInventory', 'siteContent', 'taxCenter', 'education'];
+  const primaryAdminOrder = ['overview', 'members', 'schedules', 'rtbomail', 'newsletterCenter', 'refroom', 'clientSpotlightStudio', 'podcastBuilder', 'notifications', 'payments', 'availabilityRules', 'assignorSubscriptions', 'shopInventory', 'siteContent', 'taxCenter', 'education'];
   const secondaryAdminOrder = ['reports', 'reviews', 'organizations'];
   const sections = canUseAdminDashboard
     ? [
@@ -12524,6 +12896,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     ['contacts', 'Contacts'],
     ['reviews', 'Reviews'],
     ['payments', 'Payments'],
+    ['availabilityRules', 'Availability Rules'],
     ['completedOfficialForms', 'Completed Official Game Reports'],
     ['completedEvaluatorForms', 'Completed Evaluator Evaluations'],
     ['completedObserverForms', 'Completed Observer Forms'],
@@ -12555,7 +12928,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         : []
   }));
   const dashboardControlColumns = [
-    ['overview', 'payments', 'assignorSubscriptions', 'shopInventory', 'siteContent', 'taxCenter', 'education'],
+    ['overview', 'payments', 'availabilityRules', 'assignorSubscriptions', 'shopInventory', 'siteContent', 'taxCenter', 'education'],
     ['members', 'reports', 'reviews', 'rtbomail', 'newsletterCenter'],
     ['schedules', 'organizations', 'notifications', 'refroom', 'clientSpotlightStudio', 'podcastBuilder']
   ].map(column => column.map(id => settingsMenuItems.find(item => item.id === id)).filter(Boolean));
@@ -14294,6 +14667,26 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     </article>
   );
 
+  const availabilityRulesEnginePage = (
+    <AvailabilityRulesEngine
+      rules={availabilityRules}
+      ruleTypes={availabilityRuleTypes}
+      summary={availabilityRulesSummary}
+      form={availabilityRuleForm}
+      status={availabilityRulesStatus}
+      loading={availabilityRulesLoading}
+      saving={availabilityRulesSaving}
+      onRefresh={loadAvailabilityRules}
+      onChange={updateAvailabilityRuleForm}
+      onToggleDay={toggleAvailabilityRuleDay}
+      onSave={saveAvailabilityRule}
+      onEdit={editAvailabilityRule}
+      onCancelEdit={cancelAvailabilityRuleEdit}
+      onToggleRule={toggleAvailabilityRule}
+      onDeleteRule={deleteAvailabilityRule}
+    />
+  );
+
   const officialPostgamePage = (
     <article className="rtbo-dashboard-card rtbo-official-widget-page rtbo-work-postgame rtbo-focused-page-card rtbo-game-report-page">
       <div className="rtbo-dashboard-card-head">
@@ -14677,6 +15070,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
     tbaList: officialTbaListPage,
     availability: officialAvailabilityPage,
     availabilityCalendar: officialAvailabilityCalendarPage,
+    availabilityRules: availabilityRulesEnginePage,
     reports: user.role === 'observer' ? observerFormPage : officialPostgamePage,
     ...(user.role === 'official' ? { postgame: officialPostgamePage } : {}),
     ...(user.role === 'observer' ? { observerForm: observerFormPage } : {}),
@@ -15286,6 +15680,8 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
               </section>
             )
         )}
+
+        {activeSection === 'availabilityRules' && availabilityRulesEnginePage}
 
         {activeSection === 'settings' && (
           <section className="rtbo-dashboard-card rtbo-settings-page rtbo-settings-workspace-page">
