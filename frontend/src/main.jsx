@@ -71,7 +71,7 @@ const RTBO_REVIEW_STORAGE_KEY = 'rtbo-attendee-reviews';
 const SITE_CONTENT_KEY = 'rtbo-site-content-records';
 const SITE_CONTENT_UPDATED_EVENT = 'rtbo-site-content-updated';
 const HOME_PREMIUM_CSS_ID = 'rtbo-premium-home-css';
-const HOME_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-home.css?v=20260608-clean-no-header-spotlight';
+const HOME_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-home.css?v=20260613-sports-agency-runtime';
 const PUBLIC_PREMIUM_CSS_ID = 'rtbo-premium-public-css';
 const PUBLIC_PREMIUM_CSS_HREF = '/assets/css/rtbo-premium-public.css?v=20260608-clean-no-header-spotlight';
 const PUBLIC_AGENCY_REDESIGN_CSS_ID = 'rtbo-agency-redesign-css';
@@ -1158,6 +1158,62 @@ function HomeClientSpotlight() {
   const selectedVideoMeta = selectedVideo
     ? [selectedVideo.category, selectedVideo.runtime, selectedVideo.publishedAt].filter(Boolean).join(' / ')
     : '';
+  const spotlightScene = useMemo(() => ({
+    id: 'client-spotlight',
+    name: selectedVideo?.title || 'Client Spotlight',
+    cue: selectedVideo ? 'Ready' : 'Standby',
+    layout: 'Wide',
+    sources: selectedVideo?.videoUrl ? [selectedVideo.videoUrl] : [],
+    note: selectedVideo?.description || 'Client Spotlight player waiting for a published video.'
+  }), [selectedVideo]);
+  const spotlightStudio = useMemo(() => ({
+    activeScene: spotlightScene,
+    previewScene: spotlightScene,
+    activeOverlayIds: [],
+    destinationIds: ['client-spotlight'],
+    activeSourceIds: selectedVideo?.videoUrl ? ['client-spotlight-video'] : [],
+    sourceLevels: {},
+    lowerThird: { name: '', title: '' },
+    spotlightComment: null,
+    countdownSeconds: 0,
+    studioMode: selectedVideo?.videoUrl ? 'Ready' : 'Standby',
+    recording: false,
+    transitionName: '',
+    markerCount: 0,
+    snapshotCount: 0
+  }), [selectedVideo, spotlightScene]);
+  const spotlightPlayerChannel = useMemo(() => ({
+    id: 'website',
+    label: 'Client Spotlight',
+    mark: 'SPOT',
+    status: selectedVideo?.videoUrl ? 'Offline' : 'Standby',
+    title: selectedVideo?.title || library.show.name || defaultClientSpotlightShow.name,
+    description: selectedVideo?.description || 'Published videos from the Client Spotlight Studio will appear here automatically.',
+    icon: 'video-player-logos/client-spotlight-logo.png',
+    streamUrl: selectedVideo?.videoUrl || '',
+    embedUrl: '',
+    embedHtml: '',
+    watchUrl: '#home',
+    aspect: 'wide',
+    playerOptions: {
+      className: `home-client-spotlight-ipad client-spotlight-refroom-player ${selectedVideo?.videoUrl ? 'has-client-videos' : 'is-empty-library'}`,
+      brandTitle: library.show.shortName || defaultClientSpotlightShow.shortName,
+      logoSrc: library.show.logoMark || library.show.logo || defaultClientSpotlightShow.logo,
+      statusLabel: selectedVideo?.videoUrl ? 'Client Spotlight' : 'Standby',
+      showOverlays: false,
+      showScoreLowerThird: false,
+      showStudioButton: false,
+      showPopOutButton: false,
+      showGoLiveButton: false,
+      showRecordButton: false,
+      disableMediaControlsWithoutSource: true,
+      simulatedDurationSeconds: 0,
+      fallbackTitle: 'No Client Spotlight videos published yet',
+      fallbackDescription: 'Published videos from the Client Spotlight Studio will appear here automatically.',
+      captionText: selectedVideo?.transcript || 'Client Spotlight captions are enabled for this viewing session.',
+      controlNote: 'Client Spotlight uses the same RTBO video player system as RefRoom.'
+    }
+  }), [library.show.logo, library.show.logoMark, library.show.name, library.show.shortName, selectedVideo]);
 
   return (
     <section className="rtbo-section home-client-spotlight-section" aria-labelledby="home-client-spotlight-title">
@@ -1195,18 +1251,11 @@ function HomeClientSpotlight() {
               />
             </label>
           </div>
-          <RTBIPadVideoPlayer
-            className={`home-client-spotlight-ipad ${playlist.length ? 'has-client-videos' : 'is-empty-library'}`}
-            brand={library.show.shortName || defaultClientSpotlightShow.shortName}
-            title={library.show.name || defaultClientSpotlightShow.name}
-            logoSrc={library.show.logoMark || library.show.logo || defaultClientSpotlightShow.logo}
-            status={playlist.length ? 'Client Spotlight' : 'Standby'}
-            playlist={playlist}
-            selectedId={selectedId}
-            onSelect={setSelectedId}
-            emptyTitle="No Client Spotlight videos published yet"
-            emptyMessage="Published videos from the Client Spotlight Studio will appear here automatically."
-            settingsNote="Client Spotlight loads published videos only."
+          <LivestreamPlayer
+            channel={spotlightPlayerChannel}
+            studio={spotlightStudio}
+            activationKey={selectedVideo?.id || 0}
+            recording={false}
           />
           {selectedVideo && (
             <article className="home-client-spotlight-watch-details" aria-label="Current video details">
@@ -2921,6 +2970,7 @@ function LivestreamPlayer({ channel, studio, activationKey, recording = false, o
       showFallbackActions: false
     }
   };
+  const videoPoster = channel.playerOptions?.posterSrc || '';
   const mediaContent = channel.embedHtml ? (
     <div
       className={`livestream-player livestream-player-${channel.aspect}`}
@@ -2942,7 +2992,7 @@ function LivestreamPlayer({ channel, studio, activationKey, recording = false, o
         ref={videoRef}
         playsInline
         preload="metadata"
-        poster={image('banner_3.jpg')}
+        {...(videoPoster ? { poster: videoPoster } : {})}
         onLoadedMetadata={(event) => updateVideoProgress(event.currentTarget)}
         onTimeUpdate={(event) => updateVideoProgress(event.currentTarget)}
         onPlay={() => setPlaying(true)}
@@ -5916,6 +5966,7 @@ function InvoicePreview({ invoice, onCreditCardPayment = () => {}, creditCardLoa
   const totals = invoiceTotals(invoice);
   const lineItems = invoiceLineItems(invoice);
   const creditCardRequested = Boolean(invoice.creditCardRequested);
+  const includeDbaName = invoice.includeDbaName !== false && invoice.include_dba_name !== false;
   const billToLines = invoiceCompletedLines(
     invoice.schoolName || 'School / Organization',
     invoice.contactName && `Attn: ${invoice.contactName}`,
@@ -5928,6 +5979,7 @@ function InvoicePreview({ invoice, onCreditCardPayment = () => {}, creditCardLoa
     invoice.address || 'Shipping Address'
   );
   const detailRows = invoiceDetailRows(invoice);
+  const mailToLines = invoiceMailToLines(includeDbaName);
 
   return (
     <section
@@ -5961,7 +6013,7 @@ function InvoicePreview({ invoice, onCreditCardPayment = () => {}, creditCardLoa
             <div className="rtbo-invoice-mail-to">
               <h4>Mail To:</h4>
               <div>
-                {rtboInvoiceMailToLines.map((line, index) => <p key={`mail-${index}`}>{line}</p>)}
+                {mailToLines.map((line, index) => <p key={`mail-${index}`}>{line}</p>)}
               </div>
             </div>
           </section>
@@ -6003,7 +6055,7 @@ function InvoicePreview({ invoice, onCreditCardPayment = () => {}, creditCardLoa
           <h4>Terms &amp; Conditions</h4>
           <p>Payment is due within 14 days.</p>
           <p>You may pay by check by submitting it to Pay to the order of</p>
-          <p>Montrel Simmons, DBA Raising The Bar Officiating Inc.</p>
+          <p>Montrel Simmons{includeDbaName ? ', DBA Raising The Bar Officiating Inc.' : ''}</p>
           {String(invoice.notes || '').trim() && <p>{invoice.notes}</p>}
           <button
             className={`rtbo-invoice-credit-card-toggle${creditCardRequested ? ' active' : ''}`}
@@ -6102,8 +6154,8 @@ function AdminInvoiceCreator({ user, onStatus = () => {} }) {
   }, []);
 
   function updateInvoiceForm(event) {
-    const { name, value } = event.target;
-    setInvoiceForm(current => ({ ...current, [name]: formatFormFieldValue(name, value) }));
+    const { name, type, checked, value } = event.target;
+    setInvoiceForm(current => ({ ...current, [name]: type === 'checkbox' ? checked : formatFormFieldValue(name, value) }));
     setPrintPreviewOpen(false);
     setInvoiceErrors(current => {
       if (!current[name]) return current;
@@ -6497,6 +6549,13 @@ function AdminInvoiceCreator({ user, onStatus = () => {} }) {
               <label>Event / Game Name<input name="eventName" value={invoiceForm.eventName} onChange={updateInvoiceForm} required aria-invalid={Boolean(invoiceErrors.eventName)} aria-describedby={invoiceErrors.eventName ? 'invoice-error-eventName' : undefined} /><InvoiceFieldError errors={invoiceErrors} name="eventName" /></label>
               <label>Game Level<input name="gameLevel" value={invoiceForm.gameLevel} onChange={updateInvoiceForm} required aria-invalid={Boolean(invoiceErrors.gameLevel)} aria-describedby={invoiceErrors.gameLevel ? 'invoice-error-gameLevel' : undefined} /><InvoiceFieldError errors={invoiceErrors} name="gameLevel" /></label>
             </div>
+            <label className="rtbo-invoice-dba-toggle">
+              <input type="checkbox" name="includeDbaName" checked={invoiceForm.includeDbaName !== false} onChange={updateInvoiceForm} />
+              <span>
+                <strong>Show DBA on invoice</strong>
+                <small>Include “DBA Raising The Bar Officiating Inc.” in the payment instructions.</small>
+              </span>
+            </label>
           </section>
 
           <section className="rtbo-invoice-panel rtbo-invoice-fee-panel">
@@ -7740,10 +7799,21 @@ const rtboInvoiceMailToLines = [
   'Little Rock, AR 72223'
 ];
 
+function invoiceMailToLines(includeDbaName = true) {
+  return includeDbaName
+    ? rtboInvoiceMailToLines
+    : [
+        'Montrel Simmons',
+        '815 Technology Dr., Box 241445',
+        'Little Rock, AR 72223'
+      ];
+}
+
 function invoiceStandaloneDocument(invoice = {}) {
   const printableInvoice = invoiceWithComputedTotals(invoice);
   const totals = invoiceTotals(printableInvoice);
   const lineItems = invoiceLineItems(printableInvoice);
+  const includeDbaName = printableInvoice.includeDbaName !== false && printableInvoice.include_dba_name !== false;
   const logoUrl = typeof window !== 'undefined'
     ? new URL(image('logo.png'), window.location.origin).href
     : image('logo.png');
@@ -7759,6 +7829,7 @@ function invoiceStandaloneDocument(invoice = {}) {
     printableInvoice.address || 'Shipping Address'
   );
   const detailRows = invoiceDetailRows(printableInvoice);
+  const mailToLines = invoiceMailToLines(includeDbaName);
   const htmlLines = (lines = []) => lines
     .map(line => `<p>${invoiceHtmlEscape(line)}</p>`)
     .join('');
@@ -7870,7 +7941,7 @@ function invoiceStandaloneDocument(invoice = {}) {
           <div class="mail-to">
             <h2>Mail To:</h2>
             <div>
-              ${htmlLines(rtboInvoiceMailToLines)}
+              ${htmlLines(mailToLines)}
             </div>
           </div>
         </section>
@@ -7880,7 +7951,7 @@ function invoiceStandaloneDocument(invoice = {}) {
         <h2>Terms &amp; Conditions</h2>
         <p>Payment is due within 14 days.</p>
         <p>You may pay by check by submitting it to Pay to the order of</p>
-        <p>Montrel Simmons, DBA Raising The Bar Officiating Inc.</p>
+        <p>Montrel Simmons${includeDbaName ? ', DBA Raising The Bar Officiating Inc.' : ''}</p>
         ${notesBlock}
         ${creditCardMessage}
       </section>
@@ -8095,6 +8166,7 @@ function createInvoiceForm(invoices = []) {
     eventName: '',
     gameLevel: '',
     ...invoiceFeeDefaults(),
+    includeDbaName: true,
     creditCardRequested: false,
     notes: '',
     status: 'ready'
@@ -8114,6 +8186,7 @@ function normalizeInvoiceRecord(invoice = {}) {
     phone: formatPhoneNumber(invoice.phone || ''),
     eventName: invoice.eventName || invoice.event_name || '',
     gameLevel: invoice.gameLevel || invoice.game_level || '',
+    includeDbaName: invoice.includeDbaName ?? invoice.include_dba_name ?? true,
     creditCardRequested: Boolean(invoice.creditCardRequested ?? invoice.credit_card_requested ?? false),
     createdAt: invoice.createdAt || invoice.created_at || '',
     updatedAt: invoice.updatedAt || invoice.updated_at || ''

@@ -897,6 +897,9 @@ function build_invoice_pdf(array $invoice): string
     $subtotal = array_reduce($lineItems, static fn (float $sum, array $item): float => $sum + (float) $item['amount'], 0.0);
     $notes = trim((string) ($invoice['notes'] ?? ''));
     $creditCardRequested = !empty($invoice['creditCardRequested']) || !empty($invoice['credit_card_requested']);
+    $includeDbaName = array_key_exists('includeDbaName', $invoice)
+        ? (bool) $invoice['includeDbaName']
+        : (!array_key_exists('include_dba_name', $invoice) || (bool) $invoice['include_dba_name']);
 
     $invoiceNumber = pdf_value(rtbo_invoice_pdf_text($invoice, 'invoiceNumber', 'invoice_number'));
     $invoiceDate = rtbo_invoice_pdf_short_date(rtbo_invoice_pdf_text($invoice, 'invoiceDate', 'invoice_date'));
@@ -967,12 +970,18 @@ function build_invoice_pdf(array $invoice): string
         $y -= 15;
     }
 
-    $mailLines = [
-        'Montrel Simmons, DBA',
-        'Raising The Bar Officiating Inc.',
-        '815 Technology Dr., Box 241445',
-        'Little Rock, AR 72223',
-    ];
+    $mailLines = $includeDbaName
+        ? [
+            'Montrel Simmons, DBA',
+            'Raising The Bar Officiating Inc.',
+            '815 Technology Dr., Box 241445',
+            'Little Rock, AR 72223',
+        ]
+        : [
+            'Montrel Simmons',
+            '815 Technology Dr., Box 241445',
+            'Little Rock, AR 72223',
+        ];
     $y = 542;
     $page[] = rtbo_invoice_pdf_right_text('Mail To:', $detailLabelRight, $y, 11, 'F2', '0 0 0');
     $y -= 15;
@@ -1014,7 +1023,7 @@ function build_invoice_pdf(array $invoice): string
     $page[] = pdf_text('Terms & Conditions', 42, $termsY, 11, 'F2', '0 0 0');
     $page[] = pdf_text('Payment is due within 14 days.', 42, $termsY - 14, 11, 'F1', '0 0 0');
     $page[] = pdf_text('You may pay by check by submitting it to Pay to the order of', 42, $termsY - 28, 11, 'F1', '0 0 0');
-    $page[] = pdf_text('Montrel Simmons, DBA Raising The Bar Officiating Inc.', 42, $termsY - 42, 11, 'F1', '0 0 0');
+    $page[] = pdf_text('Montrel Simmons' . ($includeDbaName ? ', DBA Raising The Bar Officiating Inc.' : ''), 42, $termsY - 42, 11, 'F1', '0 0 0');
     if ($notes !== '') {
         $noteY = $termsY - 56;
         foreach (array_slice(pdf_wrap($notes, 58), 0, 2) as $line) {

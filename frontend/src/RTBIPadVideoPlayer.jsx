@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 const CSS_ID = 'rtb-ipad-video-player-css';
-const CSS_HREF = '/assets/video-player/rtb-ipad-player.css?v=20260608-phone-responsive-source';
+const CSS_HREF = '/assets/video-player/rtb-ipad-player.css?v=20260613-agency-responsive-source';
 const SPEEDS = [0.75, 1, 1.25, 1.5, 2];
 
 const icons = {
@@ -167,6 +167,7 @@ export default function RTBIPadVideoPlayer({
   const [nativeSpeed, setNativeSpeed] = useState(1);
   const [nativeTheater, setNativeTheater] = useState(false);
   const [nativeMini, setNativeMini] = useState(false);
+  const [nativeReadyState, setNativeReadyState] = useState(0);
   const [selectedControl, setSelectedControl] = useState('');
   const [nativeCaptionText, setNativeCaptionText] = useState('');
   const transientControlTimerRef = useRef(null);
@@ -193,7 +194,6 @@ export default function RTBIPadVideoPlayer({
   const titleOverlayMeta = selectedItem
     ? [selectedItem.subtitle, selectedItem.category, selectedItem.runtime].filter(Boolean).join(' / ')
     : '';
-  const titleOverlayImage = selectedItem?.poster || selectedItem?.posterUrl || poster || '';
   const showTitleOverlay = Boolean(!controlled && hasVideo && selectedItem?.title);
 
   useEffect(() => {
@@ -210,6 +210,7 @@ export default function RTBIPadVideoPlayer({
     setNativePlaying(false);
     setNativeCurrent(0);
     setNativeDuration(0);
+    setNativeReadyState(0);
     setNativeCaptionText('');
     setSelectedControl('');
   }, [controlled, selectedItem?.id]);
@@ -458,9 +459,13 @@ export default function RTBIPadVideoPlayer({
         ref={videoRef}
         className="rtb-video-element"
         playsInline
-        preload="metadata"
-        poster={selectedItem?.poster || poster}
-        onLoadedMetadata={(event) => setNativeDuration(event.currentTarget.duration || 0)}
+        preload="auto"
+        onLoadedMetadata={(event) => {
+          setNativeDuration(event.currentTarget.duration || 0);
+          setNativeReadyState(event.currentTarget.readyState || 0);
+        }}
+        onLoadedData={(event) => setNativeReadyState(event.currentTarget.readyState || 0)}
+        onCanPlay={(event) => setNativeReadyState(event.currentTarget.readyState || 0)}
         onTimeUpdate={(event) => setNativeCurrent(event.currentTarget.currentTime || 0)}
         onPlay={() => setNativePlaying(true)}
         onPause={() => setNativePlaying(false)}
@@ -483,6 +488,8 @@ export default function RTBIPadVideoPlayer({
       </div>
     )
   );
+  const nativePoster = selectedItem?.poster || poster || '';
+  const showNativePoster = Boolean(!controlled && hasNativeVideo && nativePoster && !playing && current <= 0.25 && nativeReadyState < 2);
   const nativeTransparentCaption = !controlled && captionsOn
     ? (nativeCaptionText || selectedItem?.transcript || '')
     : '';
@@ -513,9 +520,17 @@ export default function RTBIPadVideoPlayer({
               <div className="rtb-video-stage">
                 <div className="rtb-video-frame">
                   {stageMedia}
+                  {showNativePoster && (
+                    <img
+                      className="rtb-native-poster"
+                      src={nativePoster}
+                      alt=""
+                      loading="eager"
+                      decoding="async"
+                    />
+                  )}
                   {showTitleOverlay && (
                     <div className="rtb-video-title-overlay" key={`${selectedItem.id}-${playing ? 'playing' : 'ready'}-title-overlay`} aria-live="polite">
-                      {titleOverlayImage && <img src={titleOverlayImage} alt="" loading="lazy" decoding="async" />}
                       <span>
                         <strong>{selectedItem.title}</strong>
                         {titleOverlayMeta && <small>{titleOverlayMeta}</small>}

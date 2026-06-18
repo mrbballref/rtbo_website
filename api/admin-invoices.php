@@ -73,6 +73,7 @@ function rtbo_ensure_admin_invoices_table(): void
 	            additional_rate DECIMAL(10,2) NOT NULL DEFAULT 0,
 	            additional_fee DECIMAL(10,2) NOT NULL DEFAULT 0,
 	            additional_fee_items TEXT NULL,
+	            include_dba_name TINYINT(1) NOT NULL DEFAULT 1,
 	            credit_card_requested TINYINT(1) NOT NULL DEFAULT 0,
 	            notes TEXT NULL,
             status VARCHAR(40) NOT NULL DEFAULT 'draft',
@@ -115,7 +116,8 @@ function rtbo_ensure_admin_invoices_table(): void
     $columns = rtbo_invoice_add_column_if_missing($columns, 'additional_rate', 'ALTER TABLE admin_invoices ADD COLUMN additional_rate DECIMAL(10,2) NOT NULL DEFAULT 0 AFTER additional_qty');
     $columns = rtbo_invoice_add_column_if_missing($columns, 'additional_fee', 'ALTER TABLE admin_invoices ADD COLUMN additional_fee DECIMAL(10,2) NOT NULL DEFAULT 0 AFTER travel_fee');
     $columns = rtbo_invoice_add_column_if_missing($columns, 'additional_fee_items', 'ALTER TABLE admin_invoices ADD COLUMN additional_fee_items TEXT NULL AFTER additional_fee');
-    $columns = rtbo_invoice_add_column_if_missing($columns, 'credit_card_requested', 'ALTER TABLE admin_invoices ADD COLUMN credit_card_requested TINYINT(1) NOT NULL DEFAULT 0 AFTER additional_fee_items');
+    $columns = rtbo_invoice_add_column_if_missing($columns, 'include_dba_name', 'ALTER TABLE admin_invoices ADD COLUMN include_dba_name TINYINT(1) NOT NULL DEFAULT 1 AFTER additional_fee_items');
+    $columns = rtbo_invoice_add_column_if_missing($columns, 'credit_card_requested', 'ALTER TABLE admin_invoices ADD COLUMN credit_card_requested TINYINT(1) NOT NULL DEFAULT 0 AFTER include_dba_name');
     $columns = rtbo_invoice_add_column_if_missing($columns, 'notes', 'ALTER TABLE admin_invoices ADD COLUMN notes TEXT NULL AFTER additional_fee');
     $columns = rtbo_invoice_add_column_if_missing($columns, 'status', "ALTER TABLE admin_invoices ADD COLUMN status VARCHAR(40) NOT NULL DEFAULT 'draft' AFTER notes");
     $columns = rtbo_invoice_add_column_if_missing($columns, 'created_by', 'ALTER TABLE admin_invoices ADD COLUMN created_by INT NULL AFTER status');
@@ -314,6 +316,7 @@ function rtbo_invoice_public(array $row): array
         'additionalFee' => number_format($additional['total'], 2, '.', ''),
         'subtotal' => number_format($subtotal, 2, '.', ''),
         'total' => number_format($subtotal, 2, '.', ''),
+        'includeDbaName' => (bool) ($row['include_dba_name'] ?? true),
         'creditCardRequested' => (bool) ($row['credit_card_requested'] ?? false),
         'notes' => (string) ($row['notes'] ?? ''),
         'status' => (string) ($row['status'] ?? 'draft'),
@@ -447,6 +450,9 @@ function rtbo_invoice_payload(array $input, array $user): array
         'additional_rate' => $additional['rate'],
         'additional_fee' => $additional['total'],
         'additional_fee_items' => $additional['items_json'],
+        'include_dba_name' => array_key_exists('includeDbaName', $invoice)
+            ? (!empty($invoice['includeDbaName']) ? 1 : 0)
+            : (array_key_exists('include_dba_name', $invoice) ? (!empty($invoice['include_dba_name']) ? 1 : 0) : 1),
         'credit_card_requested' => !empty($invoice['creditCardRequested']) || !empty($invoice['credit_card_requested']) ? 1 : 0,
         'notes' => rtbo_invoice_text($invoice, 'notes'),
         'status' => in_array((string) ($invoice['status'] ?? ''), ['draft', 'ready', 'printed'], true) ? (string) $invoice['status'] : 'ready',
@@ -623,7 +629,7 @@ try {
 	                         officials_fee_type = ?, officials_qty = ?, officials_rate = ?, officials_fee = ?, officials_fee_items = ?,
 	                         travel_fee_type = ?, travel_qty = ?, travel_rate = ?, travel_fee = ?, travel_fee_items = ?,
 	                         additional_fee_type = ?, additional_qty = ?, additional_rate = ?, additional_fee = ?, additional_fee_items = ?,
-	                         credit_card_requested = ?, notes = ?, status = ?, updated_at = NOW()
+	                         include_dba_name = ?, credit_card_requested = ?, notes = ?, status = ?, updated_at = NOW()
 	                     WHERE id = ?"
 	                );
                 $stmt->execute([
@@ -657,6 +663,7 @@ try {
 	                    $payload['additional_rate'],
 	                    $payload['additional_fee'],
 	                    $payload['additional_fee_items'],
+	                    $payload['include_dba_name'],
 	                    $payload['credit_card_requested'],
 	                    $payload['notes'],
 	                    $payload['status'],
@@ -672,8 +679,8 @@ try {
 	                        officials_fee_type, officials_qty, officials_rate, officials_fee, officials_fee_items,
 	                        travel_fee_type, travel_qty, travel_rate, travel_fee, travel_fee_items,
 	                        additional_fee_type, additional_qty, additional_rate, additional_fee, additional_fee_items,
-	                        credit_card_requested, notes, status, created_by, updated_at
-	                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())"
+	                        include_dba_name, credit_card_requested, notes, status, created_by, updated_at
+	                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())"
 	                );
                 $stmt->execute([
                     $payload['invoice_number'],
@@ -706,6 +713,7 @@ try {
 	                    $payload['additional_rate'],
 	                    $payload['additional_fee'],
 	                    $payload['additional_fee_items'],
+	                    $payload['include_dba_name'],
 	                    $payload['credit_card_requested'],
 	                    $payload['notes'],
                     $payload['status'],

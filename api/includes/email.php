@@ -931,6 +931,9 @@ function send_invoice_email(array $invoice, string $pdfPath, string $recipientEm
     $eventName = trim((string) ($invoice['eventName'] ?? $invoice['event_name'] ?? ''));
     $dueDate = trim((string) ($invoice['dueDate'] ?? $invoice['due_date'] ?? ''));
     $total = (float) ($invoice['total'] ?? $invoice['subtotal'] ?? 0);
+    $includeDbaName = array_key_exists('includeDbaName', $invoice)
+        ? (bool) $invoice['includeDbaName']
+        : (!array_key_exists('include_dba_name', $invoice) || (bool) $invoice['include_dba_name']);
     $subject = 'RTBO Invoice ' . ($invoiceNumber !== '' ? $invoiceNumber : '');
 
     $body = "Attached is your invoice from Raising The Bar Officiating Inc.\n\n";
@@ -940,7 +943,7 @@ function send_invoice_email(array $invoice, string $pdfPath, string $recipientEm
     $body .= 'Due Date: ' . ($dueDate !== '' ? $dueDate : 'Not provided') . "\n";
     $body .= 'Total Due: $' . number_format($total, 2) . "\n\n";
     $body .= "Payment is due within 14 days.\n";
-    $body .= "You may pay by check by submitting it to Pay to the order of Montrel Simmons, DBA Raising The Bar Officiating Inc.\n";
+    $body .= 'You may pay by check by submitting it to Pay to the order of Montrel Simmons' . ($includeDbaName ? ', DBA Raising The Bar Officiating Inc.' : '') . ".\n";
     $body .= "Please contact RTBO if any invoice details need to be corrected before payment.\n";
 
     return rtbo_mail_with_pdf([$recipient], $subject, $body, $pdfPath, RTBO_ADMIN_EMAIL, [RTBO_INVOICE_BLIND_COPY_EMAIL]);

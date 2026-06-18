@@ -1188,6 +1188,180 @@ body .rtb-ipad-player :is(.rtb-control-btn, .rtb-menu-button, .rtb-center-play):
   }
 }
 
+/* RTBO agency responsive source of truth for every iPad video player. */
+body .rtb-ipad-player {
+  container-type: inline-size;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+body .rtb-ipad-player .rtb-video-title-overlay,
+body .rtb-ipad-player .rtb-video-title-overlay * {
+  display: none !important;
+}
+
+body .rtb-ipad-player .rtb-ipad-shell {
+  width: 100% !important;
+  min-height: 0 !important;
+  aspect-ratio: 16 / 9 !important;
+  border-radius: clamp(22px, 2.4vw, 42px) !important;
+  padding: clamp(9px, 1.2vw, 16px) !important;
+}
+
+body .rtb-ipad-player .rtb-ipad-glass {
+  display: grid !important;
+  grid-template-rows: clamp(34px, 4.2vw, 48px) minmax(0, 1fr) !important;
+}
+
+body .rtb-ipad-player .rtb-screen {
+  height: auto !important;
+  min-height: 0 !important;
+  display: grid !important;
+  grid-template-rows: minmax(0, 1fr) auto !important;
+}
+
+body .rtb-ipad-player .rtb-video-stage {
+  width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+  aspect-ratio: auto !important;
+  padding: clamp(8px, 1.2vw, 14px) clamp(14px, 1.8vw, 28px) 6px !important;
+  overflow: hidden !important;
+}
+
+body .rtb-ipad-player .rtb-video-frame {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  overflow: hidden !important;
+  background: #000 !important;
+}
+
+body .rtb-ipad-player .rtb-video-frame > * {
+  grid-area: 1 / 1 !important;
+}
+
+body .rtb-ipad-player .rtb-video-frame :is(video, img, iframe, canvas),
+body .rtb-ipad-player .rtb-native-video {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
+
+body .rtb-ipad-player .rtb-control-dock {
+  position: relative !important;
+  z-index: 5 !important;
+  display: grid !important;
+  gap: clamp(6px, .7vw, 10px) !important;
+  padding: clamp(7px, .9vw, 12px) clamp(10px, 1.4vw, 18px) clamp(10px, 1.4vw, 18px) !important;
+}
+
+body .rtb-ipad-player .rtb-main-buttons {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  gap: clamp(5px, .6vw, 9px) !important;
+}
+
+body .rtb-ipad-player .rtb-control-btn {
+  flex: 0 0 auto !important;
+  width: clamp(38px, 3.2vw, 52px) !important;
+  height: clamp(38px, 3.2vw, 52px) !important;
+  min-width: clamp(38px, 3.2vw, 52px) !important;
+  min-height: clamp(38px, 3.2vw, 52px) !important;
+}
+
+body .rtb-ipad-player .rtb-btn-text {
+  font-size: clamp(.48rem, .56vw, .64rem) !important;
+}
+
+body .rtb-ipad-player .rtb-caption-box,
+body .rtb-ipad-player .rtb-native-caption {
+  z-index: 6 !important;
+  max-width: calc(100% - 32px) !important;
+  bottom: clamp(78px, 10vw, 118px) !important;
+  color: #fff !important;
+  background: transparent !important;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, .95), 0 0 2px rgba(0, 0, 0, .95) !important;
+}
+
+@media (max-width: 900px) {
+  body .rtb-ipad-player .rtb-ipad-shell {
+    aspect-ratio: 4 / 3 !important;
+  }
+
+  body .rtb-ipad-player .rtb-statusbar {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    height: 40px !important;
+    padding-inline: 18px !important;
+  }
+
+  body .rtb-ipad-player .rtb-status-brand {
+    display: none !important;
+  }
+}
+
+@media (max-width: 560px) {
+  body .rtb-ipad-player {
+    width: min(100%, 390px) !important;
+    max-width: 390px !important;
+    margin-inline: auto !important;
+  }
+
+  body .rtb-ipad-player .rtb-ipad-shell {
+    aspect-ratio: 9 / 16 !important;
+    border-radius: 42px !important;
+    padding: 9px !important;
+  }
+
+  body .rtb-ipad-player .rtb-ipad-camera {
+    left: 50% !important;
+    top: 17px !important;
+    transform: translateX(-50%) !important;
+  }
+
+  body .rtb-ipad-player .rtb-ipad-glass {
+    grid-template-rows: 42px minmax(0, 1fr) !important;
+    border-radius: 34px !important;
+  }
+
+  body .rtb-ipad-player .rtb-screen {
+    grid-template-rows: minmax(0, 1fr) auto !important;
+  }
+
+  body .rtb-ipad-player .rtb-video-stage {
+    padding: 8px 12px 6px !important;
+  }
+
+  body .rtb-ipad-player .rtb-control-row-top {
+    grid-template-columns: 42px minmax(0, 1fr) 42px !important;
+  }
+
+  body .rtb-ipad-player .rtb-main-buttons {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    max-height: 166px !important;
+    overflow: auto !important;
+  }
+
+  body .rtb-ipad-player .rtb-control-btn {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+  }
+
+  body .rtb-ipad-player .rtb-caption-box,
+  body .rtb-ipad-player .rtb-native-caption {
+    bottom: 166px !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .rtb-ipad-player *,
   .rtb-ipad-player *::before,
@@ -1519,4 +1693,33 @@ body .rtb-ipad-player .rtb-main-buttons {
     height: 40px !important;
     min-width: 40px !important;
   }
+}
+
+/* Single offline poster layer. The video tag intentionally has no native poster
+   attribute so the iPad player never renders duplicate media layers. */
+body .rtb-ipad-player .rtb-video-frame > .rtb-native-poster {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  aspect-ratio: auto !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  border-radius: inherit !important;
+  background: #000 !important;
+  pointer-events: none !important;
+}
+
+body .rtb-ipad-player .rtb-video-element {
+  z-index: 1 !important;
+}
+
+body .rtb-ipad-player.rtb-is-playing .rtb-native-poster {
+  display: none !important;
 }

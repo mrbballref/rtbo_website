@@ -4,6 +4,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/feature-store.php';
 
 const RTBO_CLIENT_SPOTLIGHT_STORE_TABLE = 'client_spotlight_store';
+const RTBO_CLIENT_SPOTLIGHT_PLAYER_LOGO = '/assets/images/video-player-logos/client-spotlight-logo.png';
 
 function rtbo_client_spotlight_path(): string
 {
@@ -21,8 +22,8 @@ function rtbo_client_spotlight_default_show(): array
         'brandLine' => 'Raising The Bar Officiating',
         'mission' => 'A production library for coach conversations, player interviews, official development stories, school highlights, and promotional films connected to Raising The Bar Officiating.',
         'logo' => '/assets/images/logo.png',
-        'logoCard' => '/assets/images/3d_rtbo_livestream_icon.jpg',
-        'logoMark' => '/assets/images/logo.png',
+        'logoCard' => RTBO_CLIENT_SPOTLIGHT_PLAYER_LOGO,
+        'logoMark' => RTBO_CLIENT_SPOTLIGHT_PLAYER_LOGO,
     ];
 }
 
@@ -63,6 +64,28 @@ function rtbo_client_spotlight_url(mixed $value): string
     }
 
     return $url;
+}
+
+function rtbo_client_spotlight_local_video_is_available(string $videoUrl): bool
+{
+    $url = trim($videoUrl);
+    if ($url === '') {
+        return false;
+    }
+
+    $parts = parse_url($url);
+    $path = (string) ($parts['path'] ?? $url);
+    if (!str_ends_with($path, '/client-spotlight-video.php') && !str_ends_with($path, 'client-spotlight-video.php')) {
+        return true;
+    }
+
+    parse_str((string) ($parts['query'] ?? ''), $query);
+    $file = basename((string) ($query['file'] ?? ''));
+    if ($file === '' || !preg_match('/^client-spotlight-video-[a-z0-9.\-]+$/i', $file)) {
+        return false;
+    }
+
+    return is_file(STORAGE_DIR . '/client-spotlight-videos/' . $file);
 }
 
 function rtbo_client_spotlight_status(mixed $value): string
@@ -198,7 +221,9 @@ function rtbo_client_spotlight_public_videos(array $videos): array
 {
     return array_values(array_filter(
         rtbo_client_spotlight_videos($videos),
-        static fn(array $video): bool => ($video['status'] ?? '') === 'published' && ($video['videoUrl'] ?? '') !== ''
+        static fn(array $video): bool => ($video['status'] ?? '') === 'published'
+            && ($video['videoUrl'] ?? '') !== ''
+            && rtbo_client_spotlight_local_video_is_available((string) ($video['videoUrl'] ?? ''))
     ));
 }
 

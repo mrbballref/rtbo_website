@@ -31,7 +31,8 @@ export default defineConfig({
       '/api': {
         target: phpApiTarget,
         changeOrigin: false,
-        secure: false
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, '')
       }
     }
   }
