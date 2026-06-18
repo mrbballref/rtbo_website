@@ -1,0 +1,327 @@
+/* RTBO premium app shell layer. Loaded only inside the authenticated dashboard/portal. */
+:root {
+  --rtbo-app-panel: rgba(8, 11, 16, .86);
+  --rtbo-app-panel-strong: rgba(12, 16, 24, .94);
+  --rtbo-app-line: rgba(226, 232, 240, .14);
+  --rtbo-app-gold: #f3d675;
+  --rtbo-app-red: #c1121f;
+}
+
+.rtbo-dashboard-shell {
+  min-height: 100dvh !important;
+  padding: 0 !important;
+  color: #f8fafc !important;
+  background:
+    linear-gradient(135deg, rgba(5, 7, 11, .98), rgba(15, 23, 42, .92) 52%, rgba(5, 7, 11, .98)),
+    #05070b !important;
+}
+
+.rtbo-dashboard-sidebar {
+  position: sticky !important;
+  top: 0 !important;
+  height: 100dvh !important;
+  border-right-color: rgba(243, 214, 117, .16) !important;
+  background:
+    linear-gradient(180deg, rgba(4, 6, 10, .98), rgba(9, 13, 20, .98)),
+    #05070b !important;
+  box-shadow: 18px 0 54px rgba(0, 0, 0, .38) !important;
+}
+
+.rtbo-dashboard-home-link img {
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, .46)) !important;
+}
+
+.rtbo-dashboard-sidebar button {
+  min-height: 46px !important;
+  border-radius: 8px !important;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease !important;
+}
+
+.rtbo-dashboard-sidebar button:hover,
+.rtbo-dashboard-sidebar button:focus-visible {
+  transform: translateX(2px) !important;
+}
+
+.rtbo-dashboard-sidebar button.active {
+  background:
+    linear-gradient(90deg, var(--rtbo-app-red), #7f0d16) !important;
+  box-shadow:
+    0 16px 32px rgba(193, 18, 31, .2),
+    inset 0 1px 0 rgba(255, 255, 255, .2) !important;
+}
+
+.rtbo-dashboard-main {
+  min-width: 0 !important;
+  padding:
+    max(clamp(16px, 2vw, 28px), env(safe-area-inset-top))
+    max(clamp(16px, 2.3vw, 34px), env(safe-area-inset-right))
+    max(clamp(18px, 2.4vw, 34px), env(safe-area-inset-bottom))
+    max(clamp(16px, 2.3vw, 34px), env(safe-area-inset-left)) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .04), rgba(255, 255, 255, .01)),
+    transparent !important;
+}
+
+.rtbo-dashboard-topbar,
+.rtbo-dashboard-card,
+.rtbo-dashboard-status {
+  border: 1px solid var(--rtbo-app-line) !important;
+  border-radius: 8px !important;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .022)),
+    var(--rtbo-app-panel) !important;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .24) !important;
+  backdrop-filter: blur(16px) saturate(1.08);
+}
+
+.rtbo-dashboard-topbar {
+  align-items: center !important;
+}
+
+.rtbo-dashboard-topbar h1 {
+  color: #fff !important;
+  font-size: clamp(1.65rem, 3vw, 3.2rem) !important;
+  letter-spacing: 0 !important;
+  line-height: .98 !important;
+}
+
+.rtbo-dashboard-topbar .eyebrow,
+.rtbo-dashboard-card > span,
+.rtbo-dashboard-card-head .eyebrow {
+  color: var(--rtbo-app-gold) !important;
+}
+
+.rtbo-dashboard-actions {
+  justify-content: flex-end !important;
+}
+
+.rtbo-dashboard-actions .btn,
+.quick-actions-row .btn {
+  min-height: 42px !important;
+  border-radius: 8px !important;
+}
+
+.rtbo-dashboard-grid {
+  gap: clamp(12px, 1.6vw, 18px) !important;
+}
+
+.rtbo-dashboard-grid > .rtbo-dashboard-card:not(.quick-actions):not(.rtbo-overview-widget) {
+  position: relative;
+  overflow: hidden;
+}
+
+.rtbo-dashboard-grid > .rtbo-dashboard-card:not(.quick-actions):not(.rtbo-overview-widget)::after {
+  content: "";
+  position: absolute;
+  inset: auto 16px 14px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--rtbo-app-red), rgba(243, 214, 117, .72), transparent);
+  opacity: .75;
+}
+
+.rtbo-dashboard-card strong {
+  color: #fff !important;
+}
+
+.rtbo-dashboard-card p,
+.rtbo-dashboard-topbar span,
+.rtbo-dashboard-card span {
+  color: rgba(226, 232, 240, .76) !important;
+}
+
+.quick-actions {
+  grid-column: span 2;
+}
+
+.quick-actions-row {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px !important;
+}
+
+.rtbo-dashboard-main :is(input, select, textarea) {
+  border-color: rgba(226, 232, 240, .16) !important;
+  border-radius: 8px !important;
+  background: rgba(2, 6, 12, .7) !important;
+}
+
+.rtbo-dashboard-main :is(input, select, textarea):focus {
+  border-color: rgba(243, 214, 117, .72) !important;
+  outline: 3px solid rgba(243, 214, 117, .18) !important;
+}
+
+.rtbo-dashboard-card-head {
+  border-bottom: 1px solid rgba(226, 232, 240, .1);
+  padding-bottom: 12px;
+}
+
+.rtbo-sidebar-help-card {
+  border-radius: 8px !important;
+  border-color: rgba(243, 214, 117, .16) !important;
+  background:
+    linear-gradient(145deg, rgba(243, 214, 117, .08), rgba(193, 18, 31, .06)),
+    rgba(255, 255, 255, .035) !important;
+}
+
+@keyframes rtbo-app-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rtbo-dashboard-topbar,
+.rtbo-dashboard-main > section,
+.rtbo-dashboard-main > .rtbo-dashboard-card {
+  animation: rtbo-app-enter .48s ease both;
+}
+
+:root[data-theme="light"] .rtbo-dashboard-shell,
+html.light .rtbo-dashboard-shell {
+  color: #111827 !important;
+  background:
+    linear-gradient(180deg, #f8fafc, #eef2f7),
+    #f8fafc !important;
+}
+
+:root[data-theme="light"] .rtbo-dashboard-topbar,
+html.light .rtbo-dashboard-topbar,
+:root[data-theme="light"] .rtbo-dashboard-card,
+html.light .rtbo-dashboard-card,
+:root[data-theme="light"] .rtbo-dashboard-status,
+html.light .rtbo-dashboard-status {
+  border-color: rgba(15, 23, 42, .1) !important;
+  background: rgba(255, 255, 255, .92) !important;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, .1) !important;
+}
+
+:root[data-theme="light"] .rtbo-dashboard-topbar h1,
+html.light .rtbo-dashboard-topbar h1,
+:root[data-theme="light"] .rtbo-dashboard-card strong,
+html.light .rtbo-dashboard-card strong {
+  color: #111827 !important;
+}
+
+:root[data-theme="light"] .rtbo-dashboard-card p,
+html.light .rtbo-dashboard-card p,
+:root[data-theme="light"] .rtbo-dashboard-topbar span,
+html.light .rtbo-dashboard-topbar span,
+:root[data-theme="light"] .rtbo-dashboard-card span,
+html.light .rtbo-dashboard-card span {
+  color: #475569 !important;
+}
+
+@media (max-width: 1180px) {
+  .rtbo-dashboard-shell {
+    display: block !important;
+    grid-template-columns: none !important;
+  }
+
+  .rtbo-dashboard-sidebar {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 50 !important;
+    display: flex !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 78px !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+    overflow-x: auto !important;
+    padding:
+      max(10px, env(safe-area-inset-top))
+      max(12px, env(safe-area-inset-right))
+      10px
+      max(12px, env(safe-area-inset-left)) !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid rgba(243, 214, 117, .16) !important;
+  }
+
+  .rtbo-dashboard-home-link {
+    flex: 0 0 auto;
+    margin: 0 !important;
+    padding: 0 6px !important;
+  }
+
+  .rtbo-dashboard-sidebar img {
+    width: 82px !important;
+  }
+
+  .rtbo-dashboard-sidebar > .eyebrow,
+  .rtbo-sidebar-help-card,
+  .rtbo-sidebar-submenu {
+    display: none !important;
+  }
+
+  .rtbo-dashboard-sidebar button {
+    flex: 0 0 auto !important;
+    min-height: 42px !important;
+    padding: 8px 12px !important;
+    white-space: nowrap;
+  }
+
+  .rtbo-dashboard-sidebar .btn.secondary {
+    margin-left: auto !important;
+  }
+
+  .rtbo-dashboard-main {
+    height: auto !important;
+    min-height: calc(100dvh - 78px) !important;
+    overflow: visible !important;
+  }
+
+  .rtbo-dashboard-main > section,
+  .rtbo-dashboard-main > .rtbo-dashboard-card {
+    overflow: visible !important;
+  }
+
+  .rtbo-dashboard-grid:has(> .quick-actions) {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .rtbo-dashboard-main {
+    gap: 10px !important;
+    padding: 12px !important;
+  }
+
+  .rtbo-dashboard-topbar {
+    display: grid !important;
+    gap: 12px !important;
+  }
+
+  .rtbo-dashboard-actions {
+    justify-content: stretch !important;
+  }
+
+  .rtbo-dashboard-actions .btn,
+  .rtbo-dashboard-actions .theme-toggle {
+    flex: 1 1 148px;
+  }
+
+  .rtbo-dashboard-grid,
+  .rtbo-dashboard-grid:has(> .quick-actions) {
+    grid-template-columns: 1fr !important;
+  }
+
+  .quick-actions {
+    grid-column: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rtbo-dashboard-topbar,
+  .rtbo-dashboard-main > section,
+  .rtbo-dashboard-main > .rtbo-dashboard-card,
+  .rtbo-dashboard-sidebar button {
+    animation: none !important;
+    transition: none !important;
+  }
+}
