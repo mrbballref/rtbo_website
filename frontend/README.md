@@ -1,0 +1,145 @@
+# RTBO React + PHP Full-Stack Build
+
+This package keeps the current RTBO visual design and moves it into a cleaner full-stack structure:
+
+- `frontend/` is the React website.
+- `api/` is the PHP backend for contact, newsletter signup, school registration, PDF generation, and Stripe/PayPal checkout creation.
+- `database.sql` contains the MySQL tables from the current RTBO platform.
+
+## Local Development
+
+The cloned project should live in its own repo directory, for example `rtbo_website/`. From the repo root, use the workspace scripts for repeatable checks and the frontend scripts for day-to-day React work.
+
+1. Install frontend dependencies:
+
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+2. Start the React dev server:
+
+   ```bash
+   npm run dev
+   ```
+
+3. Serve the PHP API from a PHP-enabled local server such as MAMP. The React app calls `/api` by default. If your API is on a different local URL, copy `frontend/.env.example` to `frontend/.env` and set:
+
+   ```bash
+   VITE_RTBO_API_URL=http://localhost:8888/api
+   ```
+
+   If the frontend and API are intentionally served from different local origins, add the frontend origin to `api/.env`:
+
+   ```bash
+   RTBO_ALLOWED_ORIGINS=http://localhost:5173
+   ```
+
+4. For local dashboard testing without a database, use the same dev login password on both sides:
+
+   ```bash
+   RTBO_LOCAL_AUTH_ENABLED=true
+   RTBO_LOCAL_ADMIN_PASSWORD=your_local_password
+   ```
+
+   If `RTBO_LOCAL_ADMIN_PASSWORD` is blank, the PHP API will fall back to `VITE_RTBO_TEST_PASSWORD` from `frontend/.env.development` when running on `localhost` or `127.0.0.1`.
+
+## Project Verification
+
+Run the source integrity audit from the repo root:
+
+```bash
+npm run audit:source
+```
+
+Run the RefZone course test-bank audit by itself when course materials, tests, answer keys, or the Test Center changes:
+
+```bash
+npm run audit:refzone-tests
+```
+
+Run the full local production gate from the repo root:
+
+```bash
+npm run audit:production
+```
+
+The production gate installs frontend dependencies when needed, builds the React app, runs the mandatory RefZone test-bank audit, runs the mandatory RTBO frontend audit, checks production npm dependencies, and runs PHP syntax lint when `php` is available on the machine. To require PHP lint in a PHP-enabled environment, run:
+
+```bash
+RTBO_REQUIRE_PHP_LINT=true npm run audit:production
+```
+
+## Mandatory Refresh Routing Rule
+
+Every page and dashboard section must preserve its current URL route on browser refresh. Public pages use hash routes like `#events`; dashboard pages use `#dashboard/overview` and `#dashboard/<section>`. Stored login or dashboard state must never force a different page after refresh. This rule is enforced by both `npm run audit:source` and `npm --prefix frontend run audit`.
+
+## Mandatory RefZone Test Bank Rule
+
+Every RefZone University course, week, and day must expose a test-bank record with 25 questions, a declared 85% passing score, and 25 answer-key entries linked to the command-center answer-key documents. This rule is enforced by `npm run audit:refzone-tests`, `npm run audit:source`, and CI.
+
+## Mandatory Notification And PDF Rule
+
+Every production feature that creates, updates, signs, submits, purchases, logs in, logs out, or reviews protected information must write to its database table and create the required Super Admin notification. Admin notifications dispatch SMS through the shared notification pipeline when Twilio is configured. Plain operational emails automatically attach a professional RTBO notice PDF, and document/form/payment emails must attach their specific professional PDF artifact, such as registration profiles, invoices, contracts, W-9 forms, contact/request forms, and store order receipts. This rule is enforced by `npm run audit:source` and `npm run audit:production`.
+
+## Production Deployment
+
+1. Build the React site:
+
+   ```bash
+   cd frontend
+   npm run build
+   ```
+
+2. Upload the contents of `frontend/dist/` to your website public root.
+3. Upload the `api/` folder beside the built site so the public URL becomes `https://yourdomain.com/api`.
+4. Import `database.sql` into MySQL.
+5. Copy `api/.env.example` to `api/.env` on the server and enter your database, email, and payment credentials. Do not put live secrets in the React frontend.
+6. Make sure `api/storage/` is writable by PHP. It stores registration JSON files, uploaded profile photos, and generated PDFs.
+7. Use live credentials before launch:
+   - `STRIPE_SECRET_KEY=sk_live_...`
+   - `PAYPAL_MODE=live`
+   - `PAYPAL_CLIENT_ID=...`
+   - `PAYPAL_CLIENT_SECRET=...`
+
+## Mandatory Change Audit
+
+Every project change or new feature must include the following before it is considered complete:
+
+- Responsive audit across mobile, tablet, laptop, desktop, large-display, and projector layouts touched by the change.
+- The responsive audit must include these required production viewport ranges and widths: Extra Small `320px-480px`, Small `481px-768px`, Medium `769px-1024px`, Large `1025px-1200px`, Extra Large `1201px-1920px`, and Projector `1920px+`. The automated audit enforces `320px`, `480px`, `768px`, `1024px`, `1200px`, `1536px`, and `1920px` coverage in the global stylesheet, plus the site-wide module breakpoints `368px`, `480px`, `550px`, `648px`, `768px`, `1024px`, `1280px`, and `1536px` in every source CSS file.
+- Advanced SEO audit for public pages, including title, description, indexing intent, semantic content, and crawl-safe output.
+- Optimization audit, including production build output and bundle-size warnings. New oversized chunks must be fixed through code splitting or other optimization, not only noted.
+- Syntax/build verification for the affected stack, including `npm run build` for frontend changes and MAMP PHP lint for edited PHP endpoints.
+- Frontend changes must run `npm run build` and `npm run audit` from `frontend/` before completion.
+- Accessibility and print-readiness checks when forms, invoices, dashboards, or printable views are changed.
+- Phone number inputs must use the shared `(xxx) xxx-xxxx` formatter in React and `rtbo_format_phone_number()` in PHP before values are displayed, saved, exported, or printed.
+- Every GitHub push must verify that the `origin` fetch and push URL target `mrbballref/rtbo_website`. The local pre-push hook runs `npm run verify:github-remote` and blocks pushes to any other repository.
+
+## Super Admin
+
+The source of truth email is:
+
+```text
+admin@rtboofficiating.com
+```
+
+For a secure first login, temporarily enable the guarded setup endpoint:
+
+1. In `api/.env`, set `RTBO_SETUP_ENABLED=true`.
+2. Set `RTBO_SETUP_TOKEN` to a long random phrase.
+3. POST your email, password, and setup token to `/api/setup-super-admin.php`.
+4. Confirm you can log into the dashboard.
+5. Immediately set `RTBO_SETUP_ENABLED=false`.
+
+Your password must be at least 12 characters.
+
+## Go-Live Checklist
+
+- Confirm contact form sends to the internal emails.
+- Submit one test registration in Stripe test mode.
+- Submit one test registration in PayPal sandbox mode.
+- Confirm the applicant PDF is generated and emailed.
+- Confirm a successful checkout sends the paid confirmation PDF to the applicant and admin recipients.
+- Switch Stripe and PayPal to live mode.
+- Run one live low-dollar payment test, then refund it from Stripe/PayPal.
