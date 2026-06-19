@@ -15735,11 +15735,48 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
       action: () => openMembersSection()
     }
   ];
+  const commandNavigation = [
+    ['Home', () => showSection('overview')],
+    ['Assignments', () => openSchedulesSection()],
+    ['Schools', () => openOrganizationsSection()],
+    ['Lab', () => showSection('refroom')],
+    ['Payments', () => openPaymentsSection()],
+    ['Tax Center', () => showSection('taxCenter')],
+    ['Forms', () => openFormsSection()],
+    ['Resources', () => showSection('siteContent')],
+    ['Shop', () => showSection('shopInventory')]
+  ];
   const commandStats = [
     ['Registrations', records.registrations.length, 'Applications in queue', 'members'],
     ['Unread Alerts', notificationUnreadCount, 'Notifications to review', 'notifications'],
     ['Unaccepted Games', commandCounts.unaccepted_assignments || 0, 'Officials still need to respond', 'schedules'],
     ['Readiness Reviews', dashboardReadinessSummary.review, 'Dashboard checks needing attention', 'dashboardControls']
+  ];
+  const commandUtilityCards = [
+    {
+      eyebrow: 'Support Center',
+      title: 'Help and Dashboard Guidance',
+      detail: 'Open dashboard controls, readiness checks, and support guidance for launch review.',
+      button: 'Contact Support',
+      icon: 'settings',
+      action: () => openDashboardControls()
+    },
+    {
+      eyebrow: 'Resource Library',
+      title: 'Forms, Tools, and Content',
+      detail: 'Access site content, production records, public resources, and operating forms.',
+      button: 'Browse Resources',
+      icon: 'siteContent',
+      action: () => showSection('siteContent')
+    },
+    {
+      eyebrow: 'Media Operations',
+      title: 'Client Spotlight Studio',
+      detail: 'Manage uploaded client stories and production-ready public video records.',
+      button: 'Open Media Studio',
+      icon: 'clientSpotlightStudio',
+      action: () => showSection('clientSpotlightStudio')
+    }
   ];
   const commandReadinessPreview = dashboardReadinessChecks.slice(0, 4);
   const commandDashboardTiles = [
@@ -15904,6 +15941,21 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
 
         {activeSection === 'overview' && (
           <section className="rtbo-command-center-page" aria-labelledby="rtbo-command-center-title">
+            <nav className="rtbo-command-nav" aria-label="Command center shortcuts">
+              <div className="rtbo-command-nav-links">
+                {commandNavigation.map(([label, action], index) => (
+                  <button key={label} className={index === 0 ? 'active' : ''} type="button" onClick={action}>
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <div className="rtbo-command-nav-actions">
+                <button type="button" onClick={runDashboardTest}>Run Test</button>
+                <button type="button" onClick={() => showSection('profile')}>My Profile</button>
+                <ThemeToggle className="dashboard-theme-toggle" />
+              </div>
+            </nav>
+
             <div className="rtbo-command-hero">
               <article className="rtbo-command-hero-copy">
                 <p className="eyebrow">Raising The Bar Officiating</p>
@@ -15916,9 +15968,13 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
                   <button className="btn secondary dark-btn" type="button" onClick={() => exportCsv('rtbo-overview-report', [['Section', 'Count'], ['Registrations', records.registrations.length], ['Reviews', records.reviews.length], ['Unaccepted Games', commandCounts.unaccepted_assignments || 0], ['Today’s Games', commandCounts.todays_games || 0], ['Live Tracking', commandCounts.tracked_officials || 0]])}>Export Overview</button>
                 </div>
                 <div className="rtbo-command-pill-row" aria-label="Command center strengths">
-                  <span>Stronger Connections</span>
-                  <span>Smarter Assignments</span>
-                  <span>Elevated Game-Day Ops</span>
+                  {commandMetrics.slice(0, 3).map(metric => (
+                    <span key={metric.label}>
+                      <SidebarIcon id={metric.icon} />
+                      <b>{metric.value}</b>
+                      <small>{metric.label}</small>
+                    </span>
+                  ))}
                 </div>
               </article>
 
@@ -15962,10 +16018,14 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
             <div className="rtbo-command-action-grid" aria-label="Primary command center actions">
               {commandActionCards.map(card => (
                 <article className="rtbo-command-action-card" key={card.title}>
-                  <div className="rtbo-command-card-icon"><SidebarIcon id={card.icon} /></div>
-                  <p>{card.eyebrow}</p>
-                  <h3>{card.title}</h3>
-                  <span>{card.detail}</span>
+                  <div className="rtbo-command-card-headline">
+                    <div className="rtbo-command-card-icon"><SidebarIcon id={card.icon} /></div>
+                    <p>{card.eyebrow}</p>
+                  </div>
+                  <div>
+                    <h3>{card.title}</h3>
+                    <span>{card.detail}</span>
+                  </div>
                   <button type="button" onClick={card.action}>{card.button}</button>
                 </article>
               ))}
@@ -15982,6 +16042,27 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
                   </div>
                 </article>
               ))}
+            </section>
+
+            <section className="rtbo-command-utility-row" aria-label="Command center utilities">
+              {commandUtilityCards.map(card => (
+                <article key={card.title}>
+                  <span className="rtbo-command-card-icon"><SidebarIcon id={card.icon} /></span>
+                  <div>
+                    <p>{card.eyebrow}</p>
+                    <h3>{card.title}</h3>
+                    <small>{card.detail}</small>
+                  </div>
+                  <button type="button" onClick={card.action}>{card.button}</button>
+                </article>
+              ))}
+              <article className="rtbo-command-brand-card">
+                <img src={image('logo.png')} alt="" />
+                <div>
+                  <h3>Raising The Bar Officiating</h3>
+                  <small>Higher standards. Stronger games. Better operations.</small>
+                </div>
+              </article>
             </section>
 
             <div className="rtbo-command-ops-grid">
