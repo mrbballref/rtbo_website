@@ -15668,6 +15668,84 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
   }
 
   const profileBlock = canUseAdminDashboard ? adminProfileBlock : officialPortalPage;
+  const commandCounts = overviewData.counts || emptyOverviewData.counts;
+  const commandUpcoming = [
+    ...(overviewData.todays_games || []),
+    ...(overviewData.scheduled_events || []),
+    ...(overviewData.upcoming_events || [])
+  ].filter(Boolean);
+  const commandNextGame = commandUpcoming[0] || null;
+  const commandMetrics = [
+    {
+      label: 'Assignments',
+      value: Number(commandCounts.todays_games || 0) + Number(commandCounts.scheduled_events || 0) + Number(commandCounts.upcoming_events || 0),
+      detail: 'Schedule records loaded',
+      icon: 'schedules'
+    },
+    {
+      label: 'Schools',
+      value: visibleOrganizationSections.length + visibleScheduleSetupSections.filter(item => /school|team|venue/i.test(`${item.title || ''} ${item.type || ''}`)).length,
+      detail: 'School and venue tools',
+      icon: 'organizations'
+    },
+    {
+      label: 'Reviews',
+      value: records.reviews.length,
+      detail: 'Pending review records',
+      icon: 'reviews'
+    },
+    {
+      label: 'Live Tracking',
+      value: commandCounts.tracked_officials || 0,
+      detail: 'Officials sharing location',
+      icon: 'liveMap'
+    }
+  ];
+  const commandActionCards = [
+    {
+      eyebrow: 'Assignments',
+      title: 'Schedule Operations',
+      detail: 'Create games, review crews, resolve conflicts, and publish assignments from the schedule workspace.',
+      button: 'Open Assignments',
+      icon: 'schedules',
+      action: () => openSchedulesSection()
+    },
+    {
+      eyebrow: 'Schools / Partners',
+      title: 'Organizations',
+      detail: 'Manage schools, teams, administrators, and partner records connected to RTBO events.',
+      button: 'Open Organizations',
+      icon: 'organizations',
+      action: () => openOrganizationsSection()
+    },
+    {
+      eyebrow: 'Media',
+      title: 'Client Spotlight',
+      detail: 'Manage production-ready client spotlight uploads and the public video library.',
+      button: 'Open Studio',
+      icon: 'clientSpotlightStudio',
+      action: () => showSection('clientSpotlightStudio')
+    },
+    {
+      eyebrow: 'Members',
+      title: 'Member Directory',
+      detail: 'Review officials, administrators, coaches, observers, and profile readiness from one roster.',
+      button: 'Open Members',
+      icon: 'members',
+      action: () => openMembersSection()
+    }
+  ];
+  const commandStats = [
+    ['Registrations', records.registrations.length, 'Applications in queue', 'members'],
+    ['Unread Alerts', notificationUnreadCount, 'Notifications to review', 'notifications'],
+    ['Unaccepted Games', commandCounts.unaccepted_assignments || 0, 'Officials still need to respond', 'schedules'],
+    ['Readiness Reviews', dashboardReadinessSummary.review, 'Dashboard checks needing attention', 'dashboardControls']
+  ];
+  const commandReadinessPreview = dashboardReadinessChecks.slice(0, 4);
+  const commandDashboardTiles = [
+    ['This Week', commandMetrics[0].value, 'Assignments', commandMetrics[1].value, 'Schools', records.reviews.length, 'Reviews'],
+    ['Upcoming Assignment', commandNextGame ? formatGameDate(commandNextGame.game_date) : 'No record', commandNextGame ? overviewGameTitle(commandNextGame) : 'No upcoming game records are loaded.', commandNextGame ? formatGameTime(commandNextGame.game_time) : '']
+  ];
 
   return (
     <main className="rtbo-dashboard-shell">
@@ -15825,24 +15903,88 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
         {status && <p className="rtbo-dashboard-status">{status}</p>}
 
         {activeSection === 'overview' && (
-          <section className="rtbo-dashboard-grid">
-            {[
-              ['Registrations', records.registrations.length, 'Applications in queue'],
-              ['Reviews', records.reviews.length, 'Attendee reviews pending'],
-              ['Unaccepted Games', overviewData.counts?.unaccepted_assignments || 0, 'Officials still need to respond'],
-              ['Today’s Games', overviewData.counts?.todays_games || 0, 'Games scheduled today'],
-              ['Live Tracking', overviewData.counts?.tracked_officials || 0, 'Officials sharing live location']
-            ].map(([title, value, detail]) => <article className="rtbo-dashboard-card" key={title}><span>{title}</span><strong>{value}</strong><p>{detail}</p></article>)}
-            <article className="rtbo-dashboard-card quick-actions">
-              <h3>Quick Actions</h3>
-              <div className="quick-actions-row">
-                <button className="btn" type="button" onClick={() => openMembersSection()}>Open Members</button>
-                <button className="btn" type="button" onClick={() => openScheduleSetupSection('createGameAssignment')}>Create Game</button>
-                <button className="btn" type="button" onClick={() => openScheduleSetupSection('liveMap')}>Open Live Map</button>
-                <button className="btn" type="button" onClick={() => exportCsv('rtbo-overview-report', [['Section', 'Count'], ['Registrations', records.registrations.length], ['Payments', records.payments.length]])}>Generate Report</button>
-              </div>
-            </article>
-            <div className="rtbo-overview-widgets">
+          <section className="rtbo-command-center-page" aria-labelledby="rtbo-command-center-title">
+            <div className="rtbo-command-hero">
+              <article className="rtbo-command-hero-copy">
+                <p className="eyebrow">Raising The Bar Officiating</p>
+                <h2 id="rtbo-command-center-title">Assign. Connect. Elevate.</h2>
+                <strong>The all-in-one platform for officials, schools, and assignors.</strong>
+                <p>Got U Nex Ref and Raising The Bar Officiating streamline assignments, communication, training, payments, records, and media operations from one command center.</p>
+                <div className="rtbo-command-hero-actions">
+                  <button className="btn" type="button" onClick={() => openScheduleSetupSection('createGameAssignment')}>Create Game</button>
+                  <button className="btn secondary dark-btn" type="button" onClick={() => openMembersSection()}>Open Roster</button>
+                  <button className="btn secondary dark-btn" type="button" onClick={() => exportCsv('rtbo-overview-report', [['Section', 'Count'], ['Registrations', records.registrations.length], ['Reviews', records.reviews.length], ['Unaccepted Games', commandCounts.unaccepted_assignments || 0], ['Today’s Games', commandCounts.todays_games || 0], ['Live Tracking', commandCounts.tracked_officials || 0]])}>Export Overview</button>
+                </div>
+                <div className="rtbo-command-pill-row" aria-label="Command center strengths">
+                  <span>Stronger Connections</span>
+                  <span>Smarter Assignments</span>
+                  <span>Elevated Game-Day Ops</span>
+                </div>
+              </article>
+
+              <article className="rtbo-command-dashboard-preview" aria-label="Dashboard live summary">
+                <div className="rtbo-command-preview-head">
+                  <div>
+                    <span>Dashboard</span>
+                    <strong>Welcome back, {splitName(user.name).firstName || user.name || 'Admin'}.</strong>
+                  </div>
+                  <button type="button" onClick={openDashboardControls}>View Full Dashboard</button>
+                </div>
+                <div className="rtbo-command-preview-metrics">
+                  {commandMetrics.slice(0, 3).map(metric => (
+                    <div key={metric.label}>
+                      <strong>{metric.value}</strong>
+                      <span>{metric.label}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="rtbo-command-preview-grid">
+                  <section>
+                    <p>Upcoming Assignment</p>
+                    <strong>{commandDashboardTiles[1][1]}</strong>
+                    <span>{commandDashboardTiles[1][2]}</span>
+                    {commandDashboardTiles[1][3] && <small>{commandDashboardTiles[1][3]}</small>}
+                    <button type="button" onClick={() => openScheduleSetupSection('masterSchedule')}>View Schedule</button>
+                  </section>
+                  <section>
+                    <p>Readiness</p>
+                    {commandReadinessPreview.map(check => (
+                      <div className="rtbo-command-check-row" key={check.label}>
+                        <span>{check.status}</span>
+                        <strong>{check.label}</strong>
+                      </div>
+                    ))}
+                  </section>
+                </div>
+              </article>
+            </div>
+
+            <div className="rtbo-command-action-grid" aria-label="Primary command center actions">
+              {commandActionCards.map(card => (
+                <article className="rtbo-command-action-card" key={card.title}>
+                  <div className="rtbo-command-card-icon"><SidebarIcon id={card.icon} /></div>
+                  <p>{card.eyebrow}</p>
+                  <h3>{card.title}</h3>
+                  <span>{card.detail}</span>
+                  <button type="button" onClick={card.action}>{card.button}</button>
+                </article>
+              ))}
+            </div>
+
+            <section className="rtbo-command-stat-rail" aria-label="Live command center counts">
+              {commandStats.map(([label, value, detail, icon]) => (
+                <article key={label}>
+                  <span className="rtbo-command-stat-icon"><SidebarIcon id={icon} /></span>
+                  <div>
+                    <strong>{value}</strong>
+                    <p>{label}</p>
+                    <small>{detail}</small>
+                  </div>
+                </article>
+              ))}
+            </section>
+
+            <div className="rtbo-command-ops-grid">
               <OverviewGeoWidget geo={overviewData.geo} onOpenLiveMap={() => openScheduleSetupSection('liveMap')} />
               <OverviewAlertsWidget overview={overviewData} />
               <NotificationCenter
@@ -15855,6 +15997,7 @@ function AdminDashboard({ user, onLogout, onHome = () => {} }) {
                 releaseMessageStatus={releaseMessageStatus}
                 onReleaseMessageChange={updateReleaseMessage}
                 onReleaseMessageSubmit={submitReleaseMessage}
+                compact
               />
             </div>
           </section>
